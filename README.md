@@ -19,6 +19,14 @@ See [introduction to quantum computing](https://docs.microsoft.com/quantum/quant
 The libraries and samples provided in this repository are designed to work with Visual Studio 2017 and the Quantum Development Kit.
 Please see the [installation guide](https://docs.microsoft.com/quantum/quantum-installconfig) for how to get up and running.
 
+## Build Status ##
+
+| branch | status    |
+|--------|-----------|
+| master | <img src="https://quarcsw.visualstudio.com/_apis/public/build/definitions/e24b496e-28f8-4c92-a4f0-a646f968a85a/21/badge"/> |
+
+
+
 ## Contributing ##
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
