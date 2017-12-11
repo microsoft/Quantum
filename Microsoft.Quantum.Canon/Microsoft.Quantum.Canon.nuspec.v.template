@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Microsoft.Quantum.Canon</id>
+    <version>#NUGET_VERSION#</version>
+    <title>$title$</title>
+    <authors>QuantumEngineering</authors>
+    <owners>QuantumEngineering</owners>
+    <licenseUrl>https://github.com/Microsoft/Quantum/raw/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Microsoft/Quantum</projectUrl>
+    <iconUrl>https://secure.gravatar.com/avatar/bd1f02955b2853ba0a3b1cdc2434e8ec.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Microsoft's Quantum Core Libraries.</description>
+    <!--<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>-->
+    <copyright>Copyright (c) 2017 Microsoft Corporation. All Rights Reserved.</copyright>
+    <tags>Microsoft Quantum Q# Qsharp</tags>
+  </metadata>
+</package>
