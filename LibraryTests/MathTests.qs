@@ -45,37 +45,37 @@ namespace Microsoft.Quantum.Canon {
         Ignore(Map(ExtendedGCDTestHelper, testTuples));
     }
 
-	function BitSizeTest() : () {
-		AssertIntEqual(BitSize(3),2,"BitSize(3) must be 2");
-		AssertIntEqual(BitSize(7),3,"BitSize(7) must be 2");
-	}
+    function BitSizeTest() : () {
+        AssertIntEqual(BitSize(3),2,"BitSize(3) must be 2");
+        AssertIntEqual(BitSize(7),3,"BitSize(7) must be 2");
+    }
 
-	function ExpModTest() : () {
-		// this test is generated using Mathematica PowerMod function
-		let result = ExpMod(5,4611686018427387903,7);
-		AssertIntEqual(result,6, $"The result must be 6, got {result}");
-	}
+    function ExpModTest() : () {
+        // this test is generated using Mathematica PowerMod function
+        let result = ExpMod(5,4611686018427387903,7);
+        AssertIntEqual(result,6, $"The result must be 6, got {result}");
+    }
 
-	function ContinuedFractionConvergentTestHelper( numerator : Int, denominator : Int ) : () {
-		let bitSize = 2 * BitSize(denominator);
-		let numeratorDyadic = numerator * 2 ^ bitSize / denominator;
-		let (u,v) = ContinuedFractionConvergent( Fraction(numeratorDyadic, 2^bitSize), denominator );
-		AssertBoolEqual(
-			(AbsI(u) == numerator ) &&  (AbsI(v) == denominator ) , true,
-			$"The result must be ±{numerator}/±{denominator} got {u}/{v}");
-	}
+    function ContinuedFractionConvergentTestHelper( numerator : Int, denominator : Int ) : () {
+        let bitSize = 2 * BitSize(denominator);
+        let numeratorDyadic = numerator * 2 ^ bitSize / denominator;
+        let (u,v) = ContinuedFractionConvergent( Fraction(numeratorDyadic, 2^bitSize), denominator );
+        AssertBoolEqual(
+            (AbsI(u) == numerator ) &&  (AbsI(v) == denominator ) , true,
+            $"The result must be ±{numerator}/±{denominator} got {u}/{v}");
+    }
 
-	function ContinuedFractionConvergentEdgeCaseTestHelper( numerator : Int, denominator : Int, bound : Int ) : () {
-		let (num,denom) = ContinuedFractionConvergent( Fraction(numerator,denominator), bound );
-		AssertBoolEqual(
-			( AbsI(num) == numerator ) &&  ( AbsI(denom) == denominator ) , true,
-			$"The result must be ±{numerator}/±{denominator} got {num}/{denom}");
-	}
+    function ContinuedFractionConvergentEdgeCaseTestHelper( numerator : Int, denominator : Int, bound : Int ) : () {
+        let (num,denom) = ContinuedFractionConvergent( Fraction(numerator,denominator), bound );
+        AssertBoolEqual(
+            ( AbsI(num) == numerator ) &&  ( AbsI(denom) == denominator ) , true,
+            $"The result must be ±{numerator}/±{denominator} got {num}/{denom}");
+    }
 
-	function ContinuedFractionConvergentTest() : () {
-		let testTuples = [ (29,47); (17,37); (15,67) ];
-		Ignore(Map(ContinuedFractionConvergentTestHelper, testTuples));
-		let edgeCaseTestTuples = [ (1,4,512); (3,4,512) ];
-		Ignore(Map(ContinuedFractionConvergentEdgeCaseTestHelper, edgeCaseTestTuples));
-	}
+    function ContinuedFractionConvergentTest() : () {
+        let testTuples = [ (29,47); (17,37); (15,67) ];
+        Ignore(Map(ContinuedFractionConvergentTestHelper, testTuples));
+        let edgeCaseTestTuples = [ (1,4,512); (3,4,512) ];
+        Ignore(Map(ContinuedFractionConvergentEdgeCaseTestHelper, edgeCaseTestTuples));
+    }
 }

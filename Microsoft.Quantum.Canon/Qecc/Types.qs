@@ -64,8 +64,8 @@ namespace Microsoft.Quantum.Canon {
     /// type represting the `Result[]` of these measurements.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.LogicalRegister
-    /// - Microsoft.Quantum.Canon.Syndrome
+    /// - @"Microsoft.Quantum.Canon.LogicalRegister"
+    /// - @"Microsoft.Quantum.Canon.Syndrome"
     newtype SyndromeMeasOp = (LogicalRegister => Syndrome);
 
     /// # Summary

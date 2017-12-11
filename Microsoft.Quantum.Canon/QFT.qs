@@ -34,7 +34,6 @@ namespace Microsoft.Quantum.Canon {
     /// - [ *D. Coppersmith* arXiv:quant-ph/0201067v1 ](https://arxiv.org/abs/quant-ph/0201067)
     operation ApproximateQFT ( a: Int, qs: BigEndian) : () {
         body {
-            
             let nQubits = Length(qs);
             AssertBoolEqual( nQubits > 0, true, "`Length(qs)` must be least 1" );
             AssertBoolEqual(
@@ -73,8 +72,8 @@ namespace Microsoft.Quantum.Canon {
     /// The input and output are assumed to be in big endian encoding.
     /// 
     /// # See Also 
-    /// - @"microsoft.quantum.canon.approximateqft"
-    /// - @"microsoft.quantum.canon.qftle"
+    /// - @"Microsoft.Quantum.Canon.ApproximateQFT"
+    /// - @"Microsoft.Quantum.Canon.QFTLE"
     operation QFT ( qs : BigEndian ) : () {
         body {
             ApproximateQFT(Length(qs), qs);
@@ -97,7 +96,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.qft"
+    /// - @"Microsoft.Quantum.Canon.QFT"
     operation QFTLE ( qs : LittleEndian ) : () {
         body {
             ApplyReversedOpBigEndianCA(QFT, qs);

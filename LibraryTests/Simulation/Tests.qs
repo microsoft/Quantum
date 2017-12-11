@@ -193,9 +193,9 @@ namespace Microsoft.Quantum.Tests {
                 AssertProb([PauliZ], [qubits[0]], Zero, 1.0, "Fail [PauliX;PauliI] [0;1]",  1e-10);
 
                 ResetAll(qubits);
-				Exp([PauliX; PauliX], 1.0 * step, qubits[0..1]);
+                Exp([PauliX; PauliX], 1.0 * step, qubits[0..1]);
                 AssertProb([PauliZ], [qubits[0]], One, SinSquared(step), "Fail [PauliX;PauliX] [0;1]",  1e-10);
-				ResetAll(qubits);
+                ResetAll(qubits);
 
                 H(qubits[0]);
                 Exp([PauliZ; PauliZ], 1.0 * step, qubits[0..1]);

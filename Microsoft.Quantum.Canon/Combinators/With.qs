@@ -30,9 +30,9 @@ namespace Microsoft.Quantum.Canon {
     /// controllable.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.WithC
-    /// - Microsoft.Quantum.Canon.WithA
-    /// - Microsoft.Quantum.Canon.WithCA
+    /// - @"Microsoft.Quantum.Canon.WithC"
+    /// - @"Microsoft.Quantum.Canon.WithA"
+    /// - @"Microsoft.Quantum.Canon.WithCA"
     operation With<'T>(outerOperation : ('T => ():Adjoint), innerOperation : ('T => ()), target : 'T)  : ()
     {
         body {
@@ -68,7 +68,7 @@ namespace Microsoft.Quantum.Canon {
     /// controllable.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.With
+    /// - @"Microsoft.Quantum.Canon.With"
     operation WithA<'T>(outerOperation : ('T => ():Adjoint), innerOperation : ('T => ():Adjoint), target : 'T)  : ()
     {
         body {
@@ -106,7 +106,7 @@ namespace Microsoft.Quantum.Canon {
     /// controllable.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.With
+    /// - @"Microsoft.Quantum.Canon.With"
     operation WithC<'T>(outerOperation : ('T => ():Adjoint), innerOperation : ('T => ():Controlled), target : 'T)  : ()
     {
         body {
@@ -149,7 +149,7 @@ namespace Microsoft.Quantum.Canon {
     /// controllable.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.With
+    /// - @"Microsoft.Quantum.Canon.With"
     operation WithCA<'T>(outerOperation : ('T => ():Adjoint), innerOperation : ('T => ():Adjoint,Controlled), target : 'T)  : ()
     {
         body {

@@ -381,11 +381,11 @@ namespace Microsoft.Quantum.Tests {
 
     /// # Summary
     /// Tests if the distillation routine works as intended.
-	/// This protocol is supposed to catch any weight 2 errors
-	/// on the input magic states, assuming perfect Cliffords.
-	/// Here we do not attempt to correct detected errors,
-	/// since corrections would make the output magic state
-	/// less accurate, compared to post-selection on zero syndrome.
+    /// This protocol is supposed to catch any weight 2 errors
+    /// on the input magic states, assuming perfect Cliffords.
+    /// Here we do not attempt to correct detected errors,
+    /// since corrections would make the output magic state
+    /// less accurate, compared to post-selection on zero syndrome.
     operation KDTest() : ()
     {
         body {

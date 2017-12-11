@@ -48,24 +48,24 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # Summary
-	/// Performs a single round of error correction by a quantum code
+    /// Performs a single round of error correction by a quantum code
     /// described by a `QECC` type.
     ///
-	/// # Input
-	/// ## code
-	/// A quantum error-correcting code packaged as a `QECC` type describes 
+    /// # Input
+    /// ## code
+    /// A quantum error-correcting code packaged as a `QECC` type describes 
     /// the encoding and deconding of quantum data, and how error syndromes 
     /// are to be measuremed.
-	/// ## fn
+    /// ## fn
     /// A `RecoveryFn` that maps each error syndrome to the `Pauli[]` operations
     /// that correct the detected error. 
     /// ## logicalRegister
-	/// An array of qubits where the stabilizer code is defined.
+    /// An array of qubits where the stabilizer code is defined.
     ///
-	/// # See Also
-    /// - Microsoft.Quantum.Canon.QECC
-    /// - Microsoft.Quantum.Canon.RecoveryFn
-    /// - Microsoft.Quantum.Canon.LogicalRegister
+    /// # See Also
+    /// - @"Microsoft.Quantum.Canon.QECC"
+    /// - @"Microsoft.Quantum.Canon.RecoveryFn"
+    /// - @"Microsoft.Quantum.Canon.LogicalRegister"
     operation Recover( code : QECC,  fn : RecoveryFn,  logicalRegister : LogicalRegister)  : ()
     {
         body {
@@ -80,24 +80,24 @@ namespace Microsoft.Quantum.Canon {
     /// Performs a single round of error correction by a quantum code
     /// described by a `CSS` type.
     ///
-	/// # Input
-	/// ## code
-	/// A quantum CSS error-correcting code packaged as a `CSS` type describes 
+    /// # Input
+    /// ## code
+    /// A quantum CSS error-correcting code packaged as a `CSS` type describes 
     /// the encoding and deconding of quantum data, and how error syndromes 
     /// are to be measuremed.
-	/// ## fnX
+    /// ## fnX
     /// A `RecoveryFn` that maps each $X$ error syndrome to the `Pauli[]` operations
     /// that correct the detected error. 
     /// ## fnZ
     /// A `RecoveryFn` that maps each $Z$ error syndrome to the `Pauli[]` operations
     /// that correct the detected error. 
     /// ## logicalRegister
-	/// An array of qubits where the stabilizer code is defined.
+    /// An array of qubits where the stabilizer code is defined.
     ///
-	/// # See Also
-    /// - Microsoft.Quantum.Canon.CSS
-    /// - Microsoft.Quantum.Canon.RecoveryFn
-    /// - Microsoft.Quantum.Canon.LogicalRegister
+    /// # See Also
+    /// - @"Microsoft.Quantum.Canon.CSS"
+    /// - @"Microsoft.Quantum.Canon.RecoveryFn"
+    /// - @"Microsoft.Quantum.Canon.LogicalRegister"
     operation RecoverCSS( code : CSS,  fnX : RecoveryFn,  fnZ : RecoveryFn,  logicalRegister : LogicalRegister)  : ()
     {
         body {

@@ -80,7 +80,7 @@ namespace Microsoft.Quantum.Canon {
         // See also: https://msdn.microsoft.com/en-us/library/dn467197(v=vs.111).aspx
         mutable newData = data;
         set newData[pos] = datum;
-        
+
         return ResultStack(size, pos + 1, newData);
     }
 

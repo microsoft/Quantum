@@ -22,7 +22,7 @@ namespace Microsoft.Quantum.Canon {
     /// A function from `'T` to `Bool` that is used to check elements. 
     /// ## array
     /// An array of elements over `'T`.
-	///
+    ///
     /// # Output
     /// A `Bool` value of the OR function of the predicate applied to all elements.
     function ForAny<'T>(predicate : ('T -> Bool), array : 'T[]) : Bool {

@@ -23,13 +23,13 @@ namespace Microsoft.Quantum.Canon {
     /// For example, `bits = [0;1;0;0;1]` means that `oracle` is applied if and only if `controlRegister`" is in the state $\ket{0}\ket{1}\ket{0}\ket{0}\ket{1}$.
     operation ControlledOnBitStringImpl<'T>(bits : Bool[] , oracle: ('T => (): Adjoint, Controlled), controlRegister : Qubit[], targetRegister: 'T) : ()
     {
-	    body{
-		    WithCA(ApplyPauliFromBitString(PauliX, false, bits, _), (Controlled oracle)(_, targetRegister), controlRegister);
-	    }
+        body{
+            WithCA(ApplyPauliFromBitString(PauliX, false, bits, _), (Controlled oracle)(_, targetRegister), controlRegister);
+        }
 
-	    adjoint auto
-	    controlled auto
-	    adjoint controlled auto
+        adjoint auto
+        controlled auto
+        adjoint controlled auto
     }
 
     /// # Summary
@@ -45,7 +45,7 @@ namespace Microsoft.Quantum.Canon {
     /// A unitary operator that applies `oracle` on the target register if the control register state corresponds to the bit mask `bits`.
     function ControlledOnBitString<'T>(bits : Bool[] , oracle: ('T => (): Adjoint, Controlled)) : ((Qubit[],'T) => (): Adjoint, Controlled)
     {
-	    return ControlledOnBitStringImpl(bits, oracle, _, _);
+        return ControlledOnBitStringImpl(bits, oracle, _, _);
     }
 
     /// # Summary
@@ -66,17 +66,17 @@ namespace Microsoft.Quantum.Canon {
     /// For example, `numberState = 537` means that `oracle` is applied if and only if `controlRegister` is in the state $\ket{537}$.
     operation ControlledOnIntImpl<'T>(numberState : Int , oracle: ('T => (): Adjoint, Controlled), controlRegister : Qubit[], targetRegister: 'T) : ()
     {
-	    body {
+        body {
 
-		    let bits = BoolArrFromPositiveInt(numberState, Length(controlRegister));
+            let bits = BoolArrFromPositiveInt(numberState, Length(controlRegister));
 
-		    (ControlledOnBitString(bits, oracle))(controlRegister, targetRegister);
+            (ControlledOnBitString(bits, oracle))(controlRegister, targetRegister);
 
-	    }
+        }
 
-	    adjoint auto
-	    controlled auto
-	    adjoint controlled auto
+        adjoint auto
+        controlled auto
+        adjoint controlled auto
     }
 
     /// # Summary
@@ -92,7 +92,7 @@ namespace Microsoft.Quantum.Canon {
     /// A unitary operator that applies `oracle` on the target register if the control register state corresponds to the number state `numberState`.
     function ControlledOnInt<'T>(numberState : Int , oracle: ('T => (): Adjoint, Controlled)) : ((Qubit[],'T) => (): Adjoint, Controlled)
     {
-	    return ControlledOnIntImpl(numberState, oracle, _, _);
+        return ControlledOnIntImpl(numberState, oracle, _, _);
     }
 
 }

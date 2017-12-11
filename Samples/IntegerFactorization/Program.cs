@@ -32,13 +32,13 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
             bool useRobustPhaseEstimation = true;
 
             // Parse the arguments provided in command line
-            if( args.Length >= 1 )
+            if (args.Length >= 1)
             {
                 // The first argument is the number to factor
                 Int64.TryParse(args[0], out numberToFactor);
             }
 
-            if (args.Length >= 2 )
+            if (args.Length >= 2)
             {
                 // The second is the number of trials 
                 Int64.TryParse(args[1], out nTrials);
@@ -67,7 +67,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                         Console.WriteLine($"Factoring {numberToFactor}");
 
                         // Compute the factors
-                        (long factor1, long factor2) = 
+                        (long factor1, long factor2) =
                             Shor.Run(sim, numberToFactor, useRobustPhaseEstimation).Result;
 
                         Console.WriteLine($"Factors are {factor1} and {factor2}");
@@ -79,14 +79,14 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                 // However, dues to the use of System.Task in .Run method,
                 // the exception of interest is 
                 // getting wrapped into AggregateException. 
-                catch (AggregateException e )
+                catch (AggregateException e)
                 {
                     // Report the failure of the algorithm to standard output 
                     Console.WriteLine($"This run of Shor's algorithm failed:");
 
                     // Unwrap AggregateException to get the message from Q# fail statement.
                     // Go through all inner exceptions.
-                    foreach ( Exception eInner in e.InnerExceptions )
+                    foreach (Exception eInner in e.InnerExceptions)
                     {
                         // If the exception of type ExecutionFailException
                         if (eInner is ExecutionFailException failException)

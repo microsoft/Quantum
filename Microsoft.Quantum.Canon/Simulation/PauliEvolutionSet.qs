@@ -5,7 +5,6 @@
 namespace Microsoft.Quantum.Canon {
     open Microsoft.Quantum.Primitive;
 
-
     // Convention for GeneratorIndex = ((Int[],Double[]), Int[])
     // We index single Paulis as 0 for I, 1 for X, 2 for Y, 3 for Z.
     // We index Pauli strings with arrays of integers e.g. a = [3;1;1;2] for ZXXY.

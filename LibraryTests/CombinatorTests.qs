@@ -12,7 +12,7 @@ namespace Microsoft.Quantum.Tests {
             let expected = Z;
 
             AssertOperationsEqualReferenced(ApplyToEach(actual, _), ApplyToEachA(expected, _), 4);
-    	}
+        }
     }
 
     // Make sure that if CurryTest fails, it's because of Curry and not

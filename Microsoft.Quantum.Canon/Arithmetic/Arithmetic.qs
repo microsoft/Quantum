@@ -32,7 +32,7 @@ namespace Microsoft.Quantum.Canon {
                 if( bitrepresentation[idx] ){
                     X(target[idx]);
                 }
-            }            
+            }
         }
         adjoint auto 
         controlled auto
@@ -55,7 +55,7 @@ namespace Microsoft.Quantum.Canon {
     /// Ensures that the register is set to 0.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.MeasureIntegerBE
+    /// - @"Microsoft.Quantum.Canon.MeasureIntegerBE"
     operation MeasureInteger( target : LittleEndian) : Int {
         body {
             mutable results = new Result[Length(target)]; 
@@ -70,7 +70,7 @@ namespace Microsoft.Quantum.Canon {
     /// Version of MeasureInteger for BigEndian register
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.MeasureInteger
+    /// - @"Microsoft.Quantum.Canon.MeasureInteger"
     operation MeasureIntegerBE( target : BigEndian) : Int {
         body {
             mutable results = new Result[Length(target)]; 
@@ -96,7 +96,7 @@ namespace Microsoft.Quantum.Canon {
     /// The integer by which the `target` is incremented by.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.IntegerIncrementLE"
+    /// - @"Microsoft.Quantum.Canon.IntegerIncrementLE"
     ///
     /// # References
     /// - [ *Thomas G. Draper*,
@@ -187,7 +187,7 @@ namespace Microsoft.Quantum.Canon {
     /// The integer by which the `target` is incremented by
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.IntegerIncrementPhaseLE
+    /// - @"Microsoft.Quantum.Canon.IntegerIncrementPhaseLE"
     operation IntegerIncrementLE(increment : Int, target : LittleEndian ) : () { 
         body {
             let inner = IntegerIncrementPhaseLE(increment, _);
@@ -215,7 +215,7 @@ namespace Microsoft.Quantum.Canon {
     /// Integer y in `LittleEndian` format that `increment` a is added to.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ModularIncrementPhaseLE
+    /// - @"Microsoft.Quantum.Canon.ModularIncrementPhaseLE"
     ///
     /// # Remarks
     /// Assumes that the value of target is less than N. Note that
@@ -246,7 +246,7 @@ namespace Microsoft.Quantum.Canon {
     /// in computational basis.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.LittleEndian
+    /// - @"Microsoft.Quantum.Canon.LittleEndian"
     operation CopyMostSignificantBitLE(
         from : LittleEndian,
         target : Qubit
@@ -266,7 +266,7 @@ namespace Microsoft.Quantum.Canon {
     /// Integers are encoded in little-endian format in QFT basis
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ModularIncrementLE
+    /// - @"Microsoft.Quantum.Canon.ModularIncrementLE"
     ///
     /// # Remarks
     /// Assumes that `target` has the highest bit set to 0.
@@ -385,7 +385,7 @@ namespace Microsoft.Quantum.Canon {
     /// integers in QFT basis
     /// 
     /// # See Also 
-    /// - Microsoft.Quantum.Canon.ModularAddProductLE
+    /// - @"Microsoft.Quantum.Canon.ModularAddProductLE"
     /// 
     /// # Remarks 
     /// Assumes that `phaseSummand` has the highest bit set to 0.
@@ -494,4 +494,3 @@ namespace Microsoft.Quantum.Canon {
     }
 
 }
-

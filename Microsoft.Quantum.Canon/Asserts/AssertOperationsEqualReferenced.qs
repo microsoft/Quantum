@@ -5,7 +5,7 @@
 namespace Microsoft.Quantum.Canon {
     open Microsoft.Quantum.Primitive;
 
-	/// # Summary
+    /// # Summary
     /// Given two operations, asserts that they act identically for all input states.
     /// This assertion is implemented by using the Choi–Jamiłkowski isomorphism to reduce
     /// the assertion to one of a qubit state assertion on two entangled registers.

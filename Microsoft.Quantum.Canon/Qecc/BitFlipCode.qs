@@ -44,7 +44,7 @@ namespace Microsoft.Quantum.Canon {
     /// logical register.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.LogicalRegister
+    /// - @"Microsoft.Quantum.Canon.LogicalRegister"
     operation BitFlipEncoder(physRegister : Qubit[], auxQubits : Qubit[])  : LogicalRegister
     {
         body {
@@ -67,8 +67,8 @@ namespace Microsoft.Quantum.Canon {
     /// qubits used to represent the syndrome.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.LogicalRegister
-    /// - Microsoft.Quantum.Canon.BitFlipEncoder
+    /// - @"Microsoft.Quantum.Canon.LogicalRegister"
+    /// - @"Microsoft.Quantum.Canon.BitFlipEncoder"
     operation BitFlipDecoder(logicalRegister : LogicalRegister)  : (Qubit[], Qubit[])
     {
         body {
@@ -112,7 +112,7 @@ namespace Microsoft.Quantum.Canon {
     /// detected error.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.RecoveryFn
+    /// - @"Microsoft.Quantum.Canon.RecoveryFn"
     function BitFlipRecoveryFn()  : RecoveryFn
     {
         return TableLookupRecovery([

@@ -100,7 +100,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// a pair of integer arrays representing a sparse Pauli operator.
     ///
     /// # Example
-    ///	```
+    /// ```
     ///     // Returns ([3], [0]), to represent H₀ ≔ Z₀.
     ///     let (idxsPaulis, idxsQubits) = H2Terms(0)
     /// ```
@@ -272,5 +272,3 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     }
 
 }
-
-

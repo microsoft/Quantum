@@ -66,9 +66,9 @@ namespace Microsoft.Quantum.Canon {
     /// The type of the operation to be powered. 
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.operationpowc"
-    /// - @"microsoft.quantum.canon.operationpowa"
-    /// - @"microsoft.quantum.canon.operationpowca"
+    /// - @"Microsoft.Quantum.Canon.OperationPowC"
+    /// - @"Microsoft.Quantum.Canon.OperationPowA"
+    /// - @"Microsoft.Quantum.Canon.OperationPowCA"
     function OperationPow<'T>(oracle : ('T => ()), power : Int)  : ('T => ())
     {
         return OperationPowImpl(oracle, power, _);
@@ -93,7 +93,7 @@ namespace Microsoft.Quantum.Canon {
     /// The type of the operation to be powered. 
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.operationpow"
+    /// - @"Microsoft.Quantum.Canon.OperationPow"
     function OperationPowC<'T>(oracle : ('T => () : Controlled), power : Int)  : ('T => () : Controlled)
     {
         return OperationPowImplC(oracle, power, _);
@@ -118,7 +118,7 @@ namespace Microsoft.Quantum.Canon {
     /// The type of the operation to be powered. 
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.operationpow"
+    /// - @"Microsoft.Quantum.Canon.OperationPow"
     function OperationPowA<'T>(oracle : ('T => () : Adjoint), power : Int)  : ('T => () : Adjoint)
     {
         return OperationPowImplA(oracle, power, _);
@@ -143,7 +143,7 @@ namespace Microsoft.Quantum.Canon {
     /// The type of the operation to be powered. 
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.operationpow"
+    /// - @"Microsoft.Quantum.Canon.OperationPow"
     function OperationPowCA<'T>(oracle : ('T => () : Controlled, Adjoint), power : Int)  : ('T => () : Controlled, Adjoint)
     {
         return OperationPowImplCA(oracle, power, _);

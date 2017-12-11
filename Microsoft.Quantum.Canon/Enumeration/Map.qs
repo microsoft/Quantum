@@ -69,7 +69,7 @@ namespace Microsoft.Quantum.Canon {
     /// ```
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.map"
+    /// - @"Microsoft.Quantum.Canon.map"
     function MapIndex<'T, 'U>(mapper : ((Int, 'T) -> 'U), array : 'T[]) : 'U[] {
         mutable resultArray = new 'U[Length(array)];
         for (idxElement in 0..Length(array) - 1) {

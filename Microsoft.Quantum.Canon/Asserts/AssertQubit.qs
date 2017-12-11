@@ -42,7 +42,7 @@ namespace Microsoft.Quantum.Canon {
     /// The qubit whose state is asserted.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.AssertQubitState
+    /// - @"Microsoft.Quantum.Canon.AssertQubitState"
     ///
     /// # Remarks
     /// <xref:microsoft.quantum.canon.assertqubitstate> allows for asserting
@@ -54,7 +54,6 @@ namespace Microsoft.Quantum.Canon {
             AssertProb([PauliZ], [q], expected,  1.0, "Qubit One probability on Z basis failed",  tolerance);
         }
     }
-
 
     /// # Summary
     /// Asserts that the qubit given by register is in the state described by

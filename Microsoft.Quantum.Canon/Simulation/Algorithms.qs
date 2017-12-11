@@ -5,7 +5,7 @@
 namespace Microsoft.Quantum.Canon {
     open Microsoft.Quantum.Extensions.Math;
     open Microsoft.Quantum.Extensions.Convert;
-    
+
     // A simulation technique converts an EvolutionGenerator to time evolution
     // by the encoded system for some time step
     // Here is an example of a simulation technique. 
@@ -108,7 +108,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Input
     /// ## trotterStepSize
-    /// Duration of simulated time-evolution in single Trotter step.    
+    /// Duration of simulated time-evolution in single Trotter step.
     /// ## trotterOrder
     /// Order of Trotter integrator. Order 1 and 2 are currently supported.
     ///
@@ -130,7 +130,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Input
     /// ## trotterStepSize
-    /// Duration of simulated time-evolution in single Trotter step.    
+    /// Duration of simulated time-evolution in single Trotter step.
     /// ## trotterOrder
     /// Order of Trotter integrator. Order 1 and 2 are currently supported.
     /// ## maxTime
@@ -139,11 +139,11 @@ namespace Microsoft.Quantum.Canon {
     /// A complete description of the time-dependent system to be simulated.
     /// ## qubits
     /// Qubits acted on by simulation.
-    operation TimeDependentTrotterSimulationAlgorithmImpl(  trotterStepSize: Double, 
-                                                            trotterOrder: Int, 
-                                                            maxTime: Double, 
-                                                            evolutionSchedule: EvolutionSchedule,
-                                                            qubits:Qubit[]) : () {
+    operation TimeDependentTrotterSimulationAlgorithmImpl(trotterStepSize: Double, 
+                                                          trotterOrder: Int, 
+                                                          maxTime: Double, 
+                                                          evolutionSchedule: EvolutionSchedule,
+                                                          qubits:Qubit[]) : () {
         body {
             let nTimeSlices = Ceiling(maxTime / trotterStepSize);
             let resizedTrotterStepSize = maxTime / ToDouble(nTimeSlices);
@@ -174,10 +174,9 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Output
     /// A `TimeDependentSimulationAlgorithm` type.
-    function TimeDependentTrotterSimulationAlgorithm(   trotterStepSize: Double,
-                                                        trotterOrder: Int) : TimeDependentSimulationAlgorithm {
+    function TimeDependentTrotterSimulationAlgorithm(trotterStepSize: Double,
+                                                     trotterOrder: Int) : TimeDependentSimulationAlgorithm {
         return TimeDependentSimulationAlgorithm(TimeDependentTrotterSimulationAlgorithmImpl(trotterStepSize,trotterOrder, _, _, _));
     }
 
 }
-

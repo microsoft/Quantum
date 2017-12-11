@@ -35,8 +35,8 @@ namespace Microsoft.Quantum.Canon {
     /// We abbreviate `LittleEndian` as `LE` in the documentation. 
     ///
     /// # See Also
-    /// - microsoft.quantum.canon.qft
-    /// - microsoft.quantum.canon.qftle
+    /// - @"Microsoft.Quantum.Canon.QFT"
+    /// - @"Microsoft.Quantum.Canon.QFTLE"
     newtype PhaseLittleEndian = (Qubit[]);
 
     /// # Summary
@@ -50,9 +50,9 @@ namespace Microsoft.Quantum.Canon {
     /// A big-endian register to be transformed.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyReversedOpLittlEndianA
-    /// - Microsoft.Quantum.Canon.ApplyReversedOpLittlEndianC
-    /// - Microsoft.Quantum.Canon.ApplyReversedOpLittlEndianCA
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpLittleEndianA"
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpLittleEndianC
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpLittleEndianCA
     operation ApplyReversedOpLittleEndian( 
               op : (LittleEndian => ()),
               register : BigEndian)  : ()
@@ -70,9 +70,9 @@ namespace Microsoft.Quantum.Canon {
     /// an unsigned integer using big-endian format.
     ///
     /// # See Also 
-    /// - @"microsoft.quantum.canon.applyreversedoplittleendian"
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpLittleEndian"
     operation ApplyReversedOpLittleEndianA( 
-              op : (LittleEndian => () : Adjoint),  
+              op : (LittleEndian => () : Adjoint),
               register : BigEndian)  : ()
     {
         body {
@@ -89,7 +89,7 @@ namespace Microsoft.Quantum.Canon {
     /// an unsigned integer using big-endian format.
     ///
     /// # See Also 
-    /// - @"microsoft.quantum.canon.applyreversedoplittleendian"
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpLittleEndian"
     operation ApplyReversedOpLittleEndianC(
               op : (LittleEndian => () : Controlled),
               register : BigEndian )  : ()
@@ -107,10 +107,10 @@ namespace Microsoft.Quantum.Canon {
     /// the controlled and adjoint functors to a register encoding 
     /// an unsigned integer using big-endian format.
     ///
-    /// # See Also 
-    /// - @"microsoft.quantum.canon.applyreversedoplittleendian"
+    /// # See Also
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpLittleEndian"
     operation ApplyReversedOpLittleEndianCA(
-              op : (LittleEndian => () : Controlled, Adjoint),  
+              op : (LittleEndian => () : Controlled, Adjoint),
               register : BigEndian)  : ()
     {
         body {
@@ -134,9 +134,9 @@ namespace Microsoft.Quantum.Canon {
     /// little-endian register to be transformed
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.applyreversedopbigendiana"
-    /// - @"microsoft.quantum.canon.applyreversedopbigendianc"
-    /// - @"microsoft.quantum.canon.applyreversedopbigendianca"
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpBigEndianA"
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpBigEndianC"
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpBigEndianCA"
     operation ApplyReversedOpBigEndian(
               op : (BigEndian => ()),
               register : LittleEndian)  : ()
@@ -149,7 +149,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # See Also
-    /// - @"microsoft.quantum.canon.applyreversedopbigendian"
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpBigEndian"
     operation ApplyReversedOpBigEndianA(
               op : (BigEndian => () : Adjoint),
               register : LittleEndian)  : ()
@@ -163,7 +163,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # See Also 
-    /// - @"microsoft.quantum.canon.applyreversedopbigendian"
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpBigEndian"
     operation ApplyReversedOpBigEndianC(
               op : (BigEndian => () : Controlled),
               register : LittleEndian)  : ()
@@ -177,7 +177,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # See Also 
-    /// - @"microsoft.quantum.canon.applyreversedopbigendian"
+    /// - @"Microsoft.Quantum.Canon.ApplyReversedOpBigEndian"
     operation ApplyReversedOpBigEndianCA(
               op : (BigEndian => () : Controlled, Adjoint),
               register : LittleEndian)  : ()
@@ -230,9 +230,9 @@ namespace Microsoft.Quantum.Canon {
     /// its original representation after application of `op`.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyPhaseLEOperationonLEA
-    /// - Microsoft.Quantum.Canon.ApplyPhaseLEOperationonLEA
-    /// - Microsoft.Quantum.Canon.ApplyPhaseLEOperationonLECA
+    /// - @"Microsoft.Quantum.Canon.ApplyPhaseLEOperationonLEA"
+    /// - @"Microsoft.Quantum.Canon.ApplyPhaseLEOperationonLEA"
+    /// - @"Microsoft.Quantum.Canon.ApplyPhaseLEOperationonLECA"
     operation ApplyPhaseLEOperationOnLE( op : (PhaseLittleEndian => ()), target : LittleEndian ) : () {
         body {
             QFTLE(target);
@@ -243,7 +243,7 @@ namespace Microsoft.Quantum.Canon {
     }
     
     /// # See Also
-    /// - @"microsoft.quantum.canon.applyphaseleoperationonle"
+    /// - @"Microsoft.Quantum.Canon.ApplyPhaseLEOperationOnLE"
     operation ApplyPhaseLEOperationOnLEA( op : (PhaseLittleEndian => () : Adjoint), target : LittleEndian ) : () {
         body {
             QFTLE(target);
@@ -255,7 +255,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # See Also 
-    /// - @"microsoft.quantum.canon.applyphaseleoperationonle"
+    /// - @"Microsoft.Quantum.Canon.ApplyPhaseLEOperationOnLE"
     operation ApplyPhaseLEOperationOnLEC( op : (PhaseLittleEndian => () : Controlled), target : LittleEndian ) : () {
         body {
             QFTLE(target);
@@ -272,7 +272,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # See Also 
-    /// - @"microsoft.quantum.canon.applyphaseleoperationonle"
+    /// - @"Microsoft.Quantum.Canon.ApplyPhaseLEOperationOnLE"
     operation ApplyPhaseLEOperationOnLECA( op : (PhaseLittleEndian => () : Controlled, Adjoint), target : LittleEndian ) : () {
         body {
             QFTLE(target);
@@ -307,9 +307,9 @@ namespace Microsoft.Quantum.Canon {
     /// its original representation after application of `op`.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLEA
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLEA
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLECA
+    /// - @"Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLEA"
+    /// - @"Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLEA"
+    /// - @"Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLECA"
     operation ApplyLEOperationOnPhaseLE( op : (LittleEndian => ()), target : PhaseLittleEndian ) : () {
         body {
             let targetLE = LittleEndian(target);
@@ -318,7 +318,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLE
+    /// - @"Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLE"
     operation ApplyLEOperationOnPhaseLEA( op : (LittleEndian => () : Adjoint), target : PhaseLittleEndian ) : () {
         body {
             let targetLE = LittleEndian(target);
@@ -328,7 +328,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLE
+    /// - @"Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLE"
     operation ApplyLEOperationOnPhaseLEC( op : (LittleEndian => () : Controlled), target : PhaseLittleEndian ) : () {
         body {
             let targetLE = LittleEndian(target);
@@ -338,7 +338,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLE
+    /// - @"Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLE"
     operation ApplyLEOperationOnPhaseLECA( op : (LittleEndian => () : Controlled, Adjoint ), target : PhaseLittleEndian ) : () {
         body {
             let targetLE = LittleEndian(target);

@@ -50,7 +50,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
             // Microsoft.Quantum.Canon.IsCoprime.
             // If true use Quantum algorithm for Period finding.
             if( IsCoprime(coprimeCandidate, number) ) {
-                
+
                 // Print a message using Microsoft.Quantum.Primitive.Message
                 // indicating that we are doing something quantum.
                 Message($"Estimating period of {coprimeCandidate}");
@@ -94,9 +94,9 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
 
                 // This line will never be reached, however Q# compiler requires it here
                 // as otherwise this looks like somebody forgot a return statement. 
-                // C# is more advance and will show a warning: 
-                // Warning	CS0162	Unreachable code detected ShorWithCanon.qs:71
-                return (0,0);           
+                // C# is more advanced and will show a warning: 
+                // Warning CS0162 Unreachable code detected ShorWithCanon.qs:96
+                return (0,0);
             }
             else { // In this case we guessed a divisor by accident
                 // Find a divisor using Microsoft.Quantum.Canon.GCD
@@ -244,7 +244,6 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                             Round( phase * ToDouble(2 ^ bitsPrecision  ) / 2.0 / PI() ) ;
                     }
                     else {
-                        
                         // Use Microsoft.Quantum.Canon.QuantumPhaseEstimation to estimate s/r.
                         // When using QuantumPhaseEstimation we will need extra `bitsPrecision`
                         // qubits

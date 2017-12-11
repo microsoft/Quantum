@@ -225,32 +225,30 @@ namespace Microsoft.Quantum.Canon {
     /// let subarray = Exclude([1; 3; 4], array);
     /// ```
     function Exclude<'T>(remove : Int[], array : 'T[]) : 'T[] 
-	{
+    {
+        let nSliced = Length(remove);
+        let nElements = Length(array);
+        //Would be better with sort function
+        //Or way to add elements to array
 
-		let nSliced = Length(remove);
-		let nElements = Length(array);
-		//Would be better with sort function
-		//Or way to add elements to array
+        mutable arrayKeep = new Int[nElements];
+        mutable sliced = new 'T[nElements - nSliced];
+        mutable counter = 0;
 
-		mutable arrayKeep = new Int[nElements];
-		mutable sliced = new 'T[nElements - nSliced];
-		mutable counter = 0;
+        for ( idx in 0..nElements - 1) {
+            set arrayKeep[idx] = idx;
+        }
+        for ( idx in 0..nSliced - 1 ) {
+            set arrayKeep[remove[idx]] = -1;
+        }
+        for ( idx in 0..nElements - 1 ) {
+            if(arrayKeep[idx] >= 0){
+                set sliced[counter] = array[arrayKeep[idx]];
+                set counter = counter + 1;
+            }
+        }
 
-		for ( idx in 0..nElements - 1) {
-			set arrayKeep[idx] = idx;
-		}
-		for ( idx in 0..nSliced - 1 ) {
-			set arrayKeep[remove[idx]] = -1;
-		}
-		for ( idx in 0..nElements - 1 ) {
-			if(arrayKeep[idx] >= 0){
-				set sliced[counter] = array[arrayKeep[idx]];
-				set counter = counter + 1;
-			}
-		}
-
-		return sliced;
-	}
-
+        return sliced;
+    }
 
 }

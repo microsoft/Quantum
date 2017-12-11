@@ -49,8 +49,8 @@ namespace Microsoft.Quantum.Canon {
     /// to be applied is the 3-bit encoding of the X, respectively, Z syndrome when considered an integer. 
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.SteaneCodeRecoveryX
-    /// - Microsoft.Quantum.Canon.SteaneCodeRecoveryFns
+    /// - @"Microsoft.Quantum.Canon.SteaneCodeRecoveryX"
+    /// - @"Microsoft.Quantum.Canon.SteaneCodeRecoveryFns"
     ///
     /// # References
     /// - D. Gottesman, "Stabilizer Codes and Quantum Error Correction," Ph.D. Thesis, Caltech, 1997;
@@ -68,8 +68,8 @@ namespace Microsoft.Quantum.Canon {
     /// Decoder for the Z-part of the stabilizer group of the ⟦7, 1, 3⟧ Steane quantum code.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.SteaneCodeRecoveryX
-    /// - Microsoft.Quantum.Canon.SteaneCodeRecoveryFns
+    /// - @"Microsoft.Quantum.Canon.SteaneCodeRecoveryX"
+    /// - @"Microsoft.Quantum.Canon.SteaneCodeRecoveryFns"
     function SteaneCodeRecoveryZ( syndrome : Syndrome)  : Pauli[]
     {
         let idxQubit = ResultAsInt(syndrome);
@@ -89,8 +89,8 @@ namespace Microsoft.Quantum.Canon {
     /// corrects the detected error.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.SteaneCodeRecoveryX
-    /// - Microsoft.Quantum.Canon.SteaneCodeRecoveryZ
+    /// - @"Microsoft.Quantum.Canon.SteaneCodeRecoveryX"
+    /// - @"Microsoft.Quantum.Canon.SteaneCodeRecoveryZ"
     function SteaneCodeRecoveryFns() : (RecoveryFn, RecoveryFn) {
         return (RecoveryFn(SteaneCodeRecoveryX), RecoveryFn(SteaneCodeRecoveryZ));
     }
@@ -110,8 +110,8 @@ namespace Microsoft.Quantum.Canon {
     /// A quantum register holding the state after the Steane encoder has been applied
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.LogicalRegister
-    /// - Microsoft.Quantum.Canon.SteaneCodeDecoder
+    /// - @"Microsoft.Quantum.Canon.LogicalRegister"
+    /// - @"Microsoft.Quantum.Canon.SteaneCodeDecoder"
     operation SteaneCodeEncoder(physRegister : Qubit[], auxQubits : Qubit[])  : LogicalRegister
     {
         body {
@@ -140,9 +140,9 @@ namespace Microsoft.Quantum.Canon {
     /// to be applied is the 3-bit encoding of the X, repsectively, Z syndrome when considered an integer.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.SteaneCodeEncoder
-    /// - Microsoft.Quantum.Canon.SteaneCodeDecoder
-    /// - Microsoft.Quantum.Canon.LogicalRegister
+    /// - @"Microsoft.Quantum.Canon.SteaneCodeEncoder"
+    /// - @"Microsoft.Quantum.Canon.SteaneCodeDecoder"
+    /// - @"Microsoft.Quantum.Canon.LogicalRegister"
     ///
     /// # References
     /// - D. Gottesman, "Stabilizer Codes and Quantum Error Correction," Ph.D. Thesis, Caltech, 1997;
@@ -191,6 +191,5 @@ namespace Microsoft.Quantum.Canon {
             return code;
         }
     }
-
 
 }

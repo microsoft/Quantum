@@ -39,13 +39,11 @@ namespace Microsoft.Quantum.Canon {
     /// The register whose state is to be rotated by $R$.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.RAll1
+    /// - @"Microsoft.Quantum.Canon.RAll1"
     operation RAll0( phase: Double, qubits: Qubit[] ) : ()
     {
         body {
-
             WithCA(ApplyToEachCA(X, _), RAll1(phase, _), qubits);
-
         }
 
         adjoint auto
@@ -57,9 +55,10 @@ namespace Microsoft.Quantum.Canon {
     /// Implementation of <xref:microsoft.quantum.canon.obliviousoraclefromdeterministicstateoracle>.
     operation _ObliviousOracleFromDeterministicStateOracle(ancillaOracle : DeterministicStateOracle, signalOracle : ObliviousOracle, ancillaRegister: Qubit[], systemRegister: Qubit[]) : (){
         body{
-                ancillaOracle(ancillaRegister);
-                signalOracle(ancillaRegister, systemRegister);
+            ancillaOracle(ancillaRegister);
+            signalOracle(ancillaRegister, systemRegister);
         }
+
         adjoint auto
         controlled auto
         adjoint controlled auto
@@ -78,8 +77,8 @@ namespace Microsoft.Quantum.Canon {
     /// An oracle $O=UA$ of type `ObliviousOracle`.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.DeterministicStateOracle
-    /// - Microsoft.Quantum.Canon.ObliviousOracle
+    /// - @"Microsoft.Quantum.Canon.DeterministicStateOracle"
+    /// - @"Microsoft.Quantum.Canon.ObliviousOracle"
     function ObliviousOracleFromDeterministicStateOracle(ancillaOracle : DeterministicStateOracle, signalOracle : ObliviousOracle) : ObliviousOracle{
         return ObliviousOracle(_ObliviousOracleFromDeterministicStateOracle(ancillaOracle, signalOracle,_,_));
     }
@@ -90,6 +89,7 @@ namespace Microsoft.Quantum.Canon {
         body {
             stateOracle(idxFlagQubit, startQubits);
         }
+
         adjoint auto
         controlled auto
         adjoint controlled auto
@@ -112,8 +112,8 @@ namespace Microsoft.Quantum.Canon {
     /// longer explicitly separate, e.g.  $A\ket{0\psi}\_{as}$.
     ///
     /// # See Also 
-    /// - Microsoft.Quantum.Canon.StateOracle
-    /// - Microsoft.Quantum.Canon.DeterministicStateOracle
+    /// - @"Microsoft.Quantum.Canon.StateOracle"
+    /// - @"Microsoft.Quantum.Canon.DeterministicStateOracle"
     function DeterministicStateOracleFromStateOracle(idxFlagQubit: Int, stateOracle : StateOracle) : DeterministicStateOracle{
         return DeterministicStateOracle(_DeterministicStateOracleFromStateOracle(idxFlagQubit, stateOracle,_));
     }
@@ -125,6 +125,7 @@ namespace Microsoft.Quantum.Canon {
         body {
             oracleStateDeterministic(qubits);
         }
+
         adjoint auto
         controlled auto
         controlled adjoint auto
@@ -143,10 +144,10 @@ namespace Microsoft.Quantum.Canon {
     /// dummy variable and has no effect.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.DeterministicStateOracle
-    /// - Microsoft.Quantum.Canon.StateOracle
+    /// - @"Microsoft.Quantum.Canon.DeterministicStateOracle"
+    /// - @"Microsoft.Quantum.Canon.StateOracle"
     function StateOracleFromDeterministicStateOracle(deterministicStateOracle : DeterministicStateOracle) : StateOracle {
-	    return StateOracle(_StateOracleFromDeterministicStateOracle(_, deterministicStateOracle,_));
+        return StateOracle(_StateOracleFromDeterministicStateOracle(_, deterministicStateOracle,_));
     }
 
     /// # Summary
@@ -155,6 +156,7 @@ namespace Microsoft.Quantum.Canon {
         body {
             RAll0(phase, qubits );
         }
+
         adjoint auto
         controlled auto
         adjoint controlled auto
@@ -167,7 +169,7 @@ namespace Microsoft.Quantum.Canon {
     /// A `ReflectionOracle` that reflects about the state $\ket{0\cdots 0}$.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ReflectionOracle
+    /// - @"Microsoft.Quantum.Canon.ReflectionOracle"
     function ReflectionStart() : ReflectionOracle {
         return ReflectionOracle(_ReflectionStart( _, _ ));
     }
@@ -179,6 +181,7 @@ namespace Microsoft.Quantum.Canon {
         body {
             WithCA((Adjoint oracle), RAll0(phase, _), systemRegister);
         }
+
         adjoint auto
         controlled auto
         adjoint controlled auto
@@ -196,8 +199,8 @@ namespace Microsoft.Quantum.Canon {
     /// A `ReflectionOracle` that reflects about the state $\ket{\psi}$.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.DeterministicStateOracle
-    /// - Microsoft.Quantum.Canon.ReflectionOracle
+    /// - @"Microsoft.Quantum.Canon.DeterministicStateOracle"
+    /// - @"Microsoft.Quantum.Canon.ReflectionOracle"
     function ReflectionOracleFromDeterministicStateOracle(oracle: DeterministicStateOracle): ReflectionOracle
     {
         return ReflectionOracle(ReflectionOracleFromDeterministicStateOracleImpl(_, oracle, _ ));
@@ -228,11 +231,10 @@ namespace Microsoft.Quantum.Canon {
     /// A `ReflectionOracle` that reflects about the state marked by $\ket{1}_f$.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ReflectionOracle
+    /// - @"Microsoft.Quantum.Canon.ReflectionOracle"
     function TargetStateReflectionOracle(idxFlagQubit : Int): ReflectionOracle
     {
         return ReflectionOracle(TargetStateReflectionOracleImpl( _ , idxFlagQubit , _ ));
     }
 
 }
-

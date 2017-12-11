@@ -101,7 +101,7 @@ namespace Microsoft.Quantum.Canon {
             S(data);
             let r = MResetY(magic);
             if ( r == One ) {
-                // The following five gates is equal to	Ry( Pi()/2.0, data)
+                // The following five gates is equal to Ry( Pi()/2.0, data)
                 // up to global phase.
                 S(data);
                 H(data);
