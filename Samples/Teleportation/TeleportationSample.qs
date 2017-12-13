@@ -48,11 +48,11 @@ namespace Microsoft.Quantum.Examples.Teleportation {
                 // Ask for an auxillary qubit that we can use to prepare
                 // for teleportation.
                 let here = register[0];
-            
+
                 // Create some entanglement that we can use to send our message.
                 H(here);
                 CNOT(here, there);
-            
+
                 // Move our message into the entangled pair.
                 CNOT(msg, here);
                 H(msg);

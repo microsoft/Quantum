@@ -29,7 +29,7 @@ namespace Microsoft.Quantum.Canon {
     /// ```
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyToEach
+    /// - @"Microsoft.Quantum.Canon.ApplyToEach"
    operation ApplyToEachCA<'T>(singleElementOperation : ('T => () : Adjoint, Controlled), register : 'T[])  : ()
     {
         body {
@@ -67,7 +67,7 @@ namespace Microsoft.Quantum.Canon {
     /// ```
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyToEach
+    /// - @"Microsoft.Quantum.Canon.ApplyToEach"
     operation ApplyToEachA<'T>(singleElementOperation : ('T => ():Adjoint), register : 'T[])  : ()
     {
         body {
@@ -103,7 +103,7 @@ namespace Microsoft.Quantum.Canon {
     /// ```
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyToEach
+    /// - @"Microsoft.Quantum.Canon.ApplyToEach"
     operation ApplyToEachC<'T>(singleElementOperation : ('T => ():Controlled), register : 'T[])  : ()
     {
         body {
@@ -138,9 +138,9 @@ namespace Microsoft.Quantum.Canon {
     /// ```
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyToEachC
-    /// - Microsoft.Quantum.Canon.ApplyToEachA
-    /// - Microsoft.Quantum.Canon.ApplyToEachCA
+    /// - @"Microsoft.Quantum.Canon.ApplyToEachC"
+    /// - @"Microsoft.Quantum.Canon.ApplyToEachA"
+    /// - @"Microsoft.Quantum.Canon.ApplyToEachCA"
     operation ApplyToEach<'T>(singleElementOperation : ('T => ()), register : 'T[])  : ()
     {
         body {

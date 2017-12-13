@@ -446,7 +446,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
                 (ControlledOnInt(markedElements[idxMarked], ApplyToEachCA(X, _)))(databaseRegister, [markedQubit]);
             }
 
-        }	
+        }
         adjoint auto
         controlled auto
         adjoint controlled auto

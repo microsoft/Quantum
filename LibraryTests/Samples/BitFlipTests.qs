@@ -5,13 +5,13 @@
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Samples.BitFlipCode;
 
-    operation BitFlipSampleParityTest() : ()  {
+    operation BitFlipSampleParityTest() : () {
         body {
             CheckBitFlipCodeStateParity();
         }
     }
 
-    operation BitFlipSampleWt1CorrectionTest() : ()  {
+    operation BitFlipSampleWt1CorrectionTest() : () {
         body {
             CheckBitFlipCodeCorrectsBitFlipErrors();
         }

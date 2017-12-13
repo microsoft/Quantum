@@ -59,7 +59,7 @@ namespace Microsoft.Quantum.Canon {
     /// ordering in the table lookup recovery is given by converting the bitvectors to integers (using little endian).
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.RecoveryFn
+    /// - @"Microsoft.Quantum.Canon.RecoveryFn"
     function  FiveQubitCodeRecoveryFn()  : RecoveryFn
     {
         return TableLookupRecovery(
@@ -98,7 +98,7 @@ namespace Microsoft.Quantum.Canon {
     /// encoded state. 
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.LogicalRegister
+    /// - @"Microsoft.Quantum.Canon.LogicalRegister"
     operation FiveQubitCodeEncoder(physRegister : Qubit[], auxQubits : Qubit[])  : LogicalRegister
     {
         body {
@@ -121,8 +121,8 @@ namespace Microsoft.Quantum.Canon {
     /// first parameter, together with auxillary qubits in the second parameter.
     ///
     /// # See Also
-    /// - microsoft.quantum.canon.FiveQubitCodeEncoder
-    /// - Microsoft.Quantum.Canon.LogicalRegister
+    /// - @"Microsoft.Quantum.Canon.FiveQubitCodeEncoder"
+    /// - @"Microsoft.Quantum.Canon.LogicalRegister"
     operation FiveQubitCodeDecoder( logicalRegister : LogicalRegister)  : (Qubit[], Qubit[])
     {
         body {

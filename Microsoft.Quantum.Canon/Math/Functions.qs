@@ -30,7 +30,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Output
     /// The largest element of `values`.
-    function Max(values : Int[]) : Int 
+    function Max(values : Int[]) : Int
     {
         mutable max = values[0];
         let nTerms = Length(values);
@@ -52,7 +52,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Output
     /// The smallest element of `values`.
-    function Min(value : Int[]) : Int 
+    function Min(value : Int[]) : Int
     {
         mutable min = value[0];
         let nTerms = Length(value);
@@ -91,7 +91,8 @@ namespace Microsoft.Quantum.Canon {
     ///     // which is a multiple of 2.4.
     ///     let z = RealMod(3.6, 2.4, -1.2);
     /// ```
-    function RealMod(value: Double, modulo: Double, minValue: Double) : Double {
+    function RealMod(value: Double, modulo: Double, minValue: Double) : Double
+    {
         let fractionalValue = 2.0 * PI() * ((value - minValue) / modulo - 0.5 );
         let cosFracValue = Cos(fractionalValue);
         let sinFracValue = Sin(fractionalValue);
@@ -178,8 +179,8 @@ namespace Microsoft.Quantum.Canon {
     /// 
     /// # Remarks 
     /// Takes time proportional to the number of bits in `power`, not the power itself
-    function ExpMod( expBase : Int,  power : Int, modulus : Int ) : Int {
-        
+    function ExpMod( expBase : Int,  power : Int, modulus : Int ) : Int
+    {
         AssertBoolEqual( power >= 0, true, "`power` must be non-negative" );
         AssertBoolEqual( modulus > 0, true, "`modulus` must be positive" );
         AssertBoolEqual( expBase > 0, true, "`expBase` must be positive" );
@@ -217,7 +218,8 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # References
     /// - This implementation is according to https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
-    function ExtendedGCD( a : Int, b : Int ) : (Int, Int) {
+    function ExtendedGCD( a : Int, b : Int ) : (Int, Int)
+    {
         let signA = SignI(a);
         let signB = SignI(b);
         mutable s = (1, 0);
@@ -251,7 +253,8 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Output
     /// Greatest common divisor of a and b
-    function GCD( a : Int, b : Int ) : Int { 
+    function GCD( a : Int, b : Int ) : Int
+    {
         let (u,v) = ExtendedGCD(a,b);
         return u*a + v*b;
     }
@@ -267,8 +270,8 @@ namespace Microsoft.Quantum.Canon {
     /// Continued fraction closest to `fraction` 
     /// with the denominator less or equal to `denominatorBound` 
     function ContinuedFractionConvergent ( fraction : Fraction, denominatorBound : Int  )
-        : Fraction {
-
+        : Fraction
+    {
         AssertBoolEqual(denominatorBound > 0, true, "Denominator bound must be positive" );
 
         let (a,b) = fraction;
@@ -294,7 +297,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # Summary 
-    /// Returns  true if a and b are co-prime and false otherwise.
+    /// Returns true if a and b are co-prime and false otherwise.
     ///
     /// # Input
     /// ## a
@@ -305,7 +308,8 @@ namespace Microsoft.Quantum.Canon {
     /// # Output
     /// True, if a and b are co-prime (e.g. their greatest common divisor is 1 ),
     /// and false otherwise
-    function IsCoprime( a : Int, b : Int ) : Bool {
+    function IsCoprime( a : Int, b : Int ) : Bool
+    {
         let (u,v) = ExtendedGCD(a,b);
         return u*a + v*b == 1;
     }
@@ -321,7 +325,8 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Output
     /// Integer b such that a⋅`b` = 1 (mod `modulus`)
-    function InverseMod( a : Int, modulus : Int ) : Int {
+    function InverseMod( a : Int, modulus : Int ) : Int
+    {
         let (u,v) = ExtendedGCD(a,modulus);
         let gcd = u*a + v*modulus;
         AssertBoolEqual(
@@ -340,7 +345,8 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Output
     /// The bit-size of `a`
-    function BitSize( a : Int ) : Int {
+    function BitSize( a : Int ) : Int
+    {
         AssertBoolEqual(a >= 0 , true, "`a` must be non-negative");
         mutable bitsize = 0;
         mutable val = a;

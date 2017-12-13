@@ -100,7 +100,7 @@ namespace Microsoft.Quantum.Samples.Measurement {
                 );
                 // Now, we measure each qubit in Z-basis and immediately reset the qubits 
                 // to zero, using the canon operation MResetZ.
-                set result = (MResetZ(qubits[0]), MResetZ(qubits[1]));				
+                set result = (MResetZ(qubits[0]), MResetZ(qubits[1]));
             }
             // Finally, we return the result of the measurement. 
             return result;

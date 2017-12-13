@@ -15,12 +15,12 @@ namespace Microsoft.Quantum.Canon
     /// The remaining qubits constitute the second part of the partition. 
     /// ## target
     /// A register of qubits that are being partitioned and operated on by the 
-	/// given two operation. 
+    /// given two operation. 
     ///
     /// # See Also 
-    /// - @"microsoft.quantum.canon.applytopartitiona"
-    /// - @"microsoft.quantum.canon.applytopartitionc"
-    /// - @"microsoft.quantum.canon.applytopartitionca"
+    /// - @"Microsoft.Quantum.Canon.ApplyToPartitionA"
+    /// - @"Microsoft.Quantum.Canon.ApplyToPartitionC"
+    /// - @"Microsoft.Quantum.Canon.ApplyToPartitionCA"
     operation ApplyToPartition(
         op : ( (Qubit[],Qubit[]) => () ),
         numberOfQubitsToFirstArgument : Int,
@@ -50,10 +50,10 @@ namespace Microsoft.Quantum.Canon
     /// The remaining qubits constitute the second part of the partition. 
     /// ## target
     /// A register of qubits that are being partitioned and operated on by the 
-	/// given two operation. 
-	///
+    /// given two operation. 
+    ///
     /// # See Also 
-    /// - @"microsoft.quantum.canon.applytopartition"
+    /// - @"Microsoft.Quantum.Canon.ApplyToPartition"
     operation ApplyToPartitionA( 
         op : ( (Qubit[],Qubit[]) => () : Adjoint ),
         numberOfQubitsToFirstArgument : Int,
@@ -84,10 +84,10 @@ namespace Microsoft.Quantum.Canon
     /// The remaining qubits constitute the second part of the partition. 
     /// ## target
     /// A register of qubits that are being partitioned and operated on by the 
-	/// given two operation. 
-	///
+    /// given two operation. 
+    ///
     /// # See Also 
-    /// - @"microsoft.quantum.canon.applytopartition"
+    /// - @"Microsoft.Quantum.Canon.ApplyToPartition"
     operation ApplyToPartitionC( 
         op : ( (Qubit[],Qubit[]) => () : Controlled ),
         numberOfQubitsToFirstArgument : Int,
@@ -119,10 +119,10 @@ namespace Microsoft.Quantum.Canon
     /// The remaining qubits constitute the second part of the partition. 
     /// ## target
     /// A register of qubits that are being partitioned and operated on by the 
-	/// given two operation. 
-	///
+    /// given two operation. 
+    ///
     /// # See Also 
-    /// - @"microsoft.quantum.canon.applytopartition"
+    /// - @"Microsoft.Quantum.Canon.ApplyToPartition"
     operation ApplyToPartitionCA( 
         op : ( (Qubit[],Qubit[]) => () : Controlled, Adjoint ),
         numberOfQubitsToFirstArgument : Int,

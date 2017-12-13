@@ -42,7 +42,7 @@ namespace Microsoft.Quantum.Canon
     ///     Quantum Computation and Quantum Information ](http://doi.org/10.1017/CBO9780511976667)
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyMultiControlledCA
+    /// - @"Microsoft.Quantum.Canon.ApplyMultiControlledCA"
     operation ApplyMultiControlledC (
         singlyControlledOp : ( Qubit[] => () ),
         ccnot : CCNOTop,
@@ -98,7 +98,7 @@ namespace Microsoft.Quantum.Canon
     ///     Quantum Computation and Quantum Information ](http://doi.org/10.1017/CBO9780511976667)
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyMultiControlledC
+    /// - @"Microsoft.Quantum.Canon.ApplyMultiControlledC"
     operation ApplyMultiControlledCA (
         singlyControlledOp : ( Qubit[] => () : Adjoint ),
         ccnot : CCNOTop,

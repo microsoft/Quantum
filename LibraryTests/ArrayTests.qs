@@ -46,22 +46,22 @@ namespace Microsoft.Quantum.Tests {
         AssertIntEqual((fnArray[3])(7), 49, "ConstantArray(Int, Int -> Int) had the wrong value.");
     }
 
-	function SubarrayTest() : () {
-		let array0 = [0; 1; 2; 3; 4; 5; 6; 7; 8; 9; 10];
-		let subarrayOdd = Subarray([1; 3; 5; 7; 9], array0);
-		let subarrayEven = Subarray([0; 2; 4; 6; 8; 10], array0);
-		AssertBoolEqual(ForAll(IsEven, subarrayEven), true, "the even elements of [1..10] were not correctly sliced.");
-		AssertBoolEqual(ForAny(IsEven, subarrayOdd), false, "the odd elements of [1..10] were not correctly sliced.");
+    function SubarrayTest() : () {
+        let array0 = [0; 1; 2; 3; 4; 5; 6; 7; 8; 9; 10];
+        let subarrayOdd = Subarray([1; 3; 5; 7; 9], array0);
+        let subarrayEven = Subarray([0; 2; 4; 6; 8; 10], array0);
+        AssertBoolEqual(ForAll(IsEven, subarrayEven), true, "the even elements of [1..10] were not correctly sliced.");
+        AssertBoolEqual(ForAny(IsEven, subarrayOdd), false, "the odd elements of [1..10] were not correctly sliced.");
 
         let array1 = [10; 11; 12; 13];
         Ignore(Map(AssertIntEqual(_, _, "Subarray failed: subpermutation case."), Zip([12; 11], Subarray([2; 1], array1))));
-	}
+    }
 
-	function FilterTest() : () {
-		let array = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10];
-		let evenArray = Filter(IsEven, array);
-		AssertBoolEqual(ForAll(IsEven, evenArray), true, "the even elements of [1..10] were not correctly filtered.");
-	}
+    function FilterTest() : () {
+        let array = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10];
+        let evenArray = Filter(IsEven, array);
+        AssertBoolEqual(ForAll(IsEven, evenArray), true, "the even elements of [1..10] were not correctly filtered.");
+    }
 
     function ReverseTest() : () {
         let array = [1; 2; 3];

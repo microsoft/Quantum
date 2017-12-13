@@ -4,10 +4,7 @@
 
 using Microsoft.Quantum.Simulation.Simulators;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Quantum.Samples.Measurement
 {
@@ -15,8 +12,8 @@ namespace Microsoft.Quantum.Samples.Measurement
     {
         public static void Pause()
         {
-            System.Console.WriteLine("\n\nPress any key to continue...\n\n");
-            System.Console.ReadKey();
+            Console.WriteLine("\n\nPress any key to continue...\n\n");
+            Console.ReadKey();
         }
         static void Main(string[] args)
         {
@@ -41,7 +38,7 @@ namespace Microsoft.Quantum.Samples.Measurement
             var averageResult = Enumerable.Range(0, 100).Select((idx) =>
                 MeasurementOneQubit.Run(sim).Result == Simulation.Core.Result.One ? 1 : 0
             ).Average();
-            System.Console.WriteLine($"Frequency of 〈0| given H|0〉: {averageResult}");
+            Console.WriteLine($"Frequency of 〈0| given H|0〉: {averageResult}");
 
             Pause();
             #endregion
@@ -55,7 +52,7 @@ namespace Microsoft.Quantum.Samples.Measurement
             foreach (var idxMeasurment in Enumerable.Range(0, 8))
             {
                 var results = MeasurementTwoQubits.Run(sim).Result;
-                System.Console.WriteLine($"Measured HH|00〉 and observed {results}.");
+                Console.WriteLine($"Measured HH|00〉 and observed {results}.");
             }
 
             Pause();
@@ -71,13 +68,13 @@ namespace Microsoft.Quantum.Samples.Measurement
             foreach (var idxMeasurment in Enumerable.Range(0, 8))
             {
                 var results = MeasurementBellBasis.Run(sim).Result;
-                System.Console.WriteLine($"Measured CNOT₀₁ · H |00〉 and observed {results}.");
+                Console.WriteLine($"Measured CNOT₀₁ · H |00〉 and observed {results}.");
             }
 
             #endregion
 
-            System.Console.WriteLine("\n\nPress Enter to exit...\n\n");
-            System.Console.ReadLine();
+            Console.WriteLine("\n\nPress Enter to exit...\n\n");
+            Console.ReadLine();
 
         }
     }

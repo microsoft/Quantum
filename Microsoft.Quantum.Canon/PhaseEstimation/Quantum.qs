@@ -21,16 +21,16 @@ namespace Microsoft.Quantum.Canon {
     /// the application of this operation. The controlRegister is assumed to start in the initial
     /// state $\ket{00\cdots 0}$, where the length of the register indicates the desired precision.
     operation QuantumPhaseEstimation(
-		      oracle : DiscreteOracle, 
-			  targetState : Qubit[],
-			  controlRegister : BigEndian) : ()
+              oracle : DiscreteOracle, 
+              targetState : Qubit[],
+              controlRegister : BigEndian) : ()
     {
         body {
             let nQubits = Length(controlRegister);
 
-			AssertAllZero(
-				"`controlRegister` is expected to be in |0⟩⊗…⊗|0⟩",
-				controlRegister, 1e-10);
+            AssertAllZero(
+                "`controlRegister` is expected to be in |0⟩⊗…⊗|0⟩",
+                controlRegister, 1e-10);
 
             ApplyToEachCA(H, controlRegister);
 
@@ -42,8 +42,8 @@ namespace Microsoft.Quantum.Canon {
 
             QFT(controlRegister);
         }
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+        adjoint auto
+        controlled auto
+        controlled adjoint auto
     }
 }

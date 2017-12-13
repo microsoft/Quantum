@@ -2,14 +2,10 @@
 // Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
 // and Samples. See LICENSE in the project root for license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
+using System;
+using System.Linq;
 
 namespace Microsoft.Quantum.Samples.H2Simulation
 {
@@ -56,17 +52,17 @@ namespace Microsoft.Quantum.Samples.H2Simulation
                 // and print the answers out to the console.
                 foreach (var idxBond in Enumerable.Range(0, 54))
                 {
-                    System.Console.WriteLine($"Estimating at bond length {bondLengths[idxBond]}:");
+                    Console.WriteLine($"Estimating at bond length {bondLengths[idxBond]}:");
                     var est = estAtBondLength(idxBond);
-                    System.Console.WriteLine($"\tEst: {est}\n");
+                    Console.WriteLine($"\tEst: {est}\n");
                 }
 
                 #endregion
 
             }
 
-            System.Console.WriteLine("Press Enter to exit...");
-            System.Console.ReadLine();
+            Console.WriteLine("Press Enter to exit...");
+            Console.ReadLine();
         }
     }
 }

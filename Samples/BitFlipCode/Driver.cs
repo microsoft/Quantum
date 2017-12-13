@@ -2,9 +2,8 @@
 // Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
 // and Samples. See LICENSE in the project root for license information.
 
-using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
-
+using System;
 
 namespace Microsoft.Quantum.Samples.BitFlipCode
 {
@@ -12,8 +11,8 @@ namespace Microsoft.Quantum.Samples.BitFlipCode
     {
         public static void Pause()
         {
-            System.Console.WriteLine("\n\nPress any key to continue...\n\n");
-            System.Console.ReadKey();
+            Console.WriteLine("\n\nPress any key to continue...\n\n");
+            Console.ReadKey();
         }
 
         static void Main(string[] args)
@@ -47,7 +46,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode
             // this implies that if flow control continues past the operation
             // invocation, then all of the relevant checks have passed.
             CheckBitFlipCodeStateParity.Run(sim).Wait();
-            System.Console.WriteLine("Parity check passed successfully!");
+            Console.WriteLine("Parity check passed successfully!");
             Pause();
 
             #endregion
@@ -61,7 +60,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode
             // represent this pattern in terms of unit tests.
 
             CheckBitFlipCodeCorrectsBitFlipErrors.Run(sim).Wait();
-            System.Console.WriteLine("Corrected all three bit-flip errors successfully!");
+            Console.WriteLine("Corrected all three bit-flip errors successfully!");
             Pause();
             #endregion
 
@@ -71,7 +70,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode
             // represent other codes.
 
             CheckCanonBitFlipCodeCorrectsBitFlipErrors.Run(sim).Wait();
-            System.Console.WriteLine("Corrected all three bit-flip errors successfully!");
+            Console.WriteLine("Corrected all three bit-flip errors successfully!");
             Pause();
             #endregion
 

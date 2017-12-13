@@ -21,7 +21,7 @@ namespace Microsoft.Quantum.Canon {
     /// A function from `'T' to Boolean that is used to filter elements. 
     /// ## array
     /// An array of elements over `'T`.
-	///
+    ///
     /// # Output
     /// An array `'T[]` of elements that satisfy the predicate.
     function Filter<'T>(predicate : ('T -> Bool), array : 'T[]) : 'T[] {

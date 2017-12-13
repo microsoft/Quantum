@@ -3,7 +3,7 @@
 // and Samples. See LICENSE in the project root for license information.
 
 namespace Microsoft.Quantum.Canon {
-	open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Primitive;
 
     /// # Summary
     /// Represents a reflection oracle $O$, where the inputs are

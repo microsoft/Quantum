@@ -98,7 +98,7 @@ namespace Microsoft.Quantum.Canon {
     /// described above.
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.preparesinglequbitidentity"
+    /// - @"Microsoft.Quantum.Canon.PrepareSingleQubitIdentity"
     operation PrepareIdentity(register : Qubit[]) : () {
         body {
             ApplyToEach(PrepareSingleQubitIdentity, register);
@@ -215,9 +215,9 @@ namespace Microsoft.Quantum.Canon {
     /// *quantum process tomography*.
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.preparechoistatec"
-    /// - @"microsoft.quantum.canon.preparechoistatea"
-    /// - @"microsoft.quantum.canon.preparechoistateca"
+    /// - @"Microsoft.Quantum.Canon.PrepareChoiStateC"
+    /// - @"Microsoft.Quantum.Canon.PrepareChoiStateA"
+    /// - @"Microsoft.Quantum.Canon.PrepareChoiStateCA"
     operation PrepareChoiState(op : (Qubit[] => ()), reference : Qubit[], target : Qubit[]) : () {
         body {
             PrepareEntangledState(reference, target);
@@ -229,7 +229,7 @@ namespace Microsoft.Quantum.Canon {
     /// Prepares the Choi–Jamiłkowski state for a given operation with a controlled variant onto given reference
     /// and target registers.
     /// # See Also
-    /// - @"microsoft.quantum.canon.preparechoistate"
+    /// - @"Microsoft.Quantum.Canon.PrepareChoiState"
     operation PrepareChoiStateC(op : (Qubit[] => () : Controlled), reference : Qubit[], target : Qubit[]) : () {
         body {
             PrepareEntangledState(reference, target);
@@ -243,7 +243,7 @@ namespace Microsoft.Quantum.Canon {
     /// Prepares the Choi–Jamiłkowski state for a given operation with an adjoint variant onto given reference
     /// and target registers.
     /// # See Also
-    /// - @"microsoft.quantum.canon.preparechoistate"
+    /// - @"Microsoft.Quantum.Canon.PrepareChoiState"
     operation PrepareChoiStateA(op : (Qubit[] => () : Adjoint), reference : Qubit[], target : Qubit[]) : () {
         body {
             PrepareEntangledState(reference, target);
@@ -257,7 +257,7 @@ namespace Microsoft.Quantum.Canon {
     /// Prepares the Choi–Jamiłkowski state for a given operation with both controlled and adjoint variants onto given reference
     /// and target registers. 
     /// # See Also
-    /// - @"microsoft.quantum.canon.preparechoistate"
+    /// - @"Microsoft.Quantum.Canon.PrepareChoiState"
     operation PrepareChoiStateCA(op : (Qubit[] => () : Controlled, Adjoint), reference : Qubit[], target : Qubit[]) : () {
         body {
             PrepareEntangledState(reference, target);
