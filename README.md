@@ -23,19 +23,20 @@ Please see the [installation guide](https://docs.microsoft.com/quantum/quantum-i
 
 | branch | status    |
 |--------|-----------|
-| master | <img src="https://quarcsw.visualstudio.com/_apis/public/build/definitions/e24b496e-28f8-4c92-a4f0-a646f968a85a/21/badge"/> |
+| master | <img src="https://quarcsw.visualstudio.com/_apis/public/build/definitions/e24b496e-28f8-4c92-a4f0-a646f968a85a/22/badge"/> |
 
+
+## Feedback ##
+
+We are collecting feedback for the entire Microsoft Quantum Development Kit
+at [user voice](https://quantum.uservoice.com/). Please leave your suggestions,
+requests and bugs (or praises!) there.
 
 
 ## Contributing ##
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+Unforunately, at this point we are not ready to accept external contributions but
+we are actively working on this, so please stay tuned!
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
