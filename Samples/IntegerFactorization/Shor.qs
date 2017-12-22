@@ -197,7 +197,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
             // The EstimatePeriod operation estimates the period r by finding an 
             // approximation k/2^bitsPrecision to a fraction s/r where s is some integer.
             // Note that if s and r have common divisors we will end up recovering a divisor of r
-            // and not r itself. However, if we recover big enough number of divisors of r
+            // and not r itself. However, if we recover enough divisors of r
             // we recover r itself pretty soon.
 
             // Number of bits of precision with which we need to estimate s/r to recover period r.
