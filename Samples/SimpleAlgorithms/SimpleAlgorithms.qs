@@ -97,7 +97,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
          }
     }
 
-    // In order to demonstrate the Bernstein–Vazirani algorithm, we define
+    // To demonstrate the Bernstein–Vazirani algorithm, we define
     // a function which returns black-box operations (Qubit[] => ()) of
     // the form
     //
@@ -110,7 +110,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // algorithm matches the pattern we used to define 𝑓.
 
     // As is idiomatic in Q#, we define an operation that we will typically
-    // only call by partially applying from within a matching function.
+    // only call by partially applying it from within a matching function.
     // To indicate that we are using this idiom, we name the operation
     // with the suffix "Impl", and provide documentation comments for the
     // function itself.    
