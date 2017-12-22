@@ -118,7 +118,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         body {
             let n = Length(pattern);
             if (Length(qs) != (n + 1)) {
-                fail "Length of qs must be equal to n + 1.";
+                fail "Length of qs must be equal to pattern length + 1.";
             }
             for (idx in 0..(n-1)) {
                 if pattern[idx] {
