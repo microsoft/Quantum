@@ -75,7 +75,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
                 Uf(qubits);
 
                 // As the last step before the measurement, a Hadamard transform is 
-                // but the very last one. We could apply the Hadamard transform to 
+                // applied to all qubits except last one. We could apply the transform to
                 // the last qubit also, but this would not affect the final outcome. 
                 ApplyToEach(H, qubits[0..(n - 1)]); 
 
@@ -90,7 +90,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
                 Reset(qubits[n]);							
             }	
 
-            // The result is already contained in resultArray and no further 
+            // The result is already contained in resultArray so no further
             // post-processing is necessary.
             Message($"measured: {resultArray}");
             return BoolArrFromResultArr(resultArray);
