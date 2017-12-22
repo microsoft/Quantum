@@ -25,8 +25,9 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
 
     // This sample contains serveral simple quantum algorithms coded in Q#. The 
     // intent is to highlight the expressive capabilities of the language that 
-    // allow to express quantum algirthm that consist of a short quantum part and 
-    // classical post-processing that is simple, or in some cases, trivial.
+    // enable it to express quantum algorithms that consist of a short quantum
+    // part and classical post-processing that is simple, or in some cases,
+    // trivial.
 
     //////////////////////////////////////////////////////////////////////////
     // Bernstein–Vazirani Fouier Sampling Quantum Algorithm //////////////////
