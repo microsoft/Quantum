@@ -2,6 +2,9 @@
 // Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
 // and Samples. See LICENSE in the project root for license information.
 
+// First, note that every Q# function must have a namespace. We define 
+// a new one for this purpose. 
+
 namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // Including the namespace Primitive gives access to basic operations such as the 
     // Hadamard gates, CNOT gates, etc. that are useful for defining circuits. The 
@@ -24,9 +27,6 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // intent is to highlight the expressive capabilities of the language that 
     // allow to express quantum algirthm that consist of a short quantum part and 
     // classical post-processing that is simple, or in some cases, trivial.
-
-    // First, note that every Q# function needs to have a namespace. We define 
-    // a new one for this purpose. 
 
     //////////////////////////////////////////////////////////////////////////
     // Bernstein–Vazirani Fouier Sampling Quantum Algorithm //////////////////
