@@ -376,11 +376,11 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
          }
     }
 
-    // We demonstrate this algorithm by defining an operation which implements
-    // an oracle for a bent function constructed from the inner product of
-    // Boolean functions.
+  // We demonstrate this algorithm by defining an operation which implements
+  // an oracle for a bent function constructed from the inner product of
+  // Boolean functions.
 
-    // In particular, the operation `InnerProductBentFunctionImpl` defines the Boolean 
+  // In particular, the operation `InnerProductBentFunctionImpl` defines the Boolean
 	// function IP(x_0, ..., x_{n-1}) which is computed into the phase, i.e., 
 	// a diagonal operator that maps |x〉 -> (-1)^{IP(x)} |x〉, where x stands for 
 	// x = (x_0, ..., x_{n-1}) and all the x_i are binary. The IP function is 
