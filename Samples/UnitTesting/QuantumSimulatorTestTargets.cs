@@ -4,7 +4,6 @@
 
 using Microsoft.Quantum.Simulation.Simulators;
 using Microsoft.Quantum.Simulation.XUnit;
-using System;
 using System.Diagnostics;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

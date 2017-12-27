@@ -3,12 +3,7 @@
 // and Samples. See LICENSE in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
@@ -47,7 +42,7 @@ namespace Microsoft.Quantum.Samples.Ising
             // For diagnostic purposes, before we proceed to the next step, we'll print
             // out a description of the parameters we just defined.
             Console.WriteLine("Ising model spin excitation:");
-            Console.WriteLine($"\t{nSites} sites\n\t{(nTimeSteps) * deltaTime} max simulation time\n\t{deltaTime} time increment\n\t{timeStep} time step \n");
+            Console.WriteLine($"\t{nSites} sites\n\t{nTimeSteps * deltaTime} max simulation time\n\t{deltaTime} time increment\n\t{timeStep} time step \n");
 
             #endregion
 
@@ -85,7 +80,7 @@ namespace Microsoft.Quantum.Samples.Ising
                     // an array of the classical measurement results observed back from our simulation.
                     foreach (var idxSite in Enumerable.Range(0, nSites))
                     {
-                        counts[idxSite] += (data[idxSite] == Result.One ? 1.0 : -1.0);
+                        counts[idxSite] += data[idxSite] == Result.One ? 1.0 : -1.0;
                     }
                 }
 

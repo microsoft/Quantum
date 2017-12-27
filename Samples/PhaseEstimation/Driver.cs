@@ -4,10 +4,6 @@
 
 using Microsoft.Quantum.Simulation.Simulators;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Quantum.Samples.PhaseEstimation
 {
@@ -15,8 +11,8 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation
     {
         public static void Pause()
         {
-            System.Console.WriteLine("\n\nPress any key to continue...\n\n");
-            System.Console.ReadKey();
+            Console.WriteLine("\n\nPress any key to continue...\n\n");
+            Console.ReadKey();
         }
         static void Main(string[] args)
         {
@@ -42,7 +38,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation
             // checks that the iterative phase estimation step has the right
             // likelihood function.
 
-            System.Console.WriteLine("Phase Estimation Likelihood Check:");
+            Console.WriteLine("Phase Estimation Likelihood Check:");
             PhaseEstimationIterationCheck.Run(sim).Wait();
             Pause();
 
@@ -53,9 +49,9 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation
             // defined in Q#. This operation estimates the phase φ using an
             // explicit grid approximation to the Bayesian posterior.
 
-            System.Console.WriteLine("Bayesian Phase Estimation w/ Explicit Grid:");
+            Console.WriteLine("Bayesian Phase Estimation w/ Explicit Grid:");
             var est = BayesianPhaseEstimationSample.Run(sim, eigenphase).Result;
-            System.Console.WriteLine($"Expected {eigenphase}, estimated {est}.");
+            Console.WriteLine($"Expected {eigenphase}, estimated {est}.");
             Pause();
 
             #endregion
@@ -64,14 +60,14 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation
             // Finally, for comparison, we also use the random walk algorithm
             // for Bayesian phase estimation provided with the Q# canon.
 
-            System.Console.WriteLine("Bayesian Phase Estimation w/ Random Walk:");
+            Console.WriteLine("Bayesian Phase Estimation w/ Random Walk:");
             est = BayesianPhaseEstimationCanonSample.Run(sim, eigenphase).Result;
-            System.Console.WriteLine($"Expected {eigenphase}, estimated {est}.");
-            System.Console.ReadLine();
+            Console.WriteLine($"Expected {eigenphase}, estimated {est}.");
+            Console.ReadLine();
             #endregion
             
-            System.Console.WriteLine("\n\nPress Enter to exit...\n\n");
-            System.Console.ReadLine();
+            Console.WriteLine("\n\nPress Enter to exit...\n\n");
+            Console.ReadLine();
 
         }
     }

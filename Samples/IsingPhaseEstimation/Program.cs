@@ -3,12 +3,7 @@
 // and Samples. See LICENSE in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
 namespace Microsoft.Quantum.Samples.Ising
@@ -83,7 +78,7 @@ namespace Microsoft.Quantum.Samples.Ising
                 );
 
                 // Theoretical prediction of ground state energy when hXFinal is 0.
-                var energyTheory = - jFinal * ((Double)(nSites - 1));
+                var energyTheory = - jFinal * (Double)(nSites - 1);
 
                 foreach (var idx in Enumerable.Range(0, 10))
                 {

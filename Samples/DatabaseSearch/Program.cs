@@ -5,10 +5,7 @@
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Quantum.Samples.DatabaseSearch
 {
@@ -16,8 +13,8 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
     {
         public static void Pause()
         {
-            System.Console.WriteLine("\n\nPress any key to continue...\n\n");
-            System.Console.ReadKey();
+            Console.WriteLine("\n\nPress any key to continue...\n\n");
+            Console.ReadKey();
         }
 
         static void Main(string[] args)
@@ -183,7 +180,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
 
             // We now execute the quantum search and verify that the success 
             // probability matches the theoretical prediction. 
-            classicalSuccessProbability = (double)(nMarkedElements) / databaseSize;
+            classicalSuccessProbability = (double)nMarkedElements / databaseSize;
             quantumSuccessProbability = Math.Pow(Math.Sin((2.0 * (double)nIterations + 1.0) * Math.Asin(Math.Sqrt(nMarkedElements) / Math.Sqrt(databaseSize))), 2.0);
             repeats = 10;
             successCount = 0;

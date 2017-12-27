@@ -13,8 +13,8 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms
     {
         public static void Pause()
         {
-            System.Console.WriteLine("\n\nPress any key to continue...\n\n");
-            System.Console.ReadKey();
+            Console.WriteLine("\n\nPress any key to continue...\n\n");
+            Console.ReadKey();
         }
 
         static void Main(string[] args)
@@ -59,7 +59,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms
                 }
             }
 
-            System.Console.WriteLine("All parities measured successfully!");
+            Console.WriteLine("All parities measured successfully!");
             Pause();
 
 
@@ -97,7 +97,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms
             {
                 throw new Exception("Measured that test case {0, 1, 2, 3, 4, 5, 6, 7} was balanced!");
             }
-            System.Console.WriteLine("Both constant and balanced functions measured successfully!");
+            Console.WriteLine("Both constant and balanced functions measured successfully!");
 
             #endregion
 
@@ -120,12 +120,12 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms
                     throw new Exception($"Measured shift {measuredShift}, but expected {shift}.");
                 }
             }
-            System.Console.WriteLine("Measured hidden shifts successfully!");
+            Console.WriteLine("Measured hidden shifts successfully!");
 
             #endregion
 
-            System.Console.WriteLine("\n\nPress Enter to exit...\n\n");
-            System.Console.ReadLine();
+            Console.WriteLine("\n\nPress Enter to exit...\n\n");
+            Console.ReadLine();
 
         }
     }
