@@ -2,7 +2,6 @@
 // Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
 // and Samples. See LICENSE in the project root for license information.
 
-using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
 

@@ -5,13 +5,7 @@
 // Intent: Let users construct generators for the Ising Hamiltonian and print them out in c#
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
 namespace Microsoft.Quantum.Samples.Ising

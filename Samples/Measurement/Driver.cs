@@ -3,11 +3,7 @@
 // and Samples. See LICENSE in the project root for license information.
 
 using Microsoft.Quantum.Simulation.Simulators;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Quantum.Samples.Measurement
 {
