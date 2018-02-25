@@ -1,9 +1,11 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
-namespace Microsoft.Quantum.Canon {
+
+namespace Microsoft.Quantum.Canon
+{
     open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Extensions.Testing;
 
     /// # Summary
     /// Performs the quantum phase estimation algorithm for a given oracle U and targetState,
@@ -28,9 +30,7 @@ namespace Microsoft.Quantum.Canon {
         body {
             let nQubits = Length(controlRegister);
 
-			AssertAllZero(
-				"`controlRegister` is expected to be in |0⟩⊗…⊗|0⟩",
-				controlRegister, 1e-10);
+            AssertAllZeroTol(controlRegister, 1e-10);
 
             ApplyToEachCA(H, controlRegister);
 

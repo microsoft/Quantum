@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Canon {
     open Microsoft.Quantum.Primitive;
@@ -370,33 +370,6 @@ namespace Microsoft.Quantum.Canon {
         }
     }
 
-    /// # Summary
-    /// Given a single qubit, measures it and ensures it is in the $\ket{0}$ state
-    /// such that it can be safely released.
-    ///
-    /// # Input
-    /// ## target
-    /// A qubit whose state is to be reset to $\ket{0}$.
-    operation Reset(target : Qubit) : () {
-        body {
-            Ignore(MResetZ(target));
-        }
-    }
-
-    /// # Summary
-    /// Given an array of qubits, measure them and ensure they are in the $\ket{0}$ state
-    /// such that they can be safely released.
-    ///
-    /// # Input
-    /// ## target
-    /// An array of qubits whose states are to be reset to $\ket{0}$.
-    operation ResetAll(target : Qubit[]) : ()
-    {
-        body {
-            ApplyToEach(Reset, target);
-        }
-    }
-
     operation HY(target : Qubit) : () {
         body {
             H(target);
@@ -407,5 +380,4 @@ namespace Microsoft.Quantum.Canon {
         controlled auto
         controlled adjoint auto
     }
-
 }
