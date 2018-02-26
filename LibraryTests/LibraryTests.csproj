@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\build\Microsoft.Quantum.Development.Kit.props" Condition="Exists('..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\build\Microsoft.Quantum.Development.Kit.props')" />
+  <Import Project="..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\build\Microsoft.Quantum.Development.Kit.props" Condition="Exists('..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\build\Microsoft.Quantum.Development.Kit.props')" />
   <Import Project="..\packages\xunit.runner.console.2.3.1\build\xunit.runner.console.props" Condition="Exists('..\packages\xunit.runner.console.2.3.1\build\xunit.runner.console.props')" />
   <Import Project="..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props')" />
   <Import Project="..\packages\xunit.core.2.3.1\build\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.3.1\build\xunit.core.props')" />
@@ -43,26 +43,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Quantum.MetaData, Version=0.1.1801.1707, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\lib\net461\Microsoft.Quantum.MetaData.dll</HintPath>
+    <Reference Include="Microsoft.Quantum.MetaData, Version=0.1.1802.2201, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\lib\net461\Microsoft.Quantum.MetaData.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Quantum.Primitives, Version=0.1.1801.1707, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\lib\net461\Microsoft.Quantum.Primitives.dll</HintPath>
+    <Reference Include="Microsoft.Quantum.Primitives, Version=0.1.1802.2201, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\lib\net461\Microsoft.Quantum.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Quantum.Simulation.Common, Version=0.1.1801.1707, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\lib\net461\Microsoft.Quantum.Simulation.Common.dll</HintPath>
+    <Reference Include="Microsoft.Quantum.Simulation.Common, Version=0.1.1802.2201, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\lib\net461\Microsoft.Quantum.Simulation.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Quantum.Simulation.Core, Version=0.1.1801.1707, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Quantum.Xunit.0.1.1801.1707-preview\lib\net461\Microsoft.Quantum.Simulation.Core.dll</HintPath>
+    <Reference Include="Microsoft.Quantum.Simulation.Core, Version=0.1.1802.2201, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Quantum.Xunit.0.1.1802.2201-preview\lib\net461\Microsoft.Quantum.Simulation.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime, Version=0.1.1801.1707, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\lib\net461\Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime.dll</HintPath>
+    <Reference Include="Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime, Version=0.1.1802.2201, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\lib\net461\Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Quantum.Simulation.Simulators, Version=0.1.1801.1707, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\lib\net461\Microsoft.Quantum.Simulation.Simulators.dll</HintPath>
+    <Reference Include="Microsoft.Quantum.Simulation.Simulators, Version=0.1.1802.2201, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\lib\net461\Microsoft.Quantum.Simulation.Simulators.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Quantum.Simulation.XUnit, Version=0.1.1801.1707, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Quantum.Xunit.0.1.1801.1707-preview\lib\net461\Microsoft.Quantum.Simulation.XUnit.dll</HintPath>
+    <Reference Include="Microsoft.Quantum.Simulation.XUnit, Version=0.1.1802.2201, Culture=neutral, PublicKeyToken=40866b40fd95c7f5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Quantum.Xunit.0.1.1802.2201-preview\lib\net461\Microsoft.Quantum.Simulation.XUnit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -168,9 +168,9 @@
     <Error Condition="!Exists('..\packages\xunit.core.2.3.1\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.3.1\build\xunit.core.targets'))" />
     <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props'))" />
     <Error Condition="!Exists('..\packages\xunit.runner.console.2.3.1\build\xunit.runner.console.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.console.2.3.1\build\xunit.runner.console.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\build\Microsoft.Quantum.Development.Kit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\build\Microsoft.Quantum.Development.Kit.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\build\Microsoft.Quantum.Development.Kit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\build\Microsoft.Quantum.Development.Kit.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\build\Microsoft.Quantum.Development.Kit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\build\Microsoft.Quantum.Development.Kit.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\build\Microsoft.Quantum.Development.Kit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\build\Microsoft.Quantum.Development.Kit.targets'))" />
   </Target>
   <Import Project="..\packages\xunit.core.2.3.1\build\xunit.core.targets" Condition="Exists('..\packages\xunit.core.2.3.1\build\xunit.core.targets')" />
-  <Import Project="..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\build\Microsoft.Quantum.Development.Kit.targets" Condition="Exists('..\packages\Microsoft.Quantum.Development.Kit.0.1.1801.1707-preview\build\Microsoft.Quantum.Development.Kit.targets')" />
+  <Import Project="..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\build\Microsoft.Quantum.Development.Kit.targets" Condition="Exists('..\packages\Microsoft.Quantum.Development.Kit.0.1.1802.2201-preview\build\Microsoft.Quantum.Development.Kit.targets')" />
 </Project>
