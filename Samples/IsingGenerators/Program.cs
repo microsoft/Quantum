@@ -89,10 +89,11 @@ namespace Microsoft.Quantum.Samples.Ising
                     $"with coefficient {coefficient}. \n");
 
             }
-
-            Console.ReadLine();
             
             #endregion
+
+            Console.WriteLine("Press Enter to continue...");
+            Console.ReadLine();
 
         }
     }

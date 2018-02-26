@@ -80,6 +80,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing
 
             #endregion
 
+            Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
         }
     }

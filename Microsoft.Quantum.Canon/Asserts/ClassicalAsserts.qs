@@ -80,6 +80,24 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # Summary
+    /// Asserts that a classical Result variable has the expected value.
+    ///
+    /// # Input
+    /// ## actual
+    /// The variable to be checked.
+    ///
+    /// ## expected
+    /// The expected value.
+    ///
+    /// ## message
+    /// Failure message string to be used when the assertion is triggered.
+    function AssertResultEqual ( actual : Result, expected : Result, message : String ) : () {
+        if( actual != expected ) {
+            fail message;
+        }
+    }
+
+    /// # Summary
     /// Asserts that two arrays of boolean values are equal.
     ///
     /// # Input

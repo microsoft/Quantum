@@ -370,6 +370,24 @@ namespace Microsoft.Quantum.Canon {
         }
     }
 
+    /// # Summary
+    /// Applies the Hadamard transformation $H_Y = S H$
+    /// between the $Z$ and $Y$ bases to a single qubit,
+    ///
+    /// \begin{align}
+    ///     H_Y \mathrel{:=}
+    ///     \frac{1}{\sqrt{2}}
+    ///     \begin{bmatrix}
+    ///         1 & 1 \\\\
+    ///         i & -i
+    ///     \end{bmatrix}.
+    /// \end{align}
+    ///
+    /// # Input
+    /// ## qubit
+    /// Qubit to which the gate should be applied.
+    ///
+    /// # See Also
     operation HY(target : Qubit) : () {
         body {
             H(target);

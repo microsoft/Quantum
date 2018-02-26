@@ -20,7 +20,7 @@ namespace Microsoft.Quantum.Examples.Teleportation {
                 System.Console.WriteLine(sent == received ? "Teleportation successful!!\n" : "\n");
             }
 
-            System.Console.WriteLine("\n\nPress Enter to exit...\n\n");
+            System.Console.WriteLine("\n\nPress Enter to continue...\n\n");
             System.Console.ReadLine();
 
         }

@@ -65,8 +65,8 @@ namespace Microsoft.Quantum.Samples.H2Simulation
 
             }
 
-            System.Console.WriteLine("Press Enter to exit...");
-            System.Console.ReadLine();
+            Console.WriteLine("Press Enter to continue...");
+            Console.ReadLine();
         }
     }
 }
