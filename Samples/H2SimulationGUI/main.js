@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
