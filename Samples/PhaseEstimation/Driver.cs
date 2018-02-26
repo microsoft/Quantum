@@ -60,7 +60,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation
 
             #endregion
             
-            System.Console.WriteLine("\n\nPress Enter to exit...\n\n");
+            System.Console.WriteLine("\n\nPress Enter to continue...\n\n");
             System.Console.ReadLine();
 
         }

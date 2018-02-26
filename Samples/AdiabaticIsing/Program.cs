@@ -120,6 +120,7 @@ namespace Microsoft.Quantum.Samples.Ising
                 Console.Write($"State: {string.Join(", ", data.Select(x => x.ToString()).ToArray())} \n");
             }
 
+            Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
 
             #endregion

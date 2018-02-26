@@ -1,24 +1,39 @@
-# Hamiltonian Simulation of H₂ : GUI #
+# H₂ Simulation GUI Demo #
 
-This Sample demonstrates the use of the Quantum Development Kit for Hamiltonian simulation by showing how to simulate molecular hydrogen (H₂).
-The sample walks through both simulating H₂ manually, and using the generator representation library provided in the canon.
+## Prerequisites ##
 
-## Running the Sample ##
+On top of [.NET core](https://www.microsoft.com/net/learn/get-started/macos), 
+this demo uses the [Electron](https://github.com/electron/electron) framework to display the results of simulating H₂.
+Since Electron is distributed using the Node.js Package Manager (npm), we must therefore install npm first.
 
-Open the `QsharpLibraries.sln` solution in Visual Studio and set `Samples/H2SimulationGUI/H2SimulationSample.fsproj` as the startup project.
-Press Start in Visual Studio to run the sample.
+**Windows** npm can be installed using chocolatey:
 
-## Manifest ##
+```powershell
+PS> choco install nodejs
+```
 
-- [Program.fs](./Program.fs): F# code to interact with the Hamiltonian simulation operations provided in the canon and to plot the results.
-- [H2SimulationSample.fsproj](./H2SimulationSample.fsproj): Main F# project for the Sample.
+Alternatively, manual downloads are available from [nodejs.org](https://nodejs.org/en/).
 
-Note that this sample depends on the [H2SimulationCmdLine](./../H2SimulationCmdLine) sample and executes operations defined in [Operation.qs](./../H2SimulationCmdLine/Operation.qs).
+**macOS** Download and run the Node.js installer package from [nodejs.org](https://nodejs.org/en/).
 
-## Theory ##
+**Linux** Most distributions include Node.js and npm, but that version might be out of date.
+To ensure that you have the latest version, we recommend using the packages provided by NodeSource:
 
-The F# program provided with this sample compares the results of the simulation to exactly diagonalizing the Hamiltonian for each bond length.
+```bash
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
 
-## References ##
+Once npm is installed, we can then install all Node.js packages required for the front end using `npm install`:
 
-- O'Malley et. al. https://arxiv.org/abs/1512.06860
+```bash
+$ npm install
+```
+
+## Running the Demo ##
+
+Once pre-reqs are ready, to run the demo from the command line use  `dotnet` to start the project:
+
+```bash
+$ dotnet run
+```

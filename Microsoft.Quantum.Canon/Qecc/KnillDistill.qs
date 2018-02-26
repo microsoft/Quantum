@@ -67,7 +67,7 @@ namespace Microsoft.Quantum.Canon {
     /// \begin{align}
     ///     \cos\frac{\pi}{8} \ket{0} + \sin \frac{\pi}{8} \ket{1}.
     /// \end{align}
-    /// $$.
+    /// $$
     ///
     /// # Input
     /// ## data
@@ -129,9 +129,10 @@ namespace Microsoft.Quantum.Canon {
     /// Given 15 approximate copies of a magic state
     /// $$
     /// \begin{align}
-    ///     \cos\frac{\pi}{8} \ket{0} + \sin \frac{\pi}{8} \ket{1}.
+    ///     \cos\frac{\pi}{8} \ket{0} + \sin \frac{\pi}{8} \ket{1}
     /// \end{align},
-    /// $$ yields one higher-quality copy.
+    /// $$
+    /// yields one higher-quality copy.
     ///
     /// # Input
     /// ## roughMagic

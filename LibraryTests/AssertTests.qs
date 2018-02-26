@@ -46,6 +46,10 @@ namespace Microsoft.Quantum.Tests {
         AssertBoolEqual(true, false, "OK");
     }
 
+	function AssertResultEqualTestShouldFail() : () {
+        AssertResultEqual(Zero, One, "OK");
+    }
+
     function AssertIntEqualTestShouldFail() : () {
         AssertIntEqual(12, 42, "OK");
     }

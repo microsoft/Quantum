@@ -78,6 +78,7 @@ namespace Microsoft.Quantum.Samples.Hubbard
 
             #endregion
 
+            Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
         }
     }
