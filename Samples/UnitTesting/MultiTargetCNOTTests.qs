@@ -1,10 +1,11 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Samples.UnitTesting {
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Extensions.Testing;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Unit test for circuits implementing Multi Target Multiply Controlled Not gates

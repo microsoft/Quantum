@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Canon {
     open Microsoft.Quantum.Primitive;
@@ -157,6 +157,32 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # Summary
+    /// Given a single qubit initially in the $\ket{0}$ state, prepares the
+    /// qubit in the $+1$ eigenstate of a given Pauli operator, or in the
+    /// maximally mixed state for the $\boldone$ Pauli operator `PauliI`.
+    ///
+    /// # Input
+    /// ## basis
+    /// A Pauli operator $P$ such that measuring $P$ immediately after this
+    /// operation will return `Zero`.
+    /// ## qubit
+    /// A qubit initially in the $\ket{0}$ state which is to be prepared in
+    /// the given basis.
+    operation PrepareQubit(basis : Pauli, qubit : Qubit) : () {
+        body {
+            if (basis == PauliI) {
+                PrepareSingleQubitIdentity(qubit);
+            } elif (basis == PauliX) {
+                H(qubit);
+            } elif (basis == PauliY) {
+                H(qubit);
+                S(qubit);
+            }
+        }
+    }
+
+
+    /// # Summary
     /// Given two registers, prepares the maximally entangled state
     /// $\bra{\beta_{00}}\ket{\beta_{00}}$ between each pair of qubits on the respective registers,
     /// assuming that each register starts in the $\ket{0\cdots 0}$ state.
@@ -256,6 +282,7 @@ namespace Microsoft.Quantum.Canon {
     /// # Summary
     /// Prepares the Choi–Jamiłkowski state for a given operation with both controlled and adjoint variants onto given reference
     /// and target registers. 
+    ///
     /// # See Also
     /// - @"microsoft.quantum.canon.preparechoistate"
     operation PrepareChoiStateCA(op : (Qubit[] => () : Controlled, Adjoint), reference : Qubit[], target : Qubit[]) : () {
@@ -268,5 +295,66 @@ namespace Microsoft.Quantum.Canon {
         controlled auto
         controlled adjoint auto
     }
+
+    
+    /// # Summary
+    /// Performs a single-qubit process tomography measurement in the Pauli
+    /// basis, given a particular channel of interest.
+    ///
+    /// # Input
+    /// ## preparation
+    /// The Pauli basis element $P$ in which a qubit is to be prepared.
+    /// ## measurement
+    /// The Pauli basis element $Q$ in which a qubit is to be measured.
+    /// ## channel
+    /// A single qubit channel $\Lambda$ whose behavior is being estimated
+    /// with process tomography.
+    ///
+    /// # Output
+    /// The Result `Zero` with probability
+    /// $$
+    /// \begin{align}
+    ///     \Pr(\texttt{Zero} | \Lambda; P, Q) = \Tr\left(
+    ///         \frac{\boldone + Q}{2} \Lambda\left[
+    ///             \frac{\boldone + P}{2}
+    ///         \right]
+    ///     \right).
+    /// \end{align}
+    /// $$
+    ///
+    /// # Remarks
+    /// The distribution over results returned by this operation is a special
+    /// case of two-qubit state tomography. Let $\rho = J(\Lambda) / 2$ be
+    /// the Choi–Jamiłkowski state for $\Lambda$. Then, the distribution above
+    /// is identical to
+    /// $$
+    /// \begin{align}
+    ///     \Pr(\texttt{Zero} | \rho; M) = \Tr(M \rho),
+    /// \end{align}
+    /// $$
+    /// where $M = 2 (\boldone + P)^\mathrm{T} / 2 \cdot (\boldone + Q) / 2$
+    /// is the effective measurement corresponding to $P$ and $Q$.
+    operation SingleQubitProcessTomographyMeasurement(
+        preparation : Pauli,
+        measurement : Pauli,
+        channel : (Qubit => ())
+    ) : Result {
+        body {
+            mutable result = Zero;
+
+            using (register = Qubit[1]) {
+                let qubit = register[0];
+
+                PrepareQubit(preparation, qubit);
+                channel(qubit);
+                set result = Measure([measurement], [qubit]);
+
+                Reset(qubit);
+            }
+
+            return result;
+        }
+    }
+
 
 }

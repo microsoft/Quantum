@@ -1,12 +1,13 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Convert;
     open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Extensions.Testing;
     // This contains unit tests for the Simulation library
 
     // Using the Hamiltonian representation library

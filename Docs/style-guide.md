@@ -8,7 +8,7 @@
 
 - Avoid using people's names in operation and function names where reasonable.
   Consider using names that describe the implemented functionality;
-  e.g. `CCNOT` versus `Toffoli` or `CSWAP` versus `Fredikin `.
+  e.g. `CCNOT` versus `Toffoli` or `CSWAP` versus `Fredkin `.
   In sample code, consider using names that are familiar to the community reading each particular example, even if that would otherwise run counter to these suggestions.
   **NB:** names should still appear in documentation comments.
 - If an operation or function is not intended for direct use, but rather should be used by a matching callable which acts by partial application, consider using a name ending with `Impl` for the callable that is partially applied.

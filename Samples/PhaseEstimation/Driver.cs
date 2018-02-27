@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 using Microsoft.Quantum.Simulation.Simulators;
 using System;
@@ -59,18 +59,8 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation
             Pause();
 
             #endregion
-
-            #region
-            // Finally, for comparison, we also use the random walk algorithm
-            // for Bayesian phase estimation provided with the Q# canon.
-
-            System.Console.WriteLine("Bayesian Phase Estimation w/ Random Walk:");
-            est = BayesianPhaseEstimationCanonSample.Run(sim, eigenphase).Result;
-            System.Console.WriteLine($"Expected {eigenphase}, estimated {est}.");
-            System.Console.ReadLine();
-            #endregion
             
-            System.Console.WriteLine("\n\nPress Enter to exit...\n\n");
+            System.Console.WriteLine("\n\nPress Enter to continue...\n\n");
             System.Console.ReadLine();
 
         }

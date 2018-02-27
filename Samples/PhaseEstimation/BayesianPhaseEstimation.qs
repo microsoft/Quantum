@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Samples.PhaseEstimation {
     open Microsoft.Quantum.Primitive;
@@ -421,27 +421,5 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
             return est;
         }
     }
-
-    //////////////////////////////////////////////////////////////////////////
-    // Bayesian Phase Estimation with the Canon //////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
-
-    // For comparison, we use the random walk phase estimation algorithm
-    // provided with the canon. This algorithm can use additional data to
-    // "unwind" the effects of outlier data, such that it may consume more
-    // than the 60 measurements it is given.
-
-    operation BayesianPhaseEstimationCanonSample(eigenphase : Double) : Double {
-        body {
-           let oracle = ContinuousOracle(ExpOracle(eigenphase, _, _));
-           mutable est = 0.0;
-           using (eigenstate = Qubit[1]) {
-                X(eigenstate[0]);
-                set est = RandomWalkPhaseEstimation(0.0, 1.0, 61, 100000, 0, oracle, eigenstate);
-                Reset(eigenstate[0]);
-            }
-            return est;
-        }
-    }
-
+	
 }

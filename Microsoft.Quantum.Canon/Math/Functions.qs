@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Canon {
     open Microsoft.Quantum.Primitive;
@@ -107,7 +107,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Input
     /// ## x
-    /// A real number $x$.
+    /// A real number $x\geq 1$.
     ///
     /// # Output
     /// A real number $y$ such that $x = \cosh(y)$.
@@ -331,15 +331,15 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # Summary
-    /// For non-negative integer `a` returns the smallest n such
-    /// that a < 2ⁿ .
+    /// For a non-negative integer `a`, returns the smallest $n$ such
+    /// that $a < 2^n$.
     ///
     /// # Input
     /// ## a
-    /// The integer bit-size of which is computed.
+    /// The integer whose bit-size is to be computed.
     ///
     /// # Output
-    /// The bit-size of `a`
+    /// The bit-size of `a`.
     function BitSize( a : Int ) : Int {
         AssertBoolEqual(a >= 0 , true, "`a` must be non-negative");
         mutable bitsize = 0;
