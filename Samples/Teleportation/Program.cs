@@ -10,14 +10,17 @@ namespace Microsoft.Quantum.Examples.Teleportation {
     {
         static void Main(string[] args)
         {
-            var sim = new QuantumSimulator();
-            var rand = new System.Random();
+            using (var sim = new QuantumSimulator())
+            {
+                var rand = new System.Random();
 
-            foreach (var idxRun in Enumerable.Range(0, 8)) {
-                var sent = rand.Next(2) == 0;
-                var received = TeleportClassicalMessage.Run(sim, sent).Result;
-                System.Console.WriteLine($"Round {idxRun}:\tSent {sent},\tgot {received}.");
-                System.Console.WriteLine(sent == received ? "Teleportation successful!!\n" : "\n");
+                foreach (var idxRun in Enumerable.Range(0, 8))
+                {
+                    var sent = rand.Next(2) == 0;
+                    var received = TeleportClassicalMessage.Run(sim, sent).Result;
+                    System.Console.WriteLine($"Round {idxRun}:\tSent {sent},\tgot {received}.");
+                    System.Console.WriteLine(sent == received ? "Teleportation successful!!\n" : "\n");
+                }
             }
 
             System.Console.WriteLine("\n\nPress Enter to continue...\n\n");
