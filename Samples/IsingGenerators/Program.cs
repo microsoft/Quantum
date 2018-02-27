@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 // Intent: Let users construct generators for the Ising Hamiltonian and print them out in c#
 
@@ -89,10 +89,11 @@ namespace Microsoft.Quantum.Samples.Ising
                     $"with coefficient {coefficient}. \n");
 
             }
-
-            Console.ReadLine();
             
             #endregion
+
+            Console.WriteLine("Press Enter to continue...");
+            Console.ReadLine();
 
         }
     }

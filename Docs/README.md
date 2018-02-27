@@ -4,4 +4,5 @@ Please see the [main documentation site](https://docs.microsoft.com/quantum) for
 
 ## Additional Documentation ##
 
-- [Q# Style Guide](./style-guide): Advice on how to write quantum programs in a consistent and readable manner.
+- [Q# Style Guide](./style-guide.md): Advice on how to write quantum programs in a consistent and readable manner.
+

@@ -1,0 +1,17 @@
+{
+    "name": "h2-simulation-demo",
+    "version": "1.0.0",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "author": "Microsoft",
+    "license": "MIT",
+    "devDependencies": {
+        "electron": "~1.7.8"
+    },
+    "dependencies": {
+        "node-ipc": "9.1.1",
+        "chart.js": "2.7.1"
+    }
+}

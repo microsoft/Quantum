@@ -13,5 +13,13 @@
     <description>Microsoft's Quantum Core Libraries.</description>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>Quantum Q# Qsharp</tags>
+
+    <dependencies>
+      <dependency id="Microsoft.Quantum.Development.Kit" version="#NUGET_VERSION#" />
+    </dependencies>
   </metadata>
+
+  <files>
+    <file src="bin\$Configuration$\**\Microsoft.Quantum.Canon.*" target="lib" />
+  </files>
 </package>

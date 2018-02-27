@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 using System;
 using System.Collections.Generic;
@@ -96,6 +96,8 @@ namespace Microsoft.Quantum.Samples.Ising
                 }
                 Console.Write($"\t after {repeats} repeats.\n");
             }
+            
+            Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
 
             #endregion

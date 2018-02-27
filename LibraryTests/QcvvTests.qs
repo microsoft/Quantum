@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Primitive;
@@ -45,7 +45,7 @@ namespace Microsoft.Quantum.Tests {
         controlled auto
         controlled adjoint auto
     }
-    
+
     operation RobustPhaseEstimationDemoImpl(phaseSet : Double, bitsPrecision: Int) : Double{
         body {
             let op = DiscreteOracle(_RobustPhaseEstimationTestOp(phaseSet, _, _));
@@ -72,5 +72,33 @@ namespace Microsoft.Quantum.Tests {
         }
     }
 
+    operation PrepareQubitTest() : () {
+        body {
+            using (register = Qubit[1]) {
+                let qubit = register[0];
+                let bases = [PauliI; PauliX; PauliY; PauliZ];
+
+                for (idxBasis in 0..Length(bases) - 1) {
+                    let basis = bases[idxBasis];
+                    PrepareQubit(basis, qubit);
+                    Assert([basis], register, Zero, $"Did not prepare in {basis} correctly.");
+                    Reset(qubit);
+                }
+            }
+        }
+    }
+
+    operation SingleQubitProcessTomographyMeasurementTest() : () {
+        body {
+            AssertResultEqual(SingleQubitProcessTomographyMeasurement(PauliI, PauliI, H), Zero, "Failed at ⟪I | H | I⟫.");
+            AssertResultEqual(SingleQubitProcessTomographyMeasurement(PauliX, PauliI, H), Zero, "Failed at ⟪I | H | X⟫.");
+            AssertResultEqual(SingleQubitProcessTomographyMeasurement(PauliY, PauliI, H), Zero, "Failed at ⟪I | H | Y⟫.");
+            AssertResultEqual(SingleQubitProcessTomographyMeasurement(PauliZ, PauliI, H), Zero, "Failed at ⟪I | H | Z⟫.");
+
+            AssertResultEqual(SingleQubitProcessTomographyMeasurement(PauliX, PauliZ, H), Zero, "Failed at ⟪Z | H | X⟫.");
+            AssertResultEqual(SingleQubitProcessTomographyMeasurement(PauliY, PauliY, H), One,  "Failed at -⟪Y | H | Y⟫.");
+            AssertResultEqual(SingleQubitProcessTomographyMeasurement(PauliX, PauliZ, H), Zero, "Failed at ⟪Z | H | X⟫.");
+        }
+    }
 
 }

@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // Including the namespace Primitive gives access to basic operations such as the 
@@ -12,8 +12,8 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // the operations in the canon is machine independent as they are built on 
     // top of the primitive operations. 
     open Microsoft.Quantum.Canon;
-	// We need symbols one more namespace, namely for the definition of an oracle based 
-	// on a list of integers which are used to flip the target qubit when matched. 
+    // We need symbols one more namespace, namely for the definition of an oracle based 
+    // on a list of integers which are used to flip the target qubit when matched. 
     open Microsoft.Quantum.Samples.SimpleAlgorithms;
 
     //////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // a new one for this purpose. 
 
     //////////////////////////////////////////////////////////////////////////
-    // Bernstein–Vazirani Fouier Sampling Quantum Algorithm //////////////////
+    // Bernstein–Vazirani Fourier Sampling Quantum Algorithm //////////////////
     //////////////////////////////////////////////////////////////////////////
 
     /// # Summary 
@@ -239,9 +239,9 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // algorithm from a C# driver.
 
     operation BooleanFunctionFromMarkedElementsImpl(n : Int, markedElements : Int[], qs : Qubit[]) : () {
-		body {
-			let target = qs[Length(qs)-1];
-			let inputs = qs[0..Length(qs)-2];
+        body {
+            let target = qs[Length(qs)-1];
+            let inputs = qs[0..Length(qs)-2];
 
             // This operation applies the unitary
             //
@@ -261,8 +261,8 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
                 // Qubit[] even though the target is only 1 Qubit.
                 (ControlledOnInt(markedElements[idxMarked], ApplyToEachCA(X, _)))(inputs, [target]);
             }
-		}
-	}
+        }
+    }
 
     /// # Summary
     /// Constructs an operation representing a query to a boolean function
@@ -277,15 +277,15 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     ///
     /// # Output
     /// An operation representing the unitary 𝑈 |𝑧〉 |𝑘〉 = |𝑧 ⊕ 𝑥ₖ〉 |𝑘〉.
-	function BooleanFunctionFromMarkedElements(nQubits : Int, markedElements : Int[]) : (Qubit[] => ()) {
-		return 
-			BooleanFunctionFromMarkedElementsImpl(nQubits, markedElements, _ );
-	}
+    function BooleanFunctionFromMarkedElements(nQubits : Int, markedElements : Int[]) : (Qubit[] => ()) {
+        return 
+            BooleanFunctionFromMarkedElementsImpl(nQubits, markedElements, _ );
+    }
 
     operation DeutschJozsaTestCase(nQubits : Int, markedElements : Int[]) : Bool {
         body {
             return IsConstantBooleanFunction(
-				BooleanFunctionFromMarkedElements(nQubits, markedElements),
+                BooleanFunctionFromMarkedElements(nQubits, markedElements),
                 nQubits
             );
         }
@@ -380,85 +380,85 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // Boolean functions.
 
     // In particular, the operation `InnerProductBentFunctionImpl` defines the Boolean 
-	// function IP(x_0, ..., x_{n-1}) which is computed into the phase, i.e., 
-	// a diagonal operator that maps |x〉 -> (-1)^{IP(x)} |x〉, where x stands for 
-	// x = (x_0, ..., x_{n-1}) and all the x_i are binary. The IP function is 
-	// defined as IP(y, z) = y_0 z_0 + y_1 z_1 + ... y_{u-1} z_{u-1} where 
-	// y = (y_0, ..., y_{u-1}) and z =  (z_0, ..., z_{u-1}) are two bit 
-	// vectors of length u. Notice that the function IP is a Boolean function 
-	// on n = 2u bits. IP is a special case of a so-called 'bent' function. 
-	// These are functions for which the Walsh-Hadamard transform is perfectly 
-	// flat (in absolute value). Because of this flatness, the Walsh-Hadamard 
-	// spectrum of any bent function defines a +1/-1 function, i.e., gives 
-	// rise to another Boolean function, called the 'dual bent function'.
-	// What is more, for the case of the IP function it can be shown that IP
-	// is equal to its own dual bent function, a fact that is exploited in 
-	// the present test case. 
-	//
-	// Notice that a diagonal operator implementing IP between 2 variables
-	// y_0 and z_0 is nothing but the AND function between those variables, i.e., 
-	// in phase encoding it is computed by a Controlled-Z gate. Extending this 
-	// to an XOR of the AND of more variables, as required in the definition of 
-	// the IP function can then be accomplished by applying several Controlled-Z
-	// gates between the respective inputs.
-	operation InnerProductBentFunctionImpl(u : Int, qs : Qubit[]) : () {
-		body {
-			if (Length(qs) != (2*u)) {
-				fail "Length of qs must be twice the value of u";
-			}
-			let xs = qs[0..(u-1)]; 
-			let ys = qs[u..(2*u-1)];    
-			for (idx in 0..(u-1)) {
-				(Controlled Z)([xs[idx]], ys[idx]);
-			}
-		}
-	}
+    // function IP(x_0, ..., x_{n-1}) which is computed into the phase, i.e., 
+    // a diagonal operator that maps |x〉 -> (-1)^{IP(x)} |x〉, where x stands for 
+    // x = (x_0, ..., x_{n-1}) and all the x_i are binary. The IP function is 
+    // defined as IP(y, z) = y_0 z_0 + y_1 z_1 + ... y_{u-1} z_{u-1} where 
+    // y = (y_0, ..., y_{u-1}) and z =  (z_0, ..., z_{u-1}) are two bit 
+    // vectors of length u. Notice that the function IP is a Boolean function 
+    // on n = 2u bits. IP is a special case of a so-called 'bent' function. 
+    // These are functions for which the Walsh-Hadamard transform is perfectly 
+    // flat (in absolute value). Because of this flatness, the Walsh-Hadamard 
+    // spectrum of any bent function defines a +1/-1 function, i.e., gives 
+    // rise to another Boolean function, called the 'dual bent function'.
+    // What is more, for the case of the IP function it can be shown that IP
+    // is equal to its own dual bent function, a fact that is exploited in 
+    // the present test case. 
+    //
+    // Notice that a diagonal operator implementing IP between 2 variables
+    // y_0 and z_0 is nothing but the AND function between those variables, i.e., 
+    // in phase encoding it is computed by a Controlled-Z gate. Extending this 
+    // to an XOR of the AND of more variables, as required in the definition of 
+    // the IP function can then be accomplished by applying several Controlled-Z
+    // gates between the respective inputs.
+    operation InnerProductBentFunctionImpl(u : Int, qs : Qubit[]) : () {
+        body {
+            if (Length(qs) != (2*u)) {
+                fail "Length of qs must be twice the value of u";
+            }
+            let xs = qs[0..(u-1)]; 
+            let ys = qs[u..(2*u-1)];    
+            for (idx in 0..(u-1)) {
+                (Controlled Z)([xs[idx]], ys[idx]);
+            }
+        }
+    }
 
-	// Again, using partial application we create a function which for a given bit 
-	// size u constructs the IP Boolean function on 2u qubits, computed into the phase.
-	function InnerProductBentFunction(u : Int) : (Qubit[] => ()) {
-		return InnerProductBentFunctionImpl(u, _); 		
-	}
+    // Again, using partial application we create a function which for a given bit 
+    // size u constructs the IP Boolean function on 2u qubits, computed into the phase.
+    function InnerProductBentFunction(u : Int) : (Qubit[] => ()) {
+        return InnerProductBentFunctionImpl(u, _); 		
+    }
 
     
-	// To instantiate the hidden shift problem we need another function g which is 
-	// related to IP via g(x) = IP(x + s), i.e., we have to shift the argument of 
-	// the IP function by a given shift. Notice that the '+' operation here is the 
-	// Boolean addition, i.e., a bit-wise operation. Notice further, that in
-	// general a diagonal operation |x〉 -> (-1)^{f(x)} can be turned into a shifted
-	// version by applying a bit flip to the |x〉 register first, then applying the 
-	// diagonal operation, and then undoing the bit flips to the |x〉 register. We 
-	// use this principle to define shifted versions of the IP operation. 
-	operation ShiftedInnerProductBentFunctionImpl(shift: Bool[], u : Int, qs : Qubit[]) : () {
-		body {
-			let n = 2 * u;
-			if ( (Length(shift) != n) || (Length(qs) != n) ) {
-				fail "Length of shift and qs must be twice the value of u";
-			}
-			// the following loop flips the bits in shift 
-			for (idx in 0..(n-1)) {
-				if shift[idx] { 
-					X(qs[idx]);
-				}
-			}
-			// now we compute the IP function into the phase
-			(InnerProductBentFunction(u))(qs);
-			// the following loop flips the bits in shift 
-			for (idx in 0..(n-1)) {
-				if shift[idx] { 
-					X(qs[idx]);
-				}
-			}
-		}
-	}
+    // To instantiate the hidden shift problem we need another function g which is 
+    // related to IP via g(x) = IP(x + s), i.e., we have to shift the argument of 
+    // the IP function by a given shift. Notice that the '+' operation here is the 
+    // Boolean addition, i.e., a bit-wise operation. Notice further, that in
+    // general a diagonal operation |x〉 -> (-1)^{f(x)} can be turned into a shifted
+    // version by applying a bit flip to the |x〉 register first, then applying the 
+    // diagonal operation, and then undoing the bit flips to the |x〉 register. We 
+    // use this principle to define shifted versions of the IP operation. 
+    operation ShiftedInnerProductBentFunctionImpl(shift: Bool[], u : Int, qs : Qubit[]) : () {
+        body {
+            let n = 2 * u;
+            if ( (Length(shift) != n) || (Length(qs) != n) ) {
+                fail "Length of shift and qs must be twice the value of u";
+            }
+            // the following loop flips the bits in shift 
+            for (idx in 0..(n-1)) {
+                if shift[idx] { 
+                    X(qs[idx]);
+                }
+            }
+            // now we compute the IP function into the phase
+            (InnerProductBentFunction(u))(qs);
+            // the following loop flips the bits in shift 
+            for (idx in 0..(n-1)) {
+                if shift[idx] { 
+                    X(qs[idx]);
+                }
+            }
+        }
+    }
 
-	// Again, using partial application we construct a function that produces the 
-	// operations that are used to instantiate a particular hidden shift problem 
-	// and are then passed to the quantum algorithm `HiddenShiftBentCorrelation`
-	// which computes the hidden shift. 
-	function ShiftedInnerProductBentFunction(shift : Bool[], u : Int) : (Qubit[] => ()) {
-		return ShiftedInnerProductBentFunctionImpl(shift, u, _);
-	}
+    // Again, using partial application we construct a function that produces the 
+    // operations that are used to instantiate a particular hidden shift problem 
+    // and are then passed to the quantum algorithm `HiddenShiftBentCorrelation`
+    // which computes the hidden shift. 
+    function ShiftedInnerProductBentFunction(shift : Bool[], u : Int) : (Qubit[] => ()) {
+        return ShiftedInnerProductBentFunctionImpl(shift, u, _);
+    }
 
     // We finish by providing a case that can be easily called from C#.
 
@@ -466,16 +466,16 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         body {
             let nQubits = 2 * u;
             // The integer patternInt is converted to a bit pattern
-			// using a canon function (from Utils.qs)				
+            // using a canon function (from Utils.qs)				
             let pattern = BoolArrFromPositiveInt(patternInt, nQubits);
             // We then convert back to an integer, so that the C# driver
             // doesn't need to worry with arrays.
             let result = PositiveIntFromBoolArr(
                 HiddenShiftBentCorrelation(
-					InnerProductBentFunction(u), 
-					ShiftedInnerProductBentFunction(pattern, u), 
-					nQubits
-				)
+                    InnerProductBentFunction(u), 
+                    ShiftedInnerProductBentFunction(pattern, u), 
+                    nQubits
+                )
             );
 
             return result;

@@ -1,0 +1,105 @@
+<!--
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT License.
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>H₂ Simulation Demo</title>
+    <style>
+      .chart-container {
+        position: absolute;
+        width: calc(100vw - 2em);
+        height: calc(100vh - 6em);
+        top: 5em;
+        left: 1em;
+        overflow-x: hidden;
+        overflow-y: hidden;
+      }
+
+      .chart-heading {
+        position: absolute;
+        width: 100vw;
+        top: 0;
+        left: 0;
+        text-align: center;
+
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 300;
+      }
+    </style>
+  </head>
+  <body style="-webkit-app-region: drag">
+    <h1 class="chart-heading">
+      H<sub>2</sub> Simulation Demo
+    </h1>
+    <div class="chart-container">
+      <canvas id="chartCanvas"></canvas>
+    </div>
+
+    <script>
+      "use strict"
+
+      // You can also require other files to run in this process
+      var renderer = require('./renderer.js')
+      var charts = require("chart.js")
+
+      var plotData = [];
+
+      var ctx = document.getElementById("chartCanvas").getContext("2d");
+      var chart = new charts.Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: 'Estimated',
+              data: [],
+              fill: false,
+              borderColor: '#ff0000'
+            },
+
+            {
+              label: 'Theory',
+              data: [],
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          defaultFontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+          scales: {
+            xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Bond Length'
+              }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Energy'
+              }
+            }]
+          }
+        }
+      })
+
+      renderer.connectToSimulationServer((data) => {
+        plotData.push(data);
+        chart.data.labels.push(data.bondLength)
+        chart.data.datasets.forEach((dataset) => {
+          if (dataset.label == "Theory") {
+            dataset.data.push(data.theoreticalEnergy)
+          } else {
+            dataset.data.push(data.estEnergy)
+          }
+        })
+        chart.update()
+      });
+    </script>
+  </body>
+</html>
