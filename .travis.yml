@@ -1,0 +1,15 @@
+language: csharp
+
+matrix:
+  include:
+    - os: linux # Ubuntu 14.04
+      dotnet: 2.1.4
+    - os: osx # OSX 10.11
+      dotnet: 2.1.4
+
+script:
+  - dotnet --info
+  - dotnet build QsharpLibraries.sln
+  - dotnet test Samples/UnitTesting
+  - dotnet test LibraryTests
+
