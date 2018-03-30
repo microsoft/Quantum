@@ -1,12 +1,12 @@
 language: csharp
 dotnet: 2.1.4
+mono: none
 os:
   - osx
   - linux 
 
 
 script:
-  - dotnet --info
   - dotnet build QsharpLibraries.sln
   - dotnet test Samples/UnitTesting
   - travis_wait dotnet test LibraryTests
