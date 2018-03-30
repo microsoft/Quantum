@@ -84,4 +84,41 @@ namespace Microsoft.Quantum.Tests {
 			}
 		}
 	}
+
+    operation AssertProbIntTest() : () {
+        body{
+            let nQubits = 4;
+            let theta = 0.123;
+            let prob = 0.015052858190174601589;
+            let tolerance = 10e-10;
+            using(qubits = Qubit[4]){
+
+                X(qubits[0]);
+                X(qubits[2]);
+                Exp([PauliX], theta, [qubits[3]]);
+
+                AssertProbInt(5, 1.0 - prob, LittleEndian(qubits), tolerance);
+                AssertProbInt(13, prob, LittleEndian(qubits), tolerance);
+
+                AssertProbIntBE(10, 1.0 - prob, BigEndian(qubits), tolerance);
+                AssertProbIntBE(11, prob, BigEndian(qubits), tolerance);
+
+                ResetAll(qubits);
+            }
+        }
+    }
+
+    operation AssertPhaseTest() : () {
+        body{
+            let phase = 0.456;
+            let tolerance = 10e-10;
+            using(qubits = Qubit[1]){
+                H(qubits[0]);
+                Exp([PauliZ], phase, qubits);
+                AssertPhase(phase, qubits[0], tolerance);
+
+                ResetAll(qubits);
+            }
+        }
+    }
 }
