@@ -23,7 +23,7 @@ Please see the [installation guide](https://docs.microsoft.com/quantum/quantum-i
 
 | branch | status    |
 |--------|-----------|
-| master | <img src="https://quarcsw.visualstudio.com/_apis/public/build/definitions/e24b496e-28f8-4c92-a4f0-a646f968a85a/22/badge"/> |
+| master | [![Build Status](https://travis-ci.org/Microsoft/Quantum.svg?branch=master)](https://travis-ci.org/Microsoft/Quantum) |
 
 
 ## Feedback ##
