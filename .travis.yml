@@ -1,7 +1,9 @@
 language: csharp
 dotnet: 2.1.4
 mono: none
-os: osx
+os:
+  - osx
+  - linux
 
 script:
   - dotnet build QsharpLibraries.sln
