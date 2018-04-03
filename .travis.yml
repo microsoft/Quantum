@@ -6,6 +6,9 @@ os:
   - linux
 
 script:
+  # If we're on Linux, print out the dynamic linker configuration for the quantum
+  # runtime to see what dependencies we're missing.
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ldd `find . -name "Microsoft.Quantum.Simulator.Runtime.dll"`; fi
   - dotnet build QsharpLibraries.sln
   - dotnet test Samples/UnitTesting
   - travis_wait dotnet test LibraryTests
