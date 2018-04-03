@@ -1,9 +1,17 @@
 language: csharp
 dotnet: 2.1.4
 mono: none
-os:
-  - osx
-  - linux
+
+matrix:
+  include:
+    - os: osx
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
 
 script:
   # If we're on Linux, print out the dynamic linker configuration for the quantum
