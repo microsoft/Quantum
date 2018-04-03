@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Samples\IsingPhaseEstimation\IsingPhaseEstimationSample.csproj" />
     <ProjectReference Include="..\Samples\Measurement\Measurement.csproj" />
     <ProjectReference Include="..\Samples\PhaseEstimation\PhaseEstimationSample.csproj" />
+    <ProjectReference Include="..\Samples\ReversibleLogicSynthesis\ReversibleLogicSynthesis.csproj" />
     <ProjectReference Include="..\Samples\SimpleAlgorithms\SimpleAlgorithms.csproj" />
   </ItemGroup>
 
