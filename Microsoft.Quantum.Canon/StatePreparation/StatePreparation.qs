@@ -7,16 +7,31 @@ namespace Microsoft.Quantum.Canon
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Extensions.Math;
 
-    /// These return operations which that prepare a specified quantum state
-    /// from the computational basis state $\ket{0...0}$.
+    // This library returns operations that prepare a specified quantum state
+    // from the computational basis state $\ket{0...0}$.
     
-    // TODO: type specialization of coefficients.
-    // Cases: Positive, real, complex
-    // TODO: parameterize choice of state preparation algorithm
+    /// # Summary
+    /// Returns a unitary operation $U$ that prepares an arbitrary quantum 
+    /// state $\ket{\psi}$ with positive coefficients $\alpha_j\ge 0$ from 
+    /// the $n$-qubit computational basis state $\ket{0...0}$.
+    ///
+    /// $U\ket{0...0}=\ket{\psi}=\frac{\sum^{2^n-1}_{j=0}\alpha_j \ket{j}}{\sqrt{\sum^{2^n-1}_{j=0}|\alpha_j|^2}}$.
+    ///
+    /// # Input
+    /// ## coefficients
+    /// Array of up to $2^n$ coefficients $\alpha_j$. The $j$th coefficient 
+    /// indexes the number state $\ket{j}$ encoded in big-endian format. 
+    ///
+    /// # Output
+    /// A state-preparation unitary operation $U$.
+    ///
+    /// # Remarks
+    /// Negative input coefficients $\alpha_j < 0$ will be treated as though
+    /// positive with value $|\alpha_j|$. `coefficients` will be padded with 
+    /// elements $\alpha_j = 0.0$ if fewer than $2^n$ are specified.
     function StatePreparationPositiveCoefficients(coefficients: Double[]) : (BigEndian => (): Adjoint, Controlled)
     {
         let nCoefficients = Length(coefficients);
-        let positive = true;
         mutable coefficientsComplexPolar = new ComplexPolar[nCoefficients];
         for(idx in 0..nCoefficients - 1){
             set coefficientsComplexPolar[idx] = ComplexPolar(AbsD(coefficients[idx]), 0.0);
@@ -25,14 +40,61 @@ namespace Microsoft.Quantum.Canon
         return StatePreparationSBM(coefficientsComplexPolar, _);
     }
 
-
+    /// # Summary
+    /// Returns a unitary operation $U$ that prepares an arbitrary quantum 
+    /// state $\ket{\psi}$ with complex coefficients $r_j e^{i t_j}$ from 
+    /// the $n$-qubit computational basis state $\ket{0...0}$.
+    ///
+    /// $U\ket{0...0}=\ket{\psi}=\frac{\sum^{2^n-1}_{j=0}r_j e^{i t_j}\ket{j}}{\sqrt{\sum^{2^n-1}_{j=0}|r_j|^2}}$.
+    ///
+    /// # Input
+    /// ## coefficients
+    /// Array of up to $2^n$ complex coefficients represented by their 
+    /// absolute value and phase $(r_j, t_j)$. The $j$th coefficient 
+    /// indexes the number state $\ket{j}$ encoded in big-endian format. 
+    ///
+    /// # Output
+    /// A state-preparation unitary operation $U$.
+    ///
+    /// # Remarks
+    /// Negative input coefficients $r_j < 0$ will be treated as though
+    /// positive with value $|r_j|$. `coefficients` will be padded with 
+    /// elements $(r_j, t_j) = (0.0, 0.0)$ if fewer than $2^n$ are 
+    /// specified.
     function StatePreparationComplexCoefficients (coefficients: ComplexPolar[]) : (BigEndian => (): Adjoint, Controlled)
     {
         return StatePreparationSBM(coefficients, _);
     }
 
+    
+    /// # Summary
+    /// Returns a unitary operation $U$ that prepares an arbitrary quantum 
+    /// state $\ket{\psi}$ with complex coefficients $r_j e^{i t_j}$ from 
+    /// the $n$-qubit computational basis state $\ket{0...0}$.
+    ///
+    /// $U\ket{0...0}=\ket{\psi}=\frac{\sum^{2^n-1}_{j=0}r_j e^{i t_j}\ket{j}}{\sqrt{\sum^{2^n-1}_{j=0}|r_j|^2}}$.
+    ///
+    /// # Input
+    /// ## coefficients
+    /// Array of up to $2^n$ complex coefficients represented by their 
+    /// absolute value and phase $(r_j, t_j)$. The $j$th coefficient 
+    /// indexes the number state $\ket{j}$ encoded in big-endian format. 
+    ///
+    /// ## qubits
+    /// Qubit register encoding number states in big-endian format. This is
+    /// expected to be initialized in the computational basis state 
+    /// $ket{0...0}$.
+    ///
     /// # Remarks
-    /// coefficients do not need to be normalized to one.
+    /// Negative input coefficients $r_j < 0$ will be treated as though
+    /// positive with value $|r_j|$. `coefficients` will be padded with 
+    /// elements $(r_j, t_j) = (0.0, 0.0)$ if fewer than $2^n$ are 
+    /// specified.
+    ///
+    /// # References
+    /// - Synthesis of Quantum Logic Circuits
+    ///   Vivek V. Shende, Stephen S. Bullock, Igor L. Markov
+    ///   https://arxiv.org/abs/quant-ph/0406176
     operation StatePreparationSBM (coefficients: ComplexPolar[], qubits: BigEndian) : ()
     {
         body
@@ -48,20 +110,29 @@ namespace Microsoft.Quantum.Canon
             
             let target = qubits[Length(qubits)-1];
 
+            let op = (Adjoint StatePreparationSBM_(coefficients + padZeros, _, _))(_, target);
+
             if(Length(qubits) > 1){
                 let control = BigEndian(qubits[0..Length(qubits)-2]);
-                (Adjoint StatePreparationSBM_(coefficients + padZeros, _, _))(control, target);
+                op(control);
             }
             else{
                 let control = BigEndian(new Qubit[0]);
-                (Adjoint StatePreparationSBM_(coefficients + padZeros, _, _))(control, target);
+                op(control);
             }
+
         }
         adjoint auto
         controlled auto
         adjoint controlled auto
     }
 
+    /// # Summary
+    /// Implementation step of arbitrary state preparation procedure.
+    ///
+    /// # See Also
+    /// - Microsoft.Quantum.Canon.StatePreparationSBM
+    /// - Microsoft.Quantum.Canon.MultiplexorPauli
     operation StatePreparationSBM_ (coefficients: ComplexPolar[], control: BigEndian, target: Qubit) : ()
     {
         body
@@ -71,13 +142,11 @@ namespace Microsoft.Quantum.Canon
             
             MultiplexorPauli(disentanglingZ, PauliZ, control, target);
             MultiplexorPauli(disentanglingY, PauliY, control, target);
-            
             // target is now in |0> state up to the phase given by arg of newCoefficients.
 
             // Continue recursion while there are control qubits.
             if(Length(control) == 0){
                 let (abs, arg) = newCoefficients[0];
-                Message($"arg {arg}");
                 Exp([PauliI], -1.0 * arg, [target]);
             }
             else{
@@ -104,7 +173,7 @@ namespace Microsoft.Quantum.Canon
     /// Complex coefficient of state $\ket{1}$.
     ///
     /// # Output
-    /// A `Double` tuple containing (r, t, phi, theta).
+    /// A tuple containing ((r, t), phi, theta).
     function ComputeBlochSphereCoordinates(a0 : ComplexPolar, a1 : ComplexPolar) : (ComplexPolar, Double, Double) {
         let abs0 = AbsComplexPolar(a0);
         let abs1 = AbsComplexPolar(a1);
@@ -119,6 +188,10 @@ namespace Microsoft.Quantum.Canon
         return (ComplexPolar(r, t), phi, theta);
     }
 
+    /// # Summary
+    /// Implementation step of arbitrary state preparation procedure.
+    /// # See Also
+    /// - Microsoft.Quantum.Canon.StatePreparationSBM
     function StatePreparationSBMComputeCoefficients_(coefficients: ComplexPolar[]) : (Double[], Double[], ComplexPolar[]) {
         mutable disentanglingZ = new Double[Length(coefficients)/2];
         mutable disentanglingY = new Double[Length(coefficients)/2];

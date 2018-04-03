@@ -78,4 +78,32 @@ namespace Microsoft.Quantum.Canon {
 		let edgeCaseTestTuples = [ (1,4,512); (3,4,512) ];
 		Ignore(Map(ContinuedFractionConvergentEdgeCaseTestHelper, edgeCaseTestTuples));
 	}
+
+    function ComplexMathTest() : () {
+        mutable complexCases = [(0.123,0.321);(0.123, -0.321);(-0.123, 0.321);(-0.123, -0.321)];
+        for(idxCases in 0..Length(complexCases)-1){
+            let (complexRe, complexIm) = complexCases[idxCases];
+            let complexAbs = Sqrt(complexRe * complexRe + complexIm * complexIm);
+            let complexArg = ArcTan2(complexIm, complexRe);
+
+            let complex = Complex(complexRe, complexIm);
+            let complexPolar = ComplexPolar(complexAbs , complexArg);
+
+
+            AssertAlmostEqual(AbsSquaredComplex(complex), complexAbs * complexAbs);
+            AssertAlmostEqual(AbsComplex(complex), complexAbs);
+            AssertAlmostEqual(ArgComplex(complex), complexArg);
+            AssertAlmostEqual(AbsSquaredComplexPolar(complexPolar), complexAbs * complexAbs);
+            AssertAlmostEqual(AbsComplexPolar(complexPolar), complexAbs);
+            AssertAlmostEqual(ArgComplexPolar(complexPolar), complexArg);
+
+            let (x,y) = ComplexPolarToCartesian(complexPolar);
+            AssertAlmostEqual(x, complexRe);
+            AssertAlmostEqual(y, complexIm);
+
+            let (r,t) = ComplexCartesianToPolar(complex);
+            AssertAlmostEqual(r, complexAbs);
+            AssertAlmostEqual(t, complexArg);
+        }
+    }
 }

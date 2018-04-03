@@ -35,10 +35,10 @@ namespace Microsoft.Quantum.Tests {
 
             // Apply MultiplexorZ circuit
             if(Length(additionalControl) == 0){
-                (MultiplexorZ(coefficients))(multiplexorControl, target);
+                MultiplexorZ(coefficients,multiplexorControl, target);
             }
             elif(Length(additionalControl) == 1){
-                (Controlled ((MultiplexorZ(coefficients))(multiplexorControl, _)))(additionalControl, target);
+                (Controlled MultiplexorZ(coefficients,multiplexorControl, _))(additionalControl, target);
             }
             else{
                 fail "Test for more than one control on MultiplexorZ not implemented.";
@@ -151,7 +151,7 @@ namespace Microsoft.Quantum.Tests {
                     }
 
                     // Apply MultiplexorZ circuit
-                    (Controlled DiagonalUnitary(coefficients))(control, qubits);
+                    (Controlled DiagonalUnitary(coefficients,_))(control, qubits);
                     Message($"DiagonalUnitary test. Qubits: {nQubits}; coefficient {idxCoeff} of {nCoefficients-1}.");
                     AssertPhase(-0.5 * coefficients[idxCoeff], control[0], tolerance); 
                     
@@ -184,7 +184,6 @@ namespace Microsoft.Quantum.Tests {
             }
         }
     }
-    // TODO Multiplexor Pauli tests.
 
     function MultiplexorUnitaryTestUnitary(nStates: Int, idx: Int) : (Qubit => () : Adjoint, Controlled)[] {
         mutable unitaries = new (Qubit => () : Adjoint, Controlled)[nStates];
