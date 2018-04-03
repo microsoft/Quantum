@@ -1,0 +1,10 @@
+language: csharp
+dotnet: 2.1.4
+mono: none
+os: osx
+
+script:
+  - dotnet build QsharpLibraries.sln
+  - dotnet test Samples/UnitTesting
+  - travis_wait dotnet test LibraryTests
+
