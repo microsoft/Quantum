@@ -5,6 +5,13 @@ mono: none
 matrix:
   include:
     - os: osx
+
+    # The default image for Linux provided by Travis CI uses GCC 4.8,
+    # but since GCC also includes the GNU implementation of OpenMP,
+    # we need to update GCC to get the version of OpenMP that the
+    # Quantum Development Kit was built against. To do so, we add
+    # the APT source provided by Travis CI for more recent versions
+    # of GCC backported to Ubuntu 14.04 Trusty.
     - os: linux
       addons:
         apt:
@@ -14,11 +21,6 @@ matrix:
             - g++-4.9
 
 script:
-  # If we're on Linux, print out the dynamic linker configuration for the quantum
-  # runtime to see what dependencies we're missing.
-  - dotnet restore QsharpLibraries.sln
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ldd `find ~/.nuget/packages -name "Microsoft.Quantum.Simulator.Runtime.dll"`; fi
   - dotnet build QsharpLibraries.sln
   - dotnet test Samples/UnitTesting
   - travis_wait dotnet test LibraryTests
-
