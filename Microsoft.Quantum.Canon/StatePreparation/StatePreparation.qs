@@ -134,18 +134,12 @@ namespace Microsoft.Quantum.Canon
     {
         body
         {
-            let maxCoefficients = 2^(Length(qubits));
+            // pad coefficients length to a power of 2.
+            let coefficientsPadded = PadTail(2^(Length(qubits)), coefficients, ComplexPolar(0.0, 0.0));
 
-            if(Length(coefficients) > maxCoefficients){
-                fail "Number of coefficients must be less than or equal to 2 ^ number of qubits.";
-            }
-
-            // zero padding of coefficients to maxCoefficients elements.
-            let padZeros = new ComplexPolar[maxCoefficients - Length(coefficients)];
-            
             let target = qubits[Length(qubits)-1];
 
-            let op = (Adjoint PrepareArbitraryState_(coefficients + padZeros, _, _))(_, target);
+            let op = (Adjoint PrepareArbitraryState_(coefficientsPadded, _, _))(_, target);
 
             if(Length(qubits) > 1){
                 let control = BigEndian(qubits[0..Length(qubits)-2]);

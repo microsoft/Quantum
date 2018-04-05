@@ -88,16 +88,15 @@ namespace Microsoft.Quantum.Canon
     operation MultiplexZ(coefficients: Double[], control: BigEndian, target: Qubit) : () {
         body{
             // pad coefficients length to a power of 2.
-            let maxCoefficients = 2^(Length(control));
-            let padZeros = new Double[maxCoefficients - Length(coefficients)];
-            
-            if(maxCoefficients == 1){
+            let coefficientsPadded = PadTail(2^(Length(control)), coefficients, 0.0);
+
+            if(Length(coefficientsPadded) == 1){
                 // Termination case
-                Exp([PauliZ], coefficients[0], [target]);
+                Exp([PauliZ], coefficientsPadded[0], [target]);
             }
             else{
                 // Compute new coefficients.
-                let (coefficients0, coefficients1) = MultiplexZComputeCoefficients_(coefficients + padZeros);
+                let (coefficients0, coefficients1) = MultiplexZComputeCoefficients_(coefficientsPadded);
                 MultiplexZ(coefficients0, BigEndian(control[1..Length(control)-1]), target);
                 CNOT(control[0], target);
                 MultiplexZ(coefficients1, BigEndian(control[1..Length(control)-1]), target);
@@ -107,11 +106,9 @@ namespace Microsoft.Quantum.Canon
         adjoint auto
         controlled (controlRegister) {
             // pad coefficients length to a power of 2.
-            let maxCoefficients = 2^(Length(control));
-            let padZeros = new Double[maxCoefficients - Length(coefficients)];
+            let coefficientsPadded = PadTail(-2^(Length(control)+1), PadTail(2^(Length(control)), coefficients, 0.0), 0.0);
 
-            let controlZeros = new Double[maxCoefficients];
-            let (coefficients0, coefficients1) = MultiplexZComputeCoefficients_(controlZeros+coefficients+padZeros);
+            let (coefficients0, coefficients1) = MultiplexZComputeCoefficients_(coefficientsPadded);
             
             MultiplexZ(coefficients0, control, target);
             (Controlled X)(controlRegister, target);
@@ -151,13 +148,12 @@ namespace Microsoft.Quantum.Canon
             }
 
             // pad coefficients length to a power of 2.
-            let maxCoefficients = 2^(Length(qubits));
-            let padZeros = new Double[maxCoefficients - Length(coefficients)];
+            let coefficientsPadded = PadTail(2^(Length(qubits)), coefficients, 0.0);
             
             // Compute new coefficients.
-            let (coefficients0, coefficients1) = MultiplexZComputeCoefficients_(coefficients + padZeros);
+            let (coefficients0, coefficients1) = MultiplexZComputeCoefficients_(coefficientsPadded);
             MultiplexZ(coefficients1, BigEndian(qubits[1..Length(qubits)-1]), qubits[0]);            
-            if(maxCoefficients == 2){
+            if(Length(coefficientsPadded) == 2){
                 // Termination case
                 Exp([PauliI], 1.0 * coefficients0[0], qubits);
             }

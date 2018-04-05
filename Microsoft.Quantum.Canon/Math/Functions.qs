@@ -387,7 +387,7 @@ namespace Microsoft.Quantum.Canon {
     /// The array $x$ normalized by the $p$-norm $\|x\|_p$.
     ///
     /// # See Also
-    /// - PNorm
+    /// - Microsoft.Quantum.Canon.PNorm
     function PNormalize(p: Double, array: Double[]) : Double[] { 
         let nElements = Length(array);
         let norm = PNorm(p, array);
