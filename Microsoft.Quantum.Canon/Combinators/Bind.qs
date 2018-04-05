@@ -53,10 +53,7 @@ namespace Microsoft.Quantum.Canon {
     /// - @"microsoft.quantum.canon.binda"
     operation BindAImpl<'T>(operations : ('T => () : Adjoint)[], target : 'T) : () {
         body {
-            for (idxOperation in 0..Length(operations) - 1) {
-                let op = operations[idxOperation];
-                op(target);
-            }
+            BindImpl(operations, target);
         }
         adjoint {
             // TODO: replace with an implementation based on Reversed : 'T[] -> 'T[]

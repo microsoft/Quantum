@@ -97,13 +97,31 @@ namespace Microsoft.Quantum.Canon {
             AssertAlmostEqual(AbsComplexPolar(complexPolar), complexAbs);
             AssertAlmostEqual(ArgComplexPolar(complexPolar), complexArg);
 
-            let (x,y) = ComplexPolarToCartesian(complexPolar);
+            let (x,y) = ComplexPolarToComplex(complexPolar);
             AssertAlmostEqual(x, complexRe);
             AssertAlmostEqual(y, complexIm);
 
-            let (r,t) = ComplexCartesianToPolar(complex);
+            let (r,t) = ComplexToComplexPolar(complex);
             AssertAlmostEqual(r, complexAbs);
             AssertAlmostEqual(t, complexArg);
         }
+    }
+
+    function PNormTest() : (){
+         mutable testCases = [(1.0,[-0.1;0.2;0.3],0.6);
+                             (1.5,[0.1;-0.2;0.3],0.43346228721136096815);
+                             (2.0,[0.1;0.2;-0.3],0.37416573867739413856);
+                             (3.0,[0.0;0.0;-0.0],0.0)];
+         for(idxTest in 0..Length(testCases)-1){
+             let (p, array, pNormExpected) = testCases[idxTest];
+             AssertAlmostEqual(PNorm(p,array),pNormExpected);
+
+             // if PNorm fails, PNormalize will fail.
+             let arrayNormalized = PNormalize(p, array);
+             for(idxCoeff in 0..Length(array)-1){
+                AssertAlmostEqual(array[idxCoeff] / pNormExpected, arrayNormalized[idxCoeff]);
+             }
+         }
+
     }
 }

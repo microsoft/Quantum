@@ -7,65 +7,65 @@ namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Extensions.Convert;
 
-    operation MultiplexorZTestHelper (coefficients: Double[], multiplexorControl: BigEndian, additionalControl: Qubit[], target: Qubit , tolerance: Double) : () 
+    operation MultiplexZTestHelper (coefficients: Double[], multiplexerControl: BigEndian, additionalControl: Qubit[], target: Qubit , tolerance: Double) : () 
     {
         body{
 
             let nCoefficients = Length(coefficients);
-            let nQubits = Length(multiplexorControl) + Length(additionalControl) + 1;
+            let nQubits = Length(multiplexerControl) + Length(additionalControl) + 1;
 
             // Measure phase shift due to Exp^PauliZ rotation.
             H(target);
 
             // Generate uniform superposition over control inputs.
-            for(idxMultiplexor in 0..Length(multiplexorControl)-1){
-                H(multiplexorControl[idxMultiplexor]);
+            for(idxMultiplexer in 0..Length(multiplexerControl)-1){
+                H(multiplexerControl[idxMultiplexer]);
             }
             for(idxAdditional in 0..Length(additionalControl)-1){
                 H(additionalControl[idxAdditional]);
             }
 
             // For deterministic test of particular number state `idx', we could use the following
-            //let bits = Reverse(BoolArrFromPositiveInt (idx, Length(multiplexorControl)));
+            //let bits = Reverse(BoolArrFromPositiveInt (idx, Length(multiplexerControl)));
             //for(idxBits in 0..Length(bits)-1){
             //    if(bits[idxBits]){
-            //        X(multiplexorControl[idxBits]);
+            //        X(multiplexerControl[idxBits]);
             //    }
             //}
 
-            // Apply MultiplexorZ circuit
+            // Apply MultiplexZ circuit
             if(Length(additionalControl) == 0){
-                MultiplexorZ(coefficients,multiplexorControl, target);
+                MultiplexZ(coefficients,multiplexerControl, target);
             }
             elif(Length(additionalControl) == 1){
-                (Controlled MultiplexorZ(coefficients,multiplexorControl, _))(additionalControl, target);
+                (Controlled MultiplexZ(coefficients,multiplexerControl, _))(additionalControl, target);
             }
             else{
-                fail "Test for more than one control on MultiplexorZ not implemented.";
+                fail "Test for more than one control on MultiplexZ not implemented.";
             }
 
             // Sample from control registers and check phase using AssertProb.
 
-            let multiplexorControlInteger = MeasureIntegerBE(multiplexorControl);
+            let multiplexerControlInteger = MeasureIntegerBE(multiplexerControl);
             let additionalControlResults = MultiM(additionalControl);
 
             if(Length(additionalControlResults) == 1 && additionalControlResults[0] == Zero){
                 // Case where Identity operation is performed.
-                Message($"Controlled MultiplexorZ test. coefficient {multiplexorControlInteger} of {nCoefficients-1}.");
+                Message($"Controlled MultiplexZ test. coefficient {multiplexerControlInteger} of {nCoefficients-1}.");
                 AssertPhase(0.0, target, tolerance); 
             }
             else{
                 mutable coeff = 0.0;
-                if(multiplexorControlInteger < nCoefficients){
-                    set coeff = coefficients[multiplexorControlInteger];
+                if(multiplexerControlInteger < nCoefficients){
+                    set coeff = coefficients[multiplexerControlInteger];
                 }
 
                 if(Length(additionalControl)==0){
-                    Message($"MultiplexorZ test. Qubits: {nQubits}; coefficient {multiplexorControlInteger} of {nCoefficients-1}.");
+                    Message($"MultiplexZ test. Qubits: {nQubits}; coefficient {multiplexerControlInteger} of {nCoefficients-1}.");
                     AssertPhase(coeff, target, tolerance); 
                 }
                 else{
-                    Message($"Controlled MultiplexorZ test. Qubits: {nQubits}; coefficient {multiplexorControlInteger} of {nCoefficients-1}.");
+                    Message($"Controlled MultiplexZ test. Qubits: {nQubits}; coefficient {multiplexerControlInteger} of {nCoefficients-1}.");
                     AssertPhase(coeff, target, tolerance); 
                 }
                 //AssertPhase(coeff, target, tolerance); 
@@ -73,25 +73,25 @@ namespace Microsoft.Quantum.Tests {
 
             }
 
-            ResetAll(multiplexorControl);
+            ResetAll(multiplexerControl);
             ResetAll(additionalControl);
             Reset(target);
         }
     }
 
-    operation MultiplexorZTest () : () 
+    operation MultiplexZTest () : () 
     {
         body{
             let maxQubits = 6;
-            // Loop over controlled & un-controlled Multiplexor
+            // Loop over controlled & un-controlled Multiplexer
             for(nAdditionalControl in 0..1){
-                // Loop over number of Multiplexor qubits
-                for(nMultiplexorControl in 0..maxQubits-2){
+                // Loop over number of Multiplexer qubits
+                for(nMultiplexerControl in 0..maxQubits-2){
                     //Loop over some number of missing coefficients
-                    for(missingCoefficients in 0..nMultiplexorControl){
+                    for(missingCoefficients in 0..nMultiplexerControl){
 
                         // Generate some coefficients
-                        let maxCoefficients = 2^nMultiplexorControl;
+                        let maxCoefficients = 2^nMultiplexerControl;
                         let nCoefficients = maxCoefficients - missingCoefficients;
                         mutable coefficients = new Double[nCoefficients];
                         for(idx in 0..Length(coefficients)-1){
@@ -99,9 +99,9 @@ namespace Microsoft.Quantum.Tests {
                         }
 
                         // Allocate qubits
-                        using(qubits = Qubit[nMultiplexorControl+1+nAdditionalControl]){
-                            let multiplexorControl = BigEndian(qubits[0..nMultiplexorControl-1]);
-                            let target = qubits[nMultiplexorControl];
+                        using(qubits = Qubit[nMultiplexerControl+1+nAdditionalControl]){
+                            let multiplexerControl = BigEndian(qubits[0..nMultiplexerControl-1]);
+                            let target = qubits[nMultiplexerControl];
                             mutable additionalControl = new Qubit[1];
                             if(nAdditionalControl == 0){
                                 set additionalControl = new Qubit[0];
@@ -114,7 +114,7 @@ namespace Microsoft.Quantum.Tests {
 
                             // Repeat test some number of times
                             for(idxCoeff in 0..maxCoefficients/2){
-                                MultiplexorZTestHelper (coefficients, multiplexorControl, additionalControl, target , tolerance);
+                                MultiplexZTestHelper (coefficients, multiplexerControl, additionalControl, target , tolerance);
                             }
                         }
                     }
@@ -124,7 +124,7 @@ namespace Microsoft.Quantum.Tests {
     }
 
     
-    operation DiagonalUnitaryTestHelper (coefficients: Double[], qubits: BigEndian, tolerance: Double) : () 
+    operation ApplyDiagonalUnitaryTestHelper (coefficients: Double[], qubits: BigEndian, tolerance: Double) : () 
     {
         body{
 
@@ -150,9 +150,9 @@ namespace Microsoft.Quantum.Tests {
                         }
                     }
 
-                    // Apply MultiplexorZ circuit
-                    (Controlled DiagonalUnitary(coefficients,_))(control, qubits);
-                    Message($"DiagonalUnitary test. Qubits: {nQubits}; coefficient {idxCoeff} of {nCoefficients-1}.");
+                    // Apply MultiplexZ circuit
+                    (Controlled ApplyDiagonalUnitary(coefficients,_))(control, qubits);
+                    Message($"ApplyDiagonalUnitary test. Qubits: {nQubits}; coefficient {idxCoeff} of {nCoefficients-1}.");
                     AssertPhase(-0.5 * coefficients[idxCoeff], control[0], tolerance); 
                     
                     ResetAll(control);
@@ -162,7 +162,7 @@ namespace Microsoft.Quantum.Tests {
         }
     }
 
-    operation DiagonalUnitaryTest () : () 
+    operation ApplyDiagonalUnitaryTest () : () 
     {
         body{
             let maxQubits = 4;
@@ -178,14 +178,14 @@ namespace Microsoft.Quantum.Tests {
                 // Allocate qubits
                 using(qubits = Qubit[nqubits]){
                     let tolerance = 10e-10;
-                    DiagonalUnitaryTestHelper (coefficients, BigEndian(qubits) , tolerance);
+                    ApplyDiagonalUnitaryTestHelper (coefficients, BigEndian(qubits) , tolerance);
                     
                 }
             }
         }
     }
 
-    function MultiplexorUnitaryTestUnitary(nStates: Int, idx: Int) : (Qubit => () : Adjoint, Controlled)[] {
+    function MultiplexOperationsTestUnitary(nStates: Int, idx: Int) : (Qubit => () : Adjoint, Controlled)[] {
         mutable unitaries = new (Qubit => () : Adjoint, Controlled)[nStates];
         
         for(idxUnitary in 0..nStates-1){
@@ -197,9 +197,9 @@ namespace Microsoft.Quantum.Tests {
         return unitaries;
     }
 
-    operation MultiplexorUnitaryTestHelper(idxTest: Int, idxTarget: Int, nQubits: Int, idxControl: Int, nControls: Int) : Result {
+    operation MultiplexOperationsTestHelper(idxTest: Int, idxTarget: Int, nQubits: Int, idxControl: Int, nControls: Int) : Result {
         body{
-            let unitaries = MultiplexorUnitaryTestUnitary(2^nQubits, idxTarget);
+            let unitaries = MultiplexOperationsTestUnitary(2^nQubits, idxTarget);
     
             // BigEndian
             let bits = Reverse(BoolArrFromPositiveInt (idxTest, nQubits));
@@ -216,7 +216,7 @@ namespace Microsoft.Quantum.Tests {
                             }
                         }
 
-                        MultiplexorUnitary(unitaries, BigEndian(index), target[0]);
+                        MultiplexOperations(unitaries, BigEndian(index), target[0]);
 
                         set result = M(target[0]);
                         ResetAll(target);
@@ -236,7 +236,7 @@ namespace Microsoft.Quantum.Tests {
                                 }
                             }
 
-                            (Controlled MultiplexorUnitary(unitaries, BigEndian(index), _))(control, target[0]);
+                            (Controlled MultiplexOperations(unitaries, BigEndian(index), _))(control, target[0]);
 
                             set result = M(target[0]);
                             ResetAll(target);
@@ -256,7 +256,7 @@ namespace Microsoft.Quantum.Tests {
                                     }
                                 }
 
-                                (Controlled MultiplexorUnitary(unitaries, BigEndian(index), _))(control, target[0]);
+                                (Controlled MultiplexOperations(unitaries, BigEndian(index), _))(control, target[0]);
 
                                 set result = M(target[0]);
                                 ResetAll(target);
@@ -271,7 +271,7 @@ namespace Microsoft.Quantum.Tests {
         }
     }
 
-    function MultiplexorUnitaryTestMissingUnitary(nStates: Int, nUnitaries: Int) : (Qubit => () : Adjoint, Controlled)[] {
+    function MultiplexOperationsTestMissingUnitary(nStates: Int, nUnitaries: Int) : (Qubit => () : Adjoint, Controlled)[] {
         mutable unitaries = new (Qubit => () : Adjoint, Controlled)[nStates];
         
         for(idxUnitary in 0..nUnitaries - 1){
@@ -283,9 +283,9 @@ namespace Microsoft.Quantum.Tests {
         return unitaries;
     }
 
-    operation MultiplexorUnitaryTestMissingUnitaryHelper(idxTest: Int, nUnitaries: Int, nQubits: Int) : Result {
+    operation MultiplexOperationsTestMissingUnitaryHelper(idxTest: Int, nUnitaries: Int, nQubits: Int) : Result {
         body{
-            let unitaries = MultiplexorUnitaryTestMissingUnitary(2^nQubits, nUnitaries);
+            let unitaries = MultiplexOperationsTestMissingUnitary(2^nQubits, nUnitaries);
     
             // BigEndian
             let bits = Reverse(BoolArrFromPositiveInt (idxTest, nQubits));
@@ -301,7 +301,7 @@ namespace Microsoft.Quantum.Tests {
                         }
                     }
 
-                    MultiplexorUnitary(unitaries, BigEndian(index), target[0]);
+                    MultiplexOperations(unitaries, BigEndian(index), target[0]);
 
                     set result = M(target[0]);
                     ResetAll(target);
@@ -314,7 +314,7 @@ namespace Microsoft.Quantum.Tests {
                             }
                         }
 
-                        MultiplexorUnitary(unitaries, BigEndian(index), target[0]);
+                        MultiplexOperations(unitaries, BigEndian(index), target[0]);
 
                         set result = M(target[0]);
                         ResetAll(target);
@@ -326,7 +326,7 @@ namespace Microsoft.Quantum.Tests {
         }
     }
 
-    operation MultiplexorUnitaryTest() : (){
+    operation MultiplexOperationsTest() : (){
         body{
             mutable result = Zero;
             // Test version with fewer unitaries than states
@@ -334,17 +334,17 @@ namespace Microsoft.Quantum.Tests {
             for(missingTestQubits in 1..3){
                 for(nUnitaries in 0..2^missingTestQubits){
                     for(idxTest in 0..2^missingTestQubits-1){
-                        set result = MultiplexorUnitaryTestMissingUnitaryHelper(idxTest, nUnitaries, missingTestQubits);
+                        set result = MultiplexOperationsTestMissingUnitaryHelper(idxTest, nUnitaries, missingTestQubits);
                         if(result == One){
-                            Message($"MultiplexorUnitary test with missing unitaries. Qubits: {missingTestQubits}; idxTest {idxTest} of nUnitaries {nUnitaries} result {result}.");
+                            Message($"MultiplexOperations test with missing unitaries. Qubits: {missingTestQubits}; idxTest {idxTest} of nUnitaries {nUnitaries} result {result}.");
                             if(idxTest >= nUnitaries){
-                                fail "MultiplexorUnitary failed.";
+                                fail "MultiplexOperations failed.";
                             }
                         }
                         if(result == Zero){
-                            Message($"MultiplexorUnitary test with missing unitaries. Qubits: {missingTestQubits}; idxTest {idxTest} of nUnitaries {nUnitaries} result {result}.");
+                            Message($"MultiplexOperations test with missing unitaries. Qubits: {missingTestQubits}; idxTest {idxTest} of nUnitaries {nUnitaries} result {result}.");
                             if(idxTest < nUnitaries){
-                                fail "MultiplexorUnitary failed.";
+                                fail "MultiplexOperations failed.";
                             }
                         }
                     }
@@ -357,10 +357,10 @@ namespace Microsoft.Quantum.Tests {
             // Test uncontrolled version
             for(idxTarget in 0..nIdxMax-1){
                 for(idxTest in 0..nIdxMax-1){
-                    set result = MultiplexorUnitaryTestHelper(idxTest, idxTarget, nQubits, 0, 0);
+                    set result = MultiplexOperationsTestHelper(idxTest, idxTarget, nQubits, 0, 0);
                     if(result == One){
-                        Message($"MultiplexorUnitary test. Qubits: {nQubits}; idxTest {idxTest} of idxTarget {idxTarget} result {result}.");
-                        AssertIntEqual(idxTarget, idxTest, "MultiplexorUnitary failed.");
+                        Message($"MultiplexOperations test. Qubits: {nQubits}; idxTest {idxTest} of idxTarget {idxTarget} result {result}.");
+                        AssertIntEqual(idxTarget, idxTest, "MultiplexOperations failed.");
                     }
                 }
             }
@@ -368,28 +368,28 @@ namespace Microsoft.Quantum.Tests {
             // Test Controlled version
             for(idxTarget in 0..nIdxMax-1){
                 for(idxTest in 0..nIdxMax-1){
-                    set result = MultiplexorUnitaryTestHelper(idxTest, idxTarget, nQubits, 0, 1);
+                    set result = MultiplexOperationsTestHelper(idxTest, idxTarget, nQubits, 0, 1);
                     if(result == One){
-                        Message($"Controlled MultiplexorUnitary test. Qubits: {nQubits}; idxControl = 0; nControls = 1; idxTest {idxTest} of idxTarget {idxTarget} result {result}.");
-                        AssertIntEqual(idxTarget, idxTest, "MultiplexorUnitary failed.");
+                        Message($"Controlled MultiplexOperations test. Qubits: {nQubits}; idxControl = 0; nControls = 1; idxTest {idxTest} of idxTarget {idxTarget} result {result}.");
+                        AssertIntEqual(idxTarget, idxTest, "MultiplexOperations failed.");
                     }
 
-                    set result = MultiplexorUnitaryTestHelper(idxTest, idxTarget, nQubits, 1, 1);
+                    set result = MultiplexOperationsTestHelper(idxTest, idxTarget, nQubits, 1, 1);
                     if(result == One){
-                        Message($"Controlled MultiplexorUnitary test. Qubits: {nQubits}; idxControl = 1; nControls = 1; idxTest {idxTest} of idxTarget {idxTarget} result {result}.");
-                        AssertIntEqual(idxTarget, idxTest, "MultiplexorUnitary failed.");
+                        Message($"Controlled MultiplexOperations test. Qubits: {nQubits}; idxControl = 1; nControls = 1; idxTest {idxTest} of idxTarget {idxTarget} result {result}.");
+                        AssertIntEqual(idxTarget, idxTest, "MultiplexOperations failed.");
                     }
 
-                    set result = MultiplexorUnitaryTestHelper(idxTest, idxTarget, nQubits, 1, 2);
+                    set result = MultiplexOperationsTestHelper(idxTest, idxTarget, nQubits, 1, 2);
                     if(result == One){
-                        Message($"Controlled MultiplexorUnitary test. Qubits: {nQubits}; idxControl = 1; nControls = 2; idxTest {idxTest} of idxTarget {idxTarget} result {result}.");
-                        AssertIntEqual(idxTarget, idxTest, "MultiplexorUnitary failed.");
+                        Message($"Controlled MultiplexOperations test. Qubits: {nQubits}; idxControl = 1; nControls = 2; idxTest {idxTest} of idxTarget {idxTarget} result {result}.");
+                        AssertIntEqual(idxTarget, idxTest, "MultiplexOperations failed.");
                     }
 
-                    set result = MultiplexorUnitaryTestHelper(idxTest, idxTarget, nQubits, 3, 2);
+                    set result = MultiplexOperationsTestHelper(idxTest, idxTarget, nQubits, 3, 2);
                     if(result == One){
-                        Message($"Controlled MultiplexorUnitary test. Qubits: {nQubits}; idxControl = 3; nControls = 2; idxTest {idxTest} of idxTarget {idxTarget} result {result}.");
-                        AssertIntEqual(idxTarget, idxTest, "MultiplexorUnitary failed.");
+                        Message($"Controlled MultiplexOperations test. Qubits: {nQubits}; idxControl = 3; nControls = 2; idxTest {idxTest} of idxTarget {idxTarget} result {result}.");
+                        AssertIntEqual(idxTarget, idxTest, "MultiplexOperations failed.");
                     }
                 }
             }

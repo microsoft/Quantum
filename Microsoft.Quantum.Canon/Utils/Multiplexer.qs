@@ -8,9 +8,9 @@ namespace Microsoft.Quantum.Canon
     open Microsoft.Quantum.Extensions.Math;
 
     /// # Summary
-    /// Multiply-controlled unitary operation $U$ that performs rotations
-    /// by angle $\theta_j$ about single-qubit Pauli operator $P$ when 
-    /// controlled by the $n$-qubit number state $\ket{j}$.
+    /// Applies multiply-controlled unitary operation $U$ that performs 
+    /// rotations by angle $\theta_j$ about single-qubit Pauli operator $P$ 
+    /// when controlled by the $n$-qubit number state $\ket{j}$.
     ///
     /// $U = \sum^{2^n-1}_{j=0}\ket{j}\bra{j}\otimes e^{i P \theta_j}$.
     ///
@@ -32,25 +32,25 @@ namespace Microsoft.Quantum.Canon
     /// # Remarks
     /// `coefficients` will be padded with elements $\theta_j = 0.0$ if 
     /// fewer than $2^n$ are specified.
-    operation MultiplexorPauli(coefficients:Double[], pauli: Pauli, control: BigEndian, target: Qubit) : (){
+    operation MultiplexPauli(coefficients:Double[], pauli: Pauli, control: BigEndian, target: Qubit) : (){
         body{
             if(pauli == PauliZ){
-                let op = MultiplexorZ(coefficients, control, _);
+                let op = MultiplexZ(coefficients, control, _);
                 op(target);
             }
             elif(pauli == PauliX){
-                let op = MultiplexorPauli(coefficients, PauliZ, control, _);
+                let op = MultiplexPauli(coefficients, PauliZ, control, _);
                 WithCA(H, op, target);
             }
             elif(pauli == PauliY){
-                let op = MultiplexorPauli(coefficients, PauliX, control, _);
+                let op = MultiplexPauli(coefficients, PauliX, control, _);
                 WithCA(Adjoint S, op, target);
             }
             elif(pauli == PauliI){
-                DiagonalUnitary(coefficients, control);
+                ApplyDiagonalUnitary(coefficients, control);
             }
             else{
-                fail $"MultiplexorPauli failed. Invalid pauli {pauli}.";
+                fail $"MultiplexPauli failed. Invalid pauli {pauli}.";
             }
         }
         adjoint auto
@@ -59,9 +59,9 @@ namespace Microsoft.Quantum.Canon
     }
 
     /// # Summary
-    /// Multiply-controlled unitary operation $U$ that performs rotations
-    /// by angle $\theta_j$ about single-qubit Pauli operator $Z$ when 
-    /// controlled by $n$-qubit number state $\ket{j}$.
+    /// Applies multiply-controlled unitary operation $U$ that performs 
+    /// rotations by angle $\theta_j$ about single-qubit Pauli operator $Z$ 
+    /// when controlled by the $n$-qubit number state $\ket{j}$.
     ///
     /// $U = \sum^{2^n-1}_{j=0}\ket{j}\bra{j}\otimes e^{i Z \theta_j}$.
     ///
@@ -85,7 +85,7 @@ namespace Microsoft.Quantum.Canon
     /// - Synthesis of Quantum Logic Circuits
     ///   Vivek V. Shende, Stephen S. Bullock, Igor L. Markov
     ///   https://arxiv.org/abs/quant-ph/0406176
-    operation MultiplexorZ(coefficients: Double[], control: BigEndian, target: Qubit) : () {
+    operation MultiplexZ(coefficients: Double[], control: BigEndian, target: Qubit) : () {
         body{
             // pad coefficients length to a power of 2.
             let maxCoefficients = 2^(Length(control));
@@ -97,10 +97,10 @@ namespace Microsoft.Quantum.Canon
             }
             else{
                 // Compute new coefficients.
-                let (coefficients0, coefficients1) = MultiplexorZComputeCoefficients_(coefficients + padZeros);
-                MultiplexorZ(coefficients0, BigEndian(control[1..Length(control)-1]), target);
+                let (coefficients0, coefficients1) = MultiplexZComputeCoefficients_(coefficients + padZeros);
+                MultiplexZ(coefficients0, BigEndian(control[1..Length(control)-1]), target);
                 CNOT(control[0], target);
-                MultiplexorZ(coefficients1, BigEndian(control[1..Length(control)-1]), target);
+                MultiplexZ(coefficients1, BigEndian(control[1..Length(control)-1]), target);
                 CNOT(control[0], target);
             }
         }
@@ -111,18 +111,18 @@ namespace Microsoft.Quantum.Canon
             let padZeros = new Double[maxCoefficients - Length(coefficients)];
 
             let controlZeros = new Double[maxCoefficients];
-            let (coefficients0, coefficients1) = MultiplexorZComputeCoefficients_(controlZeros+coefficients+padZeros);
+            let (coefficients0, coefficients1) = MultiplexZComputeCoefficients_(controlZeros+coefficients+padZeros);
             
-            MultiplexorZ(coefficients0, control, target);
+            MultiplexZ(coefficients0, control, target);
             (Controlled X)(controlRegister, target);
-            MultiplexorZ(coefficients1, control, target);
+            MultiplexZ(coefficients1, control, target);
             (Controlled X)(controlRegister, target);
         }
         adjoint controlled auto
     }
 
     /// # Summary
-    /// Diagonal unitary operation $U$ that applies a complex phase 
+    /// Applies Diagonal unitary operation $U$ that applies a complex phase 
     /// $e^{i \theta_j}$ on the $n$-qubit number state $\ket{j}$.
     ///
     /// $U = \sum^{2^n-1}_{j=0}e^{i\theta_j}\ket{j}\bra{j}$.
@@ -144,10 +144,10 @@ namespace Microsoft.Quantum.Canon
     /// - Synthesis of Quantum Logic Circuits
     ///   Vivek V. Shende, Stephen S. Bullock, Igor L. Markov
     ///   https://arxiv.org/abs/quant-ph/0406176
-    operation DiagonalUnitary(coefficients: Double[], qubits: BigEndian) : () {
+    operation ApplyDiagonalUnitary(coefficients: Double[], qubits: BigEndian) : () {
         body{
             if(Length(qubits) == 0){
-                fail $"operation DiagonalUnitary -- Number of qubits must be greater than 0.";
+                fail $"operation ApplyDiagonalUnitary -- Number of qubits must be greater than 0.";
             }
 
             // pad coefficients length to a power of 2.
@@ -155,14 +155,14 @@ namespace Microsoft.Quantum.Canon
             let padZeros = new Double[maxCoefficients - Length(coefficients)];
             
             // Compute new coefficients.
-            let (coefficients0, coefficients1) = MultiplexorZComputeCoefficients_(coefficients + padZeros);
-            MultiplexorZ(coefficients1, BigEndian(qubits[1..Length(qubits)-1]), qubits[0]);            
+            let (coefficients0, coefficients1) = MultiplexZComputeCoefficients_(coefficients + padZeros);
+            MultiplexZ(coefficients1, BigEndian(qubits[1..Length(qubits)-1]), qubits[0]);            
             if(maxCoefficients == 2){
                 // Termination case
                 Exp([PauliI], 1.0 * coefficients0[0], qubits);
             }
             else{
-                DiagonalUnitary(coefficients0, BigEndian(qubits[1..Length(qubits)-1]));
+                ApplyDiagonalUnitary(coefficients0, BigEndian(qubits[1..Length(qubits)-1]));
             }
         }
         adjoint auto
@@ -173,8 +173,8 @@ namespace Microsoft.Quantum.Canon
     /// # Summary
     /// Implementation step of multiply-controlled Z rotations.
     /// # See Also
-    /// - Microsoft.Quantum.Canon.MultiplexorZ
-    function MultiplexorZComputeCoefficients_(coefficients: Double[]) : (Double[], Double[]) {
+    /// - Microsoft.Quantum.Canon.MultiplexZ
+    function MultiplexZComputeCoefficients_(coefficients: Double[]) : (Double[], Double[]) {
         let newCoefficientsLength = Length(coefficients)/2;
         mutable coefficients0 = new Double[newCoefficientsLength];
         mutable coefficients1 = new Double[newCoefficientsLength];
@@ -187,8 +187,8 @@ namespace Microsoft.Quantum.Canon
 
     
     /// # Summary
-    /// Multiply-controlled unitary operation $U$ that applies a unitary $V_j$ 
-    /// when controlled by $n$-qubit number state $\ket{j}$.
+    /// Applies Multiply-controlled unitary operation $U$ that applies a 
+    /// unitary $V_j$ when controlled by $n$-qubit number state $\ket{j}$.
     ///
     /// $U = \sum^{2^n-1}_{j=0}\ket{j}\bra{j}\otimes V_j$.
     ///
@@ -213,14 +213,14 @@ namespace Microsoft.Quantum.Canon
     /// - Toward the first quantum simulation with quantum speedup
     ///   Andrew M. Childs, Dmitri Maslov, Yunseong Nam, Neil J. Ross, Yuan Su
     ///   https://arxiv.org/abs/1711.10980
-    operation MultiplexorUnitary<'T>(unitaries : ('T => () : Adjoint, Controlled)[], index: BigEndian, target: 'T) : () {
+    operation MultiplexOperations<'T>(unitaries : ('T => () : Adjoint, Controlled)[], index: BigEndian, target: 'T) : () {
         body{
             if(Length(index) == 0){
-                fail "MultiplexorUnitary failed. Number of index qubits must be greater than 0.";
+                fail "MultiplexOperations failed. Number of index qubits must be greater than 0.";
             }
             if(Length(unitaries) > 0){
                 let ancilla = new Qubit[0];
-                MultiplexorUnitary_(unitaries, ancilla, index, target);
+                MultiplexOperations_(unitaries, ancilla, index, target);
             }
         }
         adjoint auto
@@ -229,10 +229,10 @@ namespace Microsoft.Quantum.Canon
     }
 
     /// # Summary
-    /// Implementation step of MultiplexorUnitary.
+    /// Implementation step of MultiplexOperations.
     /// # See Also
-    /// - Microsoft.Quantum.Canon.MultiplexorUnitary
-    operation MultiplexorUnitary_<'T>(unitaries : ('T => () : Adjoint, Controlled)[], ancilla: Qubit[], index: BigEndian, target: 'T) : () {
+    /// - Microsoft.Quantum.Canon.MultiplexOperations
+    operation MultiplexOperations_<'T>(unitaries : ('T => () : Adjoint, Controlled)[], ancilla: Qubit[], index: BigEndian, target: 'T) : () {
         body{
             let nIndex = Length(index);
             let nStates = 2^nIndex;
@@ -254,10 +254,10 @@ namespace Microsoft.Quantum.Canon
                     // Start case
                     let newAncilla = [index[0]];
                     if(nUnitariesLeft > 0){
-                        MultiplexorUnitary_(leftUnitaries, newAncilla, newControls, target);
+                        MultiplexOperations_(leftUnitaries, newAncilla, newControls, target);
                     }
                     X(newAncilla[0]);
-                    MultiplexorUnitary_(rightUnitaries, newAncilla, newControls, target);
+                    MultiplexOperations_(rightUnitaries, newAncilla, newControls, target);
                     X(newAncilla[0]);
                 }
                 else{
@@ -265,10 +265,10 @@ namespace Microsoft.Quantum.Canon
                     using(newAncilla = Qubit[1]){
                         (Controlled X)(ancilla + [index[0]], newAncilla[0]);
                         if(nUnitariesLeft > 0){
-                            MultiplexorUnitary_(leftUnitaries, newAncilla, newControls, target);
+                            MultiplexOperations_(leftUnitaries, newAncilla, newControls, target);
                         }
                         (Controlled X)(ancilla, newAncilla[0]);
-                        MultiplexorUnitary_(rightUnitaries, newAncilla, newControls, target);
+                        MultiplexOperations_(rightUnitaries, newAncilla, newControls, target);
                         (Controlled X)(ancilla, newAncilla[0]);
                         (Controlled X)(ancilla + [index[0]], newAncilla[0]);
                     }
@@ -277,7 +277,7 @@ namespace Microsoft.Quantum.Canon
         }
         adjoint auto
         controlled (controlRegister) {
-            MultiplexorUnitary_(unitaries, controlRegister, index, target);
+            MultiplexOperations_(unitaries, controlRegister, index, target);
         }
         adjoint controlled auto
     }

@@ -15,7 +15,10 @@ namespace Microsoft.Quantum.Canon
     /// state $\ket{\psi}$ with positive coefficients $\alpha_j\ge 0$ from 
     /// the $n$-qubit computational basis state $\ket{0...0}$.
     ///
-    /// $U\ket{0...0}=\ket{\psi}=\frac{\sum^{2^n-1}_{j=0}\alpha_j \ket{j}}{\sqrt{\sum^{2^n-1}_{j=0}|\alpha_j|^2}}$.
+    /// The action of U on a newly-allocated register is given by
+    /// \begin{align}
+    ///     U \ket{0\cdots 0} = \ket{\psi} = \frac{\sum^{2^n-1}_{j=0}\alpha_j \ket{j}}{\sqrt{\sum^{2^n-1}_{j=0}|\alpha_j|^2}}$.
+    /// \end{align}
     ///
     /// # Input
     /// ## coefficients
@@ -29,6 +32,18 @@ namespace Microsoft.Quantum.Canon
     /// Negative input coefficients $\alpha_j < 0$ will be treated as though
     /// positive with value $|\alpha_j|$. `coefficients` will be padded with 
     /// elements $\alpha_j = 0.0$ if fewer than $2^n$ are specified.
+    ///
+    /// # Example
+    /// The following snippet prepares the quantum state $\ket{\psi}=\sqrt{1/8}\ket{0}+\sqrt{7/8}\ket{2}$
+    /// in the qubit register `qubitsBE`.
+    /// ```qsharp
+    /// mutable amplitudes = [Sqrt(0.125); 0.0; Sqrt(0.875); 0.0];
+    /// let op = StatePreparationPositiveCoefficients(amplitudes);
+    /// using(qubits = Qubit[2]){
+    ///     let qubitsBE = BigEndian(qubits);
+    ///     op(qubitsBE);
+    /// }
+    /// ```
     function StatePreparationPositiveCoefficients(coefficients: Double[]) : (BigEndian => (): Adjoint, Controlled)
     {
         let nCoefficients = Length(coefficients);
@@ -37,7 +52,7 @@ namespace Microsoft.Quantum.Canon
             set coefficientsComplexPolar[idx] = ComplexPolar(AbsD(coefficients[idx]), 0.0);
         }
 
-        return StatePreparationSBM(coefficientsComplexPolar, _);
+        return PrepareArbitraryState(coefficientsComplexPolar, _);
     }
 
     /// # Summary
@@ -45,7 +60,10 @@ namespace Microsoft.Quantum.Canon
     /// state $\ket{\psi}$ with complex coefficients $r_j e^{i t_j}$ from 
     /// the $n$-qubit computational basis state $\ket{0...0}$.
     ///
-    /// $U\ket{0...0}=\ket{\psi}=\frac{\sum^{2^n-1}_{j=0}r_j e^{i t_j}\ket{j}}{\sqrt{\sum^{2^n-1}_{j=0}|r_j|^2}}$.
+    /// The action of U on a newly-allocated register is given by
+    /// \begin{align}
+    /// U\ket{0...0}=\ket{\psi}=\frac{\sum^{2^n-1}_{j=0}r_j e^{i t_j}\ket{j}}{\sqrt{\sum^{2^n-1}_{j=0}|r_j|^2}}.
+    /// \end{align}
     ///
     /// # Input
     /// ## coefficients
@@ -61,9 +79,26 @@ namespace Microsoft.Quantum.Canon
     /// positive with value $|r_j|$. `coefficients` will be padded with 
     /// elements $(r_j, t_j) = (0.0, 0.0)$ if fewer than $2^n$ are 
     /// specified.
+    ///
+    /// # Example
+    /// The following snippet prepares the quantum state $\ket{\psi}=e^{i 0.1}\sqrt{1/8}\ket{0}+\sqrt{7/8}\ket{2}$
+    /// in the qubit register `qubitsBE`.
+    /// ```qsharp
+    /// mutable amplitudes = [Sqrt(0.125); 0.0; Sqrt(0.875); 0.0];
+    /// mutable phases = [0.1; 0.0; 0.0; 0.0];
+    /// mutable complexNumbers = new ComplexPolar[4];
+    /// for(idx in 0..3){
+    ///     set complexNumbers[idx] = ComplexPolar(amplitudes, phases);
+    /// }
+    /// let op = StatePreparationPositiveCoefficients(complexNumbers);
+    /// using(qubits = Qubit[2]){
+    ///     let qubitsBE = BigEndian(qubits);
+    ///     op(qubitsBE);
+    /// }
+    /// ```
     function StatePreparationComplexCoefficients (coefficients: ComplexPolar[]) : (BigEndian => (): Adjoint, Controlled)
     {
-        return StatePreparationSBM(coefficients, _);
+        return PrepareArbitraryState(coefficients, _);
     }
 
     
@@ -95,14 +130,14 @@ namespace Microsoft.Quantum.Canon
     /// - Synthesis of Quantum Logic Circuits
     ///   Vivek V. Shende, Stephen S. Bullock, Igor L. Markov
     ///   https://arxiv.org/abs/quant-ph/0406176
-    operation StatePreparationSBM (coefficients: ComplexPolar[], qubits: BigEndian) : ()
+    operation PrepareArbitraryState(coefficients: ComplexPolar[], qubits: BigEndian) : ()
     {
         body
         {
             let maxCoefficients = 2^(Length(qubits));
 
             if(Length(coefficients) > maxCoefficients){
-                fail "Number of coefficients must be less than or equal to 2 ^ number of control.";
+                fail "Number of coefficients must be less than or equal to 2 ^ number of qubits.";
             }
 
             // zero padding of coefficients to maxCoefficients elements.
@@ -110,7 +145,7 @@ namespace Microsoft.Quantum.Canon
             
             let target = qubits[Length(qubits)-1];
 
-            let op = (Adjoint StatePreparationSBM_(coefficients + padZeros, _, _))(_, target);
+            let op = (Adjoint PrepareArbitraryState_(coefficients + padZeros, _, _))(_, target);
 
             if(Length(qubits) > 1){
                 let control = BigEndian(qubits[0..Length(qubits)-2]);
@@ -131,17 +166,17 @@ namespace Microsoft.Quantum.Canon
     /// Implementation step of arbitrary state preparation procedure.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.StatePreparationSBM
-    /// - Microsoft.Quantum.Canon.MultiplexorPauli
-    operation StatePreparationSBM_ (coefficients: ComplexPolar[], control: BigEndian, target: Qubit) : ()
+    /// - Microsoft.Quantum.Canon.PrepareArbitraryState
+    /// - Microsoft.Quantum.Canon.MultiplexPauli
+    operation PrepareArbitraryState_ (coefficients: ComplexPolar[], control: BigEndian, target: Qubit) : ()
     {
         body
         {
             // For each 2D block, compute disentangling single-qubit rotation parameters
             let (disentanglingY, disentanglingZ, newCoefficients) = StatePreparationSBMComputeCoefficients_(coefficients);
             
-            MultiplexorPauli(disentanglingZ, PauliZ, control, target);
-            MultiplexorPauli(disentanglingY, PauliY, control, target);
+            MultiplexPauli(disentanglingZ, PauliZ, control, target);
+            MultiplexPauli(disentanglingY, PauliY, control, target);
             // target is now in |0> state up to the phase given by arg of newCoefficients.
 
             // Continue recursion while there are control qubits.
@@ -152,7 +187,7 @@ namespace Microsoft.Quantum.Canon
             else{
                 let newControl = BigEndian(control[0..Length(control)-2]);
                 let newTarget = control[Length(control)-1];
-                StatePreparationSBM_(newCoefficients, newControl, newTarget);
+                PrepareArbitraryState_(newCoefficients, newControl, newTarget);
             }
         }   
         adjoint auto
@@ -173,8 +208,8 @@ namespace Microsoft.Quantum.Canon
     /// Complex coefficient of state $\ket{1}$.
     ///
     /// # Output
-    /// A tuple containing ((r, t), phi, theta).
-    function ComputeBlochSphereCoordinates(a0 : ComplexPolar, a1 : ComplexPolar) : (ComplexPolar, Double, Double) {
+    /// A tuple containing `(ComplexPolar(r, t), phi, theta)`.
+    function BlochSphereCoordinates(a0 : ComplexPolar, a1 : ComplexPolar) : (ComplexPolar, Double, Double) {
         let abs0 = AbsComplexPolar(a0);
         let abs1 = AbsComplexPolar(a1);
         let arg0 = ArgComplexPolar(a0);
@@ -191,13 +226,13 @@ namespace Microsoft.Quantum.Canon
     /// # Summary
     /// Implementation step of arbitrary state preparation procedure.
     /// # See Also
-    /// - Microsoft.Quantum.Canon.StatePreparationSBM
+    /// - Microsoft.Quantum.Canon.PrepareArbitraryState
     function StatePreparationSBMComputeCoefficients_(coefficients: ComplexPolar[]) : (Double[], Double[], ComplexPolar[]) {
         mutable disentanglingZ = new Double[Length(coefficients)/2];
         mutable disentanglingY = new Double[Length(coefficients)/2];
         mutable newCoefficients = new ComplexPolar[Length(coefficients)/2];
         for(idxCoeff in 0..2..Length(coefficients) - 1){
-            let (rt, phi, theta) = ComputeBlochSphereCoordinates(coefficients[idxCoeff], coefficients[idxCoeff+1]);
+            let (rt, phi, theta) = BlochSphereCoordinates(coefficients[idxCoeff], coefficients[idxCoeff+1]);
             set disentanglingZ[idxCoeff/2] = 0.5 * phi;
             set disentanglingY[idxCoeff/2] = 0.5 * theta;
             set newCoefficients[idxCoeff/2] = rt;

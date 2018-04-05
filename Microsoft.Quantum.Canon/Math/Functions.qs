@@ -352,4 +352,55 @@ namespace Microsoft.Quantum.Canon {
         }
         return bitsize;
     }
+ 
+    /// # Summary
+    /// Given an array $x$ of type `Double[]`, this returns the $p$-norm 
+    /// $\|x\|_p= (\sum_{j}|x_j|^{p})^{1/p}$.
+    ///
+    /// # Input
+    /// ## p
+    /// The exponent $p$ in the $p$-norm.
+    ///
+    /// # Output
+    /// The $p$-norm $\|x\|_p$.
+    function PNorm(p: Double, array: Double[]) : Double {
+        if(p < 1.0){
+            fail "PNorm failed. `p` must be >= 1.0";
+        }
+        let nElements = Length(array);
+        mutable norm = 0.0;
+        for(idx in 0..nElements-1){
+            set norm = norm + PowD(AbsD(array[idx]),p);
+        }
+        return PowD(norm,1.0/p);
+    }
+
+    /// # Summary
+    /// Given an array $x$ of type `Double[]`, this returns an array where
+    /// all elements are divided by the $p$-norm $\|x\|_p$.
+    ///
+    /// # Input
+    /// ## p
+    /// The exponent $p$ in the $p$-norm.
+    ///
+    /// # Output
+    /// The array $x$ normalized by the $p$-norm $\|x\|_p$.
+    ///
+    /// # See Also
+    /// - PNorm
+    function PNormalize(p: Double, array: Double[]) : Double[] { 
+        let nElements = Length(array);
+        let norm = PNorm(p, array);
+        if(norm == 0.0){
+            return array;
+        }
+        else{
+            mutable output = new Double[nElements];
+            for(idx in 0..nElements-1){
+                set output[idx] = array[idx] / norm;
+            }
+            return output;
+        }
+    }
+
 }

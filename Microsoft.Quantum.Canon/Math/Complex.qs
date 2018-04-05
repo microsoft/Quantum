@@ -109,7 +109,7 @@ namespace Microsoft.Quantum.Canon
     }
 
     /// # Summary
-    /// Converts a complex number of type `ComplexPolar` to a Complex
+    /// Converts a complex number of type `ComplexPolar` to a complex
     /// number of type `Complex`.
     ///
     /// # Input
@@ -118,13 +118,13 @@ namespace Microsoft.Quantum.Canon
     ///
     /// # Output
     /// Complex number $c = x + i y$.
-    function ComplexPolarToCartesian(input: ComplexPolar) : Complex {
+    function ComplexPolarToComplex(input: ComplexPolar) : Complex {
         let (abs, arg) = input;
         return Complex(abs * Cos(arg), abs * Sin(arg));
     }
 
     /// # Summary
-    /// Converts a complex number of type `Complex` to a Complex
+    /// Converts a complex number of type `Complex` to a complex
     /// number of type `ComplexPolar`.
     ///
     /// # Input
@@ -133,7 +133,7 @@ namespace Microsoft.Quantum.Canon
     ///
     /// # Output
     /// Complex number $c = r e^{i t}$.
-    function ComplexCartesianToPolar(input: Complex) : ComplexPolar {
+    function ComplexToComplexPolar(input: Complex) : ComplexPolar {
         return ComplexPolar(AbsComplex(input), ArgComplex(input));
     }
 
