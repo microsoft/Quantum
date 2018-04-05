@@ -57,7 +57,7 @@ namespace Microsoft.Quantum.Tests {
         using (qubits = Qubit[nbits]) {
           let init = BoolArrFromPositiveInt(i, nbits);
           ApplyPauliFromBitString(PauliX, true, init, qubits);
-          PermutationOracle(perm, qubits, TBS);
+          PermutationOracle(perm, TBS, qubits);
           let simres = MeasureInteger(LittleEndian(qubits));
           if (simres != perm[i]) {
             set result = false;
