@@ -7,6 +7,15 @@ namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Extensions.Testing;
 
+    function ComposeTest() : () {
+        let target = [3; 17; 2];
+        AssertIntEqual(
+            (Compose(Modulus(_, 14), Max))(target),
+            3,
+            "Compose(Modulus(_, 14), Max) did not return expected result."
+        );
+    }
+
     operation WithTest() : () {
         body {
             let actual = With(H, X, _);
