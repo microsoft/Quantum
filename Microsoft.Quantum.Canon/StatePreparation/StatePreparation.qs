@@ -134,8 +134,8 @@ namespace Microsoft.Quantum.Canon
     {
         body
         {
-            // pad coefficients length to a power of 2.
-            let coefficientsPadded = PadTail(2^(Length(qubits)), coefficients, ComplexPolar(0.0, 0.0));
+            // pad coefficients at tail length to a power of 2.
+            let coefficientsPadded = Pad(-2^(Length(qubits)), ComplexPolar(0.0, 0.0), coefficients);
 
             let target = qubits[Length(qubits)-1];
 

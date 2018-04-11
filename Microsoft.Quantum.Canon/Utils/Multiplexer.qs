@@ -87,8 +87,8 @@ namespace Microsoft.Quantum.Canon
     ///   https://arxiv.org/abs/quant-ph/0406176
     operation MultiplexZ(coefficients: Double[], control: BigEndian, target: Qubit) : () {
         body{
-            // pad coefficients length to a power of 2.
-            let coefficientsPadded = PadTail(2^(Length(control)), coefficients, 0.0);
+            // pad coefficients length at tail to a power of 2.
+            let coefficientsPadded = Pad(-2^(Length(control)), 0.0, coefficients);
 
             if(Length(coefficientsPadded) == 1){
                 // Termination case
@@ -106,7 +106,7 @@ namespace Microsoft.Quantum.Canon
         adjoint auto
         controlled (controlRegister) {
             // pad coefficients length to a power of 2.
-            let coefficientsPadded = PadTail(-2^(Length(control)+1), PadTail(2^(Length(control)), coefficients, 0.0), 0.0);
+            let coefficientsPadded = Pad(2^(Length(control)+1), 0.0, Pad(-2^(Length(control)), 0.0, coefficients));
 
             let (coefficients0, coefficients1) = MultiplexZComputeCoefficients_(coefficientsPadded);
             
@@ -147,8 +147,8 @@ namespace Microsoft.Quantum.Canon
                 fail $"operation ApplyDiagonalUnitary -- Number of qubits must be greater than 0.";
             }
 
-            // pad coefficients length to a power of 2.
-            let coefficientsPadded = PadTail(2^(Length(qubits)), coefficients, 0.0);
+            // pad coefficients length at tail to a power of 2.
+            let coefficientsPadded = Pad(-2^(Length(qubits)), 0.0, coefficients);
             
             // Compute new coefficients.
             let (coefficients0, coefficients1) = MultiplexZComputeCoefficients_(coefficientsPadded);

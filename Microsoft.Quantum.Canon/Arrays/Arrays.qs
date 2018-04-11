@@ -254,7 +254,7 @@ namespace Microsoft.Quantum.Canon {
 	}
 
     /// # Summary
-    /// Returns an array padded at the tail with specified values up to a 
+    /// Returns an array padded at with specified values up to a 
     /// specified length.
     ///
     /// # Type Parameters
@@ -264,26 +264,26 @@ namespace Microsoft.Quantum.Canon {
     /// # Input
     /// ## nElementsTotal
     /// The length of the padded array. If this is positive, `inputArray`
-    /// is padded at the tail. If this is negative, `inputArray` is padded
-    /// at the head.
+    /// is padded at the head. If this is negative, `inputArray` is padded
+    /// at the tail.
     /// ## defaultElement
     /// Default value to use for padding elements.
     /// ## inputArray
     /// Array whose values are at the head of the output array.
     ///
     /// # Output
-    /// An array `output` that is the `inputArray` padded at the tail
+    /// An array `output` that is the `inputArray` padded at the head
     /// with `defaultElement`s until `output` has length `nElementsTotal`
     ///
     /// # Example
     /// ```Q#
     /// let array = [10; 11; 12];
     /// // The following line returns [10; 12; 15; 2; 2; 2].
-    /// let output = PadTail(6, array, 2);
+    /// let output = Pad(-6, array, 2);
     /// // The following line returns [2; 2; 2; 10; 12; 15].
-    /// let output = PadTail(-6, array, 2);
+    /// let output = Pad(6, array, 2);
     /// ```
-    function PadTail<'T>(nElementsTotal: Int, inputArray: 'T[], defaultElement: 'T) : 'T[] 
+    function Pad<'T>(nElementsTotal: Int, defaultElement: 'T, inputArray: 'T[]) : 'T[] 
     {
         let nElementsInitial = Length(inputArray);
         let nAbsElementsTotal = AbsI(nElementsTotal);
@@ -291,12 +291,12 @@ namespace Microsoft.Quantum.Canon {
         let nElementsPad = nAbsElementsTotal - nElementsInitial;
         let padArray = ConstantArray(nElementsPad, defaultElement);
         if(nElementsTotal >= 0){
-            // Pad at tail.
-            return inputArray + padArray;
-        }
-        else{
             // Pad at head.
             return padArray + inputArray;
+        }
+        else{
+            // Pad at tail.
+            return inputArray + padArray;
         }
     }
 

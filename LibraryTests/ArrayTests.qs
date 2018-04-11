@@ -73,12 +73,12 @@ namespace Microsoft.Quantum.Tests {
         Ignore(Map(AssertIntEqual(_, _, "Exclude failed."), Zip([10; 11; 13; 14], Exclude([2; 5], array))));
     }
 
-    function PadTailTest() : () {
-        mutable arrayTestCase = [(5,2,[10; 11; 12],[10; 11; 12; 2; 2]);(-5,2,[10; 11; 12],[2; 2; 10; 11; 12]);(3,-2,[10; 11; 12],[10; 11; 12])];
+    function PadTest() : () {
+        mutable arrayTestCase = [(-5,2,[10; 11; 12],[10; 11; 12; 2; 2]);(5,2,[10; 11; 12],[2; 2; 10; 11; 12]);(-3,-2,[10; 11; 12],[10; 11; 12])];
         for(idxTest in 0..Length(arrayTestCase)-1){
             let (nElementsTotal, defaultElement, inputArray, outputArray) = arrayTestCase[idxTest];
-            let paddedArray = PadTail(nElementsTotal, inputArray, defaultElement);
-            Ignore(Map(AssertIntEqual(_, _, "PadTail failed."), Zip(outputArray, paddedArray)));
+            let paddedArray = Pad(nElementsTotal, defaultElement, inputArray);
+            Ignore(Map(AssertIntEqual(_, _, "Pad failed."), Zip(outputArray, paddedArray)));
 
         }
         
