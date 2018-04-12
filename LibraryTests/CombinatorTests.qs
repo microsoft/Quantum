@@ -49,6 +49,50 @@ namespace Microsoft.Quantum.Tests {
         }
     }
 
+    operation BindATest() : () {
+        body {
+            let bound = BindA([T; T]);
+            AssertOperationsEqualReferenced(ApplyToEach((Adjoint bound), _), ApplyToEachA((Adjoint S), _), 3);
+        }
+    }
+
+    operation BindCTestHelper0(op: (Qubit => () : Controlled), qubits: Qubit[]) : () {
+        body{
+            (Controlled op)([qubits[0]],qubits[1]);
+        }
+    }
+    operation BindCTestHelper1(op: (Qubit => () : Adjoint, Controlled), qubits: Qubit[]) : () {
+        body{
+            (Controlled op)([qubits[0]],qubits[1]);
+        }
+        adjoint auto
+    }
+
+    operation BindCTest() : () {
+        body {
+            let bound = BindC([T; T]);
+
+            AssertOperationsEqualReferenced(ApplyToEach(bound, _), ApplyToEachA(S, _), 3);
+
+            let op = BindCTestHelper0(bound, _);
+            let target = BindCTestHelper1(S, _);
+            AssertOperationsEqualReferenced(op, target, 6);
+        }
+    }
+
+    operation BindCATest() : () {
+        body {
+            let bound = BindCA([T; T]);
+
+            AssertOperationsEqualReferenced(ApplyToEach(bound, _), ApplyToEachA(S, _), 3);
+            AssertOperationsEqualReferenced(ApplyToEach((Adjoint bound), _), ApplyToEachA((Adjoint S), _), 3);
+
+            let op = BindCTestHelper0(Adjoint bound, _);
+            let target = BindCTestHelper1(Adjoint S, _);
+            AssertOperationsEqualReferenced(op, target, 4);
+        }
+    }
+
     operation OperationPowTest() : () {
         body {
             AssertOperationsEqualReferenced(ApplyToEach(OperationPow(H, 2), _), NoOp, 3);

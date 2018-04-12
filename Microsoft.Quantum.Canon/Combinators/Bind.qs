@@ -53,10 +53,7 @@ namespace Microsoft.Quantum.Canon {
     /// - @"microsoft.quantum.canon.binda"
     operation BindAImpl<'T>(operations : ('T => () : Adjoint)[], target : 'T) : () {
         body {
-            for (idxOperation in 0..Length(operations) - 1) {
-                let op = operations[idxOperation];
-                op(target);
-            }
+            BindImpl(operations, target);
         }
         adjoint {
             // TODO: replace with an implementation based on Reversed : 'T[] -> 'T[]
@@ -105,7 +102,10 @@ namespace Microsoft.Quantum.Canon {
     /// - @"microsoft.quantum.canon.bindc"
     operation BindCImpl<'T>(operations : ('T => () : Controlled)[], target : 'T) : () {
         body {
-            BindImpl(operations, target);
+            for (idxOperation in 0..Length(operations) - 1) {
+                let op = operations[idxOperation];
+                op(target);
+            }
         }
 
         controlled (controls) {
@@ -153,18 +153,27 @@ namespace Microsoft.Quantum.Canon {
     /// - @"microsoft.quantum.canon.bindca"
     operation BindCAImpl<'T>(operations : ('T => () : Adjoint, Controlled)[], target : 'T) : () {
         body {
-            BindImpl(operations, target);
+            for (idxOperation in 0..Length(operations) - 1) {
+                let op = operations[idxOperation];
+                op(target);
+            }
         }
 
         adjoint {
-            (Adjoint BindAImpl)(operations, target);
+            for (idxOperation in Length(operations) - 1..-1..0) {
+                let op = (Adjoint operations[idxOperation]);
+                op(target);
+            }
         }
         controlled (controls) {
-            (Controlled BindCImpl)(controls, (operations, target));
+            for (idxOperation in 0..Length(operations) - 1) {
+                let op = (Controlled operations[idxOperation]);
+                op(controls, target);
+            }
         }
 
         controlled adjoint (controls) {
-            for (idxOperation in Length(operations) - 1..0) {
+            for (idxOperation in Length(operations) - 1..-1..0) {
                 let op = (Controlled Adjoint operations[idxOperation]);
                 op(controls, target);
             }
