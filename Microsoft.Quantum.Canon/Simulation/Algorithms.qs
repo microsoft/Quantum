@@ -90,10 +90,12 @@ namespace Microsoft.Quantum.Canon {
                                                 evolutionGenerator: EvolutionGenerator,
                                                 qubits:Qubit[]) : () {
         body{
-            let nTimeSlices = Ceiling(maxTime / trotterStepSize);
-            let resizedTrotterStepSize = maxTime / ToDouble(nTimeSlices);
-            for (idxTimeSlice in 0..nTimeSlices-1) {
-                (TrotterStep(evolutionGenerator, trotterOrder, resizedTrotterStepSize))(qubits);
+            if(AbsD(trotterStepSize) != 0.0){
+                let nTimeSlices = Ceiling(AbsD(maxTime) / AbsD(trotterStepSize));
+                let resizedTrotterStepSize = ToDouble(SignD(trotterStepSize)) * maxTime / ToDouble(nTimeSlices);
+                for (idxTimeSlice in 0..nTimeSlices-1) {
+                    (TrotterStep(evolutionGenerator, trotterOrder, resizedTrotterStepSize))(qubits);
+                }
             }
         }
 

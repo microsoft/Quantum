@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
-namespace Microsoft.Quantum.Samples.Ising
+namespace Microsoft.Quantum.Samples.IsingAll2All
 {
     class Program
     {
@@ -39,8 +39,7 @@ namespace Microsoft.Quantum.Samples.Ising
             // we will need to pick a timestep for the simulation, and the order of the
             // integrator. The optimal timestep needs to be determined empirically, and
             // we find that the following choice works well enough.
-            var trotterStepSize = 0.1;
-            var trotterOrder = 2;
+            var stepSize = 0.1;
 
             // Let us now simulate time-evolution by interpolating between the initial
             // Hamiltonian with the |+〉 product state as the ground state, and the target
@@ -52,7 +51,7 @@ namespace Microsoft.Quantum.Samples.Ising
 
             // Let us consider the situation where we interpolate between these Hamiltonians
             // too quickly.
-            var adiabaticTime = 0.1;
+            var adiabaticTime = 10.1;
 
             #endregion
 
@@ -78,15 +77,23 @@ namespace Microsoft.Quantum.Samples.Ising
                 //$"\t{hxCoeff} transverse field coefficient\n" +
                 //$"\t{jCCoeff} two-site coupling coefficient\n" +
                 $"\t{adiabaticTime} time-interval of interpolation\n" +
-                $"\t{trotterStepSize} simulation time step \n" +
-                $"\t{trotterOrder} order of integrator\n");
+                $"\t{stepSize} simulation time step \n" +
+                //$"\t{trotterOrder} order of integrator\n"
+                $" ");
 
             Console.WriteLine("Let us consider the results of fast non-adiabatic evolution from the transverse Hamiltonian to the coupling Hamiltonian. Observe that the zeros and one occur almost randomly.");
 
        
             for (int rep = 0; rep < 10; rep++)
             {
-               var data = IsingAll2AllAdiabaticAndMeasure.Run(qsim, nSites, hStart, jEnd, jCouplingDataFormatted, adiabaticTime, trotterStepSize, trotterOrder).Result.ToArray();
+               var data = IsingAll2AllAnnealAndMeasure.Run(qsim, nSites, hStart, jEnd, jCouplingDataFormatted, adiabaticTime, stepSize).Result.ToArray();
+                Console.Write($"State: {string.Join(", ", data.Select(x => x.ToString()).ToArray())} \n");
+            }
+
+            Console.WriteLine("Using alternate anneal & measure");
+            for (int rep = 0; rep < 10; rep++)
+            {
+                var data = IsingAll2AllAnnealAndMeasure.Run(qsim, nSites, hStart, jEnd, jCouplingDataFormatted, adiabaticTime, stepSize).Result.ToArray();
                 Console.Write($"State: {string.Join(", ", data.Select(x => x.ToString()).ToArray())} \n");
             }
 
