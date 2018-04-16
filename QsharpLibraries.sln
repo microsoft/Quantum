@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Quantum.Canon", "Microsoft.Quantum.Canon\Microsoft.Quantum.Canon.csproj", "{2A1B0D78-2CE6-44DB-BFA1-3575F3C36321}"
 EndProject
@@ -63,6 +63,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PythonInterop", "Samples\PythonInterop\PythonInterop.csproj", "{191B1B56-B7A7-422B-9F21-1EC175132C37}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Interoperability", "4. Interoperability", "{A6237CFB-5897-452B-916B-9A9867EAD93F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsingAll2AllAnnealing", "IsingAll2AllAnnealing\IsingAll2AllAnnealing.csproj", "{D0B62669-84C4-4752-BDE0-71BFFEA7A097}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -380,6 +382,22 @@ Global
 		{191B1B56-B7A7-422B-9F21-1EC175132C37}.Release|x64.Build.0 = Release|Any CPU
 		{191B1B56-B7A7-422B-9F21-1EC175132C37}.Release|x86.ActiveCfg = Release|Any CPU
 		{191B1B56-B7A7-422B-9F21-1EC175132C37}.Release|x86.Build.0 = Release|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Debug|ARM.Build.0 = Debug|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Debug|x64.Build.0 = Debug|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Debug|x86.Build.0 = Debug|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Release|ARM.ActiveCfg = Release|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Release|ARM.Build.0 = Release|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Release|x64.ActiveCfg = Release|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Release|x64.Build.0 = Release|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Release|x86.ActiveCfg = Release|Any CPU
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -409,6 +427,7 @@ Global
 		{6AF1B129-586C-4150-8330-7444A24B7FB6} = {461F5123-AB62-4FDE-8964-EE4A952BAFC2}
 		{191B1B56-B7A7-422B-9F21-1EC175132C37} = {A6237CFB-5897-452B-916B-9A9867EAD93F}
 		{A6237CFB-5897-452B-916B-9A9867EAD93F} = {614D2908-AAF9-48CE-B688-C28CC99C1D19}
+		{D0B62669-84C4-4752-BDE0-71BFFEA7A097} = {6E6063FB-43EB-41D1-B095-4701A5D966BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6869E5BF-551A-40F1-9B6B-D1B27A5676CB}
