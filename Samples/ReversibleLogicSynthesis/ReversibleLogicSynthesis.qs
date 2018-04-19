@@ -60,7 +60,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         }
         return array;
     }
-    
+
     /// # Summary
     /// Get a sequence of numbers starting from 0.
     ///
@@ -113,16 +113,16 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     // Transformation-based synthesis                         //
     ////////////////////////////////////////////////////////////
 
-    // # Summary
-    // A type to represent a multiple-controlled multiple-target Toffoli gate.
-    //
-    // The first integer is a bit mask for control lines.  Bit indexes which
-    // are set correspond to control line indexes.
-    //
-    // The second integer is a bit mask for target lines.  Bit indexes which
-    // are set correspond to target line indexes.
-    //
-    // The bit indexes of both integers must be disjoint.
+    /// # Summary
+    /// A type to represent a multiple-controlled multiple-target Toffoli gate.
+    ///
+    /// The first integer is a bit mask for control lines.  Bit indexes which
+    /// are set correspond to control line indexes.
+    ///
+    /// The second integer is a bit mask for target lines.  Bit indexes which
+    /// are set correspond to target line indexes.
+    ///
+    /// The bit indexes of both integers must be disjoint.
     newtype MCMTMask = (Int, Int);
 
     /// # Summary
@@ -144,9 +144,9 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// ```
     newtype MCTGate = (Qubit[], Qubit);
 
-    // # Summary
-    // Constructs a MCMTMask type as a singleton array if targets is not 0,
-    // otherwise returns an empty array.
+    /// # Summary
+    /// Constructs a MCMTMask type as a singleton array if targets is not 0,
+    /// otherwise returns an empty array.
     function GateMask(controls: Int, targets: Int) : MCMTMask[] {
         if (targets != 0) {
             return [MCMTMask(controls, targets)];
@@ -155,8 +155,8 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         }
     }
 
-    // # Summary
-    // Computes up to two MCMT masks to transform y to x.
+    /// # Summary
+    /// Computes up to two MCMT masks to transform y to x.
     function GateMasksForAssignment(x : Int, y : Int) : MCMTMask[] {
         let m01 = x &&& ~~~y;
         let m10 = y &&& ~~~x;
@@ -164,8 +164,8 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         return GateMask(y, m01) + GateMask(x, m10);
     }
 
-    // # Summary
-    // Update an output pattern according to gate mask.
+    /// # Summary
+    /// Update an output pattern according to gate mask.
     function UpdateOutputPattern(pattern : Int, gateMask : MCMTMask) : Int {
         let (controls, targets) = gateMask;
         if ( ( pattern &&& controls ) == controls ) {
@@ -175,15 +175,15 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         }
     }
 
-    // # Summary
-    // Update permutation based according to gate mask.
+    /// # Summary
+    /// Update permutation based according to gate mask.
     function UpdatePermutation(perm : Int[], gateMask: MCMTMask) : Int[] {
         return Map(UpdateOutputPattern(_, gateMask), perm);
     }
 
-    // # Summary
-    // Computes gate masks to transform perm[x] to x and updates the current
-    // permutation.
+    /// # Summary
+    /// Computes gate masks to transform perm[x] to x and updates the current
+    /// permutation.
     function TBSStep(state : (Int[], MCMTMask[]), x : Int) : (Int[], MCMTMask[]) {
         let (perm, gates) = state;
         let y = perm[x];
@@ -192,17 +192,17 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         return (new_perm, gates + masks);
     }
 
-    // # Summary
-    // Compute gate masks to synthesize permutation.
+    /// # Summary
+    /// Compute gate masks to synthesize permutation.
     function TBSMain(perm : Int[]) : MCMTMask[] {
         let xs = Numbers(Length(perm));
         let gates = new MCMTMask[0];
         return Reverse(Snd(Fold(TBSStep, (perm, gates), xs)));
     }
 
-    // # Summary
-    // Translate MCT masks into multiple-controlled Toffoli gates (with single
-    // targets).
+    /// # Summary
+    /// Translate MCT masks into multiple-controlled Toffoli gates (with single
+    /// targets).
     function GateMasksToToffoliGates(qubits : Qubit[], masks : MCMTMask[]) : MCTGate[] {
         mutable result = new MCTGate[0];
         let n = Length(qubits); 
