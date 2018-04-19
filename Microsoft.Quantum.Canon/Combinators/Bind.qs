@@ -5,7 +5,7 @@
 namespace Microsoft.Quantum.Canon {
 
     /// # See Also
-    /// - @"microsoft.quantum.canon.bind"
+    /// - Microsoft.Quantum.Canon.Bind
     operation BindImpl<'T>(operations : ('T => ())[], target : 'T) : () {
         body {
             for (idxOperation in 0..Length(operations) - 1) {
@@ -42,18 +42,21 @@ namespace Microsoft.Quantum.Canon {
     /// ```
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.bindc"
-    /// - @"microsoft.quantum.canon.binda"
-    /// - @"microsoft.quantum.canon.bindca"
+    /// - Microsoft.Quantum.Canon.BindC
+    /// - Microsoft.Quantum.Canon.BindA
+    /// - Microsoft.Quantum.Canon.BindCA
     function Bind<'T>(operations : ('T => ())[]) : ('T => ()) {
         return BindImpl(operations, _);
     }
 
     /// # See Also
-    /// - @"microsoft.quantum.canon.binda"
+    /// - Microsoft.Quantum.Canon.BindA
     operation BindAImpl<'T>(operations : ('T => () : Adjoint)[], target : 'T) : () {
         body {
-            BindImpl(operations, target);
+            for (idxOperation in 0..Length(operations) - 1) {
+                let op = operations[idxOperation];
+                op(target);
+            }
         }
         adjoint {
             // TODO: replace with an implementation based on Reversed : 'T[] -> 'T[]
@@ -80,7 +83,7 @@ namespace Microsoft.Quantum.Canon {
     /// on its input.
     ///
     /// # Type Parameters
-    /// ## 'T 
+    /// ## 'T
     /// The target on which each of the operations in the array act.
     ///
     /// # Example
@@ -93,13 +96,13 @@ namespace Microsoft.Quantum.Canon {
     /// ```
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.bind"
+    /// - Microsoft.Quantum.Canon.Bind
     function BindA<'T>(operations : ('T => () : Adjoint)[]) : ('T => () : Adjoint) {
         return BindAImpl(operations, _);
     }
 
     /// # See Also
-    /// - @"microsoft.quantum.canon.bindc"
+    /// - Microsoft.Quantum.Canon.BindC
     operation BindCImpl<'T>(operations : ('T => () : Controlled)[], target : 'T) : () {
         body {
             for (idxOperation in 0..Length(operations) - 1) {
@@ -115,12 +118,12 @@ namespace Microsoft.Quantum.Canon {
             }
         }
     }
-    
+
     /// # Summary
     /// Given an array of operations acting on a single input,
     /// produces a new operation that
     /// performs each given operation in sequence.
-    /// The modifier 'C' indicates that all operations in the array are controllable. 
+    /// The modifier 'C' indicates that all operations in the array are controllable.
     ///
     /// # Input
     /// ## operations
@@ -131,7 +134,7 @@ namespace Microsoft.Quantum.Canon {
     /// on its input.
     ///
     /// # Type Parameters
-    /// ## 'T 
+    /// ## 'T
     /// The target on which each of the operations in the array act.
     ///
     /// # Example
@@ -144,13 +147,13 @@ namespace Microsoft.Quantum.Canon {
     /// ```
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.bind"
+    /// - Microsoft.Quantum.Canon.Bind
     function BindC<'T>(operations : ('T => () : Controlled)[]) : ('T => () : Controlled) {
         return BindCImpl(operations, _);
     }
 
     /// # See Also
-    /// - @"microsoft.quantum.canon.bindca"
+    /// - Microsoft.Quantum.Canon.BindCA
     operation BindCAImpl<'T>(operations : ('T => () : Adjoint, Controlled)[], target : 'T) : () {
         body {
             for (idxOperation in 0..Length(operations) - 1) {
@@ -196,7 +199,7 @@ namespace Microsoft.Quantum.Canon {
     /// on its input.
     ///
     /// # Type Parameters
-    /// ## 'T 
+    /// ## 'T
     /// The target on which each of the operations in the array act.
     ///
     /// # Example
@@ -209,7 +212,7 @@ namespace Microsoft.Quantum.Canon {
     /// ```
     ///
     /// # See Also
-    /// - @"microsoft.quantum.canon.bind"
+    /// - Microsoft.Quantum.Canon.Bind
     function BindCA<'T>(operations : ('T => () : Adjoint, Controlled)[]) : ('T => () : Adjoint, Controlled) {
         return BindCAImpl(operations, _);
     }
