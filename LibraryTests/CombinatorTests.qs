@@ -52,18 +52,19 @@ namespace Microsoft.Quantum.Tests {
     operation BindATest() : () {
         body {
             let bound = BindA([T; T]);
+            AssertOperationsEqualReferenced(ApplyToEach(bound, _), ApplyToEachA(S, _), 3);
             AssertOperationsEqualReferenced(ApplyToEach((Adjoint bound), _), ApplyToEachA((Adjoint S), _), 3);
         }
     }
 
     operation BindCTestHelper0(op: (Qubit => () : Controlled), qubits: Qubit[]) : () {
-        body{
-            (Controlled op)([qubits[0]],qubits[1]);
+        body {
+            (Controlled op)([qubits[0]], qubits[1]);
         }
     }
     operation BindCTestHelper1(op: (Qubit => () : Adjoint, Controlled), qubits: Qubit[]) : () {
-        body{
-            (Controlled op)([qubits[0]],qubits[1]);
+        body {
+            (Controlled op)([qubits[0]], qubits[1]);
         }
         adjoint auto
     }
