@@ -122,4 +122,29 @@ namespace Microsoft.Quantum.Tests {
         }
     }
 
+    operation CControlledExpected(op : (Qubit => () : Adjoint, Controlled), target : Qubit[]) : () {
+        body {
+            op(target[0]);
+            op(target[2]);
+        }
+        adjoint auto
+        controlled auto
+        controlled adjoint auto
+    }
+
+    operation CControlledActual(op : (Qubit => ()), target : Qubit[]) : () {
+        body {
+            ApplyToEach(CControlled(op), Zip([true; false; true], target));   
+        }
+    }
+
+    operation CControlledTest() : () {
+        body {
+            AssertOperationsEqualReferenced(CControlledActual(H, _), CControlledExpected(H, _), 3);
+            AssertOperationsEqualReferenced(CControlledActual(Z, _), CControlledExpected(Z, _), 3);
+            AssertOperationsEqualReferenced(CControlledActual(S, _), CControlledExpected(S, _), 3);
+            AssertOperationsEqualReferenced(CControlledActual(T, _), CControlledExpected(T, _), 3);
+        }
+    }
+
 }
