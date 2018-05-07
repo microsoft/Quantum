@@ -10,7 +10,7 @@ namespace Microsoft.Quantum.Tests {
     // # Sumary
     /// Assert that the QuantumPhaseEstimation operation for the T gate
 	/// return 0000 in the controlRegister when targetState is 0 and
-	/// return 0010 when the targetState is 1 
+	/// return 0010 when the targetState is 1  
     operation QuantumPhaseEstimation_Test () : ()
     {
         body
