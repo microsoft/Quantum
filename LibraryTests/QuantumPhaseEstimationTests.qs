@@ -7,7 +7,7 @@ namespace Microsoft.Quantum.Tests {
 	open Microsoft.Quantum.Extensions.Math;
 
 
-    // # Sumary
+    /// # Summary
     /// Assert that the QuantumPhaseEstimation operation for the T gate
 	/// return 0000 in the controlRegister when targetState is 0 and
 	/// return 0010 when the targetState is 1  
@@ -37,6 +37,8 @@ namespace Microsoft.Quantum.Tests {
 		}
     }
 
+    /// # Summary
+    /// Implementation of T-gate for Quantum Phase Estimation Oracle
     operation T_PhaseEstimation (Power: Int, Target: Qubit[]) : ()
     {
         body
