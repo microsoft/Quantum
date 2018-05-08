@@ -20,7 +20,7 @@ namespace Microsoft.Quantum.Tests {
                 let state = qPhase[4];
                 QuantumPhaseEstimation(oracle,[state],phase);
                 let complexOne = Complex(1.,0.);
-				let complexZero = Complex(0.,0.);
+                let complexZero = Complex(0.,0.);
                 for(idxPhase in 0..4){
                     AssertQubitState((complexOne,complexZero),qPhase[idxPhase],0.000001);
                 }
@@ -28,12 +28,12 @@ namespace Microsoft.Quantum.Tests {
                 QuantumPhaseEstimation(oracle,[state],phase);
                 AssertQubitState((complexOne,complexZero),qPhase[0],0.000001);
                 AssertQubitState((complexOne,complexZero),qPhase[1],0.000001);
-			    AssertQubitState((complexZero,complexOne),qPhase[2],0.000001);
-			    AssertQubitState((complexOne,complexZero),qPhase[3],0.000001);
+                AssertQubitState((complexZero,complexOne),qPhase[2],0.000001);
+                AssertQubitState((complexOne,complexZero),qPhase[3],0.000001);
                 AssertQubitState((complexZero,complexOne),qPhase[4],0.000001);
                 ResetAll(qPhase);
-			}
-		}
+            }
+        }
     }
 
     /// # Summary
