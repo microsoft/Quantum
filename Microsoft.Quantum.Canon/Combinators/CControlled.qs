@@ -14,11 +14,11 @@ namespace Microsoft.Quantum.Canon {
     /// ## bit 
     /// a boolean that controls whether op is applied or not.
     /// ## target 
-    /// Qubit to which the operation is applied.
+    /// The input to which the operation is applied.
     ///
     /// # Type Parameters
     /// ## 'T 
-    /// The type of the operation to be conditionally applied. 
+    /// The input type of the operation to be conditionally applied. 
     ///
     /// # See Also
     /// - Microsoft.Quantum.Canon.ApplyIfC
@@ -44,11 +44,11 @@ namespace Microsoft.Quantum.Canon {
     /// ## bit 
     /// a boolean that controls whether op is applied or not.
     /// ## target 
-    /// Qubit to which the operation is applied.
+    /// The input to which the operation is applied.
     ///
     /// # Type Parameters
     /// ## 'T 
-    /// The type of the operation to be conditionally applied. 
+    /// The input type of the operation to be conditionally applied. 
     ///
     /// # See Also
     /// - Microsoft.Quantum.Canon.ApplyIf
@@ -74,11 +74,11 @@ namespace Microsoft.Quantum.Canon {
     /// ## bit 
     /// a boolean that controls whether op is applied or not.
     /// ## target 
-    /// Qubit to which the operation is applied.
+    /// The input to which the operation is applied.
     ///
     /// # Type Parameters
     /// ## 'T 
-    /// The type of the operation to be conditionally applied. 
+    /// The input type of the operation to be conditionally applied. 
     ///
     /// # See Also
     /// - Microsoft.Quantum.Canon.ApplyIf
@@ -104,11 +104,11 @@ namespace Microsoft.Quantum.Canon {
     /// ## bit 
     /// a boolean that controls whether op is applied or not.
     /// ## target 
-    /// Qubit to which the operation is applied.
+    /// The input to which the operation is applied.
     ///
     /// # Type Parameters
     /// ## 'T 
-    /// The type of the operation to be conditionally applied. 
+    /// The input type of the operation to be conditionally applied. 
     ///
     /// # See Also
     /// - Microsoft.Quantum.Canon.ApplyIf
@@ -138,7 +138,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Type Parameters
     /// ## 'T 
-    /// The type of the operation to be conditionally applied. 
+    /// The input type of the operation to be conditionally applied. 
     ///
     /// # See Also
     /// - Microsoft.Quantum.Canon.ControlledC
@@ -163,7 +163,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Type Parameters
     /// ## 'T 
-    /// The type of the operation to be conditionally applied. 
+    /// The input type of the operation to be conditionally applied. 
     ///
     /// # See Also
     /// - Microsoft.Quantum.Canon.Controlled
@@ -186,7 +186,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Type Parameters
     /// ## 'T 
-    /// The type of the operation to be conditionally applied. 
+    /// The input type of the operation to be conditionally applied. 
     ///
     /// # See Also
     /// - Microsoft.Quantum.Canon.Controlled
@@ -209,7 +209,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Type Parameters
     /// ## 'T 
-    /// The type of the operation to be conditionally applied. 
+    /// The input type of the operation to be conditionally applied. 
     ///
     /// # See Also
     /// - Microsoft.Quantum.Canon.Controlled

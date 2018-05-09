@@ -138,12 +138,62 @@ namespace Microsoft.Quantum.Tests {
         }
     }
 
+    operation CControlledActualC(op : (Qubit => () : Controlled), target : Qubit[]) : () {
+        body {
+            ApplyToEachC(CControlledC(op), Zip([true; false; true], target));   
+        }
+        controlled auto
+    }
+
+    operation CControlledActualA(op : (Qubit => () : Adjoint), target : Qubit[]) : () {
+        body {
+            ApplyToEachA(CControlledA(op), Zip([true; false; true], target));   
+        }
+        adjoint auto
+    }
+
+    operation CControlledActualCA(op : (Qubit => () : Adjoint, Controlled), target : Qubit[]) : () {
+        body {
+            ApplyToEachCA(CControlledCA(op), Zip([true; false; true], target));   
+        }
+        adjoint auto
+        controlled auto
+        controlled adjoint auto
+    }
+
     operation CControlledTest() : () {
         body {
             AssertOperationsEqualReferenced(CControlledActual(H, _), CControlledExpected(H, _), 3);
             AssertOperationsEqualReferenced(CControlledActual(Z, _), CControlledExpected(Z, _), 3);
             AssertOperationsEqualReferenced(CControlledActual(S, _), CControlledExpected(S, _), 3);
             AssertOperationsEqualReferenced(CControlledActual(T, _), CControlledExpected(T, _), 3);
+        }
+    }
+
+    operation CControlledTestC() : () {
+        body {
+            AssertOperationsEqualReferenced(CControlledActualC(H, _), CControlledExpected(H, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualC(Z, _), CControlledExpected(Z, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualC(S, _), CControlledExpected(S, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualC(T, _), CControlledExpected(T, _), 3);
+        }
+    }
+
+    operation CControlledTestA() : () {
+        body {
+            AssertOperationsEqualReferenced(CControlledActualA(H, _), CControlledExpected(H, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualA(Z, _), CControlledExpected(Z, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualA(S, _), CControlledExpected(S, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualA(T, _), CControlledExpected(T, _), 3);
+        }
+    }
+
+    operation CControlledTestCA() : () {
+        body {
+            AssertOperationsEqualReferenced(CControlledActualCA(H, _), CControlledExpected(H, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualCA(Z, _), CControlledExpected(Z, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualCA(S, _), CControlledExpected(S, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualCA(T, _), CControlledExpected(T, _), 3);
         }
     }
 
