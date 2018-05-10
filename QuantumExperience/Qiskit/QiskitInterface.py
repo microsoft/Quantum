@@ -12,7 +12,7 @@ with open('data.txt', 'r') as myfile:
 print("QASM FILE READ")
 print(qasm)
 print("SENDING TO IBM Quantum Experience")
-print(" IBMQX4 AT IBM Quantum Experience:")
+print(" IBMQ AT IBM Quantum Experience:")
 qasms = [{ 'qasm': qasm}]
 job = api.run_job(qasms, backend=sys.argv[2], shots=1, max_credits=3)
 if 'id' in job:
