@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Quantum.Primitive;
@@ -15,6 +18,18 @@ namespace Quasm
     /// </summary>
     public abstract class QuasmDriver : SimulatorBase
     {
+        public QuasmDriver(): base()
+        {
+            AppendHeader();
+        }
+
+        private void AppendHeader()
+        {
+            QuasmLog.AppendLine("include \"qelib1.inc\";");
+            QuasmLog.AppendLine($"qreg q[{QBitCount}];");
+            QuasmLog.AppendLine($"creg c[{QBitCount}];");
+        }
+
         protected abstract List<Result> RunQuasm(StringBuilder quasm);
         public abstract int QBitCount { get; }
        
@@ -34,21 +49,11 @@ namespace Quasm
                         {
                             return QVoid.Instance;
                         }
-                        QuasmLog.AppendLine("h q[" + (uint)q1.Id + "];");
+                        QuasmLog.AppendLine($"h q[{q1.Id}];");
                         return QVoid.Instance;
                     };
                 }
             }
-        }
-
-        public override void StartOperation(string operationName, OperationFunctor functor, object inputValue)
-        {
-            QuasmLog = new StringBuilder();
-
-            QuasmLog.AppendLine("include \"qelib1.inc\";");
-            QuasmLog.AppendLine($"qreg q[{QBitCount}];");
-            QuasmLog.AppendLine($"creg c[{QBitCount}];");
-            base.StartOperation(operationName, functor, inputValue);
         }
 
         /// <summary>
@@ -72,36 +77,6 @@ namespace Quasm
             }
         }
 
-        public class QSimCCNOT : CCNOT
-        {
-            public QSimCCNOT(IOperationFactory m) : base(m)
-            {
-            }
-
-            public override Func<(Qubit, Qubit, Qubit), QVoid> Body
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
-        }
-
-        public class QSimCNOT : CNOT
-        {
-            public QSimCNOT(IOperationFactory m) : base(m)
-            {
-            }
-
-            public override Func<(Qubit, Qubit), QVoid> Body
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
-        }
-
         public class QSimM : M
         {
             public QSimM(IOperationFactory m) : base(m)
@@ -118,8 +93,8 @@ namespace Quasm
                         {
                             return Result.Zero;
                         }
-                        QuasmLog.AppendLine("measure q[" + (uint)q.Id + "] -> c[" + (uint)q.Id + "];");
-                        
+                        QuasmLog.AppendLine($"measure q[{(uint)q.Id}] -> c[{(uint)q.Id}];");
+
                         Console.WriteLine("");
                         Console.WriteLine("QUASM file");
                         Console.Write(QuasmLog.ToString());
@@ -129,15 +104,6 @@ namespace Quasm
                     };
                 }
             }
-        }
-
-        public class QSimMeasure : Measure
-        {
-            public QSimMeasure(IOperationFactory m) : base(m)
-            {
-            }
-
-            public override Func<(QArray<Pauli>, QArray<Qubit>), Result> Body => throw new NotImplementedException();
         }
 
         public class QSimX : X
@@ -156,16 +122,59 @@ namespace Quasm
                         {
                             return QVoid.Instance;
                         }
-                        Console.WriteLine("X q" + (uint)q1.Id);
+                        QuasmLog.AppendLine($"x q[{q1.Id}];");
                         return QVoid.Instance;
                     };
                 }
             }
         }
 
-        public static StringBuilder QuasmLog
+        public class QSimY : Y
         {
-            get; set;
+            public QSimY(IOperationFactory m) : base(m)
+            {
+            }
+
+            public override Func<Qubit, QVoid> Body
+            {
+                get
+                {
+                    return delegate (Qubit q1)
+                    {
+                        if (q1 == null)
+                        {
+                            return QVoid.Instance;
+                        }
+                        QuasmLog.AppendLine($"y q[{q1.Id}];");
+                        return QVoid.Instance;
+                    };
+                }
+            }
         }
+
+        public class QSimZ : Z
+        {
+            public QSimZ(IOperationFactory m) : base(m)
+            {
+            }
+
+            public override Func<Qubit, QVoid> Body
+            {
+                get
+                {
+                    return delegate (Qubit q1)
+                    {
+                        if (q1 == null)
+                        {
+                            return QVoid.Instance;
+                        }
+                        QuasmLog.AppendLine($"z q[{q1.Id}];");
+                        return QVoid.Instance;
+                    };
+                }
+            }
+        }
+
+        public static readonly StringBuilder QuasmLog = new StringBuilder();
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -18,14 +21,14 @@ namespace Quasm.Qiskit
         {
             try
             {
-                File.WriteAllText("Qiskit\\data.txt", quasm.ToString().Replace("\r\n", "\n"), Encoding.ASCII);
+                File.WriteAllText(Path.Combine("Qiskit","data.txt"), quasm.ToString().Replace("\r\n", "\n"), Encoding.ASCII);
 
                 string result = null;
 
                 var processStart = new ProcessStartInfo()
                 {
-                    FileName = "bash",
-                    Arguments = $"-c \"python3 QiskitInterface.py {key} {backend}\"",
+                    FileName = "python3",
+                    Arguments = $"QiskitInterface.py {key} {backend}",
                     WorkingDirectory = "Qiskit",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,

@@ -1,4 +1,7 @@
-﻿namespace Quantum.Quasm
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace Quantum.Quasm
 {
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;

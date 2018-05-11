@@ -12,6 +12,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Quantum.Canon" Version="0.2.1802.2202-preview" />
