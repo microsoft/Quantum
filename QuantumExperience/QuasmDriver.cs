@@ -23,6 +23,9 @@ namespace Quasm
             AppendHeader();
         }
 
+        /// <summary>
+        /// Generate the openqasm header
+        /// </summary>
         private void AppendHeader()
         {
             QuasmLog.AppendLine("include \"qelib1.inc\";");
@@ -32,7 +35,10 @@ namespace Quasm
 
         protected abstract List<Result> RunQuasm(StringBuilder quasm);
         public abstract int QBitCount { get; }
-       
+
+        /// <summary>
+        /// Processes Hadamard gate
+        /// </summary>
         public class QSimH : H
         {
             public QSimH(IOperationFactory m) : base(m)
@@ -77,6 +83,10 @@ namespace Quasm
             }
         }
 
+        /// <summary>
+        /// Processes Measurement gate
+        /// Every measurement will currently trigger a schedule of a job
+        /// </summary>
         public class QSimM : M
         {
             public QSimM(IOperationFactory m) : base(m)
@@ -106,6 +116,9 @@ namespace Quasm
             }
         }
 
+        /// <summary>
+        /// Processes Pauli-X gate
+        /// </summary>
         public class QSimX : X
         {
             public QSimX(IOperationFactory m) : base(m)
@@ -129,6 +142,9 @@ namespace Quasm
             }
         }
 
+        /// <summary>
+        /// Processes Pauli-Y gate
+        /// </summary>
         public class QSimY : Y
         {
             public QSimY(IOperationFactory m) : base(m)
@@ -152,6 +168,9 @@ namespace Quasm
             }
         }
 
+        /// <summary>
+        /// Processes Pauli-Y gate
+        /// </summary>
         public class QSimZ : Z
         {
             public QSimZ(IOperationFactory m) : base(m)
@@ -176,5 +195,17 @@ namespace Quasm
         }
 
         public static readonly StringBuilder QuasmLog = new StringBuilder();
+
+        /// <summary>
+        /// Implemented as stub, to work around current reflection bug of simulator base
+        /// </summary>
+        public class QSimMeasure : Measure
+        {
+            public QSimMeasure(IOperationFactory m) : base(m)
+            {
+            }
+
+            public override Func<(QArray<Pauli>, QArray<Qubit>), Result> Body => throw new NotImplementedException();
+        }
     }
 }
