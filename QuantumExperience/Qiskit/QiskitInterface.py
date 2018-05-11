@@ -39,18 +39,18 @@ if 'id' in job:
        result = api.get_result_from_execution(id)
        print(result)
        with open('output.txt', 'w') as resultFile:
-          resultFile.write(result)
+          resultFile.write(str(result['result']))
     else:
        print(" SIMULATOR AT IBM:")
        ex = api.run_experiment(qasm, backend='ibmqx_qasm_simulator', shots=shots, name='QSharpRun SIM', timeout=15)
        print("DONE")
        print(ex)
        with open('output.txt', 'w') as resultFile:
-          resultFile.write(ex)
+          resultFile.write(str(ex['result']))
 else:
    print(" SIMULATOR AT IBM:")
    ex = api.run_experiment(qasm, backend='ibmqx_qasm_simulator', shots=shots, name='QSharpRun SIM', timeout=15)
    print("DONE")
    print(ex)
    with open('output.txt', 'w') as resultFile:
-      resultFile.write(ex)
+      resultFile.write(str(ex['result']))
