@@ -26,9 +26,9 @@ namespace Quasm.Qiskit
 
         public override string Name => "IbmQx5";
 
-        protected override List<Result> RunQuasm(StringBuilder quasm)
+        protected override List<Result> RunQuasm(StringBuilder quasm, int runs)
         {
-            string result = QiskitExecutor.RunQuasm(quasm, QBitCount, Key, "ibmqx4");
+            string result = QiskitExecutor.RunQuasm(quasm, QBitCount, Key, "ibmqx4", runs);
             Console.WriteLine("Processed");
             if (result.Length != QBitCount)
             {

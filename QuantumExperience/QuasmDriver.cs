@@ -33,7 +33,7 @@ namespace Quasm
             QuasmLog.AppendLine($"creg c[{QBitCount}];");
         }
 
-        protected abstract List<Result> RunQuasm(StringBuilder quasm);
+        protected abstract List<Result> RunQuasm(StringBuilder quasm, int runs);
         public abstract int QBitCount { get; }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Quasm
                         Console.WriteLine("QUASM file");
                         Console.Write(QuasmLog.ToString());
                         Console.WriteLine("");
-                        var result = (Factory as QuasmDriver).RunQuasm(QuasmLog);
+                        var result = (Factory as QuasmDriver).RunQuasm(QuasmLog,1);
                         return result[q.Id];
                     };
                 }

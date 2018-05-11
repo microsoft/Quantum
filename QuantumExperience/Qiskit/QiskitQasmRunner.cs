@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Quasm.Qiskit
 {
@@ -17,40 +18,69 @@ namespace Quasm.Qiskit
         /// <summary>
         /// Use the linux subsystem, to run in a real linux and run the python code to execute the Quasm
         /// </summary>
-        public static string RunQuasm(StringBuilder quasm, int qbits, string key, string backend)
+        public static string RunQuasm(StringBuilder quasm, int qbits, string key, string backend, int shots)
         {
             try
             {
-                File.WriteAllText(Path.Combine("Qiskit","data.txt"), quasm.ToString().Replace("\r\n", "\n"), Encoding.ASCII);
+                var directory = "Qiskit";
+                var input = Path.Combine(directory, "input.txt");
+                var output = Path.Combine(directory, "output.txt");
 
-                string result = null;
+                //Change to unix compatible file format
+                File.WriteAllText(input, quasm.ToString().Replace("\r\n", "\n"), Encoding.ASCII);
+
+                //Run python3 with the interface
+                var python = "python3";
+                var arguments = $"QiskitInterface.py {key} {backend} {shots}";
+
+                //HACK: fix because currently qiskit currently can't run directly within windows, 
+                //      so wrap it in linux subsystem of bash
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    python = "bash.exe";
+                    arguments = $"-c \"python3 {arguments}\"";
+                }
 
                 var processStart = new ProcessStartInfo()
                 {
-                    FileName = "python3",
-                    Arguments = $"QiskitInterface.py {key} {backend}",
-                    WorkingDirectory = "Qiskit",
+                    FileName = python,
+                    Arguments = arguments,
+                    WorkingDirectory = directory,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     CreateNoWindow = true
                 };
-                var process = Process.Start(processStart);
-                while (!process.StandardOutput.EndOfStream)
+                var process = new Process()
                 {
-                    string line = process.StandardOutput.ReadLine();
+                    StartInfo = processStart,
+                    EnableRaisingEvents = true
+                };
+                process.OutputDataReceived += (p, o) => Console.WriteLine(o.Data);
+                process.ErrorDataReceived += (p, o) => Console.Error.WriteLine(o.Data);
+                process.Start();
+                process.BeginErrorReadLine();
+                process.BeginOutputReadLine();
+                process.WaitForExit();
 
-                    Console.WriteLine(line);
-                    if (line.Contains("'labels':"))
+                if (File.Exists(output))
+                {
+                    var result = File.ReadAllText(output);
+                    if (result.Contains("'labels':"))
                     {
-                        result = line.Substring(line.IndexOf("'labels': ['") + 12, qbits);
+                        result = result.Substring(result.IndexOf("'labels': ['") + 12, qbits);
                     }
+                    return result;
                 }
-                Console.WriteLine(process.StandardError.ReadToEnd());
-                return result ?? "";
+                else
+                {
+                    Console.WriteLine("Missing output in outputfile");
+                    return "";
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine($"Starting QiskitInterface.py failed because of: {e.Message}");
                 return "";
             }
         }
