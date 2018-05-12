@@ -19,19 +19,27 @@ namespace Qasm
     /// </summary>
     public abstract class QasmDriver : SimulatorBase
     {
-        public QasmDriver(): base()
+        private int operationDepth;
+        public override void StartOperation(string operationName, OperationFunctor functor, object inputValue)
         {
-            AppendHeader();
+            if (operationDepth == 0)
+            {
+                QuasmLog.AppendLine("include \"qelib1.inc\";");
+                QuasmLog.AppendLine($"qreg q[{QBitCount}];");
+                QuasmLog.AppendLine($"creg c[{QBitCount}];");
+            }
+            operationDepth++;
+            base.StartOperation(operationName, functor, inputValue);
         }
 
-        /// <summary>
-        /// Generate the openqasm header
-        /// </summary>
-        private void AppendHeader()
+        public override void EndOperation(string operationName, OperationFunctor functor, object resultValue)
         {
-            QuasmLog.AppendLine("include \"qelib1.inc\";");
-            QuasmLog.AppendLine($"qreg q[{QBitCount}];");
-            QuasmLog.AppendLine($"creg c[{QBitCount}];");
+            base.EndOperation(operationName, functor, resultValue);
+            operationDepth--;
+            if (operationDepth == 0)
+            {
+                QuasmLog.Clear();
+            }
         }
 
         protected abstract IEnumerable<Result> RunQasm(StringBuilder qasm, int runs);
@@ -184,6 +192,32 @@ namespace Qasm
                             return QVoid.Instance;
                         }
                         QuasmLog.AppendLine($"z q[{q1.Id}];");
+                        return QVoid.Instance;
+                    };
+                }
+            }
+        }
+
+        /// <summary>
+        /// Processes Pauli-Y gate
+        /// </summary>
+        public class QSimCNOT : CNOT
+        {
+            public QSimCNOT(IOperationFactory m) : base(m)
+            {
+            }
+
+            public override Func<(Qubit,Qubit), QVoid> Body
+            {
+                get
+                {
+                    return delegate ((Qubit, Qubit) q1)
+                    {
+                        if (q1.Item1 == null || q1.Item2 == null)
+                        {
+                            return QVoid.Instance;
+                        }
+                        QuasmLog.AppendLine($"cx q[{q1.Item1.Id}],q[{q1.Item2.Id}];");
                         return QVoid.Instance;
                     };
                 }
