@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
-namespace Quasm
+namespace Qasm
 {
     /// <summary>
     /// Quick and dirty Simulatorbase
@@ -16,9 +17,9 @@ namespace Quasm
     /// Please don't put this in production until its fully engineerd.
     /// This code could eat your cat. So imagine what schrodinger has to say about that one.
     /// </summary>
-    public abstract class QuasmDriver : SimulatorBase
+    public abstract class QasmDriver : SimulatorBase
     {
-        public QuasmDriver(): base()
+        public QasmDriver(): base()
         {
             AppendHeader();
         }
@@ -33,7 +34,7 @@ namespace Quasm
             QuasmLog.AppendLine($"creg c[{QBitCount}];");
         }
 
-        protected abstract List<Result> RunQuasm(StringBuilder quasm, int runs);
+        protected abstract IEnumerable<Result> RunQasm(StringBuilder qasm, int runs);
         public abstract int QBitCount { get; }
 
         /// <summary>
@@ -104,12 +105,7 @@ namespace Quasm
                             return Result.Zero;
                         }
                         QuasmLog.AppendLine($"measure q[{(uint)q.Id}] -> c[{(uint)q.Id}];");
-
-                        Console.WriteLine("");
-                        Console.WriteLine("QUASM file");
-                        Console.Write(QuasmLog.ToString());
-                        Console.WriteLine("");
-                        var result = (Factory as QuasmDriver).RunQuasm(QuasmLog,1);
+                        var result = (Factory as QasmDriver).RunQasm(QuasmLog,1).ToArray();
                         return result[q.Id];
                     };
                 }
