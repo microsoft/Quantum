@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Quantum.Simulation.Core;
 
-namespace Qasm
+namespace Microsoft.Quantum.Samples.Qasm
 {
     public class ConsoleDriver : QasmDriver
     {

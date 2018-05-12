@@ -3,10 +3,10 @@
 
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
-using Quantum.Qasm;
+using Microsoft.Quantum.Samples.Quantum.Qasm;
 using System;
 
-namespace Qasm
+namespace Microsoft.Quantum.Samples.Qasm
 {
     class Driver
     {

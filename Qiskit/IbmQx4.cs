@@ -6,9 +6,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using Qasm;
+using Microsoft.Quantum.Samples.Qasm;
 
-namespace Qiskit
+namespace Microsoft.Quantum.Samples.Qiskit
 {
     /*
      * Quick and dirty driver to enable the IbmQx4

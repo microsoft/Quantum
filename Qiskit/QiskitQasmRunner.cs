@@ -8,7 +8,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Qiskit
+namespace Microsoft.Quantum.Samples.Qiskit
 {
     /// <summary>
     /// Quick version to tranfer to python in a real linux environment, because Qiskit doesn't run on the windows python

@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 using Microsoft.Quantum.Simulation.Core;
-using Qasm;
+using Microsoft.Quantum.Samples.Qasm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Qiskit
+namespace Microsoft.Quantum.Samples.Qiskit
 {
     abstract class QiskitDriver : QasmDriver
     {

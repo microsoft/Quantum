@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 using Microsoft.Quantum.Simulation.Core;
+using Microsoft.Quantum.Samples.Qasm;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using Qasm;
 
-namespace Qiskit
+namespace Microsoft.Quantum.Samples.Qiskit
 {
     /*
      * Quick and dirty driver to enable the IbmQx5

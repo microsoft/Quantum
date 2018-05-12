@@ -9,7 +9,7 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
-namespace Qasm
+namespace Microsoft.Quantum.Samples.Qasm
 {
     /// <summary>
     /// Quick and dirty Simulatorbase
