@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Microsoft.Quantum.Samples.Measurement;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
-using Microsoft.Quantum.Samples.Quantum.Qasm;
 using System;
 
 namespace Microsoft.Quantum.Samples.Qiskit
@@ -23,7 +23,7 @@ namespace Microsoft.Quantum.Samples.Qiskit
             Console.WriteLine("Hadamard on IBMQx4");
             for (int i = 0; i < 1; i++)
             {
-                var result = Hadamard.Run(factory).Result;
+                var result = MeasurementOneQubit.Run(factory).Result;
                 Console.WriteLine($"Result of Hadamard is {result}");
             }
 

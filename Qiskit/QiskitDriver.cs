@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.Quantum.Simulation.Core;
-using Microsoft.Quantum.Samples.Qasm;
+using Microsoft.Quantum.Samples.OpenQasm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Microsoft.Quantum.Samples.Qiskit
 {
-    abstract class QiskitDriver : QasmDriver
+    abstract class QiskitDriver : OpenQasmDriver
     {
         public QiskitDriver(string key): base()
         {
@@ -18,7 +18,7 @@ namespace Microsoft.Quantum.Samples.Qiskit
         }
         public string Key { get; set; }
 
-        protected override IEnumerable<Result> RunQasm(StringBuilder quasm, int runs)
+        protected override IEnumerable<Result> RunOpenQasm(StringBuilder quasm, int runs)
         {
             Console.WriteLine("");
             Console.WriteLine("QUASM file");

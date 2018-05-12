@@ -7,16 +7,16 @@ using System.Linq;
 using System.Text;
 using Microsoft.Quantum.Simulation.Core;
 
-namespace Microsoft.Quantum.Samples.Qasm
+namespace Microsoft.Quantum.Samples.OpenQasm
 {
-    public class ConsoleDriver : QasmDriver
+    public class ConsoleDriver : OpenQasmDriver
     {
         //Use 20 for now
         public override int QBitCount => 20;
 
         public override string Name => "Console";
 
-        protected override IEnumerable<Result> RunQasm(StringBuilder quasm, int runs)
+        protected override IEnumerable<Result> RunOpenQasm(StringBuilder quasm, int runs)
         {
             Console.WriteLine(quasm);
             //No measurement

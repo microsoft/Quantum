@@ -9,15 +9,15 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
-namespace Microsoft.Quantum.Samples.Qasm
+namespace Microsoft.Quantum.Samples.OpenQasm
 {
     /// <summary>
-    /// Quick and dirty Simulatorbase
+    /// Quick and dirty Simulatorbase to write OpenQASM 2.0
     /// Just enough to show that it would work
     /// Please don't put this in production until its fully engineerd.
     /// This code could eat your cat. So imagine what schrodinger has to say about that one.
     /// </summary>
-    public abstract class QasmDriver : SimulatorBase
+    public abstract class OpenQasmDriver : SimulatorBase
     {
         private int operationDepth;
         public override void StartOperation(string operationName, OperationFunctor functor, object inputValue)
@@ -42,7 +42,7 @@ namespace Microsoft.Quantum.Samples.Qasm
             }
         }
 
-        protected abstract IEnumerable<Result> RunQasm(StringBuilder qasm, int runs);
+        protected abstract IEnumerable<Result> RunOpenQasm(StringBuilder qasm, int runs);
         public abstract int QBitCount { get; }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Microsoft.Quantum.Samples.Qasm
                             return Result.Zero;
                         }
                         QuasmLog.AppendLine($"measure q[{(uint)q.Id}] -> c[{(uint)q.Id}];");
-                        var result = (Factory as QasmDriver).RunQasm(QuasmLog,1).ToArray();
+                        var result = (Factory as OpenQasmDriver).RunOpenQasm(QuasmLog,1).ToArray();
                         return result[q.Id];
                     };
                 }
@@ -199,7 +199,47 @@ namespace Microsoft.Quantum.Samples.Qasm
         }
 
         /// <summary>
-        /// Processes Pauli-Y gate
+        /// Ignoring Asserts, because OpenQuasm doesn't have them and don't add behavior unless hit.
+        /// </summary>
+        public class QSimAssert : Assert
+        {
+            public QSimAssert(IOperationFactory m) : base(m)
+            {
+            }
+
+            public override Func<(QArray<Pauli>, QArray<Qubit>, Result, string), QVoid> Body
+            {
+                get {
+                    return delegate ((QArray<Pauli>, QArray<Qubit>, Result, string) q1)
+                    {
+                        return QVoid.Instance;
+                    };
+                }
+            }
+        }
+        /// <summary>
+        /// Ignoring AssertProbes, because OpenQuasm doesn't have them and don't add behavior unless hit.
+        /// </summary>
+        public class QSimAssertProb : AssertProb
+        {
+            public QSimAssertProb(IOperationFactory m) : base(m)
+            {
+            }
+
+            public override Func<(QArray<Pauli>, QArray<Qubit>, Result, double, string, double), QVoid> Body
+            {
+                get
+                {
+                    return delegate ((QArray<Pauli>, QArray<Qubit>, Result, double, string, double) q1)
+                    {
+                        return QVoid.Instance;
+                    };
+                }
+            }
+        }
+
+        /// <summary>
+        /// Processes CNOT gate
         /// </summary>
         public class QSimCNOT : CNOT
         {

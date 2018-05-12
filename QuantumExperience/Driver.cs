@@ -3,10 +3,10 @@
 
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
-using Microsoft.Quantum.Samples.Quantum.Qasm;
 using System;
+using Microsoft.Quantum.Samples.Measurement;
 
-namespace Microsoft.Quantum.Samples.Qasm
+namespace Microsoft.Quantum.Samples.OpenQasm
 {
     class Driver
     {
@@ -19,7 +19,7 @@ namespace Microsoft.Quantum.Samples.Qasm
         {
             var factory = new ConsoleDriver(); //Using different Factory
             Console.WriteLine("Hadamard to Qasm");
-            Hadamard.Run(factory).Wait();
+            MeasurementOneQubit.Run(factory).Wait();
             Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
 
