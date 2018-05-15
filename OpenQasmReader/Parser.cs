@@ -18,7 +18,7 @@ namespace OpenQasmReader
         {
             using (var file = File.OpenText(path))
             {
-                return ParseHeader(file, Path.GetFileName(path));
+                return ParseHeader(file, Path.GetFileNameWithoutExtension(path));
             }
         }
 
@@ -182,7 +182,7 @@ namespace OpenQasmReader
             {
                 if (stream.ReadBlock(buffer, 0, 1) == 0)
                 {
-                    throw new InvalidOperationException($"Unexpected EOF on line {line}");
+                    return result;
                 }
                 var letter = buffer[0];
                 if (letter == '\r') { continue; } //Ignore for windows
@@ -295,7 +295,8 @@ namespace OpenQasmReader
         private static string ReadToken(char[] buffer, ref int column, StreamReader stream)
         {
             TokenBuffer.Clear();
-            while (stream.ReadBlock(buffer, 0, 1) == 0 && (char.IsLetterOrDigit(buffer[0]) || buffer[0] == '_'))
+            TokenBuffer.Append(buffer[0]);
+            while (stream.ReadBlock(buffer, 0, 1) == 1 && (char.IsLetterOrDigit(buffer[0]) || buffer[0] == '_'))
             {
                 column++;
                 TokenBuffer.Append(buffer[0]);
