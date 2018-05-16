@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Quantum.Canon\Microsoft.Quantum.Canon.csproj" />
-    <ProjectReference Include="..\Samples\Measurement\Measurement.csproj" />
+    <ProjectReference Include="..\..\Microsoft.Quantum.Canon\Microsoft.Quantum.Canon.csproj" />
+    <ProjectReference Include="..\Measurement\Measurement.csproj" />
   </ItemGroup>
 </Project>

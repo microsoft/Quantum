@@ -9,7 +9,10 @@ namespace Quantum.OpenQasmImported
     {
         static void Main(string[] args)
         {
-            Console.Write(Parser.Parse(@"C:\Quantum\openqasm\examples\generic\adder.qasm").GetQSharp());
+            foreach (var method in Parser.Parse(@"C:\Quantum\openqasm\examples\generic\adder.qasm"))
+            {
+                Console.WriteLine(method.GetQSharp());
+            }
             Console.ReadLine();
         }
     }

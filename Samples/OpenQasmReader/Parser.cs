@@ -14,11 +14,11 @@ namespace OpenQasmReader
     /// </summary>
     public class Parser
     {
-        public static Method Parse(string path)
+        public static IEnumerable<Method> Parse(string path)
         {
             using (var file = File.OpenText(path))
             {
-                return ParseHeader(file, Path.GetFileNameWithoutExtension(path));
+                return ParseHeader(file, Path.GetFileNameWithoutExtension(path), path).ToArray();
             }
         }
 
@@ -28,7 +28,7 @@ namespace OpenQasmReader
         /// </summary>
         /// <param name="stream">stream</param>
         /// <returns></returns>
-        private static Method ParseHeader(StreamReader stream, string operationName)
+        private static IEnumerable<Method> ParseHeader(StreamReader stream, string operationName, string path)
         {
             var buffer = new char[64];
             int line = 1;
@@ -82,15 +82,15 @@ namespace OpenQasmReader
                             char.ToUpper(buffer[6]) == 'M')
                         {
                             column += 7;
-                            MoveWhiteSpace(buffer, ref column, stream);
+                            MoveWhiteSpace(buffer, ref line, ref column, stream);
                             CheckNotEndStream(line, column, stream);
                             CheckVersionNumber(buffer, line, ref column, stream);
-                            MoveWhiteSpace(buffer, ref column, stream);
+                            MoveWhiteSpace(buffer, ref line, ref column, stream);
                             if (buffer[0] != ';')
                             {
                                 throw new InvalidOperationException($"Expected ';' at line:{line} column: {column}");
                             }
-                            return ParseApplication(buffer, line, column, stream, operationName);
+                            return ParseApplication(buffer, line, column, stream, operationName, path);
                         }
                         throw new InvalidOperationException($"Expected OPENQASM on line:{line} column: {column}");
                     default:
@@ -103,12 +103,18 @@ namespace OpenQasmReader
         /// Read untill no whitespace
         /// </summary>
         /// <param name="buffer"></param>
+        /// <param name="line">current line</param>
         /// <param name="column"></param>
         /// <param name="file"></param>
         /// <returns></returns>
-        private static void MoveWhiteSpace(char[] buffer, ref int column, StreamReader file)
+        private static void MoveWhiteSpace(char[] buffer, ref int line, ref int column, StreamReader file)
         {
-            while (file.ReadBlock(buffer, 0, 1) == 1 && char.IsWhiteSpace(buffer[0])) { column++; }
+            while (file.ReadBlock(buffer, 0, 1) == 1 && char.IsWhiteSpace(buffer[0])) {
+                if (buffer[0] == '\n') 
+                {
+                    throw new Exception($"Expected newline on line:{line} column: {column}");
+                }
+                column++; }
         }
 
         /// <summary>
@@ -175,14 +181,15 @@ namespace OpenQasmReader
         /// <param name="stream">current used stream</param>
         /// <param name="operationName">current name of the operation we are parsing</param>
         /// <returns></returns>
-        private static Method ParseApplication(char[] buffer, int line, int column, StreamReader stream, string operationName)
+        private static IEnumerable<Method> ParseApplication(char[] buffer, int line, int column, StreamReader stream, string operationName, string path)
         {
             var result = new Method(operationName);
             while (true)
             {
                 if (stream.ReadBlock(buffer, 0, 1) == 0)
                 {
-                    return result;
+                    yield return result;
+                    break;
                 }
                 var letter = buffer[0];
                 if (letter == '\r') { continue; } //Ignore for windows
@@ -216,7 +223,7 @@ namespace OpenQasmReader
                     #endregion
                 }
                 
-                var token = ReadToken(buffer, ref line, stream);
+                var token = ReadToken(buffer, ref column, stream);
                 CheckNotEndStream(line, column, stream);
 
                 /*
@@ -225,8 +232,36 @@ namespace OpenQasmReader
                  */
                 if (token.Equals("include"))
                 {
-                    //Requires new methods
-                    throw new NotImplementedException("requires a bit more");
+                    MoveWhiteSpace(buffer, ref line, ref column, stream);
+                    var quoted = false;
+                    if (buffer[0] == '\"' || buffer[0] == '\'' || buffer[0] == '`' || buffer[0] == '“' || buffer[0] == '”')
+                    {
+                        quoted = true;
+                        if (stream.ReadBlock(buffer, 0, 1) == 1)
+                        {
+                            column++;
+                        }
+                        else
+                        {
+                            throw new Exception($"Unexpected EOF on line:{line} column: {column}");
+                        }
+                    }
+                    var filename = ReadFilename(buffer, ref column, stream);
+                    var includeFile = Path.Combine(Path.GetDirectoryName(path), filename);
+                    if (File.Exists(includeFile))
+                    {
+                        using (var include = File.OpenText(includeFile))
+                        {
+                           foreach(var method in ParseApplication(buffer, 0, 0, include, filename, path))
+                           {
+                                yield return method;
+                           }
+                        }
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"Import file {includeFile} is missing specified at line:{line} column: {column}");
+                    }
                 }
                 //opaque is just an empty gate defintion
                 else if (token.Equals("gate") || token.Equals("opaque"))
@@ -252,20 +287,30 @@ namespace OpenQasmReader
                 //
                 else if (token.Equals("qreg"))
                 {
-                    result.Append(ParseQReg(buffer, ref line, ref column, stream));
+                    result.AddQuantumReqister(ParseQReg(buffer, ref line, ref column, stream));
                 }
                 else if (token.Equals("creg"))
                 {
-                    result.Append(ParseCReg(buffer, ref line, ref column, stream));
+                    result.AddTraditionalRegister(ParseCReg(buffer, ref line, ref column, stream));
                 }
 
-                //Bypassing the import of qelib1.inc by making this ignore case
-                if (token.Equals("CX", StringComparison.OrdinalIgnoreCase))
+                //Elementatry gates
+                else if (token.Equals("CX"))
                 {
                     result.Append(ParseCNOT(buffer, ref line, ref column, stream));
                 }
+                if (token.Equals("U"))
+                {
+                    result.Append(ParseU(buffer, ref line, ref column, stream));
+                }
+
 
             }
+        }
+
+        private static UGate ParseU(char[] buffer, ref int line, ref int column, StreamReader stream)
+        {
+            throw new NotImplementedException();
         }
 
         private static QuantumRegister ParseQReg(char[] buffer, ref int line, ref int column, StreamReader stream)
@@ -297,6 +342,18 @@ namespace OpenQasmReader
             TokenBuffer.Clear();
             TokenBuffer.Append(buffer[0]);
             while (stream.ReadBlock(buffer, 0, 1) == 1 && (char.IsLetterOrDigit(buffer[0]) || buffer[0] == '_'))
+            {
+                column++;
+                TokenBuffer.Append(buffer[0]);
+            }
+            return TokenBuffer.ToString();
+        }
+
+        private static string ReadFilename(char[] buffer, ref int column, StreamReader stream)
+        {
+            TokenBuffer.Clear();
+            TokenBuffer.Append(buffer[0]);
+            while (stream.ReadBlock(buffer, 0, 1) == 1 && (char.IsLetterOrDigit(buffer[0]) || buffer[0] == '_' || buffer[0] == '-' || buffer[0] == '.'))
             {
                 column++;
                 TokenBuffer.Append(buffer[0]);

@@ -57,17 +57,17 @@ namespace OpenQasmReader
             return buffer.ToString();
         }
 
-        public void Append(ControledNot controledNot)
+        public void Append(IQasmElement element)
         {
-            elements.Add(controledNot);
+            elements.Add(element);
         }
 
-        public void Append(TraditionalRegister traditionalRegister)
+        public void AddTraditionalRegister(TraditionalRegister traditionalRegister)
         {
             cregs.Add(traditionalRegister);
         }
 
-        public void Append(QuantumRegister quantumRegister)
+        public void AddQuantumReqister(QuantumRegister quantumRegister)
         {
             qregs.Add(quantumRegister);
         }
