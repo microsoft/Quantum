@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace OpenQasmReader
+namespace Microsoft.Quantum.Samples.OpenQasmReader
 {
     /// <summary>
     /// Represents a controlled not Gate

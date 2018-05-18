@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace OpenQasmReader
+namespace Microsoft.Quantum.Samples.OpenQasmReader
 {
     /// <summary>
     /// Represents a method in QSharp
@@ -17,13 +17,19 @@ namespace OpenQasmReader
         private IList<TraditionalRegister> cregs = new List<TraditionalRegister>();
         private IList<QuantumRegister> qregs = new List<QuantumRegister>();
         private IList<IQasmElement> elements = new List<IQasmElement>();
-        
+        private string[] Parameters { get; set; } = new string[0];
+
         private string Name { get; set; }
 
         public Method(string operationName)
         {
             operationName = operationName.Replace(' ', '_');
             Name = operationName.First().ToString().ToUpper() + operationName.Substring(1);
+        }
+
+        public Method(string operationName, string[] parameters) : this(operationName)
+        {
+            Parameters = parameters;
         }
 
         public string GetQSharp()

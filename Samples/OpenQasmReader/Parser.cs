@@ -7,358 +7,168 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace OpenQasmReader
+namespace Microsoft.Quantum.Samples.OpenQasmReader
 {
     /// <summary>
     /// A quick and simple qasm parser which was hand roled to remain under MIT license
     /// </summary>
     public class Parser
     {
-        public static IEnumerable<Method> Parse(string path)
+        public static string ParseQasmFile(string ns, string path)
         {
             using (var file = File.OpenText(path))
             {
-                return ParseHeader(file, Path.GetFileNameWithoutExtension(path), path).ToArray();
+                return Convert(Tokenizer(file),ns, Path.GetFileNameWithoutExtension(path), path);
             }
         }
 
-        /// <summary>
-        /// Parses the header
-        /// SPEC: mainprogram: "OPENQASM" real ";" program
-        /// </summary>
-        /// <param name="stream">stream</param>
-        /// <returns></returns>
-        private static IEnumerable<Method> ParseHeader(StreamReader stream, string operationName, string path)
+        private static Dictionary<string, Tuple<int, string>> Macro { get; } = new Dictionary<string, Tuple<int, string>>()
         {
-            var buffer = new char[64];
-            int line = 1;
-            int column = 0;
-
-
-            while (true)
             {
-                if (stream.ReadBlock(buffer, 0, 1) == 0)
-                {
-                    throw new InvalidOperationException($"Unexpected EOF on line {line}");
-                }
-                var letter = buffer[0];
-                if (letter == '\r') { continue; } //Ignore for windows
-                column++;
+                string.Empty, new Tuple<int, string>(4,
+@"namespace {0} {{
+    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Canon;
 
-                #region Ignore Whitespace
-                if (char.IsWhiteSpace(letter))
+    operation {1}():({2})
+    {{
+        body
+        {{
+{3}
+          return ({4});
+        }}
+    }}
+}}")         }
+        };
+
+        public static string Convert(IEnumerable<string> tokens, string ns, string name, string path)
+        {
+            var result = new StringBuilder();
+            var cRegs = new List<string>();
+
+            var token = tokens.GetEnumerator();
+            while (token.MoveNext())
+            {
+                switch (token.Current)
                 {
-                    if ('\n' == letter)
-                    {
-                        column = 0;
-                        line++;
-                    }
-                    continue;
-                }
-                #endregion
-                switch (letter)
-                {
-                    case '/':
-                        #region Ignore comment
-                        if (stream.ReadBlock(buffer, 0, 1) == 1 && buffer[0] == '/')
+                    case "OPENQASM":
+                        token.MoveNext(); //2.0
+                        if (!token.Current.Equals("2.0"))
                         {
-                            MoveNextLine(buffer, ref line, ref column, stream);
-                            continue;
+                            Console.Error.WriteLine($"Parser has been written for version 2.0. Found version {token.Current}. Results may be incorrect.");
+                        };
+                        token.MoveNext(); //;
+                        break;
+                    case "include":
+                        ParseMarcro(token);
+                        break;
+                    case "gate":
+                        token.MoveNext();
+                        var gateName = token.Current;
+                        if (Intrinsic.Contains(gateName))
+                        {
+                            while (token.Current != "}" && token.MoveNext()) { }
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Expecting '//' line:{line} column: {column}");
-                        }
-                        #endregion
-                    case 'O':
-                    case 'o':
-                        if (stream.ReadBlock(buffer, 0, 7) == 7 &&
-                            char.ToUpper(buffer[0]) == 'P' &&
-                            char.ToUpper(buffer[1]) == 'E' &&
-                            char.ToUpper(buffer[2]) == 'N' &&
-                            char.ToUpper(buffer[3]) == 'Q' &&
-                            char.ToUpper(buffer[4]) == 'A' &&
-                            char.ToUpper(buffer[5]) == 'S' &&
-                            char.ToUpper(buffer[6]) == 'M')
-                        {
-                            column += 7;
-                            MoveWhiteSpace(buffer, ref line, ref column, stream);
-                            CheckNotEndStream(line, column, stream);
-                            CheckVersionNumber(buffer, line, ref column, stream);
-                            MoveWhiteSpace(buffer, ref line, ref column, stream);
-                            if (buffer[0] != ';')
+                            var param = new Stack<string>();
+                            while (token.MoveNext() && !token.Current.Equals("{"))
                             {
-                                throw new InvalidOperationException($"Expected ';' at line:{line} column: {column}");
+                                param.Push(token.Current);
                             }
-                            return ParseApplication(buffer, line, column, stream, operationName, path);
                         }
-                        throw new InvalidOperationException($"Expected OPENQASM on line:{line} column: {column}");
+                        break;
                     default:
-                        throw new InvalidOperationException($"Expected OPENQASM on line:{line} column: {column}");
+                        throw new Exception($"Unexpected token:{token.Current}");
                 }
             }
+            var builder = result;
+            var format = Macro[string.Empty].Item2;
+            result = new StringBuilder(builder.Length + format.Length);
+            result.AppendFormat(
+                format,
+                ns,
+                name,
+                string.Join(",", Enumerable.Repeat("Result[]", cRegs.Count)),
+                builder.ToString(),
+                string.Join(",", cRegs)
+                );
+            return result.ToString();
+        }
+
+        private static void ParseMarcro(IEnumerator<string> token)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Read untill no whitespace
+        /// Gates which are intrinsic to Q#, so don't need redefintions
         /// </summary>
-        /// <param name="buffer"></param>
-        /// <param name="line">current line</param>
-        /// <param name="column"></param>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        private static void MoveWhiteSpace(char[] buffer, ref int line, ref int column, StreamReader file)
+        private static readonly HashSet<string> Intrinsic = new HashSet<string>()
         {
-            while (file.ReadBlock(buffer, 0, 1) == 1 && char.IsWhiteSpace(buffer[0])) {
-                if (buffer[0] == '\n') 
-                {
-                    throw new Exception($"Expected newline on line:{line} column: {column}");
-                }
-                column++; }
-        }
+            "u1", "u3",
+            "cx", "ccx",
+            "h", "t", "s", "id",
+            "x", "y", "z",
+            "xz", "xy", "xz",
+            "rx", "ry", "rz"
+        };
 
-        /// <summary>
-        /// Current supported version is 2.0
-        /// </summary>
-        /// <param name="buffer">readbuffer</param>
-        /// <param name="line">current line number</param>
-        /// <param name="column"></param>
-        /// <param name="file"></param>
-        private static void CheckVersionNumber(char[] buffer, int line, ref int column, StreamReader file)
+        public static IEnumerable<string> Tokenizer(StreamReader stream)
         {
-            if (buffer[0] != '2' ||
-               file.ReadBlock(buffer, 0, 2) != 2 ||
-               buffer[0] != '.' ||
-               buffer[1] != '0')
+            var token = new StringBuilder();
+            var buffer = new char[1];
+
+            while (stream.ReadBlock(buffer, 0, 1) == 1)
             {
-                throw new InvalidOperationException($"Expected version 2.0 on line:{line} column: {column}");
-            }
-            column += 2;
-        }
-
-        /// <summary>
-        /// Reads until the next line
-        /// </summary>
-        /// <param name="buffer">buffer to use for reading</param>
-        /// <param name="line">current line number</param>
-        /// <param name="column">current column number</param>
-        /// <param name="file">filestream</param>
-        private static void MoveNextLine(char[] buffer, ref int line, ref int column, StreamReader file)
-        {
-            while (file.ReadBlock(buffer, 0, 1) == 1)
-            {
-                if (buffer[0] == '\n')
+                if (buffer[0] == '/')
                 {
-                    line++;
-                    column = 0;
-                    break;
-                }
-            }
-            CheckNotEndStream(line, column, file);
-        }
-
-        /// <summary>
-        /// Check that we aren't at the end of the stream
-        /// </summary>
-        /// <param name="line">line number</param>
-        /// <param name="column">colum name</param>
-        /// <param name="file">file stream</param>
-        private static void CheckNotEndStream(in int line, in int column, StreamReader file)
-        {
-            if (file.EndOfStream)
-            {
-                throw new InvalidOperationException($"Unexpected EOF at line:{line} column: {column}");
-            }
-        }
-
-        /// <summary>
-        /// Parses the application
-        /// SPEC: program: statement | program statement
-        /// </summary>
-        /// <param name="buffer">current buffer for reading</param>
-        /// <param name="line">current line number</param>
-        /// <param name="column">current collumn</param>
-        /// <param name="stream">current used stream</param>
-        /// <param name="operationName">current name of the operation we are parsing</param>
-        /// <returns></returns>
-        private static IEnumerable<Method> ParseApplication(char[] buffer, int line, int column, StreamReader stream, string operationName, string path)
-        {
-            var result = new Method(operationName);
-            while (true)
-            {
-                if (stream.ReadBlock(buffer, 0, 1) == 0)
-                {
-                    yield return result;
-                    break;
-                }
-                var letter = buffer[0];
-                if (letter == '\r') { continue; } //Ignore for windows
-                column++;
-
-                #region Ignore Whitespace
-                if (char.IsWhiteSpace(letter))
-                {
-                    if ('\n' == letter)
+                    if (stream.ReadBlock(buffer, 0, 1) == 1)
                     {
-                        column = 0;
-                        line++;
-                    }
-                    continue;
-                }
-                #endregion
-                // This might be a comment
-                // Missing in language Spec
-                if (letter == '/')
-                {
-                    #region Ignore comment
-                    if (stream.ReadBlock(buffer, 0, 1) == 1 && buffer[0] == '/')
-                    {
-                        MoveNextLine(buffer, ref line, ref column, stream);
-                        continue;
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException($"Expecting '//' line:{line} column: {column}");
-                    }
-                    #endregion
-                }
-                
-                var token = ReadToken(buffer, ref column, stream);
-                CheckNotEndStream(line, column, stream);
-
-                /*
-                 * Treating 'include', 'gate', 'opaque', 'measure', 'reset', 'if', and 'barrier' as keywords
-                 * Spec doesn't define this, 
-                 */
-                if (token.Equals("include"))
-                {
-                    MoveWhiteSpace(buffer, ref line, ref column, stream);
-                    var quoted = false;
-                    if (buffer[0] == '\"' || buffer[0] == '\'' || buffer[0] == '`' || buffer[0] == '“' || buffer[0] == '”')
-                    {
-                        quoted = true;
-                        if (stream.ReadBlock(buffer, 0, 1) == 1)
+                        //comment block
+                        if (buffer[0] == '/')
                         {
-                            column++;
+                            //ignore rest of line
+                            while (stream.ReadBlock(buffer, 0, 1) == 1 && buffer[0] != '\n') ;
                         }
+                        // part of formula
                         else
                         {
-                            throw new Exception($"Unexpected EOF on line:{line} column: {column}");
-                        }
-                    }
-                    var filename = ReadFilename(buffer, ref column, stream);
-                    var includeFile = Path.Combine(Path.GetDirectoryName(path), filename);
-                    if (File.Exists(includeFile))
-                    {
-                        using (var include = File.OpenText(includeFile))
-                        {
-                           foreach(var method in ParseApplication(buffer, 0, 0, include, filename, path))
-                           {
-                                yield return method;
-                           }
+                            yield return "/";
                         }
                     }
                     else
                     {
-                        throw new InvalidOperationException($"Import file {includeFile} is missing specified at line:{line} column: {column}");
+                        throw new Exception("Unexpected end of file");
                     }
                 }
-                //opaque is just an empty gate defintion
-                else if (token.Equals("gate") || token.Equals("opaque"))
+                else if (char.IsLetterOrDigit(buffer[0]) || buffer[0] == '_' || buffer[0] == '.' || buffer[0] == '[' || buffer[0] == ']')
                 {
-                    throw new NotImplementedException("requires a bit more");
+                    token.Append(buffer[0]);
                 }
-                else if (token.Equals("measure"))
+                else
                 {
-                    throw new NotImplementedException("requires a bit more");
+                    if (token.Length != 0)
+                    {
+                        yield return token.ToString();
+                        token.Clear();
+                    }
+                    switch (buffer[0])
+                    {
+                        case '(': yield return "("; break;
+                        case ')': yield return ")"; break;
+                        case ',': yield return ","; break;
+                        case ';': yield return ";"; break;
+                        case '+': yield return "+"; break;
+                        case '-': yield return "-"; break;
+                        case '*': yield return "*"; break;
+                        default:
+                            //ignore
+                            break;
+                    }
                 }
-                else if (token.Equals("reset"))
-                {
-                    throw new NotImplementedException("requires a bit more");
-                }
-                else if (token.Equals("if"))
-                {
-                    throw new NotImplementedException("requires a bit more");
-                }
-                else if (token.Equals("barrier"))
-                {
-                    throw new NotImplementedException("requires a bit more");
-                }
-                //
-                else if (token.Equals("qreg"))
-                {
-                    result.AddQuantumReqister(ParseQReg(buffer, ref line, ref column, stream));
-                }
-                else if (token.Equals("creg"))
-                {
-                    result.AddTraditionalRegister(ParseCReg(buffer, ref line, ref column, stream));
-                }
-
-                //Elementatry gates
-                else if (token.Equals("CX"))
-                {
-                    result.Append(ParseCNOT(buffer, ref line, ref column, stream));
-                }
-                if (token.Equals("U"))
-                {
-                    result.Append(ParseU(buffer, ref line, ref column, stream));
-                }
-
-
             }
-        }
-
-        private static UGate ParseU(char[] buffer, ref int line, ref int column, StreamReader stream)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static QuantumRegister ParseQReg(char[] buffer, ref int line, ref int column, StreamReader stream)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static TraditionalRegister ParseCReg(char[] buffer, ref int line, ref int column, StreamReader stream)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static ControledNot ParseCNOT(char[] buffer, ref int line, ref int column, StreamReader stream)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static StringBuilder TokenBuffer = new StringBuilder();
-
-        /// <summary>
-        /// Retrieve the token
-        /// </summary>
-        /// <param name="buffer">current buffer</param>
-        /// <param name="column">current collumn</param>
-        /// <param name="stream">current used stream</param>
-        /// <returns></returns>
-        private static string ReadToken(char[] buffer, ref int column, StreamReader stream)
-        {
-            TokenBuffer.Clear();
-            TokenBuffer.Append(buffer[0]);
-            while (stream.ReadBlock(buffer, 0, 1) == 1 && (char.IsLetterOrDigit(buffer[0]) || buffer[0] == '_'))
-            {
-                column++;
-                TokenBuffer.Append(buffer[0]);
-            }
-            return TokenBuffer.ToString();
-        }
-
-        private static string ReadFilename(char[] buffer, ref int column, StreamReader stream)
-        {
-            TokenBuffer.Clear();
-            TokenBuffer.Append(buffer[0]);
-            while (stream.ReadBlock(buffer, 0, 1) == 1 && (char.IsLetterOrDigit(buffer[0]) || buffer[0] == '_' || buffer[0] == '-' || buffer[0] == '.'))
-            {
-                column++;
-                TokenBuffer.Append(buffer[0]);
-            }
-            return TokenBuffer.ToString();
         }
     }
+
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OpenQasmReader
+namespace Microsoft.Quantum.Samples.OpenQasmReader
 {
     public class TraditionalRegister : IQasmElement
     { 
