@@ -264,6 +264,46 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             }
         }
 
+        /// <summary>
+        /// Process R Gate
+        /// </summary>
+        public class QSimR : R
+        {
+            public QSimR(IOperationFactory m) : base(m)
+            {
+            }
+
+            public override Func<(Pauli, double, Qubit), QVoid> Body
+            {
+                get
+                {
+                    return delegate ((Pauli, double, Qubit) q1)
+                    {
+                        if (q1.Item3 == null)
+                        {
+                            return QVoid.Instance;
+                        }
+                        switch (q1.Item1)
+                        {
+                            case Pauli.PauliI:
+                                QuasmLog.AppendLine($"U({q1.Item2},{q1.Item2},{q1.Item2}) q[{q1.Item3.Id}];");
+                                break;
+                            case Pauli.PauliX:
+                                QuasmLog.AppendLine($"rx({q1.Item2}) q[{q1.Item3.Id}];");
+                                break;
+                            case Pauli.PauliY:
+                                QuasmLog.AppendLine($"ry({q1.Item2}) q[{q1.Item3.Id}];");
+                                break;
+                            case Pauli.PauliZ:
+                                QuasmLog.AppendLine($"rz({q1.Item2}) q[{q1.Item3.Id}];");
+                                break;
+                        }
+                        return QVoid.Instance;
+                    };
+                }
+            }
+        }
+
         public static readonly StringBuilder QuasmLog = new StringBuilder();
 
         /// <summary>
