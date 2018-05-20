@@ -14,11 +14,22 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
     /// </summary>
     public class Parser
     {
-        public static string ParseQasmFile(string ns, string path)
+        private const string OPEN_PARANTHESES = "(";
+        private const string FORWARD_SLASH = "/";
+        private const string OPEN_CURLYBRACKET = "{";
+        private const string CLOSE_PARANTHESES = ")";
+        private const string CLOSE_CURLYBRACKET = "}";
+        private const string COMMA = ",";
+        private const string POINT_COMMA = ";";
+        private const string PLUS = "+";
+        private const string MINUS = "-";
+        private const string STAR = "*";
+
+        public static string ConvertQasmFile(string ns, string path)
         {
             using (var file = File.OpenText(path))
             {
-                return Convert(Tokenizer(file),ns, Path.GetFileNameWithoutExtension(path), path);
+                return Convert(Tokenizer(file),ns, Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path));
             }
         }
 
@@ -46,6 +57,23 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             var result = new StringBuilder();
             var cRegs = new List<string>();
 
+            ParseApplication(tokens, path, result);
+            var builder = result;
+            var format = Macro[string.Empty].Item2;
+            result = new StringBuilder(builder.Length + format.Length);
+            result.AppendFormat(
+                format,
+                ns,
+                name,
+                string.Join(COMMA, Enumerable.Repeat("Result[]", cRegs.Count)),
+                builder.ToString(),
+                string.Join(COMMA, cRegs)
+                );
+            return result.ToString();
+        }
+
+        private static void ParseApplication(IEnumerable<string> tokens, string path, StringBuilder builder)
+        {
             var token = tokens.GetEnumerator();
             while (token.MoveNext())
             {
@@ -60,59 +88,59 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         token.MoveNext(); //;
                         break;
                     case "include":
-                        ParseMarcro(token);
+                        ParseInclude(token, path, builder);
                         break;
                     case "gate":
                         token.MoveNext();
                         var gateName = token.Current;
-                        if (Intrinsic.Contains(gateName))
+
+                        //Already defined ?
+                        if (Macro.ContainsKey(gateName))
                         {
-                            while (token.Current != "}" && token.MoveNext()) { }
+                            while (token.Current != CLOSE_CURLYBRACKET && token.MoveNext()) { }
                         }
                         else
                         {
                             var param = new Stack<string>();
-                            while (token.MoveNext() && !token.Current.Equals("{"))
+                            while (token.MoveNext() && !token.Current.Equals(OPEN_CURLYBRACKET))
                             {
                                 param.Push(token.Current);
                             }
+                            throw new NotImplementedException();
                         }
                         break;
                     default:
                         throw new Exception($"Unexpected token:{token.Current}");
                 }
             }
-            var builder = result;
-            var format = Macro[string.Empty].Item2;
-            result = new StringBuilder(builder.Length + format.Length);
-            result.AppendFormat(
-                format,
-                ns,
-                name,
-                string.Join(",", Enumerable.Repeat("Result[]", cRegs.Count)),
-                builder.ToString(),
-                string.Join(",", cRegs)
-                );
-            return result.ToString();
         }
 
-        private static void ParseMarcro(IEnumerator<string> token)
+        private static void ParseInclude(IEnumerator<string> token, string path, StringBuilder builder)
         {
-            throw new NotImplementedException();
+            if (token.MoveNext())
+            {
+                var fileName = Path.Combine(path, token.Current);
+                if (File.Exists(fileName))
+                {
+                    using (var stream = File.OpenText(fileName))
+                    {
+                        ParseApplication(Tokenizer(stream), path, builder);
+                    }
+                    if (!token.MoveNext())
+                    {
+                        throw new Exception($"Expected ';' after 'include <filename>'");
+                    }
+                }
+                else
+                {
+                    throw new Exception($"Missing Include: {fileName}");
+                }
+            }
+            else
+            {
+                throw new Exception($"Unexpected end after include");
+            }
         }
-
-        /// <summary>
-        /// Gates which are intrinsic to Q#, so don't need redefintions
-        /// </summary>
-        private static readonly HashSet<string> Intrinsic = new HashSet<string>()
-        {
-            "u1", "u3",
-            "cx", "ccx",
-            "h", "t", "s", "id",
-            "x", "y", "z",
-            "xz", "xy", "xz",
-            "rx", "ry", "rz"
-        };
 
         public static IEnumerable<string> Tokenizer(StreamReader stream)
         {
@@ -134,7 +162,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         // part of formula
                         else
                         {
-                            yield return "/";
+                            yield return FORWARD_SLASH;
                         }
                     }
                     else
@@ -155,13 +183,15 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     }
                     switch (buffer[0])
                     {
-                        case '(': yield return "("; break;
-                        case ')': yield return ")"; break;
-                        case ',': yield return ","; break;
-                        case ';': yield return ";"; break;
-                        case '+': yield return "+"; break;
-                        case '-': yield return "-"; break;
-                        case '*': yield return "*"; break;
+                        case '(': yield return OPEN_PARANTHESES; break;
+                        case ')': yield return CLOSE_PARANTHESES; break;
+                        case '{': yield return OPEN_CURLYBRACKET; break;
+                        case '}': yield return CLOSE_CURLYBRACKET; break;
+                        case ',': yield return COMMA; break;
+                        case ';': yield return POINT_COMMA; break;
+                        case '+': yield return PLUS; break;
+                        case '-': yield return MINUS; break;
+                        case '*': yield return STAR; break;
                         default:
                             //ignore
                             break;

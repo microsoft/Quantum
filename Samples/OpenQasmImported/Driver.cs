@@ -9,7 +9,7 @@ namespace Quantum.OpenQasmImported
     {
         static void Main(string[] args)
         {
-            Console.Write(Parser.ParseQasmFile("Quantum.OpenQasmImported", @"C:\Quantum\openqasm\examples\generic\adder.qasm"));
+            Console.Write(Parser.ConvertQasmFile("Quantum.OpenQasmImported", @"C:\Quantum\openqasm\examples\generic\adder.qasm"));
             Console.ReadLine();
         }
     }
