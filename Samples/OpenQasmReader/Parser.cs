@@ -78,104 +78,20 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 switch (token.Current)
                 {
                     case "OPENQASM":
-                        token.MoveNext(); //2.0
-                        if (!token.Current.Equals("2.0"))
-                        {
-                            Console.Error.WriteLine($"Parser has been written for version 2.0. Found version {token.Current}. Results may be incorrect.");
-                        };
-                        token.MoveNext(); //;
+                        ParseOpenQasmHeader(token);
                         break;
                     case "include":
                         ParseInclude(token, path, builder);
                         break;
                     case "gate":
-                        token.MoveNext();
-                        var gateName = token.Current;
-
-                        var doubles = new List<string>();
-                        var qbits = new List<string>();
-                        bool withinParentheses = false;
-                        while (token.MoveNext() && !token.Current.Equals(OPEN_CURLYBRACKET))
-                        {
-                            if (token.Current.Equals(OPEN_PARANTHESES))
-                            {
-                                withinParentheses = true;
-                            }
-                            else if (token.Current.Equals(CLOSE_PARANTHESES))
-                            {
-                                withinParentheses = false;
-                            } 
-                            else if (!(token.Current.Equals(COMMA)))
-                            {
-                                if (withinParentheses)
-                                {
-                                    doubles.Add(token.Current);
-                                }
-                                else
-                                {
-                                    qbits.Add(token.Current);
-                                }
-                            }
-                        }
-                        var types = doubles.Select(d => string.Format("Double {0}", d))
-                              .Concat(qbits.Select(qbit => string.Format("Qubit {0}", qbit)));
-                        builder.AppendFormat(HEADER_OPERATION, gateName, string.Join(COMMA, types), string.Empty);
-                        ParseApplication(token, path, builder);
-                        builder.AppendFormat(TAIL_OPERATION, string.Empty);
+                        ParseGateSpecification(token, path, builder);
                         break;
                     case "U":
-                        token.MoveNext(); //(
-                        string x = null;
-                        string y = null;
-                        string z = null;
-                        while (token.MoveNext() && !(token.Current.Equals(COMMA)))
-                        {
-                            if (token.Current.Equals(PI))
-                            {
-                                x += "Math.PI";
-                            }
-                            else
-                            {
-                                x += token.Current;
-                            }
-                        }
-                        while (token.MoveNext() && !(token.Current.Equals(COMMA)))
-                        {
-                            if (token.Current.Equals(PI))
-                            {
-                                y += "Math.PI";
-                            }
-                            else
-                            {
-                                y += token.Current;
-                            }
-                        }
-                        while (token.MoveNext() && !(token.Current.Equals(CLOSE_PARANTHESES)))
-                        {
-                            if (token.Current.Equals(PI))
-                            {
-                                z += "Math.PI";
-                            }
-                            else
-                            {
-                                z += token.Current;
-                            }
-                        }
-                        token.MoveNext();
-                        var q = token.Current;
-                        token.MoveNext(); // ;
-                        builder.AppendFormat("Rx({0}) {1};", x, q);
-                        builder.AppendFormat("Ry({0}) {1};", y, q);
-                        builder.AppendFormat("Rz({0}) {1};", z, q);
+                        ParseUGate(token, builder);
                         break;
                     case "CX":
                     case "cx":
-                        token.MoveNext();
-                        var q1 = token.Current;
-                        token.MoveNext();
-                        var q2 = token.Current;
-                        token.MoveNext(); // ;
-                        builder.AppendFormat("CX {0} {1};", q1, q2);
+                        ParseCNOT(token, builder);
                         break;
                     case CLOSE_CURLYBRACKET:
                         return;
@@ -186,7 +102,95 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 }
             }
         }
-        
+
+        private static void ParseCNOT(IEnumerator<string> token, StringBuilder builder)
+        {
+            token.MoveNext();
+            var q1 = token.Current;
+            token.MoveNext();
+            var q2 = token.Current;
+            token.MoveNext(); // ;
+            builder.AppendFormat("CX {0} {1};", q1, q2);
+        }
+
+        private static void ParseOpenQasmHeader(IEnumerator<string> token)
+        {
+            token.MoveNext(); //2.0
+            if (!token.Current.Equals("2.0"))
+            {
+                Console.Error.WriteLine($"Parser has been written for version 2.0. Found version {token.Current}. Results may be incorrect.");
+            };
+            token.MoveNext(); //;
+        }
+
+        private static void ParseGateSpecification(IEnumerator<string> token, string path, StringBuilder builder)
+        {
+            token.MoveNext();
+            var gateName = token.Current;
+
+            var doubles = new List<string>();
+            var qbits = new List<string>();
+            bool withinParentheses = false;
+            while (token.MoveNext() && !token.Current.Equals(OPEN_CURLYBRACKET))
+            {
+                if (token.Current.Equals(OPEN_PARANTHESES))
+                {
+                    withinParentheses = true;
+                }
+                else if (token.Current.Equals(CLOSE_PARANTHESES))
+                {
+                    withinParentheses = false;
+                }
+                else if (!(token.Current.Equals(COMMA)))
+                {
+                    if (withinParentheses)
+                    {
+                        doubles.Add(token.Current);
+                    }
+                    else
+                    {
+                        qbits.Add(token.Current);
+                    }
+                }
+            }
+            var types = doubles.Select(d => string.Format("Double {0}", d))
+                  .Concat(qbits.Select(qbit => string.Format("Qubit {0}", qbit)));
+            builder.AppendFormat(HEADER_OPERATION, gateName, string.Join(COMMA, types), string.Empty);
+            ParseApplication(token, path, builder);
+            builder.AppendFormat(TAIL_OPERATION, string.Empty);
+        }
+
+        private static void ParseUGate(IEnumerator<string> token, StringBuilder builder)
+        {
+            token.MoveNext(); //(
+            var x = ParseCalulation(token, COMMA);
+            var y = ParseCalulation(token, COMMA);
+            var z = ParseCalulation(token, CLOSE_PARANTHESES);
+            token.MoveNext();
+            var q = token.Current;
+            token.MoveNext(); // ;
+            builder.AppendFormat("Rx({0}) {1};", x, q);
+            builder.AppendFormat("Ry({0}) {1};", y, q);
+            builder.AppendFormat("Rz({0}) {1};", z, q);
+        }
+
+        private static string ParseCalulation(IEnumerator<string> token, string endmarker)
+        {
+            string result = null;
+            while (token.MoveNext() && !(token.Current.Equals(endmarker)))
+            {
+                if (token.Current.Equals(PI))
+                {
+                    result += "Math.PI";
+                }
+                else
+                {
+                    result += token.Current;
+                }
+            }
+            return result;
+        }
+
         private static void ParseInclude(IEnumerator<string> token, string path, StringBuilder builder)
         {
             if (token.MoveNext())
@@ -234,7 +238,36 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         // part of formula
                         else
                         {
+                            //flush current token
+                            if (token.Length != 0)
+                            {
+                                yield return token.ToString();
+                                token.Clear();
+                            }
                             yield return FORWARD_SLASH;
+                            //Handle the caracter after the slash
+                            if (char.IsLetterOrDigit(buffer[0]) || buffer[0] == '_' || buffer[0] == '.' || buffer[0] == '[' || buffer[0] == ']')
+                            {
+                                token.Append(buffer[0]);
+                            }
+                            else
+                            {
+                                switch (buffer[0])
+                                {
+                                    case '(': yield return OPEN_PARANTHESES; break;
+                                    case ')': yield return CLOSE_PARANTHESES; break;
+                                    case '{': yield return OPEN_CURLYBRACKET; break;
+                                    case '}': yield return CLOSE_CURLYBRACKET; break;
+                                    case ',': yield return COMMA; break;
+                                    case ';': yield return POINT_COMMA; break;
+                                    case '+': yield return PLUS; break;
+                                    case '-': yield return MINUS; break;
+                                    case '*': yield return STAR; break;
+                                    default:
+                                        //ignore
+                                        break;
+                                }
+                            }
                         }
                     }
                     else
