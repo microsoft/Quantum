@@ -14,6 +14,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
     /// </summary>
     public class Parser
     {
+        #region Constant Strings
         private const string OPEN_PARANTHESES = "(";
         private const string FORWARD_SLASH = "/";
         private const string OPEN_CURLYBRACKET = "{";
@@ -24,57 +25,54 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         private const string PLUS = "+";
         private const string MINUS = "-";
         private const string STAR = "*";
+        private const string PI = "pi";
+        private const string HEADER =
+@"namespace {0} {{
+    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Canon;
+";
+        private const string HEADER_OPERATION =
+@"
+    operation {0}({1}):({2})
+    {{
+        body
+        {{
+";
+        private const string TAIL_OPERATION =
+@"
+            return ({0});
+        }}
+    }}
+";
+        private const string TAIL =
+@"}}
+";
+        #endregion
 
         public static string ConvertQasmFile(string ns, string path)
         {
             using (var file = File.OpenText(path))
             {
-                return Convert(Tokenizer(file),ns, Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path));
+                return Convert(Tokenizer(file), ns, Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path));
             }
         }
-
-        private static Dictionary<string, Tuple<int, string>> Macro { get; } = new Dictionary<string, Tuple<int, string>>()
-        {
-            {
-                string.Empty, new Tuple<int, string>(4,
-@"namespace {0} {{
-    open Microsoft.Quantum.Primitive;
-    open Microsoft.Quantum.Canon;
-
-    operation {1}():({2})
-    {{
-        body
-        {{
-{3}
-          return ({4});
-        }}
-    }}
-}}")         }
-        };
 
         public static string Convert(IEnumerable<string> tokens, string ns, string name, string path)
         {
             var result = new StringBuilder();
             var cRegs = new List<string>();
 
-            ParseApplication(tokens, path, result);
-            var builder = result;
-            var format = Macro[string.Empty].Item2;
-            result = new StringBuilder(builder.Length + format.Length);
-            result.AppendFormat(
-                format,
-                ns,
-                name,
-                string.Join(COMMA, Enumerable.Repeat("Result[]", cRegs.Count)),
-                builder.ToString(),
-                string.Join(COMMA, cRegs)
-                );
+            result.AppendFormat(HEADER, ns);
+            var token = tokens.GetEnumerator();
+            ParseApplication(token, path, result);
+            result.AppendFormat(HEADER_OPERATION, name, string.Empty, string.Join(COMMA, Enumerable.Repeat("Result[]", cRegs.Count)));
+            result.AppendFormat(TAIL_OPERATION, string.Join(COMMA, cRegs));
             return result.ToString();
         }
 
-        private static void ParseApplication(IEnumerable<string> tokens, string path, StringBuilder builder)
+        private static void ParseApplication(IEnumerator<string> token, string path, StringBuilder builder)
         {
-            var token = tokens.GetEnumerator();
+
             while (token.MoveNext())
             {
                 switch (token.Current)
@@ -94,27 +92,101 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         token.MoveNext();
                         var gateName = token.Current;
 
-                        //Already defined ?
-                        if (Macro.ContainsKey(gateName))
+                        var doubles = new List<string>();
+                        var qbits = new List<string>();
+                        bool withinParentheses = false;
+                        while (token.MoveNext() && !token.Current.Equals(OPEN_CURLYBRACKET))
                         {
-                            while (token.Current != CLOSE_CURLYBRACKET && token.MoveNext()) { }
-                        }
-                        else
-                        {
-                            var param = new Stack<string>();
-                            while (token.MoveNext() && !token.Current.Equals(OPEN_CURLYBRACKET))
+                            if (token.Current.Equals(OPEN_PARANTHESES))
                             {
-                                param.Push(token.Current);
+                                withinParentheses = true;
                             }
-                            throw new NotImplementedException();
+                            else if (token.Current.Equals(CLOSE_PARANTHESES))
+                            {
+                                withinParentheses = false;
+                            } 
+                            else if (!(token.Current.Equals(COMMA)))
+                            {
+                                if (withinParentheses)
+                                {
+                                    doubles.Add(token.Current);
+                                }
+                                else
+                                {
+                                    qbits.Add(token.Current);
+                                }
+                            }
                         }
+                        var types = doubles.Select(d => string.Format("Double {0}", d))
+                              .Concat(qbits.Select(qbit => string.Format("Qubit {0}", qbit)));
+                        builder.AppendFormat(HEADER_OPERATION, gateName, string.Join(COMMA, types), string.Empty);
+                        ParseApplication(token, path, builder);
+                        builder.AppendFormat(TAIL_OPERATION, string.Empty);
+                        break;
+                    case "U":
+                        token.MoveNext(); //(
+                        string x = null;
+                        string y = null;
+                        string z = null;
+                        while (token.MoveNext() && !(token.Current.Equals(COMMA)))
+                        {
+                            if (token.Current.Equals(PI))
+                            {
+                                x += "Math.PI";
+                            }
+                            else
+                            {
+                                x += token.Current;
+                            }
+                        }
+                        while (token.MoveNext() && !(token.Current.Equals(COMMA)))
+                        {
+                            if (token.Current.Equals(PI))
+                            {
+                                y += "Math.PI";
+                            }
+                            else
+                            {
+                                y += token.Current;
+                            }
+                        }
+                        while (token.MoveNext() && !(token.Current.Equals(CLOSE_PARANTHESES)))
+                        {
+                            if (token.Current.Equals(PI))
+                            {
+                                z += "Math.PI";
+                            }
+                            else
+                            {
+                                z += token.Current;
+                            }
+                        }
+                        token.MoveNext();
+                        var q = token.Current;
+                        token.MoveNext(); // ;
+                        builder.AppendFormat("Rx({0}) {1};", x, q);
+                        builder.AppendFormat("Ry({0}) {1};", y, q);
+                        builder.AppendFormat("Rz({0}) {1};", z, q);
+                        break;
+                    case "CX":
+                    case "cx":
+                        token.MoveNext();
+                        var q1 = token.Current;
+                        token.MoveNext();
+                        var q2 = token.Current;
+                        token.MoveNext(); // ;
+                        builder.AppendFormat("CX {0} {1};", q1, q2);
+                        break;
+                    case CLOSE_CURLYBRACKET:
+                        return;
+                    case POINT_COMMA:
                         break;
                     default:
                         throw new Exception($"Unexpected token:{token.Current}");
                 }
             }
         }
-
+        
         private static void ParseInclude(IEnumerator<string> token, string path, StringBuilder builder)
         {
             if (token.MoveNext())
@@ -124,7 +196,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 {
                     using (var stream = File.OpenText(fileName))
                     {
-                        ParseApplication(Tokenizer(stream), path, builder);
+                        ParseApplication(Tokenizer(stream).GetEnumerator(), path, builder);
                     }
                     if (!token.MoveNext())
                     {
