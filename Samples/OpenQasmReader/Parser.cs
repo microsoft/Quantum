@@ -10,10 +10,36 @@ using System.Text;
 namespace Microsoft.Quantum.Samples.OpenQasmReader
 {
     /// <summary>
-    /// A quick and simple qasm parser which was hand roled to remain under MIT license
+    /// A quick and simple qasm parser and Q# generator which was hand roled to remain under MIT license
     /// </summary>
     public class Parser
     {
+        /// <summary>
+        /// Main runner
+        /// Usage: Application <Namespace/> <Filename/>
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main(string[] args)
+        {
+            if (args.Length != 2)
+            {
+                Console.WriteLine("QASM to Q# Conversion tool");
+                Console.WriteLine("Usage <namespace> <filename>");
+                Console.WriteLine("Example: Quantum.Imported adder.qasm");
+            }
+            else
+            {
+                Console.Write(ConvertQasmFile(args[0], args[1]));
+            }
+        }
+
+        /// <summary>
+        /// Convert the qasm file to Q#
+        /// </summary>
+        /// <param name="ns">Namespace of the Q# to be under</param>
+        /// <param name="path">Path of the Qasm file</param>
+        /// <returns>Q# file content</returns>
+
         public static string ConvertQasmFile(string ns, string path)
         {
             using (var file = File.OpenText(path))
@@ -21,6 +47,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 return Convert(Tokenizer(file), ns, Path.GetFileNameWithoutExtension(path), Path.GetDirectoryName(path));
             }
         }
+
 
         public static string Convert(IEnumerable<string> tokens, string ns, string name, string path)
         {
@@ -40,6 +67,16 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             return result.ToString();
         }
 
+        /// <summary>
+        /// Parses the Qasm application and componenents
+        /// </summary>
+        /// <param name="token">Current token the tokenizer is on to parse</param>
+        /// <param name="cRegs">Conventional registers defined</param>
+        /// <param name="qRegs">Quantum registers defined</param>
+        /// <param name="path">Directory the qasm is located in (mostly for inlcude purposes)</param>
+        /// <param name="inside">Stream to write within the current operation being parsed</param>
+        /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
+        /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
         private static void ParseApplication(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured)
         {while (token.MoveNext())
             {
@@ -55,10 +92,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         ParseGateSpecification(token, path, outside);
                         break;
                     case "qreg":
-                        ParseQReg(token, qRegs);
+                        ParseQuantumRegister(token, qRegs);
                         break;
                     case "creg":
-                        ParseCReg(token, cRegs, inside);
+                        ParseConventionalRegister(token, cRegs, inside);
                         break;
                     case "U":
                         ParseUGate(token, inside);
@@ -112,7 +149,13 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             }
         }
 
-        private static void ParseCReg(IEnumerator<string> token, Dictionary<string, int> cRegs, StringBuilder inside)
+        /// <summary>
+        /// Register a conventional (Result) register
+        /// </summary>
+        /// <param name="token">Current token the tokenizer is on to parse</param>
+        /// <param name="cRegs">Conventional registers defined</param>
+        /// <param name="path">Directory the qasm is located in (mostly for inlcude purposes)</param>
+        private static void ParseConventionalRegister(IEnumerator<string> token, Dictionary<string, int> cRegs, StringBuilder inside)
         {
             token.MoveNext();
             var name = token.Current;
@@ -124,7 +167,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             token.MoveNext(); //;
         }
 
-        private static void ParseQReg(IEnumerator<string> token, Dictionary<string, int> qRegs)
+        private static void ParseQuantumRegister(IEnumerator<string> token, Dictionary<string, int> qRegs)
         {
             token.MoveNext();
             var name = token.Current;
@@ -270,6 +313,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             builder.AppendFormat("{0}({1},{2},{3});\n", gate, q1, q2, q3);
         }
 
+        /// <summary>
+        /// Only checking the header
+        /// </summary>
+        /// <param name="token">Current token the tokenizer is on to parse</param>
         private static void ParseOpenQasmHeader(IEnumerator<string> token)
         {
             token.MoveNext(); //2.0
@@ -345,16 +392,32 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <summary>
         /// Returns the input string with the first character converted to uppercase, or mutates any nulls passed into string.Empty
         /// </summary>
+        /// <param name="s">Current string to be converted</param>
+        /// <returns>Same string with the first letter capatalized (or an empty string if not posible)</returns>
         private static string FirstLetterToUpperCase(string s)
         {
             if (string.IsNullOrEmpty(s))
+            {
                 return string.Empty;
+            }
 
             char[] a = s.ToCharArray();
             a[0] = char.ToUpper(a[0]);
             return new string(a);
         }
 
+        /// <summary>
+        /// Write the Q# operation with all the details
+        /// </summary>
+        /// <param name="token">Current token the tokenizer is on to parse</param>
+        /// <param name="cRegs">Conventional registers defined</param>
+        /// <param name="qRegs">Quantum registers defined</param>
+        /// <param name="path">Directory the qasm is located in (mostly for inlcude purposes)</param>
+        /// <param name="inside">Stream to write within the current operation being parsed</param>
+        /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
+        /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
+        /// <param name="operationName">The intended name of the operation</param>
+        /// <param name="types">Parameters of this operation (mostly used for gates)</param>
         private static void WriteOperation(StringBuilder outside, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string operationName, IEnumerable<string> types, List<string> conventionalMeasured, StringBuilder inside)
         {
             outside.AppendFormat(HEADER_OPERATION, FirstLetterToUpperCase(operationName), string.Join(COMMA, types), conventionalMeasured.Any() ? "Result[]" : string.Empty);
@@ -392,6 +455,11 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             outside.AppendLine(TAIL_OPERATION);
         }
 
+        /// <summary>
+        /// Parse an U Gate which is a three axis rotation
+        /// </summary>
+        /// <param name="token">Current token the tokenizer is on to parse</param>
+        /// <param name="builder"></param>
         private static void ParseUGate(IEnumerator<string> token, StringBuilder builder)
         {
             token.MoveNext(); //(
@@ -432,10 +500,16 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             }
         }
 
-        private static string ParseCalulation(IEnumerator<string> token, string endmarkerA, string endmarkerB )
+        /// <summary>
+        /// Parse a value, which can be a calculation or formula
+        /// </summary>
+        /// <param name="token">Current token the tokenizer is on to parse</param>
+        /// <param name="endmarker">Marker to denote what to stop on</param>
+        /// <returns>The value or concatenated formula</returns>
+        private static string ParseCalulation(IEnumerator<string> token, params string[] endmarker)
         {
             string result = null;
-            while (!(token.Current.Equals(endmarkerA) || token.Current.Equals(endmarkerB)))
+            while (!(endmarker.Any(marker => marker.Equals(token.Current))))
             {
                 if (token.Current.Equals(PI))
                 {
@@ -450,6 +524,17 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             return result;
         }
 
+        /// <summary>
+        /// Parses the include statement
+        /// Its not really clear by the specification, but an include may be anywhere in line and inject gates within an operation.
+        /// </summary>
+        /// <param name="token">Current token the tokenizer is on to parse</param>
+        /// <param name="cRegs">Conventional registers defined</param>
+        /// <param name="qRegs">Quantum registers defined</param>
+        /// <param name="path">Directory the qasm is located in (mostly for inlcude purposes)</param>
+        /// <param name="inside">Stream to write within the current operation being parsed</param>
+        /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
+        /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
         private static void ParseInclude(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string,int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured)
         {
             if (token.MoveNext())
@@ -466,9 +551,11 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         throw new Exception($"Expected ';' after 'include <filename>'");
                     }
                 }
+                //Some people use qelib1.inc or other include of a template but don't actually have the file or use it
+                //So if the file is not there, just give a warning in the output and continue
                 else
                 {
-                    throw new Exception($"Missing Include: {fileName}");
+                    outside.AppendLine($"//Warning: {fileName} was not found. Trying without");
                 }
             }
             else
@@ -477,6 +564,11 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             }
         }
 
+        /// <summary>
+        /// Tokeinzer to split the stream of the file up in individual tokens
+        /// </summary>
+        /// <param name="stream">Filestream</param>
+        /// <returns>Tokens in the code file</returns>
         public static IEnumerable<string> Tokenizer(StreamReader stream)
         {
             var token = new StringBuilder();
