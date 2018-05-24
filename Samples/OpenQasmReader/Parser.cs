@@ -84,8 +84,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="inside">Stream to write within the current operation being parsed</param>
         /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
         /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
-        private static void ParseApplication(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured)
-        {while (token.MoveNext())
+        /// <param name="stopOnePointcomma">Process one command</param>
+        private static void ParseApplication(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured, bool stopOnePointcomma = false)
+        {
+            while (token.MoveNext())
             {
                 switch (token.Current)
                 {
@@ -132,6 +134,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     case "tdg":
                         ParseOneGate(token, "(Adjoint T)", qRegs, inside);
                         break;
+                    case "barrier":
                     case "id":
                         ParseOneGate(token, "I", qRegs, inside);
                         break;
@@ -145,15 +148,65 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     case "measure":
                         ParseMeasure(token, inside, cRegs, qRegs, conventionalMeasured);
                         break;
+                    case "if":
+                        ParseIf(token, cRegs, qRegs, path, inside, outside, conventionalMeasured);
+                        break;
                     case CLOSE_CURLYBRACKET:
                         return;
                     case POINT_COMMA:
+                        if (stopOnePointcomma) { return; }
                         break;
                     default:
                         ParseGateCall(token, inside, qRegs);
                         break;
                 }
+                if (stopOnePointcomma && token.Current.Equals(POINT_COMMA)) { return; }
             }
+        }
+
+        private static void ParseIf(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured)
+        {
+            token.MoveNext();
+            token.MoveNext();
+            var condition = ParseCondition(token, cRegs, CLOSE_PARANTHESES);
+            inside.Append(INDENTED);
+            inside.AppendFormat("if({0}){{\n", condition);
+            ParseApplication(token, cRegs, qRegs, path, inside, outside, conventionalMeasured, true);
+            inside.Append(INDENTED);
+            inside.AppendLine("}");
+        }
+
+        private static object ParseCondition(IEnumerator<string> token, Dictionary<string, int> cRegs, params string[] endmarker)
+        {
+            int depth = 0;
+            string result = null;
+            while (depth != 0 || !(endmarker.Any(marker => marker.Equals(token.Current))))
+            {
+                if (token.Current.Equals(OPEN_PARANTHESES))
+                {
+                    depth++;
+                    result += token.Current;
+                }
+                else if (token.Current.Equals(CLOSE_PARANTHESES))
+                {
+                    depth--;
+                    result += token.Current;
+                }
+                else if (cRegs.ContainsKey(token.Current))
+                {
+                    result += string.Format("ResultAsInt({0})", token.Current);
+                }
+                else if (token.Current.Equals(PI))
+                {
+                    result += "PI()";
+                }
+                else
+                {
+                    result += token.Current;
+                }
+                if (!token.MoveNext()) { break; }
+            }
+            return result;
         }
 
         /// <summary>
@@ -196,10 +249,6 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 {
                     continue;
                 }
-                else if (token.Current.Equals(OPEN_PARANTHESES))
-                {
-                    withinParentheses = true;
-                }
                 else if (token.Current.Equals(CLOSE_PARANTHESES))
                 {
                     withinParentheses = false;
@@ -211,6 +260,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     {
                         withinParentheses = false;
                     }
+                }
+                else if (token.Current.Equals(OPEN_PARANTHESES))
+                {
+                    withinParentheses = true;
                 }
                 else
                 {
@@ -288,6 +341,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             token.MoveNext();
             var q1 = token.Current;
             token.MoveNext(); // -
+            token.MoveNext(); // >
             token.MoveNext();
             var q3 = token.Current;
             token.MoveNext(); // 
@@ -379,7 +433,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// </summary>
         private static HashSet<string> Intrinsic = new HashSet<string>()
         {
-            "id",
+            "id", "barrier",
             "h", "x", "y", "z", "s", "t",
             "sdg", "tdg",
             "cx", "ccx",
@@ -405,10 +459,6 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 {
                     continue;
                 }
-                else if (token.Current.Equals(OPEN_PARANTHESES))
-                {
-                    withinParentheses = true;
-                }
                 else if (token.Current.Equals(CLOSE_PARANTHESES))
                 {
                     withinParentheses = false;
@@ -420,6 +470,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     {
                         withinParentheses = false;
                     }
+                }
+                else if (token.Current.Equals(OPEN_PARANTHESES))
+                {
+                    withinParentheses = true;
                 }
                 else
                 {
@@ -560,10 +614,21 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <returns>The value or concatenated formula</returns>
         private static string ParseCalulation(IEnumerator<string> token, params string[] endmarker)
         {
+            int depth = 0;
             string result = null;
-            while (!(endmarker.Any(marker => marker.Equals(token.Current))))
+            while (depth !=0 || !(endmarker.Any(marker => marker.Equals(token.Current))))
             {
-                if (token.Current.Equals(PI))
+                if (token.Current.Equals(OPEN_PARANTHESES))
+                {
+                    depth++;
+                    result += token.Current;
+                }
+                else if (token.Current.Equals(CLOSE_PARANTHESES))
+                {
+                    depth--;
+                    result += token.Current;
+                }
+                else if (token.Current.Equals(PI))
                 {
                     result += "PI()";
                 }
@@ -670,6 +735,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                                     case '+': yield return PLUS; break;
                                     case '-': yield return MINUS; break;
                                     case '*': yield return STAR; break;
+                                    case '=': yield return IS; break;
+                                    case '!': yield return NOT; break;
+                                    case '<': yield return LT; break;
+                                    case '>': yield return MT; break;
                                     default:
                                         //ignore
                                         break;
@@ -704,6 +773,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         case '+': yield return PLUS; break;
                         case '-': yield return MINUS; break;
                         case '*': yield return STAR; break;
+                        case '=': yield return IS; break;
+                        case '!': yield return NOT; break;
+                        case '<': yield return LT; break;
+                        case '>': yield return MT; break;
                         default:
                             //ignore
                             break;
@@ -723,6 +796,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         private const string PLUS = "+";
         private const string MINUS = "-";
         private const string STAR = "*";
+        private const string IS = "=";
+        private const string NOT = "!";
+        private const string LT = "<";
+        private const string MT = ">";
         private const string PI = "pi";
         private const string ZERO = "0.0";
         private const string HEADER =
