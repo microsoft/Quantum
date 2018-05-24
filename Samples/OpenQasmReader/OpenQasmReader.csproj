@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Microsoft.Quantum.Samples.OpenQasmReader</AssemblyName>
+    <AssemblyName>OpenQasmReader</AssemblyName>
     <RootNamespace>Microsoft.Quantum.Samples.OpenQasmReader</RootNamespace>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
