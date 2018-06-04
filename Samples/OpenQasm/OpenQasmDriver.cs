@@ -8,6 +8,7 @@ using System.Text;
 using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
+using Microsoft.Quantum.Simulation.Common;
 
 namespace Microsoft.Quantum.Samples.OpenQasm
 {
@@ -19,27 +20,11 @@ namespace Microsoft.Quantum.Samples.OpenQasm
     /// </summary>
     public abstract class OpenQasmDriver : SimulatorBase
     {
-        private int operationDepth;
-        public override void StartOperation(string operationName, OperationFunctor functor, object inputValue)
+        public OpenQasmDriver(IQubitManager qubitManager = null) : base(qubitManager)
         {
-            if (operationDepth == 0)
-            {
-                QuasmLog.AppendLine("include \"qelib1.inc\";");
-                QuasmLog.AppendLine($"qreg q[{QBitCount}];");
-                QuasmLog.AppendLine($"creg c[{QBitCount}];");
-            }
-            operationDepth++;
-            base.StartOperation(operationName, functor, inputValue);
-        }
-
-        public override void EndOperation(string operationName, OperationFunctor functor, object resultValue)
-        {
-            base.EndOperation(operationName, functor, resultValue);
-            operationDepth--;
-            if (operationDepth == 0)
-            {
-                QuasmLog.Clear();
-            }
+            QuasmLog.AppendLine("include \"qelib1.inc\";");
+            QuasmLog.AppendLine($"qreg q[{QBitCount}];");
+            QuasmLog.AppendLine($"creg c[{QBitCount}];");
         }
 
         protected abstract IEnumerable<Result> RunOpenQasm(StringBuilder qasm, int runs);
@@ -64,7 +49,8 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                         {
                             return QVoid.Instance;
                         }
-                        QuasmLog.AppendLine($"h q[{q1.Id}];");
+                        var driver = (Factory as OpenQasmDriver);
+                        driver.QuasmLog.AppendLine($"h q[{q1.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -112,8 +98,9 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                         {
                             return Result.Zero;
                         }
-                        QuasmLog.AppendLine($"measure q[{(uint)q.Id}] -> c[{(uint)q.Id}];");
-                        var result = (Factory as OpenQasmDriver).RunOpenQasm(QuasmLog,1).ToArray();
+                        var driver = (Factory as OpenQasmDriver);
+                        driver.QuasmLog.AppendLine($"measure q[{(uint)q.Id}] -> c[{(uint)q.Id}];");
+                        var result = driver.RunOpenQasm(driver.QuasmLog,1).ToArray();
                         return result[q.Id];
                     };
                 }
@@ -139,7 +126,8 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                         {
                             return QVoid.Instance;
                         }
-                        QuasmLog.AppendLine($"x q[{q1.Id}];");
+                        var driver = (Factory as OpenQasmDriver);
+                        driver.QuasmLog.AppendLine($"x q[{q1.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -165,7 +153,8 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                         {
                             return QVoid.Instance;
                         }
-                        QuasmLog.AppendLine($"y q[{q1.Id}];");
+                        var driver = (Factory as OpenQasmDriver);
+                        driver.QuasmLog.AppendLine($"y q[{q1.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -191,7 +180,8 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                         {
                             return QVoid.Instance;
                         }
-                        QuasmLog.AppendLine($"z q[{q1.Id}];");
+                        var driver = (Factory as OpenQasmDriver);
+                        driver.QuasmLog.AppendLine($"z q[{q1.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -257,7 +247,8 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                         {
                             return QVoid.Instance;
                         }
-                        QuasmLog.AppendLine($"cx q[{q1.Item1.Id}],q[{q1.Item2.Id}];");
+                        var driver = (Factory as OpenQasmDriver);
+                        driver.QuasmLog.AppendLine($"cx q[{q1.Item1.Id}],q[{q1.Item2.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -283,19 +274,20 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                         {
                             return QVoid.Instance;
                         }
+                        var driver = (Factory as OpenQasmDriver);
                         switch (q1.Item1)
                         {
                             case Pauli.PauliI:
-                                QuasmLog.AppendLine($"U({q1.Item2},{q1.Item2},{q1.Item2}) q[{q1.Item3.Id}];");
+                                driver.QuasmLog.AppendLine($"U({q1.Item2},{q1.Item2},{q1.Item2}) q[{q1.Item3.Id}];");
                                 break;
                             case Pauli.PauliX:
-                                QuasmLog.AppendLine($"rx({q1.Item2}) q[{q1.Item3.Id}];");
+                                driver.QuasmLog.AppendLine($"rx({q1.Item2}) q[{q1.Item3.Id}];");
                                 break;
                             case Pauli.PauliY:
-                                QuasmLog.AppendLine($"ry({q1.Item2}) q[{q1.Item3.Id}];");
+                                driver.QuasmLog.AppendLine($"ry({q1.Item2}) q[{q1.Item3.Id}];");
                                 break;
                             case Pauli.PauliZ:
-                                QuasmLog.AppendLine($"rz({q1.Item2}) q[{q1.Item3.Id}];");
+                                driver.QuasmLog.AppendLine($"rz({q1.Item2}) q[{q1.Item3.Id}];");
                                 break;
                         }
                         return QVoid.Instance;
@@ -304,7 +296,8 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             }
         }
 
-        public static readonly StringBuilder QuasmLog = new StringBuilder();
+        //Log of the current to be executing Quasm
+        public readonly StringBuilder QuasmLog = new StringBuilder();
 
         /// <summary>
         /// Implemented as stub, to work around current reflection bug of simulator base
