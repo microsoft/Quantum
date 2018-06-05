@@ -43,14 +43,14 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
                 get
                 {
-                    return delegate (Qubit q1)
+                    return delegate (Qubit q)
                     {
-                        if (q1 == null)
+                        if (q == null)
                         {
                             return QVoid.Instance;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        driver.QuasmLog.AppendLine($"h q[{q1.Id}];");
+                        driver.QuasmLog.AppendLine($"h q[{q.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -120,14 +120,14 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
                 get
                 {
-                    return delegate (Qubit q1)
+                    return delegate (Qubit q)
                     {
-                        if (q1 == null)
+                        if (q == null)
                         {
                             return QVoid.Instance;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        driver.QuasmLog.AppendLine($"x q[{q1.Id}];");
+                        driver.QuasmLog.AppendLine($"x q[{q.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -147,14 +147,14 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
                 get
                 {
-                    return delegate (Qubit q1)
+                    return delegate (Qubit q)
                     {
-                        if (q1 == null)
+                        if (q == null)
                         {
                             return QVoid.Instance;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        driver.QuasmLog.AppendLine($"y q[{q1.Id}];");
+                        driver.QuasmLog.AppendLine($"y q[{q.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -174,14 +174,14 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
                 get
                 {
-                    return delegate (Qubit q1)
+                    return delegate (Qubit q)
                     {
-                        if (q1 == null)
+                        if (q == null)
                         {
                             return QVoid.Instance;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        driver.QuasmLog.AppendLine($"z q[{q1.Id}];");
+                        driver.QuasmLog.AppendLine($"z q[{q.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -200,7 +200,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             public override Func<(QArray<Pauli>, QArray<Qubit>, Result, string), QVoid> Body
             {
                 get {
-                    return delegate ((QArray<Pauli>, QArray<Qubit>, Result, string) q1)
+                    return delegate ((QArray<Pauli>, QArray<Qubit>, Result, string) assert)
                     {
                         return QVoid.Instance;
                     };
@@ -220,7 +220,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
                 get
                 {
-                    return delegate ((QArray<Pauli>, QArray<Qubit>, Result, double, string, double) q1)
+                    return delegate ((QArray<Pauli>, QArray<Qubit>, Result, double, string, double) assert)
                     {
                         return QVoid.Instance;
                     };
@@ -241,14 +241,14 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
                 get
                 {
-                    return delegate ((Qubit, Qubit) q1)
+                    return delegate ((Qubit, Qubit) cnot)
                     {
-                        if (q1.Item1 == null || q1.Item2 == null)
+                        if (cnot.Item1 == null || cnot.Item2 == null)
                         {
                             return QVoid.Instance;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        driver.QuasmLog.AppendLine($"cx q[{q1.Item1.Id}],q[{q1.Item2.Id}];");
+                        driver.QuasmLog.AppendLine($"cx q[{cnot.Item1.Id}],q[{cnot.Item2.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -268,26 +268,26 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
                 get
                 {
-                    return delegate ((Pauli, double, Qubit) q1)
+                    return delegate ((Pauli, double, Qubit) rGate)
                     {
-                        if (q1.Item3 == null)
+                        if (rGate.Item3 == null)
                         {
                             return QVoid.Instance;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        switch (q1.Item1)
+                        switch (rGate.Item1)
                         {
                             case Pauli.PauliI:
-                                driver.QuasmLog.AppendLine($"U({q1.Item2},{q1.Item2},{q1.Item2}) q[{q1.Item3.Id}];");
+                                driver.QuasmLog.AppendLine($"U({rGate.Item2},{rGate.Item2},{rGate.Item2}) q[{rGate.Item3.Id}];");
                                 break;
                             case Pauli.PauliX:
-                                driver.QuasmLog.AppendLine($"rx({q1.Item2}) q[{q1.Item3.Id}];");
+                                driver.QuasmLog.AppendLine($"rx({rGate.Item2}) q[{rGate.Item3.Id}];");
                                 break;
                             case Pauli.PauliY:
-                                driver.QuasmLog.AppendLine($"ry({q1.Item2}) q[{q1.Item3.Id}];");
+                                driver.QuasmLog.AppendLine($"ry({rGate.Item2}) q[{rGate.Item3.Id}];");
                                 break;
                             case Pauli.PauliZ:
-                                driver.QuasmLog.AppendLine($"rz({q1.Item2}) q[{q1.Item3.Id}];");
+                                driver.QuasmLog.AppendLine($"rz({rGate.Item2}) q[{rGate.Item3.Id}];");
                                 break;
                         }
                         return QVoid.Instance;

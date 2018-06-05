@@ -97,6 +97,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     case "include":
                         ParseInclude(token, cRegs, qRegs, path, inside, outside, conventionalMeasured);
                         break;
+                    //Intrinsic will take care of the optional native gates
+                    case "opaque":
                     case "gate":
                         ParseGateSpecification(token, path, outside);
                         break;
@@ -323,30 +325,38 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         private static void ParseTwoGate(IEnumerator<string> token, string gate, Dictionary<string, int> qReg,StringBuilder builder)
         {
             token.MoveNext();
-            var q1 = token.Current;
+            var leftQubit = token.Current;
             token.MoveNext(); // ,
             token.MoveNext();
-            var q2 = token.Current;
+            var rightQubit = token.Current;
             token.MoveNext(); // ;
             builder.Append(INDENTED);
-            if (qReg.Count == 0 || (q1.Contains('[') && q2.Contains('[')))
+            if (qReg.Count == 0 || (leftQubit.Contains('[') && rightQubit.Contains('[')))
             {
-                builder.AppendFormat("{0}({1},{2});\n", gate, q1, q2);
+                builder.AppendFormat("{0}({1},{2});\n", gate, leftQubit, rightQubit);
             }
             else
             {
-                var index = q1.IndexOf('[');
-                var size = index < 0 ? q2 : q1.Remove(index);
+                var index = leftQubit.IndexOf('[');
+                var size = index < 0 ? leftQubit : leftQubit.Remove(index);
                 builder.AppendFormat("for(_idx in 0..Length({0})){{\n", size);
                 builder.Append(INDENTED);
                 builder.AppendFormat("{0}({1},{2});\n", gate,
-                    IndexedCall(q1, true), 
-                    IndexedCall(q2, true));
+                    IndexedCall(leftQubit, true), 
+                    IndexedCall(rightQubit, true));
                 builder.Append(INDENTED);
                 builder.AppendLine("}");
             }
         }
 
+        /// <summary>
+        /// Parse a measure gate
+        /// </summary>
+        /// <param name="token">Current token the tokenizer is on to parse</param>
+        /// <param name="cRegs">Conventional registers defined</param>
+        /// <param name="builder">Stream to write within the current operation being parsed</param>
+        /// <param name="qRegs">Quantum registers defined</param>
+        /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
         private static void ParseMeasure(IEnumerator<string> token, StringBuilder builder, Dictionary<string, int> cReg, Dictionary<string, int> qReg, List<string> conventionalMeasured)
         {
             token.MoveNext();
@@ -392,6 +402,13 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             }
         }
 
+        /// <summary>
+        /// Parse a gate with three Qbits (e.g. CCNOT)
+        /// </summary>
+        /// <param name="gate">Gate being parsed</param>
+        /// <param name="token">Current token the tokenizer is on to parse</param>
+        /// <param name="builder">Stream to write within the current operation being parsed</param>
+        /// <param name="qRegs">Quantum registers defined</param>
         private static void ParseThreeGate(IEnumerator<string> token, string gate, Dictionary<string,int> qReg , StringBuilder builder)
         {
             token.MoveNext();
@@ -461,6 +478,12 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             "measure"
         };
 
+        /// <summary>
+        /// Parses a gate (and opaque gate) definition
+        /// </summary>
+        /// <param name="token">Current token the tokenizer is on to parse</param>
+        /// <param name="path">Directory the qasm is located in (mostly for include purposes)</param>
+        /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
         private static void ParseGateSpecification(IEnumerator<string> token, string path, StringBuilder outside)
         {
             token.MoveNext();
