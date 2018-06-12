@@ -1,1 +1,4 @@
+# This requires Python3
+# Install the IBM Quantum Experience by:
+# pip3 install -r requirements.txt 
 IBMQuantumExperience

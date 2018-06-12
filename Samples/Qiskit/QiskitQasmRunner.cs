@@ -16,9 +16,9 @@ namespace Microsoft.Quantum.Samples.Qiskit
     internal static class QiskitExecutor
     {
         /// <summary>
-        /// Use the linux subsystem, to run in a real linux and run the python code to execute the Quasm
+        /// Use the linux subsystem, to run in a real linux and run the python code to execute the Qasm
         /// </summary>
-        public static string RunQuasm(StringBuilder quasm, int qbits, string key, string backend, int shots)
+        public static string RunQasm(StringBuilder qasm, int qbits, string key, string backend, int shots)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace Microsoft.Quantum.Samples.Qiskit
                 var output = "output.txt";
 
                 //Change to unix compatible file format
-                File.WriteAllText(input, quasm.ToString().Replace("\r\n", "\n"), Encoding.ASCII);
+                File.WriteAllText(input, qasm.ToString().Replace("\r\n", "\n"), Encoding.ASCII);
 
                 //Run python3 with the interface
                 var python = "python3";

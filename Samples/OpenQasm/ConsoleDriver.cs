@@ -16,9 +16,9 @@ namespace Microsoft.Quantum.Samples.OpenQasm
 
         public override string Name => "Console";
 
-        protected override IEnumerable<Result> RunOpenQasm(StringBuilder quasm, int runs)
+        protected override IEnumerable<Result> RunOpenQasm(StringBuilder qasm, int runs)
         {
-            Console.WriteLine(quasm);
+            Console.WriteLine(qasm);
             //No measurement
             return Enumerable.Repeat(Result.Zero, QBitCount);
         }
