@@ -5,6 +5,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <NoWarn>1701;1702;1705;0162;0219</NoWarn>
+    <RunQDocGen>True</RunQDocGen>
   </PropertyGroup>
 
   <ItemGroup>
