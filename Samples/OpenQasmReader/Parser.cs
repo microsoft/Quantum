@@ -1,11 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Runtime.CompilerServices;
+
+//Export internal functions to able to test this class
+[assembly: InternalsVisibleTo("OpenQasmReader.Tests")]
 
 namespace Microsoft.Quantum.Samples.OpenQasmReader
 {
@@ -40,7 +43,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="path">Path of the Qasm file</param>
         /// <returns>Q# file content</returns>
 
-        public static string ConvertQasmFile(string ns, string path)
+        private static string ConvertQasmFile(string ns, string path)
         {
             using (var file = File.OpenText(path))
             {
@@ -57,7 +60,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="name">Name of the file, which results in the operation name</param>
         /// <param name="path">Directory the qasm is located in (mostly for include purposes)</param>
         /// <returns>Q# file content</returns>
-        public static string ParseMain(IEnumerator<string> token, string ns, string name, string path)
+        private static string ParseMain(IEnumerator<string> token, string ns, string name, string path)
         {
             var conventionalMeasured = new List<string>();
             var qRegs = new Dictionary<string, int>();
@@ -85,7 +88,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
         /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
         /// <param name="stopOnePointcomma">Process one command</param>
-        private static void ParseApplication(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured, bool stopOnePointcomma = false)
+        internal static void ParseApplication(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured, bool stopOnePointcomma = false)
         {
             while (token.MoveNext())
             {
@@ -268,7 +271,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 }
                 else if (withinParentheses)
                 {
-                    doubles.Add(ParseCalulation(token, COMMA, CLOSE_PARANTHESES));
+                    doubles.Add(ParseCalculation(token, COMMA, CLOSE_PARANTHESES));
                     if (token.Current.Equals(CLOSE_PARANTHESES))
                     {
                         withinParentheses = false;
@@ -443,11 +446,12 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
 
         /// <summary>
         /// Makes a reference to a register an indexed reference if we need a loop
+        /// OpenQasm has implicit loops, which Q# needs to be explicit
         /// </summary>
         /// <param name="name">Register name</param>
         /// <param name="loopRequired"></param>
         /// <returns></returns>
-        private static string IndexedCall(string name, bool loopRequired)
+        internal static string IndexedCall(string name, bool loopRequired)
         {
             return !loopRequired || name.Contains('[') ? name : string.Format("{0}[_idx]", name);
         }
@@ -456,7 +460,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// Only checking the header
         /// </summary>
         /// <param name="token">Current token the tokenizer is on to parse</param>
-        private static void ParseOpenQasmHeader(IEnumerator<string> token)
+        internal static void ParseOpenQasmHeader(IEnumerator<string> token)
         {
             token.MoveNext(); //2.0
             if (!token.Current.Equals("2.0"))
@@ -469,7 +473,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <summary>
         /// Intrinsic gates of Q#
         /// </summary>
-        private static HashSet<string> Intrinsic = new HashSet<string>()
+        private readonly static HashSet<string> Intrinsic = new HashSet<string>()
         {
             "id", "barrier",
             "h", "x", "y", "z", "s", "t",
@@ -509,7 +513,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 }
                 else if (withinParentheses)
                 {
-                    doubles.Add(ParseCalulation(token, COMMA, CLOSE_PARANTHESES));
+                    doubles.Add(ParseCalculation(token, COMMA, CLOSE_PARANTHESES));
                     if (token.Current.Equals(CLOSE_PARANTHESES))
                     {
                         withinParentheses = false;
@@ -539,7 +543,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// </summary>
         /// <param name="s">Current string to be converted</param>
         /// <returns>Same string with the first letter capatalized (or an empty string if not posible)</returns>
-        private static string FirstLetterToUpperCase(string s)
+        internal static string FirstLetterToUpperCase(string s)
         {
             if (string.IsNullOrEmpty(s))
             {
@@ -614,11 +618,11 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         {
             token.MoveNext(); //(
             token.MoveNext();
-            var x = ParseCalulation(token, COMMA, CLOSE_PARANTHESES);
+            var x = ParseCalculation(token, COMMA, CLOSE_PARANTHESES);
             token.MoveNext();
-            var y = ParseCalulation(token, COMMA, CLOSE_PARANTHESES);
+            var y = ParseCalculation(token, COMMA, CLOSE_PARANTHESES);
             token.MoveNext();
-            var z = ParseCalulation(token, COMMA, CLOSE_PARANTHESES);
+            var z = ParseCalculation(token, COMMA, CLOSE_PARANTHESES);
             token.MoveNext();
             var q = token.Current;
             token.MoveNext(); // ;
@@ -656,7 +660,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="token">Current token the tokenizer is on to parse</param>
         /// <param name="endmarker">Marker to denote what to stop on</param>
         /// <returns>The value or concatenated formula</returns>
-        private static string ParseCalulation(IEnumerator<string> token, params string[] endmarker)
+        internal static string ParseCalculation(IEnumerator<string> token, params string[] endmarker)
         {
             int depth = 0;
             string result = null;
@@ -734,7 +738,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// </summary>
         /// <param name="stream">Filestream</param>
         /// <returns>Tokens in the code file</returns>
-        public static IEnumerable<string> Tokenizer(StreamReader stream)
+        internal static IEnumerable<string> Tokenizer(TextReader stream)
         {
             var token = new StringBuilder();
             var buffer = new char[1];
@@ -827,6 +831,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     }
                 }
             }
+            if (token.Length != 0)
+            {
+                yield return token.ToString();
+            }
         }
 
         #region Tokens and other constant Strings
@@ -867,7 +875,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         private const string TAIL =
 @"}
 ";
-        private const string INDENTED = "            ";
+        internal const string INDENTED = "            ";
         #endregion
     }
 
