@@ -734,7 +734,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// </summary>
         /// <param name="stream">Filestream</param>
         /// <returns>Tokens in the code file</returns>
-        public static IEnumerable<string> Tokenizer(StreamReader stream)
+        public static IEnumerable<string> Tokenizer(TextReader stream)
         {
             var token = new StringBuilder();
             var buffer = new char[1];
@@ -826,6 +826,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                             break;
                     }
                 }
+            }
+            if (token.Length != 0)
+            {
+                yield return token.ToString();
             }
         }
 
