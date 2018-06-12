@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.IO;
 using System.Text;
 using System.Runtime.CompilerServices;
 
-//Export internal functions to able to test class
+//Export internal functions to able to test this class
 [assembly: InternalsVisibleTo("OpenQasmReader.Tests")]
 
 namespace Microsoft.Quantum.Samples.OpenQasmReader
@@ -89,7 +88,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
         /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
         /// <param name="stopOnePointcomma">Process one command</param>
-        private static void ParseApplication(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured, bool stopOnePointcomma = false)
+        internal static void ParseApplication(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured, bool stopOnePointcomma = false)
         {
             while (token.MoveNext())
             {
@@ -474,7 +473,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <summary>
         /// Intrinsic gates of Q#
         /// </summary>
-        private static HashSet<string> Intrinsic = new HashSet<string>()
+        private readonly static HashSet<string> Intrinsic = new HashSet<string>()
         {
             "id", "barrier",
             "h", "x", "y", "z", "s", "t",
@@ -544,7 +543,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// </summary>
         /// <param name="s">Current string to be converted</param>
         /// <returns>Same string with the first letter capatalized (or an empty string if not posible)</returns>
-        private static string FirstLetterToUpperCase(string s)
+        internal static string FirstLetterToUpperCase(string s)
         {
             if (string.IsNullOrEmpty(s))
             {
@@ -876,7 +875,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         private const string TAIL =
 @"}
 ";
-        private const string INDENTED = "            ";
+        internal const string INDENTED = "            ";
         #endregion
     }
 

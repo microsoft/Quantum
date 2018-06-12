@@ -100,6 +100,12 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
             Assert.Equal("q_1+5.0/14.0-q[12]", result);
         }
 
+        /// <summary>
+        /// Helper function top execute ParseCalculation Method
+        /// </summary>
+        /// <param name="input">Test file</param>
+        /// <param name="endmarkers">Markers to stop on</param>
+        /// <returns>resultstring</returns>
         private static string ParseCalculation(string input, params string[] endmarkers)
         {
             string result;
