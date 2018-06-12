@@ -22,9 +22,8 @@ namespace Microsoft.Quantum.Samples.Qiskit
         {
             try
             {
-                var directory = "Qiskit";
-                var input = Path.Combine(directory, "input.txt");
-                var output = Path.Combine(directory, "output.txt");
+                var input = "input.txt";
+                var output = "output.txt";
 
                 //Change to unix compatible file format
                 File.WriteAllText(input, quasm.ToString().Replace("\r\n", "\n"), Encoding.ASCII);
@@ -45,7 +44,7 @@ namespace Microsoft.Quantum.Samples.Qiskit
                 {
                     FileName = python,
                     Arguments = arguments,
-                    WorkingDirectory = directory,
+                    WorkingDirectory = ".",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
