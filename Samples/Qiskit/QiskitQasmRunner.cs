@@ -44,7 +44,6 @@ namespace Microsoft.Quantum.Samples.Qiskit
                 {
                     FileName = python,
                     Arguments = arguments,
-                    WorkingDirectory = ".",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
