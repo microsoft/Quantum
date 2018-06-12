@@ -22,9 +22,9 @@ namespace Microsoft.Quantum.Samples.OpenQasm
     {
         public OpenQasmDriver(IQubitManager qubitManager = null) : base(qubitManager)
         {
-            QuasmLog.AppendLine("include \"qelib1.inc\";");
-            QuasmLog.AppendLine($"qreg q[{QBitCount}];");
-            QuasmLog.AppendLine($"creg c[{QBitCount}];");
+            QasmLog.AppendLine("include \"qelib1.inc\";");
+            QasmLog.AppendLine($"qreg q[{QBitCount}];");
+            QasmLog.AppendLine($"creg c[{QBitCount}];");
         }
 
         protected abstract IEnumerable<Result> RunOpenQasm(StringBuilder qasm, int runs);
@@ -50,7 +50,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                             return QVoid.Instance;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        driver.QuasmLog.AppendLine($"h q[{q.Id}];");
+                        driver.QasmLog.AppendLine($"h q[{q.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -99,8 +99,8 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                             return Result.Zero;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        driver.QuasmLog.AppendLine($"measure q[{(uint)q.Id}] -> c[{(uint)q.Id}];");
-                        var result = driver.RunOpenQasm(driver.QuasmLog,1).ToArray();
+                        driver.QasmLog.AppendLine($"measure q[{(uint)q.Id}] -> c[{(uint)q.Id}];");
+                        var result = driver.RunOpenQasm(driver.QasmLog,1).ToArray();
                         return result[q.Id];
                     };
                 }
@@ -127,7 +127,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                             return QVoid.Instance;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        driver.QuasmLog.AppendLine($"x q[{q.Id}];");
+                        driver.QasmLog.AppendLine($"x q[{q.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -154,7 +154,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                             return QVoid.Instance;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        driver.QuasmLog.AppendLine($"y q[{q.Id}];");
+                        driver.QasmLog.AppendLine($"y q[{q.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -181,7 +181,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                             return QVoid.Instance;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        driver.QuasmLog.AppendLine($"z q[{q.Id}];");
+                        driver.QasmLog.AppendLine($"z q[{q.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -189,7 +189,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
         }
 
         /// <summary>
-        /// Ignoring Asserts, because OpenQuasm doesn't have them and don't add behavior unless hit.
+        /// Ignoring Asserts, because OpenQasm doesn't have them and don't add behavior unless hit.
         /// </summary>
         public class QSimAssert : Assert
         {
@@ -208,7 +208,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             }
         }
         /// <summary>
-        /// Ignoring AssertProbes, because OpenQuasm doesn't have them and don't add behavior unless hit.
+        /// Ignoring AssertProbes, because OpenQasm doesn't have them and don't add behavior unless hit.
         /// </summary>
         public class QSimAssertProb : AssertProb
         {
@@ -248,7 +248,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                             return QVoid.Instance;
                         }
                         var driver = (Factory as OpenQasmDriver);
-                        driver.QuasmLog.AppendLine($"cx q[{cnot.Item1.Id}],q[{cnot.Item2.Id}];");
+                        driver.QasmLog.AppendLine($"cx q[{cnot.Item1.Id}],q[{cnot.Item2.Id}];");
                         return QVoid.Instance;
                     };
                 }
@@ -278,16 +278,16 @@ namespace Microsoft.Quantum.Samples.OpenQasm
                         switch (rGate.Item1)
                         {
                             case Pauli.PauliI:
-                                driver.QuasmLog.AppendLine($"U({rGate.Item2},{rGate.Item2},{rGate.Item2}) q[{rGate.Item3.Id}];");
+                                driver.QasmLog.AppendLine($"U({rGate.Item2},{rGate.Item2},{rGate.Item2}) q[{rGate.Item3.Id}];");
                                 break;
                             case Pauli.PauliX:
-                                driver.QuasmLog.AppendLine($"rx({rGate.Item2}) q[{rGate.Item3.Id}];");
+                                driver.QasmLog.AppendLine($"rx({rGate.Item2}) q[{rGate.Item3.Id}];");
                                 break;
                             case Pauli.PauliY:
-                                driver.QuasmLog.AppendLine($"ry({rGate.Item2}) q[{rGate.Item3.Id}];");
+                                driver.QasmLog.AppendLine($"ry({rGate.Item2}) q[{rGate.Item3.Id}];");
                                 break;
                             case Pauli.PauliZ:
-                                driver.QuasmLog.AppendLine($"rz({rGate.Item2}) q[{rGate.Item3.Id}];");
+                                driver.QasmLog.AppendLine($"rz({rGate.Item2}) q[{rGate.Item3.Id}];");
                                 break;
                         }
                         return QVoid.Instance;
@@ -296,8 +296,8 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             }
         }
 
-        //Log of the current to be executing Quasm
-        public readonly StringBuilder QuasmLog = new StringBuilder();
+        //Log of the current to be executing Qasm
+        public readonly StringBuilder QasmLog = new StringBuilder();
 
         /// <summary>
         /// Implemented as stub, to work around current reflection bug of simulator base

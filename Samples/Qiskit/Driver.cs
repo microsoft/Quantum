@@ -18,7 +18,12 @@ namespace Microsoft.Quantum.Samples.Qiskit
         static void Main(string[] args)
         {
             //You need to replace this with your own key from the quantum experience
-            var apiKey = "4616efdc29c9d4d751b3cd23a2e7d677ef8a6ff22b693afe0352e4f42b63e3a1135dc368484400b53cf7f4c8b96dcabf7cfc08442f2a1623614734c2e11e25f9";
+            var apiKey = "4616efdc29c9d4d751b3cd23a2e7d677ef8a..........623614734c2e11e25f9";
+            if (apiKey.Contains("."))
+            {
+                Console.Error.WriteLine("Did you put an api key in Driver.cs ? Without that, it will not work.");
+                return;
+            }
             var factory = new IbmQx4(apiKey); //Using different Factory
             Console.WriteLine("Hadamard on IBMQx4");
             for (int i = 0; i < 1; i++)

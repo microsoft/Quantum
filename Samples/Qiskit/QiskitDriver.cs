@@ -18,14 +18,14 @@ namespace Microsoft.Quantum.Samples.Qiskit
         }
         public string Key { get; set; }
 
-        protected override IEnumerable<Result> RunOpenQasm(StringBuilder quasm, int runs)
+        protected override IEnumerable<Result> RunOpenQasm(StringBuilder qasm, int runs)
         {
             Console.WriteLine("");
-            Console.WriteLine("QUASM file");
-            Console.Write(quasm.ToString());
+            Console.WriteLine("QASM file");
+            Console.Write(qasm.ToString());
             Console.WriteLine("");
 
-            string result = QiskitExecutor.RunQuasm(quasm, QBitCount, Key, Name, runs);
+            string result = QiskitExecutor.RunQasm(qasm, QBitCount, Key, Name, runs);
             Console.WriteLine("Processed");
             if (result.Length != QBitCount)
             {
