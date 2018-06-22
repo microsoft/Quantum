@@ -21,7 +21,7 @@ dependencies:
     - matplotlib
     - ipyparallel
     - py
-    - qsharp=0.2.1802.2202
+    - qsharp=0.2.1806.1503
     - pip:
         - qinfer
         - duecredit
