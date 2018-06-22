@@ -57,7 +57,7 @@ namespace Microsoft.Quantum.Canon {
     /// Represents a dynamical generator as a set of simulatable gates and an 
     /// expansion in the Pauli basis.
     ///
-    /// See [Dynamical Generator Modeling](../libraries/data-structures#dynamical-generator-modeling)
+    /// See [Dynamical Generator Modeling](/quantum/libraries/data-structures#dynamical-generator-modeling)
     /// for more details.
     ///
     /// # Input
