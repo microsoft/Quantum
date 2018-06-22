@@ -62,7 +62,7 @@ namespace Microsoft.Quantum.Canon {
     /// $\ket{\phi}$ and ground state energy $E = \phi\\,\delta t$.
     /// ## phaseEstAlgorithm
     /// An operation that performs phase estimation on a given unitary operation.
-    /// See [iterative phase estimation](../libraries/characterization#iterative-phase-estimation)
+    /// See [iterative phase estimation](/quantum/libraries/characterization#iterative-phase-estimation)
     /// for more details.
     /// ## qubits
     /// A register of qubits to be used to perform the simulation.
@@ -105,7 +105,7 @@ namespace Microsoft.Quantum.Canon {
     /// $\ket{\phi}$ and ground state energy $E = \phi\\,\delta t$.
     /// ## phaseEstAlgorithm
     /// An operation that performs phase estimation on a given unitary operation.
-    /// See [iterative phase estimation](../libraries/characterization#iterative-phase-estimation)
+    /// See [iterative phase estimation](/quantum/libraries/characterization#iterative-phase-estimation)
     /// for more details.
     ///
     /// # Output
@@ -145,7 +145,7 @@ namespace Microsoft.Quantum.Canon {
     /// $\ket{\phi}$ and ground state energy $E = \phi\\,\delta t$.
     /// ## phaseEstAlgorithm
     /// An operation that performs phase estimation on a given unitary operation.
-    /// See [iterative phase estimation](../libraries/characterization#iterative-phase-estimation)
+    /// See [iterative phase estimation](/quantum/libraries/characterization#iterative-phase-estimation)
     /// for more details.
     ///
     /// # Output
