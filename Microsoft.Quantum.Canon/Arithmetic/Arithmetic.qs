@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Canon {
     open Microsoft.Quantum.Primitive;
@@ -123,16 +123,20 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # Summary
-    /// Asserts that the highest bit of an unsigned integer has given value
+    /// Asserts that the highest qubit of a qubit register
+    /// representing an unsigned integer is in a particular state.
     ///
     /// # Input
     /// ## value
-    /// The value of the highest bit being asserted
+    /// The value of the highest bit being asserted.
     /// ## number
-    /// Unsigned integer of which the highest bit is checked
+    /// Unsigned integer of which the highest bit is checked.
     ///
     /// # Remarks
     /// The controlled version of this operation ignores controls.
+    ///
+    /// # See Also
+    /// - Microsoft.Quantum.Primitive.Assert
     operation AssertHighestBit( value : Result,  number : LittleEndian  ) : () {
         body{ 
             let mostSingificantQubit = Tail(AsQubitArray(number));
@@ -235,7 +239,8 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # Summary
-    /// Copies the most significant bit of `from` into target
+    /// Copies the most significant bit of a qubit register
+    /// `from` representing an unsigned integer into the qubit `target`.
     ///
     /// # Input
     /// ## from
@@ -353,9 +358,25 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # Summary 
-    /// Let us denote modulus by N, constMultiplier by a, multiplier by x  
-    /// and summand by y, then this operation is given by map 
-    /// |x⟩|b⟩ ↦ |x⟩| (b + a⋅x) (mod N) ⟩
+    /// Implements the map
+    /// $$
+    /// \begin{align}
+    ///     \ket{x} \ket{b} \mapsto \ket{x} \ket{b + a \cdot x \operatorname{mod} N}
+    /// \end{align}
+    /// $$
+    /// for a given modulus $N$, constant multiplier $a$, and summand $y$.
+    ///
+    /// # Input
+    /// ## constantMultiplier
+    /// An integer $a$ to be added to each basis state label.
+    /// ## modulus
+    /// The modulus $N$ which addition and multiplication is taken with respect to.
+    /// ## multiplier
+    /// A quantum register representing an unsigned integer whose value is to
+    /// be added to each basis state label of `summand`.
+    /// ## summand
+    /// A quantum register representing an unsigned integer to use as the target
+    /// for this operation.
     ///
     /// # Remarks
     /// - For the circuit diagram and explanation see Figure 6 on [Page 7

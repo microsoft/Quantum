@@ -3,7 +3,7 @@
 Welcome to the Microsoft Quantum Development Kit!
 This repository contains the libraries and samples provided with the Quantum Development Kit:
 
-- **[Docs/](./Docs)**: Additional documentation for developing on the the libraries and samples.
+- **[Docs/](./Docs)**: Additional documentation for developing on the libraries and samples. Please see [QDK online documentation](https://docs.microsoft.com/quantum/) for online documentation. 
 - **[LibraryTests/](./LibraryTests)**: Tests to ensure correctness of the libraries and samples.
 - **[Microsoft.Quantum.Canon/](./Microsoft.Quantum.Canon)**: Q# sources used to implement [the canon](https://docs.microsoft.com/quantum/libraries/intro) portion of the Q# standard library.
 - **[Samples/](./Samples)**: C# and F# projects demonstrating how to use Q#, the prelude, and the canon.
@@ -23,7 +23,7 @@ Please see the [installation guide](https://docs.microsoft.com/quantum/quantum-i
 
 | branch | status    |
 |--------|-----------|
-| master | <img src="https://quarcsw.visualstudio.com/_apis/public/build/definitions/e24b496e-28f8-4c92-a4f0-a646f968a85a/22/badge"/> |
+| master | [![Build Status](https://travis-ci.org/Microsoft/Quantum.svg?branch=master)](https://travis-ci.org/Microsoft/Quantum) |
 
 
 ## Feedback ##
@@ -35,8 +35,13 @@ requests and bugs (or praises!) there.
 
 ## Contributing ##
 
-Unforunately, at this point we are not ready to accept external contributions but
-we are actively working on this, so please stay tuned!
+This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+the rights to use your contribution. For details, visit https://cla.microsoft.com.
+
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or

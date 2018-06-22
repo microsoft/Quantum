@@ -1,10 +1,20 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Extensions.Testing;
+
+    function ComposeTest() : () {
+        let target = [3; 17; 2];
+        AssertIntEqual(
+            (Compose(Modulus(_, 14), Max))(target),
+            3,
+            "Compose(Modulus(_, 14), Max) did not return expected result."
+        );
+    }
 
     operation WithTest() : () {
         body {
@@ -39,6 +49,51 @@ namespace Microsoft.Quantum.Tests {
         }
     }
 
+    operation BindATest() : () {
+        body {
+            let bound = BindA([T; T]);
+            AssertOperationsEqualReferenced(ApplyToEach(bound, _), ApplyToEachA(S, _), 3);
+            AssertOperationsEqualReferenced(ApplyToEach((Adjoint bound), _), ApplyToEachA((Adjoint S), _), 3);
+        }
+    }
+
+    operation BindCTestHelper0(op: (Qubit => () : Controlled), qubits: Qubit[]) : () {
+        body {
+            (Controlled op)([qubits[0]], qubits[1]);
+        }
+    }
+    operation BindCTestHelper1(op: (Qubit => () : Adjoint, Controlled), qubits: Qubit[]) : () {
+        body {
+            (Controlled op)([qubits[0]], qubits[1]);
+        }
+        adjoint auto
+    }
+
+    operation BindCTest() : () {
+        body {
+            let bound = BindC([T; T]);
+
+            AssertOperationsEqualReferenced(ApplyToEach(bound, _), ApplyToEachA(S, _), 3);
+
+            let op = BindCTestHelper0(bound, _);
+            let target = BindCTestHelper1(S, _);
+            AssertOperationsEqualReferenced(op, target, 6);
+        }
+    }
+
+    operation BindCATest() : () {
+        body {
+            let bound = BindCA([T; T]);
+
+            AssertOperationsEqualReferenced(ApplyToEach(bound, _), ApplyToEachA(S, _), 3);
+            AssertOperationsEqualReferenced(ApplyToEach((Adjoint bound), _), ApplyToEachA((Adjoint S), _), 3);
+
+            let op = BindCTestHelper0(Adjoint bound, _);
+            let target = BindCTestHelper1(Adjoint S, _);
+            AssertOperationsEqualReferenced(op, target, 4);
+        }
+    }
+
     operation OperationPowTest() : () {
         body {
             AssertOperationsEqualReferenced(ApplyToEach(OperationPow(H, 2), _), NoOp, 3);
@@ -64,6 +119,81 @@ namespace Microsoft.Quantum.Tests {
 
             AssertOperationsEqualReferenced(ApplyToSubregisterCA(smallOp, [1; 2; 3], _), bigOp, 5);
             AssertOperationsEqualReferenced(RestrictToSubregisterCA(smallOp, [1; 2; 3]), bigOp, 5);
+        }
+    }
+
+    operation CControlledExpected(op : (Qubit => () : Adjoint, Controlled), target : Qubit[]) : () {
+        body {
+            op(target[0]);
+            op(target[2]);
+        }
+        adjoint auto
+        controlled auto
+        controlled adjoint auto
+    }
+
+    operation CControlledActual(op : (Qubit => ()), target : Qubit[]) : () {
+        body {
+            ApplyToEach(CControlled(op), Zip([true; false; true], target));   
+        }
+    }
+
+    operation CControlledActualC(op : (Qubit => () : Controlled), target : Qubit[]) : () {
+        body {
+            ApplyToEachC(CControlledC(op), Zip([true; false; true], target));   
+        }
+        controlled auto
+    }
+
+    operation CControlledActualA(op : (Qubit => () : Adjoint), target : Qubit[]) : () {
+        body {
+            ApplyToEachA(CControlledA(op), Zip([true; false; true], target));   
+        }
+        adjoint auto
+    }
+
+    operation CControlledActualCA(op : (Qubit => () : Adjoint, Controlled), target : Qubit[]) : () {
+        body {
+            ApplyToEachCA(CControlledCA(op), Zip([true; false; true], target));   
+        }
+        adjoint auto
+        controlled auto
+        controlled adjoint auto
+    }
+
+    operation CControlledTest() : () {
+        body {
+            AssertOperationsEqualReferenced(CControlledActual(H, _), CControlledExpected(H, _), 3);
+            AssertOperationsEqualReferenced(CControlledActual(Z, _), CControlledExpected(Z, _), 3);
+            AssertOperationsEqualReferenced(CControlledActual(S, _), CControlledExpected(S, _), 3);
+            AssertOperationsEqualReferenced(CControlledActual(T, _), CControlledExpected(T, _), 3);
+        }
+    }
+
+    operation CControlledTestC() : () {
+        body {
+            AssertOperationsEqualReferenced(CControlledActualC(H, _), CControlledExpected(H, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualC(Z, _), CControlledExpected(Z, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualC(S, _), CControlledExpected(S, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualC(T, _), CControlledExpected(T, _), 3);
+        }
+    }
+
+    operation CControlledTestA() : () {
+        body {
+            AssertOperationsEqualReferenced(CControlledActualA(H, _), CControlledExpected(H, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualA(Z, _), CControlledExpected(Z, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualA(S, _), CControlledExpected(S, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualA(T, _), CControlledExpected(T, _), 3);
+        }
+    }
+
+    operation CControlledTestCA() : () {
+        body {
+            AssertOperationsEqualReferenced(CControlledActualCA(H, _), CControlledExpected(H, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualCA(Z, _), CControlledExpected(Z, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualCA(S, _), CControlledExpected(S, _), 3);
+            AssertOperationsEqualReferenced(CControlledActualCA(T, _), CControlledExpected(T, _), 3);
         }
     }
 

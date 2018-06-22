@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Canon {
     open Microsoft.Quantum.Primitive;
@@ -67,7 +67,7 @@ namespace Microsoft.Quantum.Canon {
     /// \begin{align}
     ///     \cos\frac{\pi}{8} \ket{0} + \sin \frac{\pi}{8} \ket{1}.
     /// \end{align}
-    /// $$.
+    /// $$
     ///
     /// # Input
     /// ## data
@@ -129,9 +129,10 @@ namespace Microsoft.Quantum.Canon {
     /// Given 15 approximate copies of a magic state
     /// $$
     /// \begin{align}
-    ///     \cos\frac{\pi}{8} \ket{0} + \sin \frac{\pi}{8} \ket{1}.
+    ///     \cos\frac{\pi}{8} \ket{0} + \sin \frac{\pi}{8} \ket{1}
     /// \end{align},
-    /// $$ yields one higher-quality copy.
+    /// $$
+    /// yields one higher-quality copy.
     ///
     /// # Input
     /// ## roughMagic

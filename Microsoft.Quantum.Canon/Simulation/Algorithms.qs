@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Canon {
     open Microsoft.Quantum.Extensions.Math;
@@ -53,7 +53,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Remarks
     /// For more on the Trotter–Suzuki decomposition, see
-    /// [Time-Ordered Composition](xref:microsoft.quantum.concepts.control-flow#time-ordered-composition).
+    /// [Time-Ordered Composition](/quantum/libraries/control-flow#time-ordered-composition).
     function TrotterStep(evolutionGenerator: EvolutionGenerator, trotterOrder: Int, trotterStepSize: Double) : (Qubit[] => () :  Adjoint, Controlled)
     {
         let (evolutionSet, generatorSystem) = evolutionGenerator;

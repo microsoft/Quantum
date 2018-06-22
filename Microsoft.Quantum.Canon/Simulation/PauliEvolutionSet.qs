@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Canon {
     open Microsoft.Quantum.Primitive;
@@ -57,7 +57,7 @@ namespace Microsoft.Quantum.Canon {
     /// Represents a dynamical generator as a set of simulatable gates and an 
     /// expansion in the Pauli basis.
     ///
-    /// See [Dynamical Generator Modeling](../libraries/data-structures#dynamical-generator-modeling)
+    /// See [Dynamical Generator Modeling](/quantum/libraries/data-structures#dynamical-generator-modeling)
     /// for more details.
     ///
     /// # Input

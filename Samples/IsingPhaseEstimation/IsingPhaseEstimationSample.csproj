@@ -1,130 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\build\Microsoft.Quantum.Development.Kit.props" Condition="Exists('..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\build\Microsoft.Quantum.Development.Kit.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F1560649-37E2-4A95-938D-F4B48644583D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Ising_Adiabatic_Evolution_B</RootNamespace>
-    <AssemblyName>Ising_Adiabatic_Evolution_B</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Microsoft.Quantum.MetaData, Version=0.1.1712.901, Culture=neutral, PublicKeyToken=40866b40fd95c7f5">
-      <HintPath>..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\lib\net461\Microsoft.Quantum.MetaData.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Quantum.Primitives, Version=0.1.1712.901, Culture=neutral, PublicKeyToken=40866b40fd95c7f5">
-      <HintPath>..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\lib\net461\Microsoft.Quantum.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Quantum.Simulation.Common, Version=0.1.1712.901, Culture=neutral, PublicKeyToken=40866b40fd95c7f5">
-      <HintPath>..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\lib\net461\Microsoft.Quantum.Simulation.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Quantum.Simulation.Core, Version=0.1.1712.901, Culture=neutral, PublicKeyToken=40866b40fd95c7f5">
-      <HintPath>..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\lib\net461\Microsoft.Quantum.Simulation.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime, Version=0.1.1712.901, Culture=neutral, PublicKeyToken=40866b40fd95c7f5">
-      <HintPath>..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\lib\net461\Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Quantum.Simulation.Simulators, Version=0.1.1712.901, Culture=neutral, PublicKeyToken=40866b40fd95c7f5">
-      <HintPath>..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\lib\net461\Microsoft.Quantum.Simulation.Simulators.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\..\Microsoft.Quantum.Canon\Microsoft.Quantum.Canon.csproj" />
+    <ProjectReference Include="..\AdiabaticIsing\AdiabaticIsingSample.csproj" />
+    <ProjectReference Include="..\IsingGenerators\IsingGeneratorsSample.csproj" />
   </ItemGroup>
+    
   <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.2.1802.2202-preview" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-    <None Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Quantum.Canon\Microsoft.Quantum.Canon.csproj">
-      <Project>{2a1b0d78-2ce6-44db-bfa1-3575f3c36321}</Project>
-      <Name>Microsoft.Quantum.Canon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AdiabaticIsing\AdiabaticIsingSample.csproj">
-      <Project>{7e3cbfa5-6dd8-4599-bd65-c5d2bed3b87a}</Project>
-      <Name>AdiabaticIsingSample</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IsingGenerators\IsingGeneratorsSample.csproj">
-      <Project>{179b52ed-b81f-4844-a263-8e49d6dab4a5}</Project>
-      <Name>IsingGeneratorsSample</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <QsharpCompile Include="IsingPhaseEstimation.qs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\build\Microsoft.Quantum.Development.Kit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\build\Microsoft.Quantum.Development.Kit.props'))" />
-    <Error Condition="!Exists('..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\build\Microsoft.Quantum.Development.Kit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\build\Microsoft.Quantum.Development.Kit.targets'))" />
-  </Target>
-  <Import Project="..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\build\Microsoft.Quantum.Development.Kit.targets" Condition="Exists('..\..\packages\Microsoft.Quantum.Development.Kit.0.1.1712.901-preview\build\Microsoft.Quantum.Development.Kit.targets')" />
 </Project>

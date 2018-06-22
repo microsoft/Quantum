@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Canon {
 
@@ -74,6 +74,24 @@ namespace Microsoft.Quantum.Canon {
     /// ## message
     /// Failure message string to be used when the assertion is triggered.
     function AssertBoolEqual ( actual : Bool, expected : Bool, message : String ) : () {
+        if( actual != expected ) {
+            fail message;
+        }
+    }
+
+    /// # Summary
+    /// Asserts that a classical Result variable has the expected value.
+    ///
+    /// # Input
+    /// ## actual
+    /// The variable to be checked.
+    ///
+    /// ## expected
+    /// The expected value.
+    ///
+    /// ## message
+    /// Failure message string to be used when the assertion is triggered.
+    function AssertResultEqual ( actual : Result, expected : Result, message : String ) : () {
         if( actual != expected ) {
             fail message;
         }

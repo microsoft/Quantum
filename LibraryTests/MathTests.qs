@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Canon {
     open Microsoft.Quantum.Canon;
@@ -78,4 +78,50 @@ namespace Microsoft.Quantum.Canon {
 		let edgeCaseTestTuples = [ (1,4,512); (3,4,512) ];
 		Ignore(Map(ContinuedFractionConvergentEdgeCaseTestHelper, edgeCaseTestTuples));
 	}
+
+    function ComplexMathTest() : () {
+        mutable complexCases = [(0.123,0.321);(0.123, -0.321);(-0.123, 0.321);(-0.123, -0.321)];
+        for(idxCases in 0..Length(complexCases)-1){
+            let (complexRe, complexIm) = complexCases[idxCases];
+            let complexAbs = Sqrt(complexRe * complexRe + complexIm * complexIm);
+            let complexArg = ArcTan2(complexIm, complexRe);
+
+            let complex = Complex(complexRe, complexIm);
+            let complexPolar = ComplexPolar(complexAbs , complexArg);
+
+
+            AssertAlmostEqual(AbsSquaredComplex(complex), complexAbs * complexAbs);
+            AssertAlmostEqual(AbsComplex(complex), complexAbs);
+            AssertAlmostEqual(ArgComplex(complex), complexArg);
+            AssertAlmostEqual(AbsSquaredComplexPolar(complexPolar), complexAbs * complexAbs);
+            AssertAlmostEqual(AbsComplexPolar(complexPolar), complexAbs);
+            AssertAlmostEqual(ArgComplexPolar(complexPolar), complexArg);
+
+            let (x,y) = ComplexPolarToComplex(complexPolar);
+            AssertAlmostEqual(x, complexRe);
+            AssertAlmostEqual(y, complexIm);
+
+            let (r,t) = ComplexToComplexPolar(complex);
+            AssertAlmostEqual(r, complexAbs);
+            AssertAlmostEqual(t, complexArg);
+        }
+    }
+
+    function PNormTest() : (){
+         mutable testCases = [(1.0,[-0.1;0.2;0.3],0.6);
+                             (1.5,[0.1;-0.2;0.3],0.43346228721136096815);
+                             (2.0,[0.1;0.2;-0.3],0.37416573867739413856);
+                             (3.0,[0.0;0.0;-0.0],0.0)];
+         for(idxTest in 0..Length(testCases)-1){
+             let (p, array, pNormExpected) = testCases[idxTest];
+             AssertAlmostEqual(PNorm(p,array),pNormExpected);
+
+             // if PNorm fails, PNormalize will fail.
+             let arrayNormalized = PNormalize(p, array);
+             for(idxCoeff in 0..Length(array)-1){
+                AssertAlmostEqual(array[idxCoeff] / pNormExpected, arrayNormalized[idxCoeff]);
+             }
+         }
+
+    }
 }

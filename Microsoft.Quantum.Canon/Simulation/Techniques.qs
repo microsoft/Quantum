@@ -1,8 +1,9 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Canon {
+    open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Extensions.Convert;
     open Microsoft.Quantum.Extensions.Math;
 
@@ -61,7 +62,7 @@ namespace Microsoft.Quantum.Canon {
     /// $\ket{\phi}$ and ground state energy $E = \phi\\,\delta t$.
     /// ## phaseEstAlgorithm
     /// An operation that performs phase estimation on a given unitary operation.
-    /// See [iterative phase estimation](../libraries/characterization#iterative-phase-estimation)
+    /// See [iterative phase estimation](/quantum/libraries/characterization#iterative-phase-estimation)
     /// for more details.
     /// ## qubits
     /// A register of qubits to be used to perform the simulation.
@@ -104,7 +105,7 @@ namespace Microsoft.Quantum.Canon {
     /// $\ket{\phi}$ and ground state energy $E = \phi\\,\delta t$.
     /// ## phaseEstAlgorithm
     /// An operation that performs phase estimation on a given unitary operation.
-    /// See [iterative phase estimation](../libraries/characterization#iterative-phase-estimation)
+    /// See [iterative phase estimation](/quantum/libraries/characterization#iterative-phase-estimation)
     /// for more details.
     ///
     /// # Output
@@ -144,7 +145,7 @@ namespace Microsoft.Quantum.Canon {
     /// $\ket{\phi}$ and ground state energy $E = \phi\\,\delta t$.
     /// ## phaseEstAlgorithm
     /// An operation that performs phase estimation on a given unitary operation.
-    /// See [iterative phase estimation](../libraries/characterization#iterative-phase-estimation)
+    /// See [iterative phase estimation](/quantum/libraries/characterization#iterative-phase-estimation)
     /// for more details.
     ///
     /// # Output

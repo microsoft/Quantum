@@ -1,6 +1,6 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the 
-// Microsoft Software License Terms for Microsoft Quantum Development Kit Libraries 
-// and Samples. See LICENSE in the project root for license information.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Canon;
@@ -72,4 +72,16 @@ namespace Microsoft.Quantum.Tests {
         let array = [10; 11; 12; 13; 14; 15];
         Ignore(Map(AssertIntEqual(_, _, "Exclude failed."), Zip([10; 11; 13; 14], Exclude([2; 5], array))));
     }
+
+    function PadTest() : () {
+        mutable arrayTestCase = [(-5,2,[10; 11; 12],[10; 11; 12; 2; 2]);(5,2,[10; 11; 12],[2; 2; 10; 11; 12]);(-3,-2,[10; 11; 12],[10; 11; 12])];
+        for(idxTest in 0..Length(arrayTestCase)-1){
+            let (nElementsTotal, defaultElement, inputArray, outputArray) = arrayTestCase[idxTest];
+            let paddedArray = Pad(nElementsTotal, defaultElement, inputArray);
+            Ignore(Map(AssertIntEqual(_, _, "Pad failed."), Zip(outputArray, paddedArray)));
+
+        }
+        
+    }
+
 }
