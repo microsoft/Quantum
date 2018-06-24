@@ -704,7 +704,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="inside">Stream to write within the current operation being parsed</param>
         /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
         /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
-        private static void ParseInclude(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string,int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured)
+        internal static void ParseInclude(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string,int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured)
         {
             if (token.MoveNext())
             {
@@ -715,16 +715,16 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     {
                         ParseApplication(Tokenizer(stream).GetEnumerator(), cRegs, qRegs, path, inside, outside, conventionalMeasured);
                     }
-                    if (!token.MoveNext())
-                    {
-                        throw new Exception($"Expected ';' after 'include <filename>'");
-                    }
                 }
                 //Some people use qelib1.inc or other include of a template but don't actually have the file or use it
                 //So if the file is not there, just give a warning in the output and continue
                 else
                 {
                     outside.AppendLine($"//Generated without includes of {fileName} because the file was not found during generation.");
+                }
+                if (!token.MoveNext())
+                {
+                    throw new Exception($"Expected ';' after 'include <filename>'");
                 }
             }
             else
