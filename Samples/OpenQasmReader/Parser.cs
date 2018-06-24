@@ -724,7 +724,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 //So if the file is not there, just give a warning in the output and continue
                 else
                 {
-                    outside.AppendLine($"//Warning: {fileName} was not found. Trying without");
+                    outside.AppendLine($"//Generated without includes of {fileName} because the file was not found during generation.");
                 }
             }
             else
