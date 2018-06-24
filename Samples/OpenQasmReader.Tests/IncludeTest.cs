@@ -50,7 +50,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         }
 
         [Fact]
-        public void CorrectIncludeResultsInMethod()
+        public void CorrectIncludeResultsInIncludedCode()
         {
             var fileName = Guid.NewGuid().ToString();
 
@@ -90,6 +90,49 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 File.Delete(fileName);
             }
         }
+
+        [Fact]
+        public void IncludeEmptyFileResultsInIgnoredCode()
+        {
+            var fileName = Guid.NewGuid().ToString();
+
+            try
+            {
+                File.WriteAllText(fileName, string.Empty);
+
+                var input = string.Format("include \"{0}\";", fileName);
+
+                using (var stream = new StringReader(input))
+                {
+                    var enumerator = Parser.Tokenizer(stream).GetEnumerator();
+                    enumerator.MoveNext(); //include
+
+                    var cRegs = new Dictionary<string, int>();
+                    var qRegs = new Dictionary<string, int>();
+                    var inside = new StringBuilder();
+                    var outside = new StringBuilder();
+                    var conventionalMeasured = new List<string>();
+                    Parser.ParseInclude(enumerator, cRegs, qRegs, ".", inside, outside, conventionalMeasured);
+
+                    //Expecting to end on the ';', so next loop can pick the next token
+                    Assert.Equal(";", enumerator.Current);
+                    //no traditional cRegisters
+                    Assert.Equal(new string[0], cRegs.Keys);
+                    Assert.Equal(new int[0], cRegs.Values);
+                    //no quantum Registers
+                    Assert.Equal(new string[0], cRegs.Keys);
+                    Assert.Equal(new int[0], cRegs.Values);
+                    //No output within the method or outside
+                    Assert.Equal(string.Empty, inside.ToString());
+                    Assert.Equal(string.Empty, outside.ToString());
+                }
+            }
+            finally
+            {
+                File.Delete(fileName);
+            }
+        }
+
 
     }
 }
