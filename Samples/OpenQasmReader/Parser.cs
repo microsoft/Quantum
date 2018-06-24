@@ -708,7 +708,13 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         {
             if (token.MoveNext())
             {
-                var fileName = Path.Combine(path, token.Current);
+                var fileName = token.Current;
+                while (token.MoveNext() && !token.Current.Equals(POINT_COMMA))
+                {
+                    fileName += token.Current;
+                }
+
+                fileName = Path.Combine(path, fileName);
                 if (File.Exists(fileName))
                 {
                     using (var stream = File.OpenText(fileName))
@@ -721,10 +727,6 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 else
                 {
                     outside.AppendLine($"//Generated without includes of {fileName} because the file was not found during generation.");
-                }
-                if (!token.MoveNext())
-                {
-                    throw new Exception($"Expected ';' after 'include <filename>'");
                 }
             }
             else

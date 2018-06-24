@@ -159,7 +159,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 Assert.Equal(string.Empty, outside.ToString());
             }
         }
-
+       
         [Fact]
         public void ParseMeasureDefintionTest()
         {
