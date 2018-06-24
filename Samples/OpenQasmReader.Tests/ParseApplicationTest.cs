@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -161,7 +159,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 Assert.Equal(string.Empty, outside.ToString());
             }
         }
-
+       
         [Fact]
         public void ParseMeasureDefintionTest()
         {
