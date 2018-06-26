@@ -25,7 +25,7 @@ namespace Microsoft.Quantum.Tests
         {
             this.output = output;
             fixedSeeds = new Dictionary<string, uint>();
-            fixedSeeds.Add(" Microsoft.Quantum.Tests.RobustPhaseEstimationTest", 2020776761);
+            fixedSeeds.Add("Microsoft.Quantum.Tests.RobustPhaseEstimationTest", 2020776761);
         }
 
         // note that one can provide custom namespace where to search for tests
