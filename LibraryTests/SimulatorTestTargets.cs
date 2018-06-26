@@ -205,7 +205,7 @@ namespace Microsoft.Quantum.Tests
         {
             byte[] bytes = Encoding.Unicode.GetBytes(opData.fullClassName);
             byte[] hash = hashMethod.ComputeHash(bytes);
-            uint seed = BitConverter.ToUInt32(bytes, 0);
+            uint seed = BitConverter.ToUInt32(hash, 0);
             
             string msg = $"Using generated seed: (\"{ opData.fullClassName}\",{ seed })";
             output.WriteLine(msg);
