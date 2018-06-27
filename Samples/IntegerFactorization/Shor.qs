@@ -15,14 +15,14 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
     ///
     /// This sample contains Q# code implementing Shor's quantum algorithm for
     /// factoring integers. The underlying modular arithmetic is implemented 
-    /// in phase encoding, based on paper by Stephane Beauregard who gave a
+    /// in phase encoding, based on a paper by Stephane Beauregard who gave a
     /// quantum circuit for factoring n-bit numbers that needs 2n+3 qubits and 
-    /// O(n³log(n)) many elementary quantum gates.
+    /// O(n³log(n)) elementary quantum gates.
     ///
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     /// # Summary 
-    /// Uses Shor's algorithm to factor a `number`
+    /// Uses Shor's algorithm to factor the parameter `number`
     ///
     /// # Input 
     /// ## number
@@ -197,7 +197,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
             // The EstimatePeriod operation estimates the period r by finding an 
             // approximation k/2^bitsPrecision to a fraction s/r where s is some integer.
             // Note that if s and r have common divisors we will end up recovering a divisor of r
-            // and not r itself. However, if we recover big enough number of divisors of r
+            // and not r itself. However, if we recover enough divisors of r
             // we recover r itself pretty soon.
 
             // Number of bits of precision with which we need to estimate s/r to recover period r.
