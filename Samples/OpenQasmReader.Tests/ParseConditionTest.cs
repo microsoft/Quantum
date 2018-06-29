@@ -53,6 +53,17 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
             Assert.Equal("(3+6)==9", result);
         }
 
+        [Fact]
+        public void ParseConditionDeepNestedTestResultsDeepNestedTest()
+        {
+            var input = "(3+(6-2))!=9)";
+            string result = null;
+            var cRegs = new Dictionary<string, int>() { { "q_1", 1 } };
+            result = ParseCondition(input, cRegs, TestEndMarker);
+            Assert.Equal("(3+(6-2))!=9", result);
+        }
+
+
         /// <summary>
         /// Helper function top execute ParseCalculation Method
         /// </summary>
