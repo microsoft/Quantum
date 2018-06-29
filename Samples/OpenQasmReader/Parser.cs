@@ -192,7 +192,14 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             inside.AppendLine("}");
         }
 
-        private static object ParseCondition(IEnumerator<string> token, Dictionary<string, int> cRegs, params string[] endmarker)
+        /// <summary>
+        /// Parses a condition statement
+        /// </summary>
+        /// <param name="token">current token</param>
+        /// <param name="cRegs">traditional register</param>
+        /// <param name="endmarker">current marker of an end</param>
+        /// <returns>The total condition statement</returns>
+        internal static string ParseCondition(IEnumerator<string> token, Dictionary<string, int> cRegs, params string[] endmarker)
         {
             int depth = 0;
             string result = null;

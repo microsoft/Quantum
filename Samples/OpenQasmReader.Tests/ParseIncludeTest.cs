@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
 {
-    public class IncludeTest
+    public class ParseIncludeTest
     {
         [Fact]
         public void MissingIncludeResultsMessageInComment()

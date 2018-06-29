@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
 {
-    public class HeaderParserTest
+    public class ParseOpenQasmHeaderTest
     {
         [Fact]
         public void HeaderWithPointCommaResultsNoCrash()
