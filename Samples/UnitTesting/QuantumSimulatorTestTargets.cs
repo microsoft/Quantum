@@ -6,12 +6,16 @@ using Microsoft.Quantum.Simulation.Simulators;
 using Microsoft.Quantum.Simulation.XUnit;
 using System;
 using System.Diagnostics;
+using Xunit;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // This file makes sure that all Q# operations ending with Test
 // in Microsoft.Quantum.Samples.UnitTesting namespace are 
 // executed as Tests on QuantumSimulator. 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Overparallel to force out issues
+[assembly: CollectionBehavior(MaxParallelThreads = 1024)]
 
 namespace Microsoft.Quantum.Samples.UnitTesting
 {
