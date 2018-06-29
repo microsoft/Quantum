@@ -6,6 +6,11 @@
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\..\BuildTrigger.txt" Link="BuildTrigger.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.Quantum.Canon\Microsoft.Quantum.Canon.csproj" />
@@ -14,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.2.1806.1503-preview" />
     <PackageReference Include="Microsoft.Quantum.Xunit" Version="0.2.1806.1503-preview" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
