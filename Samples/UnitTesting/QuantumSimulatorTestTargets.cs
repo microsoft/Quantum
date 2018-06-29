@@ -45,6 +45,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting
                     output.WriteLine($"The seed used for this test is {sim.Seed}");
                     Debug.WriteLine($"The seed used for this test is {sim.Seed}");
 
+                    output.WriteLine($"The simulator ID used for this test is {sim.Id}");
+                    Debug.WriteLine($"The simulator ID used for this test is {sim.Id}");
+
                     // This ensures that when the test is run in Debug mode, all message logged in 
                     // Q# by calling Microsoft.Quantum.Primitives.Message show-up 
                     // in Debug output 
