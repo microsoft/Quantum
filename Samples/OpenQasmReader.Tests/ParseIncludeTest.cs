@@ -39,8 +39,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 //No output within the method
                 Assert.Equal(string.Empty, inside.ToString());
 
+                var path = Path.Combine("path", "doesnotexist.inc");
+
                 //Expected operation
-                Assert.Equal("//Generated without includes of path\\doesnotexist.inc because the file was not found during generation.",
+                Assert.Equal(string.Format("//Generated without includes of {0} because the file was not found during generation.", path),
                     outside.ToString().Trim()
                         .Replace("\n", string.Empty)
                         .Replace("\r", string.Empty)
