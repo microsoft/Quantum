@@ -14,9 +14,6 @@ using Xunit;
 // executed as Tests on QuantumSimulator. 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-//Overparallel to force out issues
-[assembly: CollectionBehavior(MaxParallelThreads = 1024)]
-
 namespace Microsoft.Quantum.Samples.UnitTesting
 {
     public class SimulatorTestTargets

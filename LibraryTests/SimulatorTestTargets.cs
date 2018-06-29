@@ -9,9 +9,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Xunit;
 
-//Overparallel to force out issues
-[assembly: CollectionBehavior(MaxParallelThreads = 1024)]
-
 namespace Microsoft.Quantum.Tests
 {
     public class SimulatorTestTargets
