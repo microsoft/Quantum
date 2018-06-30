@@ -22,7 +22,6 @@ namespace Microsoft.Quantum.Samples.Qiskit
             if (apiKey.Contains("."))
             {
                 Console.Error.WriteLine("Did you put an api key in Driver.cs ? Without that, it will not work.");
-                return;
             }
             else
             {
