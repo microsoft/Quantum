@@ -15,8 +15,10 @@ matrix:
     - os: linux
       addons:
         apt:
+          sources:
+            - ubuntu-toolchain-r-test
           packages:
-            - libomp-dev
+            - g++-4.9
 
 script:
   - export OMP_NUM_THREADS=4
