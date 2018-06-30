@@ -29,20 +29,20 @@ if 'id' in job:
     if 'estimatedTimeInQueue' in job['infoQueue']:
         timeQueue = job['infoQueue']['estimatedTimeInQueue']
     else:
-        timeQueue = position * 60 * 5 #Guestimate on 5 minutes per job
+        timeQueue = position * 60 #Guestimate on minute per job
     print(" Expected time (minutes) in Queue left:", timeQueue/60)
-    if timeQueue < 60: #In demo's 60 seconds is the max we can wait.
+    if timeQueue < 120: #In demo's 120 seconds is the max we can wait.
        while status == 'RUNNING':
-          time.sleep(10)
+          time.sleep(30)
           job = api.get_job(jobid)
           status = job['status']
-          if status == 'RUNNING':
+          if 'infoQueue' in job and 'position' in job['infoQueue']:
              position = job['infoQueue']['position']
              print(" Position in Queue", position)
              if 'estimatedTimeInQueue' in job['infoQueue']:
                 timeQueue = job['infoQueue']['estimatedTimeInQueue']
              else:
-                timeQueue = position * 60 * 5 #Guestimate on 5 minutes per job
+                timeQueue = position * 60 #Guestimate on minute per job
              print(" Expected time (minutes) in Queue left:", timeQueue/60)
        id = job['qasms'][0]['executionId']
        result = api.get_result_from_execution(id)
