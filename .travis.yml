@@ -1,5 +1,5 @@
 language: csharp
-dotnet: 2.1.4
+dotnet: 2.1.301
 mono: none
 
 matrix:
@@ -18,9 +18,10 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-4.9
+            - g++-4.9.4
 
 script:
+  - export OMP_NUM_THREADS=4
   - dotnet build QsharpLibraries.sln
   - dotnet test Samples/UnitTesting
   - travis_wait 30 dotnet test LibraryTests
