@@ -31,7 +31,7 @@ if 'id' in job:
     else:
         timeQueue = position * 60 #Guestimate on minute per job
     print(" Expected time (minutes) in Queue left:", timeQueue/60)
-    if timeQueue < 120: #In demo's 120 seconds is the max we can wait.
+    if timeQueue < 120 * 100: #In demo's 120 seconds is the max we can wait.
        while status == 'RUNNING':
           time.sleep(30)
           job = api.get_job(jobid)
@@ -56,7 +56,7 @@ if 'id' in job:
        print("DONE")
        print(ex)
        with open('output.txt', 'w') as resultFile:
-          resultFile.write(str(ex['result']))
+          resultFile.write(str(ex['measure']))
 else:
    print(" SIMULATOR AT IBM:")
    ex = api.run_experiment(qasm, backend='ibmqx_qasm_simulator', shots=shots, name='QSharpRun SIM', timeout=15)
