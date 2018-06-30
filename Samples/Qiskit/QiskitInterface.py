@@ -19,27 +19,38 @@ print("SENDING TO IBM Quantum Experience")
 print(" IBMQ AT IBM Quantum Experience:")
 qasms = [{ 'qasm': qasm}]
 job = api.run_job(qasms, backend=backend, shots=shots, max_credits=3)
+print(job)
+
 if 'id' in job:
     jobid = job['id']
     print(" JobID:", jobid);
     status = job['status']
-    timeQueue = job['infoQueue']['estimatedTimeInQueue']
+    position = job['infoQueue']['position']
+    if 'estimatedTimeInQueue' in job['infoQueue']:
+        timeQueue = job['infoQueue']['estimatedTimeInQueue']
+    else:
+        timeQueue = position * 30 #Guestimate on 30 seconds per job
     print(" Expected time (minutes) in Queue left:", timeQueue/60)
     if timeQueue < 60:
        while status == 'RUNNING':
           time.sleep(10)
           job = api.get_job(jobid)
-          position = job['infoQueue']['position']
-          print(" Position in Queue", position)
-          timeQueue = job['infoQueue']['estimatedTimeInQueue']
-          print(" Expected time (minutes) in Queue left:", timeQueue/60)
           status = job['status']
+          if status == 'RUNNING':
+             position = job['infoQueue']['position']
+             print(" Position in Queue", position)
+             if 'estimatedTimeInQueue' in job['infoQueue']:
+                timeQueue = job['infoQueue']['estimatedTimeInQueue']
+             else:
+                timeQueue = position * 30 #Guestimate on 30 seconds per job
+             print(" Expected time (minutes) in Queue left:", timeQueue/60)
        id = job['qasms'][0]['executionId']
        result = api.get_result_from_execution(id)
        print(result)
        with open('output.txt', 'w') as resultFile:
           resultFile.write(str(result['result']))
     else:
+       print(" Result will be later than timeout. Going to failover.")
        print(" SIMULATOR AT IBM:")
        ex = api.run_experiment(qasm, backend='ibmqx_qasm_simulator', shots=shots, name='QSharpRun SIM', timeout=15)
        print("DONE")
