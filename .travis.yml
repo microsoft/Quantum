@@ -13,8 +13,8 @@ matrix:
     # the APT source provided by Travis CI for more recent versions
     # of GCC backported to Ubuntu 14.04 Trusty.
     - os: linux
-      script:
-         - export OMP_NUM_THREADS=1
+      env:
+         - OMP_NUM_THREADS=1
       addons:
         apt:
           sources:
