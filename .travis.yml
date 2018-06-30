@@ -21,7 +21,7 @@ matrix:
             - g++-4.9
 
 script:
-  - export OMP_NUM_THREADS=4;
+  - export OMP_NUM_THREADS=4
   - dotnet build QsharpLibraries.sln
   - dotnet test Samples/UnitTesting
   - travis_wait 30 dotnet test LibraryTests
