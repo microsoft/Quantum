@@ -33,7 +33,7 @@ namespace Microsoft.Quantum.Tests
         public void QuantumSimulatorTarget(TestOperation opData)
         {
             // It is convenient to store seed for test that can fail with small probability
-            uint? seed = RetriveGeneratedSeed(opData);
+            uint? seed = RetrieveGeneratedSeed(opData);
 
             try
             {
@@ -71,7 +71,7 @@ namespace Microsoft.Quantum.Tests
         public void QuantumSimulatorCanonTarget(TestOperation opData)
         {
             // It is convenient to store seed for test that can fail with small probability
-            uint? seed = RetriveGeneratedSeed(opData);
+            uint? seed = RetrieveGeneratedSeed(opData);
 
             using (var sim = new QuantumSimulator(randomNumberGeneratorSeed: seed))
             {
@@ -99,7 +99,7 @@ namespace Microsoft.Quantum.Tests
         public void QuantumSimulatorOldCanonTarget(TestOperation opData)
         {
             // It is convenient to store seed for test that can fail with small probability
-            uint? seed = RetriveGeneratedSeed(opData);
+            uint? seed = RetrieveGeneratedSeed(opData);
 
             using (var sim = new QuantumSimulator(randomNumberGeneratorSeed: seed))
             {
@@ -132,7 +132,7 @@ namespace Microsoft.Quantum.Tests
         public void QuantumSimulatorTargetExFail(TestOperation opData)
         {
             // It is convenient to store seed for test that can fail with small probability
-            uint? seed = RetriveGeneratedSeed(opData);
+            uint? seed = RetrieveGeneratedSeed(opData);
 
             using (var sim = new QuantumSimulator(randomNumberGeneratorSeed: seed))
             {
@@ -161,7 +161,7 @@ namespace Microsoft.Quantum.Tests
         public void QuantumSimulatorTargetShouldFail(TestOperation opData)
         {
             // It is convenient to store seed for test that can fail with small probability
-            uint? seed = RetriveGeneratedSeed(opData);
+            uint? seed = RetrieveGeneratedSeed(opData);
 
             using (var sim = new QuantumSimulator(randomNumberGeneratorSeed: seed))
             {
@@ -201,7 +201,7 @@ namespace Microsoft.Quantum.Tests
         /// <summary>
         /// Returns a seed to use for the test run based on the class
         /// </summary>
-        private uint? RetriveGeneratedSeed(TestOperation opData)
+        private uint? RetrieveGeneratedSeed(TestOperation opData)
         {
             byte[] bytes = Encoding.Unicode.GetBytes(opData.fullClassName);
             byte[] hash = hashMethod.ComputeHash(bytes);
