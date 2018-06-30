@@ -18,7 +18,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-4.9.4
+            - g++-4.9.3
 
 script:
   - export OMP_NUM_THREADS=4
