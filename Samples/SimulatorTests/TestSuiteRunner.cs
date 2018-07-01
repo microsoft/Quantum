@@ -50,7 +50,7 @@ namespace Quantum.SimulatorTests
 
 
         // one can find tests with custom suffix
-        [OperationDriver(Suffix = "TestShouldFail")]
+        /*[OperationDriver(Suffix = "TestShouldFail")]
         public void QuantumSimulatorTargetShouldFail(TestOperation opData)
         {
             using (var sim = new QuantumSimulator())
@@ -62,6 +62,6 @@ namespace Quantum.SimulatorTests
                 // executes operation and expects and exception from Q#
                 Assert.ThrowsAny<ExecutionFailException>(() => opData.TestOperationRunner(sim));
             }
-        }
+        }*/
     }
 }
