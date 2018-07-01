@@ -10,7 +10,7 @@ name: qsharp-samples
 channels:
     - conda-forge
     - pythonnet
-    - https://solidrepo.blob.core.windows.net/release/1806.2802/src/python/bin/package
+    - https://solidrepo.blob.core.windows.net/release/1806.3001/src/python/bin/package
 dependencies:
     - python>=3.6
     - numpy
@@ -21,7 +21,7 @@ dependencies:
     - matplotlib
     - ipyparallel
     - py
-    - qsharp=0.2.1806.2802
+    - qsharp=0.2.1806.3001
     - pip:
         - qinfer
         - duecredit
