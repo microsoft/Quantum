@@ -12,7 +12,7 @@
     
   <ItemGroup>
     <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.2.1806.3001-preview" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.1-beta3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
 </Project>
