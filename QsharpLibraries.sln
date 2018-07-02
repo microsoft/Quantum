@@ -73,6 +73,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenQasm", "Samples\OpenQas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qiskit", "Samples\Qiskit\Qiskit.csproj", "{951F83D9-30FA-41A6-9438-AB7A4D7E5110}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Quantum.Simulation.Simulators.Tests", "Samples\SimulatorTests\Microsoft.Quantum.Simulation.Simulators.Tests.csproj", "{BCF80217-CC27-48ED-9968-55AE642B1E2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -437,6 +439,22 @@ Global
 		{951F83D9-30FA-41A6-9438-AB7A4D7E5110}.Release|x64.Build.0 = Release|Any CPU
 		{951F83D9-30FA-41A6-9438-AB7A4D7E5110}.Release|x86.ActiveCfg = Release|Any CPU
 		{951F83D9-30FA-41A6-9438-AB7A4D7E5110}.Release|x86.Build.0 = Release|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Debug|ARM.Build.0 = Debug|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Debug|x64.Build.0 = Debug|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Debug|x86.Build.0 = Debug|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Release|ARM.ActiveCfg = Release|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Release|ARM.Build.0 = Release|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Release|x64.ActiveCfg = Release|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Release|x64.Build.0 = Release|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Release|x86.ActiveCfg = Release|Any CPU
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -470,6 +488,7 @@ Global
 		{0C7801D7-4483-46AD-922B-B392972A650B} = {614D2908-AAF9-48CE-B688-C28CC99C1D19}
 		{8F18B926-58EE-4A2D-8108-A5C671921F93} = {0C7801D7-4483-46AD-922B-B392972A650B}
 		{951F83D9-30FA-41A6-9438-AB7A4D7E5110} = {0C7801D7-4483-46AD-922B-B392972A650B}
+		{BCF80217-CC27-48ED-9968-55AE642B1E2C} = {AEEA483D-7AA4-4B61-A989-ADAAC8C84458}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6869E5BF-551A-40F1-9B6B-D1B27A5676CB}

@@ -25,4 +25,5 @@ matrix:
 script:
   - dotnet build QsharpLibraries.sln
   - dotnet test Samples/UnitTesting
+  - travis_wait 30 dotnet test Samples/SimulatorTests
   - travis_wait 30 dotnet test LibraryTests
