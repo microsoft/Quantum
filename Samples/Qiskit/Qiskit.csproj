@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="QiskitInterface.py">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="requirements.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
