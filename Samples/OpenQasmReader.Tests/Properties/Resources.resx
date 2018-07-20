@@ -124,6 +124,12 @@
   <data name="CNotResult" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\validate\cnot.qs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Flip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\testfunctions\flip.qasm;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="FlipResult" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\validate\flip.qs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Hadamard" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\testfunctions\hadamard.qasm;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

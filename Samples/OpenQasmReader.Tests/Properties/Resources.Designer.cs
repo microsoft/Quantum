@@ -83,6 +83,26 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Flip {
+            get {
+                object obj = ResourceManager.GetObject("Flip", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] FlipResult {
+            get {
+                object obj = ResourceManager.GetObject("FlipResult", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Hadamard {
             get {
                 object obj = ResourceManager.GetObject("Hadamard", resourceCulture);

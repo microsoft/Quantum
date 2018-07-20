@@ -24,6 +24,12 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
             TestConversion("CNotTest.qs", Resources.CNot, Resources.CNotResult);
         }
 
+        [Fact]
+        public void FlipConversionTest()
+        {
+            TestConversion("FlipTest.qs", Resources.Flip, Resources.FlipResult);
+        }
+
         private static void TestConversion(string name, byte[] input, byte[] output)
         {
             var inputFile = Path.Combine(Path.GetTempPath(), name);
