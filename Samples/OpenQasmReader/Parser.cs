@@ -115,6 +115,9 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     case "u3":
                         ParseUGate(token, inside);
                         break;
+                    case "u1":
+                        ParseU1Gate(token, inside);
+                        break;
                     case "x":
                         ParseOneGate(token, "X", qRegs, inside);
                         break;
@@ -141,6 +144,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         ParseOneGate(token, "(Adjoint T)", qRegs, inside);
                         break;
                     case "barrier":
+                        ParseBarrier(token, qRegs);
+                        break;
                     case "id":
                         ParseOneGate(token, "I", qRegs, inside);
                         break;
@@ -316,6 +321,12 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             }
         }
 
+        internal static void ParseBarrier(IEnumerator<string> token, Dictionary<string, int> qReg)
+        {
+            //Ignore, because its by default in Q#
+            while (token.MoveNext() && !token.Equals(POINT_COMMA)) { }
+        }
+
         private static void ParseOneGate(IEnumerator<string> token, string gate, Dictionary<string, int> qReg, StringBuilder builder)
         {
             token.MoveNext();
@@ -487,7 +498,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             "h", "x", "y", "z", "s", "t",
             "sdg", "tdg",
             "cx", "ccx",
-            "measure"
+            "measure",
+            "u1","u3"
         };
 
         /// <summary>
@@ -618,6 +630,34 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         }
 
         /// <summary>
+        /// Parse an U1 Gate which is a one axis rotation
+        /// </summary>
+        /// <param name="token">Current token the tokenizer is on to parse</param>
+        /// <param name="builder"></param>
+        private static void ParseU1Gate(IEnumerator<string> token, StringBuilder builder)
+        {
+            token.MoveNext(); //(
+            token.MoveNext();
+            var x = ParseCalculation(token, COMMA, CLOSE_PARANTHESES);
+            token.MoveNext();
+            var q = token.Current;
+            token.MoveNext(); // ;
+            if (!x.Equals(ZERO))
+            {
+                builder.Append(INDENTED);
+                builder.AppendFormat("Rx({0},{1});\n", x, q);
+            }
+            else
+            {
+                // 0,0,0 rotation is the idle
+                // Could have left it out, but people seem to use this as a first test and are supprized when it gets optimized away.
+                builder.Append(INDENTED);
+                builder.AppendFormat("I({0});\n", q);
+            }
+        }
+
+
+        /// <summary>
         /// Parse an U Gate which is a three axis rotation
         /// </summary>
         /// <param name="token">Current token the tokenizer is on to parse</param>
@@ -691,6 +731,15 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 else if (token.Current.All(c => char.IsDigit(c)))
                 {
                     result += token.Current + ".0";
+                }
+                //Scientific value
+                else if (char.IsDigit(token.Current[0]) && token.Current.Last() == 'e')
+                {
+                    result += token.Current;
+                    token.MoveNext();
+                    result += token.Current;
+                    token.MoveNext();
+                    result += token.Current;
                 }
                 else
                 {

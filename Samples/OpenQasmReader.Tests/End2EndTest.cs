@@ -32,6 +32,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
 
         [Fact]
         public void RotationsConversionTest() => TestConversion("RotationsTest.qs", $"{SOURCE_NAMESPACE}.Rotations.qasm", $"{TARGET_NAMESPACE}.Rotations.qs");
+        [Fact]
+        public void Qft30ConversionTest() => TestConversion("Qft30Test.qs", $"{SOURCE_NAMESPACE}.qft_n30.qasm", $"{TARGET_NAMESPACE}.Qft30.qs");
 
 
         private static void TestConversion(string name, string inputResourceName, string expectedResourceName)

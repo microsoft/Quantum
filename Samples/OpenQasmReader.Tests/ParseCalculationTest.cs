@@ -99,6 +99,15 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
             Assert.Equal("q_1+5.0/14.0-q[12]", result);
         }
 
+        [Fact]
+        public void ParseCalculationScientificResultsScientific()
+        {
+            var input = "5.85167231706864e-9;";
+            string result = null;
+            result = ParseCalculation(input, TestEndMarker);
+            Assert.Equal("5.85167231706864e-9", result);
+        }
+
         /// <summary>
         /// Helper function top execute ParseCalculation Method
         /// </summary>
