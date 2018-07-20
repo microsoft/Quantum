@@ -62,17 +62,17 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <returns>Q# file content</returns>
         private static string ParseMain(IEnumerator<string> token, string ns, string name, string path)
         {
-            var conventionalMeasured = new List<string>();
+            var classicalMeasured = new List<string>();
             var qRegs = new Dictionary<string, int>();
             var cRegs = new Dictionary<string, int>();
             var inside = new StringBuilder();
             var outside = new StringBuilder();
-            ParseApplication(token, cRegs, qRegs, path, inside, outside, conventionalMeasured);
+            ParseApplication(token, cRegs, qRegs, path, inside, outside, classicalMeasured);
 
             var result = new StringBuilder(inside.Length + outside.Length);
             result.AppendFormat(HEADER, ns);
             result.Append(outside.ToString());
-            WriteOperation(result, cRegs, qRegs, name, new string[]{ }, conventionalMeasured, inside);
+            WriteOperation(result, cRegs, qRegs, name, new string[]{ }, classicalMeasured, inside);
             result.Append(TAIL);
             return result.ToString();
         }
@@ -81,14 +81,14 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// Parses the Qasm application and componenents
         /// </summary>
         /// <param name="token">Current token the tokenizer is on to parse</param>
-        /// <param name="cRegs">Conventional registers defined</param>
+        /// <param name="cRegs">Cassical registers defined</param>
         /// <param name="qRegs">Quantum registers defined</param>
         /// <param name="path">Directory the qasm is located in (mostly for include purposes)</param>
         /// <param name="inside">Stream to write within the current operation being parsed</param>
         /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
-        /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
-        /// <param name="stopOnePointcomma">Process one command</param>
-        internal static void ParseApplication(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured, bool stopOnePointcomma = false)
+        /// <param name="classicalMeasured">Currently measured classical registers (mostly used for output)</param>
+        /// <param name="stopAfterOneCommand">Process only one command</param>
+        internal static void ParseApplication(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> classicalMeasured, bool stopAfterOneCommand = false)
         {
             while (token.MoveNext())
             {
@@ -98,7 +98,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         ParseOpenQasmHeader(token);
                         break;
                     case "include":
-                        ParseInclude(token, cRegs, qRegs, path, inside, outside, conventionalMeasured);
+                        ParseInclude(token, cRegs, qRegs, path, inside, outside, classicalMeasured);
                         break;
                     //Intrinsic will take care of the optional native gates
                     case "opaque":
@@ -109,7 +109,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         ParseQuantumRegister(token, qRegs);
                         break;
                     case "creg":
-                        ParseConventionalRegister(token, cRegs, inside);
+                        ParseClassicalRegister(token, cRegs, inside);
                         break;
                     case "U":
                         ParseUGate(token, inside);
@@ -151,21 +151,21 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         ParseThreeGate(token, "CCNOT", qRegs, inside);
                         break;
                     case "measure":
-                        ParseMeasure(token, inside, cRegs, qRegs, conventionalMeasured);
+                        ParseMeasure(token, inside, cRegs, qRegs, classicalMeasured);
                         break;
                     case "if":
-                        ParseIf(token, cRegs, qRegs, path, inside, outside, conventionalMeasured);
+                        ParseIf(token, cRegs, qRegs, path, inside, outside, classicalMeasured);
                         break;
                     case CLOSE_CURLYBRACKET:
                         return;
                     case POINT_COMMA:
-                        if (stopOnePointcomma) { return; }
+                        if (stopAfterOneCommand) { return; }
                         break;
                     default:
                         ParseGateCall(token, inside, qRegs);
                         break;
                 }
-                if (stopOnePointcomma && token.Current.Equals(POINT_COMMA)) { return; }
+                if (stopAfterOneCommand && token.Current.Equals(POINT_COMMA)) { return; }
             }
         }
 
@@ -173,21 +173,21 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// Parse the if conditional
         /// </summary>
         /// <param name="token">Current token the tokenizer is on to parse</param>
-        /// <param name="cRegs">Conventional registers defined</param>
+        /// <param name="cRegs">Classical registers defined</param>
         /// <param name="qRegs">Quantum registers defined</param>
         /// <param name="path">Directory the qasm is located in (mostly for include purposes)</param>
         /// <param name="inside">Stream to write within the current operation being parsed</param>
         /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
-        /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
+        /// <param name="classicalMeasured">Currently measured classical registers (mostly used for output)</param>
         /// <param name="stopOnePointcomma">Process one command</param>
-        private static void ParseIf(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured)
+        private static void ParseIf(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> classicalMeasured)
         {
             token.MoveNext();
             token.MoveNext();
             var condition = ParseCondition(token, cRegs, CLOSE_PARANTHESES);
             inside.Append(INDENTED);
             inside.AppendFormat("if({0}){{\n", condition);
-            ParseApplication(token, cRegs, qRegs, path, inside, outside, conventionalMeasured, true);
+            ParseApplication(token, cRegs, qRegs, path, inside, outside, classicalMeasured, true);
             inside.Append(INDENTED);
             inside.AppendLine("}");
         }
@@ -233,12 +233,12 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         }
 
         /// <summary>
-        /// Register a conventional (Result) register
+        /// Register a classical (Result) register
         /// </summary>
         /// <param name="token">Current token the tokenizer is on to parse</param>
-        /// <param name="cRegs">Conventional registers defined</param>
+        /// <param name="cRegs">Classical registers defined</param>
         /// <param name="path">Directory the qasm is located in (mostly for inlcude purposes)</param>
-        private static void ParseConventionalRegister(IEnumerator<string> token, Dictionary<string, int> cRegs, StringBuilder inside)
+        private static void ParseClassicalRegister(IEnumerator<string> token, Dictionary<string, int> cRegs, StringBuilder inside)
         {
             token.MoveNext();
             var name = token.Current;
@@ -363,11 +363,11 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// Parse a measure gate
         /// </summary>
         /// <param name="token">Current token the tokenizer is on to parse</param>
-        /// <param name="cRegs">Conventional registers defined</param>
+        /// <param name="cRegs">Classical registers defined</param>
         /// <param name="builder">Stream to write within the current operation being parsed</param>
         /// <param name="qRegs">Quantum registers defined</param>
-        /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
-        private static void ParseMeasure(IEnumerator<string> token, StringBuilder builder, Dictionary<string, int> cReg, Dictionary<string, int> qReg, List<string> conventionalMeasured)
+        /// <param name="classicalMeasured">Currently measured classical registers (mostly used for output)</param>
+        private static void ParseMeasure(IEnumerator<string> token, StringBuilder builder, Dictionary<string, int> cReg, Dictionary<string, int> qReg, List<string> classicalMeasured)
         {
             token.MoveNext();
             var q1 = token.Current;
@@ -396,7 +396,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
 
             if (q3.Contains('['))
             {
-                if (!conventionalMeasured.Contains(q3)) { conventionalMeasured.Add(q3); }
+                if (!classicalMeasured.Contains(q3)) { classicalMeasured.Add(q3); }
             }
             else
             {
@@ -407,7 +407,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 for (int i = 0; i < count; i++)
                 {
                     var name = string.Format("{0}[{1}]", size, i);
-                    if (!conventionalMeasured.Contains(name)) { conventionalMeasured.Add(name); }
+                    if (!classicalMeasured.Contains(name)) { classicalMeasured.Add(name); }
                 }
             }
         }
@@ -537,12 +537,12 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             }
             var types = doubles.Select(d => string.Format("{0}:Double", d))
                   .Concat(qbits.Select(qbit => string.Format("{0}:Qubit", qbit)));
-            var conventionalMeasured = new List<string>();
+            var classicalMeasured = new List<string>();
             var inside = new StringBuilder();
             var qRegs = new Dictionary<string, int>();
             var cRegs = new Dictionary<string, int>();
-            ParseApplication(token, cRegs, qRegs, path, inside, outside, conventionalMeasured);
-            WriteOperation(outside, cRegs, qRegs, gateName, types, conventionalMeasured, inside);
+            ParseApplication(token, cRegs, qRegs, path, inside, outside, classicalMeasured);
+            WriteOperation(outside, cRegs, qRegs, gateName, types, classicalMeasured, inside);
         }
 
         /// <summary>
@@ -566,17 +566,17 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// Write the Q# operation with all the details
         /// </summary>
         /// <param name="token">Current token the tokenizer is on to parse</param>
-        /// <param name="cRegs">Conventional registers defined</param>
+        /// <param name="cRegs">Classical registers defined</param>
         /// <param name="qRegs">Quantum registers defined</param>
         /// <param name="path">Directory the qasm is located in (mostly for inlcude purposes)</param>
         /// <param name="inside">Stream to write within the current operation being parsed</param>
         /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
-        /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
+        /// <param name="classicalMeasured">Currently measured classical registers (mostly used for output)</param>
         /// <param name="operationName">The intended name of the operation</param>
         /// <param name="types">Parameters of this operation (mostly used for gates)</param>
-        private static void WriteOperation(StringBuilder outside, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string operationName, IEnumerable<string> types, List<string> conventionalMeasured, StringBuilder inside)
+        private static void WriteOperation(StringBuilder outside, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string operationName, IEnumerable<string> types, List<string> classicalMeasured, StringBuilder inside)
         {
-            outside.AppendFormat(HEADER_OPERATION, FirstLetterToUpperCase(operationName), string.Join(COMMA, types), conventionalMeasured.Any() ? "Result[]" : string.Empty);
+            outside.AppendFormat(HEADER_OPERATION, FirstLetterToUpperCase(operationName), string.Join(COMMA, types), classicalMeasured.Any() ? "Result[]" : string.Empty);
 
             if (cRegs.Any()) {
                 foreach (var cRegister in cRegs)
@@ -608,10 +608,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     outside.AppendLine(CLOSE_CURLYBRACKET);
                 }
             }
-            if (conventionalMeasured.Count > 0)
+            if (classicalMeasured.Count > 0)
             {
                 outside.Append(INDENTED);
-                outside.AppendFormat("return [{0}];\n", string.Join(POINT_COMMA, conventionalMeasured));
+                outside.AppendFormat("return [{0}];\n", string.Join(POINT_COMMA, classicalMeasured));
             }
             outside.AppendLine(TAIL_OPERATION);
         }
@@ -705,13 +705,13 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// Its not really clear by the specification, but an include may be anywhere in line and inject gates within an operation.
         /// </summary>
         /// <param name="token">Current token the tokenizer is on to parse</param>
-        /// <param name="cRegs">Conventional registers defined</param>
+        /// <param name="cRegs">Classical registers defined</param>
         /// <param name="qRegs">Quantum registers defined</param>
         /// <param name="path">Directory the qasm is located in (mostly for inlcude purposes)</param>
         /// <param name="inside">Stream to write within the current operation being parsed</param>
         /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
-        /// <param name="conventionalMeasured">Currently measured conventional registers (mostly used for output)</param>
-        internal static void ParseInclude(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string,int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> conventionalMeasured)
+        /// <param name="classicalMeasured">Currently measured classical registers (mostly used for output)</param>
+        internal static void ParseInclude(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string,int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> classicalMeasured)
         {
             if (token.MoveNext())
             {
@@ -726,7 +726,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 {
                     using (var stream = File.OpenText(fileName))
                     {
-                        ParseApplication(Tokenizer(stream).GetEnumerator(), cRegs, qRegs, path, inside, outside, conventionalMeasured);
+                        ParseApplication(Tokenizer(stream).GetEnumerator(), cRegs, qRegs, path, inside, outside, classicalMeasured);
                     }
                 }
                 //Some people use qelib1.inc or other include of a template but don't actually have the file or use it
