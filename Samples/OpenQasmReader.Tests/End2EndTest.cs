@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using Microsoft.Quantum.Samples.OpenQasmReader.Tests.Properties;
+using System;
 using System.IO;
+using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Text.RegularExpressions;
 using Xunit;
@@ -10,21 +12,22 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
 {
     public class End2EndTest
     {
+        const string SOURCE_NAMESPACE = "Microsoft.Quantum.Samples.OpenQasmReader.Tests.TestFunctions";
         const string TARGET_NAMESPACE = "Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate";
 
         [Fact]
-        public void HadamardConversionTest() => TestConversion("HadamardTest.qs", Resources.Hadamard, Resources.HadamardResult);
+        public void HadamardConversionTest() => TestConversion("HadamardTest.qs", $"{SOURCE_NAMESPACE}.Hadamard.qasm", $"{TARGET_NAMESPACE}.Hadamard.qs");
 
         [Fact]
-        public void CNotConversionTest() => TestConversion("CNotTest.qs", Resources.CNot, Resources.CNotResult);
+        public void CNotConversionTest() => TestConversion("CNotTest.qs", $"{SOURCE_NAMESPACE}.CNot.qasm", $"{TARGET_NAMESPACE}.CNot.qs");
 
         [Fact]
-        public void FlipConversionTest() => TestConversion("FlipTest.qs", Resources.Flip, Resources.FlipResult);
+        public void FlipConversionTest() => TestConversion("FlipTest.qs", $"{SOURCE_NAMESPACE}.Flip.qasm", $"{TARGET_NAMESPACE}.Flip.qs");
 
-        private static void TestConversion(string name, string input, string expected)
+        private static void TestConversion(string name, string inputResourceName, string expectedResourceName)
         {
-            //Testing for resource parsing error
-            Assert.DoesNotContain(".qasm", input);
+            var input = ReadResource(inputResourceName); ;
+            var expected = ReadResource(expectedResourceName); ;
 
             var inputFile = Path.Combine(Path.GetTempPath(), name);
             try
@@ -46,6 +49,22 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 if (File.Exists(inputFile))
                 {
                     File.Delete(inputFile);
+                }
+            }
+        }
+
+        private static string ReadResource(string resourceName)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            {
+                if (stream == null)
+                {
+                    throw new Exception($"Resource {resourceName} not found in {assembly.FullName}.  Valid resources are: {String.Join(", ", assembly.GetManifestResourceNames())}.");
+                }
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
                 }
             }
         }
