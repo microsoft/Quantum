@@ -9,9 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TestFunctions\Adder.qasm" />
     <None Remove="TestFunctions\CNot.qasm" />
     <None Remove="TestFunctions\Flip.qasm" />
     <None Remove="TestFunctions\Hadamard.qasm" />
+    <None Remove="Validate\Adder.qs" />
     <None Remove="Validate\CNot.qs" />
     <None Remove="Validate\Flip.qs" />
     <None Remove="Validate\Hadamard.qs" />
@@ -25,9 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="TestFunctions\Adder.qasm" />
     <EmbeddedResource Include="TestFunctions\CNot.qasm" />
     <EmbeddedResource Include="TestFunctions\Flip.qasm" />
     <EmbeddedResource Include="TestFunctions\Hadamard.qasm" />
+    <EmbeddedResource Include="Validate\Adder.qs" />
     <EmbeddedResource Include="Validate\CNot.qs" />
     <EmbeddedResource Include="Validate\Flip.qs" />
     <EmbeddedResource Include="Validate\Hadamard.qs" />
