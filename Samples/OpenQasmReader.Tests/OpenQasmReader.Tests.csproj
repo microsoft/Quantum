@@ -13,11 +13,13 @@
     <None Remove="TestFunctions\Flip.qasm" />
     <None Remove="TestFunctions\Gates.qasm" />
     <None Remove="TestFunctions\Hadamard.qasm" />
+    <None Remove="TestFunctions\Rotations.qasm" />
     <None Remove="TestFunctions\Teleport.qasm" />
     <None Remove="Validate\CNot.qs" />
     <None Remove="Validate\Flip.qs" />
     <None Remove="Validate\Gates.qs" />
     <None Remove="Validate\Hadamard.qs" />
+    <None Remove="Validate\Rotations.qs" />
     <None Remove="Validate\Teleport.qs" />
   </ItemGroup>
 
@@ -29,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="TestFunctions\Rotations.qasm" />
     <EmbeddedResource Include="TestFunctions\Gates.qasm" />
     <EmbeddedResource Include="TestFunctions\Teleport.qasm" />
     <EmbeddedResource Include="TestFunctions\CNot.qasm" />
@@ -37,6 +40,7 @@
     <EmbeddedResource Include="Validate\CNot.qs" />
     <EmbeddedResource Include="Validate\Gates.qs" />
     <EmbeddedResource Include="Validate\Flip.qs" />
+    <EmbeddedResource Include="Validate\Rotations.qs" />
     <EmbeddedResource Include="Validate\Teleport.qs" />
     <EmbeddedResource Include="Validate\Hadamard.qs" />
   </ItemGroup>
