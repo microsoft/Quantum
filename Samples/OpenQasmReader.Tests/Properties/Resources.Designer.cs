@@ -63,6 +63,26 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] CNot {
+            get {
+                object obj = ResourceManager.GetObject("CNot", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] CNotResult {
+            get {
+                object obj = ResourceManager.GetObject("CNotResult", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Hadamard {
             get {
                 object obj = ResourceManager.GetObject("Hadamard", resourceCulture);

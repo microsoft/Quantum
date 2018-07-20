@@ -18,6 +18,12 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
             TestConversion("HadamardTest.qs", Resources.Hadamard, Resources.HadamardResult);
         }
 
+        [Fact]
+        public void CNotConversionTest()
+        {
+            TestConversion("CNotTest.qs", Resources.CNot, Resources.CNotResult);
+        }
+
         private static void TestConversion(string name, byte[] input, byte[] output)
         {
             var inputFile = Path.Combine(Path.GetTempPath(), name);
