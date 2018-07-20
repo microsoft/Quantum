@@ -57,7 +57,6 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         /// <returns>resultstring</returns>
         private static string ParseBarrier(string input, Dictionary<string, int> qRegs)
         {
-            string result;
             using (var stream = new StringReader(input))
             {
                 var enumerator = Parser.Tokenizer(stream).GetEnumerator();

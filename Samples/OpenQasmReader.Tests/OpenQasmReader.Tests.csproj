@@ -14,6 +14,7 @@
     <None Remove="TestFunctions\Gates.qasm" />
     <None Remove="TestFunctions\Hadamard.qasm" />
     <None Remove="TestFunctions\qft_n30.qasm" />
+    <None Remove="TestFunctions\qft_n40.qasm" />
     <None Remove="TestFunctions\Rotations.qasm" />
     <None Remove="TestFunctions\Teleport.qasm" />
     <None Remove="Validate\CNot.qs" />
@@ -21,19 +22,21 @@
     <None Remove="Validate\Gates.qs" />
     <None Remove="Validate\Hadamard.qs" />
     <None Remove="Validate\Qft30.qs" />
+    <None Remove="Validate\Qft40.qs" />
     <None Remove="Validate\Rotations.qs" />
     <None Remove="Validate\Teleport.qs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
-    <PackageReference Include="xunit" Version="2.3.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="TestFunctions\qft_n30.qasm" />
+    <EmbeddedResource Include="TestFunctions\qft_n40.qasm" />
     <EmbeddedResource Include="TestFunctions\Rotations.qasm" />
     <EmbeddedResource Include="TestFunctions\Gates.qasm" />
     <EmbeddedResource Include="TestFunctions\Teleport.qasm" />
@@ -43,6 +46,7 @@
     <EmbeddedResource Include="Validate\CNot.qs" />
     <EmbeddedResource Include="Validate\Gates.qs" />
     <EmbeddedResource Include="Validate\Flip.qs" />
+    <EmbeddedResource Include="Validate\Qft40.qs" />
     <EmbeddedResource Include="Validate\Qft30.qs" />
     <EmbeddedResource Include="Validate\Rotations.qs" />
     <EmbeddedResource Include="Validate\Teleport.qs" />
