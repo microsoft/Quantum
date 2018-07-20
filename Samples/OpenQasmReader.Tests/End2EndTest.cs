@@ -30,19 +30,16 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
             TestConversion("FlipTest.qs", Resources.Flip, Resources.FlipResult);
         }
 
-        private static void TestConversion(string name, byte[] input, byte[] output)
+        private static void TestConversion(string name, string input, string expected)
         {
             var inputFile = Path.Combine(Path.GetTempPath(), name);
             try
             {
                 //Write OpenQuasm program 
-                File.WriteAllBytes(inputFile, input);
+                File.WriteAllText(inputFile, input);
 
                 //Transform
                 var result = Parser.ConvertQasmFile(TARGET_NAMESPACE, inputFile);
-
-                //Obtain expected result
-                var expected = Encoding.Default.GetString(output);
 
                 //Reformat result, so they can be compared (unix/windows and layout differences);
                 expected = Regex.Replace(expected, @"\s+", " ").Trim().Trim(new char[] { '\uFEFF', '\u200B' }); ;

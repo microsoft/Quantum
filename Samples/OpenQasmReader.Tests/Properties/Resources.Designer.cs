@@ -61,62 +61,157 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to // Copyright (c) Microsoft Corporation. All rights reserved.
+        ///// Licensed under the MIT License.
+        ///OPENQASM 2.0;
+        ///qreg q[2];
+        ///creg c[2];
+        ///H q[0]; 
+        ///cx q[0],q[1];
+        ///measure q -&gt; c;.
         /// </summary>
-        internal static byte[] CNot {
+        internal static string CNot {
             get {
-                object obj = ResourceManager.GetObject("CNot", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("CNot", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate
+        ///{
+        ///    open Microsoft.Quantum.Primitive;
+        ///    open Microsoft.Quantum.Canon;
+        ///    open Microsoft.Quantum.Extensions.Math;
+        ///
+        ///    operation CNotTest():(Result[])
+        ///    {
+        ///        body
+        ///        {
+        ///            mutable c = new Result[2];
+        ///            using(q = Qubit[2]){
+        ///            H(q[0]);
+        ///            CNOT(q[0],q[1]);
+        ///            for(_idx in 0..Length(c)){
+        ///                set c[_idx] = M(q[_idx]);
+        ///            }
+        ///            ResetAll(q);
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] CNotResult {
+        internal static string CNotResult {
             get {
-                object obj = ResourceManager.GetObject("CNotResult", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("CNotResult", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to // Copyright (c) Microsoft Corporation. All rights reserved.
+        ///// Licensed under the MIT License.
+        ///OPENQASM 2.0;
+        ///qreg q[5];
+        ///creg c[5];
+        ///x q[0];
+        ///x q[1];
+        ///id q[2];
+        ///h q[2];
+        ///cx q[1],q[2];
+        ///tdg q[2];
+        ///cx q[0],q[2];
+        ///t q[2];
+        ///cx q[1],q[2];
+        ///tdg q[2];
+        ///cx q[0],q[2];
+        ///t q[1];
+        ///t q[2];
+        ///h q[2];
+        ///cx q[1],q[2];
+        ///h q[1];
+        ///h q[2];
+        ///cx q[1],q[2];
+        ///h q[1];
+        ///h q[2];
+        ///cx q[1],q[2];
+        ///cx q[0],q[2];
+        ///t q[0];
+        ///tdg q[2];
+        ///cx q[0],q[2];
+        ///measure q[0] -&gt; c[0];
+        ///measure q[1] -&gt; c[1];
+        ///measure q[2] -&gt; c[2];.
         /// </summary>
-        internal static byte[] Flip {
+        internal static string Flip {
             get {
-                object obj = ResourceManager.GetObject("Flip", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("Flip", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate
+        ///{
+        ///    open Microsoft.Quantum.Primitive;
+        ///    open Microsoft.Quantum.Canon;
+        ///    open Microsoft.Quantum.Extensions.Math;
+        ///
+        ///    operation FlipTest():(Result[])
+        ///    {
+        ///        body
+        ///        {
+        ///            mutable c = new Result[5];
+        ///            using(q = Qubit[5]){
+        ///            X(q[0]);
+        ///            X(q[1]);
+        ///            I(q[2]);
+        ///            H(q[2]);
+        ///            CNOT(q[1],q[2]);
+        ///            (Adjoint T)(q[2]);
+        ///            CNOT(q[0],q[2]); [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] FlipResult {
+        internal static string FlipResult {
             get {
-                object obj = ResourceManager.GetObject("FlipResult", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("FlipResult", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to // Copyright (c) Microsoft Corporation. All rights reserved.
+        ///// Licensed under the MIT License.
+        ///OPENQASM 2.0;
+        ///qreg q[1];
+        ///creg c[1];
+        ///H q[0]; 
+        ///measure q[0] -&gt; c[1];.
         /// </summary>
-        internal static byte[] Hadamard {
+        internal static string Hadamard {
             get {
-                object obj = ResourceManager.GetObject("Hadamard", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("Hadamard", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate
+        ///{
+        /// open Microsoft.Quantum.Primitive;
+        /// open Microsoft.Quantum.Canon;
+        /// open Microsoft.Quantum.Extensions.Math;
+        ///
+        /// operation HadamardTest():(Result[])
+        /// {
+        ///  body
+        ///  {
+        ///   mutable c = new Result[1];
+        ///   using(q = Qubit[1]){
+        ///   H(q[0]);
+        ///   set c[1] = M(q[0]);
+        ///   ResetAll(q);
+        ///   }
+        ///   return [c[1]];
+        ///  }
+        /// }
+        ///
+        ///}.
         /// </summary>
-        internal static byte[] HadamardResult {
+        internal static string HadamardResult {
             get {
-                object obj = ResourceManager.GetObject("HadamardResult", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("HadamardResult", resourceCulture);
             }
         }
     }
