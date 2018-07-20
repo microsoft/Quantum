@@ -13,25 +13,19 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         const string TARGET_NAMESPACE = "Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate";
 
         [Fact]
-        public void HadamardConversionTest()
-        {
-            TestConversion("HadamardTest.qs", Resources.Hadamard, Resources.HadamardResult);
-        }
+        public void HadamardConversionTest() => TestConversion("HadamardTest.qs", Resources.Hadamard, Resources.HadamardResult);
 
         [Fact]
-        public void CNotConversionTest()
-        {
-            TestConversion("CNotTest.qs", Resources.CNot, Resources.CNotResult);
-        }
+        public void CNotConversionTest() => TestConversion("CNotTest.qs", Resources.CNot, Resources.CNotResult);
 
         [Fact]
-        public void FlipConversionTest()
-        {
-            TestConversion("FlipTest.qs", Resources.Flip, Resources.FlipResult);
-        }
+        public void FlipConversionTest() => TestConversion("FlipTest.qs", Resources.Flip, Resources.FlipResult);
 
         private static void TestConversion(string name, string input, string expected)
         {
+            //Testing for resource parsing error
+            Assert.DoesNotContain(".qasm", input);
+
             var inputFile = Path.Combine(Path.GetTempPath(), name);
             try
             {

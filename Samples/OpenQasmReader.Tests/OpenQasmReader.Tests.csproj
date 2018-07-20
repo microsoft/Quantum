@@ -9,10 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Validate\CNot.qs" />
+    <None Remove="Validate\Flip.qs" />
+    <None Remove="Validate\Hadamard.qs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Validate\CNot.qs" />
+    <EmbeddedResource Include="Validate\Flip.qs" />
+    <EmbeddedResource Include="Validate\Hadamard.qs" />
   </ItemGroup>
 
   <ItemGroup>
