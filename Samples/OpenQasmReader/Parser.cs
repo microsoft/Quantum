@@ -43,7 +43,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="path">Path of the Qasm file</param>
         /// <returns>Q# file content</returns>
 
-        private static string ConvertQasmFile(string ns, string path)
+        internal static string ConvertQasmFile(string ns, string path)
         {
             using (var file = File.OpenText(path))
             {
@@ -864,7 +864,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         private const string PI = "pi";
         private const string ZERO = "0.0";
         private const string HEADER =
-@"namespace {0} {{
+@"namespace {0}
+{{
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Math;
