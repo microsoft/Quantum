@@ -27,6 +27,9 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         [Fact]
         public void TeleportConversionTest() => TestConversion("TeleportTest.qs", $"{SOURCE_NAMESPACE}.Teleport.qasm", $"{TARGET_NAMESPACE}.Teleport.qs");
 
+        [Fact]
+        public void GatesConversionTest() => TestConversion("GatesTest.qs", $"{SOURCE_NAMESPACE}.Gates.qasm", $"{TARGET_NAMESPACE}.Gates.qs");
+
 
         private static void TestConversion(string name, string inputResourceName, string expectedResourceName)
         {
