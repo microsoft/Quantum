@@ -112,6 +112,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         ParseClassicalRegister(token, cRegs, inside);
                         break;
                     case "U":
+                    case "u3":
                         ParseUGate(token, inside);
                         break;
                     case "x":

@@ -25,7 +25,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         public void FlipConversionTest() => TestConversion("FlipTest.qs", $"{SOURCE_NAMESPACE}.Flip.qasm", $"{TARGET_NAMESPACE}.Flip.qs");
 
         [Fact]
-        public void AdderConversionTest() => TestConversion("AdderTest.qs", $"{SOURCE_NAMESPACE}.Adder.qasm", $"{TARGET_NAMESPACE}.Adder.qs");
+        public void TeleportConversionTest() => TestConversion("TeleportTest.qs", $"{SOURCE_NAMESPACE}.Teleport.qasm", $"{TARGET_NAMESPACE}.Teleport.qs");
 
 
         private static void TestConversion(string name, string inputResourceName, string expectedResourceName)
