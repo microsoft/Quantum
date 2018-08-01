@@ -22,14 +22,16 @@ namespace Microsoft.Quantum.Samples.Qiskit
             if (apiKey.Contains("."))
             {
                 Console.Error.WriteLine("Did you put an api key in Driver.cs ? Without that, it will not work.");
-                return;
             }
-            var factory = new IbmQx4(apiKey); //Using different Factory
-            Console.WriteLine("Hadamard on IBMQx4");
-            for (int i = 0; i < 1; i++)
+            else
             {
-                var result = MeasurementOneQubit.Run(factory).Result;
-                Console.WriteLine($"Result of Hadamard is {result}");
+                var factory = new IbmQx4(apiKey); //Using different Factory
+                Console.WriteLine("Hadamard on IBMQx4");
+                for (int i = 0; i < 1; i++)
+                {
+                    var result = MeasurementOneQubit.Run(factory).Result;
+                    Console.WriteLine($"Result of Hadamard is {result}");
+                }
             }
 
             Console.WriteLine("Press Enter to continue...");
