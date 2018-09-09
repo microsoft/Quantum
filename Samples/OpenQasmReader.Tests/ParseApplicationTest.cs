@@ -119,7 +119,6 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                     outside.ToString().Trim()
                         .Replace("\n", string.Empty)
                         .Replace("\r", string.Empty)
-                        .Replace(Parser.INDENTED, string.Empty)
                         .Replace("  ", string.Empty));
             }
         }
@@ -152,7 +151,6 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 Assert.Equal("if(c0==1){Z(q[2]);}", inside.ToString().Trim()
                         .Replace("\n", string.Empty)
                         .Replace("\r", string.Empty)
-                        .Replace(Parser.INDENTED, string.Empty)
                         .Replace("  ", string.Empty));
 
                 //No outside generation
@@ -192,7 +190,6 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 Assert.Equal("set c0[0] = M(q[0]);", inside.ToString().Trim()
                         .Replace("\n", string.Empty)
                         .Replace("\r", string.Empty)
-                        .Replace(Parser.INDENTED, string.Empty)
                         .Replace("  ", string.Empty));
 
                 //No outside generation

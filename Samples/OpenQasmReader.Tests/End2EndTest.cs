@@ -16,26 +16,26 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         const string TARGET_NAMESPACE = "Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate";
 
         [Fact]
-        public void HadamardConversionTest() => TestConversion("HadamardTest.qs", $"{SOURCE_NAMESPACE}.Hadamard.qasm", $"{TARGET_NAMESPACE}.Hadamard.qs");
+        public void HadamardConversionTest() => TestConversion("Hadamard.qs", $"{SOURCE_NAMESPACE}.Hadamard.qasm", $"{TARGET_NAMESPACE}.Hadamard.qs");
 
         [Fact]
-        public void CNotConversionTest() => TestConversion("CNotTest.qs", $"{SOURCE_NAMESPACE}.CNot.qasm", $"{TARGET_NAMESPACE}.CNot.qs");
+        public void CNotConversionTest() => TestConversion("CNot.qs", $"{SOURCE_NAMESPACE}.CNot.qasm", $"{TARGET_NAMESPACE}.CNot.qs");
 
         [Fact]
-        public void FlipConversionTest() => TestConversion("FlipTest.qs", $"{SOURCE_NAMESPACE}.Flip.qasm", $"{TARGET_NAMESPACE}.Flip.qs");
+        public void FlipConversionTest() => TestConversion("Flip.qs", $"{SOURCE_NAMESPACE}.Flip.qasm", $"{TARGET_NAMESPACE}.Flip.qs");
 
         [Fact]
-        public void TeleportConversionTest() => TestConversion("TeleportTest.qs", $"{SOURCE_NAMESPACE}.Teleport.qasm", $"{TARGET_NAMESPACE}.Teleport.qs");
+        public void TeleportConversionTest() => TestConversion("Teleport.qs", $"{SOURCE_NAMESPACE}.Teleport.qasm", $"{TARGET_NAMESPACE}.Teleport.qs");
 
         [Fact]
-        public void GatesConversionTest() => TestConversion("GatesTest.qs", $"{SOURCE_NAMESPACE}.Gates.qasm", $"{TARGET_NAMESPACE}.Gates.qs");
+        public void GatesConversionTest() => TestConversion("Gates.qs", $"{SOURCE_NAMESPACE}.Gates.qasm", $"{TARGET_NAMESPACE}.Gates.qs");
 
         [Fact]
-        public void RotationsConversionTest() => TestConversion("RotationsTest.qs", $"{SOURCE_NAMESPACE}.Rotations.qasm", $"{TARGET_NAMESPACE}.Rotations.qs");
+        public void RotationsConversionTest() => TestConversion("Rotations.qs", $"{SOURCE_NAMESPACE}.Rotations.qasm", $"{TARGET_NAMESPACE}.Rotations.qs");
         [Fact]
-        public void Qft30ConversionTest() => TestConversion("Qft30Test.qs", $"{SOURCE_NAMESPACE}.qft_n30.qasm", $"{TARGET_NAMESPACE}.Qft30.qs");
+        public void Qft30ConversionTest() => TestConversion("Qft_n30.qs", $"{SOURCE_NAMESPACE}.qft_n30.qasm", $"{TARGET_NAMESPACE}.Qft30.qs");
         [Fact]
-        public void Qft40ConversionTest() => TestConversion("Qft40Test.qs", $"{SOURCE_NAMESPACE}.qft_n40.qasm", $"{TARGET_NAMESPACE}.Qft40.qs");
+        public void Qft40ConversionTest() => TestConversion("Qft_n40.qs", $"{SOURCE_NAMESPACE}.qft_n40.qasm", $"{TARGET_NAMESPACE}.Qft40.qs");
 
         private static void TestConversion(string name, string inputResourceName, string expectedResourceName)
         {
@@ -50,9 +50,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
 
                 //Transform
                 var result = Parser.ConvertQasmFile(TARGET_NAMESPACE, inputFile);
-
-                //Reformat result, so they can be compared (unix/windows and layout differences);
-                expected = Regex.Replace(expected, @"\s+", " ").Trim().Trim(new char[] { '\uFEFF', '\u200B' }); ;
+                
+                //Reformat result, so they can be compared (unix/windows, layout differences, and copyright headers);
+                expected = Regex.Replace(expected, @"\s+", " ").Trim().Trim(new char[] { '\uFEFF', '\u200B' });
+                result = COPYRIGHTHEADER.Replace("\n", Environment.NewLine) + result;
                 result = Regex.Replace(result, @"\s+", " ").Trim().Trim(new char[] { '\uFEFF', '\u200B' }); ;
 
                 Assert.Equal(expected, result);
@@ -81,5 +82,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 }
             }
         }
+
+        private const string COPYRIGHTHEADER = "// Copyright (c) Microsoft Corporation. All rights reserved.\n// Licensed under the MIT License.\n";
     }
 }

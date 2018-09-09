@@ -67,12 +67,14 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             var cRegs = new Dictionary<string, int>();
             var inside = new StringBuilder();
             var outside = new StringBuilder();
+            IndentLevel += 4;
             ParseApplication(token, cRegs, qRegs, path, inside, outside, classicalMeasured);
 
             var result = new StringBuilder(inside.Length + outside.Length);
             result.AppendFormat(HEADER, ns);
             result.Append(outside.ToString());
             WriteOperation(result, cRegs, qRegs, name, new string[]{ }, classicalMeasured, inside);
+            IndentLevel -= 4;
             result.Append(TAIL);
             return result.ToString();
         }
@@ -191,12 +193,28 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             token.MoveNext();
             token.MoveNext();
             var condition = ParseCondition(token, cRegs, CLOSE_PARANTHESES);
-            inside.Append(INDENTED);
+            Indent(inside);
             inside.AppendFormat("if({0}){{\n", condition);
+            IndentLevel++;
             ParseApplication(token, cRegs, qRegs, path, inside, outside, classicalMeasured, true);
-            inside.Append(INDENTED);
+            IndentLevel--;
+            Indent(inside);
             inside.AppendLine("}");
         }
+
+        /// <summary>
+        /// Add indentation
+        /// </summary>
+        /// <param name="stream">Current Stream</param>
+        private static void Indent(StringBuilder stream)
+        {
+            var indent = IndentLevel * INDENT;
+            while (indent-- > 0)
+            {
+                stream.Append(' ');
+            }
+        }
+        private static int IndentLevel { get; set; } 
 
         /// <summary>
         /// Parses a condition statement
@@ -303,12 +321,12 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             var loopRequired = qReg.Count != 0 && qbits.Any() && !qbits.Any(q => q.Contains('['));
             if (loopRequired)
             {
-                builder.Append(INDENTED);
+                Indent(builder);
                 var size = qbits.First(q => !q.Contains('['));
                 builder.AppendFormat("for(_idx in 0..Length({0})){{\n", size);
-                builder.Append("    ");
+                IndentLevel++;
             }
-            builder.Append(INDENTED);
+            Indent(builder);
             builder.Append(FirstLetterToUpperCase(gateName));
             builder.Append('(');
             var types = doubles.Concat(qbits.Select(qbit => IndexedCall(qbit, qbit.Contains('['))));
@@ -316,7 +334,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             builder.AppendLine(");");
             if (loopRequired)
             {
-                builder.Append(INDENTED);
+                IndentLevel--;
+                Indent(builder);
                 builder.AppendLine("}");
             }
         }
@@ -324,7 +343,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         internal static void ParseBarrier(IEnumerator<string> token, Dictionary<string, int> qReg)
         {
             //Ignore, because its by default in Q#
-            while (token.MoveNext() && !token.Equals(POINT_COMMA)) { }
+            while (token.MoveNext() && !token.Current.Equals(POINT_COMMA)) { }
         }
 
         private static void ParseOneGate(IEnumerator<string> token, string gate, Dictionary<string, int> qReg, StringBuilder builder)
@@ -332,7 +351,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             token.MoveNext();
             var q1 = token.Current;
             token.MoveNext(); // ;
-            builder.Append(INDENTED);
+            Indent(builder);
             if (qReg.Count == 0 ||  q1.Contains('['))
             {
                 builder.AppendFormat("{0}({1});\n", gate, q1);
@@ -352,7 +371,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             token.MoveNext();
             var rightQubit = token.Current;
             token.MoveNext(); // ;
-            builder.Append(INDENTED);
+            Indent(builder);
             if (qReg.Count == 0 || (leftQubit.Contains('[') && rightQubit.Contains('[')))
             {
                 builder.AppendFormat("{0}({1},{2});\n", gate, leftQubit, rightQubit);
@@ -362,11 +381,13 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 var index = leftQubit.IndexOf('[');
                 var size = index < 0 ? leftQubit : leftQubit.Remove(index);
                 builder.AppendFormat("for(_idx in 0..Length({0})){{\n", size);
-                builder.Append(INDENTED);
+                IndentLevel++;
+                Indent(builder);
                 builder.AppendFormat("{0}({1},{2});\n", gate,
                     IndexedCall(leftQubit, true), 
                     IndexedCall(rightQubit, true));
-                builder.Append(INDENTED);
+                IndentLevel--;
+                Indent(builder);
                 builder.AppendLine("}");
             }
         }
@@ -392,17 +413,18 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             var loopRequired = qReg.Count != 0 && !(q1.Contains('[') && q3.Contains('['));
             if (loopRequired)
             {
-                builder.Append(INDENTED);
+                Indent(builder);
                 var index = q1.IndexOf('[');
                 var size = index < 0 ? q3 : q1.Remove(index);
                 builder.AppendFormat("for(_idx in 0..Length({0})){{\n", size);
-                builder.Append("    ");
+                IndentLevel++;
             }
-            builder.Append(INDENTED);
+            Indent(builder);
             builder.AppendFormat("set {1} = M({0});\n", IndexedCall(q1, loopRequired), IndexedCall(q3, loopRequired));
             if (loopRequired)
             {
-                builder.Append(INDENTED);
+                IndentLevel--;
+                Indent(builder);
                 builder.AppendLine("}");
             }
 
@@ -442,23 +464,25 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             token.MoveNext();
             var q3 = token.Current;
             token.MoveNext(); // 
-            builder.Append(INDENTED);
+            Indent(builder);
             var loopRequired = qReg.Count != 0 && !((q1.Contains('[') && q2.Contains('[') && q3.Contains('[')));
             if (loopRequired)
             {
-                builder.Append(INDENTED);
+                Indent(builder);
                 var index = q1.IndexOf('[');
                 var size = index < 0 ? q3 : q1.Remove(index);
                 builder.AppendFormat("for(_idx in 0..Length({0})){{\n", size);
-                builder.Append("    ");
+                IndentLevel++;
             }
+            Indent(builder);
             builder.AppendFormat("{0}({1},{2},{3});\n", gate,
                 IndexedCall(q1, loopRequired),
                 IndexedCall(q2, loopRequired),
                 IndexedCall(q3, loopRequired));
             if (loopRequired)
             {
-                builder.Append(INDENTED);
+                IndentLevel--;
+                Indent(builder);
                 builder.AppendLine("}");
             }
         }
@@ -591,10 +615,16 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         {
             outside.AppendFormat(HEADER_OPERATION, FirstLetterToUpperCase(operationName), string.Join(COMMA, types), classicalMeasured.Any() ? "Result[]" : string.Empty);
 
+            if (qRegs.Any())
+            {
+                //Move identation a bit back
+                IndentLevel--;
+            }
+
             if (cRegs.Any()) {
                 foreach (var cRegister in cRegs)
                 {
-                    outside.Append(INDENTED);
+                    Indent(outside);
                     outside.AppendFormat("mutable {0} = new Result[{1}];\n", cRegister.Key, cRegister.Value);
                 }
             }
@@ -603,28 +633,34 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             {
                 foreach (var qbitRegister in qRegs)
                 {
-                    outside.Append(INDENTED);
+                    Indent(outside);
                     outside.AppendFormat("using({0} = Qubit[{1}]){{\n", qbitRegister.Key, qbitRegister.Value);
                 }
             }
             outside.Append(inside.ToString());
             if (qRegs.Any())
             {
+                IndentLevel++;
                 foreach (var qbitRegister in qRegs)
                 {
-                    outside.Append(INDENTED);
+                    Indent(outside);
                     outside.AppendFormat("ResetAll({0});\n", qbitRegister.Key);
                 }
+                IndentLevel--;
                 foreach (var qbitRegister in qRegs)
                 {
-                    outside.Append(INDENTED);
+                    Indent(outside);
                     outside.AppendLine(CLOSE_CURLYBRACKET);
                 }
             }
             if (classicalMeasured.Count > 0)
             {
-                outside.Append(INDENTED);
+                Indent(outside);
                 outside.AppendFormat("return [{0}];\n", string.Join(POINT_COMMA, classicalMeasured));
+            }
+            if (qRegs.Any())
+            {
+                IndentLevel++;
             }
             outside.AppendLine(TAIL_OPERATION);
         }
@@ -644,14 +680,14 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             token.MoveNext(); // ;
             if (!x.Equals(ZERO))
             {
-                builder.Append(INDENTED);
+                Indent(builder);
                 builder.AppendFormat("Rx({0},{1});\n", x, q);
             }
             else
             {
                 // 0,0,0 rotation is the idle
                 // Could have left it out, but people seem to use this as a first test and are supprized when it gets optimized away.
-                builder.Append(INDENTED);
+                Indent(builder);
                 builder.AppendFormat("I({0});\n", q);
             }
         }
@@ -678,26 +714,26 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             if (!x.Equals(ZERO))
             {
                 written = true;
-                builder.Append(INDENTED);
+                Indent(builder);
                 builder.AppendFormat("Rx({0},{1});\n", x, q);
             }
             if (!y.Equals(ZERO))
             {
                 written = true;
-                builder.Append(INDENTED);
+                Indent(builder);
                 builder.AppendFormat("Ry({0},{1});\n", y, q);
             }
             if (!z.Equals(ZERO))
             {
                 written = true;
-                builder.Append(INDENTED);
+                Indent(builder);
                 builder.AppendFormat("Rz({0},{1});\n", z, q);
             }
             if (!written)
             {
                 // 0,0,0 rotation is the idle
                 // Could have left it out, but people seem to use this as a first test and are supprized when it gets optimized away.
-                builder.Append(INDENTED);
+                Indent(builder);
                 builder.AppendFormat("I({0});\n", q);
             }
         }
@@ -935,7 +971,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         private const string TAIL =
 @"}
 ";
-        internal const string INDENTED = "            ";
+        //Four spaces
+        internal const int INDENT = 4;
         #endregion
     }
 

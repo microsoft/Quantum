@@ -46,7 +46,6 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                     outside.ToString().Trim()
                         .Replace("\n", string.Empty)
                         .Replace("\r", string.Empty)
-                        .Replace(Parser.INDENTED, string.Empty)
                         .Replace("  ", string.Empty));
             }
         }
