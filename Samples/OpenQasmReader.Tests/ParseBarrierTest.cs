@@ -41,6 +41,17 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         }
 
         [Fact]
+        //Parser issue of #58 where barrier parsed to much
+        public void ParseBarrierMultipleQubitOpenTest()
+        {
+            var input = "barrier q[0],q[1],q[2],q[3],q[4],q[5],q[6];othergate";
+            string result = null;
+            var qRegs = new Dictionary<string, int>();
+            result = ParseBarrier(input, qRegs);
+            Assert.Equal(";", result);
+        }
+
+        [Fact]
         public void ParseBarrierRegisterTest()
         {
             var input = "barrier q;";
