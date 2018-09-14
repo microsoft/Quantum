@@ -47,7 +47,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
             {
                 //Write OpenQuasm program 
                 File.WriteAllText(inputFile, input);
-                File.WriteAllText(dummyInclude, string.Empty);
+                File.WriteAllText(dummyInclude, "gate cx a,b { CX a,b; }");
 
                 //Transform
                 var result = Parser.ConvertQasmFile(TARGET_NAMESPACE, inputFile);

@@ -327,5 +327,46 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
             }
         }
 
+        [Fact]
+        public void ParseMidBarrierTest()
+        {
+            var input = "qreg q[1];y q;barrier q;z q;";
+
+            using (var stream = new StringReader(input))
+            {
+                var enumerator = Parser.Tokenizer(stream).GetEnumerator();
+
+                var cRegs = new Dictionary<string, int>();
+                var qRegs = new Dictionary<string, int>();
+                var inside = new StringBuilder();
+                var outside = new StringBuilder();
+                var conventionalMeasured = new List<string>();
+                var qubitMeasured = new List<string>();
+                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured, qubitMeasured);
+
+                //Expecting to end on the ';', so next loop can pick the next token
+                Assert.Equal(";", enumerator.Current);
+                //no traditional cRegisters
+                Assert.Equal(new string[0], cRegs.Keys);
+                Assert.Equal(new int[0], cRegs.Values);
+                //One quantum register
+                Assert.Equal(new string[] { "q" }, qRegs.Keys);
+                Assert.Equal(new int[] { 1 }, qRegs.Values);
+
+                //No measurements
+                Assert.Equal(new string[] { }, conventionalMeasured);
+                Assert.Equal(new string[] {}, qubitMeasured);
+
+                //expected internals
+                Assert.Equal("ApplyToEach(Y,q);ApplyToEach(Z,q);", inside.ToString().Trim()
+                        .Replace("\n", string.Empty)
+                        .Replace("\r", string.Empty)
+                        .Replace("  ", string.Empty));
+
+                //No outside generation
+                Assert.Equal(string.Empty, outside.ToString());
+            }
+        }
+
     }
 }
