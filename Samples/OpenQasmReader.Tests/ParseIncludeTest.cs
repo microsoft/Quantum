@@ -26,7 +26,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 var inside = new StringBuilder();
                 var outside = new StringBuilder();
                 var conventionalMeasured = new List<string>();
-                Parser.ParseInclude(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured);
+                var qubitMeasured = new List<string>();
+                Parser.ParseInclude(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured, qubitMeasured);
 
                 //Expecting to end on the ';', so next loop can pick the next token
                 Assert.Equal(";", enumerator.Current);
@@ -71,7 +72,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                     var inside = new StringBuilder();
                     var outside = new StringBuilder();
                     var conventionalMeasured = new List<string>();
-                    Parser.ParseInclude(enumerator, cRegs, qRegs, ".", inside, outside, conventionalMeasured);
+                    var qubitMeasured = new List<string>();
+                    Parser.ParseInclude(enumerator, cRegs, qRegs, ".", inside, outside, conventionalMeasured, qubitMeasured);
 
                     //Expecting to end on the ';', so next loop can pick the next token
                     Assert.Equal(";", enumerator.Current);
@@ -113,7 +115,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                     var inside = new StringBuilder();
                     var outside = new StringBuilder();
                     var conventionalMeasured = new List<string>();
-                    Parser.ParseInclude(enumerator, cRegs, qRegs, ".", inside, outside, conventionalMeasured);
+                    var qubitMeasured = new List<string>();
+                    Parser.ParseInclude(enumerator, cRegs, qRegs, ".", inside, outside, conventionalMeasured, qubitMeasured);
 
                     //Expecting to end on the ';', so next loop can pick the next token
                     Assert.Equal(";", enumerator.Current);

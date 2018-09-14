@@ -22,7 +22,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 var inside = new StringBuilder();
                 var outside = new StringBuilder();
                 var conventionalMeasured = new List<string>();
-                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured);
+                var qubitMeasured = new List<string>();
+                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured, qubitMeasured);
 
                 //Expecting to end on the ';', so next loop can pick the next token
                 Assert.Equal(";", enumerator.Current);
@@ -42,7 +43,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 var inside = new StringBuilder();
                 var outside = new StringBuilder();
                 var conventionalMeasured = new List<string>();
-                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured);
+                var qubitMeasured = new List<string>();
+                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured, qubitMeasured);
 
                 //Expecting to end on the ';', so next loop can pick the next token
                 Assert.Equal(";", enumerator.Current);
@@ -71,7 +73,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 var inside = new StringBuilder();
                 var outside = new StringBuilder();
                 var conventionalMeasured = new List<string>();
-                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured);
+                var qubitMeasured = new List<string>();
+                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured, qubitMeasured);
 
                 //Expecting to end on the ';', so next loop can pick the next token
                 Assert.Equal(";", enumerator.Current);
@@ -101,7 +104,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 var inside = new StringBuilder();
                 var outside = new StringBuilder();
                 var conventionalMeasured = new List<string>();
-                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured);
+                var qubitMeasured = new List<string>();
+                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured, qubitMeasured);
 
                 //Expecting to end on the '}', so next loop can pick the next token
                 Assert.Equal("}", enumerator.Current);
@@ -137,7 +141,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 var inside = new StringBuilder();
                 var outside = new StringBuilder();
                 var conventionalMeasured = new List<string>();
-                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured);
+                var qubitMeasured = new List<string>();
+                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured, qubitMeasured);
 
                 //Expecting to end on the ';', so next loop can pick the next token
                 Assert.Equal(";", enumerator.Current);
@@ -172,7 +177,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 var inside = new StringBuilder();
                 var outside = new StringBuilder();
                 var conventionalMeasured = new List<string>();
-                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured);
+                var qubitMeasured = new List<string>();
+                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured, qubitMeasured);
 
                 //Expecting to end on the ';', so next loop can pick the next token
                 Assert.Equal(";", enumerator.Current);
@@ -211,7 +217,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 var inside = new StringBuilder();
                 var outside = new StringBuilder();
                 var conventionalMeasured = new List<string>();
-                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured);
+                var qubitMeasured = new List<string>();
+                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured, qubitMeasured);
 
                 //Expecting to end on the ';', so next loop can pick the next token
                 Assert.Equal(";", enumerator.Current);
@@ -227,6 +234,90 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
 
                 //expected internals
                 Assert.Equal("set c0[0] = M(q[0]);set c0[1] = M(q[1]);set c0[2] = M(q[2]);", inside.ToString().Trim()
+                        .Replace("\n", string.Empty)
+                        .Replace("\r", string.Empty)
+                        .Replace("  ", string.Empty));
+
+                //No outside generation
+                Assert.Equal(string.Empty, outside.ToString());
+            }
+        }
+
+        [Fact]
+        public void ParseMeasureImplicitQubitDefintionTest()
+        {
+            var input = "measure q[0]; H q[1];";
+
+            using (var stream = new StringReader(input))
+            {
+                var enumerator = Parser.Tokenizer(stream).GetEnumerator();
+
+                var cRegs = new Dictionary<string, int>();
+                var qRegs = new Dictionary<string, int>();
+                var inside = new StringBuilder();
+                var outside = new StringBuilder();
+                var conventionalMeasured = new List<string>();
+                var qubitMeasured = new List<string>();
+                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured, qubitMeasured);
+
+                //Expecting to end on the ';', so next loop can pick the next token
+                Assert.Equal(";", enumerator.Current);
+                //no traditional cRegisters
+                Assert.Equal(new string[0], cRegs.Keys);
+                Assert.Equal(new int[0], cRegs.Values);
+                //No quantum registers
+                Assert.Equal(new string[0], qRegs.Keys);
+                Assert.Equal(new int[0], qRegs.Values);
+
+                //No conventional Registers
+                Assert.Equal(new string[] { }, conventionalMeasured);
+                //q[0] has now been implicitly measured
+                Assert.Equal(new string[] { "q[0]" }, qubitMeasured);
+                
+                //expected internals
+                Assert.Equal("set _out[0] = M(q[0]);H(q[1]);", inside.ToString().Trim()
+                        .Replace("\n", string.Empty)
+                        .Replace("\r", string.Empty)
+                        .Replace("  ", string.Empty));
+
+                //No outside generation
+                Assert.Equal(string.Empty, outside.ToString());
+            }
+        }
+
+        [Fact]
+        public void ParseMeasureImplicitQubitExpansionDefintionTest()
+        {
+            var input = "measure q; H p[1];";
+
+            using (var stream = new StringReader(input))
+            {
+                var enumerator = Parser.Tokenizer(stream).GetEnumerator();
+
+                var cRegs = new Dictionary<string, int>();
+                var qRegs = new Dictionary<string, int>() { { "q", 2 } };
+                var inside = new StringBuilder();
+                var outside = new StringBuilder();
+                var conventionalMeasured = new List<string>();
+                var qubitMeasured = new List<string>();
+                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured, qubitMeasured);
+
+                //Expecting to end on the ';', so next loop can pick the next token
+                Assert.Equal(";", enumerator.Current);
+                //no traditional cRegisters
+                Assert.Equal(new string[0], cRegs.Keys);
+                Assert.Equal(new int[0], cRegs.Values);
+                //One quantum register
+                Assert.Equal(new string[] { "q" }, qRegs.Keys);
+                Assert.Equal(new int[] { 2 }, qRegs.Values);
+
+                //No conventional Registers
+                Assert.Equal(new string[] { }, conventionalMeasured);
+                //q[0] has now been implicitly measured
+                Assert.Equal(new string[] { "q[0]", "q[1]" }, qubitMeasured);
+
+                //expected internals
+                Assert.Equal("set _out[0] = M(q[0]);set _out[1] = M(q[1]);H(p[1]);", inside.ToString().Trim()
                         .Replace("\n", string.Empty)
                         .Replace("\r", string.Empty)
                         .Replace("  ", string.Empty));

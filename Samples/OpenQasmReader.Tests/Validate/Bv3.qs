@@ -10,7 +10,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate
     {
         body
         {
-			mutable out = new Result[4];
+			mutable _out = new Result[4];
             mutable c = new Result[4];
             using(q = Qubit[5]){
                 X(q[2]);
@@ -25,13 +25,13 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate
                 H(q[1]);
                 H(q[3]);
                 H(q[4]);
-                set out[0] = M(q[0]);
-				set out[1] = M(q[1]);
-				set out[3] = M(q[3]);
-				set out[4] = M(q[4]);
+                set _out[0] = M(q[0]);
+				set _out[1] = M(q[1]);
+				set _out[2] = M(q[3]);
+				set _out[3] = M(q[4]);
                 ResetAll(q);
             }
-            return [q[0];q[1];q[3];q[4]];
+            return [_out[0];_out[1];_out[2];_out[3]];
         }
     }
 
