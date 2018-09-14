@@ -196,6 +196,45 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 Assert.Equal(string.Empty, outside.ToString());
             }
         }
-        
+
+        [Fact]
+        public void ParseMeasureMultipleDefintionTest()
+        {
+            var input = "measure q[0] -> c0[0];measure q[1] -> c0[1];measure q[2] -> c0[2];";
+
+            using (var stream = new StringReader(input))
+            {
+                var enumerator = Parser.Tokenizer(stream).GetEnumerator();
+
+                var cRegs = new Dictionary<string, int>();
+                var qRegs = new Dictionary<string, int>();
+                var inside = new StringBuilder();
+                var outside = new StringBuilder();
+                var conventionalMeasured = new List<string>();
+                Parser.ParseApplication(enumerator, cRegs, qRegs, "path", inside, outside, conventionalMeasured);
+
+                //Expecting to end on the ';', so next loop can pick the next token
+                Assert.Equal(";", enumerator.Current);
+                //no traditional cRegisters
+                Assert.Equal(new string[0], cRegs.Keys);
+                Assert.Equal(new int[0], cRegs.Values);
+                //No quantum registers
+                Assert.Equal(new string[0], qRegs.Keys);
+                Assert.Equal(new int[0], qRegs.Values);
+
+                //q[0] has now been measured, so c0[0] has output
+                Assert.Equal(new string[] { "c0[0]", "c0[1]", "c0[2]" }, conventionalMeasured);
+
+                //expected internals
+                Assert.Equal("set c0[0] = M(q[0]);set c0[1] = M(q[1]);set c0[2] = M(q[2]);", inside.ToString().Trim()
+                        .Replace("\n", string.Empty)
+                        .Replace("\r", string.Empty)
+                        .Replace("  ", string.Empty));
+
+                //No outside generation
+                Assert.Equal(string.Empty, outside.ToString());
+            }
+        }
+
     }
 }

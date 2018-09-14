@@ -24,16 +24,32 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         [Fact]
         public void GatesConversionTest() => TestConversion("Gates.qs", $"{SOURCE_NAMESPACE}.Gates.qasm", $"{TARGET_NAMESPACE}.Gates.qs");
 
+        [Fact]
+        public void FiveQubitEncodingConversionTest() => TestConversion("FiveQubit1.qs", $"{SOURCE_NAMESPACE}.5qubit1.qasm", $"{TARGET_NAMESPACE}.FiveQubit1.qs");
+
+        [Fact]
+        public void BernsteinVaziraniConversionTest() => TestConversion("bv3.qs", $"{SOURCE_NAMESPACE}.bv3.qasm", $"{TARGET_NAMESPACE}.Bv3.qs");
+        [Fact]
+        public void HiddenShiftConversionTest() => TestConversion("hid3.qs", $"{SOURCE_NAMESPACE}.hid3.qasm", $"{TARGET_NAMESPACE}.Hid3.qs");
+        [Fact]
+        public void MargolusConversionTest() => TestConversion("marg5.qs", $"{SOURCE_NAMESPACE}.marg5.qasm", $"{TARGET_NAMESPACE}.Marg5.qs");
+        [Fact]
+        public void ToffoliConversionTest() => TestConversion("toff6.qs", $"{SOURCE_NAMESPACE}.toff6.qasm", $"{TARGET_NAMESPACE}.Toff6.qs");
+
+        private const string CommonOpenQasmIncludeFile = "qelib1.inc";
+
         private static void TestConversion(string name, string inputResourceName, string expectedResourceName)
         {
-            var input = ReadResource(inputResourceName); ;
+            var input = ReadResource(inputResourceName);
             var expected = ReadResource(expectedResourceName); ;
 
             var inputFile = Path.Combine(Path.GetTempPath(), name);
+            var dummyInclude = Path.Combine(Path.GetTempPath(), CommonOpenQasmIncludeFile);
             try
             {
                 //Write OpenQuasm program 
                 File.WriteAllText(inputFile, input);
+                File.WriteAllText(dummyInclude, string.Empty);
 
                 //Transform
                 var result = Parser.ConvertQasmFile(TARGET_NAMESPACE, inputFile);
@@ -50,6 +66,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 if (File.Exists(inputFile))
                 {
                     File.Delete(inputFile);
+                }
+                if (File.Exists(dummyInclude))
+                {
+                    File.Delete(dummyInclude);
                 }
             }
         }
