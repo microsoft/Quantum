@@ -77,5 +77,4 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate
             return [_out[0];_out[1];c[0];c[1];c[2]];
         }
     }
-
 }

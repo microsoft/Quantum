@@ -63,5 +63,4 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate
             return [c[0];c[1];c[2];c[3]];
         }
     }
-
 }

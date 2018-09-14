@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 //Export internal functions to able to test this class
 [assembly: InternalsVisibleTo("OpenQasmReader.Tests")]
@@ -74,7 +74,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             var result = new StringBuilder(inside.Length + outside.Length);
             result.AppendFormat(HEADER, ns);
             result.Append(outside.ToString());
-            WriteOperation(result, cRegs, qRegs, name, new string[]{ }, classicalMeasured, qubitMeasured, inside);
+            WriteOperation(result, cRegs, qRegs, name, new string[] { }, classicalMeasured, qubitMeasured, inside);
             IndentLevel -= 4;
             result.Append(TAIL);
             return result.ToString();
@@ -217,7 +217,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 stream.Append(' ');
             }
         }
-        private static int IndentLevel { get; set; } 
+        private static int IndentLevel { get; set; }
 
         /// <summary>
         /// Parses a condition statement
@@ -273,7 +273,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             var count = int.Parse(name.Substring(index, name.IndexOf(']') - index));
             name = name.Remove(index - 1);
             cRegs.Add(name, count);
-            
+
             token.MoveNext(); //;
         }
 
@@ -281,13 +281,13 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         {
             token.MoveNext();
             var name = token.Current;
-            var index = name.IndexOf('[') +1;
+            var index = name.IndexOf('[') + 1;
             var count = int.Parse(name.Substring(index, name.IndexOf(']') - index));
-            qRegs.Add(name.Remove(index-1), count);
+            qRegs.Add(name.Remove(index - 1), count);
             token.MoveNext(); //;
         }
 
-        private static void ParseGateCall(IEnumerator<string> token, StringBuilder builder, Dictionary<string,int> qReg)
+        private static void ParseGateCall(IEnumerator<string> token, StringBuilder builder, Dictionary<string, int> qReg)
         {
             var gateName = token.Current;
             var doubles = new List<string>();
@@ -355,7 +355,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             var q1 = token.Current;
             token.MoveNext(); // ;
             Indent(builder);
-            if (qReg.Count == 0 ||  q1.Contains('['))
+            if (qReg.Count == 0 || q1.Contains('['))
             {
                 builder.AppendFormat("{0}({1});\n", gate, q1);
             }
@@ -366,7 +366,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             }
         }
 
-        private static void ParseTwoGate(IEnumerator<string> token, string gate, Dictionary<string, int> qReg,StringBuilder builder)
+        private static void ParseTwoGate(IEnumerator<string> token, string gate, Dictionary<string, int> qReg, StringBuilder builder)
         {
             token.MoveNext();
             var leftQubit = token.Current;
@@ -387,7 +387,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 IndentLevel++;
                 Indent(builder);
                 builder.AppendFormat("{0}({1},{2});\n", gate,
-                    IndexedCall(leftQubit, true), 
+                    IndexedCall(leftQubit, true),
                     IndexedCall(rightQubit, true));
                 IndentLevel--;
                 Indent(builder);
@@ -416,7 +416,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 {
                     Indent(builder);
                     var size = qReg[q1];
-                    for(int i = 0; i < size; i++)
+                    for (int i = 0; i < size; i++)
                     {
                         Indent(builder);
                         builder.AppendFormat("set _out[{0}] = M({1}[{2}]);\n", i, q1, i);
@@ -481,7 +481,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="token">Current token the tokenizer is on to parse</param>
         /// <param name="builder">Stream to write within the current operation being parsed</param>
         /// <param name="qRegs">Quantum registers defined</param>
-        private static void ParseThreeGate(IEnumerator<string> token, string gate, Dictionary<string,int> qReg , StringBuilder builder)
+        private static void ParseThreeGate(IEnumerator<string> token, string gate, Dictionary<string, int> qReg, StringBuilder builder)
         {
             token.MoveNext();
             var q1 = token.Current;
@@ -656,7 +656,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 Indent(outside);
                 outside.AppendLine($"mutable _out = new Result[{qubitMeasured.Count}];");
             }
-            if (cRegs.Any()) {
+            if (cRegs.Any())
+            {
                 foreach (var cRegister in cRegs)
                 {
                     Indent(outside);
@@ -785,7 +786,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         {
             int depth = 0;
             string result = null;
-            while (depth !=0 || !(endmarker.Any(marker => marker.Equals(token.Current))))
+            while (depth != 0 || !(endmarker.Any(marker => marker.Equals(token.Current))))
             {
                 if (token.Current.Equals(OPEN_PARANTHESES))
                 {
@@ -835,7 +836,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
         /// <param name="classicalMeasured">Currently measured classical registers (mostly used for output)</param>
         /// <param name="qubitMeasured">Currently solo measured qubit (used for output)</param>
-        internal static void ParseInclude(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string,int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> classicalMeasured, List<string> qubitMeasured)
+        internal static void ParseInclude(IEnumerator<string> token, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string path, StringBuilder inside, StringBuilder outside, List<string> classicalMeasured, List<string> qubitMeasured)
         {
             if (token.MoveNext())
             {
@@ -1002,13 +1003,9 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         {{
 ";
         private const string TAIL_OPERATION =
-
 @"        }
-    }
-";
-        private const string TAIL =
-@"}
-";
+    }";
+        private const string TAIL = @"}";
         //Four spaces
         internal const int INDENT = 4;
         #endregion
