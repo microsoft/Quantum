@@ -162,7 +162,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 Assert.Equal(string.Empty, outside.ToString());
             }
         }
-       
+
         [Fact]
         public void ParseMeasureDefintionTest()
         {
@@ -273,7 +273,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 Assert.Equal(new string[] { }, conventionalMeasured);
                 //q[0] has now been implicitly measured
                 Assert.Equal(new string[] { "q[0]" }, qubitMeasured);
-                
+
                 //expected internals
                 Assert.Equal("set _out[0] = M(q[0]);H(q[1]);", inside.ToString().Trim()
                         .Replace("\n", string.Empty)

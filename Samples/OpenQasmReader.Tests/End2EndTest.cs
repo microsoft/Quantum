@@ -3,8 +3,6 @@
 using System;
 using System.IO;
 using System.Reflection;
-using System.Resources;
-using System.Text;
 using System.Text.RegularExpressions;
 using Xunit;
 
@@ -53,7 +51,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
 
                 //Transform
                 var result = Parser.ConvertQasmFile(TARGET_NAMESPACE, inputFile);
-                
+
                 //Reformat result, so they can be compared (unix/windows, layout differences, and copyright headers);
                 expected = Regex.Replace(expected, @"\s+", " ").Trim().Trim(new char[] { '\uFEFF', '\u200B' });
                 result = COPYRIGHTHEADER.Replace("\n", Environment.NewLine) + result;
