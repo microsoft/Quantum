@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace CHSH
+namespace Microsoft.Quantum.Samples.CHSHGame
 {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Primitive;
