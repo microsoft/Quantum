@@ -31,11 +31,11 @@ namespace Microsoft.Quantum.Samples.CHSHGame
                     bool classicalXor =
                         !PlayClassicalStrategy(aliceBit, bobBit);
                     bool quantumXor =
-                            !PlayQuantumStrategy.Run(
-                                sim,
-                                aliceBit,
-                                bobBit,
-                                aliceMeasuresFirst).Result;
+                        !PlayQuantumStrategy.Run(
+                            sim,
+                            aliceBit,
+                            bobBit,
+                            aliceMeasuresFirst).Result;
 
                     if ((aliceBit && bobBit) == classicalXor)
                     {
