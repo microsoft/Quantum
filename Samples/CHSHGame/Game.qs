@@ -174,3 +174,4 @@ namespace Microsoft.Quantum.Samples.CHSHGame
         }
     }
 }
+
