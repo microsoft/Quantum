@@ -1,4 +1,7 @@
-﻿namespace CHSH
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace CHSH
 {
     using System;
     using Microsoft.Quantum.Simulation.Simulators;
@@ -77,7 +80,7 @@
         /// </summary>
         /// <param name="aliceBit">The bit given to Alice (X).</param>
         /// <param name="bobBit">The bit given to Bob (Y).</param>
-        /// <returns>Whether Alice & Bob's output bits match.</returns>
+        /// <returns>Whether Alice and Bob's output bits match.</returns>
         private static bool PlayClassicalStrategy(bool aliceBit, bool bobBit)
         {
             bool aliceOutput = false;
