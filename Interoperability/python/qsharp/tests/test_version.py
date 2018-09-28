@@ -7,11 +7,10 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 ##
-
-import qsharp
+"""Tests the versions of Python and .NET"""
 from distutils.version import LooseVersion
-
 from nose.tools import eq_
+import qsharp
 
 def test_versions_match():
     """

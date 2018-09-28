@@ -16,6 +16,15 @@ from functools import partial, singledispatch
 from abc import ABCMeta, abstractproperty
 from random import randrange
 
+# CLR Imports #
+import clr
+
+import System.Threading.Tasks
+import Microsoft.Quantum.Simulation.Simulators as mqss
+
+import qsharp.tomography
+from qsharp.clr_wrapper import *
+
 # HACK: In order to make DLLs that we ship with visible to Python.NET
 #       in the next step, we need to add the directory containing __file__
 #       to sys.path.
@@ -31,13 +40,6 @@ try:
 except ImportError:
     __version__ = "<unknown>"
 
-# CLR Imports #
-
-import clr
-
-import System.Threading.Tasks
-import Microsoft.Quantum.Simulation.Simulators as mqss
-
 # External Python Imports #
 
 try:
@@ -47,26 +49,23 @@ try:
     SIMULATOR_COLOR = ca.Fore.BLUE + ca.Back.WHITE
     RESET_COLOR = ca.Style.RESET_ALL
 except:
-    ca = None
+    CA = None
     SIMULATOR_COLOR = ""
     RESET_COLOR = ""
 
 try:
     import qutip as qt
 except:
-    qt = None
+    QT = None
 
 try:
     from IPython.display import display
 except:
-    def display(value):
+    def display():
         pass
 
-import qsharp.tomography
-from qsharp.clr_wrapper import *
-
-
 ## ENUMERATIONS ##############################################################
+
 
 class SampleableEnum(IntEnum):
     """
@@ -79,6 +78,7 @@ class SampleableEnum(IntEnum):
         Returns a member of the enumeration uniformly at random.
         """
         return cls(randrange(len(cls)))
+
 
 class Pauli(SampleableEnum):
     """
@@ -102,8 +102,8 @@ class Pauli(SampleableEnum):
             return qt.sigmax()
         elif self == Pauli.Y:
             return qt.sigmay()
-        else:
-            return qt.sigmaz()
+        return qt.sigmaz()
+
 
 class Result(SampleableEnum):
     """
@@ -120,19 +120,23 @@ class Result(SampleableEnum):
 
 ## FUNCTIONS #################################################################
 
+
 @singledispatch
 def wrap_clr_object(clr_object):
     return WrappedCLRObject(clr_object)
 
+
 @wrap_clr_object.register(type(None))
 def _(none):
     return None
+
 
 @wrap_clr_object.register(System.Threading.Tasks.Task)
 def _(clr_object):
     return Task(clr_object)
 
 ## CLASSES ###################################################################
+
 
 class SimulatorOutput(object):
     """
@@ -147,6 +151,7 @@ class SimulatorOutput(object):
 
     def __repr__(self):
         return repr(self.data)
+
     def __str__(self):
         return "{}[Simulator]{} {}".format(
             SIMULATOR_COLOR, RESET_COLOR, self.data
@@ -156,6 +161,7 @@ class SimulatorOutput(object):
         return """
 <pre class="simulator-output">{}</pre>
 """.format(self.data)
+
 
 class Task(WrappedCLRObject):
     _detailed_repr = False
@@ -171,6 +177,7 @@ class Task(WrappedCLRObject):
         # but we've seen some bugs occur related to that.
         self.clr_object.Wait()
         return wrap_clr_object(self.clr_object.Result)
+
 
 class Simulator(WrappedCLRObject):
     _friendly_name = "Simulator"
@@ -191,21 +198,24 @@ class Simulator(WrappedCLRObject):
             # Check if the passed in type is already wrapped in a Callable Python
             # class.
             return clr_type(*args)
-        else:
-            # We need to get the callable ourselves, then.
-            callable = self.get(clr_type)
-            return callable(*args)
+
+        # We need to get the callable ourselves, then.
+        callable = self.get(clr_type)
+        return callable(*args)
+
 
 class QuantumSimulator(Simulator):
     _friendly_name = "Quantum Simulator"
+
     def __init__(self):
         super(QuantumSimulator, self).__init__(mqss.QuantumSimulator)
+
 
 class Callable(WrappedCLRObject):
     _detailed_repr = False
     _parent = None
     _include_plain_repr = False
-    
+
     @property
     def _friendly_name(self):
         # TODO: extract operation signature!
@@ -220,11 +230,11 @@ class Callable(WrappedCLRObject):
             unwrap_clr(self._parent),
             *map(unwrap_clr, args)
         )
-        
+
         if isinstance(type(output), CLR_METATYPE):
             # Try to wrap the output as best as we can.
             # We provide convienence wrappers for a few, so we call the
             # single-dispatched convienence function above.
             return wrap_clr_object(output)
-        else:
-            return output
+
+        return output

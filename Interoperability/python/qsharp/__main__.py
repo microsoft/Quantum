@@ -12,8 +12,9 @@ import qsharp
 from qsharp.tomography import single_qubit_process_tomography
 from Microsoft.Quantum.Primitive import I
 
-qsim = qsharp.QuantumSimulator()
-noise_channel = qsim.get(I)
-estimation_results = single_qubit_process_tomography(qsim, noise_channel, n_measurements=2000)
+QSIM = qsharp.QuantumSimulator()
+NOISE_CHANNEL = QSIM.get(I)
+ESTIMATION_RESULTS = single_qubit_process_tomography(
+    QSIM, NOISE_CHANNEL, n_measurements=2000)
 
-print(estimation_results['est_channel'])
+print(ESTIMATION_RESULTS['est_channel'])

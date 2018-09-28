@@ -9,22 +9,17 @@
 
 ## IMPORTS ##
 
-import qsharp
-
 import numpy as np
-import qinfer as qi
 import qutip as qt
 
-import clr
+import qsharp
+import qinfer as qi
 
 def projector(P):
     return (qt.qeye(2) + P) / 2.0
 
-def single_qubit_process_tomography(
-    simulator, channel,
-    n_measurements=2000,
-    n_particles=4000
-):
+
+def single_qubit_process_tomography(simulator, channel, n_measurements=2000, n_particles=4000):
     from Microsoft.Quantum.Canon import SingleQubitProcessTomographyMeasurement
 
     print("Preparing tomography model...")

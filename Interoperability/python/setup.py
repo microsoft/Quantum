@@ -2,30 +2,28 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-import sys
-
+import os
 from pathlib import Path
 from shutil import copy
-from setuptools import setup
-from subprocess import call
-
-import os
-import platform
-import xml.etree.ElementTree
-
 from distutils.cmd import Command
+from subprocess import call
+import xml.etree.ElementTree
+import platform
+from setuptools import setup
 from setuptools.command.build_py import build_py
 
 ## CONFIGURATION #############################################################
+
+
 def pkgPlatform():
-    if platform.system() == "Windows": 
+    if platform.system() == "Windows":
         return "win10-x64"
     elif platform.system() == "Darwin":
         return "osx-x64"
     elif platform.system() == "Linux":
         return "linux-x64"
-    else:
-        return "unknown"
+    return "unknown"
+
 
 VERSION = os.getenv('ASSEMBLY_VERSION', '0.0.0')
 PLATFORM = os.getenv('PKG_PLATFORM', pkgPlatform())
@@ -35,11 +33,15 @@ QSHARP_PACKAGE_ROOT = SRC_DIR / "qsharp"
 ## NUGET DEPENDENCIES ########################################################
 # We need to copy nuget dependencies into site-packages, so we first call nuget restore
 # and then a nuget_copy
+
+
 class NugetRestoreCommand(Command):
     description = 'Calls nuget restore to get the binaries from the QDK.'
     user_options = [
-        ('packages-dir=', None, 'Specifies the location in which to look for NuGet packages.'),
-        ('packages-config=', None, 'Specifies the packages.config file used to find NuGet dependencies.')
+        ('packages-dir=', None,
+         'Specifies the location in which to look for NuGet packages.'),
+        ('packages-config=', None,
+         'Specifies the packages.config file used to find NuGet dependencies.')
     ]
 
     def initialize_options(self):
@@ -50,13 +52,17 @@ class NugetRestoreCommand(Command):
         pass
 
     def run(self):
-        call(["nuget", "restore", str(self.packages_config), "-PackagesDirectory", str(self.packages_dir)])
+        call(["nuget", "restore", str(self.packages_config),
+              "-PackagesDirectory", str(self.packages_dir)])
+
 
 class CopyNugetDllsCommand(Command):
     description = 'Copies binaries dependencies into this Python package for installation.'
     user_options = [
-        ('packages-dir=', None, 'Specifies the location in which to look for NuGet packages.'),
-        ('packages-config=', None, 'Specifies the packages.config file used to find NuGet dependencies.')
+        ('packages-dir=', None,
+         'Specifies the location in which to look for NuGet packages.'),
+        ('packages-config=', None,
+         'Specifies the packages.config file used to find NuGet dependencies.')
     ]
 
     def initialize_options(self):
@@ -64,9 +70,11 @@ class CopyNugetDllsCommand(Command):
         self.packages_config = SRC_DIR / "packages.config"
 
         if self.packages_config.exists():
-            self.packages_data = xml.etree.ElementTree.parse(str(self.packages_config))
+            self.packages_data = xml.etree.ElementTree.parse(
+                str(self.packages_config))
         else:
-            raise IOError("NuGet packages.config file {} not found.".format(self.packages_config))
+            raise IOError("NuGet packages.config file {} not found.".format(
+                self.packages_config))
 
     def finalize_options(self):
         pass
@@ -75,14 +83,16 @@ class CopyNugetDllsCommand(Command):
         self.packages_dir = Path(self.packages_dir)
         if not self.packages_dir.exists():
             self.run_command('nuget_restore')
-            
+
         lib_dlls = []
 
         for package_dir_node in self.packages_data.iter('package'):
-            package_dir = self.packages_dir / "{0[id]}.{0[version]}".format(package_dir_node.attrib)
+            package_dir = self.packages_dir / \
+                "{0[id]}.{0[version]}".format(package_dir_node.attrib)
             framework = package_dir_node.attrib['targetFramework']
 
-            print("Found NuGet dependency:\n  {}\n  framework: {}".format(package_dir, framework))
+            print("Found NuGet dependency:\n  {}\n  framework: {}".format(
+                package_dir, framework))
             pkg_lib_dir = package_dir / "lib" / framework
             pkg_runtime_dir = package_dir / "runtimes" / PLATFORM / "native"
 
@@ -94,28 +104,32 @@ class CopyNugetDllsCommand(Command):
 
         # Copy the libraries we found adjacent to qsharp/__init__.py so that they
         # appear as package data.
-        print ("Copying DLLs into package root:")
+        print("Copying DLLs into package root:")
         for lib_dll in lib_dlls:
             print("  - {}".format(lib_dll))
             copy(str(lib_dll), str(QSHARP_PACKAGE_ROOT))
 
-class BuildPyCommand(build_py):
-    def write_version(self):
-        with open('qsharp/version.py', 'w') as f:
-            f.write("""
+
+def write_version():
+    with open('qsharp/version.py', 'w') as f:
+        f.write("""
 # AUTOGENERATED, DO NOT MODIFY
 version = "{}"
 """.format(VERSION))
 
+
+class BuildPyCommand(build_py):
+
     def run(self):
-        qsimDll = Path(QSHARP_PACKAGE_ROOT / "Microsoft.Quantum.Simulation.Simulators.dll")
-        if not qsimDll.exists():
+        qsim_dll = Path(QSHARP_PACKAGE_ROOT / "Microsoft.Quantum.Simulation.Simulators.dll")
+        if not qsim_dll.exists():
             self.run_command('nuget_copy')
 
         self.write_version()
         build_py.run(self)
 
 ## SETUP MAIN ################################################################
+
 
 setup(
     cmdclass={

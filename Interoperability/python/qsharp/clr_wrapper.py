@@ -11,14 +11,8 @@
 
 ## IMPORTS ###################################################################
 
-# Standard Library Imports #
-
-from abc import ABCMeta, abstractproperty
-from random import randrange
-
 # CLR Imports #
 
-import clr
 import System
 
 # External Python Imports #
@@ -26,19 +20,24 @@ import System
 try:
     from IPython.display import display
 except ImportError:
-    def display(value):
+    def display():
         pass
 
 ## STYLESHEETS ###############################################################
 # We load a custom stylesheet into Jupyter Notebook to allow formatting
 # prettier CLR representation tables.
+
+
 class Stylesheet(object):
     def __init__(self, style):
         self.style = style
+
     def _repr_html_(self):
         return "<style>\n{}\n</style>".format(self.style)
+
     def __repr__(self):
-        return "" # We want to be invisible if we're not in Jupyter!
+        return ""  # We want to be invisible if we're not in Jupyter!
+
 
 display(Stylesheet("""
     .clr-repr-table td {
@@ -64,6 +63,7 @@ CLR_METATYPE = type(System.Object)
 
 ## CLASSES ###################################################################
 
+
 class WrappedCLRObject(object):
     _detailed_repr = True
     _friendly_name = "Wrapped CLR Object"
@@ -88,14 +88,18 @@ class WrappedCLRObject(object):
         else:
             # This is only called on last resort, so we can raise
             # the exception here without breaking anything.
-            raise AttributeError("{0.__class__} object has no attribute {1}".format(self, attr))
-
+            raise AttributeError(
+                "{0.__class__} object has no attribute {1}".format(self, attr))
 
     def __repr__(self):
         try:
-            return "<{ty_self.__name__}({self.clr_type.FullName}) at 0x{id_self:x}>".format(ty_self=type(self), self=self, id_self=id(self))
+            return "<{ty_self.__name__}({self.clr_type.FullName}) at 0x{id_self:x}>" \
+                .format(ty_self=type(self),
+                        self=self, id_self=id(self))
         except:
-            return "<{ty_self.__module__}{ty_self.__name__} at 0x{id_self:x}>".format(ty_self=type(self), id_self=id(self))
+            return "<{ty_self.__module__}{ty_self.__name__} at 0x{id_self:x}>" \
+                .format(ty_self=type(self),
+                        id_self=id(self))
 
     def __str__(self):
         return self.clr_object.ToString()
@@ -109,7 +113,8 @@ class WrappedCLRObject(object):
                 ", ".join(
                     "{param.ParameterType.Name}<{contents}> {param.Name}".format(
                         param=param,
-                        contents=', '.join(map(str, param.ParameterType.GenericTypeArguments))
+                        contents=', '.join(
+                            map(str, param.ParameterType.GenericTypeArguments))
                     )
                     for param in method.GetParameters()
                 )
@@ -135,8 +140,8 @@ class WrappedCLRObject(object):
                     for method in methods[1:]
                 )
             )
-        else:
-            return ""
+
+        return ""
 
     def _repr_html_(self):
         return """
@@ -185,6 +190,7 @@ class WrappedCLRObject(object):
             self=self,
             method_list=self._method_list() if self._detailed_repr else ""
         )
+
 
 def unwrap_clr(py_value):
     return getattr(py_value, 'clr_object', py_value)
