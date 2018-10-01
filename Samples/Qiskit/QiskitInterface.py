@@ -26,10 +26,16 @@ try:
         time.sleep(sleeptime)
         timeout -= sleeptime
     if timeout > 0:
-        result = job.result().get_data()
+        print(job.status)
+        resultHandler = job.result()
+        print(resultHandler)
+        result = resultHandler.get_data()
+        print(result)
         with open('output.txt', 'w') as resultFile:
             resultFile.write(str(next(iter(result['counts']))))
         sys.exit()
+except SystemExit:
+    raise
 except:
     print("Failed execution (Probably not enough tokens or canceled execution)")
 print(" Result later than timeout. Going to failover.")
