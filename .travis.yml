@@ -26,3 +26,4 @@ script:
   - dotnet build QsharpLibraries.sln
   - dotnet test Samples/UnitTesting
   - travis_wait 30 dotnet test LibraryTests
+  - dotnet test Samples/OpenQasmReader.Tests
