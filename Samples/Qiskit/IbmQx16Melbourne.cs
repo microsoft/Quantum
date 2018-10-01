@@ -12,7 +12,8 @@ namespace Microsoft.Quantum.Samples.Qiskit
         {
         }
 
-        public override int QBitCount => 16;
+        //Not all qubits are available
+        public override int QBitCount => 14;
 
         public override string Name => "ibmq_16_melbourne";
     }
