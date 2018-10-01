@@ -20,7 +20,7 @@ circuit = load_qasm_file('input.txt')
 print("SENDING TO IBM Quantum Experience")
 print(" IBMQ AT IBM Quantum Experience:")
 try:
-    job = execute(circuit, get_backend(backend), shots=shots, max_credits=3)
+    job = execute(circuit, get_backend(backend), shots=shots)
     while not job.done and timeout > 0:
         print(job.status)
         time.sleep(sleeptime)
