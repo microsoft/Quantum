@@ -19,22 +19,19 @@ print("QASM FILE Read ")
 circuit = load_qasm_file('input.txt')
 print("SENDING TO IBM Quantum Experience")
 print(" IBMQ AT IBM Quantum Experience:")
-job = execute(circuit, get_backend(backend), shots=shots, max_credits=3)
-print(job.status)
-while timeout > 0:
-    time.sleep(sleeptime)
-    timeout -= sleeptime
-    if job.done:
-        result = job.result()
-        print(result)
-        with open('output.txt', 'w') as resultFile:
-            resultFile.write(str(result['measure']))
-        sys.exit()
-    else:
-        print(job.status)
+try:
+    job = execute(circuit, get_backend(backend), shots=shots, max_credits=3)
+    result = job.result().get_data()
+    with open('output.txt', 'w') as resultFile:
+        resultFile.write(str(next(iter(result['counts']))))
+    sys.exit()
+except:
+    print("Failed execution (Probably not enough tokens)")
 print(" Result later than timeout. Going to failover.")
 print(" SIMULATOR AT IBM:")
-ex = execute(circuit, 'ibmqx_qasm_simulator', shots=shots)
+ex = execute(circuit, 'ibmq_qasm_simulator', shots=shots)
+result = ex.result().get_data()
+print(result)
 print("DONE")
 with open('output.txt', 'w') as resultFile:
-   resultFile.write(str(ex.result()))
+   resultFile.write(str(next(iter(result['counts']))))
