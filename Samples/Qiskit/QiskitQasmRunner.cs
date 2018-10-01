@@ -32,12 +32,10 @@ namespace Microsoft.Quantum.Samples.Qiskit
                 var python = "python3";
                 var arguments = $"QiskitInterface.py {key} {backend} {shots}";
 
-                //HACK: fix because currently qiskit currently can't run directly within windows, 
-                //      so wrap it in linux subsystem of bash
+                //HACK: fix because currently python3 is called python.exe on windows
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    python = "bash.exe";
-                    arguments = $"-c \"python3 {arguments}\"";
+                    python = "python.exe";
                 }
 
                 var processStart = new ProcessStartInfo()
