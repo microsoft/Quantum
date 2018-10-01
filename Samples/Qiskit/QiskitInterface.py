@@ -11,8 +11,9 @@ shots = sys.argv[3]
 timeout = 60
 sleeptime = 10
 
-api = IBMQuantumExperience(apikey)
 print("Qiskit API Interface")
+print(" Registering API trust")
+api = IBMQuantumExperience(apikey)
 with open('input.txt', 'r') as myfile:
   qasm = myfile.read()
 print("QASM FILE READ")
