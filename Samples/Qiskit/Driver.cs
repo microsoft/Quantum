@@ -25,8 +25,8 @@ namespace Microsoft.Quantum.Samples.Qiskit
             }
             else
             {
-                var factory = new IbmQx4(apiKey); //Using different Factory
-                Console.WriteLine("Hadamard on IBMQx4");
+                var factory = new IbmQx16Melbourne(apiKey); //Using different Factory
+                Console.WriteLine("Hadamard on IBM Q 16 Melbourne");
                 for (int i = 0; i < 1; i++)
                 {
                     var result = MeasurementOneQubit.Run(factory).Result;
