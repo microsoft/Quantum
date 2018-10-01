@@ -18,7 +18,7 @@ namespace Microsoft.Quantum.Samples.Qiskit
         static void Main(string[] args)
         {
             //You need to replace this with your own key from the quantum experience
-            var apiKey = "3eb929443852d479fa64a4a42e5f10728b8283a225ce0833d8a520e449d6a6c3371b8fc95596d44b70410f938bbb0f110c97566dcdd747d76de11a9b2c3ecd2a";
+            var apiKey = "4616efdc29c9d4d751b3cd23a2e7d677ef8a..........623614734c2e11e25f9";
             if (apiKey.Contains("."))
             {
                 Console.Error.WriteLine("Did you put an api key in Driver.cs ? Without that, it will not work.");
