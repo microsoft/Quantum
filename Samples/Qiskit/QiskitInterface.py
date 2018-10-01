@@ -21,10 +21,15 @@ print("SENDING TO IBM Quantum Experience")
 print(" IBMQ AT IBM Quantum Experience:")
 try:
     job = execute(circuit, get_backend(backend), shots=shots, max_credits=3)
-    result = job.result().get_data()
-    with open('output.txt', 'w') as resultFile:
-        resultFile.write(str(next(iter(result['counts']))))
-    sys.exit()
+    while not job.done and timeout > 0:
+        print(job.status)
+        time.sleep(sleeptime)
+        timeout -= sleeptime
+    if timeout > 0:
+        result = job.result().get_data()
+        with open('output.txt', 'w') as resultFile:
+            resultFile.write(str(next(iter(result['counts']))))
+        sys.exit()
 except:
     print("Failed execution (Probably not enough tokens)")
 print(" Result later than timeout. Going to failover.")
