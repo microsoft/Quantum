@@ -4,16 +4,16 @@
 namespace Microsoft.Quantum.Samples.Qiskit
 {
     /*
-     * Quick and dirty driver to enable the IbmQx5
+     * Quick and dirty driver to enable the Rueschlikon (former IbmQx5)
      */
-    class IbmQx5 : QiskitDriver
+    class IbmQ16Rueschlikon : QiskitDriver
     {
-        public IbmQx5(string key) : base(key)
+        public IbmQ16Rueschlikon(string key) : base(key)
         {
         }
 
         public override int QBitCount => 16;
 
-        public override string Name => "ibmqx5";
+        public override string Name => "ibmq_16_rueschlikon";
     }
 }

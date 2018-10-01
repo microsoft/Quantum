@@ -6,9 +6,9 @@ namespace Microsoft.Quantum.Samples.Qiskit
     /*
      * Quick and dirty driver to enable the IbmQx16Melbourne
      */
-    class IbmQx16Melbourne : QiskitDriver
+    class IbmQ16Melbourne : QiskitDriver
     {
-        public IbmQx16Melbourne(string key) : base(key)
+        public IbmQ16Melbourne(string key) : base(key)
         {
         }
 

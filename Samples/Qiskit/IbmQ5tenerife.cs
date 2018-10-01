@@ -4,16 +4,16 @@
 namespace Microsoft.Quantum.Samples.Qiskit
 {
     /*
-     * Quick and dirty driver to enable the IbmQx4
+     * Quick and dirty driver to enable the ibmq_5_tenerife (used to be IBMQ4)
      */
-    class IbmQx4 : QiskitDriver
+    class IbmQ5Tenerife : QiskitDriver
     {
-        public IbmQx4(string key) : base(key)
+        public IbmQ5Tenerife(string key) : base(key)
         {
         }
 
         public override int QBitCount => 5;
 
-        public override string Name => "ibmqx4";
+        public override string Name => "ibmq_5_tenerife";
     }
 }
