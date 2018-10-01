@@ -31,7 +31,7 @@ try:
             resultFile.write(str(next(iter(result['counts']))))
         sys.exit()
 except:
-    print("Failed execution (Probably not enough tokens)")
+    print("Failed execution (Probably not enough tokens or canceled execution)")
 print(" Result later than timeout. Going to failover.")
 print(" SIMULATOR AT IBM:")
 ex = execute(circuit, 'ibmq_qasm_simulator', shots=shots)
