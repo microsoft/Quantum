@@ -92,7 +92,7 @@ namespace Microsoft.Quantum.Samples.CHSHGame
     // 85% probability of their qubits collapsing to the same value, except
     // when both X and Y are 1, in which case they have an 85% probability of
     // their qubits collapsing to *different* values - thus satisfying the 
-    // X·Y == A ⊕ B formula with an 85% probability in all cases. This
+    // X·Y = A ⊕ B formula with an 85% probability in all cases. This
     // strategy works regardless of who first measures their qubit.
 
     // Measurement in Bob's nonstandard bases is accomplished by first rotating
