@@ -4,7 +4,6 @@
 namespace Microsoft.Quantum.Samples.CHSHGame
 {
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Convert;
     open Microsoft.Quantum.Extensions.Math;
     open Microsoft.Quantum.Primitive;
 
@@ -29,8 +28,8 @@ namespace Microsoft.Quantum.Samples.CHSHGame
     // involve "spooky action at a distance" as he called it.
 
     // When two particles are entangled, their measurements become correlated.
-    // If you measure one of the entangled particles and it collapses to |0>,
-    // you can be assured its counterpart also collapses to |0> (or |1>, if
+    // If you measure one of the entangled particles and it collapses to |0⟩,
+    // you can be assured its counterpart also collapses to |0⟩ (or |1⟩, if
     // you entangle the particles a different way). This phenomenon happens
     // even across huge distances, and is not only faster-than-light, it's
     // instantaneous! A skeptic might raise an objection: rather than somehow
@@ -57,8 +56,8 @@ namespace Microsoft.Quantum.Samples.CHSHGame
     // communicate with one another. They are each given a single random bit
     // (X to Alice and Y to Bob). Alice and Bob then output a single chosen bit
     // of their own (A from Alice and B from Bob) with the goal of making true
-    // the logical formula X * Y == A xor B. Since (again) Alice and Bob
-    // cannot communicate, they can only hope to win some of the time. The best
+    // the logical formula X·Y = A ⊕ B. Since (again) Alice and Bob cannot
+    // communicate, they can only hope to win some of the time. The best
     // possible classical strategy is for Alice and Bob to always output 0, no
     // matter what they get as input. This strategy wins the game 75% of the
     // time.
@@ -83,21 +82,21 @@ namespace Microsoft.Quantum.Samples.CHSHGame
     // This program implements the CHSH quantum strategy, which is then run
     // thousands of times to compare its success rate against the classical
     // strategy. The quantum success rate converges to around 0.85 (actually
-    // cos^2(pi/8)) while the classical success rate converges to 0.75.
+    // cos²(π/8)) while the classical success rate converges to 0.75.
 
     // The quantum strategy involves Alice and Bob measuring their qubits in
     // various bases depending on their input bits. Alice measures her qubit
     // in the Z basis if she is given a 0, and the X basis if she is given a 1.
-    // Bob measures his qubit in similar bases, but rotated pi/8 radians around
+    // Bob measures his qubit in similar bases, but rotated π/8 radians around
     // the unit circle. This measurement scheme ensures Alice and Bob have an
     // 85% probability of their qubits collapsing to the same value, except
     // when both X and Y are 1, in which case they have an 85% probability of
     // their qubits collapsing to *different* values - thus satisfying the 
-    // X * Y == A xor B formula with an 85% probability in all cases. This
+    // X·Y == A ⊕ B formula with an 85% probability in all cases. This
     // strategy works regardless of who first measures their qubit.
 
     // Measurement in Bob's nonstandard bases is accomplished by first rotating
-    // the state vector by pi/8 radians in one direction or another, then
+    // the state vector by π/8 radians in one direction or another, then
     // measuring in the standard computational (Z) basis.
 
     operation MeasureAliceQbit(bit : Bool, qubit : Qubit) : (Result)
@@ -123,15 +122,15 @@ namespace Microsoft.Quantum.Samples.CHSHGame
         {
             if (bit)
             {
-                // Measure in -pi/8 basis if bit is 1
-                let rotation = ToDouble(2) * PI() / ToDouble(8);
+                // Measure in -π/8 basis if bit is 1
+                let rotation = 2.0 * PI() / 8.0;
                 Ry(rotation, qubit);
                 return M(qubit);
             }
             else
             {
-                // Measure in pi/8 basis if bit is 0
-                let rotation = ToDouble(-2) * PI() / ToDouble(8);
+                // Measure in π/8 basis if bit is 0
+                let rotation = -2.0 * PI() / 8.0;
                 Ry(rotation, qubit);
                 return M(qubit);
             }
