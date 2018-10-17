@@ -13,7 +13,7 @@ using System.Text;
 namespace Microsoft.Quantum.Samples.OpenQasmReader
 {
     /// <summary>
-    /// A quick and simple qasm parser and Q# generator which was hand roled to remain under MIT license
+    /// A quick and simple qasm parser and Q# generator which was hand rolled to remain under MIT license
     /// </summary>
     public class Parser
     {
@@ -81,10 +81,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         }
 
         /// <summary>
-        /// Parses the Qasm application and componenents
+        /// Parses the Qasm application and components
         /// </summary>
         /// <param name="token">Current token the tokenizer is on to parse</param>
-        /// <param name="cRegs">Cassical registers defined</param>
+        /// <param name="cRegs">Classical registers defined</param>
         /// <param name="qRegs">Quantum registers defined</param>
         /// <param name="path">Directory the qasm is located in (mostly for include purposes)</param>
         /// <param name="inside">Stream to write within the current operation being parsed</param>
@@ -195,7 +195,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         {
             token.MoveNext();
             token.MoveNext();
-            var condition = ParseCondition(token, cRegs, CLOSE_PARANTHESES);
+            var condition = ParseCondition(token, cRegs, CLOSE_PARENTHESES);
             Indent(inside);
             inside.AppendFormat("if({0}){{\n", condition);
             IndentLevel++;
@@ -232,12 +232,12 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             string result = null;
             while (depth != 0 || !(endmarker.Any(marker => marker.Equals(token.Current))))
             {
-                if (token.Current.Equals(OPEN_PARANTHESES))
+                if (token.Current.Equals(OPEN_PARENTHESES))
                 {
                     depth++;
                     result += token.Current;
                 }
-                else if (token.Current.Equals(CLOSE_PARANTHESES))
+                else if (token.Current.Equals(CLOSE_PARENTHESES))
                 {
                     depth--;
                     result += token.Current;
@@ -264,7 +264,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// </summary>
         /// <param name="token">Current token the tokenizer is on to parse</param>
         /// <param name="cRegs">Classical registers defined</param>
-        /// <param name="path">Directory the qasm is located in (mostly for inlcude purposes)</param>
+        /// <param name="path">Directory the qasm is located in (mostly for include purposes)</param>
         private static void ParseClassicalRegister(IEnumerator<string> token, Dictionary<string, int> cRegs, StringBuilder inside)
         {
             token.MoveNext();
@@ -299,19 +299,19 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 {
                     continue;
                 }
-                else if (token.Current.Equals(CLOSE_PARANTHESES))
+                else if (token.Current.Equals(CLOSE_PARENTHESES))
                 {
                     withinParentheses = false;
                 }
                 else if (withinParentheses)
                 {
-                    doubles.Add(ParseCalculation(token, $"{COMMA} ", CLOSE_PARANTHESES));
-                    if (token.Current.Equals(CLOSE_PARANTHESES))
+                    doubles.Add(ParseCalculation(token, $"{COMMA} ", CLOSE_PARENTHESES));
+                    if (token.Current.Equals(CLOSE_PARENTHESES))
                     {
                         withinParentheses = false;
                     }
                 }
-                else if (token.Current.Equals(OPEN_PARANTHESES))
+                else if (token.Current.Equals(OPEN_PARENTHESES))
                 {
                     withinParentheses = true;
                 }
@@ -579,19 +579,19 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 {
                     continue;
                 }
-                else if (token.Current.Equals(CLOSE_PARANTHESES))
+                else if (token.Current.Equals(CLOSE_PARENTHESES))
                 {
                     withinParentheses = false;
                 }
                 else if (withinParentheses)
                 {
-                    doubles.Add(ParseCalculation(token, COMMA, CLOSE_PARANTHESES));
-                    if (token.Current.Equals(CLOSE_PARANTHESES))
+                    doubles.Add(ParseCalculation(token, COMMA, CLOSE_PARENTHESES));
+                    if (token.Current.Equals(CLOSE_PARENTHESES))
                     {
                         withinParentheses = false;
                     }
                 }
-                else if (token.Current.Equals(OPEN_PARANTHESES))
+                else if (token.Current.Equals(OPEN_PARENTHESES))
                 {
                     withinParentheses = true;
                 }
@@ -615,7 +615,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// Returns the input string with the first character converted to uppercase, or mutates any nulls passed into string.Empty
         /// </summary>
         /// <param name="s">Current string to be converted</param>
-        /// <returns>Same string with the first letter capatalized (or an empty string if not posible)</returns>
+        /// <returns>Same string with the first letter capitalized (or an empty string if not possible)</returns>
         internal static string FirstLetterToUpperCase(string s)
         {
             if (string.IsNullOrEmpty(s))
@@ -634,7 +634,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="token">Current token the tokenizer is on to parse</param>
         /// <param name="cRegs">Classical registers defined</param>
         /// <param name="qRegs">Quantum registers defined</param>
-        /// <param name="path">Directory the qasm is located in (mostly for inlcude purposes)</param>
+        /// <param name="path">Directory the qasm is located in (mostly for include purposes)</param>
         /// <param name="inside">Stream to write within the current operation being parsed</param>
         /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
         /// <param name="classicalMeasured">Currently measured classical registers (mostly used for output)</param>
@@ -647,7 +647,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
 
             if (qRegs.Any())
             {
-                //Move identation a bit back
+                //Move indentation a bit back
                 IndentLevel--;
             }
 
@@ -712,7 +712,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         {
             token.MoveNext(); //(
             token.MoveNext();
-            var x = ParseCalculation(token, COMMA, CLOSE_PARANTHESES);
+            var x = ParseCalculation(token, COMMA, CLOSE_PARENTHESES);
             token.MoveNext();
             var q = token.Current;
             token.MoveNext(); // ;
@@ -724,7 +724,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             else
             {
                 // 0,0,0 rotation is the idle
-                // Could have left it out, but people seem to use this as a first test and are supprized when it gets optimized away.
+                // Could have left it out, but people seem to use this as a first test and are surprised when it gets optimized away.
                 Indent(builder);
                 builder.AppendFormat("I({0});\n", q);
             }
@@ -740,11 +740,11 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         {
             token.MoveNext(); //(
             token.MoveNext();
-            var x = ParseCalculation(token, COMMA, CLOSE_PARANTHESES);
+            var x = ParseCalculation(token, COMMA, CLOSE_PARENTHESES);
             token.MoveNext();
-            var y = ParseCalculation(token, COMMA, CLOSE_PARANTHESES);
+            var y = ParseCalculation(token, COMMA, CLOSE_PARENTHESES);
             token.MoveNext();
-            var z = ParseCalculation(token, COMMA, CLOSE_PARANTHESES);
+            var z = ParseCalculation(token, COMMA, CLOSE_PARENTHESES);
             token.MoveNext();
             var q = token.Current;
             token.MoveNext(); // ;
@@ -770,7 +770,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             if (!written)
             {
                 // 0,0,0 rotation is the idle
-                // Could have left it out, but people seem to use this as a first test and are supprized when it gets optimized away.
+                // Could have left it out, but people seem to use this as a first test and are surprised when it gets optimized away.
                 Indent(builder);
                 builder.AppendFormat("I({0});\n", q);
             }
@@ -788,12 +788,12 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             string result = null;
             while (depth != 0 || !(endmarker.Any(marker => marker.Equals(token.Current))))
             {
-                if (token.Current.Equals(OPEN_PARANTHESES))
+                if (token.Current.Equals(OPEN_PARENTHESES))
                 {
                     depth++;
                     result += token.Current;
                 }
-                else if (token.Current.Equals(CLOSE_PARANTHESES))
+                else if (token.Current.Equals(CLOSE_PARENTHESES))
                 {
                     depth--;
                     result += token.Current;
@@ -831,7 +831,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="token">Current token the tokenizer is on to parse</param>
         /// <param name="cRegs">Classical registers defined</param>
         /// <param name="qRegs">Quantum registers defined</param>
-        /// <param name="path">Directory the qasm is located in (mostly for inlcude purposes)</param>
+        /// <param name="path">Directory the qasm is located in (mostly for include purposes)</param>
         /// <param name="inside">Stream to write within the current operation being parsed</param>
         /// <param name="outside">Stream to write outside the current operation being parsed (mostly for defining side operations)</param>
         /// <param name="classicalMeasured">Currently measured classical registers (mostly used for output)</param>
@@ -868,7 +868,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         }
 
         /// <summary>
-        /// Tokeinzer to split the stream of the file up in individual tokens
+        /// Tokenizer to split the stream of the file up in individual tokens
         /// </summary>
         /// <param name="stream">Filestream</param>
         /// <returns>Tokens in the code file</returns>
@@ -899,7 +899,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                                 token.Clear();
                             }
                             yield return FORWARD_SLASH;
-                            //Handle the caracter after the slash
+                            //Handle the character after the slash
                             if (char.IsLetterOrDigit(buffer[0]) || buffer[0] == '_' || buffer[0] == '.' || buffer[0] == '[' || buffer[0] == ']')
                             {
                                 token.Append(buffer[0]);
@@ -908,8 +908,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                             {
                                 switch (buffer[0])
                                 {
-                                    case '(': yield return OPEN_PARANTHESES; break;
-                                    case ')': yield return CLOSE_PARANTHESES; break;
+                                    case '(': yield return OPEN_PARENTHESES; break;
+                                    case ')': yield return CLOSE_PARENTHESES; break;
                                     case '{': yield return OPEN_CURLYBRACKET; break;
                                     case '}': yield return CLOSE_CURLYBRACKET; break;
                                     case ',': yield return COMMA; break;
@@ -946,8 +946,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     }
                     switch (buffer[0])
                     {
-                        case '(': yield return OPEN_PARANTHESES; break;
-                        case ')': yield return CLOSE_PARANTHESES; break;
+                        case '(': yield return OPEN_PARENTHESES; break;
+                        case ')': yield return CLOSE_PARENTHESES; break;
                         case '{': yield return OPEN_CURLYBRACKET; break;
                         case '}': yield return CLOSE_CURLYBRACKET; break;
                         case ',': yield return COMMA; break;
@@ -972,10 +972,10 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         }
 
         #region Tokens and other constant Strings
-        private const string OPEN_PARANTHESES = "(";
+        private const string OPEN_PARENTHESES = "(";
         private const string FORWARD_SLASH = "/";
         private const string OPEN_CURLYBRACKET = "{";
-        private const string CLOSE_PARANTHESES = ")";
+        private const string CLOSE_PARENTHESES = ")";
         private const string CLOSE_CURLYBRACKET = "}";
         private const string COMMA = ",";
         private const string POINT_COMMA = ";";

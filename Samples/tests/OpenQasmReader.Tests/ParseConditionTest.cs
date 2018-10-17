@@ -68,7 +68,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         /// Helper function top execute ParseCalculation Method
         /// </summary>
         /// <param name="input">Test file</param>
-        /// <param name="cRegs">Traditonal register</param>
+        /// <param name="cRegs">Traditional register</param>
         /// <param name="endmarkers">Markers to stop on</param>
         /// <returns>resultstring</returns>
         private static string ParseCondition(string input, Dictionary<string,int> cRegs, params string[] endmarkers)

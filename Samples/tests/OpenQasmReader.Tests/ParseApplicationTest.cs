@@ -91,7 +91,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         }
 
         [Fact]
-        public void ParseGateDefintionTest()
+        public void ParseGateDefinitionTest()
         {
             var input = "gate mygate q { H q;}";
 
@@ -128,7 +128,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         }
 
         [Fact]
-        public void ParseIfDefintionTest()
+        public void ParseIfDefinitionTest()
         {
             var input = "if (c0 == 1) z q[2];";
 
@@ -164,7 +164,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         }
 
         [Fact]
-        public void ParseMeasureDefintionTest()
+        public void ParseMeasureDefinitionTest()
         {
             var input = "measure q[0] -> c0[0];";
 
@@ -204,7 +204,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         }
 
         [Fact]
-        public void ParseMeasureMultipleDefintionTest()
+        public void ParseMeasureMultipleDefinitionTest()
         {
             var input = "measure q[0] -> c0[0];measure q[1] -> c0[1];measure q[2] -> c0[2];";
 
@@ -244,7 +244,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         }
 
         [Fact]
-        public void ParseMeasureImplicitQubitDefintionTest()
+        public void ParseMeasureImplicitQubitDefinitionTest()
         {
             var input = "measure q[0]; H q[1];";
 
@@ -286,7 +286,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         }
 
         [Fact]
-        public void ParseMeasureImplicitQubitExpansionDefintionTest()
+        public void ParseMeasureImplicitQubitExpansionDefinitionTest()
         {
             var input = "measure q; H p[1];";
 
