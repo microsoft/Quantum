@@ -297,6 +297,8 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
             }
         }
         adjoint auto
+        controlled auto
+        controlled adjoint auto
     }
 
     ////////////////////////////////////////////////////////////
