@@ -72,7 +72,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding
         /// <summary>
         /// The quantum estimation calls the quantum algorithm in the Q# file which computes the permutation
         /// πⁱ(input) where i is a superposition of all values from 0 to 7.  The algorithm then uses QFT to
-        /// find a period in the resulting state.  The result needes to be post-processed to give an estimate.
+        /// find a period in the resulting state.  The result needs to be post-processed to find the estimate.
         /// <summary>
         private int GuessOrderQuantumOne(int index)
         {
@@ -132,7 +132,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding
     {
         static void Main(string[] args)
         {
-            /* user input (permutation must have 4 elements) */            
+            /* user input (permutation must have 4 elements) */
             var perm = new Permutation(new List<int> { 1, 2, 3, 0 });
             int index = 0;
 
