@@ -60,6 +60,10 @@ namespace Microsoft.Quantum.Samples.CHSHGame
                     Console.WriteLine("SPOOKY");
                 }
             }
+            
+            Console.WriteLine("\n\nPress Enter to continue...\n\n");
+
+			Console.ReadLine();
         }
 
         /// <summary>
