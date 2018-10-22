@@ -95,7 +95,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     }
 
     /// # Summary
-    /// Given an index, returns a description of the correponding
+    /// Given an index, returns a description of the corresponding
     /// term in the Hamiltonian for H₂. Each term is described by
     /// a pair of integer arrays representing a sparse Pauli operator.
     ///
@@ -211,7 +211,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
 
     /// # Summary
     /// We now provide Canon's Hamiltonian simulation
-    /// functions with the above representaiton to automatically
+    /// functions with the above representation to automatically
     /// decompose the H₂ Hamiltonian into an appropriate operation
     /// that we can apply to qubits as we please.
     operation H2TrotterStep(idxBondLength : Int, trotterOrder: Int, trotterStepSize: Double, qubits: Qubit[]): () {

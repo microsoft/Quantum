@@ -223,8 +223,8 @@ class Callable(WrappedCLRObject):
         
         if isinstance(type(output), CLR_METATYPE):
             # Try to wrap the output as best as we can.
-            # We provide convienence wrappers for a few, so we call the
-            # single-dispatched convienence function above.
+            # We provide convenience wrappers for a few, so we call the
+            # single-dispatched convenience function above.
             return wrap_clr_object(output)
         else:
             return output

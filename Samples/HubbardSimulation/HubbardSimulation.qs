@@ -12,7 +12,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     //////////////////////////////////////////////////////////////////////////
     
     // In this example, we will show how to simulate the time evolution of
-    // a 1D Hubbard model with `n` sitess. Let `i` be the site index, 
+    // a 1D Hubbard model with `n` sites. Let `i` be the site index, 
     // `s` = 1,0 be the spin index, where 0 is up and 1 is down. t be the 
     // hopping coefficient, U the repulsion coefficient, and aᵢₛ the fermionic 
     // annihilation operator on the fermion indexed by {i,s}. The Hamiltonian 
@@ -31,10 +31,10 @@ namespace Microsoft.Quantum.Samples.Hubbard {
 
     // Energy estimation requires an input state with non-zero overlap with 
     // the ground state, and we use the anti-ferromagnetic state with 
-    // alternating  spins for this purpuse. 
+    // alternating spins for this purpose. 
 
     // The Hubbard Hamiltonian is composed of Fermionic operators which act on
-    // Fermions and satify anti-commutation rules
+    // Fermions and satisfy anti-commutation rules
     //
     // {aⱼ, aₖ} = 0, {a†ⱼ, aₖ†} = 0, {aⱼ, aₖ†} = δⱼₖ.
     //
@@ -57,7 +57,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     // assuming that j > k.
 
     // Other possible mapping exist, but we do not consider them further here.
-    // Implementing the Jodan-Wigner transform requires us to define a 
+    // Implementing the Jordan-Wigner transform requires us to define a 
     // canonical ordering between the Fermion indices {is} and
     // the qubit index. Let the fermion site be indexed by the qubit i + n*s
  

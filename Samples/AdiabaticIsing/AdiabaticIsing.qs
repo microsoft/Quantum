@@ -105,7 +105,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     //////////////////////////////////////////////////////////////////////////
 
     /// # Summary
-    /// This uses the Ising model `GeneratorSystem` construced previously to
+    /// This uses the Ising model `GeneratorSystem` constructed previously to
     /// represent the desired interpolated Hamiltonian H(s). This is 
     /// accomplished by choosing an appropriate function for its coefficients.
     ///
@@ -212,7 +212,7 @@ namespace Microsoft.Quantum.Samples.Ising {
 
     /// # Summary
     /// We now allocate qubits to the simulation, implement adiabatic state
-    /// prepartion, and then return the results of spin measurement on each
+    /// preparation, and then return the results of spin measurement on each
     /// site.
     ///
     /// # Input
@@ -321,7 +321,7 @@ namespace Microsoft.Quantum.Samples.Ising {
         let end = EndEvoGen(nSites, jCoupling);
         
         // We choose the time-dependent Trotter–Suzuki decomposition as
-        // our similation algorithm.
+        // our simulation algorithm.
         let timeDependentSimulationAlgorithm = TimeDependentTrotterSimulationAlgorithm(trotterStepSize, trotterOrder);
         
         // The function InterpolatedEvolution uniformly interpolates between the start and the end Hamiltonians.
@@ -330,7 +330,7 @@ namespace Microsoft.Quantum.Samples.Ising {
 
     /// # Summary
     /// We now choose uniform coupling coefficients, allocate qubits to the 
-    /// simulation, implement adiabatic state prepartion, and then return 
+    /// simulation, implement adiabatic state preparation, and then return 
     /// the results of spin measurement on each site.
     ///
     /// # Input

@@ -43,7 +43,7 @@ namespace Microsoft.Quantum.Tests {
             set testCases[nTests] = StatePreparationTestCase(3, [1.0986553; 0.359005; 0.465689; -0.467395; 0.419893; 0.118445; 0.461883; 0.149609], new Double[0]);
             set nTests = nTests + 1;
 
-            // Test missing coefficicients
+            // Test missing coefficients
             set testCases[nTests] = StatePreparationTestCase(3, [1.0986553; 0.359005; 0.465689; -0.467395; 0.419893; 0.118445], new Double[0]);
             set nTests = nTests + 1;
 
@@ -53,7 +53,7 @@ namespace Microsoft.Quantum.Tests {
                 let nCoefficients = Length(coefficientsAmplitude);
 
 
-                // Test negative coefficicients. Should give same results as positive coefficients.
+                // Test negative coefficients. Should give same results as positive coefficients.
                 using(qubits = Qubit[nQubits]){
                     let qubitsBE = BigEndian(qubits);
 

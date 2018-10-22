@@ -18,11 +18,11 @@ namespace Microsoft.Quantum.Samples.Ising {
     // The iterative phase estimation algorithm discussed in 
     // `PhaseEstimationSample` is one of many possible variants. The 
     // algorithm there is based on an adaptive sequence of measurements that 
-    // requires a unitary orcale that can be exponentiated by arbitrary
+    // requires a unitary oracle that can be exponentiated by arbitrary
     // real numbers. In our case, we restrict the oracle to be just integer 
     // powers of a single Trotter time step. Thus one compatible choice here 
     // is the Robust phase estimation algorithm, which also happens to be non-
-    /// adaptive, and provides a instructive constrasting implementation.
+    /// adaptive, and provides a instructive contrasting implementation.
 
     // We provide two solutions. 
     // In the first solution, we manually construct and put together all the 

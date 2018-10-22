@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 namespace Microsoft.Quantum.Samples.Qiskit
 {
     /// <summary>
-    /// Quick version to tranfer to python in a real linux environment, because Qiskit doesn't run on the windows python
+    /// Quick version to transfer to python in a real linux environment, because Qiskit doesn't run on the windows python
     /// </summary>
     internal static class QiskitExecutor
     {
