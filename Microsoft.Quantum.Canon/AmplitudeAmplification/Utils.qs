@@ -107,7 +107,7 @@ namespace Microsoft.Quantum.Canon {
     /// A state preparation oracle $A$ of type `StateOracle`.
     ///
     /// # Output
-    /// The same state prepataion oracle $A$, but now of type 
+    /// The same state preparation oracle $A$, but now of type 
     /// `DeterministicStateOracle`, so it acts on a register where $a,s$ no 
     /// longer explicitly separate, e.g.  $A\ket{0\psi}\_{as}$.
     ///
@@ -138,7 +138,7 @@ namespace Microsoft.Quantum.Canon {
     /// A state preparation oracle $A$ of type `DeterministicStateOracle`.
     ///
     /// # Output
-    /// The same state prepataion oracle $A$, but now of type
+    /// The same state preparation oracle $A$, but now of type
     /// `StateOracle`. Note that the flag index in this `StateOracle` is a
     /// dummy variable and has no effect.
     ///

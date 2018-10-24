@@ -45,7 +45,7 @@ namespace Microsoft.Quantum.Examples.Teleportation {
         body {
 
             using (register = Qubit[1]) {
-                // Ask for an auxillary qubit that we can use to prepare
+                // Ask for an auxiliary qubit that we can use to prepare
                 // for teleportation.
                 let here = register[0];
             

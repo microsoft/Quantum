@@ -65,7 +65,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms
 
             #endregion
 
-            #region Constant versus Balanced Functions with the Deutsch–Josza Algorithm
+            #region Constant versus Balanced Functions with the Deutsch–Jozsa Algorithm
             // A Boolean function is a function that maps bitstrings to a
             // bit,
             //
@@ -77,7 +77,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms
 
             // If we are given a function 𝑓 as a quantum operation 𝑈 |𝑥〉|𝑦〉
             // = |𝑥〉|𝑦 ⊕ 𝑓(𝑥)〉, and are promised that 𝑓 is either constant or
-            // is balanced, then the Deutsch–Josza algorithm decides between
+            // is balanced, then the Deutsch–Jozsa algorithm decides between
             // these cases with a single application of 𝑈.
 
             // In SimpleAlgorithms.qs, we implement this algorithm as

@@ -15,8 +15,8 @@ namespace Microsoft.Quantum.Samples.OpenQasm
     /// <summary>
     /// Quick and dirty Simulatorbase to write OpenQASM 2.0
     /// Just enough to show that it would work
-    /// Please don't put this in production until its fully engineerd.
-    /// This code could eat your cat. So imagine what schrodinger has to say about that one.
+    /// Please don't put this in production until its fully engineered.
+    /// This code could eat your cat. So imagine what Schrodinger has to say about that one.
     /// </summary>
     public abstract class OpenQasmDriver : SimulatorBase
     {
@@ -58,7 +58,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
         }
 
         /// <summary>
-        /// Ingnored becuase this machine doesn't have it. And we recycle qubits anyway
+        /// Ignored because this machine doesn't have it. And we recycle qubits anyway
         /// </summary>
         public class QSimReset : Reset
         {

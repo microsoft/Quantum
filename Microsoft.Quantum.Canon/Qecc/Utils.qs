@@ -54,8 +54,8 @@ namespace Microsoft.Quantum.Canon {
 	/// # Input
 	/// ## code
 	/// A quantum error-correcting code packaged as a `QECC` type describes 
-    /// the encoding and deconding of quantum data, and how error syndromes 
-    /// are to be measuremed.
+    /// the encoding and decoding of quantum data, and how error syndromes 
+    /// are to be measured.
 	/// ## fn
     /// A `RecoveryFn` that maps each error syndrome to the `Pauli[]` operations
     /// that correct the detected error. 
@@ -83,8 +83,8 @@ namespace Microsoft.Quantum.Canon {
 	/// # Input
 	/// ## code
 	/// A quantum CSS error-correcting code packaged as a `CSS` type describes 
-    /// the encoding and deconding of quantum data, and how error syndromes 
-    /// are to be measuremed.
+    /// the encoding and decoding of quantum data, and how error syndromes 
+    /// are to be measured.
 	/// ## fnX
     /// A `RecoveryFn` that maps each $X$ error syndrome to the `Pauli[]` operations
     /// that correct the detected error. 

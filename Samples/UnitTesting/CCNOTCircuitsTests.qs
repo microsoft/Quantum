@@ -15,7 +15,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # Summary 
     /// This operation tests correctness of the implementation of Doubly Controlled X gates
     /// also known as Toffoli gates.
-    operation CCNOTCiruitsTest() : () {
+    operation CCNOTCircuitsTest() : () {
         body {
             
             //  List of pairs of operations (expected,actual) to be tested up to a phase
