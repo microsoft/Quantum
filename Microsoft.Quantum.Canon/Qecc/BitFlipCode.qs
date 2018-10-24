@@ -36,11 +36,11 @@ namespace Microsoft.Quantum.Canon {
     /// ## physRegister
     /// A register of physical qubits representing the data to be protected.
     /// ## auxQubits
-    /// A register of auxillary qubits initially in the $\ket{00}$ state to be
+    /// A register of auxiliary qubits initially in the $\ket{00}$ state to be
     /// used in encoding the data to be protected.
     ///
     /// # Output
-    /// The physical and auxillary qubits used in encoding, represented as a
+    /// The physical and auxiliary qubits used in encoding, represented as a
     /// logical register.
     ///
     /// # See Also
@@ -63,7 +63,7 @@ namespace Microsoft.Quantum.Canon {
     /// A code block of the bit-flip code.
     ///
     /// # Output
-    /// A tuple of the data encoded into the logical register, and the auxillary
+    /// A tuple of the data encoded into the logical register, and the auxiliary
     /// qubits used to represent the syndrome.
     ///
     /// # See Also
@@ -103,7 +103,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # Summary
-    /// Function for recovery Pauli operations for given symdrome measurement
+    /// Function for recovery Pauli operations for given syndrome measurement
     /// by table lookup for the ⟦3, 1, 1⟧ bit flip code.
     ///
     /// # Output

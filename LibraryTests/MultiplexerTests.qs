@@ -132,7 +132,7 @@ namespace Microsoft.Quantum.Tests {
             let nQubits = Length(qubits);
 
             
-            // The absolute phase of a diagonal unitary can only be characeterized
+            // The absolute phase of a diagonal unitary can only be characterized
             // using a controlled operation.
             using(control = Qubit[1]){
                 for(idxCoeff in 0..Length(coefficients) -1 ){
