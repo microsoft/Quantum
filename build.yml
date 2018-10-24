@@ -23,11 +23,9 @@ jobs:
   pool: 'Hosted macOS'
   steps:
   - template: Build/step-build-libs.yml
-  - template: Build/step-wrap-up.yml
 - job: Linux
   pool: 'Hosted Ubuntu 1604'
   steps:
   - template: Build/step-build-libs.yml
-  - template: Build/step-wrap-up.yml
 
 
