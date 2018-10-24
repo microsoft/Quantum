@@ -93,7 +93,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
 
             // Let us investigate the success probability of the quantum search.
             
-            // Wedefine the size `N` = 2^n of the database to searched in terms of 
+            // We define the size `N` = 2^n of the database to searched in terms of 
             // number of qubits `n`. 
             nDatabaseQubits = 6;
             databaseSize = Math.Pow(2.0, nDatabaseQubits);
@@ -213,7 +213,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
 
                 successCount += markedQubit == Result.One ? 1 : 0;
 
-                // Print the results of the search every 1 attempts
+                // Print the results of the search every 1 attempt
                 if ((idxAttempt + 1) % 1 == 0)
                 {
                     var empiricalSuccessProbability = Math.Round((double)successCount / ((double)idxAttempt + 1), 3);

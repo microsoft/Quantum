@@ -58,7 +58,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
         }
 
         /// <summary>
-        /// Ignored becuase this machine doesn't have it. And we recycle qubits anyway
+        /// Ignored because this machine doesn't have it. And we recycle qubits anyway
         /// </summary>
         public class QSimReset : Reset
         {
