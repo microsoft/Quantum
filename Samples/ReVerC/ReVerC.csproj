@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="AdderGen.fsx">
+      <Generator>F# compiler</Generator>
+    </None>
+    <None Include="README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.Canon" Version="0.2.1806.3001-preview" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.2.1806.3001-preview" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;C:\Program Files (x86)\Microsoft SDKs\F#\10.1\Framework\v4.0\fsi.exe&quot; -r:fstarlib.dll -r:rever.dll AdderGen.fsx" />
+  </Target>
+</Project>
