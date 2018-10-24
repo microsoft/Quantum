@@ -7,7 +7,7 @@ This repository contains the libraries and samples provided with the Quantum Dev
 - **[LibraryTests/](./LibraryTests)**: Tests to ensure correctness of the libraries and samples.
 - **[Microsoft.Quantum.Canon/](./Microsoft.Quantum.Canon)**: Q# sources used to implement [the canon](https://docs.microsoft.com/quantum/libraries/intro) portion of the Q# standard library.
 - **[Samples/](./Samples)**: C# and F# projects demonstrating how to use Q#, the prelude, and the canon.
-- **[LICENSE](./LICENSE)**: Terms of use and license details for the Quantum Development Kit libraries and samples.
+- **[LICENSE](./LICENSE.txt)**: Terms of use and license details for the Quantum Development Kit libraries and samples.
 - **[QsharpLibraries.sln](./QsharpLibraries.sln)**: The main Visual Studio 2017 solution for all libraries and samples provided in this repository.
 
 ## New to Quantum? ##
