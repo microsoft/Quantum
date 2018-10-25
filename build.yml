@@ -1,0 +1,17 @@
+#
+# Build configuration file to run build on azure-pipelines
+#
+name: $(Build.Major).$(Build.Minor).$(date:yyMM).$(DayOfMonth)$(rev:rr)
+trigger: none
+resources:
+- repo: self
+variables:
+  Build.Major: 0
+  Build.Minor: 0
+  SamplesRootFolder: $(System.DefaultWorkingDirectory)
+  Assembly.Version: $(Build.BuildNumber)
+
+steps:
+- template: Build/step-build-samples.yml
+- template: Build/step-wrap-up.yml
+

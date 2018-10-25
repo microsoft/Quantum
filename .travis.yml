@@ -23,6 +23,4 @@ matrix:
             - g++-4.9
 
 script:
-  - dotnet build QsharpLibraries.sln
-  - dotnet test Samples/UnitTesting
-  - travis_wait 30 dotnet test LibraryTests
+  - dotnet build QSharpSamples.sln

@@ -1,0 +1,37 @@
+##
+# Builds, tests & package all libraries.
+##
+
+steps:
+##
+# Build
+##
+- task: DotNetCoreCLI@2
+  displayName: 'Build Samples'
+  inputs:
+    projects: '$(SamplesRootFolder)/**/*.sln'
+    arguments: '-c $(BuildConfiguration) -v n'
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'Test Samples'
+  inputs:
+    command: test
+    projects: |
+     $(SamplesRootFolder)/Samples/src/UnitTesting
+     $(SamplesRootFolder)/Samples/tests/SampleTests
+    arguments: '-c $(BuildConfiguration) -v n'
+
+##
+# Check that all integral data sets are valid.
+##
+- task: CondaEnvironment@1
+  inputs:
+    createCustomEnvironment: true
+    environmentName: validator
+    packageSpecs: 'python=3 ruamel_yaml jsonschema click'
+  displayName: 'Install validator environment.'
+
+- script: python validator.py ../IntegralData/**/*.yaml broombridge-0.1.schema.json
+  workingDirectory: $(SamplesRootFolder)/Chemistry/Schema/
+  displayName: 'Validate all Broombridge data files.'
