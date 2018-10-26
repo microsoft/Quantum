@@ -1,7 +1,7 @@
-# Microsoft Quantum Development Kit Samples and Libraries #
+# Microsoft Quantum Development Kit Samples #
 
 Welcome to the Microsoft Quantum Development Kit!
-This repository contains the libraries and samples provided with the Quantum Development Kit:
+This repository contains samples provided with the Quantum Development Kit:
 
 - **[Docs/](./Docs)**: Additional documentation for developing on the libraries and samples. Please see [QDK online documentation](https://docs.microsoft.com/quantum/) for online documentation. 
 - **[LibraryTests/](./LibraryTests)**: Tests to ensure correctness of the libraries and samples.
@@ -9,6 +9,9 @@ This repository contains the libraries and samples provided with the Quantum Dev
 - **[Samples/](./Samples)**: C# and F# projects demonstrating how to use Q#, the prelude, and the canon.
 - **[LICENSE](./LICENSE)**: Terms of use and license details for the Quantum Development Kit libraries and samples.
 - **[QsharpLibraries.sln](./QsharpLibraries.sln)**: The main Visual Studio 2017 solution for all libraries and samples provided in this repository.
+
+## Where are the Libraries? ##
+Open-source Q# and C# libraries that are useful for programming quantum algorithms can be found in a separate [GitHub](https://github.com/Microsoft/QuantumLibraries/) project. 
 
 ## New to Quantum? ##
 
