@@ -36,7 +36,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         }
 
         [Fact]
-        public void CommentsRecognizeUnixLinendingResultsTokens()
+        public void CommentsRecognizeUnixLineEndingResultsTokens()
         {
             var input = "before\n//H\nafter";
             string[] result = null;
@@ -45,7 +45,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
         }
 
         [Fact]
-        public void CommentsRecognizeWindowsLinendingResultsTokens()
+        public void CommentsRecognizeWindowsLineEndingResultsTokens()
         {
             var input = "before\r\n//H\r\nafter";
             string[] result = null;

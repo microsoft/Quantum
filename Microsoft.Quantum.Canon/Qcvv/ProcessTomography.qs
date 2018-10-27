@@ -107,7 +107,7 @@ namespace Microsoft.Quantum.Canon {
 
     /// # Summary
     /// Given a preparation and measurement, estimates the frequency
-    /// with which that measurement suceeds (returns `Zero`) by
+    /// with which that measurement succeeds (returns `Zero`) by
     /// performing a given number of trials.
     ///
     /// # Input

@@ -23,7 +23,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // Introduction //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
 
-    // This sample contains serveral simple quantum algorithms coded in Q#. The 
+    // This sample contains several simple quantum algorithms coded in Q#. The 
     // intent is to highlight the expressive capabilities of the language that 
     // enable it to express quantum algorithms that consist of a short quantum
     // part and classical post-processing that is simple, or in some cases,
@@ -145,7 +145,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         return ParityOperationImpl(pattern, _);
     }
 
-    // For convienence, we provide an additional operation with a signature
+    // For convenience, we provide an additional operation with a signature
     // that's easy to call from C#. In particular, we define our new operation
     // to take an Int as input and to return an Int as output, where each
     // Int represents a bitstring using the little endian convention.
