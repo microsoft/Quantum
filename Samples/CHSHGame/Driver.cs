@@ -61,9 +61,11 @@ namespace Microsoft.Quantum.Samples.CHSHGame
                 }
             }
             
-            Console.WriteLine("\n\nPress Enter to continue...\n\n");
-
-			Console.ReadLine();
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                Console.WriteLine("\n\nPress Enter to continue...\n\n");
+                System.Console.ReadLine();
+            }
         }
 
         /// <summary>
