@@ -39,7 +39,7 @@ def single_qubit_process_tomography(
         prep = qsharp.Pauli.random()
         meas = qsharp.Pauli.random()
 
-        # Convert into a QuTiP object by using the standard transformation
+        # Convert tensor into QuTiP object by using the standard transformation
         # between state and process tomography.
         qobj = 2.0 * qt.tensor(
             projector(prep.as_qobj()).trans(), projector(meas.as_qobj())
@@ -58,8 +58,8 @@ def single_qubit_process_tomography(
         updater.update(datum, expparams)
 
     return {
-        # We multiply by 2 to turn into a Choi–Jamiłkowski operator instead
-        # of a Choi–Jamiłkowski state.
+        # Multiply the Choi–Jamiłkowski state by 2 to turn it into
+        # a Choi–Jamiłkowski operator.
         'est_channel': 2.0 * model.basis.modelparams_to_state(updater.est_mean()),
         # Returning the updater allows for exploring properties not extracted
         # elsewhere.
