@@ -26,3 +26,29 @@ For example, the following command updates all C# projects in the current direct
 ```bash
 ./updateQDKVersion.sh 0.3.1809.1-preview
 ```
+
+## InvokeNWChem.psm1 ##
+
+> This module requires Windows PowerShell or PowerShell Core to run.
+> Windows PowerShell comes pre-installed with Windows 10.
+> Download PowerShell Core for Windows, macOS, or Linux at https://github.com/PowerShell/PowerShell.
+
+This PowerShell module provides functionality for invoking [NWChem](http://nwchem-sw.org) using [Docker](https://docker.com/), and for using NWChem to produce [Broombridge](https://docs.microsoft.com/en-us/quantum/libraries/chemistry/schema/broombridge) documents.
+To use this PowerShell module, first import it using the [`Import-Module`](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/import-module) command:
+
+```powershell
+cd Quantum/utilities
+Import-Module InvokeNWChem.psm1
+```
+
+Once imported, additional documentation is available using the `Get-Help` command:
+
+```powershell
+Get-Help Invoke-NWChemImage
+Get-Help Convert-NWChemToBroombridge
+```
+
+For more details about how to install prerequisites and use this module with the quantum chemistry library, please see the following pages:
+
+- [Chemistry Library Installation and Validation](https://docs.microsoft.com/en-us/quantum/libraries/chemistry/installation)
+- [End-to-end with NWChem](https://docs.microsoft.com/en-us/quantum/libraries/chemistry/samples/end-to-end)
