@@ -57,7 +57,7 @@ param(
 
     [Parameter(Position=2)]
     [string]
-    $Version = "0.0.1808.2904-preview"
+    $Version = "0.3.1810.2508-preview"
 )
 
 Write-Host ""
