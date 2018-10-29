@@ -11,7 +11,16 @@ variables:
   SamplesRootFolder: $(System.DefaultWorkingDirectory)
   Assembly.Version: $(Build.BuildNumber)
 
-steps:
-- template: Build/step-build-samples.yml
-- template: Build/step-wrap-up.yml
-
+jobs:
+- job: Windows
+  pool: 'Hosted VS2017'
+  steps:
+  - template: Build/step-build-samples.yml
+- job: macOS
+  pool: 'Hosted macOS'
+  steps:
+  - template: Build/step-build-samples.yml
+- job: Linux
+  pool: 'Hosted Ubuntu 1604'
+  steps:
+  - template: Build/step-build-samples.yml
