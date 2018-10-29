@@ -31,7 +31,7 @@ Python 3.6.2 |Anaconda custom (64-bit)| (default, Sep 19 2017, 08:03:39) [MSC v.
 Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
-Type `exit()` and press *Enter* to quit Python and return to your command line.
+Type  `Ctrl + D` or `exit()`  and press *Enter* to quit Python and return to your command line.
 
 The Anaconda distribution installed above comes with Jupyter Notebook by default, but we recommend installing the `nb_conda` extension as well:
 
