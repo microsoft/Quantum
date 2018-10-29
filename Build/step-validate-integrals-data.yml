@@ -1,0 +1,13 @@
+##
+# Check that all integral data sets are valid.
+##
+- task: CondaEnvironment@1
+  inputs:
+    createCustomEnvironment: true
+    environmentName: validator
+    packageSpecs: 'python=3 ruamel_yaml jsonschema click'
+  displayName: 'Install validator environment.'
+
+- script: python validator.py ../IntegralData/**/*.yaml broombridge-0.1.schema.json
+  workingDirectory: $(SamplesRootFolder)/Chemistry/Schema/
+  displayName: 'Validate all Broombridge data files.'

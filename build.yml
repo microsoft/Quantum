@@ -16,6 +16,7 @@ jobs:
   pool: 'Hosted VS2017'
   steps:
   - template: Build/step-build-samples.yml
+  - template: Build/step-validate-integrals-data.yml
 - job: macOS
   pool: 'Hosted macOS'
   steps:
