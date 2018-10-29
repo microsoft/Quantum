@@ -13,7 +13,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
-    
+
     // In this example, we will show how to simulate the time evolution of
     // an Ising model under a transverse field,
     //
@@ -22,21 +22,21 @@ namespace Microsoft.Quantum.Samples.Ising {
     // where the primed summation Σ' is taken only over nearest-neighbors.
     // We also use open boundary conditions in this example.
 
-    // We do so by directly using the higher-order Trotterization control 
+    // We do so by directly using the higher-order Trotterization control
     // structure. This control structure iterates over a list of time-
-    // evolution operators, and selects the stepsize of time-evolution 
+    // evolution operators, and selects the stepsize of time-evolution
     // and their ordering by the Trotter–Suzuki decomposition. This allows us
     // to decouple the choice of simulation algorithm Trotterization from
     //  the representation of the Hamiltonian.
 
     // Using a sequence of short time-evolutions, we may simulate
     // time-evolution over a longer time interval. We use this to
-    // investigate how an excitation caused by single spin-flip at one 
+    // investigate how an excitation caused by single spin-flip at one
     // end of the Ising chain propagates down it.
 
-    // When the transverse field hX is zero, the single-excitation state 
+    // When the transverse field hX is zero, the single-excitation state
     // |100...0> is an eigenstate of the Hamiltonian H. Thus time-evolution by
-    // H will not change the magnetization of other sites. However, with the 
+    // H will not change the magnetization of other sites. However, with the
     // transverse field on, |100...0> is no longer an eigenstate, which allows
     // the excitation to diffuse to neighbouring sites. One then expects the
     // average magnetization of the leftmost site to decrease in general, and
@@ -47,7 +47,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     // some specified time.
 
     /// # Summary
-    /// Implements time-evolution by a single term in the Ising Hamiltonian. 
+    /// Implements time-evolution by a single term in the Ising Hamiltonian.
     ///
     /// # Input
     /// ## nSites
@@ -59,7 +59,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// ## jCoupling
     /// Value of J.
     /// ## idxHamiltonian
-    /// An integer in [0, 3 * nSites - 2] that indexes one of the 
+    /// An integer in [0, 3 * nSites - 2] that indexes one of the
     /// 3 * nSites - 1 terms in the Hamiltonian.
     /// ## stepSize
     /// Duration of time-evolution by term in Hamiltonian.
@@ -110,10 +110,10 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// Value of hZ.
     /// ## jCoupling
     /// Value of J.
-    /// 
+    ///
     /// # Output
     /// A tuple containing the number of terms in the Hamiltonian and a
-    /// unitary operation classically controlled by the term index and 
+    /// unitary operation classically controlled by the term index and
     /// stepsize.
     function Ising1DTrotterUnitaries(nSites : Int, hXCoupling : Double, hZCoupling: Double, jCoupling: Double) : (Int, ((Int, Double, Qubit[]) => () : Adjoint, Controlled))
     {
@@ -121,9 +121,9 @@ namespace Microsoft.Quantum.Samples.Ising {
         return (nTerms, Ising1DTrotterUnitariesImpl(nSites, hXCoupling, hZCoupling, jCoupling, _, _, _));
     }
 
-    // We now invoke the Trotterization control structure. This requires two 
-    // additional parameters -- the trotterOrder, which determines the order 
-    // the Trotter decompositions, and the trotterStepSize, which determines 
+    // We now invoke the Trotterization control structure. This requires two
+    // additional parameters -- the trotterOrder, which determines the order
+    // the Trotter decompositions, and the trotterStepSize, which determines
     // the duration of time-evolution of a single Trotter step.
 
     /// # Summary
@@ -143,7 +143,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// Order of Trotter integrator.
     /// ## trotterStepSize
     /// Duration of simulated time-evolution in single Trotter step.
-    /// 
+    ///
     /// # Output
     /// A unitary operation.
     function Ising1DTrotterEvolution(nSites : Int, hXCoupling : Double, hZCoupling: Double, jCoupling: Double, trotterOrder: Int, trotterStepSize: Double) : (Qubit[] => (): Adjoint, Controlled)
@@ -179,7 +179,7 @@ namespace Microsoft.Quantum.Samples.Ising {
 
             // Let us set the hZ coupling to zero as it will not be needed.
             let hZCoupling = ToDouble(0);
-             
+
             // We pick arbitrary values for the X and J couplings
             let hXCoupling = ToDouble(1);
             let jCoupling = ToDouble(1);
@@ -187,7 +187,7 @@ namespace Microsoft.Quantum.Samples.Ising {
             // This determines the number of Trotter steps
             let steps = Ceiling(simulationTime / trotterStepSize);
 
-            // This resizes the Trotter step so that time evolution over the 
+            // This resizes the Trotter step so that time evolution over the
             // duration is accomplished.
             let trotterStepSizeResized = simulationTime / ToDouble(steps);
 
@@ -198,12 +198,12 @@ namespace Microsoft.Quantum.Samples.Ising {
                 // We now create a spin flip excitation on the 0th site
                 X(qubits[0]);
 
-                // We then evolve for some time 
+                // We then evolve for some time
                 for(idxStep in 0..steps - 1){
-                    (Ising1DTrotterEvolution(nSites, hXCoupling, hZCoupling, jCoupling, trotterOrder, trotterStepSizeResized))(qubits);    
+                    (Ising1DTrotterEvolution(nSites, hXCoupling, hZCoupling, jCoupling, trotterOrder, trotterStepSizeResized))(qubits);
                 }
 
-                // We now measure each site and return the results 
+                // We now measure each site and return the results
                 set results = MultiM(qubits);
 
                 // The qubits must be returned to the |0> state.
@@ -213,6 +213,4 @@ namespace Microsoft.Quantum.Samples.Ising {
             return results;
         }
     }
-
-
 }

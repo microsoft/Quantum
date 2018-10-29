@@ -65,7 +65,6 @@ except:
 import qsharp.tomography
 from qsharp.clr_wrapper import *
 
-
 ## ENUMERATIONS ##############################################################
 
 class SampleableEnum(IntEnum):
@@ -205,7 +204,7 @@ class Callable(WrappedCLRObject):
     _detailed_repr = False
     _parent = None
     _include_plain_repr = False
-    
+
     @property
     def _friendly_name(self):
         # TODO: extract operation signature!
@@ -220,7 +219,7 @@ class Callable(WrappedCLRObject):
             unwrap_clr(self._parent),
             *map(unwrap_clr, args)
         )
-        
+
         if isinstance(type(output), CLR_METATYPE):
             # Try to wrap the output as best as we can.
             # We provide convenience wrappers for a few, so we call the
