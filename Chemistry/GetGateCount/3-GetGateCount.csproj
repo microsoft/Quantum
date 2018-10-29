@@ -15,7 +15,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
-    <PackageReference Include="Microsoft.PowerShell.5.ReferenceAssemblies" Version="1.1.0" />
+    <PackageReference Include="Microsoft.PowerShell.5.ReferenceAssemblies" Version="1.1.0" NoWarn="NU1701" />
     <PackageReference Include="Microsoft.Quantum.Canon" Version="0.3.1810.2508-preview" />
     <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.3.1810.2508-preview" />
     <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.3.1810.2508-preview" />

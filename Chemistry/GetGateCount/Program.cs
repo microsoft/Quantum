@@ -126,7 +126,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
             {
                 extra = options.Parse(args);
             }
-            catch (OptionException e)
+            catch (OptionException)
             {
                 ShowHelp(options);
                 System.Environment.Exit(1);

@@ -37,16 +37,14 @@ namespace Microsoft.Quantum.Chemistry.Sample
             // Number of electrons. This must be specified for the liquid format.
             var LiquidElectrons = 2;
 
-            // Directory containing integral data in YAML format.
-            string YAMLRoot = @"..\IntegralData\YAML\";
-            string YAMLFilename = "lih_sto-3g_0.800_int.yaml";
-
             // For loading data in the format consumed by Liquid.
             logger.LogInformation($"Processing {LiquidFilename}");
             var generalHamiltonian = FermionHamiltonian.LoadFromLiquid($@"{LiquidRoot}\{LiquidFilename}").Single();
             generalHamiltonian.NElectrons = LiquidElectrons;
 
             // For loading data in the YAML format.
+            //string YAMLRoot = @"..\IntegralData\YAML\";
+            //string YAMLFilename = "lih_sto-3g_0.800_int.yaml";
             //var generalHamiltonian = FermionHamiltonian.LoadFromYAML($@"{YAMLRoot}\{YAMLFilename}").Single();
 
             // Read Hamiltonian terms from file.
