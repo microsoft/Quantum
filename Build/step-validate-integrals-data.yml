@@ -1,6 +1,7 @@
 ##
 # Check that all integral data sets are valid.
 ##
+steps:
 - task: CondaEnvironment@1
   inputs:
     createCustomEnvironment: true
