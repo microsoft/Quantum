@@ -53,7 +53,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Remarks
     /// For more on the Trotter–Suzuki decomposition, see
-    /// [Time-Ordered Composition](xref:microsoft.quantum.concepts.control-flow#time-ordered-composition).
+    /// [Time-Ordered Composition](/quantum/libraries/control-flow#time-ordered-composition).
     function TrotterStep(evolutionGenerator: EvolutionGenerator, trotterOrder: Int, trotterStepSize: Double) : (Qubit[] => () :  Adjoint, Controlled)
     {
         let (evolutionSet, generatorSystem) = evolutionGenerator;
@@ -120,7 +120,7 @@ namespace Microsoft.Quantum.Canon {
         return SimulationAlgorithm(TrotterSimulationAlgorithmImpl(trotterStepSize,trotterOrder, _, _, _));
     }
 
-   // This simple time-depedendent simulation algorithm implements a
+   // This simple time-dependent simulation algorithm implements a
    // sequence of uniformly-sized trotter steps
 
     /// # Summary

@@ -6,6 +6,8 @@ using Microsoft.Quantum.Simulation.Simulators;
 using Microsoft.Quantum.Simulation.XUnit;
 using System;
 using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // This file makes sure that all Q# operations ending with Test
@@ -37,7 +39,13 @@ namespace Microsoft.Quantum.Samples.UnitTesting
         {
             try
             {
-                using (var sim = new QuantumSimulator())
+                // Generate seed based on name of testclass, so testruns are more deterministic
+                // but we don't always use the same seed throughout the solution.
+                byte[] bytes = Encoding.Unicode.GetBytes(operationDescription.fullClassName);
+                byte[] hash = hashMethod.ComputeHash(bytes);
+                uint seed = BitConverter.ToUInt32(hash, 0);
+
+                using (var sim = new QuantumSimulator(randomNumberGeneratorSeed:seed))
                 {
                     // Frequently tests include measurement and randomness. 
                     // To reproduce the failed test it is useful to record seed that has been used 
@@ -67,5 +75,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting
                     $"vstest.console.exe use command line option /Platform:x64.", e);
             }
         }
+
+        private static readonly SHA256Managed hashMethod = new SHA256Managed();
     }
 }

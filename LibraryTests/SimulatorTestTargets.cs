@@ -5,8 +5,11 @@
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using Microsoft.Quantum.Simulation.XUnit;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
 using Xunit;
 
 namespace Microsoft.Quantum.Tests
@@ -19,13 +22,10 @@ namespace Microsoft.Quantum.Tests
         /// there is an Output text link available for each test. 
         /// </summary>
         private readonly Xunit.Abstractions.ITestOutputHelper output;
-        private readonly Dictionary<string, uint> fixedSeeds;
-
+        
         public SimulatorTestTargets(Xunit.Abstractions.ITestOutputHelper output)
         {
             this.output = output;
-            fixedSeeds = new Dictionary<string, uint>();
-            fixedSeeds.Add(" Microsoft.Quantum.Tests.RobustPhaseEstimationTest", 2020776761);
         }
 
         // note that one can provide custom namespace where to search for tests
@@ -33,7 +33,7 @@ namespace Microsoft.Quantum.Tests
         public void QuantumSimulatorTarget(TestOperation opData)
         {
             // It is convenient to store seed for test that can fail with small probability
-            uint? seed = RetriveStoredSeed(opData);
+            uint? seed = RetrieveGeneratedSeed(opData);
 
             try
             {
@@ -71,7 +71,7 @@ namespace Microsoft.Quantum.Tests
         public void QuantumSimulatorCanonTarget(TestOperation opData)
         {
             // It is convenient to store seed for test that can fail with small probability
-            uint? seed = RetriveStoredSeed(opData);
+            uint? seed = RetrieveGeneratedSeed(opData);
 
             using (var sim = new QuantumSimulator(randomNumberGeneratorSeed: seed))
             {
@@ -99,7 +99,7 @@ namespace Microsoft.Quantum.Tests
         public void QuantumSimulatorOldCanonTarget(TestOperation opData)
         {
             // It is convenient to store seed for test that can fail with small probability
-            uint? seed = RetriveStoredSeed(opData);
+            uint? seed = RetrieveGeneratedSeed(opData);
 
             using (var sim = new QuantumSimulator(randomNumberGeneratorSeed: seed))
             {
@@ -132,7 +132,7 @@ namespace Microsoft.Quantum.Tests
         public void QuantumSimulatorTargetExFail(TestOperation opData)
         {
             // It is convenient to store seed for test that can fail with small probability
-            uint? seed = RetriveStoredSeed(opData);
+            uint? seed = RetrieveGeneratedSeed(opData);
 
             using (var sim = new QuantumSimulator(randomNumberGeneratorSeed: seed))
             {
@@ -161,7 +161,7 @@ namespace Microsoft.Quantum.Tests
         public void QuantumSimulatorTargetShouldFail(TestOperation opData)
         {
             // It is convenient to store seed for test that can fail with small probability
-            uint? seed = RetriveStoredSeed(opData);
+            uint? seed = RetrieveGeneratedSeed(opData);
 
             using (var sim = new QuantumSimulator(randomNumberGeneratorSeed: seed))
             {
@@ -199,19 +199,21 @@ namespace Microsoft.Quantum.Tests
         }
 
         /// <summary>
-        /// Returns a seed to use for the test run if it is stored and null otherwise
+        /// Returns a seed to use for the test run based on the class
         /// </summary>
-        private uint? RetriveStoredSeed(TestOperation opData)
+        private uint? RetrieveGeneratedSeed(TestOperation opData)
         {
-            uint? seed = null;
-            if (fixedSeeds.TryGetValue(opData.fullClassName, out uint storedSeed))
-            {
-                string msg = $"Using stored seed: (\"{ opData.fullClassName}\",{ storedSeed })";
-                output.WriteLine(msg);
-                Debug.WriteLine(msg);
-                seed = storedSeed;
-            }
+            byte[] bytes = Encoding.Unicode.GetBytes(opData.fullClassName);
+            byte[] hash = hashMethod.ComputeHash(bytes);
+            uint seed = BitConverter.ToUInt32(hash, 0);
+            
+            string msg = $"Using generated seed: (\"{ opData.fullClassName}\",{ seed })";
+            output.WriteLine(msg);
+            Debug.WriteLine(msg);
+
             return seed;
         }
+
+        private static readonly SHA256Managed hashMethod = new SHA256Managed();
     }
 }

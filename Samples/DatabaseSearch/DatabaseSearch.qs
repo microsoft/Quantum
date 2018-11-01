@@ -34,8 +34,8 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
 
     // First, we work out an example of how to construct and apply D without
     // using the canon. We then implement all the steps of Grover search
-    // manually using this databse oracle. Second, we show the amplitude 
-    // amplication libraries provided with the canon can make this task 
+    // manually using this database oracle. Second, we show the amplitude 
+    // amplification libraries provided with the canon can make this task 
     // significantly easier.
 
     //////////////////////////////////////////////////////////////////////////
@@ -138,7 +138,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     ///
     /// # Input
     /// ## markedQubit
-    /// Qubit that indicats whether database element is marked.
+    /// Qubit that indicates whether database element is marked.
     /// ## databaseRegister
     /// A register of n qubits initially in the |00…0〉 state.
     operation StatePreparationOracle(markedQubit: Qubit, databaseRegister: Qubit[]) : () {
@@ -410,7 +410,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     // defined above with one major difference -- Its arguments have signature
     // the signature (Int, Qubit[]). Rather than directly passing the marked 
     // qubit to the operation, we instead pass an integer than indexes The
-    // location of the marked qubit in the qubit arrary, which now encompasses
+    // location of the marked qubit in the qubit array, which now encompasses
     // all qubits.  
 
     // Our goal is thus to construct this `StateOracle` oracle type and pass it

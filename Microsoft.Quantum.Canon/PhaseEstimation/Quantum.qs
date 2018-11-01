@@ -40,7 +40,7 @@ namespace Microsoft.Quantum.Canon
                 (Controlled oracle)([control], (power, targetState));
             }
 
-            QFT(controlRegister);
+            (Adjoint QFT)(controlRegister);
         }
 		adjoint auto
 		controlled auto

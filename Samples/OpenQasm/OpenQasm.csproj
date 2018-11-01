@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <AssemblyName>Microsoft.Quantum.Samples.OpenQasm</AssemblyName>
+    <RootNamespace>Microsoft.Quantum.Samples.OpenQasm</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.2.1809.701-preview" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Quantum.Canon\Microsoft.Quantum.Canon.csproj" />
+    <ProjectReference Include="..\Measurement\Measurement.csproj" />
+  </ItemGroup>
+</Project>

@@ -2,6 +2,9 @@
 // Licensed under the MIT License.
 
 
+// First, note that every Q# function must have a namespace. We define 
+// a new one for this purpose. 
+
 namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // Including the namespace Primitive gives access to basic operations such as the 
     // Hadamard gates, CNOT gates, etc. that are useful for defining circuits. The 
@@ -20,13 +23,11 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // Introduction //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
 
-    // This sample contains serveral simple quantum algorithms coded in Q#. The 
+    // This sample contains several simple quantum algorithms coded in Q#. The 
     // intent is to highlight the expressive capabilities of the language that 
-    // allow to express quantum algirthm that consist of a short quantum part and 
-    // classical post-processing that is simple, or in some cases, trivial.
-
-    // First, note that every Q# function needs to have a namespace. We define 
-    // a new one for this purpose. 
+    // enable it to express quantum algorithms that consist of a short quantum
+    // part and classical post-processing that is simple, or in some cases,
+    // trivial.
 
     //////////////////////////////////////////////////////////////////////////
     // Bernstein–Vazirani Fourier Sampling Quantum Algorithm //////////////////
@@ -74,7 +75,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
                 Uf(qubits);
 
                 // As the last step before the measurement, a Hadamard transform is 
-                // but the very last one. We could apply the Hadamard transform to 
+                // applied to all qubits except last one. We could apply the transform to
                 // the last qubit also, but this would not affect the final outcome. 
                 ApplyToEach(H, qubits[0..(n - 1)]); 
 
@@ -89,14 +90,14 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
                 Reset(qubits[n]);							
             }	
 
-            // The result is already contained in resultArray and no further 
+            // The result is already contained in resultArray so no further
             // post-processing is necessary.
             Message($"measured: {resultArray}");
             return BoolArrFromResultArr(resultArray);
          }
     }
 
-    // In order to demonstrate the Bernstein–Vazirani algorithm, we define
+    // To demonstrate the Bernstein–Vazirani algorithm, we define
     // a function which returns black-box operations (Qubit[] => ()) of
     // the form
     //
@@ -109,7 +110,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // algorithm matches the pattern we used to define 𝑓.
 
     // As is idiomatic in Q#, we define an operation that we will typically
-    // only call by partially applying from within a matching function.
+    // only call by partially applying it from within a matching function.
     // To indicate that we are using this idiom, we name the operation
     // with the suffix "Impl", and provide documentation comments for the
     // function itself.    
@@ -117,7 +118,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         body {
             let n = Length(pattern);
             if (Length(qs) != (n + 1)) {
-                fail "Length of qs must be equal to n + 1.";
+                fail "Length of qs must be equal to pattern length + 1.";
             }
             for (idx in 0..(n-1)) {
                 if pattern[idx] {
@@ -144,7 +145,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         return ParityOperationImpl(pattern, _);
     }
 
-    // For convienence, we provide an additional operation with a signature
+    // For convenience, we provide an additional operation with a signature
     // that's easy to call from C#. In particular, we define our new operation
     // to take an Int as input and to return an Int as output, where each
     // Int represents a bitstring using the little endian convention.

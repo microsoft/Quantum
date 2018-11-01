@@ -89,7 +89,7 @@ namespace Microsoft.Quantum.Samples.Ising
                 {
                     // As usual, the Q# operation IsingEstimateEnergy is
                     // represented by a C# class with a static Run method
-                    // which calls the Q# operation asychronously and returns
+                    // which calls the Q# operation asynchronously and returns
                     // a Task object. To wait for the operation to complete,
                     // we can get the Result property of the returned Task.
                     var data = IsingEstimateEnergy.Run(

@@ -1,5 +1,5 @@
 language: csharp
-dotnet: 2.1.4
+dotnet: 2.1.301
 mono: none
 
 matrix:
@@ -13,6 +13,8 @@ matrix:
     # the APT source provided by Travis CI for more recent versions
     # of GCC backported to Ubuntu 14.04 Trusty.
     - os: linux
+      env:
+         - OMP_NUM_THREADS=1
       addons:
         apt:
           sources:
@@ -24,3 +26,4 @@ script:
   - dotnet build QsharpLibraries.sln
   - dotnet test Samples/UnitTesting
   - travis_wait 30 dotnet test LibraryTests
+  - dotnet test Samples/OpenQasmReader.Tests

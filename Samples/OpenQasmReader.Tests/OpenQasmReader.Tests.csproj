@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <RootNamespace>Microsoft.Quantum.Samples.OpenQasmReader.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="TestFunctions\5qubit1.qasm" />
+    <None Remove="TestFunctions\bv3.qasm" />
+    <None Remove="TestFunctions\CNot.qasm" />
+    <None Remove="TestFunctions\Gates.qasm" />
+    <None Remove="TestFunctions\Hadamard.qasm" />
+    <None Remove="TestFunctions\hid3.qasm" />
+    <None Remove="TestFunctions\marg5.qasm" />
+    <None Remove="TestFunctions\toff6.qasm" />
+    <None Remove="Validate\Bv3.qs" />
+    <None Remove="Validate\CNot.qs" />
+    <None Remove="Validate\FiveQubit1.qs" />
+    <None Remove="Validate\Gates.qs" />
+    <None Remove="Validate\Hadamard.qs" />
+    <None Remove="Validate\Hid3.qs" />
+    <None Remove="Validate\Marg5.qs" />
+    <None Remove="Validate\Toff6.qs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="TestFunctions\5qubit1.qasm" />
+    <EmbeddedResource Include="TestFunctions\bv3.qasm" />
+    <EmbeddedResource Include="TestFunctions\Gates.qasm" />
+    <EmbeddedResource Include="TestFunctions\CNot.qasm" />
+    <EmbeddedResource Include="TestFunctions\Hadamard.qasm" />
+    <EmbeddedResource Include="TestFunctions\hid3.qasm" />
+    <EmbeddedResource Include="TestFunctions\marg5.qasm" />
+    <EmbeddedResource Include="TestFunctions\toff6.qasm" />
+    <EmbeddedResource Include="Validate\FiveQubit1.qs" />
+    <EmbeddedResource Include="Validate\Bv3.qs" />
+    <EmbeddedResource Include="Validate\Hid3.qs" />
+    <EmbeddedResource Include="Validate\Marg5.qs" />
+    <EmbeddedResource Include="Validate\Toff6.qs" />
+    <EmbeddedResource Include="Validate\CNot.qs" />
+    <EmbeddedResource Include="Validate\Gates.qs" />
+    <EmbeddedResource Include="Validate\Hadamard.qs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpenQasmReader\OpenQasmReader.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>

@@ -57,7 +57,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
 
     // With this operation in place, we can now decompose evolution
     // under the full Hamiltonian H given above using the Trotter–Suzuki
-    // decomposition. For simplicity, we'll use the first-oder Trotter–Suzuki
+    // decomposition. For simplicity, we'll use the first-order Trotter–Suzuki
     // decomposition; higher orders can be written easily using the flow control
     // and generator representation operations provided with the canon.
 
@@ -109,7 +109,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
                 // and provide specific values for each.
                 // Transverse field:
                 let hx = 1.0;
-                // Longitiduinal field:
+                // Longitudinal field:
                 let hz = 0.5;
                 // Ising coupling:
                 let J = 1.0;
@@ -132,7 +132,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
                     for (idxSite in 0..nSites - 1) {
                         // Evolve under the transverse field for φx ≔ (1 - s) hx dt.
                         Rx(- 2.0 * (1.0 - sweepParameter) * hx * dt, qs[idxSite]);
-                        // Evolve under the longitiduinal field for φz ≔ s hz dt.
+                        // Evolve under the longitudinal field for φz ≔ s hz dt.
                         Rz(- 2.0 * sweepParameter * hz * dt, qs[idxSite]);
                         // If we aren't the last qubit, evolve under the Ising
                         // coupling for φJ ≔ s J dt.
