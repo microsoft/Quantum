@@ -7,12 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="dis_H2.dat" />
     <None Remove="index.html" />
     <None Remove="main.js" />
     <None Remove="package-lock.json" />
     <None Remove="package.json" />
     <None Remove="renderer.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="dis_H2.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
