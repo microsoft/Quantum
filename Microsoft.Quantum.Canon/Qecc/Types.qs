@@ -21,7 +21,7 @@ namespace Microsoft.Quantum.Canon {
 
     // Design notes:
     //     These two types do not return (), such that instances of these types
-    //     will not support autofunctors. This is inconvienent, but I think it's
+    //     will not support autofunctors. This is inconvenient, but I think it's
     //     important to allow the generalization that physical and logical registers
     //     may have different numbers of qubits.
 
@@ -61,7 +61,7 @@ namespace Microsoft.Quantum.Canon {
     /// The signature `(LogicalRegister => Syndrome)` represents an operation 
     /// that acts jointly on the qubits in `LogicalRegister` and some ancilla
     /// qubits followed by a measurements of the ancilla to extract a `Syndrome
-    /// type represting the `Result[]` of these measurements.
+    /// type representing the `Result[]` of these measurements.
     ///
     /// # See Also
     /// - Microsoft.Quantum.Canon.LogicalRegister

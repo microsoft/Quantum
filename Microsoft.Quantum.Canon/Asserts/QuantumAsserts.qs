@@ -113,11 +113,11 @@ namespace Microsoft.Quantum.Canon
     /// - `AssertPhase(-1.2,qubit,10e-10);`
     operation AssertPhase(expected: Double, qubit: Qubit, tolerance: Double) : () {
         body{
-            let exptectedProbX = Cos(expected)*Cos(expected);
-            let exptectedProbY = Sin(-1.0*expected+PI()/4.0)*Sin(-1.0*expected+PI()/4.0);
+            let expectedProbX = Cos(expected)*Cos(expected);
+            let expectedProbY = Sin(-1.0*expected+PI()/4.0)*Sin(-1.0*expected+PI()/4.0);
             AssertProb([PauliZ], [qubit], Zero, 0.5, $"AssertPhase failed. Was not given a uniform superposition.",  tolerance);
-            AssertProb([PauliY], [qubit], Zero, exptectedProbY, $"AssertPhase failed. PauliY Zero basis did not give probability {exptectedProbY}.",  tolerance);
-            AssertProb([PauliX], [qubit], Zero, exptectedProbX, $"AssertPhase failed. PauliX Zero basis did not give probability {exptectedProbX}.",  tolerance);
+            AssertProb([PauliY], [qubit], Zero, expectedProbY, $"AssertPhase failed. PauliY Zero basis did not give probability {expectedProbY}.",  tolerance);
+            AssertProb([PauliX], [qubit], Zero, expectedProbX, $"AssertPhase failed. PauliX Zero basis did not give probability {expectedProbX}.",  tolerance);
         }
     }
 }

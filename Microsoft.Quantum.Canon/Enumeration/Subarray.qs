@@ -15,7 +15,7 @@ namespace Microsoft.Quantum.Canon {
     /// The construction of the subarray is a based on generating a new, deep 
     /// copy of the given array as opposed to maintaining references. 
     ///
-    /// If `Length(indices) < Lenth(array)`, this function will return a
+    /// If `Length(indices) < Length(array)`, this function will return a
     /// subset of `array`. On the other hand, if `indices` contains repeated
     /// elements, the corresponding elements of `array` will likewise be
     /// repeated.

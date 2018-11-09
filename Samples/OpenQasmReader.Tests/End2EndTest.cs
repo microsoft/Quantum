@@ -45,7 +45,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
             var dummyInclude = Path.Combine(Path.GetTempPath(), CommonOpenQasmIncludeFile);
             try
             {
-                //Write OpenQuasm program 
+                //Write OpenQasm program 
                 File.WriteAllText(inputFile, input);
                 File.WriteAllText(dummyInclude, "gate cx a,b { CX a,b; }");
 
