@@ -332,6 +332,8 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         }
         
         adjoint invert;
+        controlled auto;
+        controlled adjoint auto;
     }
     
     
