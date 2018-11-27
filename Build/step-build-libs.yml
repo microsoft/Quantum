@@ -1,0 +1,27 @@
+##
+# Builds, tests & package all libraries.
+##
+
+steps:
+##
+# Build
+##
+- task: DotNetCoreCLI@2
+  displayName: 'Build Libraries'
+  inputs:
+    projects: '**/*.sln'
+    arguments: '-c $(BuildConfiguration) -v n'
+
+
+##
+# Test
+##
+- task: DotNetCoreCLI@2
+  displayName: 'Test Libraries'
+  inputs:
+    command: test
+    projects: |
+     Samples/UnitTesting
+     LibraryTests     
+    arguments: '-c $(BuildConfiguration) -v n'
+

@@ -58,7 +58,7 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Input
     /// ## array
-    /// An array whose fisrt to second-to-last elements are to form the output array.
+    /// An array whose first to second-to-last elements are to form the output array.
     ///
     /// # Output
     /// An array containing the elements `array[0..Length(array) - 2]`.

@@ -62,7 +62,7 @@ C:\Users\<username>\AppData\Local\Continuum\anaconda3\envs\qsharp-samples\python
 
 Note that `cmd` is required as `activate` is not currently supported from within PowerShell; if the `(qsharp-samples)` prompt does not appear, you may need to run the above commands from within `cmd`.
 
-In any case, we will not be executing Jupyter inside this enviroment directly, but we will instead rely on `nb_conda` as installed above.
+In any case, we will not be executing Jupyter inside this environment directly, but we will instead rely on `nb_conda` as installed above.
 Thus, you must deactivate `qsharp-samples` to get back to the `root` environment.
 This is done with the `deactivate` command:
 

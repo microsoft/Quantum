@@ -56,18 +56,18 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     // Thus, we can write out our encoder in a very simple form:
 
     /// # Summary
-    /// Given a qubit representing a state to be protected and two auxillary
+    /// Given a qubit representing a state to be protected and two auxiliary
     /// qubits initially in the |0〉 state, encodes the state into the
     /// three-qubit bit-flip code.
     ///
     /// # Input
     /// ## data
     /// A qubit whose state is to be protected.
-    /// ## auxillaryQubits
+    /// ## auxiliaryQubits
     /// Two qubits, initially in the |00〉 state, to be used in protecting
     /// the state of `data`.
     operation EncodeIntoBitFlipCode(
-            data : Qubit, auxillaryQubits : Qubit[]
+            data : Qubit, auxiliaryQubits : Qubit[]
         ) : ()
     {
         body {
@@ -75,7 +75,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
             // partially applied with the data qubit, to represent
             // a "CNOT-ladder." In this case, the line below
             // applies CNOT₀₁ · CNOT₀₂.
-            ApplyToEachCA(CNOT(data, _), auxillaryQubits);
+            ApplyToEachCA(CNOT(data, _), auxiliaryQubits);
         }
 
         // Since decoding is the adjoint of encoding, we must
@@ -106,15 +106,15 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     operation CheckBitFlipCodeStateParity() : () {
         body {
             // We start by preparing R_x(π / 3) |0〉 as our
-            // test state, along with two auxillary qubits in the |00〉
+            // test state, along with two auxiliary qubits in the |00〉
             // state that we can use to encode.
             using (register = Qubit[3]) {
                 let data = register[0];
-                let auxillaryQubits = register[1..2];
+                let auxiliaryQubits = register[1..2];
                 Rx(PI() / 3.0, data);
 
                 // Next, we encode our test state.
-                EncodeIntoBitFlipCode(data, auxillaryQubits);
+                EncodeIntoBitFlipCode(data, auxiliaryQubits);
 
                 // At this point, register represents a code block
                 // that protects the state R_x(π / 3) |0〉.
@@ -150,7 +150,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
 
                 // To check that we have not disturbed the state, we decode,
                 // rotate back, and assert once more.
-                (Adjoint EncodeIntoBitFlipCode)(data, auxillaryQubits);
+                (Adjoint EncodeIntoBitFlipCode)(data, auxiliaryQubits);
                 (Adjoint Rx)(PI() / 3.0, data);
                 Assert([PauliZ], [data], Zero, "Didn't return to |0〉!");
             }
@@ -191,9 +191,9 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
                 // We start by proceeding the same way as above
                 // in order to obtain the code block state |̅ψ〉.
                 let data = register[0];
-                let auxillaryQubits = register[1..2];
+                let auxiliaryQubits = register[1..2];
                 Rx(PI() / 3.0, data);
-                EncodeIntoBitFlipCode(data, auxillaryQubits);
+                EncodeIntoBitFlipCode(data, auxiliaryQubits);
 
                 // Next, we apply the error that we've been given to the
                 // entire register.
@@ -227,7 +227,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
 
                 // To check that we have not disturbed the state, we decode,
                 // rotate back, and assert once more.
-                (Adjoint EncodeIntoBitFlipCode)(data, auxillaryQubits);
+                (Adjoint EncodeIntoBitFlipCode)(data, auxiliaryQubits);
                 (Adjoint Rx)(PI() / 3.0, data);
                 Assert([PauliZ], [data], Zero, "Didn't return to |0〉!");
             }
@@ -319,13 +319,13 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     {
         body {
             // We once again begin by allocating some qubits to use as data
-            // and auxillary qubits, and by preparing a test state on the
+            // and auxiliary qubits, and by preparing a test state on the
             // data qubit.
             using (register = Qubit[1 + nScratch]) {
                 // We start by proceeding the same way as above
                 // in order to obtain the code block state |̅ψ〉.
                 let data = register[0];
-                let auxillaryQubits = register[1..nScratch];
+                let auxiliaryQubits = register[1..nScratch];
                 Rx(PI() / 3.0, data);
 
                 // We differ this time, however, in how we perform the
@@ -343,7 +343,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
                 // blocks.
                 // Note that we also pass data as an array of qubits, to
                 // allow for codes which protect multiple qubits in one block.
-                let codeBlock = encode([data], auxillaryQubits);
+                let codeBlock = encode([data], auxiliaryQubits);
 
                 // Next, we cause an error as usual.
                 error(codeBlock);
@@ -354,7 +354,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
                 Recover(code, fn, codeBlock);
 
                 // Having recovered, we can decode to obtain new qubit arrays
-                // pointing to the decoded data and auxillary qubits.
+                // pointing to the decoded data and auxiliary qubits.
                 let (decodedData, decodedAuxillary) = decode(codeBlock);
 
                 // Finally, we test that our test state was protected.

@@ -55,9 +55,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                 // "Send" qubit to B and let B decode two bits.
                 let ( decodedBit1, decodedBit2 ) = SuperdenseDecode(qubit1,qubit2);
 
-                // Now test if the bits were transfered correctly.
-                AssertBoolEqual(bit1, decodedBit1, "bit1 should be transfered correctly" );
-                AssertBoolEqual(bit2, decodedBit2, "bit2 should be transfered correctly" );
+                // Now test if the bits were transferred correctly.
+                AssertBoolEqual(bit1, decodedBit1, "bit1 should be transferred correctly" );
+                AssertBoolEqual(bit2, decodedBit2, "bit2 should be transferred correctly" );
 
                 // Make sure that we return qubits back in 0 state.
                 ResetAll(qubits);
