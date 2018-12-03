@@ -19,7 +19,7 @@ Excited states of cytosine play an important role in ultrafast internal conversi
 that protects DNA against possible damage caused by the UV radiation.
 
 - **[C20](./C20/)**:
-C20 directory: C20 systems are often used to calibrate various electron correlation effects.
+C20 systems are often used to calibrate various electron correlation effects.
 C20 fullerene is the smallest member of the fullerene family.
 
 - **[Ozone](./O3_ccpvtz/)**:
