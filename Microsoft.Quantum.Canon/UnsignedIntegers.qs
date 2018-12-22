@@ -230,9 +230,9 @@ namespace Microsoft.Quantum.Canon {
     /// its original representation after application of `op`.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyPhaseLEOperationonLEA
-    /// - Microsoft.Quantum.Canon.ApplyPhaseLEOperationonLEA
-    /// - Microsoft.Quantum.Canon.ApplyPhaseLEOperationonLECA
+    /// - Microsoft.Quantum.Canon.ApplyPhaseLEOperationOnLEA
+    /// - Microsoft.Quantum.Canon.ApplyPhaseLEOperationOnLEA
+    /// - Microsoft.Quantum.Canon.ApplyPhaseLEOperationOnLECA
     operation ApplyPhaseLEOperationOnLE( op : (PhaseLittleEndian => ()), target : LittleEndian ) : () {
         body {
             QFTLE(target);
@@ -307,9 +307,9 @@ namespace Microsoft.Quantum.Canon {
     /// its original representation after application of `op`.
     ///
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLEA
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLEA
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLECA
+    /// - Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLEA
+    /// - Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLEA
+    /// - Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLECA
     operation ApplyLEOperationOnPhaseLE( op : (LittleEndian => ()), target : PhaseLittleEndian ) : () {
         body {
             let targetLE = LittleEndian(target);
@@ -318,7 +318,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLE
+    /// - Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLE
     operation ApplyLEOperationOnPhaseLEA( op : (LittleEndian => () : Adjoint), target : PhaseLittleEndian ) : () {
         body {
             let targetLE = LittleEndian(target);
@@ -328,7 +328,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLE
+    /// - Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLE
     operation ApplyLEOperationOnPhaseLEC( op : (LittleEndian => () : Controlled), target : PhaseLittleEndian ) : () {
         body {
             let targetLE = LittleEndian(target);
@@ -338,7 +338,7 @@ namespace Microsoft.Quantum.Canon {
     }
 
     /// # See Also
-    /// - Microsoft.Quantum.Canon.ApplyLEOperationonPhaseLE
+    /// - Microsoft.Quantum.Canon.ApplyLEOperationOnPhaseLE
     operation ApplyLEOperationOnPhaseLECA( op : (LittleEndian => () : Controlled, Adjoint ), target : PhaseLittleEndian ) : () {
         body {
             let targetLE = LittleEndian(target);
