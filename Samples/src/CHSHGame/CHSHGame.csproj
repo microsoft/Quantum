@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -13,11 +13,9 @@
   <PropertyGroup>
     <NoWarn>0162</NoWarn>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.2.1809.701-preview" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Quantum.Canon\Microsoft.Quantum.Canon.csproj" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.3.1811.203-preview" />
+    <PackageReference Include="Microsoft.Quantum.Canon" Version="0.3.1811.203-preview" />
   </ItemGroup>
 </Project>

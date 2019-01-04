@@ -99,41 +99,35 @@ namespace Microsoft.Quantum.Samples.CHSHGame
     // the state vector by π/8 radians in one direction or another, then
     // measuring in the standard computational (Z) basis.
 
-    operation MeasureAliceQbit(bit : Bool, qubit : Qubit) : (Result)
+    operation MeasureAliceQbit(bit : Bool, qubit : Qubit) : Result
     {
-        body
+        if (bit)
         {
-            if (bit)
-            {
-                // Measure in sign basis if bit is 1
-                return Measure([PauliX], [qubit]);
-            }
-            else
-            {
-                // Measure in computational basis if bit is 0
-                return Measure([PauliZ], [qubit]);
-            }
+            // Measure in sign basis if bit is 1
+            return Measure([PauliX], [qubit]);
+        }
+        else
+        {
+            // Measure in computational basis if bit is 0
+            return Measure([PauliZ], [qubit]);
         }
     }
 
-    operation MeasureBobQbit(bit : Bool, qubit : Qubit) : (Result)
+    operation MeasureBobQbit(bit : Bool, qubit : Qubit) : Result
     {
-        body
+        if (bit)
         {
-            if (bit)
-            {
-                // Measure in -π/8 basis if bit is 1
-                let rotation = 2.0 * PI() / 8.0;
-                Ry(rotation, qubit);
-                return M(qubit);
-            }
-            else
-            {
-                // Measure in π/8 basis if bit is 0
-                let rotation = -2.0 * PI() / 8.0;
-                Ry(rotation, qubit);
-                return M(qubit);
-            }
+            // Measure in -π/8 basis if bit is 1
+            let rotation = 2.0 * PI() / 8.0;
+            Ry(rotation, qubit);
+            return M(qubit);
+        }
+        else
+        {
+            // Measure in π/8 basis if bit is 0
+            let rotation = -2.0 * PI() / 8.0;
+            Ry(rotation, qubit);
+            return M(qubit);
         }
     }
 
@@ -141,39 +135,36 @@ namespace Microsoft.Quantum.Samples.CHSHGame
         aliceBit : Bool,
         bobBit : Bool,
         aliceMeasuresFirst : Bool)
-        : (Bool)
+        : Bool
     {
-        body
+        mutable aliceResult = Zero;
+        mutable bobResult = Zero;
+
+        using (qubits = Qubit[2])
         {
-            mutable aliceResult = Zero;
-            mutable bobResult = Zero;
+            // Alice and Bob get one qubit each
+            let aliceQbit = qubits[0];
+            let bobQbit = qubits[1];
 
-            using (qubits = Qubit[2])
+            // Entangle Alice & Bob's qubits
+            H(aliceQbit);
+            CNOT(aliceQbit, bobQbit);
+
+            // Randomize who measures first
+            if (aliceMeasuresFirst)
             {
-                // Alice and Bob get one qubit each
-                let aliceQbit = qubits[0];
-                let bobQbit = qubits[1];
-
-                // Entangle Alice & Bob's qubits
-                H(aliceQbit);
-                CNOT(aliceQbit, bobQbit);
-
-                // Randomize who measures first
-                if (aliceMeasuresFirst)
-                {
-                    set aliceResult = MeasureAliceQbit(aliceBit, aliceQbit);
-                    set bobResult = MeasureBobQbit(bobBit, bobQbit);
-                }
-                else
-                {
-                    set bobResult = MeasureBobQbit(bobBit, bobQbit);
-                    set aliceResult = MeasureAliceQbit(aliceBit, aliceQbit);
-                }
-
-                ResetAll(qubits);
+                set aliceResult = MeasureAliceQbit(aliceBit, aliceQbit);
+                set bobResult = MeasureBobQbit(bobBit, bobQbit);
+            }
+            else
+            {
+                set bobResult = MeasureBobQbit(bobBit, bobQbit);
+                set aliceResult = MeasureAliceQbit(aliceBit, aliceQbit);
             }
 
-            return aliceResult == bobResult;
+            ResetAll(qubits);
         }
+
+        return aliceResult == bobResult;
     }
 }
