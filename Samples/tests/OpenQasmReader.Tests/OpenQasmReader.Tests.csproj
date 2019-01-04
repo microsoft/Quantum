@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -57,7 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OpenQasmReader\OpenQasmReader.csproj" />
+    <ProjectReference Include="..\..\src\OpenQasmReader\OpenQasmReader.csproj" />
   </ItemGroup>
 
   <ItemGroup>
