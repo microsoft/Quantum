@@ -119,7 +119,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 Assert.Equal(string.Empty, inside.ToString());
 
                 //Expected operation
-                Assert.Equal("operation Mygate(q:Qubit):(){body{H(q);}}",
+                Assert.Equal("operation Mygate (q : Qubit) : Unit{H(q);}",
                     outside.ToString().Trim()
                         .Replace("\n", string.Empty)
                         .Replace("\r", string.Empty)

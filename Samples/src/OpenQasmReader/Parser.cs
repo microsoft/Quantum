@@ -139,13 +139,13 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                         ParseOneGate(token, "S", qRegs, inside);
                         break;
                     case "sdg":
-                        ParseOneGate(token, "(Adjoint S)", qRegs, inside);
+                        ParseOneGate(token, "Adjoint S", qRegs, inside);
                         break;
                     case "t":
                         ParseOneGate(token, "T", qRegs, inside);
                         break;
                     case "tdg":
-                        ParseOneGate(token, "(Adjoint T)", qRegs, inside);
+                        ParseOneGate(token, "Adjoint T", qRegs, inside);
                         break;
                     case "barrier":
                         ParseBarrier(token, qRegs);
@@ -305,7 +305,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 }
                 else if (withinParentheses)
                 {
-                    doubles.Add(ParseCalculation(token, COMMA, CLOSE_PARANTHESES));
+                    doubles.Add(ParseCalculation(token, $"{COMMA} ", CLOSE_PARANTHESES));
                     if (token.Current.Equals(CLOSE_PARANTHESES))
                     {
                         withinParentheses = false;
@@ -326,14 +326,14 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             {
                 Indent(builder);
                 var size = qbits.First(q => !q.Contains('['));
-                builder.AppendFormat("for(_idx in 0..Length({0})){{\n", size);
+                builder.AppendFormat("for (_idx in 0 .. Length({0})) {{\n", size);
                 IndentLevel++;
             }
             Indent(builder);
             builder.Append(FirstLetterToUpperCase(gateName));
             builder.Append('(');
             var types = doubles.Concat(qbits.Select(qbit => IndexedCall(qbit, qbit.Contains('['))));
-            builder.Append(string.Join(COMMA, types));
+            builder.Append(string.Join($"{COMMA} ", types));
             builder.AppendLine(");");
             if (loopRequired)
             {
@@ -377,13 +377,13 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             Indent(builder);
             if (qReg.Count == 0 || (leftQubit.Contains('[') && rightQubit.Contains('[')))
             {
-                builder.AppendFormat("{0}({1},{2});\n", gate, leftQubit, rightQubit);
+                builder.AppendFormat("{0}({1}, {2});\n", gate, leftQubit, rightQubit);
             }
             else
             {
                 var index = leftQubit.IndexOf('[');
                 var size = index < 0 ? leftQubit : leftQubit.Remove(index);
-                builder.AppendFormat("for(_idx in 0..Length({0})){{\n", size);
+                builder.AppendFormat("for (_idx in 0 .. Length({0})) {{\n", size);
                 IndentLevel++;
                 Indent(builder);
                 builder.AppendFormat("{0}({1},{2});\n", gate,
@@ -443,7 +443,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     Indent(builder);
                     var index = q1.IndexOf('[');
                     var size = index < 0 ? q3 : q1.Remove(index);
-                    builder.AppendFormat("for(_idx in 0..Length({0})){{\n", size);
+                    builder.AppendFormat("for (_idx in 0 .. Length({0})) {{\n", size);
                     IndentLevel++;
                 }
                 Indent(builder);
@@ -499,11 +499,11 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 Indent(builder);
                 var index = q1.IndexOf('[');
                 var size = index < 0 ? q3 : q1.Remove(index);
-                builder.AppendFormat("for(_idx in 0..Length({0})){{\n", size);
+                builder.AppendFormat("for (_idx in 0 .. Length({0})) {{\n", size);
                 IndentLevel++;
             }
             Indent(builder);
-            builder.AppendFormat("{0}({1},{2},{3});\n", gate,
+            builder.AppendFormat("{0}({1}, {2}, {3});\n", gate,
                 IndexedCall(q1, loopRequired),
                 IndexedCall(q2, loopRequired),
                 IndexedCall(q3, loopRequired));
@@ -600,8 +600,8 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                     qbits.Add(token.Current);
                 }
             }
-            var types = doubles.Select(d => string.Format("{0}:Double", d))
-                  .Concat(qbits.Select(qbit => string.Format("{0}:Qubit", qbit)));
+            var types = doubles.Select(d => string.Format("{0} : Double", d))
+                  .Concat(qbits.Select(qbit => string.Format("{0} : Qubit", qbit)));
             var classicalMeasured = new List<string>();
             var qubitMeasured = new List<string>();
             var inside = new StringBuilder();
@@ -643,7 +643,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         /// <param name="types">Parameters of this operation (mostly used for gates)</param>
         private static void WriteOperation(StringBuilder outside, Dictionary<string, int> cRegs, Dictionary<string, int> qRegs, string operationName, IEnumerable<string> types, List<string> classicalMeasured, List<string> qubitMeasured, StringBuilder inside)
         {
-            outside.AppendFormat(HEADER_OPERATION, FirstLetterToUpperCase(operationName), string.Join(COMMA, types), classicalMeasured.Any() || qubitMeasured.Any() ? "Result[]" : string.Empty);
+            outside.AppendFormat(HEADER_OPERATION, FirstLetterToUpperCase(operationName), string.Join(", ", types), classicalMeasured.Any() || qubitMeasured.Any() ? "Result[]" : "Unit");
 
             if (qRegs.Any())
             {
@@ -670,7 +670,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 foreach (var qbitRegister in qRegs)
                 {
                     Indent(outside);
-                    outside.AppendFormat("using({0} = Qubit[{1}]){{\n", qbitRegister.Key, qbitRegister.Value);
+                    outside.AppendFormat("using ({0} = Qubit[{1}]) {{\n", qbitRegister.Key, qbitRegister.Value);
                 }
             }
             outside.Append(inside.ToString());
@@ -694,7 +694,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 Indent(outside);
                 var result = Enumerable.Range(0, qubitMeasured.Count).Select(n => $"_out[{n}]")
                     .Concat(classicalMeasured);
-                outside.AppendFormat("return [{0}];\n", string.Join(POINT_COMMA, result));
+                outside.AppendFormat("return [{0}];\n", string.Join($"{COMMA} ", result));
             }
             if (qRegs.Any())
             {
@@ -997,14 +997,11 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
 ";
         private const string HEADER_OPERATION =
 @"
-    operation {0}({1}):({2})
+    operation {0} ({1}) : {2}
     {{
-        body
-        {{
 ";
         private const string TAIL_OPERATION =
-@"        }
-    }";
+@"  }";
         private const string TAIL = @"}";
         //Four spaces
         internal const int INDENT = 4;
