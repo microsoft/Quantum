@@ -362,7 +362,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             //Implicit expansion
             else
             {
-                builder.AppendFormat("ApplyToEach({0},{1});\n", gate, q1);
+                builder.AppendFormat("ApplyToEach({0}, {1});\n", gate, q1);
             }
         }
 
@@ -386,7 +386,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
                 builder.AppendFormat("for (_idx in 0 .. Length({0})) {{\n", size);
                 IndentLevel++;
                 Indent(builder);
-                builder.AppendFormat("{0}({1},{2});\n", gate,
+                builder.AppendFormat("{0}({1}, {2});\n", gate,
                     IndexedCall(leftQubit, true),
                     IndexedCall(rightQubit, true));
                 IndentLevel--;
@@ -753,19 +753,19 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
             {
                 written = true;
                 Indent(builder);
-                builder.AppendFormat("Rx({0},{1});\n", x, q);
+                builder.AppendFormat("Rx({0}, {1});\n", x, q);
             }
             if (!y.Equals(ZERO))
             {
                 written = true;
                 Indent(builder);
-                builder.AppendFormat("Ry({0},{1});\n", y, q);
+                builder.AppendFormat("Ry({0}, {1});\n", y, q);
             }
             if (!z.Equals(ZERO))
             {
                 written = true;
                 Indent(builder);
-                builder.AppendFormat("Rz({0},{1});\n", z, q);
+                builder.AppendFormat("Rz({0}, {1});\n", z, q);
             }
             if (!written)
             {

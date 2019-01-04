@@ -358,7 +358,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests
                 Assert.Equal(new string[] {}, qubitMeasured);
 
                 //expected internals
-                Assert.Equal("ApplyToEach(Y,q);ApplyToEach(Z,q);", inside.ToString().Trim()
+                Assert.Equal("ApplyToEach(Y, q);ApplyToEach(Z, q);", inside.ToString().Trim()
                         .Replace("\n", string.Empty)
                         .Replace("\r", string.Empty)
                         .Replace("  ", string.Empty));
