@@ -58,7 +58,7 @@ namespace Microsoft.Quantum.Canon {
 
     /// # Summary
     /// Represents a unitary time-evolution operator. The first parameter is
-    /// is duration of time-evoltion, and the second parameter is the qubit
+    /// is duration of time-evolution, and the second parameter is the qubit
     /// register acted upon by the unitary.
     newtype EvolutionUnitary = ((Double, Qubit[]) => () : Adjoint, Controlled);
 
@@ -190,8 +190,8 @@ namespace Microsoft.Quantum.Canon {
     /// # Example
     /// ```qsharp
     /// let gen = GeneratorIndex(([1;2;3],[coeff]),[1;2;3);
-    /// let ((idxPaulis, idxDoubles), idxQubits) = MultiplyGeneratorIndex(multipler, gen);
-    /// // idxDoubles[0] == multipler * coeff;
+    /// let ((idxPaulis, idxDoubles), idxQubits) = MultiplyGeneratorIndex(multiplier, gen);
+    /// // idxDoubles[0] == multiplier * coeff;
     /// ```
     ///
     /// # See Also

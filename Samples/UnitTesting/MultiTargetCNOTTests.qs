@@ -13,7 +13,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
     /// # Summary 
     /// Tests correctness of MultiTargetMultiNot implementations
-    operation MultiTartgetMultiControlledNotTest() : () {
+    operation MultiTargetMultiControlledNotTest() : () {
         body {
             //  list of the operations to test in format (actual,expected)
             let testList = [

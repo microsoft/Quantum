@@ -381,7 +381,7 @@ namespace Microsoft.Quantum.Tests {
     }
 
     /// summary:
-    ///     Checks that operations containing == are equal to themseleves.
+    ///     Checks that operations containing == are equal to themselves.
     operation ConditionalOperationTest() : () {
         body {
             AssertOperationsEqualReferenced(ExpTestHelper(_, 0), ExpTestHelper(_, 0), 2);

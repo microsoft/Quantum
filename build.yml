@@ -1,0 +1,31 @@
+#
+# Build configuration file to run build on azure-pipelines
+#
+name: $(Build.Major).$(Build.Minor).$(date:yyMM).$(DayOfMonth)$(rev:rr)
+trigger: none
+resources:
+- repo: self
+variables:
+  Build.Major: 0
+  Build.Minor: 0
+  LibrariesRootFolder: $(System.DefaultWorkingDirectory)
+  Assembly.Version: $(Build.BuildNumber)
+  Nuget.Version: $(Assembly.Version)-preview
+
+
+jobs:
+- job: Windows
+  pool: 'Hosted VS2017'
+  steps:
+  - template: Build/step-build-libs.yml
+  - template: Build/step-wrap-up.yml
+- job: macOS
+  pool: 'Hosted macOS'
+  steps:
+  - template: Build/step-build-libs.yml
+- job: Linux
+  pool: 'Hosted Ubuntu 1604'
+  steps:
+  - template: Build/step-build-libs.yml
+
+
