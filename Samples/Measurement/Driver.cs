@@ -52,7 +52,7 @@ namespace Microsoft.Quantum.Samples.Measurement
             // returns a (Result, Result), one for each qubit; let's print
             // out a few such measurements.
 
-            foreach (var idxMeasurment in Enumerable.Range(0, 8))
+            foreach (var idxMeasurement in Enumerable.Range(0, 8))
             {
                 var results = MeasurementTwoQubits.Run(sim).Result;
                 System.Console.WriteLine($"Measured HH|00〉 and observed {results}.");
@@ -68,7 +68,7 @@ namespace Microsoft.Quantum.Samples.Measurement
             // unlike in the previous example, the two Result values are
             // always the same.
 
-            foreach (var idxMeasurment in Enumerable.Range(0, 8))
+            foreach (var idxMeasurement in Enumerable.Range(0, 8))
             {
                 var results = MeasurementBellBasis.Run(sim).Result;
                 System.Console.WriteLine($"Measured CNOT₀₁ · H |00〉 and observed {results}.");

@@ -11,7 +11,7 @@ namespace Microsoft.Quantum.Samples.Qiskit
     class Driver
     {
         /// <summary>
-        /// Sample to show that one can substitue the operation factory 
+        /// Sample to show that one can substitute the operation factory 
         /// to run on different types of machines.
         /// </summary>
         /// <param name="args"></param>

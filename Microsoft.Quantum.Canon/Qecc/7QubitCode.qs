@@ -132,12 +132,12 @@ namespace Microsoft.Quantum.Canon {
     ///
     /// # Output
     /// A qubit array of length 1 representing the unencoded state in the
-    /// first parameter, together with auxillary qubits in the second parameter.
+    /// first parameter, together with auxiliary qubits in the second parameter.
     ///
     /// # Remarks
     /// The chosen decoder uses the CSS code property of the ⟦7, 1, 3⟧ Steane code, i.e., it corrects X errors
     /// and Z errors separately. A property of the code is that the location of the X, respectively, Z correction
-    /// to be applied is the 3-bit encoding of the X, repsectively, Z syndrome when considered an integer.
+    /// to be applied is the 3-bit encoding of the X, respectively, Z syndrome when considered an integer.
     ///
     /// # See Also
     /// - Microsoft.Quantum.Canon.SteaneCodeEncoder

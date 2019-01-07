@@ -35,7 +35,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting
             QCTraceSimulator sim = MetricCalculationUtils.GetSimulatorForMetricsCalculation();
 
             // Run tests against trace simulator to collect metrics
-            var result1 = CCNOTCiruitsTest.Run(sim).Result;
+            var result1 = CCNOTCircuitsTest.Run(sim).Result;
 
             // Let us check that number of T gates in all the circuits is as expected
             string Tcount = PrimitiveOperationsGroupsNames.T;

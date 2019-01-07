@@ -40,7 +40,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting
             try
             {
                 // Generate seed based on name of testclass, so testruns are more deterministic
-                // but we don't always use the same seed througout the solution.
+                // but we don't always use the same seed throughout the solution.
                 byte[] bytes = Encoding.Unicode.GetBytes(operationDescription.fullClassName);
                 byte[] hash = hashMethod.ComputeHash(bytes);
                 uint seed = BitConverter.ToUInt32(hash, 0);

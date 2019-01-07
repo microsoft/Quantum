@@ -120,7 +120,7 @@ namespace Microsoft.Quantum.Canon {
         return SimulationAlgorithm(TrotterSimulationAlgorithmImpl(trotterStepSize,trotterOrder, _, _, _));
     }
 
-   // This simple time-depedendent simulation algorithm implements a
+   // This simple time-dependent simulation algorithm implements a
    // sequence of uniformly-sized trotter steps
 
     /// # Summary
