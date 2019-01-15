@@ -11,8 +11,8 @@ namespace Microsoft.Quantum.Samples.OrderFinding
 {
     /// <summary>
     /// This class holds a permutation π and allows to compute its
-    /// order in various different ways (exact, guess classically,
-    /// guess with quantum)
+    /// order in various different ways (exactly, classical guess, 
+    /// and quantum guess)
     /// </summary>
     class Permutation
     {
@@ -29,7 +29,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding
         }
 
         /// <summary>
-        /// Returns the exact order (length) of the cycle that contains given index
+        /// Returns the exact order (length) of the cycle that contains a given index
         /// <summary>
         public int ComputeOrder(int index)
         {
@@ -43,7 +43,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding
         }
 
         /// <summary>
-        /// Guesses the order (classically) for cycle that contains index
+        /// Guesses the order (classically) for cycle that contains a given index
         ///
         /// The algorithm computes π³(index).  If the result is index, it
         /// returns 1 or 3 with probability 50% each, otherwise, it
@@ -62,7 +62,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding
         }
 
         /// <summary>
-        /// Guesses order classically for shots times, and returns the percentage for each order that was returned.
+        /// Guesses the order classically by applying estimate `shots` many times and returning the percentage for each order that was returned.
         /// </summary>
         public IEnumerable<(int order, double percentage)> GuessOrderClassical(int index)
         {

@@ -9,7 +9,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
 
     /// # Summary
     /// Given a permutation π, this function returns the
-    /// square of the permutation π².
+    /// square of π, i.e., the permutation π².
     ///
     /// # Input
     /// ## perm
@@ -32,7 +32,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     }
 
     /// # Summary
-    /// Order Finding algorithm as described in [1]
+    /// Implementes the Order Finding algorithm as described in L.M.K. Vandersypen et al., PRL 85, 5452, 2000 (https://arxiv.org/abs/quant-ph/0007017).
     ///
     /// The input permutation has 2ⁿ elements.  Then the quantum circuit
     /// has 2n + 1 qubits, where the n + 1 upper qubits are used to create
@@ -50,7 +50,6 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     /// ## index
     /// Index of permutation
     ///
-    /// [1] L.M.K. Vandersypen et al., PRL 85, 5452, 2000 (https://arxiv.org/abs/quant-ph/0007017)
     operation OrderFinding(perm : Int[], input : Int) : Int {
         body (...) {
             let n = BitSize(Length(perm) - 1);
