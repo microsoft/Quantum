@@ -37,21 +37,21 @@ N2 is a benchmark system  for studies triple bond breaking processes.
 F2 directory: typical electronic structure benchmark.
 
 - **[LiH](./LiH-sto3g_FCI/)**:
-LiH and LiH-sto3g_FCI: small benchmark system including ground- and excited-state potential energy surfaces.
+LiH and LiH-sto3g\_FCI: small benchmark system including ground- and excited-state potential energy surfaces.
 
 - **[LiH+](./LiH+_FCI_sto_3g/)**:
-LiH+_FCI_sto_3g and B_6_31G_FCI directories: small benchmark systems to study open-shell (doublet) electronic states.
+LiH+\_FCI\_sto\_3g and B\_6\_31G\_FCI directories: small benchmark systems to study open-shell (doublet) electronic states.
 
 - **[Argon and Boron](./B_6_31G_FCI/)**:
-Ar, B_6_31G_FCI directories: benchmarks for atomic systems.
+Ar, B\_6\_31G\_FCI directories: benchmarks for atomic systems.
 
 - **[Beryllium](./BeH2_6-31g_FCI/)**:
-BeH2_6-31g_FCI directory: BeH2 is an ubiquitous benchmark system to study the accuracy of many-body methods.
+BeH2\_6-31g\_FCI directory: BeH2 is an ubiquitous benchmark system to study the accuracy of many-body methods.
 
 - **[Beryllium](./Be_631G_FCI/)**:
-Be_631G_FCI and Be_ccpvdz directories: Be is an example of atomic system where quasi-degenerate energy levels result in
+Be\_631G\_FCI and Be\_ccpvdz directories: Be is an example of atomic system where quasi-degenerate energy levels result in
 strong correlation effects.
 
 - **[Hydrogen benchmarks](./H4_dimer_FCI/)**:
-H2_n, H4, H4_dimer_FCI directories: contain hydrogen-based models which allows one to tune the strength of correlation effects and
+H2\_n, H4, H4\_dimer\_FCI directories: contain hydrogen-based models which allows one to tune the strength of correlation effects and
 can  be used as models for strongly correlated systems.
