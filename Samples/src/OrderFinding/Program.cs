@@ -81,6 +81,9 @@ namespace Microsoft.Quantum.Samples.OrderFinding
             if (result == 0)
             {
                 var guess = _rnd.NextDouble();
+                // the probability distribution is extracted from the second
+                // column (m = 0) in Fig. 2's table on the right-hand side,
+                // in the original and referenced paper.
                 if (guess <= 0.5505)
                 {
                     return 1;
