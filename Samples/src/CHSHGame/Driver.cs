@@ -57,7 +57,7 @@ namespace Microsoft.Quantum.Samples.CHSHGame
 
                 if (quantumWinCount > classicalWinCount)
                 {
-                    Console.WriteLine("SPOOKY");
+                    Console.WriteLine("The quantum success rate exceeded the classical success rate!");
                 }
             }
         }

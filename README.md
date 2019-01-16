@@ -26,7 +26,7 @@ These are noted in the README.md files for each sample, along with complete inst
 - **[ReversibleLogicSynthesis](./Samples/src/ReversibleLogicSynthesis)**:
   This sample demonstrates how to use reversible logic synthesis to solve the hidden shift problem.
 - **[CHSHGame](./Samples/src/CHSHGame)**:
-  This sample demonstrates a famous nonlocal xor game which proves that no theory of local hidden variables can ever reproduce all the predictions of quantum mechanics.
+  This sample demonstrates a famous nonlocal game which proves that no theory of local hidden variables can ever reproduce all the predictions of quantum mechanics.
 
 ## 2. Characterization and Testing Samples ##
 

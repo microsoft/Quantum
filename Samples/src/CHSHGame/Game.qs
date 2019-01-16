@@ -16,37 +16,38 @@ namespace Microsoft.Quantum.Samples.CHSHGame
     // mechanics. The EPR Paradox (as it came to be known) posited a scenario
     // in which quantum mechanics appeared to violate Heisenberg's uncertainty
     // principle. In certain cases (later known as "entanglement"), measuring
-    // a property of one particle gives you knowledge of that same property of
-    // another particle; if you then measure a different property of the second
-    // particle, you would learn more about the particle than is allowed by
-    // Heisenberg's uncertainty principle. The EPR trio assumed that measuring
-    // the first particle would have no effect on the second; in fact, it does!
-    // When two particles are entangled, operations on one instantaneously
-    // affect the other, which dissolves the alleged paradox. This violation of
-    // local realism was deeply troubling to Einstein, and he spent much of the
-    // remainder of his life trying to find an explanation which did not
-    // involve "spooky action at a distance" as he called it.
+    // a property of one particle gives knowledge of that same property of
+    // another particle; if a different property of the second particle is
+    // then measured, more information about the particle is learned than is
+    // allowed by Heisenberg's uncertainty principle. The EPR trio assumed that
+    // measuring the first particle would have no effect on the second; in
+    // fact, it does! When two particles are entangled, operations on one
+    // instantaneously affect the other, which dissolves the alleged paradox.
+    // This violation of local realism was deeply troubling to Einstein, and
+    // he spent much of the remainder of his life trying to find an
+    // explanation which did not involve "spooky action at a distance" as he
+    // called it.
 
     // When two particles are entangled, their measurements become correlated.
-    // If you measure one of the entangled particles and it collapses to |0⟩,
-    // you can be assured its counterpart also collapses to |0⟩ (or |1⟩, if
-    // you entangle the particles a different way). This phenomenon happens
-    // even across huge distances, and is not only faster-than-light, it's
-    // instantaneous! A skeptic might raise an objection: rather than somehow
-    // coordinating at the time of measurement, couldn't the particles have
-    // coordinated at the time of entanglement? Decide ahead of time how they
-    // would collapse, then carry that information around with them until being
-    // measured. No spookiness required.
+    // If one of the entangled particles is measured and collapses to |0⟩, its
+    // counterpart is certain to also collapse to |0⟩ (or |1⟩, if the particles
+    // are entangled in a different way). This phenomenon happens even across
+    // huge distances, and is not only faster-than-light, it's instantaneous!
+    // A skeptic might raise an objection: rather than somehow coordinating at
+    // the time of measurement, couldn't the particles have coordinated at the
+    // time of entanglement? Decide ahead of time how they would collapse,
+    // then carry that information around with them until being measured. No
+    // spookiness required.
 
     // Such ideas are called "local hidden variable" theories, in reference to
     // the hidden information the particles carry along with them, and are
     // attractive in their simplicity. Unfortunately, their feasibility was
-    // conclusively disproved by John Bell in 1964 with his famous result,
+    // conclusively disproved by John Bell in 1964 with his celebrated result,
     // Bell's Theorem, which states that no theory of local hidden variables
     // can ever reproduce all the predictions of quantum mechanics. A greatly
     // simplified account of Bell's Theorem was given five years later in 1969
     // by John Clauser, Michael Horne, Abner Shimony, and Richard Holt,
-    // which detailed a fascinating protocol called the CHSH Game.
+    // which detailed an interesting protocol called the CHSH Game.
 
     //////////////////////////////////////////////////////////////////////////
     // The CHSH Game /////////////////////////////////////////////////////////
@@ -64,7 +65,7 @@ namespace Microsoft.Quantum.Samples.CHSHGame
 
     // However, there's another strategy - a quantum strategy! If Alice and Bob
     // share an entangled qubit pair, they can measure their qubits and use the
-    // results in a way which enables them to win an incredible 85% of the
+    // results in a way which enables them to win an approximate 85% of the
     // time! This conclusively disproves the existence of local hidden
     // variables, because if the entangled qubits were carrying along with them
     // some information (encoded as a string of bits) then Alice and Bob could
