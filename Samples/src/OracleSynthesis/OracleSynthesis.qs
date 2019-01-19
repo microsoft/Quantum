@@ -195,7 +195,8 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
 
     /// # Summary
     /// Implements oracle circuit for function, assuming that target qubit
-    /// is initiallized 0.
+    /// is initialized 0.  The adjoint operation assumes that the target
+    /// qubit will be released to 0.
     ///
     /// # Input
     /// ## func
@@ -205,20 +206,43 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// ## target
     /// Target qubit
     operation OracleAncilla(func : Int, controls : Qubit[], target : Qubit) : Unit {
-        let vars = Length(controls);
-        let table = Encode(TruthTable(func, vars));
-        let spectrum = Extend(FastHadamardTransform(table));
+        body (...) {
+            let vars = Length(controls);
+            let table = Encode(TruthTable(func, vars));
+            let spectrum = Extend(FastHadamardTransform(table));
 
-        HY(target);
+            HY(target);
 
-        let code = GrayCode(vars);
-        for (j in 0..Length(code) - 1) {
-            let (offset, ctrl) = code[j];
-            RFrac(PauliZ, spectrum[offset], vars + 2, target);
-            CNOT(controls[ctrl], target);
+            let code = GrayCode(vars);
+            for (j in 0..Length(code) - 1) {
+                let (offset, ctrl) = code[j];
+                RFrac(PauliZ, spectrum[offset], vars + 2, target);
+                CNOT(controls[ctrl], target);
+            }
+
+            H(target);
         }
+        adjoint (...) {
+            let vars = Length(controls);
+            let table = Encode(TruthTable(func, vars));
+            let spectrum = Extend(FastHadamardTransform(table));
 
-        H(target);
+            H(target);
+            if (IsResultOne(M(target))) {
+                for (i in 0..vars - 1) {
+                    let start = 1 <<< i;
+                    let code = GrayCode(i);
+                    for (j in 0..Length(code) - 1) {
+                        let (offset, ctrl) = code[j];
+                        RFrac(PauliZ, -spectrum[start + offset], vars + 1, controls[i]);
+                        if (i != 0) {
+                            CNOT(controls[ctrl], controls[i]);
+                        }
+                    }
+                }
+                Reset(target);
+            }
+        }
     }
 
     /// # Summary
@@ -251,16 +275,21 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
         let tableBits = BoolArrFromPositiveInt(func, 1 <<< vars);
 
         for (x in 0..Length(tableBits) - 1) {
-            using (qubits = Qubit[vars + 1]) {
-                let init = BoolArrFromPositiveInt(x, vars + 1);
-                ApplyPauliFromBitString(PauliX, true, init, qubits);
+            using (qubits = Qubit[vars + 2]) {
+                let init = BoolArrFromPositiveInt(x, vars);
+                ApplyPauliFromBitString(PauliX, true, init, qubits[0..vars - 1]);
                 OracleAncilla(func, qubits[0..vars - 1], qubits[vars]);
+                CNOT(qubits[vars], qubits[vars + 1]);
+                (Adjoint OracleAncilla)(func, qubits[0..vars - 1], qubits[vars]);
 
-                let y = IsResultOne(M(qubits[vars]));
+                let y = IsResultOne(M(qubits[vars + 1]));
                 if (tableBits[x] != y) {
                     set result = false;
                 }
-                ResetAll(qubits);
+                if (y) {
+                    Reset(qubits[vars + 1]);
+                }
+                ApplyPauliFromBitString(PauliX, true, init, qubits[0..vars - 1]);
             }
         }
 
