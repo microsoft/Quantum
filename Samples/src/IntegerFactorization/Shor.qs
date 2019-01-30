@@ -199,14 +199,14 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             
             // Allocate qubits for the superposition of eigenstates of
             // the oracle that is used in period finding
-            using (eignestateRegister = Qubit[bitsize]) {
+            using (eigenstateRegister = Qubit[bitsize]) {
                 
-                // Initialize eignestateRegister to 1 which is a superposition of
+                // Initialize eigenstateRegister to 1 which is a superposition of
                 // the eigenstates we are estimating the phases of.
                 // We first interpret the register as encoding unsigned integer
                 // in little endian encoding.
-                let eignestateRegisterLE = LittleEndian(eignestateRegister);
-                InPlaceXorLE(1, eignestateRegisterLE);
+                let eigenstateRegisterLE = LittleEndian(eigenstateRegister);
+                InPlaceXorLE(1, eigenstateRegisterLE);
                 
                 // An oracle of type Microsoft.Quantum.Canon.DiscreteOracle
                 // that we are going to use with phase estimation methods below.
@@ -219,7 +219,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                     // Use Microsoft.Quantum.Canon.RobustPhaseEstimation to estimate s/r.
                     // RobustPhaseEstimation needs only one extra qubit, but requires
                     // several calls to the oracle
-                    let phase = RobustPhaseEstimation(bitsPrecision, oracle, eignestateRegisterLE!);
+                    let phase = RobustPhaseEstimation(bitsPrecision, oracle, eigenstateRegisterLE!);
                     
                     // Compute the numerator k of dyadic fraction k/2^bitsPrecision
                     // approximating s/r. Note that phase estimation project on the eigenstate
@@ -238,7 +238,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                         // integer encoded in big-endian format. This is indicated by
                         // use of Microsoft.Quantum.Canon.BigEndian type.
                         let dyadicFractionNumeratorBE = BigEndian(dyadicFractionNumerator);
-                        QuantumPhaseEstimation(oracle, eignestateRegisterLE!, dyadicFractionNumeratorBE);
+                        QuantumPhaseEstimation(oracle, eigenstateRegisterLE!, dyadicFractionNumeratorBE);
                         
                         // Directly measure the numerator k of dyadic fraction k/2^bitsPrecision
                         // approximating s/r. Note that phase estimation project on
@@ -249,7 +249,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                 
                 // Return all the qubits used for oracle's eigenstate back to 0 state
                 // using Microsoft.Quantum.Canon.ResetAll
-                ResetAll(eignestateRegister);
+                ResetAll(eigenstateRegister);
             }
             
             // Sometimes we might measure all zeros state in Phase Estimation.

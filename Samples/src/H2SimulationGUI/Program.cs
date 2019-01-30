@@ -58,7 +58,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation
                 // step size of 1.
                 //
                 // The result of calling H2EstimateEnergyRPE is a Double, so we can minimize over
-                // that to deal with the possibility that we accidently entered into the excited
+                // that to deal with the possibility that we accidentally entered into the excited
                 // state instead of the ground state of interest.
                 Func<int, Double> estAtBondLength = (idx) => Enumerable.Min(
                     from idxRep in Enumerable.Range(0, 3)
