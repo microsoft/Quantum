@@ -63,3 +63,5 @@ These are noted in the README.md files for each sample, along with complete inst
   This sample shows that one can output the a subset of the quantum operations of a Q# application in OpenQASM.
 - **[Qiskit](./Samples/src/Qiskit)**:
   This sample shows that one can run the quantum operations of a Q# application by using the OpenQASM output on the IBMQuantumExperience by changing the driver.
+- **[OpenQasmReader](./Samples/src/OpenQasmReader)**:
+  This sample shows that one can convert OpenQasm 2.0 specifications to Q# methods. This allows one to import algorithms written in OpenQasm 2.0 to be used on the Microsoft Q# Simulator. Appart of the barrier gate (which has no meaning in Q#) all gates are converted to Q# constructions.
