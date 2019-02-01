@@ -20,4 +20,5 @@ steps:
     projects: |
      $(SamplesRootFolder)/Samples/src/UnitTesting
      $(SamplesRootFolder)/Samples/tests/SampleTests
+     $(SamplesRootFolder)/Samples/tests/OpenQasmReader.Tests
     arguments: '-c $(BuildConfiguration) -v n'
