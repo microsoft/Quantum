@@ -77,12 +77,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenQasmReader.Tests", "tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHSHGame", "src\CHSHGame\CHSHGame.csproj", "{8865089D-56D7-4A46-B580-CAE0116B26CA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenQasmReader", "Samples\OpenQasmReader\OpenQasmReader.csproj", "{D05BD335-2697-4D40-8534-C31E19171663}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenQasmReader.Tests", "Samples\OpenQasmReader.Tests\OpenQasmReader.Tests.csproj", "{4F0F991F-F46D-4C58-BF7C-2F16BEC2B5A1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHSHGame", "Samples\CHSHGame\CHSHGame.csproj", "{4B2FAA84-ECDA-42EC-884D-CE56B2AA494F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
