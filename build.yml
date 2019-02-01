@@ -8,24 +8,20 @@ resources:
 variables:
   Build.Major: 0
   Build.Minor: 0
-  LibrariesRootFolder: $(System.DefaultWorkingDirectory)
+  SamplesRootFolder: $(System.DefaultWorkingDirectory)
   Assembly.Version: $(Build.BuildNumber)
-  Nuget.Version: $(Assembly.Version)-preview
-
 
 jobs:
 - job: Windows
   pool: 'Hosted VS2017'
   steps:
-  - template: Build/step-build-libs.yml
-  - template: Build/step-wrap-up.yml
+  - template: Build/step-build-samples.yml
+  - template: Build/step-validate-integrals-data.yml
 - job: macOS
   pool: 'Hosted macOS'
   steps:
-  - template: Build/step-build-libs.yml
+  - template: Build/step-build-samples.yml
 - job: Linux
   pool: 'Hosted Ubuntu 1604'
   steps:
-  - template: Build/step-build-libs.yml
-
-
+  - template: Build/step-build-samples.yml

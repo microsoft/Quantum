@@ -1,0 +1,408 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$id": "https://raw.githubusercontent.com/Microsoft/Quantum/master/Chemistry/Schema/broombridge-0.1.schema.json",
+    "title": "Broombridge Schema",
+
+    "definitions": {
+        "hasUnits": {
+            "type": "object",
+            "required": [
+                "units"
+            ],
+            "properties": {
+                "units": {
+                    "type": "string",
+                    "enum": [
+                        "hartree", "angstrom", "bohr"
+                    ]
+                }
+            }
+        },
+
+        "simpleQuantity": {
+            "allOf": [
+                {"$ref": "#/definitions/hasUnits"},
+                {
+                    "type": "object",
+                    "required": [
+                        "value"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "units": {},
+                        "value": {
+                            "type": "number"
+                        }
+                    }
+                }
+            ]
+        },
+
+        "formattedArray": {
+            "allOf": [
+                {"$ref": "#/definitions/hasUnits"},
+                {
+                    "type": "object",
+                    "required": [
+                        "format", "values"
+                    ],
+                    "properties": {
+                        "values": {
+                            "type": "array"
+                        },
+                        "format": {
+                            "type": "string",
+                            "enum": ["sparse"]
+                        }
+                    }
+                }
+            ]
+        }
+    },
+
+    "type": "object",
+    "required": [
+        "$schema", "format", "integral_sets"
+    ],
+    "additionalProperties": false,
+
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "enum": [
+                "https://raw.githubusercontent.com/Microsoft/Quantum/master/Chemistry/Schema/broombridge-0.1.schema.json"
+            ]
+        },
+
+        "format": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "enum": [
+                        "0.1"
+                    ]
+                }
+            }
+        },
+
+        "generator": {
+            "type": "object",
+            "required": ["source"],
+            "additionalProperties": false,
+            "properties": {
+                "source": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+
+        "bibliography": {
+            "type": "array",
+            "items": {
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "required": [
+                            "arXiv"
+                        ],
+                        "properties": {
+                            "arXiv": {
+                                "type": "string"
+                            }
+                        }
+                    },
+
+                    {
+                        "type": "object",
+                        "required": [
+                            "doi"
+                        ],
+                        "properties": {
+                            "doi": {
+                                "type": "string"
+                            }
+                        }
+                    },
+
+                    {
+                        "type": "object",
+                        "required": [
+                            "url"
+                        ],
+                        "properties": {
+                            "url": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+
+        "integral_sets": {
+            "type": "array",
+            "additionalProperties": true,
+            "items": {
+                "type": "object",
+                "required": [
+                    "metadata", "coulomb_repulsion", "scf_energy",
+                    "scf_energy_offset", "fci_energy",
+                    "n_orbitals", "n_electrons", "energy_offset",
+                    "hamiltonian"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "metadata": {
+                        "type": "object"
+                    },
+
+                    "basis_set": {
+                        "type": "object",
+                        "required": [
+                            "type", "name"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "type": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            }
+                        }
+                    },
+
+                    "geometry": {
+                        "allOf": [
+                            {"$ref": "#/definitions/hasUnits"},
+                            {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                    "coordinate_system",
+                                    "symmetry",
+                                    "atoms"
+                                ],
+                                "properties": {
+                                    "units": {},
+                                    "coordinate_system": {
+                                        "type": "string"
+                                    },
+                                    "symmetry": {
+                                        "type": "string"
+                                    },
+                                    "atoms": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "required": [
+                                                "name", "coords"
+                                            ],
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "coords": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    },
+
+                    "coulomb_repulsion": {
+                        "$ref": "#/definitions/simpleQuantity"
+                    },
+
+                    "scf_energy": {
+                        "$ref": "#/definitions/simpleQuantity"
+                    },
+
+                    "scf_energy_offset": {
+                        "$ref": "#/definitions/simpleQuantity"
+                    },
+
+                    "energy_offset": {
+                        "$ref": "#/definitions/simpleQuantity"
+                    },
+
+                    "fci_energy": {
+                        "allOf": [
+                            {"$ref": "#/definitions/hasUnits"},
+                            {
+                                "type": "object",
+                                "required": [
+                                    "upper", "lower"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "units": {},
+                                    "value": {"type": "number"},
+                                    "lower": {"type": "number"},
+                                    "upper": {"type": "number"}
+                                }
+                            }
+                        ]
+                    },
+
+                    "n_orbitals": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+
+                    "n_electrons": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+
+                    "hamiltonian": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "one_electron_integrals",
+                            "two_electron_integrals"
+                        ],
+
+                        "properties": {
+                            "particle_hole_representation": {
+                                "allOf": [
+                                    {"$ref": "#/definitions/formattedArray"},
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+
+                                        "properties": {
+                                            "units": {},
+                                            "format": {},
+                                            "values": {
+                                                "items": {
+                                                    "items": [
+                                                        {"type": "integer"},
+                                                        {"type": "integer"},
+                                                        {"type": "integer"},
+                                                        {"type": "integer"},
+                                                        {"type": "number"},
+                                                        {"type": "string"}
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+
+                            "one_electron_integrals": {
+                                "allOf": [
+                                    {"$ref": "#/definitions/formattedArray"},
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+
+                                        "properties": {
+                                            "units": {},
+                                            "format": {},
+                                            "values": {
+                                                "items": {
+                                                    "items": [
+                                                        {"type": "integer"},
+                                                        {"type": "integer"},
+                                                        {"type": "number"}
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+
+                            "two_electron_integrals": {
+                                "allOf": [
+                                    {"$ref": "#/definitions/formattedArray"},
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "required": [
+                                            "index_convention"
+                                        ],
+
+                                        "properties": {
+                                            "units": {},
+                                            "format": {},
+                                            "values": {
+                                                "items": {
+                                                    "items": [
+                                                        {"type": "integer"},
+                                                        {"type": "integer"},
+                                                        {"type": "integer"},
+                                                        {"type": "integer"},
+                                                        {"type": "number"}
+                                                    ]
+                                                }
+                                            },
+                                            "index_convention": {
+                                                "type": "string",
+                                                "enum": ["mulliken"]
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+
+                    "initial_state_suggestions": {
+                        "type": "array",
+                        "items": {
+                            "additionalProperties": false,
+                            "required": [
+                                "state"
+                            ],
+
+                            "properties": {
+                                "state": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                        "label", "superposition"
+                                    ],
+
+                                    "properties": {
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "superposition": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "array",
+                                                "items": [
+                                                    {"type": "number"}
+                                                ],
+                                                "additionalItems": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "energy": {
+                                            "$ref": "#/definitions/simpleQuantity"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
