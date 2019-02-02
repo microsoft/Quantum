@@ -164,14 +164,14 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     ///
     /// # Input
     /// ## func
-    /// Oracle function in integer representation
+    /// Oracle function in truth table representation
     /// ## controls
     /// Control qubits
     /// ## target
     /// Target qubit
-    operation Oracle(func : Int, controls : Qubit[], target : Qubit) : Unit {
+    operation Oracle(func : Bool[], controls : Qubit[], target : Qubit) : Unit {
         let vars = Length(controls);
-        let table = Encode(TruthTable(func, vars));
+        let table = Encode(func);
         let spectrum = Extend(FastHadamardTransform(table));
 
         let qubits = controls + [target];
@@ -200,15 +200,15 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     ///
     /// # Input
     /// ## func
-    /// Oracle function in integer representation
+    /// Oracle function in truth table representation
     /// ## controls
     /// Control qubits
     /// ## target
     /// Target qubit
-    operation OracleAncilla(func : Int, controls : Qubit[], target : Qubit) : Unit {
+    operation OracleAncilla(func : Bool[], controls : Qubit[], target : Qubit) : Unit {
         body (...) {
             let vars = Length(controls);
-            let table = Encode(TruthTable(func, vars));
+            let table = Encode(func);
             let spectrum = Extend(FastHadamardTransform(table));
 
             HY(target);
@@ -224,7 +224,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
         }
         adjoint (...) {
             let vars = Length(controls);
-            let table = Encode(TruthTable(func, vars));
+            let table = Encode(func);
             let spectrum = Extend(FastHadamardTransform(table));
 
             H(target);
@@ -249,13 +249,13 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// Operation to test Oracle operation
     operation OracleSynthesis(func : Int, vars : Int) : Bool {
         mutable result = true;
-        let tableBits = BoolArrFromPositiveInt(func, 1 <<< vars);
+        let tableBits = TruthTable(func, vars);
 
         for (x in 0..(1 <<< (vars + 1)) - 1) {
             using (qubits = Qubit[vars + 1]) {
                 let init = BoolArrFromPositiveInt(x, vars + 1);
                 ApplyPauliFromBitString(PauliX, true, init, qubits);
-                Oracle(func, qubits[0..vars - 1], qubits[vars]);
+                Oracle(tableBits, qubits[0..vars - 1], qubits[vars]);
 
                 let y = IsResultOne(M(qubits[vars])) != init[vars];
                 if ((tableBits + tableBits)[x] != y) {
@@ -272,15 +272,15 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// Operation to test OracleAncilla operation
     operation OracleSynthesisAncilla(func : Int, vars : Int) : Bool {
         mutable result = true;
-        let tableBits = BoolArrFromPositiveInt(func, 1 <<< vars);
+        let tableBits = TruthTable(func, vars);
 
         for (x in 0..Length(tableBits) - 1) {
             using (qubits = Qubit[vars + 2]) {
                 let init = BoolArrFromPositiveInt(x, vars);
                 ApplyPauliFromBitString(PauliX, true, init, qubits[0..vars - 1]);
-                OracleAncilla(func, qubits[0..vars - 1], qubits[vars]);
+                OracleAncilla(tableBits, qubits[0..vars - 1], qubits[vars]);
                 CNOT(qubits[vars], qubits[vars + 1]);
-                (Adjoint OracleAncilla)(func, qubits[0..vars - 1], qubits[vars]);
+                (Adjoint OracleAncilla)(tableBits, qubits[0..vars - 1], qubits[vars]);
 
                 let y = IsResultOne(M(qubits[vars + 1]));
                 if (tableBits[x] != y) {
