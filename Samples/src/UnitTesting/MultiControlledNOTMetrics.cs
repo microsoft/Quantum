@@ -44,7 +44,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting
             string allocatedQubits = MetricsNames.WidthCounter.ExtraWidth;
 
             // Get the number of qubits borrowed by the MultiControlledXBorrow
-            double numBorowed1 = 
+            double numBorrowed1 = 
                 sim.GetMetric<MultiControlledXBorrow, MultiControlledNotWithDirtyQubitsMetrics>(
                     borrowedQubits);
 
@@ -53,11 +53,11 @@ namespace Microsoft.Quantum.Samples.UnitTesting
                 sim.GetMetric<MultiControlledXBorrow, MultiControlledNotWithDirtyQubitsMetrics>(
                     allocatedQubits);
 
-            Assert.Equal(numberOfControlQubits - 2, numBorowed1);
+            Assert.Equal(numberOfControlQubits - 2, numBorrowed1);
             Assert.Equal(0, numAllocated1);
 
             // Get the number of qubits borrowed by the MultiControlledXClean
-            double numBorowed2 =
+            double numBorrowed2 =
                 sim.GetMetric<MultiControlledXClean, MultiControlledNotWithDirtyQubitsMetrics>(
                     borrowedQubits);
 
@@ -67,7 +67,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting
                 allocatedQubits);
 
             Assert.Equal(numberOfControlQubits - 2, numAllocated2);
-            Assert.Equal(0, numBorowed2);
+            Assert.Equal(0, numBorrowed2);
         }
     }
 }
