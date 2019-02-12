@@ -4,7 +4,7 @@ This sample converts a representation of a Hamiltonians using library data types
 
 ## Running the Sample ##
 
-Open the `QsharpLibraries.sln` solution in Visual Studio and set the .csproj file in the manifest as the startup project.
+Open the `QsharpSamples.sln` solution in Visual Studio and set the .csproj file in the manifest as the startup project.
 Press Start in Visual Studio to run the sample.
 
 ## Manifest ##
