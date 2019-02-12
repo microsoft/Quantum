@@ -4,7 +4,7 @@ This sample describes a simple quantum code that encodes 1 qubit into 3 qubits a
 
 ## Running the Sample ##
 
-Open the `QsharpLibraries.sln` solution in Visual Studio and set the .csproj file in the manifest as the startup project.
+Open the `QsharpSamples.sln` solution in Visual Studio and set the .csproj file in the manifest as the startup project.
 Press Start in Visual Studio to run the sample.
 
 ## Manifest ##

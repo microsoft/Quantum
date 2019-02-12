@@ -4,7 +4,7 @@ This sample demonstrates the use of the Quantum Development Kit for quantum tele
 
 ## Running the Sample ##
 
-Open the `QsharpLibraries.sln` solution in Visual Studio and set *Samples / 0. Introduction / TeleportationSample* as the startup project.
+Open the `QsharpSamples.sln` solution in Visual Studio and set *Samples / 0. Introduction / TeleportationSample* as the startup project.
 Press Start in Visual Studio to run the example.
 
 ## Manifest ##

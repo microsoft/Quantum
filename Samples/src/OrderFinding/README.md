@@ -1,4 +1,4 @@
-# Order Finding #
+﻿# Order Finding #
 
 This sample uses a quantum algorithm to find the order of a cycle in a permutation.
 It succeeds with a higher probability than the classical best possible strategy.
@@ -13,7 +13,7 @@ in the C# file is restricted to permutations over 4 elements.
 
 ## Running the Sample ##
 
-Open the `QsharpLibraries.sln` solution in Visual Studio and set *Samples / 1. Algorithms / OrderFinding* as the startup project.
+Open the `QsharpSamples.sln` solution in Visual Studio and set *Samples / 1. Algorithms / OrderFinding* as the startup project.
 Press Start in Visual Studio to run the sample.
 
 ## Manifest ##
