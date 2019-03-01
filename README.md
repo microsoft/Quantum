@@ -65,3 +65,10 @@ These are noted in the README.md files for each sample, along with complete inst
   This sample shows that one can run the quantum operations of a Q# application by using the OpenQASM output on the IBMQuantumExperience by changing the driver.
 - **[OpenQasmReader](./Samples/src/OpenQasmReader)**:
   This sample shows that one can convert OpenQasm 2.0 specifications to Q# methods. This allows one to import algorithms written in OpenQasm 2.0 to be used on the Microsoft Q# Simulator. Appart of the barrier gate (which has no meaning in Q#) all gates are converted to Q# constructions.
+
+## 6. QDK Docker container ##
+You can build and use the [Docker image](./DockerImages) with a minimum installation of the QDK.
+Jupyter is installed in the image. Run the container with the port exposed `-p 8888:8888` then run jupyter with
+```$ jupyter notebook --no-browser --allow-root --ip=0.0.0.0```
+in the container, then on the host you can access the notebook by going to the URL that Jupyter prints when it starts up. **Don't use this on the open internet** because the Jupyter server is run as root.
+
