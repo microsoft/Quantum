@@ -4,7 +4,7 @@ This example demonstrates the use of measurement operations to convert the state
 
 ## Running the Example ##
 
-Open the `QsharpLibraries.sln` solution in Visual Studio and set `Samples/Measurement/Measurement.csproj` as the startup project.
+Open the `QsharpSamples.sln` solution in Visual Studio and set `Samples/Measurement/Measurement.csproj` as the startup project.
 Press Start in Visual Studio to run the example.
 
 ## Manifest ##

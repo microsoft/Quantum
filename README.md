@@ -1,7 +1,7 @@
-# Quantum Development Kit Samples #
+﻿# Quantum Development Kit Samples #
 
 These samples demonstrate the use of the Quantum Development Kit for a variety of different quantum computing tasks.
-Each sample is provided as a Visual Studio 2017 C# or F# project under the [`QSharpLibraries.sln`](./Samples/QsharpSamples.sln) solution.
+Each sample is provided as a Visual Studio 2017 C# or F# project under the [`QsharpSamples.sln`](./Samples/QsharpSamples.sln) solution.
 The samples are broken down into four broad categories, each of which is described below.
 Most of the samples consist of a Q# source file with detailed comments explaining the sample and a short classical program (either `Program.cs` or `Program.fs`) to call into Q# operations and functions.
 

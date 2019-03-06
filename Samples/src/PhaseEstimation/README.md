@@ -4,7 +4,7 @@ This sample demonstrates iterative phase estimation using Bayesian inference to 
 
 ## Running the Sample ##
 
-Open the `QsharpLibraries.sln` solution in Visual Studio and set *Samples / 2. Characterization and Testing / PhaseEstimationSample* as the startup project.
+Open the `QsharpSamples.sln` solution in Visual Studio and set *Samples / 2. Characterization and Testing / PhaseEstimationSample* as the startup project.
 Press Start in Visual Studio to run the sample.
 
 ## Manifest ##
