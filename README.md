@@ -68,6 +68,7 @@ These are noted in the README.md files for each sample, along with complete inst
 
 ## 6. QDK Docker container ##
 You can build and use the [Docker image](./DockerImages) with a minimum installation of the QDK.
+It is imporitant to limit the number of threads that OpenMP uses. Not configuring this correctly can cause very bad performance. When running a container specify the environment variable: `--env OMP_THREAD_LIMIT=<desired number of threads>`.
 Jupyter is installed in the image. Run the container with the port exposed `-p 8888:8888` then run jupyter with
 ```$ jupyter notebook --no-browser --allow-root --ip=0.0.0.0```
 in the container, then on the host you can access the notebook by going to the URL that Jupyter prints when it starts up. **Don't use this on the open internet** because the Jupyter server is run as root.
