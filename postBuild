@@ -1,0 +1,10 @@
+wget https://dot.net/v1/dotnet-install.sh
+chmod +x ./dotnet-install.sh
+chmod +x ./iqsharp-env.sh
+./dotnet-install.sh --install-dir ${HOME}/dotnet
+export PATH=$PATH:${HOME}/dotnet:${HOME}/.dotnet/tools
+export DOTNET_ROOT=${HOME}/dotnet
+dotnet tool install -g Microsoft.Quantum.IQSharp
+# FIXME: once running on M.J.C 1.1 or later, change the next lines in favor of --user.
+dotnet iqsharp --version --user
+jupyter kernelspec list
