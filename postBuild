@@ -6,6 +6,6 @@ export DOTNET_ROOT=${HOME}/dotnet
 
 dotnet tool install -g Microsoft.Quantum.IQSharp
 dotnet iqsharp --version
-dotnet iqsharp install --user
+dotnet iqsharp install --user --path-to-tool=${which dotnet-iqsharp}
 
 jupyter kernelspec list
