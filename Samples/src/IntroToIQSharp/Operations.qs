@@ -10,7 +10,7 @@ namespace Microsoft.Quantum.Samples
     }
 
     /// # Summary
-    /// Returns true if qubit is |-> (assumes qubit is either |+> or |->)
+    /// Returns true if qubit is |-\rangle$ (assumes qubit is either |+\rangle$ or |-\rangle$)
     operation IsMinus(q: Qubit) : Bool {
         return (Measure([PauliX], [q]) == One);
     }
