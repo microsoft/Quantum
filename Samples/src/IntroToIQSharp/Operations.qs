@@ -4,7 +4,7 @@ namespace Microsoft.Quantum.Samples
     open Microsoft.Quantum.Primitive;
 
     /// # Summary
-    /// Returns true if qubit is |+> (assumes qubit is either |+> or |->)
+    /// Returns true if qubit is $|+\rangle$ (assumes qubit is either $|+\rangle$ or $|-\rangle$)
     operation IsPlus(q: Qubit) : Bool {
         return (Measure([PauliX], [q]) == Zero);
     }
