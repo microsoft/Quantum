@@ -1,21 +1,31 @@
-﻿# Quantum Development Kit Samples #
+﻿# Microsoft Quantum Development Kit Samples #
+ [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Microsoft/Quantum/master)
 
 These samples demonstrate the use of the Quantum Development Kit for a variety of different quantum computing tasks.
-Each sample is provided as a Visual Studio 2017 C# or F# project under the [`QsharpSamples.sln`](./Samples/QsharpSamples.sln) solution.
-The samples are broken down into four broad categories, each of which is described below.
-Most of the samples consist of a Q# source file with detailed comments explaining the sample and a short classical program (either `Program.cs` or `Program.fs`) to call into Q# operations and functions.
+Most samples are provided as a Visual Studio 2017 C# or F# project under the [`QsharpSamples.sln`](./Samples/QsharpSamples.sln) solution.
+
+Each sample is self-contained in a folder. Most of the samples consist of a Q# source file with detailed comments explaining the sample and a short classical program (either `Program.cs` (C#), `Program.fs` (F#), or `host.py` (Python)) to call into Q# operations and functions.
 
 A small number of the samples have additional installation requirements beyond those for the rest of the Quantum Development Kit.
 These are noted in the README.md files for each sample, along with complete installation instructions.
+
+You can find instructions on how to install the Quantum Development Kit in [our online documentation](https://docs.microsoft.com/en-us/quantum/install-guide/) which also includes
+an introduction to [quantum programming concepts](https://docs.microsoft.com/en-us/quantum/concepts/). A docker image definition is also provided for your convenience, see below
+for instructions on how to build and use it.
+
+The samples are broken down into four broad categories, each of which is described below.
 
 ## 0. Introductory Samples ##
 
 - **[TeleportationSample](./Samples/src/Teleportation/)**:
   This sample documents how to write quantum programs with Q#, C#, and Visual Studio, using the [development techniques](https://docs.microsoft.com/quantum/quantum-devguide-1-intro) covered in the main documentation.
+  It also shows how to simulate the same algorithms from Python and Jupyter.
 - **[Measurement](./Samples/src/Measurement)**:
   This sample goes into more detail about how single- and multiple-qubit measurements are represented in Q#, and how to measure in interesting bases such as the Bell basis.
 - **[SimpleAlgorithms](./Samples/src/SimpleAlgorithms)**:
   This sample covers several different basic quantum algorithms, and how each can be written in Q#.
+- **[IntroToIQSharp](./Samples/src/IntroToIQSharp)**:
+  This samples explains how to create interactive notebooks using Jupyter and IQ#.
 
 ## 1. Algorithm Samples ##
 
@@ -65,3 +75,43 @@ These are noted in the README.md files for each sample, along with complete inst
   This sample shows that one can run the quantum operations of a Q# application by using the OpenQASM output on the IBMQuantumExperience by changing the driver.
 - **[OpenQasmReader](./Samples/src/OpenQasmReader)**:
   This sample shows that one can convert OpenQasm 2.0 specifications to Q# methods. This allows one to import algorithms written in OpenQasm 2.0 to be used on the Microsoft Q# Simulator. Appart of the barrier gate (which has no meaning in Q#) all gates are converted to Q# constructions.
+
+## Docker image
+
+You can use the [Dockerfile](./Dockerfile) provided to create a docker image 
+with all the Quantum Development Kit pre-requisites.
+
+To build the image and tag it `iqsharp`:
+```
+docker build -t iqsharp .
+```
+
+To run the image in the container named `iqsharp-container` with interactive command-line and redirect container port 8080 to local port 8080:
+```
+docker run -it --name iqsharp-container -p 8080:8080 iqsharp /bin/bash
+```
+
+From the corresponding container command line, you can run the C# version of the Teleportation sample using: 
+```
+cd ~/Samples/src/Teleportation && dotnet run
+```
+
+Similarly, you can run the Python version of the Teleportation sample using: 
+```
+cd ~/Samples/src/Teleportation && python host.py
+```
+
+Finally, to start jupyter notebook within the image, use:
+```
+jupyter notebook --ip=0.0.0.0 --port=8080 --no-browser
+```
+
+Once Jupyter has started, you can open in your browser the Teleportation notebook:
+```
+http://localhost:8080/notebooks/Samples/src/Teleportation/Notebook.ipynb
+```
+
+Once you're done, to remove container named `iqsharp-container`:
+```
+docker rm --force iqsharp-container
+```
