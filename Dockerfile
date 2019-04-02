@@ -1,18 +1,16 @@
 # The same image used by mybinder.org
 FROM python:3.7-slim
 
-# install qsharp and the notebook package
-# Required for mybinder.org
+# install qsharp and the notebook packages
 RUN pip install --no-cache --upgrade pip && \
     pip install --no-cache notebook qsharp
 
 # pre-requisites for .NET SDK
-RUN apt-get update && apt-get -y install wget
-RUN apt-get update && apt-get -y install pgp
-RUN apt-get update && apt-get -y install libgomp1
-
-# add vim for local editing:
-RUN apt-get update && apt-get -y install vim
+RUN apt-get update && apt-get -y install wget && \
+    apt-get update && apt-get -y install pgp && \
+    apt-get update && apt-get -y install libgomp1 && \
+# add vim for editing local files:
+    apt-get update && apt-get -y install vim
 
 # install .NET SDK 2.2
 RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.asc.gpg && \
@@ -29,10 +27,9 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
 # Required for mybinder.org
 ARG NB_USER=jovyan
 ARG NB_UID=1000
-ENV USER ${NB_USER}
-ENV HOME /home/${NB_USER}
+ENV USER=${NB_USER} \
+    HOME=/home/${NB_USER}
 
-# Required for mybinder.org
 RUN adduser --disabled-password \
     --gecos "Default user" \
     --uid ${NB_UID} \
@@ -41,8 +38,8 @@ WORKDIR ${HOME}
 USER ${USER}
 
 # Make sure .net tools is in the path
-ENV PATH=$PATH:${HOME}/dotnet:${HOME}/.dotnet/tools
-ENV DOTNET_ROOT=${HOME}/dotnet
+ENV PATH=$PATH:${HOME}/dotnet:${HOME}/.dotnet/tools \
+    DOTNET_ROOT=${HOME}/dotnet
 
 # install IQSharp
 RUN dotnet tool install -g Microsoft.Quantum.IQSharp 
