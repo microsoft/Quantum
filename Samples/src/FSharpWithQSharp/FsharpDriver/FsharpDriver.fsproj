@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Driver.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.5.1902.2802" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QuantumCode\QuantumCode.csproj" />
+  </ItemGroup>
+
+</Project>
