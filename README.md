@@ -10,7 +10,7 @@ A small number of the samples have additional installation requirements beyond t
 These are noted in the README.md files for each sample, along with complete installation instructions.
 
 You can find instructions on how to install the Quantum Development Kit in [our online documentation](https://docs.microsoft.com/en-us/quantum/install-guide/), which also includes
-an introduction to [quantum programming concepts](https://docs.microsoft.com/en-us/quantum/concepts/). A docker image definition is also provided for your convenience, see below
+an introduction to [quantum programming concepts](https://docs.microsoft.com/en-us/quantum/concepts/). A Docker image definition is also provided for your convenience, see below
 for instructions on how to build and use it.
 
 The samples are broken down into four broad categories, each of which is described below.
