@@ -18,7 +18,7 @@ The steps are as follows:
     PS>  dotnet add .\FsharpDriver\FsharpDriver.vbproj reference .\QuantumCode\QuantumCode.csproj
     ```
    
-   This will transitively include   `Microsoft.Quantum.Development.Kit` NuGet package to the F# application.
+   This will transitively include the [`Microsoft.Quantum.Development.Kit` NuGet package](https://www.nuget.org/packages/Microsoft.Quantum.Development.Kit) to the F# application.
    You will not be writing any Q# code in `FsharpDriver`, but you will need to use functionality provided by the Quantum Development Kit to create a quantum simulator to run your quantum code on, and to define data types used to pass the parameters to your quantum program.
 5. Write the classical driver in `VBNetDriver`.
    The code structure is similar to the [C# example](https://docs.microsoft.com/quantum/quickstart#step-3-enter-the-c-driver-code), so we won't go into the details here.
