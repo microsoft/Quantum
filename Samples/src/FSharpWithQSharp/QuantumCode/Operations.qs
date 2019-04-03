@@ -1,4 +1,4 @@
-﻿namespace QuantumCode
+﻿namespace Microsoft.Quantum.Samples {
 {
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
@@ -9,7 +9,7 @@
     //      2) a qubit in arbitrary state |y⟩ (output qubit)
     //      3) a bit vector of length N represented as Int[]
     // The qubit array and the bit vector have the same length.
-    operation Oracle_ProductWithNegationFunction (x : Qubit[], y : Qubit, r : Int[]) : Unit {
+    operation ApplyProductWithNegationFunction (x : Qubit[], y : Qubit, r : Int[]) : Unit {
         
         body (...) {
             for (i in 0 .. Length(x) - 1) {
@@ -24,7 +24,7 @@
             }
         }
         
-        adjoint invert;
+        adjoint auto;
     }
 
     // The algorithm: reconstruct the oracle in a single query

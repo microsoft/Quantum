@@ -1,8 +1,8 @@
 # Using Q# with F#
 
-This sample shows how to use Q# code with F# classical driver. 
+This sample shows how to use Q# code with a classical host program written in F#.
 
-Q# code is compiled to C# for the purposes of local simulation, so using Q# with C# is very straightforward, as described in the documentation. Using Q# with F# is a little less obvious, since you can't mix Q# and F# files in the same project. You have to create a Q# library (which will yield a .csproj project with only Q# files in it) and to reference it from a purely F# application.
+Q# code is compiled to C# for the purposes of local simulation, so using Q# with C# is very straightforward, as described in the documentation. Using Q# with F# is a little less obvious, since you can't mix Q# and F# files in the same project. You have to create a Q# library (which will yield a .csproj project with only Q# files in it) and then reference it from a purely F# application.
 
 The steps are as follows:
 
@@ -10,7 +10,7 @@ The steps are as follows:
 2. Create an F# application (in this case a console app targeting .NET Core) `FsharpDriver`.
 3. Add a reference to the Q# library to the F# application.
 
-   You can use [Reference Manager](https://docs.microsoft.com/en-us/visualstudio/ide/how-to-add-or-remove-references-by-using-the-reference-manager) in Visual Studio to do that, or you can add the reference from the command line:
+   You can use [Reference Manager](https://docs.microsoft.com/visualstudio/ide/how-to-add-or-remove-references-by-using-the-reference-manager) in Visual Studio to do that, or you can add the reference from the command line:
 
     ```PowerShell
     PS>  dotnet add .\FsharpDriver\FsharpDriver.vbproj reference .\QuantumCode\QuantumCode.csproj
@@ -18,9 +18,9 @@ The steps are as follows:
    
 4. Install the NuGet package `Microsoft.Quantum.Development.Kit` which adds Q# support to the F# application.
 
-   You will not be writing any Q# code in `FsharpDriver`, but you will need to use functionality provided by the QDK to create a quantum simulator to run your quantum code on, and to define data types used to pass the parameters to your quantum program.
+   You will not be writing any Q# code in `FsharpDriver`, but you will need to use functionality provided by the Quantum Development Kit to create a quantum simulator to run your quantum code on, and to define data types used to pass the parameters to your quantum program.
 5. Write the classical driver in `VBNetDriver`.
-   The code structure is similar to the [C# example](https://docs.microsoft.com/en-us/quantum/quickstart#step-3-enter-the-c-driver-code), so I won't go into the details here.
+   The code structure is similar to the [C# example](https://docs.microsoft.com/quantum/quickstart#step-3-enter-the-c-driver-code), so we won't go into the details here.
 
 
 ## Running the Sample
