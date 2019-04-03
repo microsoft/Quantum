@@ -10,10 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.5.1902.2802" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\QuantumCode\QuantumCode.csproj" />
   </ItemGroup>
 

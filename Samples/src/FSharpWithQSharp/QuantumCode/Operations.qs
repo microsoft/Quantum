@@ -1,15 +1,19 @@
 ﻿namespace Microsoft.Quantum.Samples {
-{
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
 
-    // The oracle: f(x₀, …, xₙ₋₁) = Σᵢ (rᵢ xᵢ + (1 - rᵢ)(1 - xᵢ)) modulo 2 for a given bit vector r = (r₀, …, rₙ₋₁).
-    // Inputs:
-    //      1) N qubits in arbitrary state |x⟩ (input register)
-    //      2) a qubit in arbitrary state |y⟩ (output qubit)
-    //      3) a bit vector of length N represented as Int[]
-    // The qubit array and the bit vector have the same length.
-    operation ApplyProductWithNegationFunction (x : Qubit[], y : Qubit, r : Int[]) : Unit {
+    /// # Summary
+    /// A quantum oracle which implements the following function: 
+    /// f(x₀, …, xₙ₋₁) = Σᵢ (rᵢ xᵢ + (1 - rᵢ)(1 - xᵢ)) modulo 2 for a given bit vector r = (r₀, …, rₙ₋₁).
+    ///
+    /// # Input
+    /// ## r
+    /// A bit vector of length N represented as Int[]
+    /// ## x
+    /// N qubits in arbitrary state |x⟩ (input register)
+    /// ## y
+    /// A qubit in arbitrary state |y⟩ (output qubit)
+    operation ApplyProductWithNegationFunction (r : Int[], x : Qubit[], y : Qubit) : Unit {
         
         body (...) {
             for (i in 0 .. Length(x) - 1) {
@@ -17,9 +21,7 @@
                     CNOT(x[i], y);
                 } else {
                     // do a 0-controlled NOT
-                    X(x[i]);
-                    CNOT(x[i], y);
-                    X(x[i]);
+                    (ControlledOnInt(0, X))([x[i]], y);
                 }
             }
         }
@@ -27,17 +29,22 @@
         adjoint auto;
     }
 
-    // The algorithm: reconstruct the oracle in a single query
-    // Inputs:
-    //      1) the number of qubits in the input register N for the function f
-    //      2) a quantum operation which implements the oracle |x⟩|y⟩ -> |x⟩|y ⊕ f(x)⟩, where
-    //         x is N-qubit input register, y is 1-qubit answer register, and f is a Boolean function
-    //         The function f implemented by the oracle can be represented as
-    //         f(x₀, …, xₙ₋₁) = Σᵢ (rᵢ xᵢ + (1 - rᵢ)(1 - xᵢ)) modulo 2 for some bit vector r = (r₀, …, rₙ₋₁).
-    // Output:
-    //      A bit vector r which generates the same oracle as the given one
-    //      Note that this doesn't necessarily mean the same bit vector as the one used to initialize the oracle!
-    operation Noname_Algorithm (N : Int, oracle : ((Qubit[], Qubit) => Unit)) : Int[] {
+    /// # Summary
+    /// Reconstructs the parameters of the oracle in a single query
+    ///
+    /// # Input
+    /// ## N
+    /// The number of qubits in the input register N for the function f
+    /// ## oracle
+    /// A quantum operation which implements the oracle |x⟩|y⟩ -> |x⟩|y ⊕ f(x)⟩, where
+    /// x is an N-qubit input register, y is a 1-qubit answer register, and f is a Boolean function.
+    /// The function f implemented by the oracle can be represented as
+    /// f(x₀, …, xₙ₋₁) = Σᵢ (rᵢ xᵢ + (1 - rᵢ)(1 - xᵢ)) modulo 2 for some bit vector r = (r₀, …, rₙ₋₁).
+    ///
+    /// # Output
+    /// A bit vector r which generates the same oracle as the given one
+    /// Note that this doesn't have to be the same bit vector as the one used to initialize the oracle!
+    operation RestoreOracleParameters (N : Int, oracle : ((Qubit[], Qubit) => Unit)) : Int[] {
         mutable r = new Int[N];
         
         using ((x, y) = (Qubit[N], Qubit())) {
@@ -67,11 +74,13 @@
         return r;
     }
 
+    /// # Summary
+    /// Instantiates the oracle and runs the parameter restoration algorithm.
     operation RunAlgorithm (bits : Int[]) : Int[] {
         Message("Hello Quantum World!");
         // construct an oracle using the input array
-        let oracle = Oracle_ProductWithNegationFunction(_, _, bits);
+        let oracle = ApplyProductWithNegationFunction(bits, _, _);
         // run the algorithm on this oracle and return the result
-        return Noname_Algorithm(Length(bits), oracle);
+        return RestoreOracleParameters(Length(bits), oracle);
     }
 }

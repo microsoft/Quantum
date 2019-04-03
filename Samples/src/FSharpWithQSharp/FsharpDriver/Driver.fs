@@ -1,4 +1,6 @@
 ﻿open System.Diagnostics
+// Namespace in which quantum code resides
+open Microsoft.Quantum.Samples
 // Namespace in which quantum simulator resides
 open Microsoft.Quantum.Simulation.Simulators
 // Namespace in which QArray resides
@@ -10,13 +12,14 @@ let main _ =
     // Create a full-state simulator
     use simulator = new QuantumSimulator()
 
-    // Construct the parameter to be passed to the quantum algorithm
-    // QArray is a data type for fixed-length arrays
+    // Construct the parameter to be passed to the quantum algorithm.
+    // QArray is a data type for fixed-length arrays.
+    // You can modify this parameter to see how the algorithm recovers 
     let oracleBits = new QArray<int64>([| 0L; 1L; 1L |])
     printfn "%A" oracleBits
     
     // Run the quantum algorithm
-    let restoredBits = QuantumCode.RunAlgorithm.Run(simulator, oracleBits).Result
+    let restoredBits = RunAlgorithm.Run(simulator, oracleBits).Result
     printfn "%A" restoredBits
 
     // Process the results: in this case, verify that:
