@@ -4,6 +4,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
 
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Extensions.Testing;
 
     /// # Summary
     /// Computes Hadamard transform of a Boolean function in {-1,1} encoding
@@ -216,6 +217,8 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
             let table = Encode(func);
             let spectrum = Extend(FastHadamardTransform(table));
 
+            AssertAllZero([target]);
+
             HY(target);
 
             let code = GrayCode(vars);
@@ -233,6 +236,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
             let spectrum = Extend(FastHadamardTransform(table));
 
             H(target);
+            AssertProb([PauliZ], [target], One, 0.5, "Probability of the measurement must be 0.5", 1e-10);
             if (IsResultOne(M(target))) {
                 for (i in 0..vars - 1) {
                     let start = 1 <<< i;
