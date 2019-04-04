@@ -20,6 +20,11 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// ```Q#
     /// FastHadamardTransform([1, 1, 1, -1]); // [2, 2, 2, -2]
     /// ```
+    ///
+    /// # Reference
+    /// Frank Yates: The design and analysis of factorial experiments, in:
+    /// Technical Communication No. 35, Imperial Bureau of Soil Science,
+    /// London (1937)
     function FastHadamardTransform(func : Int[]) : Int[] {
         let bits = BitSize(Length(func) - 1);
         mutable res = func;
