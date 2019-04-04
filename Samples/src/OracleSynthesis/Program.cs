@@ -16,6 +16,13 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
                     Console.WriteLine($"Result = {res}");
                 }
             }
+
+            for (var func = 0; func < (1 << 8); ++func) {
+                var res = OracleSynthesis.Run(sim, func, 3).Result;
+                if (!res) {
+                    Console.WriteLine($"Result = {res}");
+                }
+            }
         }
     }
 }

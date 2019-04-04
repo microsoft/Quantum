@@ -251,7 +251,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     }
 
     /// # Summary
-    /// Operation to test Oracle operation
+    /// Operation to run Oracle operation
     operation OracleSynthesis(func : Int, vars : Int) : Bool {
         mutable result = true;
         let tableBits = TruthTable(func, vars);
@@ -274,7 +274,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     }
 
     /// # Summary
-    /// Operation to test OracleCleanTargetQubit operation
+    /// Operation to run OracleCleanTargetQubit operation
     operation OracleSynthesisCleanTargetQubit(func : Int, vars : Int) : Bool {
         mutable result = true;
         let tableBits = TruthTable(func, vars);
