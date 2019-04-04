@@ -48,7 +48,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// Number of variables in truth table
     ///
     /// # Output
-    /// Array of 2^vars truth values
+    /// Array of 2^vars truth table values
     function TruthTable(func : Int, vars : Int) : Bool[] {
         return BoolArrFromPositiveInt(func, 1 <<< vars);
     }
@@ -194,7 +194,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     }
 
     /// # Summary
-    /// Implements oracle circuit for function, assuming that target qubit
+    /// Implements oracle circuit for a given function, assuming that target qubit
     /// is initialized 0.  The adjoint operation assumes that the target
     /// qubit will be released to 0.
     ///
@@ -205,7 +205,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// Control qubits
     /// ## target
     /// Target qubit
-    operation OracleAncilla(func : Bool[], controls : Qubit[], target : Qubit) : Unit {
+    operation OracleCleanTargetQubit(func : Bool[], controls : Qubit[], target : Qubit) : Unit {
         body (...) {
             let vars = Length(controls);
             let table = Encode(func);
@@ -269,8 +269,8 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     }
 
     /// # Summary
-    /// Operation to test OracleAncilla operation
-    operation OracleSynthesisAncilla(func : Int, vars : Int) : Bool {
+    /// Operation to test OracleCleanTargetQubit operation
+    operation OracleSynthesisCleanTargetQubit(func : Int, vars : Int) : Bool {
         mutable result = true;
         let tableBits = TruthTable(func, vars);
 
@@ -278,9 +278,9 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
             using (qubits = Qubit[vars + 2]) {
                 let init = BoolArrFromPositiveInt(x, vars);
                 ApplyPauliFromBitString(PauliX, true, init, qubits[0..vars - 1]);
-                OracleAncilla(tableBits, qubits[0..vars - 1], qubits[vars]);
+                OracleCleanTargetQubit(tableBits, qubits[0..vars - 1], qubits[vars]);
                 CNOT(qubits[vars], qubits[vars + 1]);
-                (Adjoint OracleAncilla)(tableBits, qubits[0..vars - 1], qubits[vars]);
+                (Adjoint OracleCleanTargetQubit)(tableBits, qubits[0..vars - 1], qubits[vars]);
 
                 let y = IsResultOne(M(qubits[vars + 1]));
                 if (tableBits[x] != y) {

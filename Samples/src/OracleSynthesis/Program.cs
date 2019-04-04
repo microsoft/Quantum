@@ -11,7 +11,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
             var sim = new QuantumSimulator();
 
             for (var func = 0; func < (1 << 8); ++func) {
-                var res = OracleSynthesisAncilla.Run(sim, func, 3).Result;
+                var res = OracleSynthesisCleanTargetQubit.Run(sim, func, 3).Result;
                 if (!res) {
                     Console.WriteLine($"Result = {res}");
                 }
