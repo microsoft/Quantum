@@ -55,8 +55,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H2SimulationSampleCmdLine",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H2SimulationGUI", "src\H2SimulationGUI\H2SimulationGUI.csproj", "{6AF1B129-586C-4150-8330-7444A24B7FB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PythonInterop", "src\PythonInterop\PythonInterop.csproj", "{191B1B56-B7A7-422B-9F21-1EC175132C37}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Interoperability", "4. Interoperability", "{A6237CFB-5897-452B-916B-9A9867EAD93F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReversibleLogicSynthesis", "src\ReversibleLogicSynthesis\ReversibleLogicSynthesis.csproj", "{B9C0A4DA-C98C-4259-B488-AC4BC09B03B2}"
