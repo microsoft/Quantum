@@ -1,0 +1,28 @@
+##
+# environment.yml: Specification of a conda environment for use with
+#      Q# interoperability samples.
+##
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+##
+
+name: qsharp-samples
+channels:
+    - conda-forge
+    - pythonnet
+    - https://solidrepo.blob.core.windows.net/release/0.3.1811.203/Libraries/Interoperability/python/bin/release/package
+dependencies:
+    - python>=3.6
+    - numpy
+    - scipy
+    - future
+    - pythonnet
+    - qutip
+    - matplotlib<=2.1.2
+    - ipyparallel
+    - py
+    - qsharp=0.3.1811.203
+    - pip:
+        - qinfer
+        - duecredit
+        - mpltools
