@@ -1,27 +1,25 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.IntegerFactorization {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Extensions.Math;
     open Microsoft.Quantum.Extensions.Convert;
     open Microsoft.Quantum.Canon;
-    
-    
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Oracles;
+    open Microsoft.Quantum.Characterization;
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Introduction ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    
-    /// This sample contains Q# code implementing Shor's quantum algorithm for
-    /// factoring integers. The underlying modular arithmetic is implemented
-    /// in phase encoding, based on a paper by Stephane Beauregard who gave a
-    /// quantum circuit for factoring n-bit numbers that needs 2n+3 qubits and
-    /// O(n³log(n)) elementary quantum gates.
-    ///
-    ///
-    ///
+
+    // This sample contains Q# code implementing Shor's quantum algorithm for
+    // factoring integers. The underlying modular arithmetic is implemented
+    // in phase encoding, based on a paper by Stephane Beauregard who gave a
+    // quantum circuit for factoring n-bit numbers that needs 2n+3 qubits and
+    // O(n³log(n)) elementary quantum gates.
+
     /// # Summary
     /// Uses Shor's algorithm to factor the parameter `number`
     ///
@@ -35,13 +33,13 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// # Output
     /// Pair of numbers p > 1 and q > 1 such that p⋅q = `number`
     operation Shor (number : Int, useRobustPhaseEstimation : Bool) : (Int, Int) {
-        
+
         // First check the most trivial case, if the provided number is even
         if (number % 2 == 0) {
             Message("An even number has been passed; 2 is the factor.");
             return (number / 2, 2);
         }
-        
+
         // Next try to guess a number co-prime to `number`
         // Get a random integer in the interval [1,number-1]
         let coprimeCandidate = RandomInt(number - 2) + 1;

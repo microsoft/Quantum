@@ -10,12 +10,12 @@
       We suppress the "unreachable code" warning, as a known issue in the Q# compiler
       can cause unreachable code to be emitted.
   -->
-  <PropertyGroup>
+  <!-- <PropertyGroup>
     <NoWarn>0162</NoWarn>
-  </PropertyGroup>
+  </PropertyGroup> -->
     
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.5.1903.2703" />
-    <PackageReference Include="Microsoft.Quantum.Canon" Version="0.5.1903.2703" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.6.1904.1008-beta" />
+    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.6.1904.1008-beta" />
   </ItemGroup>
 </Project>
