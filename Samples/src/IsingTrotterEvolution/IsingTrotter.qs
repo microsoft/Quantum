@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.Ising {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Math;
     open Microsoft.Quantum.Extensions.Convert;
-    
-    
-    // Needed to ToDouble.
-    
+    open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Measurement;
+
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
@@ -35,9 +33,9 @@ namespace Microsoft.Quantum.Samples.Ising {
     // end of the Ising chain propagates down it.
     
     // When the transverse field hX is zero, the single-excitation state
-    // |100...0> is an eigenstate of the Hamiltonian H. Thus time-evolution by
+    // |100...0⟩ is an eigenstate of the Hamiltonian H. Thus time-evolution by
     // H will not change the magnetization of other sites. However, with the
-    // transverse field on, |100...0> is no longer an eigenstate, which allows
+    // transverse field on, |100...0⟩ is no longer an eigenstate, which allows
     // the excitation to diffuse to neighbouring sites. One then expects the
     // average magnetization of the leftmost site to decrease in general, and
     // that of other sites to relax away from 0.
@@ -65,29 +63,21 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// Duration of time-evolution by term in Hamiltonian.
     /// ## qubits
     /// Qubit register Hamiltonian acts on.
-    operation Ising1DTrotterUnitariesImpl (nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[]) : Unit {
-        
-        body (...) {
-            // when idxHamiltonian is in [0, nSites - 1], apply transverse field "hx"
-            // when idxHamiltonian is in [nSites, 2 * nSites - 1], apply and longitudinal field "hz"
-            // when idxHamiltonian is in [2 * nSites, 3 * nSites - 2], apply Ising coupling "jC"
-            if (idxHamiltonian <= nSites - 1) {
-                Exp([PauliX], (-1.0 * hXCoupling) * stepSize, [qubits[idxHamiltonian]]);
-            }
-            elif (idxHamiltonian <= 2 * nSites - 1) {
-                Exp([PauliZ], (-1.0 * hZCoupling) * stepSize, [qubits[idxHamiltonian % nSites]]);
-            }
-            else {
-                Exp([PauliZ, PauliZ], (-1.0 * jCoupling) * stepSize, qubits[idxHamiltonian % nSites .. (idxHamiltonian + 1) % nSites]);
-            }
+    operation Ising1DTrotterUnitariesImpl (nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+        // when idxHamiltonian is in [0, nSites - 1], apply transverse field "hx"
+        // when idxHamiltonian is in [nSites, 2 * nSites - 1], apply and longitudinal field "hz"
+        // when idxHamiltonian is in [2 * nSites, 3 * nSites - 2], apply Ising coupling "jC"
+        if (idxHamiltonian <= nSites - 1) {
+            Exp([PauliX], (-1.0 * hXCoupling) * stepSize, [qubits[idxHamiltonian]]);
         }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+        elif (idxHamiltonian <= 2 * nSites - 1) {
+            Exp([PauliZ], (-1.0 * hZCoupling) * stepSize, [qubits[idxHamiltonian % nSites]]);
+        }
+        else {
+            Exp([PauliZ, PauliZ], (-1.0 * jCoupling) * stepSize, qubits[idxHamiltonian % nSites .. (idxHamiltonian + 1) % nSites]);
+        }
     }
-    
-    
+
     // The input to the Trotterization control structure has a type
     // (Int, ((Int, Double, Qubit[]) => () : Adjoint, Controlled))
     // The first parameter Int is the number of terms in the Hamiltonian
@@ -118,12 +108,10 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// unitary operation classically controlled by the term index and
     /// stepsize.
     function Ising1DTrotterUnitaries (nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double) : (Int, ((Int, Double, Qubit[]) => Unit : Adjoint, Controlled)) {
-        
         let nTerms = 3 * nSites - 1;
         return (nTerms, Ising1DTrotterUnitariesImpl(nSites, hXCoupling, hZCoupling, jCoupling, _, _, _));
     }
-    
-    
+
     // We now invoke the Trotterization control structure. This requires two
     // additional parameters -- the trotterOrder, which determines the order
     // the Trotter decompositions, and the trotterStepSize, which determines
@@ -150,7 +138,6 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// # Output
     /// A unitary operation.
     function Ising1DTrotterEvolution (nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit : Adjoint, Controlled) {
-        
         let op = Ising1DTrotterUnitaries(nSites, hXCoupling, hZCoupling, jCoupling);
         return (DecomposeIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
     }
@@ -162,7 +149,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     
     /// # Summary
     /// Implements time-evolution by the Ising Hamiltonian on a line of qubits
-    /// initialized in |100...0> state, then measures each site.
+    /// initialized in |100...0⟩ state, then measures each site.
     ///
     /// # Input
     /// ## nSites
@@ -177,46 +164,34 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// # Output
     /// Array of single-site measurement results.
     operation Ising1DExcitationCorrelation (nSites : Int, simulationTime : Double, trotterOrder : Int, trotterStepSize : Double) : Result[] {
-        
-        // Let us allocate an array to hold the measurement results.
-        mutable results = new Result[nSites];
-        
         // Let us set the hZ coupling to zero as it will not be needed.
         let hZCoupling = ToDouble(0);
-        
+
         // We pick arbitrary values for the X and J couplings
         let hXCoupling = ToDouble(1);
         let jCoupling = ToDouble(1);
-        
+
         // This determines the number of Trotter steps
         let steps = Ceiling(simulationTime / trotterStepSize);
-        
+
         // This resizes the Trotter step so that time evolution over the
         // duration is accomplished.
         let trotterStepSizeResized = simulationTime / ToDouble(steps);
-        
+
         // Let us initialize nSites clean qubits. These are all in the |0>
         // state.
         using (qubits = Qubit[nSites]) {
-            
             // We now create a spin flip excitation on the 0th site
             X(qubits[0]);
-            
+
             // We then evolve for some time
             for (idxStep in 0 .. steps - 1) {
                 (Ising1DTrotterEvolution(nSites, hXCoupling, hZCoupling, jCoupling, trotterOrder, trotterStepSizeResized))(qubits);
             }
-            
+
             // We now measure each site and return the results
-            set results = MultiM(qubits);
-            
-            // The qubits must be returned to the |0> state.
-            ResetAll(qubits);
+            return ForEach(MResetZ, qubits);
         }
-        
-        return results;
     }
-    
+
 }
-
-
