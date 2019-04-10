@@ -6,8 +6,9 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Convert;
-    
-    
+    open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Arrays;
+
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
@@ -85,33 +86,20 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     /// JordanWignerPZPString(5, PauliX, 3, 1) outputs the `Pauli[]` type
     /// `[PauliI, PauliX, PauliZ, PauliX, PauliI]`.
     function JordanWignerPZPString (nQubits : Int, idxPauli : Pauli, idxQubitA : Int, idxQubitB : Int) : Pauli[] {
-        
-        mutable idxQubitMin = idxQubitA;
-        mutable idxQubitMax = idxQubitB;
-        
-        if (idxQubitA > idxQubitB) {
-            set idxQubitMin = idxQubitB;
-            set idxQubitMax = idxQubitA;
+        let idxQubitMin = MinI(idxQubitA, idxQubitB);
+        let idxQubitMax = MaxI(idxQubitA, idxQubitB);
+
+        mutable idxPauliString = ConstantArray(nQubits, PauliI);
+
+        for (idxQubit in idxQubitMin + 1 .. idxQubitMax - 1) {
+            set idxPauliString[idxQubit] = PauliZ;
         }
-        
-        mutable idxPauliString = new Pauli[nQubits];
-        
-        for (idxQubit in 0 .. nQubits - 1) {
-            
-            if (idxQubit >= idxQubitMin and idxQubit <= idxQubitMax) {
-                set idxPauliString[idxQubit] = PauliZ;
-            }
-            else {
-                set idxPauliString[idxQubit] = PauliI;
-            }
-        }
-        
+
         set idxPauliString[idxQubitMin] = idxPauli;
         set idxPauliString[idxQubitMax] = idxPauli;
         return idxPauliString;
     }
-    
-    
+
     // We may now simulate time-evolution by the Fermionic hopping terms,
     // which are each now expressed as Jordan-Wigner strings.
     
@@ -161,32 +149,24 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     /// Coefficient of the hopping term in the Hubbard Hamiltonian.
     /// ## qubits
     /// Qubits that the encoded Hubbard Hamiltonian acts on.
-    operation HubbardRepulsionTerm (nSites : Int, idxSite : Int, coefficient : Double, qubits : Qubit[]) : Unit {
-        
-        body (...) {
-            let nQubits = 2 * nSites;
-            let idxQubitA = nSites * 0 + idxSite;
-            let idxQubitB = nSites * 1 + idxSite;
-            let globalPhase = coefficient * 0.25;
-            let coefficientZ = coefficient * 0.25;
-            Exp([PauliZ], -coefficientZ, [qubits[idxQubitA]]);
-            Exp([PauliZ], -coefficientZ, [qubits[idxQubitB]]);
-            Exp([PauliZ, PauliZ], coefficientZ, [qubits[idxQubitA], qubits[idxQubitB]]);
-            // Instead of applying a global phase, we may simply track it
-            // and add the result to the energy estimate later.
-            //Exp([PauliI], globalPhase, [qubits[0]]);
-        }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation HubbardRepulsionTerm (nSites : Int, idxSite : Int, coefficient : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+        let nQubits = 2 * nSites;
+        let idxQubitA = nSites * 0 + idxSite;
+        let idxQubitB = nSites * 1 + idxSite;
+        let globalPhase = coefficient * 0.25;
+        let coefficientZ = coefficient * 0.25;
+        Exp([PauliZ], -coefficientZ, [qubits[idxQubitA]]);
+        Exp([PauliZ], -coefficientZ, [qubits[idxQubitB]]);
+        Exp([PauliZ, PauliZ], coefficientZ, [qubits[idxQubitA], qubits[idxQubitB]]);
+        // Instead of applying a global phase, we may simply track it
+        // and add the result to the energy estimate later.
+        //Exp([PauliI], globalPhase, [qubits[0]]);
     }
-    
-    
+
     // Let us now combine these two contributions to the Hubbard Hamiltonian
     // in a single operation that maps an integer indexing a term in the
     // Hamiltonian to time-evolution by that term alone.
-    
+
     /// # Summary
     /// Implements time-evolution by a single term in the Hubbard Hamiltonian.
     ///
@@ -203,25 +183,18 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     /// Duration of single step of time-evolution
     /// ## qubits
     /// Qubits that the encoded Hubbard Hamiltonian acts on.
-    operation HubbardTrotterUnitariesImpl (nSites : Int, tCoefficient : Double, uCoefficient : Double, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[]) : Unit {
-        
-        body (...) {
-            // when idxHamiltonian is in [0, 2 * nSites - 1], we return a hopping term
-            // when idxHamiltonian is in [2 * nSites, 3 * nSites - 1], we return a repulsion term
-            if (idxHamiltonian < 2 * nSites) {
-                let idxSite = (idxHamiltonian / 2) % nSites;
-                let idxSpin = idxHamiltonian % 2;
-                HubbardHoppingTerm(nSites, idxSite, idxSpin, tCoefficient * stepSize, qubits);
-            }
-            else {
-                let idxSite = idxHamiltonian % nSites;
-                HubbardRepulsionTerm(nSites, idxSite, uCoefficient * stepSize, qubits);
-            }
+    operation HubbardTrotterUnitariesImpl (nSites : Int, tCoefficient : Double, uCoefficient : Double, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+        // when idxHamiltonian is in [0, 2 * nSites - 1], we return a hopping term
+        // when idxHamiltonian is in [2 * nSites, 3 * nSites - 1], we return a repulsion term
+        if (idxHamiltonian < 2 * nSites) {
+            let idxSite = (idxHamiltonian / 2) % nSites;
+            let idxSpin = idxHamiltonian % 2;
+            HubbardHoppingTerm(nSites, idxSite, idxSpin, tCoefficient * stepSize, qubits);
         }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+        else {
+            let idxSite = idxHamiltonian % nSites;
+            HubbardRepulsionTerm(nSites, idxSite, uCoefficient * stepSize, qubits);
+        }
     }
     
     
