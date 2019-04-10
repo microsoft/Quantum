@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.Hubbard {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Oracles;
+    open Microsoft.Quantum.Characterization;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Convert;
     
@@ -97,7 +98,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
         
         for (idxQubit in 0 .. nQubits - 1) {
             
-            if (idxQubit >= idxQubitMin && idxQubit <= idxQubitMax) {
+            if (idxQubit >= idxQubitMin and idxQubit <= idxQubitMax) {
                 set idxPauliString[idxQubit] = PauliZ;
             }
             else {
@@ -128,28 +129,21 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     /// Coefficient of the hopping term in the Hubbard Hamiltonian.
     /// ## qubits
     /// Qubits that the encoded Hubbard Hamiltonian acts on.
-    operation HubbardHoppingTerm (nSites : Int, idxSite : Int, idxSpin : Int, coefficient : Double, qubits : Qubit[]) : Unit {
-        
-        body (...) {
-            // The number of qubits in this encoding is as follows
-            let nQubits = 2 * nSites;
-            
-            if (not (idxSpin == 0 || idxSpin == 1)) {
-                fail "Fermion spin index must be 0 or 1.";
-            }
-            
-            // This is how we index the qubits
-            let idxQubitA = nSites * idxSpin + idxSite % nSites;
-            let idxQubitB = nSites * idxSpin + (idxSite + 1) % nSites;
-            let JordanWignerStringX = JordanWignerPZPString(nQubits, PauliX, idxQubitA, idxQubitB);
-            let JordanWignerStringY = JordanWignerPZPString(nQubits, PauliY, idxQubitA, idxQubitB);
-            Exp(JordanWignerStringX, 0.5 * coefficient, qubits);
-            Exp(JordanWignerStringY, 0.5 * coefficient, qubits);
+    operation HubbardHoppingTerm (nSites : Int, idxSite : Int, idxSpin : Int, coefficient : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+        // The number of qubits in this encoding is as follows
+        let nQubits = 2 * nSites;
+
+        if (not (idxSpin == 0 or idxSpin == 1)) {
+            fail "Fermion spin index must be 0 or 1.";
         }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+
+        // This is how we index the qubits
+        let idxQubitA = nSites * idxSpin + idxSite % nSites;
+        let idxQubitB = nSites * idxSpin + (idxSite + 1) % nSites;
+        let JordanWignerStringX = JordanWignerPZPString(nQubits, PauliX, idxQubitA, idxQubitB);
+        let JordanWignerStringY = JordanWignerPZPString(nQubits, PauliY, idxQubitA, idxQubitB);
+        Exp(JordanWignerStringX, 0.5 * coefficient, qubits);
+        Exp(JordanWignerStringY, 0.5 * coefficient, qubits);
     }
     
     
@@ -277,13 +271,11 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     /// # Output
     /// A unitary operation.
     function HubbardTrotterEvolution (nSites : Int, tCoefficient : Double, uCoefficient : Double, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit : Adjoint, Controlled) {
-        
         let nTerms = nSites * 3;
         let op = (nTerms, HubbardTrotterUnitariesImpl(nSites, tCoefficient, uCoefficient, _, _, _));
         return (DecomposeIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
     }
-    
-    
+
     // We now define an operation that prepares the anti-Ferromagnetic initial
     // and estimates the ground state energy using time evolution by the
     // Hubbard Hamiltonian.
