@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.Ising {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    
-    
+    open Microsoft.Quantum.Simulation;
+    open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Measurement;
+
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
@@ -91,18 +92,10 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// # Input
     /// ## qubits
     /// Qubit register encoding the Ising model quantum state.
-    operation Ising1DStatePrep (qubits : Qubit[]) : Unit {
-        
-        body (...) {
-            ApplyToEachCA(H, qubits);
-        }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation Prepare1DIsingState(qubits : Qubit[]) : Unit is Adj + Ctl {
+        ApplyToEachCA(H, qubits);
     }
-    
-    
+
     //////////////////////////////////////////////////////////////////////////
     // More manual time-dependent simulation given `GeneratorSystem` /////////
     //////////////////////////////////////////////////////////////////////////
@@ -128,14 +121,12 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// A `GeneratorSystem` representing the interpolated Hamiltonian H(s) of
     /// the Ising model.
     function IsingEvolutionScheduleImpl (nSites : Int, hXInitial : Double, hXFinal : Double, jFinal : Double, schedule : Double) : GeneratorSystem {
-        
         let hX = GenerateUniformHCoupling(hXFinal * schedule + hXInitial * (1.0 - schedule), _);
         let jZ = GenerateUniform1DJCoupling(nSites, schedule * jFinal, _);
         let (evolutionSet, generatorSystem) = (Ising1DEvolutionGenerator(nSites, hX, jZ))!;
         return generatorSystem;
     }
-    
-    
+
     /// # Summary
     /// We package the `GeneratorSystem` of the interpolated Hamiltonian H(s)
     /// as an `EvolutionSchedule` type by partial application of the schedule
@@ -172,19 +163,17 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// Choice of time-dependent simulation algorithm
     /// ## qubits
     /// Qubit register encoding the Ising model quantum state.
-    operation IsingAdiabaticEvolutionManualImpl (nSites : Int, hXInitial : Double, hXFinal : Double, jFinal : Double, adiabaticTime : Double, timeDependentSimulationAlgorithm : TimeDependentSimulationAlgorithm, qubits : Qubit[]) : Unit {
-        
-        body (...) {
-            let evolutionSchedule = IsingEvolutionSchedule(nSites, hXInitial, hXFinal, jFinal);
-            timeDependentSimulationAlgorithm!(adiabaticTime, evolutionSchedule, qubits);
-        }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation IsingAdiabaticEvolutionManualImpl(
+        nSites : Int, hXInitial : Double, hXFinal : Double,
+        jFinal : Double, adiabaticTime : Double,
+        timeDependentSimulationAlgorithm : TimeDependentSimulationAlgorithm,
+        qubits : Qubit[]
+    ) : Unit
+    is Adj + Ctl {
+        let evolutionSchedule = IsingEvolutionSchedule(nSites, hXInitial, hXFinal, jFinal);
+        timeDependentSimulationAlgorithm!(adiabaticTime, evolutionSchedule, qubits);
     }
-    
-    
+
     /// # Summary
     /// We make a choice of the Trotter–Suzuki decomposition as our
     /// `TimeDependentSimulationAlgorithm` for implementing time-dependent
@@ -212,7 +201,6 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// Hamiltonian H(s) when s is varied uniformly between 0 and 1 over time
     /// `adiabaticTime`.
     function IsingAdiabaticEvolutionManual (nSites : Int, hXInitial : Double, hXFinal : Double, jFinal : Double, adiabaticTime : Double, trotterStepSize : Double, trotterOrder : Int) : (Qubit[] => Unit : Adjoint, Controlled) {
-        
         let timeDependentSimulationAlgorithm = TimeDependentTrotterSimulationAlgorithm(trotterStepSize, trotterOrder);
         return IsingAdiabaticEvolutionManualImpl(nSites, hXInitial, hXFinal, jFinal, adiabaticTime, timeDependentSimulationAlgorithm, _);
     }
@@ -241,20 +229,13 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// A `Result[]` storing the outcome of Z basis measurements on each site
     /// of the Ising model.
     operation Ising1DAdiabaticAndMeasureManual (nSites : Int, hXInitial : Double, jFinal : Double, adiabaticTime : Double, trotterStepSize : Double, trotterOrder : Int) : Result[] {
-        
         let hXFinal = 0.0;
-        mutable results = new Result[nSites];
-        
         using (qubits = Qubit[nSites]) {
-            
             // This creates the ground state of the initial Hamiltonian.
-            Ising1DStatePrep(qubits);
+            Prepare1DIsingState(qubits);
             (IsingAdiabaticEvolutionManual(nSites, hXInitial, hXFinal, jFinal, adiabaticTime, trotterStepSize, trotterOrder))(qubits);
-            set results = MultiM(qubits);
-            ResetAll(qubits);
+            return ForEach(MResetZ, qubits);
         }
-        
-        return results;
     }
     
     
@@ -290,19 +271,15 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// A `EvolutionGenerator` representing time evolution by each term of the
     /// initial and target Hamiltonians respectively.
     function StartEvoGen (nSites : Int, hXCoupling : (Int -> Double)) : EvolutionGenerator {
-        
         let XGenSys = OneSiteGeneratorSystem(1, nSites, hXCoupling);
         return EvolutionGenerator(PauliEvolutionSet(), XGenSys);
     }
-    
-    
+
     function EndEvoGen (nSites : Int, jCoupling : (Int -> Double)) : EvolutionGenerator {
-        
         let ZZGenSys = TwoSiteGeneratorSystem(3, nSites, jCoupling);
         return EvolutionGenerator(PauliEvolutionSet(), ZZGenSys);
     }
-    
-    
+
     // between two Hamiltonians. This requires a choice of
     
     /// `TimeDependentSimulationAlgorithm`, and the time of simulation.
@@ -372,16 +349,12 @@ namespace Microsoft.Quantum.Samples.Ising {
         
         // For antiferromagnetic coupling, choose jFinal to be negative.
         let jCoupling = GenerateUniform1DJCoupling(nSites, jFinal, _);
-        mutable results = new Result[nSites];
         
         using (qubits = Qubit[nSites]) {
-            Ising1DStatePrep(qubits);
+            Prepare1DIsingState(qubits);
             (IsingAdiabaticEvolutionBuiltIn(nSites, adiabaticTime, trotterStepSize, trotterOrder, hXCoupling, jCoupling))(qubits);
-            set results = MultiM(qubits);
-            ResetAll(qubits);
+            return ForEach(MResetZ, qubits);
         }
-        
-        return results;
     }
     
 }
