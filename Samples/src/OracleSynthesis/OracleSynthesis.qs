@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.OracleSynthesis {
-
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Testing;
+    open Microsoft.Quantum.Diagnostics;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Convert;
 
     /// # Summary
     /// Computes Hadamard transform of a Boolean function in {-1,1} encoding
@@ -56,7 +58,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// # Output
     /// Array of 2^vars truth table values
     function TruthTable(func : Int, vars : Int) : Bool[] {
-        return BoolArrFromPositiveInt(func, 1 <<< vars);
+        return IntAsBoolArray(func, 1 <<< vars);
     }
 
     /// # Summary
@@ -90,7 +92,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// Extend([2, 2, 2, -2]); // [2, 2, 2, -2, -2, -2, -2, 2]
     /// ```
     function Extend(spectrum : Int[]) : Int[] {
-        return spectrum + Map(IntInvert, spectrum);
+        return spectrum + Mapped(IntInvert, spectrum);
     }
 
     /// # Summary
@@ -121,7 +123,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// Encode([false, false, false, true]); // [1, 1, 1, -1]
     /// ```
     function Encode(table : Bool[]) : Int[] {
-        return Map(RMEncoding, table);
+        return Mapped(RMEncoding, table);
     }
 
     /// # Summary
@@ -145,18 +147,18 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
 
       mutable res = new (Int, Int)[N];
       mutable j = 0;
-      mutable current = BoolArrFromPositiveInt(0, n);
+      mutable current = IntAsBoolArray(0, n);
 
       for (i in 0..N - 1) {
         if (i % 2 == 0) {
             set j = 0;
         } else {
-            let e = Zip(current, IntArrayFromRange(0..N - 1));
-            set j = Snd(Head(Filter(Fst<Bool, Int>, e))) + 1;
+            let e = Zip(current, RangeAsIntArray(0..N - 1));
+            set j = Snd(Head(Filtered(Fst<Bool, Int>, e))) + 1;
         }
 
         set j = IntMax(0, Min([j, n - 1]));
-        set res[i] = (PositiveIntFromBoolArr(current), j);
+        set res[i] = (BoolArrayAsInt(current), j);
         if (j < n) {
             set current[j] = not current[j];
         }
@@ -262,7 +264,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
 
         for (x in 0..(1 <<< (vars + 1)) - 1) {
             using (qubits = Qubit[vars + 1]) {
-                let init = BoolArrFromPositiveInt(x, vars + 1);
+                let init = IntAsBoolArray(x, vars + 1);
                 ApplyPauliFromBitString(PauliX, true, init, qubits);
                 Oracle(tableBits, qubits[0..vars - 1], qubits[vars]);
 
@@ -285,7 +287,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
 
         for (x in 0..Length(tableBits) - 1) {
             using (qubits = Qubit[vars + 2]) {
-                let init = BoolArrFromPositiveInt(x, vars);
+                let init = IntAsBoolArray(x, vars);
                 ApplyPauliFromBitString(PauliX, true, init, qubits[0..vars - 1]);
                 OracleCleanTargetQubit(tableBits, qubits[0..vars - 1], qubits[vars]);
                 CNOT(qubits[vars], qubits[vars + 1]);
