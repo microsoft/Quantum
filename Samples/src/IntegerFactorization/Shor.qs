@@ -3,7 +3,6 @@
 namespace Microsoft.Quantum.Samples.IntegerFactorization {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Arithmetic;
-    open Microsoft.Quantum.Extensions.Math;
     open Microsoft.Quantum.Extensions.Convert;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Math;
