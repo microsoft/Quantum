@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Quantum.Primitive;
+using Microsoft.Quantum.Intrinsic;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using Microsoft.Quantum.Simulation.Common;
