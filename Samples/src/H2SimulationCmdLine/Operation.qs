@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.H2Simulation {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Simulation;
+    open Microsoft.Quantum.Oracles;
+    open Microsoft.Quantum.Characterization;
     
     
     /////////////////////////////////////////////////////////////////////////////
@@ -124,20 +126,13 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// # Remarks
     /// This operation uses the common "Impl" idiom to expose a user-facing
     /// API in terms of functions (no side effects).
-    operation H2TrotterUnitariesImpl (idxBondLength : Int, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[]) : Unit {
+    operation H2TrotterUnitariesImpl (idxBondLength : Int, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+        let (idxPauliString, idxQubits) = H2Terms(idxHamiltonian);
+        let coeff = (H2Coeff(idxBondLength))[idxHamiltonian];
         
-        body (...) {
-            let (idxPauliString, idxQubits) = H2Terms(idxHamiltonian);
-            let coeff = (H2Coeff(idxBondLength))[idxHamiltonian];
-            
-            // We use library functions from the canon to restrict the action
-            // of Exp to the given qubits.
-            (RestrictToSubregisterCA(Exp(IntsToPaulis(idxPauliString), stepSize * coeff, _), idxQubits))(qubits);
-        }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+        // We use library functions from the canon to restrict the action
+        // of Exp to the given qubits.
+        (RestrictToSubregisterCA(Exp(IntsToPaulis(idxPauliString), stepSize * coeff, _), idxQubits))(qubits);
     }
     
     
@@ -219,16 +214,9 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// functions with the above representation to automatically
     /// decompose the H₂ Hamiltonian into an appropriate operation
     /// that we can apply to qubits as we please.
-    operation H2TrotterStep (idxBondLength : Int, trotterOrder : Int, trotterStepSize : Double, qubits : Qubit[]) : Unit {
-        
-        body (...) {
-            let simulationAlgorithm = TrotterSimulationAlgorithm(trotterStepSize, trotterOrder);
-            simulationAlgorithm!(trotterStepSize, H2EvolutionGenerator(idxBondLength), qubits);
-        }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation H2TrotterStep (idxBondLength : Int, trotterOrder : Int, trotterStepSize : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+        let simulationAlgorithm = TrotterSimulationAlgorithm(trotterStepSize, trotterOrder);
+        simulationAlgorithm!(trotterStepSize, H2EvolutionGenerator(idxBondLength), qubits);
     }
     
     
@@ -236,7 +224,6 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// Prepares the an approximation to the H₂ ground state,
     /// assuming an initial state of |00〉.
     operation H2StatePrep (q : Qubit[]) : Unit {
-        
         X(q[0]);
     }
     
