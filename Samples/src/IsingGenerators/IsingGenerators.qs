@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.Ising {
-    open Microsoft.Quantum.Extensions.Convert;
+    open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Simulation;
@@ -227,14 +227,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// # Output
     /// A function returning coefficients `Jₖ` for each site.
     function GenerateUniform1DJCoupling (nSites : Int, amplitude : Double, idxQubit : Int) : Double {
-        
-        mutable coeff = amplitude;
-        
-        if (idxQubit == nSites - 1) {
-            set coeff = ToDouble(0);
-        }
-        
-        return coeff;
+        return idxQubit == nSites - 1 ? 0.0 | amplitude;
     }
     
     

@@ -265,7 +265,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             
             // ContinuedFractionConvergent does not guarantee the signs of the numerator
             // and denominator. Here we make sure that both are positive using
-            // Microsoft.Quantum.Extensions.MathI
+            // AbsI.
             let (numeratorAbs, periodAbs) = (AbsI(numerator), AbsI(period));
             
             // Use Microsoft.Quantum.Primitive.Message to output the
