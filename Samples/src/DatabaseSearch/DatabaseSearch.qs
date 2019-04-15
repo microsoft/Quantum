@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.DatabaseSearch {
-    
-    open Microsoft.Quantum.Primitive;
-    open Microsoft.Quantum.Extensions.Convert;
-    open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Canon;
-    
-    
+    open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Measurement;
+    open Microsoft.Quantum.Diagnostics;
+    open Microsoft.Quantum.Oracles;
+    open Microsoft.Quantum.AmplitudeAmplification;
+
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
@@ -66,16 +69,11 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     ///
     /// where f(k) = 1 if and only if k = 2^(Length(databaseRegister)) - 1 and
     /// 0 otherwise.
-    operation DatabaseOracle (markedQubit : Qubit, databaseRegister : Qubit[]) : Unit {
-        
-        body (...) {
-            // The Controlled functor applies its operation conditioned on the
-            // first input being in the |11…1〉 state, which is precisely
-            // what we need for this example.
-            Controlled X(databaseRegister, markedQubit);
-        }
-        
-        adjoint invert;
+    operation DatabaseOracle (markedQubit : Qubit, databaseRegister : Qubit[]) : Unit is Adj + Ctl {
+        // The Controlled functor applies its operation conditioned on the
+        // first input being in the |11…1〉 state, which is precisely
+        // what we need for this example.
+        Controlled X(databaseRegister, markedQubit);
     }
     
     
@@ -104,20 +102,10 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// # Input
     /// ## databaseRegister
     /// A register of n qubits initially in the |00…0〉 state.
-    operation UniformSuperpositionOracle (databaseRegister : Qubit[]) : Unit {
-        
-        body (...) {
-            let nQubits = Length(databaseRegister);
-            
-            for (idxQubit in 0 .. nQubits - 1) {
-                H(databaseRegister[idxQubit]);
-            }
-        }
-        
-        adjoint invert;
+    operation UniformSuperpositionOracle (databaseRegister : Qubit[]) : Unit is Adj + Ctl {
+        ApplyToEachCA(H, databaseRegister);
     }
-    
-    
+
     // We will define the state preparation oracle as a black-box unitary that
     // creates a uniform superposition of states using
     // `UniformSuperpositionOracle` U, then marks the target state using the
@@ -145,14 +133,9 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// Qubit that indicates whether database element is marked.
     /// ## databaseRegister
     /// A register of n qubits initially in the |00…0〉 state.
-    operation StatePreparationOracle (markedQubit : Qubit, databaseRegister : Qubit[]) : Unit {
-        
-        body (...) {
-            UniformSuperpositionOracle(databaseRegister);
-            DatabaseOracle(markedQubit, databaseRegister);
-        }
-        
-        adjoint invert;
+    operation StatePreparationOracle (markedQubit : Qubit, databaseRegister : Qubit[]) : Unit is Adj + Ctl{
+        UniformSuperpositionOracle(databaseRegister);
+        DatabaseOracle(markedQubit, databaseRegister);
     }
     
     
@@ -172,12 +155,10 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// ## markedQubit
     /// Qubit that indicated whether database element is marked.
     operation ReflectMarked (markedQubit : Qubit) : Unit {
-        
         // Marked elements always have the marked qubit in the state |1〉.
         R1(PI(), markedQubit);
     }
-    
-    
+
     /// # Summary
     /// Reflection about the |00…0〉 state.
     ///
@@ -185,18 +166,9 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// ## databaseRegister
     /// A register of n qubits initially in the |00…0〉 state.
     operation ReflectZero (databaseRegister : Qubit[]) : Unit {
-        
-        let nQubits = Length(databaseRegister);
-        
-        for (idxQubit in 0 .. nQubits - 1) {
-            X(databaseRegister[idxQubit]);
-        }
-        
-        Controlled Z(databaseRegister[1 .. nQubits - 1], databaseRegister[0]);
-        
-        for (idxQubit in 0 .. nQubits - 1) {
-            X(databaseRegister[idxQubit]);
-        }
+        ApplyToEachCA(X, databaseRegister);
+        Controlled Z(Rest(databaseRegister), Head(databaseRegister));
+        ApplyToEachCA(X, databaseRegister);
     }
     
     
@@ -209,7 +181,6 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// ## databaseRegister
     /// A register of n qubits initially in the |00…0〉 state.
     operation ReflectStart (markedQubit : Qubit, databaseRegister : Qubit[]) : Unit {
-        
         Adjoint StatePreparationOracle(markedQubit, databaseRegister);
         ReflectZero([markedQubit] + databaseRegister);
         StatePreparationOracle(markedQubit, databaseRegister);
@@ -243,14 +214,15 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// ## databaseRegister
     /// A register of n qubits initially in the |00…0〉 state.
     operation QuantumSearch (nIterations : Int, markedQubit : Qubit, databaseRegister : Qubit[]) : Unit {
-        
+
         StatePreparationOracle(markedQubit, databaseRegister);
-        
+
         // Loop over Grover iterates.
         for (idx in 0 .. nIterations - 1) {
             ReflectMarked(markedQubit);
             ReflectStart(markedQubit, databaseRegister);
         }
+
     }
     
     
@@ -273,47 +245,22 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// Measurement outcome of marked Qubit and measurement outcomes of
     /// the database register.
     operation ApplyQuantumSearch (nIterations : Int, nDatabaseQubits : Int) : (Result, Result[]) {
-        
-        // Allocate variables to store measurement results.
-        mutable resultSuccess = Zero;
-        mutable resultElement = new Result[nDatabaseQubits];
-        
         // Allocate nDatabaseQubits + 1 qubits. These are all in the |0〉
         // state.
-        using (qubits = Qubit[nDatabaseQubits + 1]) {
-            
-            // Define marked qubit to be indexed by 0.
-            let markedQubit = qubits[0];
-            
-            // Let all other qubits be the database register.
-            let databaseRegister = qubits[1 .. nDatabaseQubits];
-            
+        using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
             // Implement the quantum search algorithm.
             QuantumSearch(nIterations, markedQubit, databaseRegister);
-            
+
             // Measure the marked qubit. On success, this should be One.
-            set resultSuccess = M(markedQubit);
-            
+            let resultSuccess = MResetZ(markedQubit);
+
             // Measure the state of the database register post-selected on
             // the state of the marked qubit.
-            set resultElement = MultiM(databaseRegister);
-            
-            // These reset all qubits to the |0〉 state, which is required
-            // before deallocation.
-            if (resultSuccess == One) {
-                X(markedQubit);
-            }
-            
-            for (idxResult in 0 .. nDatabaseQubits - 1) {
-                
-                if (resultElement[idxResult] == One) {
-                    X(databaseRegister[idxResult]);
-                }
-            }
+            let resultElement = ForEach(MResetZ, databaseRegister);
+
+            // Returns the measurement results of the algorithm.
+            return (resultSuccess, resultElement);
         }
-        
-        // Returns the measurement results of the algorithm.
-        return (resultSuccess, resultElement);
     }
     
     
@@ -324,25 +271,22 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// Checks whether state preparation marks the right fraction of elements
     /// against theoretical predictions.
     operation StatePreparationOracleTest () : Unit {
-        
         for (nDatabaseQubits in 0 .. 5) {
-            
-            using (qubits = Qubit[nDatabaseQubits + 1]) {
-                let markedQubit = qubits[0];
-                let databaseRegister = qubits[1 .. nDatabaseQubits];
+            using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
                 StatePreparationOracle(markedQubit, databaseRegister);
-                
+
                 // This is the success probability as predicted by theory.
                 // Note that this is computed only to verify that we have
                 // implemented Grover's algorithm correctly in the
                 // `AssertProb` below.
-                let successAmplitude = 1.0 / Sqrt(ToDouble(2 ^ nDatabaseQubits));
+                let successAmplitude = 1.0 / Sqrt(IntAsDouble(2 ^ nDatabaseQubits));
                 let successProbability = successAmplitude * successAmplitude;
                 AssertProb([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
-                
-                // This function automatically resets all qubits to |0〉
+
+                // This operation automatically resets all qubits to |0〉
                 // for safe deallocation.
-                ResetAll(qubits);
+                Reset(markedQubit);
+                ResetAll(databaseRegister);
             }
         }
     }
@@ -363,33 +307,28 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
             
             for (nIterations in 0 .. 5) {
                 
-                using (qubits = Qubit[nDatabaseQubits + 1]) {
-                    ResetAll(qubits);
-                    let markedQubit = qubits[0];
-                    let databaseRegister = qubits[1 .. nDatabaseQubits];
+                using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
                     QuantumSearch(nIterations, markedQubit, databaseRegister);
-                    let successAmplitude = Sin(ToDouble(2 * nIterations + 1) * ArcSin(1.0 / Sqrt(ToDouble(2 ^ nDatabaseQubits))));
+                    let successAmplitude = Sin(IntAsDouble(2 * nIterations + 1) * ArcSin(1.0 / Sqrt(IntAsDouble(2 ^ nDatabaseQubits))));
                     let successProbability = successAmplitude * successAmplitude;
                     AssertProb([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
-                    
+
                     // If this result is One, we have found the marked
                     // element.
                     let result = M(markedQubit);
-                    
+
                     if (result == One) {
                         let results = MultiM(databaseRegister);
-                        
+
                         // Post-selected on success, verify that that
                         // database qubits are all |1〉.
                         for (idxResult in 0 .. nDatabaseQubits - 1) {
-                            
-                            if (results[idxResult] == Zero) {
-                                fail "Found state should be 1..1 string.";
-                            }
+                            EqualityFactR(results[idxResult], One, "Found state should be 1..1 string.");
                         }
                     }
-                    
-                    ResetAll(qubits);
+
+                    ResetAll(databaseRegister);
+                    Reset(markedQubit);
                 }
             }
         }
@@ -564,41 +503,22 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// Measurement outcome of marked Qubit and measurement outcomes of
     /// the database register converted to an integer.
     operation ApplyGroverSearch (markedElements : Int[], nIterations : Int, nDatabaseQubits : Int) : (Result, Int) {
-        
-        // Allocate variables to store measurement results.
-        mutable resultSuccess = Zero;
-        mutable numberElement = 0;
-        
         // Allocate nDatabaseQubits + 1 qubits. These are all in the |0〉
         // state.
-        using (qubits = Qubit[nDatabaseQubits + 1]) {
-            
-            // Define marked qubit to be indexed by 0.
-            let markedQubit = qubits[0];
-            
-            // Let all other qubits be the database register.
-            let databaseRegister = qubits[1 .. nDatabaseQubits];
-            
+        using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
             // Implement the quantum search algorithm.
-            (GroverSearch(markedElements, nIterations, 0))(qubits);
-            
+            (GroverSearch(markedElements, nIterations, 0))([markedQubit] + databaseRegister);
+
             // Measure the marked qubit. On success, this should be One.
-            set resultSuccess = M(markedQubit);
-            
+            let resultSuccess = MResetZ(markedQubit);
+
             // Measure the state of the database register post-selected on
-            // the state of the marked qubit.
-            let resultElement = MultiM(databaseRegister);
-            set numberElement = PositiveIntFromResultArr(resultElement);
-            
-            // These reset all qubits to the |0〉 state, which is required
-            // before deallocation.
-            ResetAll(qubits);
+            // the state of the marked qubit and return the measurement results
+            // of the algorithm.
+            return (resultSuccess, ResultArrayAsInt(ForEach(MResetZ, databaseRegister)));
         }
-        
-        // Returns the measurement results of the algorithm.
-        return (resultSuccess, numberElement);
     }
-    
+
 }
 
 
