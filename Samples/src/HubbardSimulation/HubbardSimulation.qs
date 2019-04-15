@@ -5,8 +5,8 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     open Microsoft.Quantum.Characterization;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Convert;
-    open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Arrays;
 
     //////////////////////////////////////////////////////////////////////////
@@ -301,7 +301,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
             set energyEst = RobustPhaseEstimation(bitsPrecision, qpeOracle, qubits) / trotterStepSize;
             
             // We add the contribution of the global phase here
-            set energyEst = energyEst + (ToDouble(nSites) * uCoefficient) * 0.25;
+            set energyEst = energyEst + (IntAsDouble(nSites) * uCoefficient) * 0.25;
             
             // We must reset all qubits to the |0〉 state before releasing them.
             ResetAll(qubits);

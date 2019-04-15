@@ -3,7 +3,7 @@
 namespace Microsoft.Quantum.Samples.IntegerFactorization {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Arithmetic;
-    open Microsoft.Quantum.Extensions.Convert;
+    open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Oracles;
@@ -221,7 +221,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                     // Compute the numerator k of dyadic fraction k/2^bitsPrecision
                     // approximating s/r. Note that phase estimation project on the eigenstate
                     // corresponding to random s.
-                    set dyadicFractionNum = Round(((phase * ToDouble(2 ^ bitsPrecision)) / 2.0) / PI());
+                    set dyadicFractionNum = Round(((phase * IntAsDouble(2 ^ bitsPrecision)) / 2.0) / PI());
                 }
                 else {
                     

@@ -3,8 +3,8 @@
 namespace Microsoft.Quantum.Samples.Ising {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Math;
-    open Microsoft.Quantum.Extensions.Convert;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Measurement;
 
@@ -165,18 +165,18 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// Array of single-site measurement results.
     operation Ising1DExcitationCorrelation (nSites : Int, simulationTime : Double, trotterOrder : Int, trotterStepSize : Double) : Result[] {
         // Let us set the hZ coupling to zero as it will not be needed.
-        let hZCoupling = ToDouble(0);
+        let hZCoupling = 0.0;
 
         // We pick arbitrary values for the X and J couplings
-        let hXCoupling = ToDouble(1);
-        let jCoupling = ToDouble(1);
+        let hXCoupling = 1.0;
+        let jCoupling = 1.0;
 
         // This determines the number of Trotter steps
         let steps = Ceiling(simulationTime / trotterStepSize);
 
         // This resizes the Trotter step so that time evolution over the
         // duration is accomplished.
-        let trotterStepSizeResized = simulationTime / ToDouble(steps);
+        let trotterStepSizeResized = simulationTime / IntAsDouble(steps);
 
         // Let us initialize nSites clean qubits. These are all in the |0>
         // state.
