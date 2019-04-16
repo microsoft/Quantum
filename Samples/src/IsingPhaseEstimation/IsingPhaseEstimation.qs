@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.Ising {
     open Microsoft.Quantum.Simulation;
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Oracles;
     open Microsoft.Quantum.Characterization;

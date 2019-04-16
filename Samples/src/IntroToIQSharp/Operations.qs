@@ -1,7 +1,7 @@
 
 namespace Microsoft.Quantum.Samples 
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
 
     /// # Summary
     /// Returns true if qubit is $|+\rangle$ (assumes qubit is either $|+\rangle$ or $|-\rangle$)

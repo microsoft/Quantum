@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Samples.Measurement;
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
 
     operation MeasurementTest () : Unit {
         // The use of mutables here is to enforce types.

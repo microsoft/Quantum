@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate {
     
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Math;
     

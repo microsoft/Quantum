@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Convert;
+    open Microsoft.Quantum.Convert;
     
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,22 +69,18 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     AssertProb([PauliX], [ancilla1], Zero, 0.75, "Error: the probability to measure |+⟩ in the second ancilla must be 3/4", 1E-10);
                     let outcome0 = Measure([PauliX], [ancilla0]);
                     
-                    // After the first ancilla has been measured the probability is conditional
+                    // After the first auxillary qubit has been measured the probability is conditional
                     // upon measurement outcome.
-                    // If we measured Zero on the first ancilla, the probability of
-                    // measuring |+⟩ on the second ancilla is 5/6
-                    mutable prob = ToDouble(5) / ToDouble(6);
-                    
-                    // If we measured One on the first ancilla, the probability of
+                    // If we measured Zero on the first auxillary qubit, the probability of
+                    // measuring |+⟩ on the second auxillary qubit is 5/6
+                    // If we measured One on the first auxillary qubit, the probability of
                     // measuring |+⟩ on the second ancilla is 1/2
-                    if (outcome0 == One) {
-                        set prob = 0.5;
-                    }
-                    
+                    let prob = outcome0 == One ? 0.5 | 5.0 / 6.0;
+
                     AssertProb([PauliX], [ancilla1], Zero, prob, $"Error:the probability to measure |+⟩ in the first ancilla must be {prob}", 1E-10);
                     let outcome1 = Measure([PauliX], [ancilla1]);
                 }
-                until (outcome0 == Zero && outcome1 == Zero)
+                until (outcome0 == Zero and outcome1 == Zero)
                 fixup {
                     
                     // Upon failure the identity gate has been applied to the target qubit
@@ -162,7 +157,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     set TGatesToApplyInTheEnd = TGatesToApplyInTheEnd + 5;
                     
                     // The probability to measure |+⟩ on ancilla is 5/6
-                    AssertProb([PauliX], [ancilla], Zero, ToDouble(5) / ToDouble(6), "The probability to measure |+⟩ on ancilla must be 5/6", 1E-10);
+                    AssertProb([PauliX], [ancilla], Zero, 5.0 / 6.0, "The probability to measure |+⟩ on ancilla must be 5/6", 1E-10);
                     let outcome = Measure([PauliX], [ancilla]);
                 }
                 until (outcome == Zero)
@@ -224,7 +219,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                 T(ancilla);
                 
                 // Probability of measuring |+⟩ state on ancilla is 3/4
-                AssertProb([PauliX], [ancilla], Zero, ToDouble(3) / ToDouble(4), "Error: the probability to measure |+⟩ in the first ancilla must be 3/4", 1E-10);
+                AssertProb([PauliX], [ancilla], Zero, 3.0 / 4.0, "Error: the probability to measure |+⟩ in the first ancilla must be 3/4", 1E-10);
                 
                 // if measurement outcome zero we prepared required state
                 let outcome = Measure([PauliX], [ancilla]);

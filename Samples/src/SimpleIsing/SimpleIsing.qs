@@ -78,7 +78,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
 
             // Each new qubit starts off in the |0〉 state, so we
             // apply the Hadamard gate, represented by the
-            // Microsoft.Quantum.Primitive.H operation, in order to
+            // Microsoft.Quantum.Intrinsic.H operation, in order to
             // prepare an initial state |+〉 for each qubit.
             // That is, we align all of the initial states with the
             // X operator.

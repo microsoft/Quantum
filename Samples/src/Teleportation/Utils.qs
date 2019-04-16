@@ -4,7 +4,7 @@
 // This file includes some utility functions to set and 
 // verify |+> and |-> quantum states.
 namespace Microsoft.Quantum.Samples.Teleportation {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Math;
 

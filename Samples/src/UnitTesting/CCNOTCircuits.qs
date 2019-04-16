@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
     
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     
     
@@ -16,7 +16,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     
     // This file contains different implementations of  Doubly Controlled X gate, also known
     // as Toffoli gate or Doubly Controlled Not gate.
-    // The gate is equivalent to Microsoft.Quantum.Primitive.CCNOT(control1,control2,target),
+    // The gate is equivalent to Microsoft.Quantum.Intrinsic.CCNOT(control1,control2,target),
     // (Controlled CNOT)([control1],control2,target) and
     // (Controlled X)([control1,control2],target).
     // On computational basis states CCNOT acts as |c₁⟩⊗|c₂⟩⊗|t⟩ ↦ |c₁⟩⊗|c₂⟩⊗|t⊕(c₁∧c₂)⟩
@@ -330,7 +330,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// because it acts as |abc⟩ ↦ (-1)^(a∧b∧c)|abc⟩ on computation basis states.
     /// #Recall that ExpFrac used in the circuit below is an exponent of the
     ///  respective multi-qubit Pauli gate times numerator Pi() i /2^{n-1}
-    ///  It is a primitive gate implemented by Quantum.Primitives
+    ///  It is a primitive gate implemented by Quantum.Intrinsics
     operation CCZ1 (qubit1 : Qubit, qubit2 : Qubit, qubit3 : Qubit) : Unit {
         
         body (...) {

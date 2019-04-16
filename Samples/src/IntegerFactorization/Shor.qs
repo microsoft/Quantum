@@ -48,7 +48,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         // If true use Quantum algorithm for Period finding.
         if (IsCoprime(coprimeCandidate, number)) {
             
-            // Print a message using Microsoft.Quantum.Primitive.Message
+            // Print a message using Microsoft.Quantum.Intrinsic.Message
             // indicating that we are doing something quantum.
             Message($"Estimating period of {coprimeCandidate}");
             
@@ -97,7 +97,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             let gcd = GCD(number, coprimeCandidate);
             
             // And do not forget to tell the user that we were lucky and didn't do anything
-            // quantum using Microsoft.Quantum.Primitive.Message
+            // quantum using Microsoft.Quantum.Intrinsic.Message
             Message($"We have guessed a divisor of {number} to be {gcd} by accident.");
             
             // Return the factorization
@@ -256,7 +256,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             }
             
             // This will print our estimate of s/r to the standard output
-            // using Microsoft.Quantum.Primitive.Message
+            // using Microsoft.Quantum.Intrinsic.Message
             Message($"Estimated eigenvalue is {dyadicFractionNum}/2^{bitsPrecision}.");
             
             // Now we use Microsoft.Quantum.Canon.ContinuedFractionConvergent
@@ -268,7 +268,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             // AbsI.
             let (numeratorAbs, periodAbs) = (AbsI(numerator), AbsI(period));
             
-            // Use Microsoft.Quantum.Primitive.Message to output the
+            // Use Microsoft.Quantum.Intrinsic.Message to output the
             // period divisor and the eigenstate number
             Message($"Estimated divisor of period is {periodAbs}, " + $" we have projected on eigenstate marked by {numeratorAbs}.");
             

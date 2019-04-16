@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
     
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Testing;
     
@@ -16,7 +16,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     operation MultiTargetMultiControlledNotTest () : Unit {
         
         //  list of the operations to test in format (actual,expected)
-        let testList = [(MultiTargetMultiNot, Controlled MultiX)];
+        let testList = [(MultiTargetMultiNot, Controlled (ApplyToEachCA(X, _)))];
         
         for (i in 0 .. Length(testList) - 1) {
             let (actual, expected) = testList[i];
