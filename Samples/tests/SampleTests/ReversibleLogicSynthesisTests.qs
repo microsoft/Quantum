@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Samples.ReversibleLogicSynthesis;
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Arithmetic;
+    open Microsoft.Quantum.Math;
 
 
     operation IsBitSetTest () : Unit {
@@ -59,26 +61,24 @@ namespace Microsoft.Quantum.Tests {
                 ApplyPauliFromBitString(PauliX, true, init, qubits);
                 PermutationOracle(perm, TBS, qubits);
                 let simres = MeasureInteger(LittleEndian(qubits));
-                
+
                 if (simres != perm[i]) {
                     set result = false;
                 }
             }
         }
-        
+
         return result;
     }
-    
-    
+
     operation TBSTest () : Unit {
-        
         AssertBoolEqual(SimulatePermutation([0, 1, 3, 5, 7, 2, 4, 6]), true, "Simulation with TBS failed");
         AssertBoolEqual(SimulatePermutation([0, 1, 2, 3, 4, 5, 6, 7]), true, "Simulation with TBS failed");
         AssertBoolEqual(SimulatePermutation([7, 6, 5, 4, 3, 2, 1, 0]), true, "Simulation with TBS failed");
         AssertBoolEqual(SimulatePermutation([0, 3, 2, 1]), true, "Simulation with TBS failed");
         AssertBoolEqual(SimulatePermutation([0, 2, 4, 6, 8, 10, 12, 14, 1, 3, 5, 7, 9, 11, 13, 15]), true, "Simulation with TBS failed");
     }
-    
+
 }
 
 

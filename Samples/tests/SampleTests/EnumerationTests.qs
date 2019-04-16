@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Math;
     
     function IsEven (element : Int) : Bool {
         
@@ -11,7 +13,7 @@ namespace Microsoft.Quantum.Tests {
     
     function IsSingleDigit (element : Int) : Bool {
         
-        return element >= 0 && element < 10;
+        return element >= 0 and element < 10;
     }
     
     
@@ -23,7 +25,6 @@ namespace Microsoft.Quantum.Tests {
     
     
     function Squarer (a : Int) : Int {
-        
         return a * a;
     }
     
