@@ -25,9 +25,9 @@ namespace Microsoft.Quantum.Samples.Qiskit
             Console.Write(qasm.ToString());
             Console.WriteLine("");
 
-            string result = QiskitExecutor.RunQasm(qasm, QBitCount, Key, Name, runs);
+            string result = QiskitExecutor.RunQasm(qasm, QubitCount, Key, Name, runs);
             Console.WriteLine("Processed");
-            if (result.Length != QBitCount)
+            if (result.Length != QubitCount)
             {
                 Console.WriteLine("Wrong measurement count. Offline ?");
                 return new List<Result>() { Result.Zero, Result.Zero, Result.Zero, Result.Zero, Result.Zero };
