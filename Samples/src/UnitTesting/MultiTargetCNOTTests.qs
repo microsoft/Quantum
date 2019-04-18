@@ -4,7 +4,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Testing;
+    open Microsoft.Quantum.Diagnostics;
     
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     let msg1 = $"Testing {actual} against {expected} ";
                     let msg2 = $" on {totalNumberOfQubits} with {numberOfControls} controls";
                     Message(msg1 + msg2);
-                    AssertOperationsEqualReferenced(ApplyToPartitionCA(actual, numberOfControls, _), ApplyToPartitionCA(expected, numberOfControls, _), totalNumberOfQubits);
+                    AssertOperationsEqualReferenced(totalNumberOfQubits, ApplyToPartitionCA(actual, numberOfControls, _), ApplyToPartitionCA(expected, numberOfControls, _));
                 }
             }
         }

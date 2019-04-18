@@ -3,8 +3,8 @@
 namespace Microsoft.Quantum.Samples.SimpleIsing {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Math;
-    open Microsoft.Quantum.Extensions.Convert;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Convert;
 
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
@@ -112,7 +112,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
                 
                 // Find where we are in the sweep from the transverse
                 // field to the final Ising model.
-                let sweepParameter = ToDouble(idxIter) / ToDouble(nSteps);
+                let sweepParameter = IntAsDouble(idxIter) / IntAsDouble(nSteps);
                 
                 // In order to improve the locality of qubit references,
                 // we apply all terms locally before proceeding to the next

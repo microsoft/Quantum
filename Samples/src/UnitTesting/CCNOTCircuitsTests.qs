@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
-    
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Testing;
+    open Microsoft.Quantum.Diagnostics;
     
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +27,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
             
             // this checks that gates in the list act the same on all the
             // computational basis states ( up to a global phase )
-            AssertOperationsEqualInPlaceCompBasis(ApplyToFirstThreeQubits(actual, _), ApplyToFirstThreeQubitsA(expected, _), 3);
+            AssertOperationsEqualInPlaceCompBasis(3, (actual, _), ApplyToFirstThreeQubitsA(expected, _));
             
             // We used partial application and ApplyToFirstThreeQubits to convert operation with
             // signature (Qubit,Qubit,Qubit) => () to operation with signature Qubit[] => ()
@@ -49,7 +48,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
             Message($"Testing if {actual} is equal to {expected}.");
             
             // this checks that gates are equal
-            AssertOperationsEqualReferenced(ApplyToFirstThreeQubits(actual, _), ApplyToFirstThreeQubitsA(expected, _), 3);
+            AssertOperationsEqualReferenced(3, ApplyToFirstThreeQubits(actual, _), ApplyToFirstThreeQubitsA(expected, _));
             
             // We used partial application and ApplyToFirstThreeQubits to convert operation with
             // signature (Qubit,Qubit,Qubit) => () to operation with signature Qubit[] => ()

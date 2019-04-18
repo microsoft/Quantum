@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 namespace Microsoft.Quantum.Samples.OrderFinding {
-    open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Samples.ReversibleLogicSynthesis;
     open Microsoft.Quantum.Arithmetic;
-    open Microsoft.Quantum.Math;
 
     /// # Summary
     /// Given a permutation π, this function returns the
