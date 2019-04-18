@@ -991,9 +991,9 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader
         private const string HEADER =
 @"namespace {0}
 {{
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Math;
 ";
         private const string HEADER_OPERATION =
 @"

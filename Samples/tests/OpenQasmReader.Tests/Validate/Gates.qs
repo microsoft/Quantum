@@ -4,7 +4,7 @@ namespace Microsoft.Quantum.Samples.OpenQasmReader.Tests.Validate {
     
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Math;
     
     
     operation Majority (a : Qubit, b : Qubit, c : Qubit) : Unit {
