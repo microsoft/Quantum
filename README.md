@@ -71,11 +71,11 @@ The samples are broken down into four broad categories, each of which is describ
 ## 5. Qasm (Quantum Assembler Language) ##
 
 - **[OpenQasm](./Samples/src/OpenQasm)**:
-  This sample shows that one can output the a subset of the quantum operations of a Q# application in OpenQASM.
+  This sample shows that one can output a subset of the quantum operations of a Q# application in OpenQASM.
 - **[Qiskit](./Samples/src/Qiskit)**:
   This sample shows that one can run the quantum operations of a Q# application by using the OpenQASM output on the IBMQuantumExperience by changing the driver.
 - **[OpenQasmReader](./Samples/src/OpenQasmReader)**:
-  This sample shows that one can convert OpenQasm 2.0 specifications to Q# methods. This allows one to import algorithms written in OpenQasm 2.0 to be used on the Microsoft Q# Simulator. Appart of the barrier gate (which has no meaning in Q#) all gates are converted to Q# constructions.
+  This sample shows that one can convert OpenQasm 2.0 specifications to Q# methods. This allows one to import algorithms written in OpenQasm 2.0 to be used on the Microsoft Q# Simulator. Apart of the barrier gate (which has no meaning in Q#) all gates are converted to Q# constructions.
 
 ## Docker image
 
