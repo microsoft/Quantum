@@ -85,11 +85,6 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
     // Emulated arithmetic operations ////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
 
-    // Modular addition of 8-bit integers.
-    function ModAdd8(x: Int, y: Int) : Int {
-        return (x + y) % (1 <<< 8);
-    }
-
     // Prepare two `LittleEndian` registers in a computational basis state.
     operation PrepareSummands(qubits: Qubit[], numbers: Int[]) : (LittleEndian, LittleEndian) {
         let n = Length(qubits);
@@ -107,6 +102,11 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
         Message($"Computed {mx} + {y_init} = {my} mod {2^8}");
         AssertBoolEqual((mx + y_init) % 2^8 == my, true, "sum is wrong");
         return (mx, my);
+    }
+
+    // Modular addition of 8-bit integers.
+    function ModAdd8(x: Int, y: Int) : Int {
+        return (x + y) % (1 <<< 8);
     }
 
     // Here we demonstrate how to define and use emulated arithmetic operations.
@@ -153,7 +153,7 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
                 adder(x!, y!);
 
                 // Measure the registers. Check that the addition was performed and
-                // the input register `x` has not been changed.
+                // the input register `x` has collapsed into either 123 or 251.
                 let (mx, my) = MeasureAndCheckAddResult(x, y, numbers[1]);
                 AssertBoolEqual(mx == numbers[0] or mx == (numbers[0] + 2^7) % 2^8, true, "x changed!");
             }

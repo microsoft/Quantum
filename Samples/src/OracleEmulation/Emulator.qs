@@ -7,7 +7,7 @@ namespace Microsoft.Quantum.Extensions.Emulation
     /// # Summary
     /// Emulate the effect of a classical oracle by permuting the basis states of the simulator's
     /// wavefunction such that
-    ///     $\ket{x}\ket{y}\ket{w} -> \ket{x}\ket{f(x, y)}\ket{w}$,
+    ///     $\ket{x}\ket{y}\ket{w} \rightarrow \ket{x}\ket{f(x, y)}\ket{w}$,
     /// with registers x, y, w and the oracle function f. 
     ///
     /// # Input
