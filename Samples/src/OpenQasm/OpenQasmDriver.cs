@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Quantum.Primitive;
+using Microsoft.Quantum.Intrinsic;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using Microsoft.Quantum.Simulation.Common;
@@ -23,12 +23,12 @@ namespace Microsoft.Quantum.Samples.OpenQasm
         public OpenQasmDriver(IQubitManager qubitManager = null) : base(qubitManager)
         {
             QasmLog.AppendLine("include \"qelib1.inc\";");
-            QasmLog.AppendLine($"qreg q[{QBitCount}];");
-            QasmLog.AppendLine($"creg c[{QBitCount}];");
+            QasmLog.AppendLine($"qreg q[{QubitCount}];");
+            QasmLog.AppendLine($"creg c[{QubitCount}];");
         }
 
         protected abstract IEnumerable<Result> RunOpenQasm(StringBuilder qasm, int runs);
-        public abstract int QBitCount { get; }
+        public abstract int QubitCount { get; }
 
         /// <summary>
         /// Processes Hadamard gate

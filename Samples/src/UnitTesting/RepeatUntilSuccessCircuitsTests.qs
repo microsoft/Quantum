@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
-    
-    open Microsoft.Quantum.Primitive;
-    open Microsoft.Quantum.Extensions.Math;
-    open Microsoft.Quantum.Extensions.Convert;
-    open Microsoft.Quantum.Extensions.Testing;
+    open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Canon;
     
     
@@ -26,18 +25,16 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
         
         // As the circuits are probabilistic we repeat tests multiple times
         for (i in 0 .. 400) {
-            
+
             // next go over everything in testList
-            for (j in 0 .. Length(testList) - 1) {
-                let (actual, expected) = testList[j];
-                
+            for ((actual, expected) in testList) {
                 // This will log the names and parameters of operations being tested
                 Message($"Testing {actual} against {expected}. Attempt: {i}");
-                
+
                 // Using Referenced testing, as it uses only one call to the operation
                 // Note that in QCTraceSimulator call graph
                 // ExpIZArcTan2NC and ExpIZArcTan2PS will be called from ApplyToFirstQubit
-                AssertOperationsEqualReferenced(ApplyToFirstQubit(actual, _), expected, 1);
+                AssertOperationsEqualReferenced(1, ApplyToFirstQubit(actual, _), expected);
             }
         }
     }
@@ -50,9 +47,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
         
         for (i in 0 .. 100) {
             
-            using (qubits = Qubit[1]) {
-                let target = qubits[0];
-                
+            using (target = Qubit()) {
                 // Prepare input in |+⟩ state
                 H(target);
                 
@@ -61,8 +56,8 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                 
                 // Assert that prepared state is (√2/√3,1/√3)
                 let zeroAmp = Complex(Sqrt(2.0) / Sqrt(3.0), 0.0);
-                let oneAmp = Complex(ToDouble(1) / Sqrt(3.0), 0.0);
-                AssertQubitState((zeroAmp, oneAmp), target, 1E-10);
+                let oneAmp = Complex(1.0 / Sqrt(3.0), 0.0);
+                AssertQubitIsInStateWithinTolerance((zeroAmp, oneAmp), target, 1E-10);
                 
                 // Reset target back to |0⟩
                 Reset(target);

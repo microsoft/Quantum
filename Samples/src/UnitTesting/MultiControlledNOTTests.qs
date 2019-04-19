@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
     
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Testing;
+    open Microsoft.Quantum.Diagnostics;
     
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                 
                 // We use AssertOperationsEqualReferenced as it requires only
                 // one call to the operation being tested
-                AssertOperationsEqualReferenced(ControlledTestHelper(actual, _), ControlledTestHelper(expected, _), totalNumberOfQubits);
+                AssertOperationsEqualReferenced(totalNumberOfQubits, ControlledTestHelper(actual, _), ControlledTestHelper(expected, _));
             }
         }
     }
@@ -79,7 +79,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
             // MultiControlledXBorrow uses numberOfControlQubits - 2 dirty qubits
             using (extraQubits = Qubit[numberOfControlQubits - 2]) {
                 ApplyToEach(H, extraQubits);
-                AssertOperationsEqualReferenced(ControlledTestHelper(MultiControlledXBorrow, _), ControlledTestHelper(Controlled X, _), numberOfControlQubits + 1);
+                AssertOperationsEqualReferenced(numberOfControlQubits + 1, ControlledTestHelper(MultiControlledXBorrow, _), ControlledTestHelper(Controlled X, _));
                 ApplyToEach(H, extraQubits);
             }
         }

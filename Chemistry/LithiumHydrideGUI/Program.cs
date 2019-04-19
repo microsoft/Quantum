@@ -5,16 +5,13 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Microsoft.Quantum.Simulation.Simulators;
-using Microsoft.Quantum.Simulation.Core;
 using System.Runtime.InteropServices;
 using System.Linq;
 using Mono.Options;
-using Microsoft.Quantum.Chemistry;
 
 
 namespace Microsoft.Quantum.Chemistry.Samples.LiH
@@ -196,7 +193,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
         static string FindOnPath(string fileName)
         {
             foreach (var candidateRoot in (
-                Environment.GetEnvironmentVariable("PATH").Split(
+                System.Environment.GetEnvironmentVariable("PATH").Split(
                     Path.PathSeparator
                 ))
             )
@@ -260,7 +257,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
 
             // If we got this far, go on and call Environment's exit method,
             // killing the server thread.
-            Environment.Exit(process.ExitCode);
+            System.Environment.Exit(process.ExitCode);
         }
     }
     #endregion

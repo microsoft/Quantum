@@ -87,12 +87,12 @@ namespace Microsoft.Quantum.Samples.Ising
 
                 foreach (var idx in Enumerable.Range(0, 10))
                 {
-                    // As usual, the Q# operation IsingEstimateEnergy is
+                    // As usual, the Q# operation EstimateIsingEnergy is
                     // represented by a C# class with a static Run method
                     // which calls the Q# operation asynchronously and returns
                     // a Task object. To wait for the operation to complete,
                     // we can get the Result property of the returned Task.
-                    var data = IsingEstimateEnergy.Run(
+                    var data = EstimateIsingEnergy.Run(
                         qsim,
                         nSites, hXInitial, hXFinal, jFinal,
                         adiabaticTime, trotterStepSize, trotterOrder,
@@ -100,21 +100,21 @@ namespace Microsoft.Quantum.Samples.Ising
                     ).Result;
 
                     // Next, we need to unpack the tuple returned by
-                    // IsingEstimateEnergy. We do so by using the Item1, Item2
+                    // EstimateIsingEnergy. We do so by using the Item1, Item2
                     // fields exposed by the C# ValueTuple class. Since Item2
                     // here represents a Q# array of Result values, we also use
                     // ToArray to turn it back into a standard C# array.
                     var energyEst = data.Item1;
-                    var stateMeasured = data.Item2.ToArray();
+                    var measuredState = data.Item2.ToArray();
                     Console.WriteLine(
-                        $"State: {string.Join(", ", stateMeasured.Select(x => x.ToString()).ToArray())} Energy estimate: {energyEst} vs Theory: {energyTheory}."
+                        $"State: {string.Join(", ", measuredState.Select(x => x.ToString()).ToArray())} Energy estimate: {energyEst} vs Theory: {energyTheory}."
                     );
                 }
 
                 Console.WriteLine("\nSame procedure, but using the built-in function.");
                 foreach (var idx in Enumerable.Range(0, 10))
                 {
-                    var data = IsingEstimateEnergy_Builtin.Run(qsim, nSites, hXInitial, hXFinal, jFinal, adiabaticTime, trotterStepSize, trotterOrder, qpeStepSize, nBitsPrecision).Result;
+                    var data = EstimateIsingEnergyUsingBuiltin.Run(qsim, nSites, hXInitial, hXFinal, jFinal, adiabaticTime, trotterStepSize, trotterOrder, qpeStepSize, nBitsPrecision).Result;
                     var phaseEst = data;
                     Console.WriteLine("Energy estimate: {0} vs Theory: {1}.", phaseEst, energyTheory);
                 }

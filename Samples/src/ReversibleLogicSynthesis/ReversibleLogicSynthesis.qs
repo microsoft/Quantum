@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    
-    
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Arithmetic;
+    open Microsoft.Quantum.Convert;
+
     ////////////////////////////////////////////////////////////
     // Transformation-based synthesis                         //
     ////////////////////////////////////////////////////////////
-    
+
     /// # Summary
     /// A type to represent a multiple-controlled multiple-target Toffoli gate.
     ///
@@ -21,7 +23,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     ///
     /// The bit indexes of both integers must be disjoint.
     newtype MCMTMask = (Int, Int);
-    
+
     /// # Summary
     /// A type to represent a multiple-controlled Toffoli gate.
     ///
@@ -153,7 +155,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// ```
     function IntegerBits (value : Int, length : Int) : Int[] {
         
-        return Filter(IsBitSet(value, _), Numbers(length));
+        return Filtered(IsBitSet(value, _), Numbers(length));
     }
     
     
@@ -200,7 +202,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// Update permutation based according to gate mask.
     function UpdatePermutation (perm : Int[], gateMask : MCMTMask) : Int[] {
         
-        return Map(UpdateOutputPattern(_, gateMask), perm);
+        return Mapped(UpdateOutputPattern(_, gateMask), perm);
     }
     
     
@@ -223,7 +225,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         
         let xs = Numbers(Length(perm));
         let gates = new MCMTMask[0];
-        return Reverse(Snd(Fold(TBSStep, (perm, gates), xs)));
+        return Reversed(Snd(Fold(TBSStep, (perm, gates), xs)));
     }
     
     
@@ -290,7 +292,6 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     ///    Proc. RC 2016, Springer, pp. 307-321,
     ///    2016](https://doi.org/10.1007/978-3-319-40578-0_22)
     function TBS (perm : Int[], qubits : Qubit[]) : MCTGate[] {
-        
         let masks = TBSMain(perm);
         return GateMasksToToffoliGates(qubits, masks);
     }
@@ -360,7 +361,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         for (i in 0 .. Length(perm) - 1) {
             
             using (qubits = Qubit[nbits]) {
-                let init = BoolArrFromPositiveInt(i, nbits);
+                let init = IntAsBoolArray(i, nbits);
                 ApplyPauliFromBitString(PauliX, true, init, qubits);
                 PermutationOracle(perm, TBS, qubits);
                 let simres = MeasureInteger(LittleEndian(qubits));
@@ -412,7 +413,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         
         body (...) {
             let n = Length(qubits);
-            let bits = BoolArrFromPositiveInt(shift, n);
+            let bits = IntAsBoolArray(shift, n);
             ApplyPauliFromBitString(PauliX, true, bits, qubits);
         }
         
@@ -438,25 +439,21 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     ///    Proc. SODA 2010, ACM, pp. 448-457,
     ///    2010](https://doi.org/10.1137/1.9781611973075.37)
     operation HiddenShiftProblem (perm : Int[], shift : Int) : Int {
-        
+
         let n = BitSize(Length(perm));
-        mutable result = 0;
-        
         using (qubits = Qubit[2 * n]) {
             let Superpos = ApplyToEachA(H, _);
             let Shift = ApplyShift(shift, _);
             let Synth = PermutationOracle(perm, TBS, _);
             let PermX = ApplyToSubregisterA(Synth, Sequence(0, n - 1), _);
             let PermY = ApplyToSubregisterA(Synth, Sequence(n, 2 * n - 1), _);
-            With(BindA([Superpos, Shift, PermY]), InnerProduct, qubits);
-            With(Adjoint PermX, InnerProduct, qubits);
+            ApplyWith(BindA([Superpos, Shift, PermY]), InnerProduct, qubits);
+            ApplyWith(Adjoint PermX, InnerProduct, qubits);
             Superpos(qubits);
-            set result = MeasureInteger(LittleEndian(qubits));
+            return MeasureInteger(LittleEndian(qubits));
         }
-        
-        return result;
     }
-    
+
 }
 
 

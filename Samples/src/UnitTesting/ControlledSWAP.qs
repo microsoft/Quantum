@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
     
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     
     
@@ -23,7 +23,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     
     /// # Summary
-    /// Implementation of ControlledSWAP using standard Microsoft.Quantum.Primitive.SWAP
+    /// Implementation of ControlledSWAP using standard Microsoft.Quantum.Intrinsic.SWAP
     operation ControlledSWAP0 (control : Qubit, target1 : Qubit, target2 : Qubit) : Unit {
         
         body (...) {

@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.H2Simulation {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Simulation;
+    open Microsoft.Quantum.Oracles;
+    open Microsoft.Quantum.Characterization;
     
     
     /////////////////////////////////////////////////////////////////////////////

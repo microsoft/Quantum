@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.BitFlipCode {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.ErrorCorrection;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Math;
     
     
     //////////////////////////////////////////////////////////////////////////
@@ -66,27 +66,19 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     /// ## auxiliaryQubits
     /// Two qubits, initially in the |00〉 state, to be used in protecting
     /// the state of `data`.
-    operation EncodeIntoBitFlipCode (data : Qubit, auxiliaryQubits : Qubit[]) : Unit {
-        
-        body (...) {
-            // We use the ApplyToEach operation from the canon,
-            // partially applied with the data qubit, to represent
-            // a "CNOT-ladder." In this case, the line below
-            // applies CNOT₀₁ · CNOT₀₂.
-            ApplyToEachCA(CNOT(data, _), auxiliaryQubits);
-        }
-        
+    operation EncodeIntoBitFlipCode (data : Qubit, auxiliaryQubits : Qubit[]) : Unit 
         // Since decoding is the adjoint of encoding, we must
         // denote that this operation supports the Adjoint
-        // functor. We can use adjoint auto here, as we have used
-        // the AC version of ApplyToEach to indicate that we wish
-        // for ApplyToEach to support Adjoint and Controlled.
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+        // functor.
+        is Adj + Ctl
+    {
+        // We use the ApplyToEach operation from the canon,
+        // partially applied with the data qubit, to represent
+        // a "CNOT-ladder." In this case, the line below
+        // applies CNOT₀₁ · CNOT₀₂.
+        ApplyToEachCA(CNOT(data, _), auxiliaryQubits);
     }
-    
-    
+
     // As a quick example, we will check that after encoding, the parity of
     // each pair of qubits is positive (corresponding to the Zero) Result,
     // such that we can learn syndrome information without revealing
@@ -210,13 +202,13 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
             
             // Since the recovery is a classical inference procedure, we
             // can represent it here by using if/elif statements:
-            if (parity01 == One && parity12 == Zero) {
+            if (parity01 == One and parity12 == Zero) {
                 X(register[0]);
             }
-            elif (parity01 == One && parity12 == One) {
+            elif (parity01 == One and parity12 == One) {
                 X(register[1]);
             }
-            elif (parity01 == Zero && parity12 == One) {
+            elif (parity01 == Zero and parity12 == One) {
                 X(register[2]);
             }
             

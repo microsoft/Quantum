@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
+using static System.Math;
 
 namespace Microsoft.Quantum.Samples.Hubbard
 {
@@ -49,7 +50,7 @@ namespace Microsoft.Quantum.Samples.Hubbard
                                 $"\t{uCoefficient} repulsion term coefficient\n" +
                                 $"\t{tCoefficient} hopping term coefficient\n" +
                                 $"\t{bitsPrecision} bits of precision\n" +
-                                $"\t{Math.Pow(2.0, -1.0 * (double) bitsPrecision) / trotterStepSize} energy estimate error from phase estimation alone\n" +
+                                $"\t{Pow(2.0, -1.0 * (double) bitsPrecision) / trotterStepSize} energy estimate error from phase estimation alone\n" +
                                 $"\t{trotterStepSize} time step");
 
             #endregion
