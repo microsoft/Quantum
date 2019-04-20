@@ -197,10 +197,10 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
             }
 
-            public override Func<(QArray<Pauli>, QArray<Qubit>, Result, string), QVoid> Body
+            public override Func<(IQArray<Pauli>, IQArray<Qubit>, Result, string), QVoid> Body
             {
                 get {
-                    return delegate ((QArray<Pauli>, QArray<Qubit>, Result, string) assert)
+                    return delegate ((IQArray<Pauli>, IQArray<Qubit>, Result, string) assert)
                     {
                         return QVoid.Instance;
                     };
@@ -216,11 +216,11 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
             }
 
-            public override Func<(QArray<Pauli>, QArray<Qubit>, Result, double, string, double), QVoid> Body
+            public override Func<(IQArray<Pauli>, IQArray<Qubit>, Result, double, string, double), QVoid> Body
             {
                 get
                 {
-                    return delegate ((QArray<Pauli>, QArray<Qubit>, Result, double, string, double) assert)
+                    return delegate ((IQArray<Pauli>, IQArray<Qubit>, Result, double, string, double) assert)
                     {
                         return QVoid.Instance;
                     };
@@ -308,7 +308,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
             }
 
-            public override Func<(QArray<Pauli>, QArray<Qubit>), Result> Body => throw new NotImplementedException();
+            public override Func<(IQArray<Pauli>, IQArray<Qubit>), Result> Body => throw new NotImplementedException();
         }
     }
 }

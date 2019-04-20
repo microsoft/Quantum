@@ -13,6 +13,7 @@ using static System.Math;
 
 namespace Microsoft.Quantum.Samples.DatabaseSearch
 {
+    
     class Program
     {
         public static void Pause()
@@ -169,9 +170,8 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
             nDatabaseQubits = 8;
             databaseSize = Pow(2.0, nDatabaseQubits);
 
-            // We define the marked elements. These must be smaller than `databaseSize`
-            //Microsoft.Quantum.Simulation.Core.QArray<long>[] 
-            QArray<long> markedElements = new QArray<long>() { 0, 39, 101, 234 };
+            // We define the marked elements. These must be smaller than `databaseSize`.
+            var markedElements = (new long[] { 0, 39, 101, 234 }).ToQArray();
             var nMarkedElements = markedElements.Length;
             
 
