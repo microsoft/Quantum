@@ -4,6 +4,7 @@ namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Samples.SimpleAlgorithms;
+    open Microsoft.Quantum.Diagnostics;
     
     
     //////////////////////////////////////////////////////////////////////////
@@ -81,19 +82,16 @@ namespace Microsoft.Quantum.Tests {
         ];
         
         // iterating through the array of test instances
-        for (idxTest in 0 .. Length(testList) - 1) {
-            let (n, markedElements, result) = testList[idxTest];
+        for ((n, markedElements, result) in testList) {
             
             // Finally, using an assertion from the Asserts subdomain of the
             // canon, we check if the measured result is equal to bool value.
-            AssertBoolEqual(
-                DeutschJozsaTestCase(n, markedElements),
+            EqualityFactB(
+                DeutschJozsaTestCase(n, markedElements) == result,
                 result,
-                "was expecting result but got the complementary value."
+                $"Contradiction in Deutsch–Jozsa case with marked elements {markedElements}: was expecting {result}."
             );
         }
     }
     
 }
-
-

@@ -163,7 +163,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// This is a function, such that the user can call this as flow control
     /// and be guaranteed that there will be no side effects until they
     /// act on a particular register.
-    function H2TrotterStepManual (idxBondLength : Int, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit : Adjoint, Controlled) {
+    function H2TrotterStepManual (idxBondLength : Int, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit is Adj + Ctl) {
         
         let op = H2TrotterUnitaries(idxBondLength);
         return (DecomposeIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);

@@ -110,7 +110,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     /// $$
     /// - For the circuit diagram see FIG. 5 on
     ///   [ Page 12 of arXiv:1304.0741 ](https://arxiv.org/pdf/1304.0741.pdf#page=12)
-    operation IterativePhaseEstimationStep (time : Double, inversionAngle : Double, oracle : ((Double, Qubit[]) => Unit : Controlled), eigenstate : Qubit[]) : Result {
+    operation IterativePhaseEstimationStep (time : Double, inversionAngle : Double, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Result {
         
         // Allocate a mutable variable to hold the result of the final
         // measurement, since we cannot return from within a using block.
@@ -295,7 +295,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     /// An estimate ̂φ of the unknown phase φ.
     /// - For the theoretical and algorithmic background see
     ///   [ Page 1 of arXiv:1508.00869 ](https://arxiv.org/pdf/1508.00869.pdf#page=1)
-    operation BayesianPhaseEstimation (nGridPoints : Int, nMeasurements : Int, oracle : ((Double, Qubit[]) => Unit : Controlled), eigenstate : Qubit[]) : Double {
+    operation BayesianPhaseEstimation (nGridPoints : Int, nMeasurements : Int, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Double {
         
         // Initialize a grid for the prior and posterior discretization.
         // We'll choose the grid to be uniform.

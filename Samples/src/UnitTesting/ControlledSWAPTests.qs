@@ -17,7 +17,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// Any operation that maps |000⟩ to |000⟩
     /// # See Also
     /// - CircuitMetrics.cs
-    operation CollectMetrics (op : ((Qubit, Qubit, Qubit) => Unit : Adjoint)) : Unit {
+    operation CollectMetrics (op : ((Qubit, Qubit, Qubit) => Unit is Adj)) : Unit {
         
         using (qubits = Qubit[3]) {
             op(qubits[0], qubits[1], qubits[2]);
