@@ -171,7 +171,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
             databaseSize = Pow(2.0, nDatabaseQubits);
 
             // We define the marked elements. These must be smaller than `databaseSize`.
-            var markedElements = (new long[] { 0, 39, 101, 234 }).ToQArray();
+            var markedElements = new long[] { 0, 39, 101, 234 };
             var nMarkedElements = markedElements.Length;
             
 

@@ -15,7 +15,7 @@ let main _ =
     // Construct the parameter to be passed to the quantum algorithm.
     // QArray is a data type for fixed-length arrays.
     // You can modify this parameter to see how the algorithm recovers 
-    let oracleBits = new QArray<int64>([| 0L; 1L; 1L |])
+    let oracleBits = [| 0L; 1L; 1L |]
     printfn "%A" oracleBits
     
     // Run the quantum algorithm
