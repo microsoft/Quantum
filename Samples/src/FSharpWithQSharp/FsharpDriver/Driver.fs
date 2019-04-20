@@ -24,7 +24,7 @@ let main _ =
 
     // Process the results: in this case, verify that:
     // - the length of the return array equals the length of the input array
-    Debug.Assert(restoredBits.Length = oracleBits.Length, "Return array length differs from the input array length")
+    Debug.Assert(restoredBits.Length = int64(oracleBits.Length), "Return array length differs from the input array length")
     // - each element of the array is 0 or 1
     Debug.Assert(restoredBits |> Seq.filter (fun (x:int64) -> x <> 0L && x <> 1L) |> Seq.length = 0, "Each element of the return array must be 0 or 1")
     // - the parity of the returned array matches the parity of the input one
