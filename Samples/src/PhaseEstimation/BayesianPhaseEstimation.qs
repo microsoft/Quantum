@@ -347,14 +347,14 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
                 
                 for (idxGridPoint in 0 .. Length(likelihood) - 1) {
                     let arg = ((phases[idxGridPoint] - inversionAngle) * time) / 2.0;
-                    set likelihood w/ idxGridPoint <- PowD(Sin(arg), 2.0);
+                    set likelihood w/= idxGridPoint <- PowD(Sin(arg), 2.0);
                 }
             }
             else {
                 
                 for (idxGridPoint in 0 .. Length(likelihood) - 1) {
                     let arg = ((phases[idxGridPoint] - inversionAngle) * time) / 2.0;
-                    set likelihood w/ idxGridPoint <- PowD(Cos(arg), 2.0);
+                    set likelihood w/= idxGridPoint <- PowD(Cos(arg), 2.0);
                 }
             }
             
