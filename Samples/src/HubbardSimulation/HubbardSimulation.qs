@@ -92,11 +92,11 @@ namespace Microsoft.Quantum.Samples.Hubbard {
         mutable idxPauliString = ConstantArray(nQubits, PauliI);
 
         for (idxQubit in idxQubitMin + 1 .. idxQubitMax - 1) {
-            set idxPauliString[idxQubit] = PauliZ;
+            set idxPauliString w/= idxQubit <- PauliZ;
         }
 
-        set idxPauliString[idxQubitMin] = idxPauli;
-        set idxPauliString[idxQubitMax] = idxPauli;
+        set idxPauliString w/= idxQubitMin <- idxPauli;
+        set idxPauliString w/= idxQubitMax <- idxPauli;
         return idxPauliString;
     }
 
