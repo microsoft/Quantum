@@ -137,7 +137,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
             // model Hamiltonian, we now measure each qubit in the Z basis and
             // return the results.
             for (idxQubit in 0 .. Length(qs) - 1) {
-                set result[idxQubit] = M(qs[idxQubit]);
+                set result w/= idxQubit <- M(qs[idxQubit]);
                 
                 // If we observed that we were in the |1〉 state, the
                 // -1 eigenstate of Z, then we need to flip it back to

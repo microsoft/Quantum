@@ -98,7 +98,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         mutable array = new Int[n];
         
         for (i in 0 .. n - 1) {
-            set array[i] = from + i;
+            set array w/= from <- i;
         }
         
         return array;
@@ -126,7 +126,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         mutable array = new Int[count];
         
         for (i in 0 .. count - 1) {
-            set array[i] = i;
+            set array w/= i <- i;
         }
         
         return array;

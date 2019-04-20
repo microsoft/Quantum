@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-namespace Microsoft.Quantum.Chemistry.Samples.Hubbard {
-    
+namespace Microsoft.Quantum.Chemistry.Samples.Hubbard {    
     open Microsoft.Quantum.Intrinsic;
 	open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Characterization;
@@ -22,7 +21,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard {
         mutable spinUpIndices = new Int[nFilling / 2];
         
         for (idx in 0 .. nFilling / 2 - 1) {
-            set spinUpIndices[idx] = idx;
+            set spinUpIndices w/= idx <- idx;
         }
         
         ApplyToEachCA(X, qubits);
