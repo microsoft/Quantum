@@ -17,14 +17,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard {
     /// # Summary
     /// We define an initial state of the Hamiltonian here.
     operation HubbardHalfFillingStatePrep (nFilling : Int, qubits : Qubit[]) : Unit {
-        
-        mutable spinUpIndices = new Int[nFilling / 2];
-        
-        for (idx in 0 .. nFilling / 2 - 1) {
-            set spinUpIndices w/= idx <- idx;
-        }
-        
-        ApplyToEachCA(X, qubits);
+        ApplyToEachCA(X, qubits[0..(nFilling / 2 - 1)]);
     }
     
     
