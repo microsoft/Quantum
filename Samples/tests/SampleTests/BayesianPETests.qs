@@ -5,13 +5,13 @@ namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Diagnostics;
 
-    // operation BayesianPEManualTest() : Unit {
+    operation BayesianPEManualTest() : Unit {
 
-    //     let expected = 0.571;
-    //     let actual = BayesianPhaseEstimationSample(expected);
+        let expected = 0.571;
+        let actual = BayesianPhaseEstimationSample(expected);
 
-    //     // Give a very generous tolerance to reduce false positive rate.
-    //     EqualityWithinToleranceFact(expected, actual, 0.05);
-    // }
+        // Give a very generous tolerance to reduce false positive rate.
+        EqualityWithinToleranceFact(expected, actual, 0.05);
+    }
 
 }
