@@ -27,7 +27,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
             
             // this checks that gates in the list act the same on all the
             // computational basis states ( up to a global phase )
-            AssertOperationsEqualInPlaceCompBasis(3, (actual, _), ApplyToFirstThreeQubitsA(expected, _));
+            AssertOperationsEqualInPlaceCompBasis(3, ApplyToFirstThreeQubits(actual, _), ApplyToFirstThreeQubitsA(expected, _));
             
             // We used partial application and ApplyToFirstThreeQubits to convert operation with
             // signature (Qubit,Qubit,Qubit) => () to operation with signature Qubit[] => ()

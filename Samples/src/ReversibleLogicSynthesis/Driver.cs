@@ -12,7 +12,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis
         {
             var sim = new QuantumSimulator();
 
-            QArray<long> perm = new QArray<long> { 0, 2, 3, 5, 7, 1, 4, 6 };
+            var perm = new long[] { 0, 2, 3, 5, 7, 1, 4, 6 };
             var res = PermutationSimulation.Run(sim, perm).Result;
             System.Console.WriteLine($"Does circuit realize permutation: {res}");
 

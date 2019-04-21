@@ -110,7 +110,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     /// $$
     /// - For the circuit diagram see FIG. 5 on
     ///   [ Page 12 of arXiv:1304.0741 ](https://arxiv.org/pdf/1304.0741.pdf#page=12)
-    operation IterativePhaseEstimationStep (time : Double, inversionAngle : Double, oracle : ((Double, Qubit[]) => Unit : Controlled), eigenstate : Qubit[]) : Result {
+    operation IterativePhaseEstimationStep (time : Double, inversionAngle : Double, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Result {
         
         // Allocate a mutable variable to hold the result of the final
         // measurement, since we cannot return from within a using block.
@@ -183,7 +183,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
                     let sample = IterativePhaseEstimationStep(time, inversionAngle, ExpOracle(eigenphase, _, _), eigenstate);
                     
                     if (sample == One) {
-                        set nOnesObserved = nOnesObserved + 1;
+                        set nOnesObserved += 1;
                     }
                 }
                 
@@ -248,7 +248,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
         for (idxPoint in 0 .. Length(xs) - 2) {
             let trapezoidalHeight = (ys[idxPoint + 1] + ys[idxPoint]) * 0.5;
             let trapezoidalBase = xs[idxPoint + 1] - xs[idxPoint];
-            set sum = sum + trapezoidalBase * trapezoidalHeight;
+            set sum += trapezoidalBase * trapezoidalHeight;
         }
         
         return sum;
@@ -263,7 +263,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
         mutable product = new Double[Length(left)];
         
         for (idxElement in 0 .. Length(left) - 1) {
-            set product[idxElement] = left[idxElement] * right[idxElement];
+            set product w/= idxElement <- left[idxElement] * right[idxElement];
         }
         
         return product;
@@ -295,7 +295,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     /// An estimate ̂φ of the unknown phase φ.
     /// - For the theoretical and algorithmic background see
     ///   [ Page 1 of arXiv:1508.00869 ](https://arxiv.org/pdf/1508.00869.pdf#page=1)
-    operation BayesianPhaseEstimation (nGridPoints : Int, nMeasurements : Int, oracle : ((Double, Qubit[]) => Unit : Controlled), eigenstate : Qubit[]) : Double {
+    operation BayesianPhaseEstimation (nGridPoints : Int, nMeasurements : Int, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Double {
         
         // Initialize a grid for the prior and posterior discretization.
         // We'll choose the grid to be uniform.
@@ -305,8 +305,8 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
         mutable prior = new Double[nGridPoints];
         
         for (idxGridPoint in 0 .. nGridPoints - 1) {
-            set phases[idxGridPoint] = dPhase * IntAsDouble(idxGridPoint);
-            set prior[idxGridPoint] = 1.0;
+            set phases w/= idxGridPoint <- dPhase * IntAsDouble(idxGridPoint);
+            set prior w/= idxGridPoint <- 1.0;
         }
         
         // We can now check that we get a prior estimate of about 0.5
@@ -347,14 +347,14 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
                 
                 for (idxGridPoint in 0 .. Length(likelihood) - 1) {
                     let arg = ((phases[idxGridPoint] - inversionAngle) * time) / 2.0;
-                    set likelihood[idxGridPoint] = PowD(Sin(arg), 2.0);
+                    set likelihood w/= idxGridPoint <- PowD(Sin(arg), 2.0);
                 }
             }
             else {
                 
                 for (idxGridPoint in 0 .. Length(likelihood) - 1) {
                     let arg = ((phases[idxGridPoint] - inversionAngle) * time) / 2.0;
-                    set likelihood[idxGridPoint] = PowD(Cos(arg), 2.0);
+                    set likelihood w/= idxGridPoint <- PowD(Cos(arg), 2.0);
                 }
             }
             
@@ -385,7 +385,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
             let normalization = Integrate(phases, unnormalizedPosterior);
             
             for (idxGridPoint in 0 .. Length(prior) - 1) {
-                set prior[idxGridPoint] = unnormalizedPosterior[idxGridPoint] / normalization;
+                set prior w/= idxGridPoint <- unnormalizedPosterior[idxGridPoint] / normalization;
             }
             
             // We print out the estimate from our posterior to the

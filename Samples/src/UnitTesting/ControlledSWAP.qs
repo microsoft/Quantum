@@ -41,7 +41,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # Remarks
     /// Number of gates used for this implementation is 2 CNOTs + number of gates used for the
     /// implementation of CCNOTOp
-    operation ControlledSWAPUsingCCNOT (CCNOTOp : ((Qubit, Qubit, Qubit) => Unit : Adjoint, Controlled), control : Qubit, target1 : Qubit, target2 : Qubit) : Unit {
+    operation ControlledSWAPUsingCCNOT (CCNOTOp : ((Qubit, Qubit, Qubit) => Unit is Adj + Ctl), control : Qubit, target1 : Qubit, target2 : Qubit) : Unit {
         
         body (...) {
             // Note that SWAP(a,b) = CNOT(b,a) CNOT(a,b) CNOT(b,a)
