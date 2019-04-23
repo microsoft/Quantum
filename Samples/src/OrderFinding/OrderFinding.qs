@@ -27,7 +27,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     function Square(perm : Int[]) : Int[] {
         mutable squaredPermutation = new Int[Length(perm)];
         for (i in 0..Length(perm) - 1) {
-            set squaredPermutation[i] = perm[perm[i]];
+            set squaredPermutation w/= i <- perm[perm[i]];
         }
         return squaredPermutation;
     }
