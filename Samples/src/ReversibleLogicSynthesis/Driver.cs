@@ -18,7 +18,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis
 
             for (var shift = 0; shift < perm.Length; ++shift)
             {
-                var measured_shift = HiddenShiftProblem.Run(sim, perm, shift).Result;
+                var measured_shift = HiddenShiftProblem.Run(sim, new QArray<long>(perm), shift).Result;
                 System.Console.WriteLine($"Applied shift = {shift}   Measured shift: {measured_shift}");
             }
         }
