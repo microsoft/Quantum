@@ -8,6 +8,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Oracles;
     open Microsoft.Quantum.Characterization;
+    open Microsoft.Quantum.Diagnostics;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Introduction ///////////////////////////////////////////////////////////////////////////////
@@ -128,7 +129,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         
         body (...) {
             // Check that the parameters satisfy the requirements.
-            AssertBoolEqual(IsCoprime(generator, modulus), true, "`generator` and `modulus` must be co-prime");
+            EqualityFactB(IsCoprime(generator, modulus), true, "`generator` and `modulus` must be co-prime");
             
             // The oracle we use for order finding essentially wraps
             // Microsoft.Quantum.Canon.ModularMultiplyByConstantLE operation
@@ -170,7 +171,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     operation EstimatePeriod (generator : Int, modulus : Int, useRobustPhaseEstimation : Bool) : Int {
         
         // Here we check that the inputs to the EstimatePeriod operation are valid.
-        AssertBoolEqual(IsCoprime(generator, modulus), true, "`generator` and `modulus` must be co-prime");
+        EqualityFactB(IsCoprime(generator, modulus), true, "`generator` and `modulus` must be co-prime");
         
         // The variable that stores the divisor of the generator period found so far.
         mutable result = 1;
@@ -203,7 +204,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                 // We first interpret the register as encoding unsigned integer
                 // in little endian encoding.
                 let eigenstateRegisterLE = LittleEndian(eigenstateRegister);
-                InPlaceXorLE(1, eigenstateRegisterLE);
+                ApplyXorInPlace(1, eigenstateRegisterLE);
                 
                 // An oracle of type Microsoft.Quantum.Canon.DiscreteOracle
                 // that we are going to use with phase estimation methods below.
