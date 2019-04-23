@@ -189,7 +189,7 @@ namespace Microsoft.Quantum.Samples.Ising {
         let phaseEstAlgorithm = RobustPhaseEstimation(nBitsPrecision, _, _);
 
         // Execute the entire procedure to obtain an energy estimate.
-        let phaseEst = AdiabaticStateEnergyEstimate(nSites, statePrepUnitary, adiabaticUnitary, qpeUnitary, phaseEstAlgorithm) / qpeStepSize;
+        let phaseEst = EstimateEnergyWithAdiabaticEvolution(nSites, statePrepUnitary, adiabaticUnitary, qpeUnitary, phaseEstAlgorithm) / qpeStepSize;
 
         // Return the estimated energy.
         return phaseEst;

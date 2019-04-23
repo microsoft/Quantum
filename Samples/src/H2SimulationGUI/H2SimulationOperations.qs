@@ -133,7 +133,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
             
             // We use library functions from the canon to restrict the action
             // of Exp to the given qubits.
-            (RestrictToSubregisterCA(Exp(IntsToPaulis(idxPauliString), stepSize * coeff, _), idxQubits))(qubits);
+            (RestrictedToSubregisterCA(Exp(IntsToPaulis(idxPauliString), stepSize * coeff, _), idxQubits))(qubits);
         }
         
         adjoint invert;
