@@ -87,13 +87,13 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms
             // We check by ensuring that DeutschJozsaTestCase returns true
             // for constant functions and false for balanced functions.
             var balancedTestCase = new long[] { 1, 2 };
-            if (DeutschJozsaTestCase.Run(sim, 2, balancedTestCase).Result)
+            if (DeutschJozsaTestCase.Run(sim, 2, new QArray<long>(balancedTestCase)).Result)
             {
                 throw new Exception("Measured that test case {1, 2} was constant!");
             }
 
             var constantTestCase = new long[] { 0, 1, 2, 3, 4, 5, 6, 7 };
-            if (!DeutschJozsaTestCase.Run(sim, 3, constantTestCase).Result)
+            if (!DeutschJozsaTestCase.Run(sim, 3, new QArray<long>(constantTestCase)).Result)
             {
                 throw new Exception("Measured that test case {0, 1, 2, 3, 4, 5, 6, 7} was balanced!");
             }

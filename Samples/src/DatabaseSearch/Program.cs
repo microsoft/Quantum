@@ -203,7 +203,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
             {
                 // Each operation has a static method called Run which takes a simulator as
                 // an argument, along with all the arguments defined by the operation itself.  
-                var task = ApplyGroverSearch.Run(sim, markedElements, nIterations, nDatabaseQubits);
+                var task = ApplyGroverSearch.Run(sim, new QArray<long>(markedElements), nIterations, nDatabaseQubits);
 
                 // We extract the return value of the operation by getting the Results property.
                 var data = task.Result;
