@@ -112,23 +112,27 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # References
     /// - [ *Michael A. Nielsen , Isaac L. Chuang*,
     ///     Quantum Computation and Quantum Information ](http://doi.org/10.1017/CBO9780511976667)
-    operation CCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
-        H(target);
-        CNOT(control1, target);
-        Adjoint T(target);
-        CNOT(control2, target);
-        T(target);
-        CNOT(control1, target);
-        Adjoint T(target);
-        CNOT(control2, target);
-        T(target);
-        Adjoint T(control1);
-        CNOT(control2, control1);
-        H(target);
-        Adjoint T(control1);
-        CNOT(control2, control1);
-        T(control2);
-        S(control1);
+    operation CCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Ctl {
+        body (...) {
+            H(target);
+            CNOT(control1, target);
+            Adjoint T(target);
+            CNOT(control2, target);
+            T(target);
+            CNOT(control1, target);
+            Adjoint T(target);
+            CNOT(control2, target);
+            T(target);
+            Adjoint T(control1);
+            CNOT(control2, control1);
+            H(target);
+            Adjoint T(control1);
+            CNOT(control2, control1);
+            T(control2);
+            S(control1);
+        }
+
+        adjoint self;
     }
 
 
@@ -144,22 +148,26 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # See Also
     /// - For the circuit diagram see Figure 7 (a) on
     ///   [Page 15 of arXiv:1206.0758v3](https://arxiv.org/pdf/1206.0758v3.pdf#page=15)
-    operation CCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
-        Adjoint T(control1);
-        Adjoint T(control2);
-        H(target);
-        CNOT(target, control1);
-        T(control1);
-        CNOT(control2, target);
-        CNOT(control2, control1);
-        T(target);
-        Adjoint T(control1);
-        CNOT(control2, target);
-        CNOT(target, control1);
-        Adjoint T(target);
-        T(control1);
-        H(target);
-        CNOT(control2, control1);
+    operation CCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Ctl {
+        body (...) {
+            Adjoint T(control1);
+            Adjoint T(control2);
+            H(target);
+            CNOT(target, control1);
+            T(control1);
+            CNOT(control2, target);
+            CNOT(control2, control1);
+            T(target);
+            Adjoint T(control1);
+            CNOT(control2, target);
+            CNOT(target, control1);
+            Adjoint T(target);
+            T(control1);
+            H(target);
+            CNOT(control2, control1);
+        }
+
+        adjoint self;
     }
 
 
@@ -248,7 +256,6 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
         //     Microsoft.Quantum.Intrinsic.M, which does is not Adj. Instead, we
         //     explicitly use the "self" generator.
         adjoint self;
-        controlled adjoint self;
     }
 
 
@@ -261,23 +268,27 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// #Recall that ExpFrac used in the circuit below is an exponent of the
     ///  respective multi-qubit Pauli gate times numerator Pi() i /2^{n-1}
     ///  It is a primitive gate implemented by Quantum.Intrinsics
-    operation CCZ1 (qubit1 : Qubit, qubit2 : Qubit, qubit3 : Qubit) : Unit is Adj + Ctl {
-        let register = [qubit1, qubit2, qubit3];
+    operation CCZ1 (qubit1 : Qubit, qubit2 : Qubit, qubit3 : Qubit) : Unit is Ctl {
+        body (...) {
+            let register = [qubit1, qubit2, qubit3];
 
-        // note that CCZ = exp( iπ|1⟩⟨1|⊗|1⟩⟨1|⊗|1⟩⟨1| )
-        // next use |1⟩⟨1| = (I-Z)/2 and write
-        // iπ|1⟩⟨1|⊗|1⟩⟨1|⊗|1⟩⟨1| =
-        //          = iπ/2³(I⊗I⊗I - Z⊗I⊗I - I⊗Z⊗I - I⊗I⊗Z + Z⊗Z⊗I + Z⊗I⊗Z + I⊗Z⊗Z - Z⊗Z⊗Z)
-        // using above we express CCZ as:
-        // exp( iπ/2³I⊗I⊗I )
-        ExpFrac([PauliI, PauliI, PauliI], 1, 3, register);
-        ExpFrac([PauliZ, PauliI, PauliI], -1, 3, register);
-        ExpFrac([PauliI, PauliZ, PauliI], -1, 3, register);
-        ExpFrac([PauliI, PauliI, PauliZ], -1, 3, register);
-        ExpFrac([PauliZ, PauliZ, PauliI], 1, 3, register);
-        ExpFrac([PauliZ, PauliI, PauliZ], 1, 3, register);
-        ExpFrac([PauliI, PauliZ, PauliZ], 1, 3, register);
-        ExpFrac([PauliZ, PauliZ, PauliZ], -1, 3, register);
+            // note that CCZ = exp( iπ|1⟩⟨1|⊗|1⟩⟨1|⊗|1⟩⟨1| )
+            // next use |1⟩⟨1| = (I-Z)/2 and write
+            // iπ|1⟩⟨1|⊗|1⟩⟨1|⊗|1⟩⟨1| =
+            //          = iπ/2³(I⊗I⊗I - Z⊗I⊗I - I⊗Z⊗I - I⊗I⊗Z + Z⊗Z⊗I + Z⊗I⊗Z + I⊗Z⊗Z - Z⊗Z⊗Z)
+            // using above we express CCZ as:
+            // exp( iπ/2³I⊗I⊗I )
+            ExpFrac([PauliI, PauliI, PauliI], 1, 3, register);
+            ExpFrac([PauliZ, PauliI, PauliI], -1, 3, register);
+            ExpFrac([PauliI, PauliZ, PauliI], -1, 3, register);
+            ExpFrac([PauliI, PauliI, PauliZ], -1, 3, register);
+            ExpFrac([PauliZ, PauliZ, PauliI], 1, 3, register);
+            ExpFrac([PauliZ, PauliI, PauliZ], 1, 3, register);
+            ExpFrac([PauliI, PauliZ, PauliZ], 1, 3, register);
+            ExpFrac([PauliZ, PauliZ, PauliZ], -1, 3, register);
+        }
+
+        adjoint self;
     }
 
 
@@ -286,10 +297,14 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// tensor products of Z operators
     /// # Remarks
     /// Uses 7 T gates, 10 CNOTs and two Hadamard gates and has T depth 5
-    operation CCNOT4 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
-        H(target);
-        CCZ1(control1, control2, target);
-        H(target);
+    operation CCNOT4 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Ctl {
+        body (...) {
+            H(target);
+            CCZ1(control1, control2, target);
+            H(target);
+        }
+
+        adjoint self;
     }
 
 }
