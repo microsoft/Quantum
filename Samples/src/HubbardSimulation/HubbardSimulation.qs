@@ -213,7 +213,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     // specialization to approximating Hamiltonian time-evolution requires
     // in input with signature
     
-    // (Int, ((Int, Double, Qubit[]) => () : Adjoint, Controlled)
+    // (Int, ((Int, Double, Qubit[]) => () is Adj + Ctl)
     
     // The first parameter records the number of terms in the sum.
     // The second parameter performs a unitary operation, classically
@@ -243,7 +243,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     ///
     /// # Output
     /// A unitary operation.
-    function HubbardTrotterEvolution (nSites : Int, tCoefficient : Double, uCoefficient : Double, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit : Adjoint, Controlled) {
+    function HubbardTrotterEvolution (nSites : Int, tCoefficient : Double, uCoefficient : Double, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit is Adj + Ctl) {
         let nTerms = nSites * 3;
         let op = (nTerms, HubbardTrotterUnitariesImpl(nSites, tCoefficient, uCoefficient, _, _, _));
         return (DecomposeIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);

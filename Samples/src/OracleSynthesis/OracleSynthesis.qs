@@ -37,8 +37,8 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
                 mutable k = i + s;
                 for (j in i..i + s - 1) {
                     mutable t = res[j];
-                    set res[j] = res[j] + res[k];
-                    set res[k] = t - res[k];
+                    set res w/= j <- res[j] + res[k];
+                    set res w/= k <- t - res[k];
                     set k = k + 1;
                 }
             }
@@ -158,9 +158,9 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
         }
 
         set j = IntMax(0, Min([j, n - 1]));
-        set res[i] = (BoolArrayAsInt(current), j);
+        set res w/= i <- (BoolArrayAsInt(current), j);
         if (j < n) {
-            set current[j] = not current[j];
+            set current w/= j <- not current[j];
         }
       }
 

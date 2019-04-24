@@ -11,27 +11,27 @@ namespace Microsoft.Quantum.Samples.Ising {
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
-    
+
     // In this example, we will show how to simulate the time evolution of
     // an Ising model under a transverse field,
-    
+
     //     H ≔ - J Σ'ᵢⱼ Zᵢ Zⱼ - hZ Σᵢ Zᵢ - hX Σᵢ Xᵢ
-    
+
     // where the primed summation Σ' is taken only over nearest-neighbors.
     // We also use open boundary conditions in this example.
-    
+
     // We do so by directly using the higher-order Trotterization control
     // structure. This control structure iterates over a list of time-
     // evolution operators, and selects the stepsize of time-evolution
     // and their ordering by the Trotter–Suzuki decomposition. This allows us
     // to decouple the choice of simulation algorithm Trotterization from
     //  the representation of the Hamiltonian.
-    
+
     // Using a sequence of short time-evolutions, we may simulate
     // time-evolution over a longer time interval. We use this to
     // investigate how an excitation caused by single spin-flip at one
     // end of the Ising chain propagates down it.
-    
+
     // When the transverse field hX is zero, the single-excitation state
     // |100...0⟩ is an eigenstate of the Hamiltonian H. Thus time-evolution by
     // H will not change the magnetization of other sites. However, with the
@@ -39,11 +39,11 @@ namespace Microsoft.Quantum.Samples.Ising {
     // the excitation to diffuse to neighbouring sites. One then expects the
     // average magnetization of the leftmost site to decrease in general, and
     // that of other sites to relax away from 0.
-    
+
     // We begin by defining an operation that takes an index to a term
     // in the Hamiltonian, and applies time-evolution by that term alone for
     // some specified time.
-    
+
     /// # Summary
     /// Implements time-evolution by a single term in the Ising Hamiltonian.
     ///
@@ -79,7 +79,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     }
 
     // The input to the Trotterization control structure has a type
-    // (Int, ((Int, Double, Qubit[]) => () : Adjoint, Controlled))
+    // (Int, ((Int, Double, Qubit[]) => () is Adj + Ctl))
     // The first parameter Int is the number of terms in the Hamiltonian
     // The first parameter in ((Int, Double, Qubit[])) is an index to a term
     // in the Hamiltonian
@@ -88,7 +88,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     // Hamiltonian acts on.
     // Let us create this type from Ising1DTrotterUnitariesImpl by partial
     // applications.
-    
+
     /// # Summary
     /// Returns a description of the Ising Hamiltonian that is compatible with
     /// the Trotterization control structure.
@@ -107,7 +107,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// A tuple containing the number of terms in the Hamiltonian and a
     /// unitary operation classically controlled by the term index and
     /// stepsize.
-    function Ising1DTrotterUnitaries (nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double) : (Int, ((Int, Double, Qubit[]) => Unit : Adjoint, Controlled)) {
+    function Ising1DTrotterUnitaries (nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double) : (Int, ((Int, Double, Qubit[]) => Unit is Adj + Ctl)) {
         let nTerms = 3 * nSites - 1;
         return (nTerms, Ising1DTrotterUnitariesImpl(nSites, hXCoupling, hZCoupling, jCoupling, _, _, _));
     }
@@ -116,7 +116,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     // additional parameters -- the trotterOrder, which determines the order
     // the Trotter decompositions, and the trotterStepSize, which determines
     // the duration of time-evolution of a single Trotter step.
-    
+
     /// # Summary
     /// Returns a unitary operation that simulates time evolution by the
     /// Hamiltonian for a single Trotter step.
@@ -137,16 +137,16 @@ namespace Microsoft.Quantum.Samples.Ising {
     ///
     /// # Output
     /// A unitary operation.
-    function Ising1DTrotterEvolution (nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit : Adjoint, Controlled) {
+    function Ising1DTrotterEvolution (nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit is Adj + Ctl) {
         let op = Ising1DTrotterUnitaries(nSites, hXCoupling, hZCoupling, jCoupling);
         return (DecomposeIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
     }
-    
-    
+
+
     // We now define an operation that initializes the qubits, prepares the
     // initial single-excitation, performs time-evolution by the Ising
     // Hamiltonian, and returns the results of measurement on each site.
-    
+
     /// # Summary
     /// Implements time-evolution by the Ising Hamiltonian on a line of qubits
     /// initialized in |100...0⟩ state, then measures each site.
