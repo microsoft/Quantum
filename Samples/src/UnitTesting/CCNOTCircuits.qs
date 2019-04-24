@@ -36,21 +36,14 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # Recall that RFrac(P,num, pow, q) applies rotation about Pauli axis P by the fractional
     ///   angle $$num Pi()/ 2^{pow-1}$$
     ///   In this rotations are about Y axis by the angle $$\pm Pi()/4$
-    operation UpToPhaseCCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-
-        body (...) {
-            RFrac(PauliY, -1, 3, target);
-            CNOT(control1, target);
-            RFrac(PauliY, -1, 3, target);
-            CNOT(control2, target);
-            RFrac(PauliY, 1, 3, target);
-            CNOT(control1, target);
-            RFrac(PauliY, 1, 3, target);
-        }
-
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation UpToPhaseCCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
+        RFrac(PauliY, -1, 3, target);
+        CNOT(control1, target);
+        RFrac(PauliY, -1, 3, target);
+        CNOT(control2, target);
+        RFrac(PauliY, 1, 3, target);
+        CNOT(control1, target);
+        RFrac(PauliY, 1, 3, target);
     }
 
 
@@ -65,19 +58,11 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # See Also
     /// - For the circuit diagram see Equation 9 on
     ///   [ Page 2 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation UpToPhaseCCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-
-        body (...) {
-            using (ancillas = Qubit[1]) {
-
-                // apply UVU† where U is outer circuit and V is inner circuit
-                WithCA(UpToPhaseCCNOT2OuterCircuit, UpToPhaseCCNOT2InnerCircuit, ancillas + [target, control1, control2]);
-            }
+    operation UpToPhaseCCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
+        using (auxillary = Qubit()) {
+            // apply UVU† where U is outer circuit and V is inner circuit
+            ApplyWithCA(UpToPhaseCCNOT2OuterCircuit, UpToPhaseCCNOT2InnerCircuit, [auxillary, target, control1, control2]);
         }
-
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
     }
 
 
@@ -85,20 +70,13 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// - Used as a part of @"Microsoft.Quantum.Samples.UnitTesting.UpToPhaseCCNOT2"
     /// - For the circuit diagram see Equation 9 on
     ///   [ Page 2 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation UpToPhaseCCNOT2OuterCircuit (qs : Qubit[]) : Unit {
-
-        body (...) {
-            EqualityFactI(Length(qs), 4, "4 qubits are expected");
-            H(qs[1]);
-            CNOT(qs[3], qs[0]);
-            CNOT(qs[1], qs[2]);
-            CNOT(qs[1], qs[3]);
-            CNOT(qs[2], qs[0]);
-        }
-
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation UpToPhaseCCNOT2OuterCircuit (qs : Qubit[]) : Unit is Adj + Ctl {
+        EqualityFactI(Length(qs), 4, "4 qubits are expected");
+        H(qs[1]);
+        CNOT(qs[3], qs[0]);
+        CNOT(qs[1], qs[2]);
+        CNOT(qs[1], qs[3]);
+        CNOT(qs[2], qs[0]);
     }
 
 
@@ -106,36 +84,22 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// - Used as a part of @"Microsoft.Quantum.Samples.UnitTesting.UpToPhaseCCNOT2"
     /// - For the circuit diagram see Equation 9 on
     ///   [ Page 2 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation UpToPhaseCCNOT2InnerCircuit (qs : Qubit[]) : Unit {
-
-        body (...) {
-            EqualityFactI(Length(qs), 4, "4 qubits are expected");
-            ApplyToEachCA(T, qs[0 .. 1]);
-            ApplyToEachCA(Adjoint T, qs[2 .. 3]);
-        }
-
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation UpToPhaseCCNOT2InnerCircuit (qs : Qubit[]) : Unit is Adj + Ctl {
+        EqualityFactI(Length(qs), 4, "4 qubits are expected");
+        ApplyToEachCA(T, qs[0 .. 1]);
+        ApplyToEachCA(Adjoint T, qs[2 .. 3]);
     }
 
 
     /// # Summary
     /// Simple implementation of the CCNOT gate up to phases over
     /// defined as |c₁⟩⊗|c₂⟩⊗|t⟩ ↦ (-i)^(c₁∧c₂) |c₁⟩⊗|c₂⟩⊗|t⊕(c₁∧c₂)⟩.
-    operation UpToPhaseCCNOT3 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
+    operation UpToPhaseCCNOT3 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
+        // apply |c₁⟩⊗|c₂⟩⊗|t⟩ ↦ |c₁⟩⊗|c₂⟩⊗|t⊕(c₁∧c₂)⟩.
+        CCNOT(control1, control2, target);
 
-        body (...) {
-            // apply |c₁⟩⊗|c₂⟩⊗|t⟩ ↦ |c₁⟩⊗|c₂⟩⊗|t⊕(c₁∧c₂)⟩.
-            CCNOT(control1, control2, target);
-
-            // apply |c₁⟩⊗|c₂⟩ ↦ (-i)^(c₁∧c₂) |c₁⟩⊗|c₂⟩
-            Controlled (Adjoint S)([control1], control2);
-        }
-
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+        // apply |c₁⟩⊗|c₂⟩ ↦ (-i)^(c₁∧c₂) |c₁⟩⊗|c₂⟩
+        Controlled (Adjoint S)([control1], control2);
     }
 
 
@@ -148,30 +112,23 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # References
     /// - [ *Michael A. Nielsen , Isaac L. Chuang*,
     ///     Quantum Computation and Quantum Information ](http://doi.org/10.1017/CBO9780511976667)
-    operation CCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-
-        body (...) {
-            H(target);
-            CNOT(control1, target);
-            Adjoint T(target);
-            CNOT(control2, target);
-            T(target);
-            CNOT(control1, target);
-            Adjoint T(target);
-            CNOT(control2, target);
-            T(target);
-            Adjoint T(control1);
-            CNOT(control2, control1);
-            H(target);
-            Adjoint T(control1);
-            CNOT(control2, control1);
-            T(control2);
-            S(control1);
-        }
-
-        adjoint self;
-        controlled distribute;
-        controlled adjoint self;
+    operation CCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
+        H(target);
+        CNOT(control1, target);
+        Adjoint T(target);
+        CNOT(control2, target);
+        T(target);
+        CNOT(control1, target);
+        Adjoint T(target);
+        CNOT(control2, target);
+        T(target);
+        Adjoint T(control1);
+        CNOT(control2, control1);
+        H(target);
+        Adjoint T(control1);
+        CNOT(control2, control1);
+        T(control2);
+        S(control1);
     }
 
 
@@ -187,29 +144,22 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # See Also
     /// - For the circuit diagram see Figure 7 (a) on
     ///   [Page 15 of arXiv:1206.0758v3](https://arxiv.org/pdf/1206.0758v3.pdf#page=15)
-    operation CCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-
-        body (...) {
-            Adjoint T(control1);
-            Adjoint T(control2);
-            H(target);
-            CNOT(target, control1);
-            T(control1);
-            CNOT(control2, target);
-            CNOT(control2, control1);
-            T(target);
-            Adjoint T(control1);
-            CNOT(control2, target);
-            CNOT(target, control1);
-            Adjoint T(target);
-            T(control1);
-            H(target);
-            CNOT(control2, control1);
-        }
-
-        adjoint self;
-        controlled distribute;
-        controlled adjoint self;
+    operation CCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
+        Adjoint T(control1);
+        Adjoint T(control2);
+        H(target);
+        CNOT(target, control1);
+        T(control1);
+        CNOT(control2, target);
+        CNOT(control2, control1);
+        T(target);
+        Adjoint T(control1);
+        CNOT(control2, target);
+        CNOT(target, control1);
+        Adjoint T(target);
+        T(control1);
+        H(target);
+        CNOT(control2, control1);
     }
 
 
@@ -223,19 +173,12 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # See Also
     /// - For the circuit diagram see Figure 1 on
     ///   [ Page 3 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation TDepthOneCCNOT (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
+    operation TDepthOneCCNOT (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
+        using (auxillaryRegister = Qubit[4]) {
 
-        body (...) {
-            using (ancillas = Qubit[4]) {
-
-                // apply UVU† where U is outer circuit and V is inner circuit
-                WithCA(TDepthOneCCNOTOuterCircuit, TDepthOneCCNOTInnerCircuit, ancillas + [target, control1, control2]);
-            }
+            // apply UVU† where U is outer circuit and V is inner circuit
+            ApplyWithCA(TDepthOneCCNOTOuterCircuit, TDepthOneCCNOTInnerCircuit, auxillaryRegister + [target, control1, control2]);
         }
-
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
     }
 
 
@@ -243,24 +186,17 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// - Used as a part of @"Microsoft.Quantum.Samples.UnitTesting.TDepthOneCCNOT"
     /// - For the circuit diagram see Figure 1 on
     ///   [ Page 3 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation TDepthOneCCNOTOuterCircuit (qs : Qubit[]) : Unit {
-
-        body (...) {
-            EqualityFactI(Length(qs), 7, "7 qubits are expected");
-            H(qs[4]);
-            CNOT(qs[5], qs[1]);
-            CNOT(qs[6], qs[3]);
-            CNOT(qs[5], qs[2]);
-            CNOT(qs[4], qs[1]);
-            CNOT(qs[3], qs[0]);
-            CNOT(qs[6], qs[2]);
-            CNOT(qs[4], qs[0]);
-            CNOT(qs[1], qs[3]);
-        }
-
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation TDepthOneCCNOTOuterCircuit (qs : Qubit[]) : Unit is Adj + Ctl {
+        EqualityFactI(Length(qs), 7, "7 qubits are expected");
+        H(qs[4]);
+        CNOT(qs[5], qs[1]);
+        CNOT(qs[6], qs[3]);
+        CNOT(qs[5], qs[2]);
+        CNOT(qs[4], qs[1]);
+        CNOT(qs[3], qs[0]);
+        CNOT(qs[6], qs[2]);
+        CNOT(qs[4], qs[0]);
+        CNOT(qs[1], qs[3]);
     }
 
 
@@ -268,17 +204,10 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// - Used as a part of @"Microsoft.Quantum.Samples.UnitTesting.TDepthOneCCNOT"
     /// - For the circuit diagram see Figure 1 on
     ///   [ Page 3 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation TDepthOneCCNOTInnerCircuit (qs : Qubit[]) : Unit {
-
-        body (...) {
-            EqualityFactI(Length(qs), 7, "7 qubits are expected");
-            ApplyToEachCA(Adjoint T, qs[0 .. 2]);
-            ApplyToEachCA(T, qs[3 .. 6]);
-        }
-
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation TDepthOneCCNOTInnerCircuit (qs : Qubit[]) : Unit is Adj + Ctl {
+        EqualityFactI(Length(qs), 7, "7 qubits are expected");
+        ApplyToEachCA(Adjoint T, qs[0 .. 2]);
+        ApplyToEachCA(T, qs[3 .. 6]);
     }
 
 
@@ -296,28 +225,29 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     operation CCNOT3 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
 
         body (...) {
-            using (ancillas = Qubit[1]) {
-                let ancilla = ancillas[0];
-                UpToPhaseCCNOT2(control1, control2, ancilla);
-                S(ancilla);
-                CNOT(ancilla, target);
-                H(ancillas[0]);
-                AssertProb([PauliZ], [ancilla], One, 0.5, "", 1E-10);
+            using (auxillaryQubit = Qubit()) {
+                UpToPhaseCCNOT2(control1, control2, auxillaryQubit);
+                S(auxillaryQubit);
+                CNOT(auxillaryQubit, target);
+                H(auxillaryQubit);
+                AssertProb([PauliZ], [auxillaryQubit], One, 0.5, "", 1E-10);
 
-                if (M(ancilla) == One) {
+                if (M(auxillaryQubit) == One) {
                     Controlled Z([control2], control1);
-                    X(ancilla);
+                    X(auxillaryQubit);
                 }
             }
         }
-
-        adjoint self;
 
         // fall back to a standard multiply controlled X Implementation
         controlled (controls, ...) {
             Controlled X(controls + [control1, control2], target);
         }
 
+        // NB: We cannot use "is Adj" or "adjoint auto" here, due to the use of
+        //     Microsoft.Quantum.Intrinsic.M, which does is not Adj. Instead, we
+        //     explicitly use the "self" generator.
+        adjoint self;
         controlled adjoint self;
     }
 
@@ -331,30 +261,23 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// #Recall that ExpFrac used in the circuit below is an exponent of the
     ///  respective multi-qubit Pauli gate times numerator Pi() i /2^{n-1}
     ///  It is a primitive gate implemented by Quantum.Intrinsics
-    operation CCZ1 (qubit1 : Qubit, qubit2 : Qubit, qubit3 : Qubit) : Unit {
+    operation CCZ1 (qubit1 : Qubit, qubit2 : Qubit, qubit3 : Qubit) : Unit is Adj + Ctl {
+        let register = [qubit1, qubit2, qubit3];
 
-        body (...) {
-            let register = [qubit1, qubit2, qubit3];
-
-            // note that CCZ = exp( iπ|1⟩⟨1|⊗|1⟩⟨1|⊗|1⟩⟨1| )
-            // next use |1⟩⟨1| = (I-Z)/2 and write
-            // iπ|1⟩⟨1|⊗|1⟩⟨1|⊗|1⟩⟨1| =
-            //          = iπ/2³(I⊗I⊗I - Z⊗I⊗I - I⊗Z⊗I - I⊗I⊗Z + Z⊗Z⊗I + Z⊗I⊗Z + I⊗Z⊗Z - Z⊗Z⊗Z)
-            // using above we express CCZ as:
-            // exp( iπ/2³I⊗I⊗I )
-            ExpFrac([PauliI, PauliI, PauliI], 1, 3, register);
-            ExpFrac([PauliZ, PauliI, PauliI], -1, 3, register);
-            ExpFrac([PauliI, PauliZ, PauliI], -1, 3, register);
-            ExpFrac([PauliI, PauliI, PauliZ], -1, 3, register);
-            ExpFrac([PauliZ, PauliZ, PauliI], 1, 3, register);
-            ExpFrac([PauliZ, PauliI, PauliZ], 1, 3, register);
-            ExpFrac([PauliI, PauliZ, PauliZ], 1, 3, register);
-            ExpFrac([PauliZ, PauliZ, PauliZ], -1, 3, register);
-        }
-
-        adjoint self;
-        controlled distribute;
-        controlled adjoint self;
+        // note that CCZ = exp( iπ|1⟩⟨1|⊗|1⟩⟨1|⊗|1⟩⟨1| )
+        // next use |1⟩⟨1| = (I-Z)/2 and write
+        // iπ|1⟩⟨1|⊗|1⟩⟨1|⊗|1⟩⟨1| =
+        //          = iπ/2³(I⊗I⊗I - Z⊗I⊗I - I⊗Z⊗I - I⊗I⊗Z + Z⊗Z⊗I + Z⊗I⊗Z + I⊗Z⊗Z - Z⊗Z⊗Z)
+        // using above we express CCZ as:
+        // exp( iπ/2³I⊗I⊗I )
+        ExpFrac([PauliI, PauliI, PauliI], 1, 3, register);
+        ExpFrac([PauliZ, PauliI, PauliI], -1, 3, register);
+        ExpFrac([PauliI, PauliZ, PauliI], -1, 3, register);
+        ExpFrac([PauliI, PauliI, PauliZ], -1, 3, register);
+        ExpFrac([PauliZ, PauliZ, PauliI], 1, 3, register);
+        ExpFrac([PauliZ, PauliI, PauliZ], 1, 3, register);
+        ExpFrac([PauliI, PauliZ, PauliZ], 1, 3, register);
+        ExpFrac([PauliZ, PauliZ, PauliZ], -1, 3, register);
     }
 
 
@@ -363,17 +286,10 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// tensor products of Z operators
     /// # Remarks
     /// Uses 7 T gates, 10 CNOTs and two Hadamard gates and has T depth 5
-    operation CCNOT4 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-
-        body (...) {
-            H(target);
-            CCZ1(control1, control2, target);
-            H(target);
-        }
-
-        adjoint self;
-        controlled distribute;
-        controlled adjoint self;
+    operation CCNOT4 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
+        H(target);
+        CCZ1(control1, control2, target);
+        H(target);
     }
 
 }
