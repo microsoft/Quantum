@@ -35,7 +35,7 @@ namespace Microsoft.Quantum.Tests {
                     AssertProb([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
 
                     let result = MResetZ(markedQubit);
-                    let number = PositiveIntFromResultArr(ForEach(MResetZ, databaseRegister));
+                    let number = ResultArrayAsInt(ForEach(MResetZ, databaseRegister));
 
                     if (result == One) {
                         if (not Any(_EqualI(number, _), markedElements)) {

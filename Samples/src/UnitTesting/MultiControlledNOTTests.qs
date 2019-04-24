@@ -17,7 +17,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     operation ControlledTestHelper (op : ((Qubit[], Qubit) => Unit is Adj), target : Qubit[]) : Unit {
 
         body (...) {
-            AssertBoolEqual(Length(target) >= 1, true, "The length of the target must be >= 1 ");
+            Fact(Length(target) >= 1, "The length of the target must be >= 1 ");
             op(target[1 .. Length(target) - 1], target[0]);
         }
 
