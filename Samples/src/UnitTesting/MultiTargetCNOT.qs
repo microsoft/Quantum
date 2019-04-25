@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
-
+    open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Arrays;
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,17 +20,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
     /// # Summary
     /// A simple implementation of target Controlled Not gate using CNOT gates
-    operation MultiTargetNot (controls : Qubit[], target : Qubit[]) : Unit {
-
-        body (...) {
-            Fact(Length(controls) == 1, "control register must have length 1");
-
-            for (i in 0 .. Length(target) - 1) {
-                CNOT(controls[0], target[i]);
-            }
-        }
-
-        adjoint invert;
+    operation MultiTargetNot (controls : Qubit[], target : Qubit[]) : Unit is Adj {
+        EqualityFactI(Length(controls), 1, "control register must have length 1");
+        ApplyToEachA(CNOT(Head(controls), _), target);
     }
 
 
@@ -37,21 +30,18 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// Multi target multi controlled Not implementation using
     /// ApplyMultiControlledCA
     /// # See Also
-    /// - @"Microsoft.Quantum.Canon.ApplyMultiControlledCA"
-    operation MultiTargetMultiNot (controls : Qubit[], targets : Qubit[]) : Unit {
+    /// - Microsoft.Quantum.Canon.ApplyMultiControlledCA
+    operation MultiTargetMultiNot (controls : Qubit[], targets : Qubit[]) : Unit is Adj {
 
         body (...) {
             let singlyControlledOp = ApplyToPartitionA(MultiTargetNot, 1, _);
             ApplyMultiControlledCA(singlyControlledOp, CCNOTop(CCNOT), controls, targets);
         }
 
-        adjoint invert;
-
         controlled (extraControls, ...) {
             MultiTargetMultiNot(extraControls + controls, targets);
         }
 
-        controlled adjoint invert;
     }
 
 }

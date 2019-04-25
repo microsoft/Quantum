@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen {
+
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Chemistry.JordanWigner;  
+	open Microsoft.Quantum.Simulation;	
     open Microsoft.Quantum.Characterization;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Math;
-    open Microsoft.Quantum.Chemistry.JordanWigner;  
-	open Microsoft.Quantum.Simulation;	
     
     // We now use the Q# component of the chemistry library to obtain
     // quantum operations that implement real-time evolution by
