@@ -52,7 +52,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     /// Index of permutation
     ///
     operation OrderFinding(perm : Int[], input : Int) : Int {
-        let n = BitSize(Length(perm) - 1);
+        let n = BitSizeI(Length(perm) - 1);
         mutable accumulatedPermutation = perm;
 
         using ((topQubits, bottomQubits) = (Qubit[n + 1], Qubit[n])) {
