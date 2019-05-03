@@ -19,12 +19,12 @@ namespace Microsoft.Quantum.Samples.OpenQasm
         {
             var factory = new ConsoleDriver(); //Using different Factory
             Console.WriteLine("Hadamard to Qasm");
-            MeasurementOneQubit.Run(factory).Wait();
+            MeasureOneQubit.Run(factory).Wait();
             Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
 
             Console.WriteLine("Measurement bell curve to Qasm");
-            MeasurementBellBasis.Run(factory).Wait();
+            MeasureInBellBasis.Run(factory).Wait();
             Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
         }

@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-namespace Microsoft.Quantum.Examples.Teleportation {
-    
-    open Microsoft.Quantum.Primitive;
+
+namespace Microsoft.Quantum.Samples.Teleportation {
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    
-    
+
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
@@ -35,12 +34,11 @@ namespace Microsoft.Quantum.Examples.Teleportation {
     /// A qubit initially in the |0〉 state that we want to send
     /// the state of msg to.
     operation Teleport (msg : Qubit, target : Qubit) : Unit {
-        
         using (register = Qubit()) {
             // Create some entanglement that we can use to send our message.
             H(register);
             CNOT(register, target);
-            
+
             // Encode the message into the entangled pair,
             // and measure the qubits to extract the classical data
             // we need to correctly decode the message into the target qubit:
@@ -77,37 +75,29 @@ namespace Microsoft.Quantum.Examples.Teleportation {
     /// The result of a Z-basis measurement on the teleported qubit,
     /// represented as a Bool.
     operation TeleportClassicalMessage (message : Bool) : Bool {
-        
-        mutable measurement = false;
-        
-        using (register = Qubit[2]) {
-            
-            // Ask for some qubits that we can use to teleport.
-            let msg = register[0];
-            let target = register[1];
-            
+        // Ask for some qubits that we can use to teleport.
+        using ((msg, target) = (Qubit(), Qubit())) {
+
             // Encode the message we want to send.
             if (message) {
                 X(msg);
             }
-            
+
             // Use the operation we defined above.
             Teleport(msg, target);
-            
+
             // Check what message was sent.
-            if (M(target) == One) {
-                set measurement = true;
-            }
-            
+            let measurement = M(target) == One;
+
             // Reset all of the qubits that we used before releasing
             // them.
-            ResetAll(register);
+            Reset(msg);
+            Reset(target);
+
+            return measurement;
         }
-        
-        return measurement;
     }
 
-    
     // One can also use quantum teleportation to send any quantum state
     // without loosing any information. The following sample shows
     // how a randomly picked non-trivial state (|-> or |+>)
@@ -117,25 +107,21 @@ namespace Microsoft.Quantum.Examples.Teleportation {
     /// Uses teleportation to send a randomly picked |-> or |+> state
     /// to another.
     operation TeleportRandomMessage () : Unit {
-        
-        using (qubits = Qubit[2]) {
-            
-            // Ask for some qubits that we can use to teleport.
-            let msg = qubits[0];
-            let target = qubits[1];
-
+        // Ask for some qubits that we can use to teleport.
+        using ((msg, target) = (Qubit(), Qubit())) {
             PrepareRandomMessage(msg);
-            
+
             // Use the operation we defined above.
             Teleport(msg, target);
-            
+
             // Report message received:
             if (IsPlus(target))  { Message("Received |+>"); }
             if (IsMinus(target)) { Message("Received |->"); }
-            
+
             // Reset all of the qubits that we used before releasing
             // them.
-            ResetAll(qubits);
+            Reset(msg);
+            Reset(target);
         }
     }
 }

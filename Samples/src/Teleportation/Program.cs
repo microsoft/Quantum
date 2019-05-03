@@ -1,11 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-
 using Microsoft.Quantum.Simulation.Simulators;
 using System.Linq;
 
-namespace Microsoft.Quantum.Examples.Teleportation {
+namespace Microsoft.Quantum.Samples.Teleportation {
     class Program
     {
         static void Main(string[] args)

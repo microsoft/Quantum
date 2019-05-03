@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Measurement;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Circuit for teleportation with detailed annotation of measurement probabilities
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// # Summary
     /// Teleportation transfers 1 qubit by encoding it into a 2-bit message,
     /// using an entangled pair of qubits.
@@ -38,40 +38,39 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// - [ *Michael A. Nielsen , Isaac L. Chuang*,
     ///     Quantum Computation and Quantum Information ](http://doi.org/10.1017/CBO9780511976667)
     operation Teleportation (source : Qubit, target : Qubit) : Unit {
-        
+
         // Get a temporary qubit for the Bell pair.
-        using (ancillaRegister = Qubit[1]) {
-            let ancilla = ancillaRegister[0];
-            
+        using (auxillaryQubit = Qubit()) {
+
             // Create a Bell pair between the temporary qubit and the target.
             Assert([PauliZ], [target], Zero, "Error: target qubit must be initialized in zero state");
-            H(ancilla);
-            CNOT(ancilla, target);
-            Assert([PauliZ, PauliZ], [ancilla, target], Zero, "Error: EPR state must be eigenstate of ZZ");
-            Assert([PauliX, PauliX], [ancilla, target], Zero, "Error: EPR state must be eigenstate of XX");
-            
+            H(auxillaryQubit);
+            CNOT(auxillaryQubit, target);
+            Assert([PauliZ, PauliZ], [auxillaryQubit, target], Zero, "Error: EPR state must be eigenstate of ZZ");
+            Assert([PauliX, PauliX], [auxillaryQubit, target], Zero, "Error: EPR state must be eigenstate of XX");
+
             // Perform the Bell measurement and the correction necessary to
             // reconstruct the input state as the target state.
-            CNOT(source, ancilla);
+            CNOT(source, auxillaryQubit);
             H(source);
             AssertProb([PauliZ], [source], Zero, 0.5, "Error: All outcomes of the Bell measurement must be equally likely", 1E-05);
-            
+
             // Note that MResetZ makes sure that source is returned to zero state
             // so that we can deallocate it.
             if (MResetZ(source) == One) {
                 Z(target);
             }
-            
+
             // The probability of measuring 0 or 1 is independent on the previous
             // measurement outcome
-            AssertProb([PauliZ], [ancilla], Zero, 0.5, "Error: All outcomes of the Bell measurement must be equally likely", 1E-05);
-            
-            if (MResetZ(ancilla) == One) {
+            AssertProb([PauliZ], [auxillaryQubit], Zero, 0.5, "Error: All outcomes of the Bell measurement must be equally likely", 1E-05);
+
+            if (MResetZ(auxillaryQubit) == One) {
                 X(target);
             }
         }
     }
-    
+
 }
 // /////////////////////////////////////////////////////////////////////////////////////////////
 // Other teleportation circuits not illustrated here

@@ -39,7 +39,7 @@ namespace Microsoft.Quantum.Samples.Measurement
             // the mean.
 
             var averageResult = Enumerable.Range(0, 100).Select((idx) =>
-                MeasurementOneQubit.Run(sim).Result == Simulation.Core.Result.One ? 1 : 0
+                MeasureOneQubit.Run(sim).Result == Simulation.Core.Result.One ? 1 : 0
             ).Average();
             System.Console.WriteLine($"Frequency of 〈0| given H|0〉: {averageResult}");
 
@@ -54,7 +54,7 @@ namespace Microsoft.Quantum.Samples.Measurement
 
             foreach (var idxMeasurement in Enumerable.Range(0, 8))
             {
-                var results = MeasurementTwoQubits.Run(sim).Result;
+                var results = MeasureTwoQubits.Run(sim).Result;
                 System.Console.WriteLine($"Measured HH|00〉 and observed {results}.");
             }
 
@@ -70,7 +70,7 @@ namespace Microsoft.Quantum.Samples.Measurement
 
             foreach (var idxMeasurement in Enumerable.Range(0, 8))
             {
-                var results = MeasurementBellBasis.Run(sim).Result;
+                var results = MeasureInBellBasis.Run(sim).Result;
                 System.Console.WriteLine($"Measured CNOT₀₁ · H |00〉 and observed {results}.");
             }
 

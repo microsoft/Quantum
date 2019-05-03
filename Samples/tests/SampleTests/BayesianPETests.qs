@@ -3,6 +3,7 @@
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Samples.PhaseEstimation;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Diagnostics;
 
     operation BayesianPEManualTest() : Unit {
 
@@ -10,7 +11,7 @@ namespace Microsoft.Quantum.Tests {
         let actual = BayesianPhaseEstimationSample(expected);
 
         // Give a very generous tolerance to reduce false positive rate.
-        AssertAlmostEqualTol(expected, actual, 0.05);
+        EqualityWithinToleranceFact(expected, actual, 0.05);
     }
 
 }

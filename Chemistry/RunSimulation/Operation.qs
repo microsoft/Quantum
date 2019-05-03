@@ -1,29 +1,30 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Chemistry.Samples {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Convert;
-    open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Research.Chemistry;
-    open Microsoft.Quantum.Chemistry.JordanWigner;    
-    
+    open Microsoft.Quantum.Chemistry.JordanWigner;
+    open Microsoft.Quantum.Characterization;
+    open Microsoft.Quantum.Simulation;
+
     //////////////////////////////////////////////////////////////////////////
     // Using Trotterization //////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
-    
+
     /// # Summary
     /// We can now use Canon's phase estimation algorithms to
     /// learn the ground state energy using the above simulation.
     operation TrotterEstimateEnergy (qSharpData: JordanWignerEncodingData, nBitsPrecision : Int, trotterStepSize : Double) : (Double, Double) {
-        
+
         let (nSpinOrbitals, data, statePrepData, energyShift) = qSharpData!;
-        
+
         // Order of integrator
         let trotterOrder = 1;
         let (nQubits, (rescaleFactor, oracle)) = TrotterStepOracle(qSharpData, trotterStepSize, trotterOrder);
-        
+
         // Prepare ProductState
         let statePrep =  PrepareTrialState(statePrepData, _);
         let phaseEstAlgorithm = RobustPhaseEstimation(nBitsPrecision, _, _);
@@ -31,8 +32,7 @@ namespace Microsoft.Quantum.Chemistry.Samples {
         let estEnergy = estPhase * rescaleFactor + energyShift;
         return (estPhase, estEnergy);
     }
-    
-    
+
     //////////////////////////////////////////////////////////////////////////
     // Using optimized Trotterization circuit ////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
