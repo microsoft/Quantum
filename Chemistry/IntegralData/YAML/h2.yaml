@@ -1,0 +1,43 @@
+
+"$schema": https://raw.githubusercontent.com/Microsoft/Quantum/master/Chemistry/Schema/broombridge-0.1.schema.json
+
+bibliography:
+- {url: 'https://www.nwchem-sw.org'}
+format: {version: '0.1'}
+generator: {source: nwchem, version: '6.8'}
+integral_sets:
+- basis_set: {name: sto-3g, type: gaussian}
+  coulomb_repulsion: {units: hartree, value: 0.713776188}
+  energy_offset: {units: hartree, value: 0.0}
+  fci_energy: {lower: 0.0, units: hartree, upper: 0.0, value: 0.0}
+  geometry:
+    atoms:
+    - coords: [0.0, 0.0, 0.0]
+      name: H
+    - coords: [0.0, 0.0, 1.624]
+      name: H
+    coordinate_system: cartesian
+    symmetry: c1
+    units: angstrom
+  hamiltonian:
+    one_electron_integrals:
+      format: sparse
+      units: hartree
+      values:
+      - [1, 1, -1.252477495]
+      - [2, 2, -0.475934275]
+    two_electron_integrals:
+      format: sparse
+      index_convention: mulliken
+      units: hartree
+      values:
+      - [1,1,1,1,0.674493166]
+      - [1,2,2,1,0.181287518]
+      - [1,1,2,2,0.663472101]
+      - [2,2,2,2,0.697398010]
+  
+  metadata: {molecule_name: unknown}
+  n_electrons: 2
+  n_orbitals: 2
+  scf_energy: {units: hartree, value: -7.86099161}
+  scf_energy_offset: {units: hartree, value: 0.0}
