@@ -16,8 +16,11 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
     // Declare an `intrinsic` oracle that is implemented in C#. See the
     // `PermutationOracle.Register` call in the driver for its implementation.
     operation HalfAnswer(x: Qubit[], y: Qubit[]) : Unit {
-        body intrinsic;
-        adjoint intrinsic;
+        body (...)
+        {
+            fail "not implemented for general target machines";
+        }
+        adjoint auto;
     }
 
     // Define a simple permutation function that is used below to create
@@ -62,7 +65,7 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
             MeasureAndDisplay("Half the answer is ", y);
 
             // Apply an oracle defined in terms of a Q# permutation function.
-            EmulateOracle(DoubleAnswerFunc, [x], y);
+            PermutationOracle(DoubleAnswerFunc, [x], y);
             MeasureAndDisplay("Twice the answer is ", y);
 
             // Apply an oracle to a superposition in y.
@@ -120,7 +123,7 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
 
         // Turn the permutation function into an oracle operation acting on two
         // quantum registers.
-        let adder = EmulateOracle(ModAdd8, _, _);
+        let adder = PermutationOracle(ModAdd8, _, _);
 
         // Two integers to initialize the registers.
         let numbers = [123, 234];

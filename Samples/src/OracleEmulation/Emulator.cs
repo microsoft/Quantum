@@ -187,7 +187,7 @@ namespace Microsoft.Quantum.Simulation.Emulation
         /// is passed as the first argument to EmulateOracle and must be a
         /// bijective mapping on the computational basis states.
         /// </summary>
-        public class QSimEmulateOracle : Quantum.Extensions.Emulation.EmulateOracle
+        public class QSimEmulateOracle : Quantum.Extensions.Emulation.PermutationOracle
         {
             private QuantumSimulator Simulator { get; }
 
