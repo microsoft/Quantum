@@ -13,12 +13,12 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
     // Defining and using simple emulated oracles ////////////////////////////
     //////////////////////////////////////////////////////////////////////////
 
-    // Declare an `intrinsic` oracle that is implemented in C#. See the
+    // Declare an oracle to be implemented in C#. See the
     // `PermutationOracle.Register` call in the driver for its implementation.
     operation HalfAnswer(x: Qubit[], y: Qubit[]) : Unit {
         body (...)
         {
-            fail "not implemented for general target machines";
+            fail "not implemented";
         }
         adjoint auto;
     }
@@ -43,43 +43,45 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
     // # Input
     // ## oracle
     // A quantum operation that implements an oracle
-    //      $O: \ket{x}\ket{y} \rightarrow \ket{x}\ket{f(x, y)}$.
+    // $$
+    // \begin{align}
+    //      O: \ket{x}\ket{y} \rightarrow \ket{x}\ket{f(x, y)}.
+    // \end{align}
+    // $$
     operation RunConstantOracles (oracle: ((Qubit[], Qubit[]) => Unit)) : Unit {
         Message("Querying the oracles...");
 
-        // Prepare a one-qubit register `x` and an eight-qubit register `y`.
-        // Since all the oracles here ignore x, its length and state do not
-        // matter.
-        using (qubits = Qubit[9]) {
-            let x = qubits[0];
-            let y = qubits[1..8];
-            H(x);
+        // Prepare a one-qubit register `flag` and an eight-qubit register
+        // `result`. Since all the oracles here ignore the flag, its length and
+        // state do not matter.
+        using ((flag, result) = (Qubit(), Qubit[8])) {
+            H(flag);
 
             // Apply an oracle that was passed explicitly by the C# driver.
-            oracle([x], y);
-            MeasureAndDisplay("The answer is ", y);
+            oracle([flag], result);
+            MeasureAndDisplay("The answer is ", result);
 
             // Apply an oracle that was declared as `intrinsic` above and
             // implemented in the C# driver.
-            HalfAnswer([x], y);
-            MeasureAndDisplay("Half the answer is ", y);
+            HalfAnswer([flag], result);
+            MeasureAndDisplay("Half the answer is ", result);
 
             // Apply an oracle defined in terms of a Q# permutation function.
-            PermutationOracle(DoubleAnswerFunc, [x], y);
-            MeasureAndDisplay("Twice the answer is ", y);
+            PermutationOracle(DoubleAnswerFunc, [flag], result);
+            MeasureAndDisplay("Twice the answer is ", result);
 
-            // Apply an oracle to a superposition in y.
+            // Apply an oracle to a superposition in result.
             for(i in 1..5) {
-                H(y[7]);
-                // Before the oracle is queried, the state of the y register is
+                H(result[7]);
+                // Before the oracle is queried, the state of the result register is
                 //      $\ket{y} = \ket{0} + \ket{128}$.
                 // The oracle will map this to
                 //      $\ket{y'} = \ket{42 \oplus 0} + \ket{42 \oplus 128} = \ket{42} + \ket{170}$.
-                oracle([x], y);
-                MeasureAndDisplay("The answer might be ", y);
+                oracle([flag], result);
+                MeasureAndDisplay("The answer might be ", result);
             }
 
-            Reset(x);
+            Reset(flag);
         }
     }
 
@@ -89,17 +91,16 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
     //////////////////////////////////////////////////////////////////////////
 
     // Prepare two `LittleEndian` registers in a computational basis state.
-    operation PrepareSummands(qubits: Qubit[], numbers: Int[]) : (LittleEndian, LittleEndian) {
-        let n = Length(qubits);
-        let x = LittleEndian(qubits[0..n/2 - 1]);
-        let y = LittleEndian(qubits[n/2..n-1]);
-        InPlaceXorLE(numbers[0], x);
-        InPlaceXorLE(numbers[1], y);
+    operation PrepareSummands(numbers: (Int, Int), registers: (Qubit[], Qubit[])) : (LittleEndian, LittleEndian) {
+        let x = LittleEndian(Fst(registers));
+        let y = LittleEndian(Snd(registers));
+        InPlaceXorLE(Fst(numbers), x);
+        InPlaceXorLE(Snd(numbers), y);
         return (x, y);
     }
 
     // Measure and check that M(x) + y_init == M(y).
-    operation MeasureAndCheckAddResult(x: LittleEndian, y: LittleEndian, y_init: Int): (Int, Int) {
+    operation MeasureAndCheckAddResult(y_init: Int, x: LittleEndian, y: LittleEndian): (Int, Int) {
         let mx = MeasureInteger(x);
         let my = MeasureInteger(y);
         Message($"Computed {mx} + {y_init} = {my} mod {2^8}");
@@ -124,15 +125,16 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
         // Turn the permutation function into an oracle operation acting on two
         // quantum registers.
         let adder = PermutationOracle(ModAdd8, _, _);
+        let width = 8;
 
         // Two integers to initialize the registers.
-        let numbers = [123, 234];
+        let numbers = (123, 234);
 
         // Write the numbers into registers and add them.
-        using (qubits = Qubit[16]) {
-            // Prepare two `LittleEndian` registers of 8 qubits each,
-            // initialized to the values in `numbers`.
-            let (x, y) = PrepareSummands(qubits, numbers);
+        using (registers = (Qubit[width], Qubit[width])) {
+            // Prepare two `LittleEndian` registers, initialized to the values
+            // in `numbers`.
+            let (x, y) = PrepareSummands(numbers, registers);
 
             // Apply the add oracle. Note that the oracle expects two plain
             // `Qubit[]` registers, so the `LittleEndian` variables `x`, `y`
@@ -141,15 +143,15 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
 
             // Measure the registers. Check that the addition was performed and
             // the input register `x` has not been changed.
-            let (mx, my) = MeasureAndCheckAddResult(x, y, numbers[1]);
-            AssertBoolEqual(mx == numbers[0], true, "x changed!");
+            let (mx, my) = MeasureAndCheckAddResult(Snd(numbers), x, y);
+            AssertBoolEqual(mx == Fst(numbers), true, "x changed!");
         }
         
         // Now do two additions in superposition.
         for(i in 1..5) {
-            using (qubits = Qubit[16]) {
+            using (registers = (Qubit[width], Qubit[width])) {
                 // Prepare x in the superposition $\ket{x} = \ket{123} + \ket{251}$.
-                let (x, y) = PrepareSummands(qubits, numbers);
+                let (x, y) = PrepareSummands(numbers, registers);
                 H(x![7]);
 
                 // Apply the add oracle.
@@ -157,8 +159,8 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
 
                 // Measure the registers. Check that the addition was performed and
                 // the input register `x` has collapsed into either 123 or 251.
-                let (mx, my) = MeasureAndCheckAddResult(x, y, numbers[1]);
-                AssertBoolEqual(mx == numbers[0] or mx == (numbers[0] + 2^7) % 2^8, true, "x changed!");
+                let (mx, my) = MeasureAndCheckAddResult(Snd(numbers), x, y);
+                AssertBoolEqual(mx == Fst(numbers) or mx == (Fst(numbers) + 2^7) % 2^width, true, "x changed!");
             }
         }
     }

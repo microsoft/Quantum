@@ -31,10 +31,10 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
                 var oracle = PermutationOracle.Create(qsim, (x, y) => 42 ^ y);
 
                 // Provide the definition of an oracle that has been declared in
-                // Q# as `intrinsic`. This way, the `HalfAnswer` oracle is
-                // accessible via the `OracleEmulation` namespace and does not
-                // have to be passed to operations depending on it (unlike the
-                // oracle created above).
+                // Q#, replacing the stub body defined in Operations.qs. This
+                // way, the `HalfAnswer` oracle is accessible via the
+                // `OracleEmulation` namespace and does not have to be passed to
+                // operations depending on it (unlike the oracle created above).
                 PermutationOracle.Register<HalfAnswer>(qsim, (x, y) => 21 ^ y);
 
                 // Execute the simple oracles and print the results.

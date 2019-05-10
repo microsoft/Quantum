@@ -5,9 +5,11 @@
 namespace Microsoft.Quantum.Extensions.Emulation
 {
     /// # Summary
-    /// Apply an oracle unitary to two registers, where the effect of the
-    /// oracle is a permutation of basis states according to the provided
-    /// classical function:
+    /// Apply a classical permutation oracle to two registers.
+    ///
+    /// # Description
+    /// The effect of the oracle is a permutation of basis states according to
+    /// the provided classical function:
     /// $$
     /// \begin{align}
     ///     \ket{x}\ket{y}\ket{w} \rightarrow \ket{x}\ket{f(x, y)}\ket{w},
