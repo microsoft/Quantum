@@ -8,7 +8,7 @@ open Microsoft.Quantum.Simulation.Core
 
 [<EntryPoint>]
 let main _ =
-    printfn "Hello Classical World!"
+    printfn "Hello, classical world!"
     // Create a full-state simulator
     use simulator = new QuantumSimulator()
 

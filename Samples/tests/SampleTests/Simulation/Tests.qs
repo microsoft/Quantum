@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Primitive;
-    open Microsoft.Quantum.Extensions.Convert;
-    open Microsoft.Quantum.Extensions.Math;
-    open Microsoft.Quantum.Extensions.Testing;
+    open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Diagnostics;
+    open Microsoft.Quantum.Simulation;
+    open Microsoft.Quantum.Arrays;
     
     
     // This contains unit tests for the Simulation library
@@ -51,7 +53,7 @@ namespace Microsoft.Quantum.Tests {
             let qubit = register[0];
             preparation(qubit);
             Exp([pauli], angle, register);
-            AssertQubitState(expected, qubit, 1E-05);
+            AssertQubitIsInStateWithinTolerance(expected, qubit, 1E-05);
             Reset(qubit);
         }
     }
@@ -93,7 +95,7 @@ namespace Microsoft.Quantum.Tests {
             Exp([PauliZ, PauliZ], angle, register);
             Exp([PauliZ, PauliI], -angle, register);
             H(register[0]);
-            ApplyToEach(AssertQubitState(ket0, _, 1E-05), register);
+            ApplyToEach(AssertQubitIsInStateWithinTolerance(ket0, _, 1E-05), register);
         }
     }
     
@@ -110,7 +112,7 @@ namespace Microsoft.Quantum.Tests {
             Exp([PauliZ, PauliZ], angle, register);
             H(register[0]);
             Exp([PauliX, PauliI], -angle, register);
-            ApplyToEach(AssertQubitState(ket0, _, 1E-05), register);
+            ApplyToEach(AssertQubitIsInStateWithinTolerance(ket0, _, 1E-05), register);
         }
     }
     
@@ -129,7 +131,7 @@ namespace Microsoft.Quantum.Tests {
             H(register[0]);
             Exp([PauliZ, PauliI], -angle, register);
             H(register[0]);
-            ApplyToEach(AssertQubitState(ket0, _, 1E-05), register);
+            ApplyToEach(AssertQubitIsInStateWithinTolerance(ket0, _, 1E-05), register);
         }
     }
     
@@ -154,7 +156,7 @@ namespace Microsoft.Quantum.Tests {
             let nQubits = Length(opTarget);
             let opA = (PauliEvolutionFunction(generatorIndex))!(step, _);
             let opB = Exp(opTarget, step * multiplier, _);
-            AssertOperationsEqualReferenced(opA, opB, nQubits);
+            AssertOperationsEqualReferenced(nQubits, opA, opB);
         }
     }
     
@@ -250,31 +252,31 @@ namespace Microsoft.Quantum.Tests {
             AssertProb([PauliZ], [qubits[6]], One, SinSquared(0.0 * step), "Fail [PauliI,PauliX,PauliI,PauliY,PauliX,PauliI,PauliZ] [6]", 1E-10);
             ResetAll(qubits);
             H(qubits[0]);
-            Exp([PauliZ], ToDouble(1), [qubits[0]]);
-            Exp([PauliX], ToDouble(1), [qubits[0]]);
+            Exp([PauliZ], IntAsDouble(1), [qubits[0]]);
+            Exp([PauliX], IntAsDouble(1), [qubits[0]]);
             AssertProb([PauliZ], [qubits[0]], One, 0.0865891, "Fail Sign H. Z . X", 0.0001);
             
             // This will not catch a sign error if both Assert ZZ and Exp ZZ have the wrong sign
             ResetAll(qubits);
             H(qubits[0]);
             H(qubits[1]);
-            Exp([PauliZ, PauliZ], ToDouble(1), qubits[0 .. 1]);
-            Exp([PauliX], ToDouble(1), [qubits[0]]);
+            Exp([PauliZ, PauliZ], IntAsDouble(1), qubits[0 .. 1]);
+            Exp([PauliX], IntAsDouble(1), [qubits[0]]);
             AssertProb([PauliZ, PauliZ], qubits[0 .. 1], One, 0.0865891, "Fail Sign HH. ZZ . X", 0.0001);
             
             // This will not catch a sign error if both Assert ZZ and Exp XX have the wrong sign
             ResetAll(qubits);
-            Exp([PauliX, PauliX], ToDouble(1), qubits[0 .. 1]);
-            Exp([PauliZ], ToDouble(1), [qubits[0]]);
+            Exp([PauliX, PauliX], IntAsDouble(1), qubits[0 .. 1]);
+            Exp([PauliZ], IntAsDouble(1), [qubits[0]]);
             H(qubits[0]);
             H(qubits[1]);
             AssertProb([PauliZ, PauliZ], qubits[0 .. 1], One, 0.0865891, "Fail Sign  XX . Z . HH", 0.0001);
             
             // This should catch a sign error if both Assert Z and Exp ZZ have different signs
             ResetAll(qubits);
-            Exp([PauliY], ToDouble(1), [qubits[0]]);
-            Exp([PauliZ, PauliZ], ToDouble(1), qubits[0 .. 1]);
-            Exp([PauliX], ToDouble(1), [qubits[0]]);
+            Exp([PauliY], IntAsDouble(1), [qubits[0]]);
+            Exp([PauliZ, PauliZ], IntAsDouble(1), qubits[0 .. 1]);
+            Exp([PauliX], IntAsDouble(1), [qubits[0]]);
             AssertProb([PauliZ], qubits[0 .. 0], One, 0.789324, "Fail Sign Y. ZZ . X", 0.0001);
             ResetAll(qubits);
         }
@@ -286,7 +288,7 @@ namespace Microsoft.Quantum.Tests {
     ///     are equal (not unequal), we mark this test as a should-fail.
     operation ExpZZSignMattersTestShouldFail () : Unit {
         
-        AssertOperationsEqualReferenced(Exp([PauliZ, PauliZ], 1.0, _), Exp([PauliZ, PauliZ], -1.0, _), 2);
+        AssertOperationsEqualReferenced(2, Exp([PauliZ, PauliZ], 1.0, _), Exp([PauliZ, PauliZ], -1.0, _));
     }
     
     
@@ -295,19 +297,19 @@ namespace Microsoft.Quantum.Tests {
     ///     are equal (not unequal), we mark this test as a should-fail.
     operation ExpXXSignMattersTestShouldFail () : Unit {
         
-        AssertOperationsEqualReferenced(Exp([PauliX, PauliX], 1.0, _), Exp([PauliX, PauliX], -1.0, _), 2);
+        AssertOperationsEqualReferenced(2, Exp([PauliX, PauliX], 1.0, _), Exp([PauliX, PauliX], -1.0, _));
     }
     
     
     operation ExpXXAdjointTest () : Unit {
         
-        AssertOperationsEqualReferenced(Exp([PauliX, PauliX], 1.0, _), Adjoint Exp([PauliX, PauliX], -1.0, _), 2);
+        AssertOperationsEqualReferenced(2, Exp([PauliX, PauliX], 1.0, _), Adjoint Exp([PauliX, PauliX], -1.0, _));
     }
     
     
     operation ExpZZAdjointTest () : Unit {
         
-        AssertOperationsEqualReferenced(Exp([PauliZ, PauliZ], 1.0, _), Adjoint Exp([PauliZ, PauliZ], -1.0, _), 2);
+        AssertOperationsEqualReferenced(2, Exp([PauliZ, PauliZ], 1.0, _), Adjoint Exp([PauliZ, PauliZ], -1.0, _));
     }
     
     
@@ -327,12 +329,12 @@ namespace Microsoft.Quantum.Tests {
             if (gate == 0) {
                 H(qubits[0]);
                 H(qubits[1]);
-                Exp([PauliZ, PauliZ], ToDouble(1), qubits[0 .. 1]);
+                Exp([PauliZ, PauliZ], IntAsDouble(1), qubits[0 .. 1]);
                 H(qubits[0]);
                 H(qubits[1]);
             }
             else {
-                Exp([PauliX, PauliX], ToDouble(1), qubits[0 .. 1]);
+                Exp([PauliX, PauliX], IntAsDouble(1), qubits[0 .. 1]);
             }
         }
         
@@ -344,8 +346,8 @@ namespace Microsoft.Quantum.Tests {
     ///     Checks that operations containing == are equal to themseleves.
     operation ConditionalOperationTest () : Unit {
         
-        AssertOperationsEqualReferenced(ExpTestHelper(_, 0), ExpTestHelper(_, 0), 2);
-        AssertOperationsEqualReferenced(ExpTestHelper(_, 1), ExpTestHelper(_, 1), 2);
+        AssertOperationsEqualReferenced(2, ExpTestHelper(_, 0), ExpTestHelper(_, 0));
+        AssertOperationsEqualReferenced(2, ExpTestHelper(_, 1), ExpTestHelper(_, 1));
     }
     
     
@@ -353,11 +355,11 @@ namespace Microsoft.Quantum.Tests {
     ///     Checks that Exp about ZZ and XX agree up to Hadamards.
     operation ExpHadamardTest () : Unit {
         
-        AssertOperationsEqualReferenced(ExpTestHelper(_, 0), ExpTestHelper(_, 1), 2);
+        AssertOperationsEqualReferenced(2, ExpTestHelper(_, 0), ExpTestHelper(_, 1));
         
         // NB: We do things in the reverse order to ensure that everything
         //     continues to agree even in the presence of Adjoint.
-        AssertOperationsEqualReferenced(ExpTestHelper(_, 1), ExpTestHelper(_, 0), 2);
+        AssertOperationsEqualReferenced(2, ExpTestHelper(_, 1), ExpTestHelper(_, 0));
     }
     
 }

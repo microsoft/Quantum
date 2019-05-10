@@ -1,6 +1,7 @@
 ﻿namespace Microsoft.Quantum.Samples {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Arrays;
 
     /// # Summary
     /// A quantum oracle which implements the following function: 
@@ -13,20 +14,15 @@
     /// N qubits in arbitrary state |x⟩ (input register)
     /// ## y
     /// A qubit in arbitrary state |y⟩ (output qubit)
-    operation ApplyProductWithNegationFunction (r : Int[], x : Qubit[], y : Qubit) : Unit {
-        
-        body (...) {
-            for (i in 0 .. Length(x) - 1) {
-                if (r[i] == 1) {
-                    CNOT(x[i], y);
-                } else {
-                    // do a 0-controlled NOT
-                    (ControlledOnInt(0, X))([x[i]], y);
-                }
+    operation ApplyProductWithNegationFunction (r : Int[], x : Qubit[], y : Qubit) : Unit is Adj {
+        for (idx in IndexRange(x)) {
+            if (r[idx] == 1) {
+                CNOT(x[idx], y);
+            } else {
+                // do a 0-controlled NOT
+                (ControlledOnInt(0, X))([x[idx]], y);
             }
         }
-        
-        adjoint auto;
     }
 
     /// # Summary
@@ -63,7 +59,7 @@
             let m = M(y);
             if (m == One) {
                 // adjust parity of bit vector r
-                set r[0] = 1;
+                set r w/= 0 <- 1;
             }
             
             // before releasing the qubits make sure they are all in |0⟩ state
@@ -77,7 +73,7 @@
     /// # Summary
     /// Instantiates the oracle and runs the parameter restoration algorithm.
     operation RunAlgorithm (bits : Int[]) : Int[] {
-        Message("Hello Quantum World!");
+        Message("Hello, quantum world!");
         // construct an oracle using the input array
         let oracle = ApplyProductWithNegationFunction(bits, _, _);
         // run the algorithm on this oracle and return the result

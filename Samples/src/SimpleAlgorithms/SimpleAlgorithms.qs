@@ -5,9 +5,11 @@
 // First, note that every Q# function must have a namespace. We define
 // a new one for this purpose.
 namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Measurement;
+    open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Convert;
     
     
     //////////////////////////////////////////////////////////////////////////
@@ -48,44 +50,39 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     /// - [ *Ethan Bernstein and Umesh Vazirani*,
     ///     SIAM J. Comput., 26(5), 1411–1473, 1997 ](https://doi.org/10.1137/S0097539796300921)
     operation ParityViaFourierSampling (Uf : (Qubit[] => Unit), n : Int) : Bool[] {
-        
-        // We first create an array of size n which will hold the final result.
-        mutable resultArray = new Result[n];
-        
+
         // Now, we allocate n + 1 clean qubits. Note that the function Uf is defined
         // on inputs of the form (x, y), where x has n bits and y has 1 bit.
         using (qubits = Qubit[n + 1]) {
-            
+
             // The last qubit needs to be flipped so that the function will
             // actually be computed into the phase when Uf is applied.
             X(qubits[n]);
-            
+
             // Now, a Hadamard transform is applied to each of the qubits.
             ApplyToEach(H, qubits);
-            
+
             // We now apply Uf to the n+1 qubits, computing |x, y〉 ↦ |x, y ⊕ f(x)〉.
             Uf(qubits);
-            
+
             // As the last step before the measurement, a Hadamard transform is
             // applied to all qubits except last one. We could apply the transform to
             // the last qubit also, but this would not affect the final outcome.
             ApplyToEach(H, qubits[0 .. n - 1]);
-            
+
             // The following for-loop measures all qubits and resets them to
             // zero so that they can be safely returned at the end of the
             // using-block.
-            for (idx in 0 .. n - 1) {
-                set resultArray[idx] = MResetZ(qubits[idx]);
-            }
-            
+            let resultArray = ForEach(MResetZ, Most(qubits));
+
+            // The result is already contained in resultArray so no further
+            // post-processing is necessary.
+            Message($"measured: {resultArray}");
+
             // Finally, the last qubit, which held the y-register, is reset.
             Reset(qubits[n]);
+            return ResultArrayAsBoolArray(resultArray);
         }
-        
-        // The result is already contained in resultArray so no further
-        // post-processing is necessary.
-        Message($"measured: {resultArray}");
-        return BoolArrFromResultArr(resultArray);
     }
     
     
@@ -137,7 +134,6 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     /// # Output
     /// An operation implementing 𝑈.
     function ParityOperation (pattern : Bool[]) : (Qubit[] => Unit) {
-        
         return ParityOperationImpl(pattern, _);
     }
     
@@ -147,10 +143,9 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // to take an Int as input and to return an Int as output, where each
     // Int represents a bitstring using the little endian convention.
     operation BernsteinVaziraniTestCase (nQubits : Int, patternInt : Int) : Int {
-        
-        let pattern = BoolArrFromPositiveInt(patternInt, nQubits);
+        let pattern = IntAsBoolArray(patternInt, nQubits);
         let result = ParityViaFourierSampling(ParityOperation(pattern), nQubits);
-        return PositiveIntFromBoolArr(result);
+        return BoolArrayAsInt(result);
     }
     
     
@@ -183,58 +178,52 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     /// # References
     /// - [ *Michael A. Nielsen , Isaac L. Chuang*,
     ///     Quantum Computation and Quantum Information ](http://doi.org/10.1017/CBO9780511976667)
-    operation IsConstantBooleanFunction (Uf : (Qubit[] => Unit), n : Int) : Bool {
-        
-        // We first create an array of size n from which we compute the final result.
-        mutable resultArray = new Result[n];
-        
+    operation IsConstantBooleanFunction (Uf : ((Qubit[], Qubit) => Unit), n : Int) : Bool {
+
         // Now, we allocate n + 1 clean qubits. Note that the function Uf is defined
         // on inputs of the form (x, y), where x has n bits and y has 1 bit.
-        using (qubits = Qubit[n + 1]) {
+        using ((queryRegister, target) = (Qubit[n], Qubit())) {
             
             // The last qubit needs to be flipped so that the function will
             // actually be computed into the phase when Uf is applied.
-            X(qubits[n]);
+            X(target);
+            H(target);
             
             // Now, a Hadamard transform is applied to each of the qubits.
-            ApplyToEach(H, qubits);
+            ApplyToEach(H, queryRegister);
             
             // We now apply Uf to the n + 1 qubits, computing |𝑥, 𝑦〉 ↦ |𝑥, 𝑦 ⊕ 𝑓(𝑥)〉.
-            Uf(qubits);
+            Uf(queryRegister, target);
             
             // As the last step before the measurement, a Hadamard transform is
             // but the very last one. We could apply the Hadamard transform to
             // the last qubit also, but this would not affect the final outcome.
-            ApplyToEach(H, qubits[0 .. n - 1]);
+            ApplyToEach(H, queryRegister);
             
             // The following for-loop measures all qubits and resets them to
             // zero so that they can be safely returned at the end of the
             // using-block.
-            for (idx in 0 .. n - 1) {
-                set resultArray[idx] = MResetZ(qubits[idx]);
-            }
+            let resultArray = ForEach(MResetZ, queryRegister);
             
             // Finally, the last qubit, which held the 𝑦-register, is reset.
-            Reset(qubits[n]);
+            Reset(target);
+
+            // We use the predicte `IsResultZero` from Microsoft.Quantum.Canon
+            // and compose it with the All function from
+            // Microsoft.Quantum.Arrays. This will return
+            // `true` if the all zero string has been measured, i.e., if the function
+            // was a constant function and `false` if not, which according to the
+            // promise on 𝑓 means that it must have been balanced.
+            return All(IsResultZero, resultArray);
         }
-        
-        // we use the predicte `IsResultZero` from Microsoft.Quantum.Canon
-        // (Predicates.qs) and compose it with the ForAll function from
-        // Microsoft.Quantum.Canon (ForAll.qs). This will return
-        // `true` if the all zero string has been measured, i.e., if the function
-        // was a constant function and `false` if not, which according to the
-        // promise on 𝑓 means that it must have been balanced.
-        return ForAll(IsResultZero, resultArray);
     }
+        
     
     
     // As before, we define an operation and a function to construct black-box
     // operations and a test case to make it easier to test Deutsch–Jozsa
     // algorithm from a C# driver.
-    operation BooleanFunctionFromMarkedElementsImpl (n : Int, markedElements : Int[], qs : Qubit[]) : Unit {
-        
-        let target = qs[Length(qs) - 1];
-        let inputs = qs[0 .. Length(qs) - 2];
+    operation BooleanFunctionFromMarkedElementsImpl (n : Int, markedElements : Int[], query : Qubit[], target : Qubit) : Unit {
         
         // This operation applies the unitary
         
@@ -245,14 +234,11 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         // which some subset of items are marked.
         // We will revisit this construction later, in the DatabaseSearch
         // sample.
-        let nMarked = Length(markedElements);
-        
-        for (idxMarked in 0 .. nMarked - 1) {
-            
+        for (markedElement in markedElements) {            
             // Note: As X accepts a Qubit, and ControlledOnInt only
             // accepts Qubit[], we use ApplyToEachCA(X, _) which accepts
             // Qubit[] even though the target is only 1 Qubit.
-            (ControlledOnInt(markedElements[idxMarked], ApplyToEachCA(X, _)))(inputs, [target]);
+            (ControlledOnInt(markedElement, ApplyToEachCA(X, _)))(query, [target]);
         }
     }
     
@@ -270,9 +256,8 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     ///
     /// # Output
     /// An operation representing the unitary 𝑈 |𝑧〉 |𝑘〉 = |𝑧 ⊕ 𝑥ₖ〉 |𝑘〉.
-    function BooleanFunctionFromMarkedElements (nQubits : Int, markedElements : Int[]) : (Qubit[] => Unit) {
-        
-        return BooleanFunctionFromMarkedElementsImpl(nQubits, markedElements, _);
+    function BooleanFunctionFromMarkedElements (nQubits : Int, markedElements : Int[]) : ((Qubit[], Qubit) => Unit) {
+        return BooleanFunctionFromMarkedElementsImpl(nQubits, markedElements, _, _);
     }
     
     
@@ -333,44 +318,36 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     /// - [*Martin Roetteler*,
     ///    Proc. SODA 2010, ACM, pp. 448-457, 2010](https://doi.org/10.1137/1.9781611973075.37)
     operation HiddenShiftBentCorrelation (Ufstar : (Qubit[] => Unit), Ug : (Qubit[] => Unit), n : Int) : Bool[] {
-        
-        // we first create an array of size n from which we compute the final result.
-        mutable resultArray = new Result[n];
-        
         // now, we allocate n clean qubits. Note that the function Ufstar and Ug are
         // unitary operations on n qubits defined via phase encoding.
         using (qubits = Qubit[n]) {
-            
             // first, a Hadamard transform is applied to each of the qubits.
             ApplyToEach(H, qubits);
-            
+
             // we now apply the shifted function Ug to the n qubits, computing
             // |x〉 -> (-1)^{g(x)} |x〉.
             Ug(qubits);
-            
+
             // now, a Hadamard transform is applied to each of the n qubits.
             ApplyToEach(H, qubits);
-            
+
             // we now apply the dual function of the unshifted function, i.e., Ufstar,
             // to the n qubits, computing |x〉 -> (-1)^{fstar(x)} |x〉.
             Ufstar(qubits);
-            
+
             // now, a Hadamard transform is applied to each of the n qubits.
             ApplyToEach(H, qubits);
-            
+
             // the following for-loop measures the n qubits and resets them to
             // zero so that they can be safely returned at the end of the
             // using-block.
-            for (idx in 0 .. n - 1) {
-                set resultArray[idx] = MResetZ(qubits[idx]);
-            }
+            let resultArray = ForEach(MResetZ, qubits);
+            // the result is already contained in resultArray and not further
+            // post-processing is necessary except for a conversion from Result[] to
+            // Bool[] for which we use a canon function (from TypeConversion.qs).
+            Message($"measured: {resultArray}");
+            return ResultArrayAsBoolArray(resultArray);
         }
-        
-        // the result is already contained in resultArray and not further
-        // post-processing is necessary except for a conversion from Result[] to
-        // Bool[] for which we use a canon function (from TypeConversion.qs).
-        Message($"measured: {resultArray}");
-        return BoolArrFromResultArr(resultArray);
     }
     
     
@@ -432,10 +409,9 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // diagonal operation, and then undoing the bit flips to the |x〉 register. We
     // use this principle to define shifted versions of the IP operation.
     operation ShiftedInnerProductBentFunctionImpl (shift : Bool[], u : Int, qs : Qubit[]) : Unit {
-        
         let n = 2 * u;
         
-        if (Length(shift) != n || Length(qs) != n) {
+        if (Length(shift) != n or Length(qs) != n) {
             fail "Length of shift and qs must be twice the value of u";
         }
         
@@ -465,11 +441,10 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // and are then passed to the quantum algorithm `HiddenShiftBentCorrelation`
     // which computes the hidden shift.
     function ShiftedInnerProductBentFunction (shift : Bool[], u : Int) : (Qubit[] => Unit) {
-        
         return ShiftedInnerProductBentFunctionImpl(shift, u, _);
     }
-    
-    
+
+
     // We finish by providing a case that can be easily called from C#.
     operation HiddenShiftBentCorrelationTestCase (patternInt : Int, u : Int) : Int {
         
@@ -477,11 +452,11 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         
         // The integer patternInt is converted to a bit pattern
         // using a canon function (from Utils.qs)
-        let pattern = BoolArrFromPositiveInt(patternInt, nQubits);
+        let pattern = IntAsBoolArray(patternInt, nQubits);
         
         // We then convert back to an integer, so that the C# driver
         // doesn't need to worry with arrays.
-        let result = PositiveIntFromBoolArr(HiddenShiftBentCorrelation(InnerProductBentFunction(u), ShiftedInnerProductBentFunction(pattern, u), nQubits));
+        let result = BoolArrayAsInt(HiddenShiftBentCorrelation(InnerProductBentFunction(u), ShiftedInnerProductBentFunction(pattern, u), nQubits));
         return result;
     }
     

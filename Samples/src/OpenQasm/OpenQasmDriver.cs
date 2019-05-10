@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Quantum.Primitive;
+using Microsoft.Quantum.Intrinsic;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using Microsoft.Quantum.Simulation.Common;
@@ -23,12 +23,12 @@ namespace Microsoft.Quantum.Samples.OpenQasm
         public OpenQasmDriver(IQubitManager qubitManager = null) : base(qubitManager)
         {
             QasmLog.AppendLine("include \"qelib1.inc\";");
-            QasmLog.AppendLine($"qreg q[{QBitCount}];");
-            QasmLog.AppendLine($"creg c[{QBitCount}];");
+            QasmLog.AppendLine($"qreg q[{QubitCount}];");
+            QasmLog.AppendLine($"creg c[{QubitCount}];");
         }
 
         protected abstract IEnumerable<Result> RunOpenQasm(StringBuilder qasm, int runs);
-        public abstract int QBitCount { get; }
+        public abstract int QubitCount { get; }
 
         /// <summary>
         /// Processes Hadamard gate
@@ -197,10 +197,10 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
             }
 
-            public override Func<(QArray<Pauli>, QArray<Qubit>, Result, string), QVoid> Body
+            public override Func<(IQArray<Pauli>, IQArray<Qubit>, Result, string), QVoid> Body
             {
                 get {
-                    return delegate ((QArray<Pauli>, QArray<Qubit>, Result, string) assert)
+                    return delegate ((IQArray<Pauli>, IQArray<Qubit>, Result, string) assert)
                     {
                         return QVoid.Instance;
                     };
@@ -216,11 +216,11 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
             }
 
-            public override Func<(QArray<Pauli>, QArray<Qubit>, Result, double, string, double), QVoid> Body
+            public override Func<(IQArray<Pauli>, IQArray<Qubit>, Result, double, string, double), QVoid> Body
             {
                 get
                 {
-                    return delegate ((QArray<Pauli>, QArray<Qubit>, Result, double, string, double) assert)
+                    return delegate ((IQArray<Pauli>, IQArray<Qubit>, Result, double, string, double) assert)
                     {
                         return QVoid.Instance;
                     };
@@ -308,7 +308,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
             {
             }
 
-            public override Func<(QArray<Pauli>, QArray<Qubit>), Result> Body => throw new NotImplementedException();
+            public override Func<(IQArray<Pauli>, IQArray<Qubit>), Result> Body => throw new NotImplementedException();
         }
     }
 }
