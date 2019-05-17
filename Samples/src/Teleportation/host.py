@@ -14,7 +14,7 @@ import qsharp
 print(qsharp.get_workspace_operations())
 
 # these operations can be imported into Python. For example:
-from Microsoft.Quantum.Examples.Teleportation import TeleportClassicalMessage, TeleportRandomMessage
+from Microsoft.Quantum.Samples.Teleportation import TeleportClassicalMessage, TeleportRandomMessage
 
 # once imported, an operation can be simulated:
 TeleportRandomMessage.simulate()
