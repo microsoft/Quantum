@@ -10,6 +10,8 @@
 // Libraries. This model defines what a fermionic Hamiltonian is, and how to
 // represent Hamiltonians on disk.
 using Microsoft.Quantum.Chemistry;
+using Microsoft.Quantum.Chemistry.OrbitalIntegrals;
+using Microsoft.Quantum.Chemistry.Fermion;
 
 // To count gates, we'll use the trace simulator provided with
 // the Quantum Development Kit.
@@ -87,18 +89,24 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
 
             // A spin-orbital index is then
             var spinOrbital0 = new SpinOrbital(orbitalIdx, spin);
-            
-            // If no spin index is provided, the default spin will be `u`.
-            var spinOrbital1 = new SpinOrbital(3);
+
+            // We may also map the composite spin-orbital index into a single integer `x`
+            // using the default formula `x = 2 * orbitalIdx + spin;
+            var spinOrbital0Int = spinOrbital0.ToInt();
+
+            // Other indexing schemes are possible. For example, we may use the formula
+            // `x = orbitalIdx + nOrbitals * spin`
+            var spinOrbital0HalfUpInt = spinOrbital0.ToInt(SpinOrbital.IndexConvention.HalfUp);
             
             // Let us print these spin-orbitals to verify they contain the 
             // expected information.
             Console.WriteLine($"Spin-orbital representation:");
-            Console.WriteLine($"spinOrbital0: (Orbital, Spin) index: ({spinOrbital0.orbital},{spinOrbital0.spin}).");
-            Console.WriteLine($"spinOrbital1: (Orbital, Spin) index: {spinOrbital1}");
+            Console.WriteLine($"spinOrbital0: (Orbital, Spin) index: ({spinOrbital0.Orbital},{spinOrbital0.Spin}).");
+            Console.WriteLine($"spinOrbital0Int: (2 * Orbital + Spin) index: ({spinOrbital0Int}).");
+            Console.WriteLine($"spinOrbital0HalfUpInt: (Orbital + nOrbitals * Spin) index: ({spinOrbital0HalfUpInt}).");
             Console.WriteLine($"");
             #endregion
-            
+
             #region Hamiltonian term representation
             // Each term in the Hamiltonian is then labelled by an ordered sequence of
             // spin-orbtal indices, and a coefficient. By default, normal-ordering is
@@ -121,6 +129,12 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
             // Or for instance through
             var spinOrbitals1 = new[] { (1, 0), (1, 1), (1, 1), (1, 0) }.ToSpinOrbitals();
 
+            // These indices may be converted into a list of integers
+            var spinOrbitals1Int = spinOrbitals1.ToInts();
+
+            // Alternatively, one may directly create a list of integer indices for the fermion terms.
+            var fermionInts = new[] { 10, 12 };
+            Console.WriteLine($"spinOrbital0.ToInts() vs. fermionInts({spinOrbitals0.ToInts().SequenceEqual(fermionInts)}).");
 
             // A fermion term is then
             var fermionTerm0 = new FermionTerm(spinOrbitals0, coefficient);
