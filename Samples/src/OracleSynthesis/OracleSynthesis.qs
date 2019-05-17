@@ -29,7 +29,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// Technical Communication No. 35, Imperial Bureau of Soil Science,
     /// London (1937)
     function FastHadamardTransform(func : Int[]) : Int[] {
-        let bits = BitSize(Length(func) - 1);
+        let bits = BitSizeI(Length(func) - 1);
         mutable res = func;
         for (m in 0..bits - 1) {
             mutable s = 1 <<< m;
@@ -157,7 +157,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
             set j = Snd(Head(Filtered(Fst<Bool, Int>, e))) + 1;
         }
 
-        set j = IntMax(0, Min([j, n - 1]));
+        set j = MaxI(0, Min([j, n - 1]));
         set res w/= i <- (BoolArrayAsInt(current), j);
         if (j < n) {
             set current w/= j <- not current[j];

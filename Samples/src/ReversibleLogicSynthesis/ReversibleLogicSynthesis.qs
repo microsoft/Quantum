@@ -356,7 +356,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     operation PermutationSimulation (perm : Int[]) : Bool {
         
         mutable result = true;
-        let nbits = BitSize(Length(perm));
+        let nbits = BitSizeI(Length(perm));
         
         for (i in 0 .. Length(perm) - 1) {
             
@@ -390,11 +390,8 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// the first half of the array with the second half of the array.
     operation InnerProduct (qubits : Qubit[]) : Unit {
         
-        let n = Length(qubits) / 2;
-        
-        for (i in 0 .. n - 1) {
-            Controlled Z([qubits[i]], qubits[n + i]);
-        }
+		let m = Length(qubits) / 2;
+        ApplyToEach(CZ, Zip(qubits[0..m - 1], qubits[m..Length(qubits) - 1]));
     }
     
     
@@ -440,14 +437,14 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     ///    2010](https://doi.org/10.1137/1.9781611973075.37)
     operation HiddenShiftProblem (perm : Int[], shift : Int) : Int {
 
-        let n = BitSize(Length(perm));
+        let n = BitSizeI(Length(perm));
         using (qubits = Qubit[2 * n]) {
             let Superpos = ApplyToEachA(H, _);
             let Shift = ApplyShift(shift, _);
             let Synth = PermutationOracle(perm, TBS, _);
             let PermX = ApplyToSubregisterA(Synth, Sequence(0, n - 1), _);
             let PermY = ApplyToSubregisterA(Synth, Sequence(n, 2 * n - 1), _);
-            ApplyWith(BindA([Superpos, Shift, PermY]), InnerProduct, qubits);
+            ApplyWith(BoundA([Superpos, Shift, PermY]), InnerProduct, qubits);
             ApplyWith(Adjoint PermX, InnerProduct, qubits);
             Superpos(qubits);
             return MeasureInteger(LittleEndian(qubits));
