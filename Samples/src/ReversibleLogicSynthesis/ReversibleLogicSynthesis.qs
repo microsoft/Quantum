@@ -154,7 +154,6 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// IntegerBits(10, 4); // [1, 3]
     /// ```
     function IntegerBits (value : Int, length : Int) : Int[] {
-
         return Filtered(IsBitSet(value, _), Numbers(length));
     }
 
@@ -201,7 +200,6 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// # Summary
     /// Update permutation based according to gate mask.
     function UpdatePermutation (perm : Int[], gateMask : MCMTMask) : Int[] {
-
         return Mapped(UpdateOutputPattern(_, gateMask), perm);
     }
 
@@ -357,7 +355,6 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
 
         mutable result = true;
         let nbits = BitSizeI(Length(perm));
-
         for (i in 0 .. Length(perm) - 1) {
 
             using (qubits = Qubit[nbits]) {
@@ -389,12 +386,8 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// An array of an even number of qubits.  The function pairs qubits from
     /// the first half of the array with the second half of the array.
     operation InnerProduct (qubits : Qubit[]) : Unit {
-
-        let n = Length(qubits) / 2;
-
-        for (i in 0 .. n - 1) {
-            Controlled Z([qubits[i]], qubits[n + i]);
-        }
+		let m = Length(qubits) / 2;
+        ApplyToEach(CZ, Zip(qubits[0..m - 1], qubits[m..Length(qubits) - 1]));
     }
 
 
@@ -447,7 +440,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
             let Synth = PermutationOracle(perm, TBS, _);
             let PermX = ApplyToSubregisterA(Synth, Sequence(0, n - 1), _);
             let PermY = ApplyToSubregisterA(Synth, Sequence(n, 2 * n - 1), _);
-            ApplyWith(BindA([Superpos, Shift, PermY]), InnerProduct, qubits);
+            ApplyWith(BoundA([Superpos, Shift, PermY]), InnerProduct, qubits);
             ApplyWith(Adjoint PermX, InnerProduct, qubits);
             Superpos(qubits);
             return MeasureInteger(LittleEndian(qubits));

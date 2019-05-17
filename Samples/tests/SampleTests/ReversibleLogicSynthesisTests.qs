@@ -52,7 +52,6 @@ namespace Microsoft.Quantum.Tests {
 
 
     operation SimulatePermutation (perm : Int[]) : Bool {
-
         mutable result = true;
         let nbits = BitSizeI(Length(perm));
 

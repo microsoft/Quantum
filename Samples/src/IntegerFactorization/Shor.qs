@@ -45,7 +45,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         let coprimeCandidate = RandomInt(number - 2) + 1;
 
         // Check if the random integer indeed co-prime using
-        // Microsoft.Quantum.Canon.IsCoprimeI.
+        // Microsoft.Quantum.Math.IsCoprimeI.
         // If true use Quantum algorithm for Period finding.
         if (IsCoprimeI(coprimeCandidate, number)) {
 
@@ -62,7 +62,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             if (period % 2 == 0) {
 
                 // Compute `coprimeCandidate` ^ `period/2` mod `number`
-                // using Microsoft.Quantum.ExpModI.
+                // using Microsoft.Quantum.Math.ExpModI.
                 let halfPower = ExpModI(coprimeCandidate, period / 2, number);
 
                 // If we are unlucky, halfPower is just -1 mod N,
@@ -71,7 +71,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
 
                     // When the halfPower is not -1 mod N
                     // halfPower-1 or halfPower+1 share non-trivial divisor with `number`.
-                    // We find a divisor Microsoft.Quantum.Canon.GreatestCommonDivisorI.
+                    // We find a divisor Microsoft.Quantum.Math.GreatestCommonDivisorI.
                     let factor = MaxI(GreatestCommonDivisorI(halfPower - 1, number), GreatestCommonDivisorI(halfPower + 1, number));
 
                     // Return computed non-trivial factors.
@@ -94,7 +94,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         // In this case we guessed a divisor by accident
         else {
 
-            // Find a divisor using Microsoft.Quantum.Canon.GreatestCommonDivisorI
+            // Find a divisor using Microsoft.Quantum.Math.GreatestCommonDivisorI
             let gcd = GreatestCommonDivisorI(number, coprimeCandidate);
 
             // And do not forget to tell the user that we were lucky and didn't do anything
@@ -132,7 +132,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         // The oracle we use for order finding essentially wraps
         // Microsoft.Quantum.Canon.ModularMultiplyByConstantLE operation
         // that implements |x⟩ ↦ |x⋅a mod N ⟩.
-        // We also use Quantum.Canon.ExpModI to compute a by which
+        // We also use Microsoft.Quantum.Math.ExpModI to compute a by which
         // x must be multiplied.
         // Also note that we interpret target as unsigned integer
         // in little-endian encoding by using Microsoft.Quantum.Canon.LittleEndian
@@ -250,7 +250,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             // using Microsoft.Quantum.Intrinsic.Message
             Message($"Estimated eigenvalue is {dyadicFractionNum}/2^{bitsPrecision}.");
 
-            // Now we use Microsoft.Quantum.Canon.ContinuedFractionConvergentI
+            // Now we use Microsoft.Quantum.Math.ContinuedFractionConvergentI
             // function to recover s/r from dyadic fraction k/2^bitsPrecision.
             let (numerator, period) = (ContinuedFractionConvergentI(Fraction(dyadicFractionNum, 2 ^ bitsPrecision), modulus))!;
 
@@ -264,7 +264,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             Message($"Estimated divisor of period is {periodAbs}, " + $" we have projected on eigenstate marked by {numeratorAbs}.");
 
             // Update the result variable by including newly found divisor.
-            // Uses GreatestCommonDivisorI function from Microsoft.Quantum.Canon.
+            // Uses Microsoft.Quantum.Math.GreatestCommonDivisorI function from Microsoft.Quantum.Math.
             set result = (periodAbs * result) / GreatestCommonDivisorI(result, periodAbs);
         }
         until (ExpModI(generator, result, modulus) == 1)
