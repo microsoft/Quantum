@@ -254,7 +254,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             // function to recover s/r from dyadic fraction k/2^bitsPrecision.
             let (numerator, period) = (ContinuedFractionConvergentI(Fraction(dyadicFractionNum, 2 ^ bitsPrecision), modulus))!;
 
-            // ContinuedFractionConvergent does not guarantee the signs of the numerator
+            // ContinuedFractionConvergentI does not guarantee the signs of the numerator
             // and denominator. Here we make sure that both are positive using
             // AbsI.
             let (numeratorAbs, periodAbs) = (AbsI(numerator), AbsI(period));
