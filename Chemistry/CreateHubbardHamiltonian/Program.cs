@@ -40,6 +40,16 @@ using System.Linq;
 
 namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
 {
+    static class Extensions
+    {
+        /// <summary>
+        /// Converts an array of spin-orbitals into an array of integers representing each spin orbital.
+        /// </summary>
+        public static IEnumerable<int> ToInts(this IEnumerable<SpinOrbital> spinOrbitals) =>
+            spinOrbitals.Select(x => x.ToInt());
+
+
+    }
     class Program
     {
         static void Main(string[] args)
@@ -96,7 +106,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
 
             // Other indexing schemes are possible. For example, we may use the formula
             // `x = orbitalIdx + nOrbitals * spin`
-            var spinOrbital0HalfUpInt = spinOrbital0.ToInt(SpinOrbital.IndexConvention.HalfUp);
+            var spinOrbital0HalfUpInt = spinOrbital0.ToInt(SpinOrbital.IndexConvention.HalfUp, 6);
             
             // Let us print these spin-orbitals to verify they contain the 
             // expected information.
@@ -134,10 +144,12 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
 
             // Alternatively, one may directly create a list of integer indices for the fermion terms.
             var fermionInts = new[] { 10, 12 };
-            Console.WriteLine($"spinOrbital0.ToInts() vs. fermionInts({spinOrbitals0.ToInts().SequenceEqual(fermionInts)}).");
+            Console.WriteLine($"spinOrbital0.ToInts() as integers = fermionInts: " +
+                $"{spinOrbitals0.ToInts()}) = " +
+                $"{fermionInts}");
 
-            // A fermion term is then
-            var fermionTerm0 = new FermionTerm(spinOrbitals0, coefficient);
+            // A fermion Hamiltonian term is then of the form
+            var fermionTerm0 = new HermitianFermionTerm(spinOrbitals0.ToInts());
             var fermionTerm1 = new FermionTerm(spinOrbitals1, 0.123);
             var fermionTerm2 = new FermionTerm(new[] { (2, 0), (2, 1), (2, 1), (2, 0) }.ToSpinOrbitals(), 0.765);
 
