@@ -5,9 +5,9 @@ Each sample is provided as a Visual Studio 2017 C# or project in their respectiv
 Each of these samples are described below.
 Most of the samples consist of a Q# source file with detailed comments explaining the sample and a commented classical program `Program.cs` to call into Q# operations and functions.
 
-## How to Run Samples ##
+## How to Run the C# Samples ##
 
-All samples may be run with default settings by entering their root directory in command line and entering `dotnet run`.
+All the C# samples may be run with default settings by entering their root directory in command line and entering `dotnet run`.
 
 These samples focus on simple models in chemistry and material sciences. They are thoroughly commented to build familiarity with usage of the chemistry library.
   
@@ -27,7 +27,7 @@ These samples focus on simple models in chemistry and material sciences. They ar
   Import the Q# operations for energy estimation in [MolecularHydrogen](MolecularHydrogen/) to create a plot of Lithium Hyride ground state and excited energies with respect to distance between its atoms.
 
 
-## General Samples ##
+### General Samples ###
 
 These advanced samples target arbitrary chemistry or material science models that are loaded from a file.
 
@@ -39,3 +39,11 @@ These advanced samples target arbitrary chemistry or material science models tha
 
 - **[RunSimulation](RunSimulation)**:
   Loads a spin-orbital Hamiltonian from a file containing orbital integrals. A full quantum simulation of phase estimation is then run on a quantum simulation of the Hamiltonian. An estimate of an energy eigenstate is then returned. Note that the probability of returning the lowest energy state depends on the overlap of the initial state with the true ground state.
+
+## Python Samples ##
+
+These samples show how to use Q# Chemistry Library from Python to load Broombridge schema files
+and run simulation to obtain estimates of its energy levels.
+
+- **[PythonIntegration](PythonIntegration/)**:
+  Basic sample on how to integrate Q# with Python.
