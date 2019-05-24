@@ -68,7 +68,7 @@ The samples are broken down into four broad categories, each of which is describ
 - **[PythonInterop](./Samples/src/PythonInterop)** (Windows-only preview):
   This sample walks through using Python to perform quantum process tomography on an operation written in Q#.
 - **[FSharpWithQSharp](./Samples/src/FSharpWithQSharp)**:
-  This sample shows how to use Q# operations with F# driver.
+  This sample shows how to use Q# operations with an F# driver.
  
 ## 5. Qasm (Quantum Assembler Language) ##
 
