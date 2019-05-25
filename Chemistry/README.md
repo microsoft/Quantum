@@ -43,7 +43,7 @@ These advanced samples target arbitrary chemistry or material science models tha
 ## Python Samples ##
 
 These samples show how to use Q# chemistry library from Python to load Broombridge schema files
-and run simulation to obtain estimates of its energy levels.
+and run a simulation to obtain estimates of its energy levels.
 
 - **[PythonIntegration](PythonIntegration/)**:
   Basic sample on how to integrate Q# with Python.
