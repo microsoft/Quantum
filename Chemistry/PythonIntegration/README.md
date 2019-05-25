@@ -1,7 +1,7 @@
 # Python Integration demo #
 
 This demo shows how to use the `qsharp.chemistry` module to
-load a broombridge schema file into python, encode it and simulate
+load a Broombridge schema file into Python, encode it and simulate
 its evolution using Trotterization in Q#.
 
 Detailed information of what you can do using the chemistry module
