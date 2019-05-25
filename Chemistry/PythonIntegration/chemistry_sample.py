@@ -14,7 +14,7 @@ print("fh1 ready.")
 logging.info(fh1)
 
 # optionally, load first the problem description from a Broombridge file, and from there
-# load the fermion hamiltonian from a problem description:
+# load the fermion Hamiltonian from a problem description:
 broombridge = load_broombridge("broombridge.yaml")
 fh2 = broombridge.problem_description[0].load_fermion_hamiltonian()
 print("fh2 ready.")
