@@ -42,7 +42,7 @@ logging.info(is2)
 ####
 
 # Reload to make sure the quantum.qs file is correctly compiled:
-qsharp.reload();
+qsharp.reload()
 
 # Import the Q# operation into Python:
 from Microsoft.Quantum.Samples import TrotterEstimateEnergy
