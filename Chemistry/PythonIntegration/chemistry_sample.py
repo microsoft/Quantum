@@ -8,7 +8,7 @@ import logging
 import qsharp.chemistry
 from qsharp.chemistry import load_broombridge, load_fermion_hamiltonian, load_input_state, encode, IndexConvention
 
-# Load a fermion hamiltonian:
+# Load a fermion Hamiltonian:
 fh1 = load_fermion_hamiltonian("broombridge.yaml")
 print("fh1 ready.")
 logging.info(fh1)
