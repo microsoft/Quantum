@@ -90,20 +90,18 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
                 new OrbitalIntegral(new[] { 0,0,0,0 }, 0.674493166),
                 new OrbitalIntegral(new[] { 0,1,0,1 }, 0.181287518),
                 new OrbitalIntegral(new[] { 0,1,1,0 }, 0.663472101),
-                new OrbitalIntegral(new[] { 1,1,1,1 }, 0.697398010)
-            };
+                new OrbitalIntegral(new[] { 1,1,1,1 }, 0.697398010),
+                // Add the identity term
+                new OrbitalIntegral(new int[] { }, energyOffset)
+        };
 
-            // We initialize a Fermion Hamiltonian data structure and add terms to it
-            var hamiltonian = new FermionHamiltonian();
-            hamiltonian.NOrbitals = nOrbitals;
-            hamiltonian.NElectrons = nElectrons;
-            hamiltonian.EnergyOffset = energyOffset;
-            hamiltonian.AddFermionTerm(orbitalIntegrals);
+            // We initialize a fermion Hamiltonian data structure and add terms to it
+            var fermionHamiltonian = new OrbitalIntegralHamiltonian(orbitalIntegrals).ToFermionHamiltonian();
 
             // These orbital integral terms are automatically expanded into
             // spin-orbitals. We may print the Hamiltonian to see verify what it contains.
             Console.WriteLine("----- Print Hamiltonian");
-            Console.Write(hamiltonian);
+            Console.Write(fermionHamiltonian);
             Console.WriteLine("----- End Print Hamiltonian \n");
             #endregion
 
@@ -114,7 +112,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
             // for simulating our constructed Hamiltonians on a qubit quantum
             // computer.
             Console.WriteLine("----- Creating Jordan-Wigner encoding");
-            var jordanWignerEncoding = JordanWignerEncoding.Create(hamiltonian);
+            var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
             Console.WriteLine("----- End Creating Jordan-Wigner encoding \n");
             #endregion
 
