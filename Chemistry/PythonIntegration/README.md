@@ -9,7 +9,7 @@ can be found inside [chemistry_sample.py](./chemistry_sample.py).
 
 ## Pre-reqs.
 
-This module depends on having python and the `qsharp` module installed
+This module depends on having Python, the `qsharp` module, and the IQ# kernel installed
 on your machine. For detailed installation instructions, please visit
 https://docs.microsoft.com/en-us/quantum/install-guide/python
 
