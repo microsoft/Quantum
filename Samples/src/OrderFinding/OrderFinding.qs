@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 namespace Microsoft.Quantum.Samples.OrderFinding {
+    open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
@@ -25,11 +26,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     /// Square([2, 3, 0, 1]), // [0, 1, 2, 3]
     /// ```
     function Square(perm : Int[]) : Int[] {
-        mutable squaredPermutation = new Int[Length(perm)];
-        for (i in 0..Length(perm) - 1) {
-            set squaredPermutation w/= i <- perm[perm[i]];
-        }
-        return squaredPermutation;
+        return Mapped(LookupFunction(perm), perm);
     }
 
     /// # Summary
@@ -52,7 +49,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     /// Index of permutation
     ///
     operation OrderFinding(perm : Int[], input : Int) : Int {
-        let n = BitSize(Length(perm) - 1);
+        let n = BitSizeI(Length(perm) - 1);
         mutable accumulatedPermutation = perm;
 
         using ((topQubits, bottomQubits) = (Qubit[n + 1], Qubit[n])) {
@@ -63,9 +60,10 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
                 set accumulatedPermutation = Square(accumulatedPermutation);
             }
 
-            QFT(BigEndian(topQubits));
+            let register = BigEndianAsLittleEndian(BigEndian(topQubits));
+            ApplyQuantumFourierTransform(register);
 
-            let result = MeasureInteger(BigEndianAsLittleEndian(BigEndian(topQubits)));
+            let result = MeasureInteger(register);
 
             ResetAll(topQubits + bottomQubits);
 
