@@ -3,8 +3,8 @@
 
 namespace Microsoft.Quantum.Numerics.Samples
 {
-	open Microsoft.Quantum.Intrinsic;
-	open Microsoft.Quantum.Arithmetic;
+    open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Arithmetic;
 
     /// # Summary
     /// Evaluates the polynomial given by `coefficients` at the
@@ -23,30 +23,30 @@ namespace Microsoft.Quantum.Numerics.Samples
     /// If True, evaluates an odd polynomial (see EvaluateOddPolynomialFxP)
     /// ## even
     /// If True, evaluates an even polynomial (see EvaluateEvenPolynomialFxP)
-	operation EvaluatePolynomial(coefficients : Double[], evaluationPoints : Double[],
-								 numBits : Int, pointPos : Int, odd : Bool, even : Bool)
-								 : Double[]
-	{
-		mutable results = new Double[Length(evaluationPoints)];
-		for (i in 0..Length(evaluationPoints)-1) {
-			let point = evaluationPoints[i];
-			using ((xQubits, yQubits) = (Qubit[numBits], Qubit[numBits])) {
-				let x = FixedPoint(pointPos, xQubits);
-				let y = FixedPoint(pointPos, yQubits);
-				InitFxP(point, x);
-				if (odd) {
-					EvaluateOddPolynomialFxP(coefficients, x, y);
-				}
-				elif (even) {
-					EvaluateEvenPolynomialFxP(coefficients, x, y);
-				}
-				else {
-					EvaluatePolynomialFxP(coefficients, x, y);
-				}
-				set results w/= i <- MeasureFxP(y);
-				ResetAll(xQubits + yQubits);
-			}
-		}
-		return results;
-	}
+    operation EvaluatePolynomial(coefficients : Double[], evaluationPoints : Double[],
+                                 numBits : Int, pointPos : Int, odd : Bool, even : Bool)
+                                 : Double[]
+    {
+        mutable results = new Double[Length(evaluationPoints)];
+        for (i in 0..Length(evaluationPoints)-1) {
+            let point = evaluationPoints[i];
+            using ((xQubits, yQubits) = (Qubit[numBits], Qubit[numBits])) {
+                let x = FixedPoint(pointPos, xQubits);
+                let y = FixedPoint(pointPos, yQubits);
+                PrepareFxP(point, x);
+                if (odd) {
+                    EvaluateOddPolynomialFxP(coefficients, x, y);
+                }
+                elif (even) {
+                    EvaluateEvenPolynomialFxP(coefficients, x, y);
+                }
+                else {
+                    EvaluatePolynomialFxP(coefficients, x, y);
+                }
+                set results w/= i <- MeasureFxP(y);
+                ResetAll(xQubits + yQubits);
+            }
+        }
+        return results;
+    }
 }
