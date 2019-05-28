@@ -9,9 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Math;
 
 namespace Microsoft.Quantum.Samples.DatabaseSearch
 {
+    
     class Program
     {
         public static void Pause()
@@ -41,7 +43,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
             // We now define the size `N` = 2^n of the database to searched in terms of 
             // number of qubits `n`. 
             var nDatabaseQubits = 3;
-            var databaseSize = Math.Pow(2.0, nDatabaseQubits);
+            var databaseSize = Pow(2.0, nDatabaseQubits);
 
             // We now execute the classical random search and verify that the success 
             // probability matches the classical result of 1/N. Let us repeat 100
@@ -79,7 +81,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
                     Console.Write(
                         $"Attempt {idxAttempt}. " +
                         $"Success: {markedQubit},  " +
-                        $"Probability: {Math.Round((double)successCount / ((double)idxAttempt + 1),3)} " +
+                        $"Probability: {Round((double)successCount / ((double)idxAttempt + 1),3)} " +
                         $"Found database index {string.Join(", ", databaseRegister.Select(x => x.ToString()).ToArray())} \n");
                 }
             }
@@ -96,7 +98,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
             // We define the size `N` = 2^n of the database to searched in terms of 
             // number of qubits `n`. 
             nDatabaseQubits = 6;
-            databaseSize = Math.Pow(2.0, nDatabaseQubits);
+            databaseSize = Pow(2.0, nDatabaseQubits);
 
             // We now perform Grover iterates to amplify the marked subspace.
             nIterations = 3;
@@ -107,7 +109,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
             // We now execute the quantum search and verify that the success 
             // probability matches the theoretical prediction. 
             classicalSuccessProbability = 1.0 / databaseSize;
-            var quantumSuccessProbability = Math.Pow(Math.Sin((2.0 * (double)nIterations + 1.0) * Math.Asin(1.0 / Math.Sqrt(databaseSize))),2.0);
+            var quantumSuccessProbability = Pow(Sin((2.0 * (double)nIterations + 1.0) * Asin(1.0 / Sqrt(databaseSize))),2.0);
             repeats = 100;
             successCount = 0;
 
@@ -138,11 +140,11 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
                 // Print the results of the search every 10 attempts
                 if ((idxAttempt + 1) % 10 == 0)
                 {
-                    var empiricalSuccessProbability = Math.Round((double)successCount / ((double)idxAttempt + 1), 3);
+                    var empiricalSuccessProbability = Round((double)successCount / ((double)idxAttempt + 1), 3);
 
                     // This is how much faster the quantum algorithm performs on average
                     // over the classical search.
-                    var speedupFactor = Math.Round(empiricalSuccessProbability / classicalSuccessProbability / (double)queries, 3);
+                    var speedupFactor = Round(empiricalSuccessProbability / classicalSuccessProbability / (double)queries, 3);
 
                     Console.Write(
                         $"Attempt {idxAttempt}. " +
@@ -166,11 +168,10 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
             // We define the size `N` = 2^n of the database to searched in terms of 
             // number of qubits `n`. 
             nDatabaseQubits = 8;
-            databaseSize = Math.Pow(2.0, nDatabaseQubits);
+            databaseSize = Pow(2.0, nDatabaseQubits);
 
-            // We define the marked elements. These must be smaller than `databaseSize`
-            //Microsoft.Quantum.Simulation.Core.QArray<long>[] 
-            QArray<long> markedElements = new QArray<long>() { 0, 39, 101, 234 };
+            // We define the marked elements. These must be smaller than `databaseSize`.
+            var markedElements = new long[] { 0, 39, 101, 234 };
             var nMarkedElements = markedElements.Length;
             
 
@@ -184,7 +185,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
             // We now execute the quantum search and verify that the success 
             // probability matches the theoretical prediction. 
             classicalSuccessProbability = (double)(nMarkedElements) / databaseSize;
-            quantumSuccessProbability = Math.Pow(Math.Sin((2.0 * (double)nIterations + 1.0) * Math.Asin(Math.Sqrt(nMarkedElements) / Math.Sqrt(databaseSize))), 2.0);
+            quantumSuccessProbability = Pow(Sin((2.0 * (double)nIterations + 1.0) * Asin(Sqrt(nMarkedElements) / Sqrt(databaseSize))), 2.0);
             repeats = 10;
             successCount = 0;
 
@@ -202,7 +203,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
             {
                 // Each operation has a static method called Run which takes a simulator as
                 // an argument, along with all the arguments defined by the operation itself.  
-                var task = ApplyGroverSearch.Run(sim, markedElements, nIterations, nDatabaseQubits);
+                var task = ApplyGroverSearch.Run(sim, new QArray<long>(markedElements), nIterations, nDatabaseQubits);
 
                 // We extract the return value of the operation by getting the Results property.
                 var data = task.Result;
@@ -216,11 +217,11 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
                 // Print the results of the search every 1 attempt
                 if ((idxAttempt + 1) % 1 == 0)
                 {
-                    var empiricalSuccessProbability = Math.Round((double)successCount / ((double)idxAttempt + 1), 3);
+                    var empiricalSuccessProbability = Round((double)successCount / ((double)idxAttempt + 1), 3);
 
                     // This is how much faster the quantum algorithm performs on average
                     // over the classical search.
-                    var speedupFactor = Math.Round(empiricalSuccessProbability / classicalSuccessProbability / (double)queries, 3);
+                    var speedupFactor = Round(empiricalSuccessProbability / classicalSuccessProbability / (double)queries, 3);
 
                     Console.Write(
                         $"Attempt {idxAttempt}. " +

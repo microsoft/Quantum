@@ -21,7 +21,7 @@ namespace Microsoft.Quantum.Samples.Qiskit
             var apiKey = "4616efdc29c9d4d751b3cd23a2e7d677ef8a..........623614734c2e11e25f9";
             if (apiKey.Contains("."))
             {
-                Console.Error.WriteLine("Did you put an api key in Driver.cs ? Without that, it will not work.");
+                Console.Error.WriteLine("Did you put an api key in Driver.cs? Without that, it will not work.");
             }
             else
             {
@@ -29,7 +29,7 @@ namespace Microsoft.Quantum.Samples.Qiskit
                 Console.WriteLine("Hadamard on IBMQx4");
                 for (int i = 0; i < 1; i++)
                 {
-                    var result = MeasurementOneQubit.Run(factory).Result;
+                    var result = MeasureOneQubit.Run(factory).Result;
                     Console.WriteLine($"Result of Hadamard is {result}");
                 }
             }

@@ -12,7 +12,7 @@ namespace Microsoft.Quantum.Samples.Qiskit
         {
         }
 
-        public override int QBitCount => 16;
+        public override int QubitCount => 16;
 
         public override string Name => "ibmqx5";
     }

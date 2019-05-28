@@ -18,7 +18,7 @@ namespace Microsoft.Quantum.Samples.Qiskit
         /// <summary>
         /// Use the linux subsystem, to run in a real linux and run the python code to execute the Qasm
         /// </summary>
-        public static string RunQasm(StringBuilder qasm, int qbits, string key, string backend, int shots)
+        public static string RunQasm(StringBuilder qasm, int qubits, string key, string backend, int shots)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Microsoft.Quantum.Samples.Qiskit
                     var result = File.ReadAllText(output);
                     if (result.Contains("'labels':"))
                     {
-                        result = result.Substring(result.IndexOf("'labels': ['") + 12, qbits);
+                        result = result.Substring(result.IndexOf("'labels': ['") + 12, qubits);
                     }
                     return result;
                 }

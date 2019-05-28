@@ -3,19 +3,20 @@
 
 // This file includes some utility functions to set and 
 // verify |+> and |-> quantum states.
-namespace Microsoft.Quantum.Examples.Teleportation {
-    open Microsoft.Quantum.Primitive;
+namespace Microsoft.Quantum.Samples.Teleportation {
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Math;
 
     /// # Summary
-    /// Sets the qubit's state to |+>
+    /// Sets the qubit's state to |+⟩.
     operation SetToPlus(q: Qubit) : Unit {
         Reset(q);
         H(q);
     }
-    
+
     /// # Summary
-    /// Sets the qubit's state to |->
+    /// Sets the qubit's state to |−⟩.
     operation SetToMinus(q: Qubit) : Unit {
         Reset(q);
         X(q);
@@ -33,7 +34,7 @@ namespace Microsoft.Quantum.Examples.Teleportation {
     operation IsMinus(q: Qubit) : Bool {
         return (Measure([PauliX], [q]) == One);
     }
-    
+
     /// # Summary
     /// Randomly prepares the qubit into |+> or |->
     operation PrepareRandomMessage(q: Qubit) : Unit {        

@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Diagnostics;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Circuits for Doubly Controlled X gate and Doubly Controlled X up to a phase
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Introduction
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     // This file contains different implementations of  Doubly Controlled X gate, also known
     // as Toffoli gate or Doubly Controlled Not gate.
-    // The gate is equivalent to Microsoft.Quantum.Primitive.CCNOT(control1,control2,target),
+    // The gate is equivalent to Microsoft.Quantum.Intrinsic.CCNOT(control1,control2,target),
     // (Controlled CNOT)([control1],control2,target) and
     // (Controlled X)([control1,control2],target).
     // On computational basis states CCNOT acts as |c₁⟩⊗|c₂⟩⊗|t⟩ ↦ |c₁⟩⊗|c₂⟩⊗|t⊕(c₁∧c₂)⟩
-    
+
     // When we say that a given circuit implements CCNOT up to a phase, the means that
     // the gate maps |c₁⟩⊗|c₂⟩⊗|t⟩ ↦ e^(iφ(c₁,c₂,t)) |c₁⟩⊗|c₂⟩⊗|t⊕(c₁∧c₂)⟩ where φ(c₁,c₂,t)
     // is some real value
-    
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// # Summary
     /// Implementation of the CCNOT gate up to phases over the Clifford+T gate set,
     /// according to Nielsen and Chuang, Exercise 4.26.
@@ -36,24 +36,17 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # Recall that RFrac(P,num, pow, q) applies rotation about Pauli axis P by the fractional
     ///   angle $$num Pi()/ 2^{pow-1}$$
     ///   In this rotations are about Y axis by the angle $$\pm Pi()/4$
-    operation UpToPhaseCCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-        
-        body (...) {
-            RFrac(PauliY, -1, 3, target);
-            CNOT(control1, target);
-            RFrac(PauliY, -1, 3, target);
-            CNOT(control2, target);
-            RFrac(PauliY, 1, 3, target);
-            CNOT(control1, target);
-            RFrac(PauliY, 1, 3, target);
-        }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation UpToPhaseCCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
+        RFrac(PauliY, -1, 3, target);
+        CNOT(control1, target);
+        RFrac(PauliY, -1, 3, target);
+        CNOT(control2, target);
+        RFrac(PauliY, 1, 3, target);
+        CNOT(control1, target);
+        RFrac(PauliY, 1, 3, target);
     }
-    
-    
+
+
     /// # Summary
     /// Implementation of the CCNOT gate up to phases over the Clifford+T gate set,
     /// according to Selinger. On computational basis states this gate acts as
@@ -65,80 +58,51 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # See Also
     /// - For the circuit diagram see Equation 9 on
     ///   [ Page 2 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation UpToPhaseCCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-        
-        body (...) {
-            using (ancillas = Qubit[1]) {
-                
-                // apply UVU† where U is outer circuit and V is inner circuit
-                WithCA(UpToPhaseCCNOT2OuterCircuit, UpToPhaseCCNOT2InnerCircuit, ancillas + [target, control1, control2]);
-            }
+    operation UpToPhaseCCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
+        using (auxillary = Qubit()) {
+            // apply UVU† where U is outer circuit and V is inner circuit
+            ApplyWithCA(UpToPhaseCCNOT2OuterCircuit, UpToPhaseCCNOT2InnerCircuit, [auxillary, target, control1, control2]);
         }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
     }
-    
-    
+
+
     /// # See Also
     /// - Used as a part of @"Microsoft.Quantum.Samples.UnitTesting.UpToPhaseCCNOT2"
     /// - For the circuit diagram see Equation 9 on
     ///   [ Page 2 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation UpToPhaseCCNOT2OuterCircuit (qs : Qubit[]) : Unit {
-        
-        body (...) {
-            AssertIntEqual(Length(qs), 4, "4 qubits are expected");
-            H(qs[1]);
-            CNOT(qs[3], qs[0]);
-            CNOT(qs[1], qs[2]);
-            CNOT(qs[1], qs[3]);
-            CNOT(qs[2], qs[0]);
-        }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation UpToPhaseCCNOT2OuterCircuit (qs : Qubit[]) : Unit is Adj + Ctl {
+        EqualityFactI(Length(qs), 4, "4 qubits are expected");
+        H(qs[1]);
+        CNOT(qs[3], qs[0]);
+        CNOT(qs[1], qs[2]);
+        CNOT(qs[1], qs[3]);
+        CNOT(qs[2], qs[0]);
     }
-    
-    
+
+
     /// # See Also
     /// - Used as a part of @"Microsoft.Quantum.Samples.UnitTesting.UpToPhaseCCNOT2"
     /// - For the circuit diagram see Equation 9 on
     ///   [ Page 2 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation UpToPhaseCCNOT2InnerCircuit (qs : Qubit[]) : Unit {
-        
-        body (...) {
-            AssertIntEqual(Length(qs), 4, "4 qubits are expected");
-            ApplyToEachCA(T, qs[0 .. 1]);
-            ApplyToEachCA(Adjoint T, qs[2 .. 3]);
-        }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation UpToPhaseCCNOT2InnerCircuit (qs : Qubit[]) : Unit is Adj + Ctl {
+        EqualityFactI(Length(qs), 4, "4 qubits are expected");
+        ApplyToEachCA(T, qs[0 .. 1]);
+        ApplyToEachCA(Adjoint T, qs[2 .. 3]);
     }
-    
-    
+
+
     /// # Summary
     /// Simple implementation of the CCNOT gate up to phases over
     /// defined as |c₁⟩⊗|c₂⟩⊗|t⟩ ↦ (-i)^(c₁∧c₂) |c₁⟩⊗|c₂⟩⊗|t⊕(c₁∧c₂)⟩.
-    operation UpToPhaseCCNOT3 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-        
-        body (...) {
-            // apply |c₁⟩⊗|c₂⟩⊗|t⟩ ↦ |c₁⟩⊗|c₂⟩⊗|t⊕(c₁∧c₂)⟩.
-            CCNOT(control1, control2, target);
-            
-            // apply |c₁⟩⊗|c₂⟩ ↦ (-i)^(c₁∧c₂) |c₁⟩⊗|c₂⟩
-            Controlled (Adjoint S)([control1], control2);
-        }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation UpToPhaseCCNOT3 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
+        // apply |c₁⟩⊗|c₂⟩⊗|t⟩ ↦ |c₁⟩⊗|c₂⟩⊗|t⊕(c₁∧c₂)⟩.
+        CCNOT(control1, control2, target);
+
+        // apply |c₁⟩⊗|c₂⟩ ↦ (-i)^(c₁∧c₂) |c₁⟩⊗|c₂⟩
+        Controlled (Adjoint S)([control1], control2);
     }
-    
-    
+
+
     /// # Summary
     /// Implementation of CCNOT gate over the Clifford+T gate set,
     /// according to Nielsen and Chuang Fig. 4.9
@@ -148,8 +112,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # References
     /// - [ *Michael A. Nielsen , Isaac L. Chuang*,
     ///     Quantum Computation and Quantum Information ](http://doi.org/10.1017/CBO9780511976667)
-    operation CCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-        
+    operation CCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Ctl {
         body (...) {
             H(target);
             CNOT(control1, target);
@@ -168,13 +131,11 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
             T(control2);
             S(control1);
         }
-        
+
         adjoint self;
-        controlled distribute;
-        controlled adjoint self;
     }
-    
-    
+
+
     /// #Summary
     /// Implementation of the 3 qubit Toffoli gate over the Clifford+T gate set
     /// in T-depth 4, according to Amy et al
@@ -187,8 +148,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # See Also
     /// - For the circuit diagram see Figure 7 (a) on
     ///   [Page 15 of arXiv:1206.0758v3](https://arxiv.org/pdf/1206.0758v3.pdf#page=15)
-    operation CCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-        
+    operation CCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Ctl {
         body (...) {
             Adjoint T(control1);
             Adjoint T(control2);
@@ -206,13 +166,11 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
             H(target);
             CNOT(control2, control1);
         }
-        
+
         adjoint self;
-        controlled distribute;
-        controlled adjoint self;
     }
-    
-    
+
+
     /// # Summary
     /// CCNOT gate over the Clifford+T gate set, in T-depth 1, according to Selinger
     /// # Remarks
@@ -223,65 +181,44 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # See Also
     /// - For the circuit diagram see Figure 1 on
     ///   [ Page 3 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation TDepthOneCCNOT (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-        
-        body (...) {
-            using (ancillas = Qubit[4]) {
-                
-                // apply UVU† where U is outer circuit and V is inner circuit
-                WithCA(TDepthOneCCNOTOuterCircuit, TDepthOneCCNOTInnerCircuit, ancillas + [target, control1, control2]);
-            }
+    operation TDepthOneCCNOT (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
+        using (auxillaryRegister = Qubit[4]) {
+
+            // apply UVU† where U is outer circuit and V is inner circuit
+            ApplyWithCA(TDepthOneCCNOTOuterCircuit, TDepthOneCCNOTInnerCircuit, auxillaryRegister + [target, control1, control2]);
         }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
     }
-    
-    
+
+
     /// # See Also
     /// - Used as a part of @"Microsoft.Quantum.Samples.UnitTesting.TDepthOneCCNOT"
     /// - For the circuit diagram see Figure 1 on
     ///   [ Page 3 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation TDepthOneCCNOTOuterCircuit (qs : Qubit[]) : Unit {
-        
-        body (...) {
-            AssertIntEqual(Length(qs), 7, "7 qubits are expected");
-            H(qs[4]);
-            CNOT(qs[5], qs[1]);
-            CNOT(qs[6], qs[3]);
-            CNOT(qs[5], qs[2]);
-            CNOT(qs[4], qs[1]);
-            CNOT(qs[3], qs[0]);
-            CNOT(qs[6], qs[2]);
-            CNOT(qs[4], qs[0]);
-            CNOT(qs[1], qs[3]);
-        }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation TDepthOneCCNOTOuterCircuit (qs : Qubit[]) : Unit is Adj + Ctl {
+        EqualityFactI(Length(qs), 7, "7 qubits are expected");
+        H(qs[4]);
+        CNOT(qs[5], qs[1]);
+        CNOT(qs[6], qs[3]);
+        CNOT(qs[5], qs[2]);
+        CNOT(qs[4], qs[1]);
+        CNOT(qs[3], qs[0]);
+        CNOT(qs[6], qs[2]);
+        CNOT(qs[4], qs[0]);
+        CNOT(qs[1], qs[3]);
     }
-    
-    
+
+
     /// # See Also
     /// - Used as a part of @"Microsoft.Quantum.Samples.UnitTesting.TDepthOneCCNOT"
     /// - For the circuit diagram see Figure 1 on
     ///   [ Page 3 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
-    operation TDepthOneCCNOTInnerCircuit (qs : Qubit[]) : Unit {
-        
-        body (...) {
-            AssertIntEqual(Length(qs), 7, "7 qubits are expected");
-            ApplyToEachCA(Adjoint T, qs[0 .. 2]);
-            ApplyToEachCA(T, qs[3 .. 6]);
-        }
-        
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+    operation TDepthOneCCNOTInnerCircuit (qs : Qubit[]) : Unit is Adj + Ctl {
+        EqualityFactI(Length(qs), 7, "7 qubits are expected");
+        ApplyToEachCA(Adjoint T, qs[0 .. 2]);
+        ApplyToEachCA(T, qs[3 .. 6]);
     }
-    
-    
+
+
     /// # Summary
     /// Implementation of the CCNOT gate over the Clifford+T gate set, with 4 T-gates,
     /// according to Jones
@@ -294,34 +231,34 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// - For the circuit diagram see Figure 1 (b)
     ///   [on Page 2 of arXiv:1212.5069v1](https://arxiv.org/pdf/1212.5069v1.pdf#page=2)
     operation CCNOT3 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-        
+
         body (...) {
-            using (ancillas = Qubit[1]) {
-                let ancilla = ancillas[0];
-                UpToPhaseCCNOT2(control1, control2, ancilla);
-                S(ancilla);
-                CNOT(ancilla, target);
-                H(ancillas[0]);
-                AssertProb([PauliZ], [ancilla], One, 0.5, "", 1E-10);
-                
-                if (M(ancilla) == One) {
+            using (auxillaryQubit = Qubit()) {
+                UpToPhaseCCNOT2(control1, control2, auxillaryQubit);
+                S(auxillaryQubit);
+                CNOT(auxillaryQubit, target);
+                H(auxillaryQubit);
+                AssertProb([PauliZ], [auxillaryQubit], One, 0.5, "", 1E-10);
+
+                if (M(auxillaryQubit) == One) {
                     Controlled Z([control2], control1);
-                    X(ancilla);
+                    X(auxillaryQubit);
                 }
             }
         }
-        
-        adjoint self;
-        
+
         // fall back to a standard multiply controlled X Implementation
         controlled (controls, ...) {
             Controlled X(controls + [control1, control2], target);
         }
-        
-        controlled adjoint self;
+
+        // NB: We cannot use "is Adj" or "adjoint auto" here, due to the use of
+        //     Microsoft.Quantum.Intrinsic.M, which does is not Adj. Instead, we
+        //     explicitly use the "self" generator.
+        adjoint self;
     }
-    
-    
+
+
     /// # Summary
     /// Implementation of Double Controlled Z gate in terms of exponents of Pauli operators
     /// # Remarks
@@ -330,12 +267,11 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// because it acts as |abc⟩ ↦ (-1)^(a∧b∧c)|abc⟩ on computation basis states.
     /// #Recall that ExpFrac used in the circuit below is an exponent of the
     ///  respective multi-qubit Pauli gate times numerator Pi() i /2^{n-1}
-    ///  It is a primitive gate implemented by Quantum.Primitives
-    operation CCZ1 (qubit1 : Qubit, qubit2 : Qubit, qubit3 : Qubit) : Unit {
-        
+    ///  It is a primitive gate implemented by Quantum.Intrinsics
+    operation CCZ1 (qubit1 : Qubit, qubit2 : Qubit, qubit3 : Qubit) : Unit is Ctl {
         body (...) {
             let register = [qubit1, qubit2, qubit3];
-            
+
             // note that CCZ = exp( iπ|1⟩⟨1|⊗|1⟩⟨1|⊗|1⟩⟨1| )
             // next use |1⟩⟨1| = (I-Z)/2 and write
             // iπ|1⟩⟨1|⊗|1⟩⟨1|⊗|1⟩⟨1| =
@@ -351,31 +287,26 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
             ExpFrac([PauliI, PauliZ, PauliZ], 1, 3, register);
             ExpFrac([PauliZ, PauliZ, PauliZ], -1, 3, register);
         }
-        
+
         adjoint self;
-        controlled distribute;
-        controlled adjoint self;
     }
-    
-    
+
+
     /// # Summary
     /// Implementation of the CCNOT gate using the decomposition of CCZ into the exponents of
     /// tensor products of Z operators
     /// # Remarks
     /// Uses 7 T gates, 10 CNOTs and two Hadamard gates and has T depth 5
-    operation CCNOT4 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-        
+    operation CCNOT4 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Ctl {
         body (...) {
             H(target);
             CCZ1(control1, control2, target);
             H(target);
         }
-        
+
         adjoint self;
-        controlled distribute;
-        controlled adjoint self;
     }
-    
+
 }
 // /////////////////////////////////////////////////////////////////////////////////////////////
 // Implementations of CCNOT not illustrated here
