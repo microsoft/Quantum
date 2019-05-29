@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 // This loads a Hamiltonian from file and performs gate estimates of a
-// - Jordan-Wigner Trotter step
-// - Jordan-Wigner Qubitization iterate
+// - Jordan–Wigner Trotter step
+// - Jordan–Wigner Qubitization iterate
 
 #region Using Statements
 // We will need several different libraries in this sample.
@@ -14,7 +14,10 @@
 // Libraries. This model defines what a fermionic Hamiltonian is, and how to
 // represent Hamiltonians on disk.
 using Microsoft.Quantum.Chemistry;
+using Microsoft.Quantum.Chemistry.OrbitalIntegrals;
 using Microsoft.Quantum.Chemistry.JordanWigner;
+using Microsoft.Quantum.Chemistry.Fermion;
+using Microsoft.Quantum.Chemistry.QSharpFormat;
 
 // To count gates, we'll use the trace simulator provided with
 // the Quantum Development Kit.
@@ -204,28 +207,30 @@ namespace Microsoft.Quantum.Chemistry.Samples
         internal static async Task<IEnumerable<GateCountResults>> RunGateCount(string filename, IntegralDataFormat format, IEnumerable<HamiltonianSimulationConfig> configurations)
         {
             // Read Hamiltonian terms from file.
-            IEnumerable<FermionHamiltonian> hamiltonians =
+            IEnumerable<OrbitalIntegrals.OrbitalIntegralHamiltonian> hamiltonians =
                 format.Map(
-                    (IntegralDataFormat.Liquid, () => FermionHamiltonian.LoadFromLiquid(filename)),
-                    (IntegralDataFormat.YAML, () => FermionHamiltonian.LoadFromYAML(filename))
+                    (IntegralDataFormat.Liquid, () => LiQuiD.Deserialize(filename).Select(o => o.OrbitalIntegralHamiltonian)),
+                    (IntegralDataFormat.YAML, () => Broombridge.Deserializers.DeserializeBroombridge(filename).ProblemDescriptions.Select(o => o.OrbitalIntegralHamiltonian))
                 );
 
             var hamiltonian = hamiltonians.First();
 
-            // Process Hamiltonitn to obtain optimized Jordan-Wigner representation.
-            var jordanWignerEncoding = JordanWignerEncoding.Create(hamiltonian);
+            // Process Hamiltonitn to obtain optimized Jordan–Wigner representation.
+            var jordanWignerEncoding = hamiltonian
+                .ToFermionHamiltonian(IndexConvention.UpDown)
+                .ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
 
             // Convert to format for consumption by Q# algorithms.
-            var qSharpData = jordanWignerEncoding.QSharpData();
+            var qSharpData = jordanWignerEncoding.ToQSharpFormat().Pad();
 
             var gateCountResults = new List<GateCountResults>();
 
             foreach (var config in configurations)
             {
                 GateCountResults results = await RunGateCount(qSharpData, config);
-                results.HamiltonianName = hamiltonian.Name;
+                results.HamiltonianName = filename;
                 results.IntegralDataPath = filename;
-                results.SpinOrbitals = jordanWignerEncoding.NSpinOrbitals;
+                results.SpinOrbitals = jordanWignerEncoding.SystemIndices.Count();
                 gateCountResults.Add(results);
             }
 
@@ -290,7 +295,8 @@ namespace Microsoft.Quantum.Chemistry.Samples
                         RotationsCount = sim.GetMetric<RunQubitizationStep>(PrimitiveOperationsGroupsNames.R),
                         TCount = sim.GetMetric<RunQubitizationStep>(PrimitiveOperationsGroupsNames.T),
                         CNOTCount = sim.GetMetric<RunQubitizationStep>(PrimitiveOperationsGroupsNames.CNOT),
-                        TraceSimulationStats = sim.ToCSV()
+                        TraceSimulationStats = sim.ToCSV(),
+                        NormMultipler = res
                     };
 
                     // Dump all the statistics to CSV files, one file per statistics collector
@@ -328,7 +334,8 @@ namespace Microsoft.Quantum.Chemistry.Samples
                         RotationsCount = sim.GetMetric<RunOptimizedQubitizationStep>(PrimitiveOperationsGroupsNames.R),
                         TCount = sim.GetMetric<RunOptimizedQubitizationStep>(PrimitiveOperationsGroupsNames.T),
                         CNOTCount = sim.GetMetric<RunOptimizedQubitizationStep>(PrimitiveOperationsGroupsNames.CNOT),
-                        TraceSimulationStats = sim.ToCSV()
+                        TraceSimulationStats = sim.ToCSV(),
+                        NormMultipler = res
                     };
 
                     // Dump all the statistics to CSV files, one file per statistics collector

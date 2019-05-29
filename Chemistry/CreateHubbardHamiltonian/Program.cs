@@ -6,35 +6,17 @@
 // Here, we expose these libraries to our program using the
 // C# "using" statement, similar to the Q# "open" statement.
 
-// We will use the data model implemented by the Quantum Development Kit Chemistry
-// Libraries. This model defines what a fermionic Hamiltonian is, and how to
+// We will use the data model implemented by the Quantum Development Kit chemistry
+// libraries. This model defines what a fermionic Hamiltonian is, and how to
 // represent Hamiltonians on disk.
-using Microsoft.Quantum.Chemistry;
 using Microsoft.Quantum.Chemistry.OrbitalIntegrals;
 using Microsoft.Quantum.Chemistry.Fermion;
-
-// To count gates, we'll use the trace simulator provided with
-// the Quantum Development Kit.
-using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
 // The System namespace provides a number of useful built-in
 // types and methods that we'll use throughout this sample.
 using System;
 
-// The System.Diagnostics namespace provides us with the
-// Stopwatch class, which is quite useful for measuring
-// how long each gate counting run takes.
-using System.Diagnostics;
-
-// The System.Collections.Generic library provides many different
-// utilities for working with collections such as lists and dictionaries.
-using System.Collections.Generic;
-
-// We use the logging library provided with .NET Core to handle output
-// in a robust way that makes it easy to turn on and off different messages.
-using Microsoft.Extensions.Logging;
-
-// We use this for convnience functions for manipulation arrays.
+// We use this for convenience methods for manipulating arrays.
 using System.Linq;
 #endregion
 
@@ -71,7 +53,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
             // - Hamiltonian representation
             // - Building the Hubbard Hamiltonian
             // - Building the Hubbard Hamiltonian through orbital integrals
-            // - Jordan-Wigner representation
+            // - Jordan–Wigner representation
 
             #region Spin-orbital representation
 
@@ -217,7 +199,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
 
             #region Building the Hubbard Hamiltonian through orbital integrals 
 
-            // Rather than explicitly specifying the spin indices of each Fermion term, 
+            // Rather than explicitly specifying the spin indices of each fermion term, 
             // the Hubbard Hamiltonian may be constructed even more compactly.
 
             // This is through the use of orbital integrals, which represents the
@@ -271,9 +253,9 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
             Console.WriteLine(anotherHubbardHamiltonian);
             #endregion
 
-            #region Jordan-Wigner representation 
+            #region Jordan–Wigner representation 
 
-            // The Jordan-Wigner encoding converts the Fermion Hamiltonian, 
+            // The Jordan–Wigner encoding converts the fermion Hamiltonian, 
             // expressed in terms of Fermionic operators, to a qubit Hamiltonian,
             // expressed in terms of Pauli matrices. This is an essential step
             // for simulating our constructed Hamiltonians on a qubit quantum
@@ -281,7 +263,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
             var jordanWignerEncoding = hubbardHamiltonian.ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
 
             // Let us print this Hamiltonian
-            Console.WriteLine($"Hubbard Hamiltonian in Jordan-Wigner representation");
+            Console.WriteLine($"Hubbard Hamiltonian in Jordan–Wigner representation");
             Console.WriteLine(jordanWignerEncoding);
 
             Console.WriteLine("Press Enter to continue...");

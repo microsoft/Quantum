@@ -6,10 +6,12 @@
 // Here, we expose these libraries to our program using the
 // C# "using" statement, similar to the Q# "open" statement.
 
-// We will use the data model implemented by the Quantum Development Kit Chemistry
-// Libraries. This model defines what a fermionic Hamiltonian is, and how to
+// We will use the data model implemented by the Quantum Development Kit chemistry
+// libraries. This model defines what a fermionic Hamiltonian is, and how to
 // represent Hamiltonians on disk.
-using Microsoft.Quantum.Chemistry;
+using Microsoft.Quantum.Chemistry.OrbitalIntegrals;
+using Microsoft.Quantum.Chemistry.Fermion;
+using Microsoft.Quantum.Chemistry.QSharpFormat;
 
 // To count gates, we'll use the trace simulator provided with
 // the Quantum Development Kit.
@@ -32,7 +34,7 @@ using System.Collections.Generic;
 // in a robust way that makes it easy to turn on and off different messages.
 using Microsoft.Extensions.Logging;
 
-// We use this for convnience functions for manipulation arrays.
+// We use this for convenience methods for manipulating arrays.
 using System.Linq;
 #endregion
 
@@ -93,7 +95,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
                 new OrbitalIntegral(new[] { 1,1,1,1 }, 0.697398010),
                 // Add the identity term
                 new OrbitalIntegral(new int[] { }, energyOffset)
-        };
+            };
 
             // We initialize a fermion Hamiltonian data structure and add terms to it
             var fermionHamiltonian = new OrbitalIntegralHamiltonian(orbitalIntegrals).ToFermionHamiltonian();
@@ -103,17 +105,26 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
             Console.WriteLine("----- Print Hamiltonian");
             Console.Write(fermionHamiltonian);
             Console.WriteLine("----- End Print Hamiltonian \n");
+
+            // We also need to create an input quantum state to this Hamiltonian.
+            // Let us use the Hartree–Fock state.
+            var fermionWavefunction = fermionHamiltonian.CreateHartreeFockState(nElectrons);
             #endregion
 
-            #region Jordan-Wigner representation 
-            // The Jordan-Wigner encoding converts the Fermion Hamiltonian, 
+            #region Jordan–Wigner representation 
+            // The Jordan–Wigner encoding converts the fermion Hamiltonian, 
             // expressed in terms of Fermionic operators, to a qubit Hamiltonian,
             // expressed in terms of Pauli matrices. This is an essential step
             // for simulating our constructed Hamiltonians on a qubit quantum
             // computer.
-            Console.WriteLine("----- Creating Jordan-Wigner encoding");
+            Console.WriteLine("----- Creating Jordan–Wigner encoding");
             var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
-            Console.WriteLine("----- End Creating Jordan-Wigner encoding \n");
+            Console.WriteLine("----- End Creating Jordan–Wigner encoding \n");
+
+            // Print the Jordan–Wigner encoded Hamiltonian to see verify what it contains.
+            Console.WriteLine("----- Print Hamiltonian");
+            Console.Write(jordanWignerEncoding);
+            Console.WriteLine("----- End Print Hamiltonian \n");
             #endregion
 
             #region Performing the simulation 
@@ -123,9 +134,12 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
             // Here, we make an instance of the simulator used to run our Q# code.
             using (var qsim = new QuantumSimulator())
             {
-                // This Jordan-Wigner data structure also contains a representation 
-                // of the Hamiltonian made for consumption by the Q# algorithms.
-                var qSharpData = jordanWignerEncoding.QSharpData();
+
+                // This Jordan–Wigner data structure also contains a representation 
+                // of the Hamiltonian and wavefunction made for consumption by the Q# algorithms.
+                var qSharpHamiltonianData = jordanWignerEncoding.ToQSharpFormat();
+                var qSharpWavefunctionData = fermionWavefunction.ToQSharpFormat();
+                var qSharpData = QSharpFormat.Convert.ToQSharpFormat(qSharpHamiltonianData, qSharpWavefunctionData);
 
                 // We specify the bits of precision desired in the phase estimation 
                 // algorithm

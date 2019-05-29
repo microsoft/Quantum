@@ -9,6 +9,9 @@ using System.Threading;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Microsoft.Quantum.Simulation.Simulators;
+using Microsoft.Quantum.Chemistry.Fermion;
+using Microsoft.Quantum.Chemistry.OrbitalIntegrals;
+using Microsoft.Quantum.Chemistry.QSharpFormat;
 using System.Runtime.InteropServices;
 using System.Linq;
 using Mono.Options;
@@ -32,8 +35,10 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
 
         internal static string[] filenames = bondLengths.Select(o => $@"..\IntegralData\YAML\LiHData\integrals_lih_sto-3g_{o}.nw.out.yaml").ToArray();
 
-        internal static FermionHamiltonian[] hamiltonianData =
-            filenames.Select(o => FermionHamiltonian.LoadFromYAML(o).Single()).ToArray();
+        internal static Broombridge.ProblemDescription[] problemData =
+            filenames.Select(o => 
+                Broombridge.Deserializers.DeserializeBroombridge(o)
+                .ProblemDescriptions.Single()).ToArray();
 
         // Order of Trotter-Suzuki integrator.
         public static Int64 IntegratorOrder = 1;
@@ -49,21 +54,38 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
         internal static (Double, Double) GetSimulationResult(int idxBond, string inputState = "Greedy")
         {
             // Choose the desired hamiltonian indexed by `idx`.
-            var hamiltonian = hamiltonianData.ElementAt(idxBond);
+            var problem = problemData.ElementAt(idxBond);
 
             // Bond length conversion from Bohr radius to Angstrom
             var bondLength = Double.Parse(bondLengths[idxBond]);
-
-
-            // Create Jordan-Wigner encodinf of Hamiltonian.
-            var jordanWignerEncoding = JordanWignerEncoding.Create(hamiltonian);
-
             
+            // Create fermion representation of Hamiltonian
+            var fermionHamiltonian = problem
+                .OrbitalIntegralHamiltonian
+                .ToFermionHamiltonian(IndexConvention.UpDown);
+
+            // Crete Pauli reprsentation of Hamiltonian using
+            // the Jordan–Wigner encoding.
+            var pauliHamiltonian = fermionHamiltonian
+                .ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
+
+            // Create input wavefunction.
+            var wavefunction = inputState == "Greedy" ?
+                fermionHamiltonian.CreateHartreeFockState(problem.NElectrons) :
+                problem.Wavefunctions[inputState].ToIndexing(IndexConvention.UpDown);
+
+
+            // Package hamiltonian and wavefunction data into a format
+            // consumed by Q#.
+            var qSharpData = QSharpFormat.Convert.ToQSharpFormat(
+                pauliHamiltonian.ToQSharpFormat(),
+                wavefunction.ToQSharpFormat());
+
             // Invoke quantum simulator and run `GetEnergyByTrotterization` in the first
             // molecular Hydrogen sample.
             using (var qSim = new QuantumSimulator())
             {
-                var qSharpData = jordanWignerEncoding.QSharpData(inputState);
+                
                 Console.WriteLine($"Estimating at bond length {idxBond}:");
 
                 var (phaseEst, energyEst) = GetEnergyByTrotterization.Run(qSim, qSharpData, bitsOfPrecision, trotterStepSize, IntegratorOrder).Result;
@@ -91,12 +113,12 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
         private static void SendPlotPoints(NetworkStream stream)
         {
             // Plot theory data points first
-            foreach (var idxBond in Enumerable.Range(0, LiHSimulation.hamiltonianData.Length))
+            foreach (var idxBond in Enumerable.Range(0, LiHSimulation.problemData.Length))
             {
-                var tst = LiHSimulation.hamiltonianData;
+                var tst = LiHSimulation.problemData;
                 var bondLength = Double.Parse(LiHSimulation.bondLengths[idxBond]);
-                var hamData = LiHSimulation.hamiltonianData[idxBond];
-                var energies = hamData.InputStates.ToDictionary(o => o.Label, o => o.Energy);
+                var hamData = LiHSimulation.problemData[idxBond];
+                var energies = hamData.Wavefunctions.ToDictionary(o => o.Key, o => o.Value.Energy);
                 var offset = hamData.EnergyOffset;
                 foreach (var (k, v) in energies)
                 {
@@ -117,7 +139,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
             string[] states = new string[] { "|G>", "|E1>", "|E2>", "|E3>", "|E4>", "|E5>" };
             foreach (var state in states)
             {
-                foreach (var idxBond in Enumerable.Range(0, LiHSimulation.hamiltonianData.Length))
+                foreach (var idxBond in Enumerable.Range(0, LiHSimulation.problemData.Length))
                 {
                     var (bondLength, energyEst) = LiHSimulation.GetSimulationResult(idxBond, state);
 

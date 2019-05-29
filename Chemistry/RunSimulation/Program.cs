@@ -9,11 +9,14 @@ using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 using Microsoft.Quantum.Chemistry;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using Microsoft.Quantum.Chemistry.OrbitalIntegrals;
+using Microsoft.Quantum.Chemistry.Fermion;
+using Microsoft.Quantum.Chemistry.QSharpFormat;
 
 // This loads a Hamiltonian from file and performs quantum phase estimation on
-// - Jordan-Wigner Trotter step
-// - Jordan-Wigner optimized Trotter step
-// - Jordan-Wigner Qubitization iterate
+// - Jordan–Wigner Trotter step
+// - Jordan–Wigner optimized Trotter step
+// - Jordan–Wigner Qubitization iterate
 
 namespace Microsoft.Quantum.Chemistry.Samples
 {
@@ -39,47 +42,65 @@ namespace Microsoft.Quantum.Chemistry.Samples
             "nitrogenase_tzvp_54.dat" // 108 SO
             */
             
-            string LiquidRoot = @"..\IntegralData\Liquid\";
-            string LiquidFilename = "h2_sto3g_4.dat";
-            // Number of electrons. This must be specified for the liquid format.
-            var LiquidElectrons = 2; 
+
 
             // Read Hamiltonian terms from file.
             // Stopwatch for logging time to process file.
             Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
 
-            // For loading data in the format consumed by Liquid.
+
+            #region For loading data in the format consumed by Liquid.
+            stopWatch.Start();
+            string LiquidRoot = @"..\..\..\..\IntegralData\Liquid\";
+            string LiquidFilename = "h2_sto3g_4.dat";
+            
             logger.LogInformation($"Processing {LiquidFilename}");
-            var generalHamiltonian = FermionHamiltonian.LoadFromLiquid($@"{LiquidRoot}\{LiquidFilename}").Single();
-            generalHamiltonian.NElectrons = LiquidElectrons;
+            var problemDescriptionLiQuiD = LiQuiD.Deserialize($@"{LiquidRoot}\{LiquidFilename}").Single();
+            // Number of electrons. This must be specified for the liquid format.
+            problemDescriptionLiQuiD.NElectrons = 2;
+
             logger.LogInformation($"Liquid Load took {stopWatch.ElapsedMilliseconds}ms");
             stopWatch.Restart();
+            #endregion
+            #region For loading data in the Broombridge format.
+            stopWatch.Start();
+            string YAMLRoot = @"..\..\..\..\IntegralData\YAML\";
+            string YAMLFilename = "lih_sto-3g_0.800_int.yaml";
+            var problemDescriptionBroombridge = Broombridge.Deserializers.DeserializeBroombridge($@"{YAMLRoot}\{YAMLFilename}").ProblemDescriptions.Single();
+            logger.LogInformation($"Broombridge Load took {stopWatch.ElapsedMilliseconds}ms");
+            stopWatch.Restart();
+            #endregion
 
-            // For loading data in the YAML format.
-            //string YAMLRoot = @"..\IntegralData\YAML\";
-            //string YAMLFilename = "lih_sto-3g_0.800_int.yaml";
-            //var generalHamiltonian = FermionHamiltonian.LoadFromYAML($@"{YAMLRoot}\{YAMLFilename}").Single();
-            //logger.LogInformation($"YAML Load took {stopWatch.ElapsedMilliseconds}ms");
-            //stopWatch.Restart();
+            // Select problem description to use
+            var problemDescription = problemDescriptionBroombridge;
+            var fermionHamiltonian = problemDescription.OrbitalIntegralHamiltonian.ToFermionHamiltonian(IndexConvention.UpDown);
 
-            // Logs spin orbital data in Logger.Message.
-            generalHamiltonian.LogSpinOrbitals();
-            
-            // Process Hamiltonitn to obtain Jordan-Wigner representation.
-            // Comment on what an evolutionset is.
-            var jordanWignerEncoding = JordanWignerEncoding.Create(generalHamiltonian);
+            // Logs spin-orbital data in Logger.Message.
+            logger.LogInformation(fermionHamiltonian.ToString());
 
-            // Logs Jordan-Wigner representation data in Logger.Message.
-            jordanWignerEncoding.LogSpinOrbitals();
+            // Process Hamiltonitn to obtain Jordan–Wigner representation.
+            var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
+
+            // Create input wavefunction.
+            var wavefunction = fermionHamiltonian.CreateHartreeFockState(problemDescription.NElectrons);
+
+            // Alternately, use wavefunction contained in problem description,
+            // if available
+            // var wavefunction = problemDescription.Wavefunctions["label"].ToIndexing(IndexConvention.UpDown);
+
+            // Logs Jordan–Wigner representation data in Logger.Message.
+            logger.LogInformation(jordanWignerEncoding.ToString());
 
             logger.LogInformation("End read file");
 
             // We begin by making an instance of the simulator that we will use to run our Q# code.
             using (var qsim = new QuantumSimulator())
             {
-                // Converts jordanWignerEncoding into format consumable by Q#.
-                var qSharpData = jordanWignerEncoding.QSharpData();
+                // Package hamiltonian and wavefunction data into a format
+                // consumed by Q#.
+                var qSharpData = QSharpFormat.Convert.ToQSharpFormat(
+                    jordanWignerEncoding.ToQSharpFormat(),
+                    wavefunction.ToQSharpFormat());
 
                 #region Calling into Q#
                 // Bits of precision in phase estimation.
@@ -88,16 +109,16 @@ namespace Microsoft.Quantum.Chemistry.Samples
                 // Repetitions to find minimum energy.
                 var reps = 5;
 
-                // Run phase estimation simulation using Jordan-Wigner Trotterization.
+                // Run phase estimation simulation using Jordan–Wigner Trotterization.
                 var runJW = true;
                 
                 // Trotter step size.
                 var trotterStep = .4;
 
-                // Run phase estimation simulation using Jordan-Wigner Trotterization with optimzied circuit.
+                // Run phase estimation simulation using Jordan–Wigner Trotterization with optimzied circuit.
                 var runJWOptimized = true;
                 
-                // Run phase estimation simulation using Jordan-Wigner qubitization.
+                // Run phase estimation simulation using Jordan–Wigner qubitization.
                 var runJWQubitization = true;
 
                 if (runJW)

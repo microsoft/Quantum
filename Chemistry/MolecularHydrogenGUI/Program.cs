@@ -11,6 +11,9 @@ using Newtonsoft.Json;
 using Microsoft.Quantum.Simulation.Simulators;
 using System.Runtime.InteropServices;
 using System.Linq;
+using Microsoft.Quantum.Chemistry.Fermion;
+using Microsoft.Quantum.Chemistry.OrbitalIntegrals;
+using Microsoft.Quantum.Chemistry.QSharpFormat;
 
 
 namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
@@ -22,23 +25,28 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
 
         // Here, we load a list of Hydrogen Hamiltonians from the included file
         // "dis_H2.dat".
-        internal static IEnumerable<FermionHamiltonian> hamiltonianData =
-            FermionHamiltonian.LoadFromLiquid("dis_H2.dat");
+        internal static IEnumerable<LiQuiD.ProblemDescription> problemData =
+            LiQuiD.Deserialize("dis_H2.dat");
 
         // For each Hamiltonian, 
         internal static (Double, Double) GetSimulationResult(int idxBond)
         {
-            // Choose the desired hamiltonian indexed by `idx`.
-            FermionHamiltonian hamiltonian = hamiltonianData.ElementAt(idxBond);
+            // Choose the desired problem indexed by `idx`.
+            var problem = problemData.ElementAt(idxBond);
+
+            // Create fermion representation of Hamiltonian.
+            var fermionHamiltonian = problem.OrbitalIntegralHamiltonian
+                    .ToFermionHamiltonian(IndexConvention.UpDown);
+
+            // Create Jordan–Wigner encoding of Hamiltonian.
+            var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
+
 
             // Bond length conversion from Bohr radius to Angstrom
-            double bondLength = Double.Parse(hamiltonian.MiscellaneousInformation.Split(new char[] { ',' }).Last()) * 0.5291772;
+            double bondLength = Double.Parse(problem.MiscellaneousInformation.Split(new char[] { ',' }).Last()) * 0.5291772;
 
-            // Set the number of occupied spin-orbitals to 2.
-            hamiltonian.NElectrons = 2;
-
-            // Create Jordan-Wigner encodinf of Hamiltonian.
-            JordanWignerEncoding jordanWignerEncoding = JordanWignerEncoding.Create(hamiltonian);
+            // Create input wavefunction.
+            var wavefunction = fermionHamiltonian.CreateHartreeFockState(nElectrons: 2);
 
             // Choose bits of precision in quantum phase estimation
             Int64 bitsOfPrecision = 7;
@@ -53,7 +61,12 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
             // molecular Hydrogen sample.
             using (var qSim = new QuantumSimulator())
             {
-                var qSharpData = jordanWignerEncoding.QSharpData();
+                // Package hamiltonian and wavefunction data into a format
+                // consumed by Q#.
+                var qSharpData = QSharpFormat.Convert.ToQSharpFormat(
+                    jordanWignerEncoding.ToQSharpFormat(),
+                    wavefunction.ToQSharpFormat());
+
                 System.Console.WriteLine($"Estimating at bond length {idxBond}:");
                 // Loop if excited state energy is obtained.
                 var energyEst = 0.0;
