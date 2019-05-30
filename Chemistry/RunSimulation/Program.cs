@@ -51,7 +51,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
 
             #region For loading data in the format consumed by Liquid.
             stopWatch.Start();
-            string LiquidRoot = @"..\..\..\..\IntegralData\Liquid\";
+            string LiquidRoot = @"..\IntegralData\Liquid\";
             string LiquidFilename = "h2_sto3g_4.dat";
             
             logger.LogInformation($"Processing {LiquidFilename}");
@@ -64,7 +64,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
             #endregion
             #region For loading data in the Broombridge format.
             stopWatch.Start();
-            string YAMLRoot = @"..\..\..\..\IntegralData\YAML\";
+            string YAMLRoot = @"..\IntegralData\YAML\";
             string YAMLFilename = "lih_sto-3g_0.800_int.yaml";
             var problemDescriptionBroombridge = Broombridge.Deserializers.DeserializeBroombridge($@"{YAMLRoot}\{YAMLFilename}").ProblemDescriptions.Single();
             logger.LogInformation($"Broombridge Load took {stopWatch.ElapsedMilliseconds}ms");
