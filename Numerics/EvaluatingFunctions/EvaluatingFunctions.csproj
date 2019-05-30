@@ -5,10 +5,8 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.6.1905.301" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\myforks\QuantumLibraries\Numerics\src\Numerics.csproj" />
-    <ProjectReference Include="..\..\..\myforks\QuantumLibraries\Standard\src\Standard.csproj" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.6.1905.3002" />
+    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.6.1905.3002" />
+    <PackageReference Include="Microsoft.Quantum.Numerics" Version="0.6.1905.3002" />
   </ItemGroup>
 </Project>

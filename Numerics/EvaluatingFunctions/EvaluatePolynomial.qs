@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace Microsoft.Quantum.Numerics.Samples
-{
+namespace Microsoft.Quantum.Numerics.Samples {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Arithmetic;
+    open Microsoft.Quantum.Arrays;
 
     /// # Summary
     /// Evaluates the polynomial given by `coefficients` at the
@@ -28,7 +28,7 @@ namespace Microsoft.Quantum.Numerics.Samples
                                  : Double[]
     {
         mutable results = new Double[Length(evaluationPoints)];
-        for (i in 0..Length(evaluationPoints)-1) {
+        for (i in IndexRange(evaluationPoints)) {
             let point = evaluationPoints[i];
             using ((xQubits, yQubits) = (Qubit[numBits], Qubit[numBits])) {
                 let x = FixedPoint(pointPos, xQubits);

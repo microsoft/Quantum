@@ -1,15 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace Microsoft.Quantum.Numerics.Samples
-{
+namespace Microsoft.Quantum.Numerics.Samples {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Diagnostics;
+    open Microsoft.Quantum.Arrays;
 
     /// # Summary
     /// Tests a modular addition similar to the one in Fig. 4
-    /// of https://arxiv.org/pdf/quant-ph/9511018v1.pdf
+    /// of https://arxiv.org/pdf/quant-ph/9511018v1.pdf.
     ///
     /// # Input
     /// ## inputs1
@@ -26,7 +26,7 @@ namespace Microsoft.Quantum.Numerics.Samples
         EqualityFactI(Length(inputs1), Length(inputs2),
                       "Input arrays need to be of equal length.");
         mutable results = new Int[Length(inputs1)];
-        for (i in 0..Length(inputs1)-1) {
+        for (i in IndexRange(inputs1)) {
             let input1 = inputs1[i];
             let input2 = inputs2[i];
             using ((xQubits, yQubits, mQubits, tmp, ctrl) = (Qubit[numBits], Qubit[numBits], Qubit[numBits], Qubit(), Qubit())) {

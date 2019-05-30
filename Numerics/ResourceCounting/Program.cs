@@ -14,15 +14,19 @@ namespace Microsoft.Quantum.Numerics.Samples
             var sim = new ResourcesEstimator();
 
             var evaluationPoints = new QArray<double>(
-                new double[]{ 0 });
+                new double[] { 0 }
+            );
             var polynomialCoefficients = new QArray<double>(
-                new double[]{ 0.9992759725166501, -0.16566707016968898,
-                              0.007958079331694682, -0.0001450780334861007 });
+                new double[] {
+                    0.9992759725166501, -0.16566707016968898,
+                    0.007958079331694682, -0.0001450780334861007
+                }
+            );
             var odd = true;
             var even = false;
 
             Debug.Assert(!(odd && even));
-            System.Console.Write($"Evaluating P(x) = {polynomialCoefficients[0]}");
+            System.Console.Write($"Resource counting for P(x) = {polynomialCoefficients[0]}");
             if (odd)
                 System.Console.Write("*x");
             for (int d = 1; d < polynomialCoefficients.Length; ++d)
