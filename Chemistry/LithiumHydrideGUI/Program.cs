@@ -67,7 +67,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
             // Crete Pauli reprsentation of Hamiltonian using
             // the Jordan–Wigner encoding.
             var pauliHamiltonian = fermionHamiltonian
-                .ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
+                .ToPauliHamiltonian(Paulis.QubitEncoding.JordanWigner);
 
             // Create input wavefunction.
             var wavefunction = inputState == "Greedy" ?

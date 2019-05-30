@@ -260,7 +260,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
             // expressed in terms of Pauli matrices. This is an essential step
             // for simulating our constructed Hamiltonians on a qubit quantum
             // computer.
-            var jordanWignerEncoding = hubbardHamiltonian.ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
+            var jordanWignerEncoding = hubbardHamiltonian.ToPauliHamiltonian(Paulis.QubitEncoding.JordanWigner);
 
             // Let us print this Hamiltonian
             Console.WriteLine($"Hubbard Hamiltonian in Jordan–Wigner representation");

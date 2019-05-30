@@ -79,7 +79,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
             logger.LogInformation(fermionHamiltonian.ToString());
 
             // Process Hamiltonitn to obtain Jordan–Wigner representation.
-            var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
+            var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Paulis.QubitEncoding.JordanWigner);
 
             // Create input wavefunction.
             var wavefunction = fermionHamiltonian.CreateHartreeFockState(problemDescription.NElectrons);

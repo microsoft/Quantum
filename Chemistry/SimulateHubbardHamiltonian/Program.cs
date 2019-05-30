@@ -88,12 +88,6 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
             // Trotter step size
             var trotterStep = 0.5;
 
-            Console.WriteLine("Press Enter to continue...");
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                Console.ReadLine();
-            }
-
             using (var qsim = new QuantumSimulator())
             {
                 

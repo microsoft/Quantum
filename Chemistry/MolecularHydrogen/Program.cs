@@ -118,7 +118,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
             // for simulating our constructed Hamiltonians on a qubit quantum
             // computer.
             Console.WriteLine("----- Creating Jordan–Wigner encoding");
-            var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
+            var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Paulis.QubitEncoding.JordanWigner);
             Console.WriteLine("----- End Creating Jordan–Wigner encoding \n");
 
             // Print the Jordan–Wigner encoded Hamiltonian to see verify what it contains.

@@ -218,7 +218,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
             // Process Hamiltonitn to obtain optimized Jordan–Wigner representation.
             var jordanWignerEncoding = hamiltonian
                 .ToFermionHamiltonian(IndexConvention.UpDown)
-                .ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
+                .ToPauliHamiltonian(Paulis.QubitEncoding.JordanWigner);
 
             // Convert to format for consumption by Q# algorithms.
             var qSharpData = jordanWignerEncoding.ToQSharpFormat().Pad();

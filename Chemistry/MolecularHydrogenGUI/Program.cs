@@ -39,7 +39,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
                     .ToFermionHamiltonian(IndexConvention.UpDown);
 
             // Create Jordan–Wigner encoding of Hamiltonian.
-            var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Pauli.QubitEncoding.JordanWigner);
+            var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Paulis.QubitEncoding.JordanWigner);
 
 
             // Bond length conversion from Bohr radius to Angstrom
