@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Quantum.Chemistry;
 using System.Linq;
+using Microsoft.Quantum.Chemistry.OrbitalIntegrals;
 
 // This loads a Hamiltonian from file and computes some of its features
 // - L1-Norm of terms
@@ -33,26 +34,28 @@ namespace Microsoft.Quantum.Chemistry.Sample
             */
 
             string LiquidRoot = @"..\IntegralData\Liquid\";
-            string LiquidFilename = "fe2s2_sto3g.dat";
-            // Number of electrons. This must be specified for the liquid format.
-            var LiquidElectrons = 2;
+            string LiquidFilename = "Be_sto6g_10.dat";
 
             // For loading data in the format consumed by Liquid.
             logger.LogInformation($"Processing {LiquidFilename}");
-            var generalHamiltonian = FermionHamiltonian.LoadFromLiquid($@"{LiquidRoot}\{LiquidFilename}").Single();
-            generalHamiltonian.NElectrons = LiquidElectrons;
+            var generalHamiltonian0 = LiQuiD.Deserialize($@"{LiquidRoot}\{LiquidFilename}").Single()
+                .OrbitalIntegralHamiltonian
+                .ToFermionHamiltonian(IndexConvention.UpDown);
 
             // For loading data in the YAML format.
-            //string YAMLRoot = @"..\IntegralData\YAML\";
-            //string YAMLFilename = "lih_sto-3g_0.800_int.yaml";
-            //var generalHamiltonian = FermionHamiltonian.LoadFromYAML($@"{YAMLRoot}\{YAMLFilename}").Single();
-
+            string YAMLRoot = @"..\IntegralData\YAML\";
+            string YAMLFilename = "lih_sto-3g_0.800_int.yaml";
+            var generalHamiltonian1 = Broombridge.Deserializers.DeserializeBroombridge($@"{YAMLRoot}\{YAMLFilename}")
+                .ProblemDescriptions.Single()
+                .OrbitalIntegralHamiltonian
+                .ToFermionHamiltonian(IndexConvention.UpDown);
             // Read Hamiltonian terms from file.
 
             logger.LogInformation("End read file. Computing one-norms.");
-            foreach (var oneNormPair in generalHamiltonian.ComputeOneNorms())
+            foreach (var termType in generalHamiltonian0.Terms.Keys)
             {
-                logger.LogInformation($"One-norm for term type {oneNormPair.Key}: {oneNormPair.Value}");
+                var line = $"One-norm for term type {termType}: {generalHamiltonian0.Norm(new[] { termType }, 1.0)}";
+                logger.LogInformation(line);
             }
             logger.LogInformation("Computed one-norm.");
 
