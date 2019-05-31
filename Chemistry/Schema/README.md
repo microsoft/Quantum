@@ -11,7 +11,8 @@ At your favorite command line, run `validator.py` with an instance of the schema
 For example:
 
 ```bash
-python validator.py broombridge_v0.2.yaml
+python validator.py ..\IntegralData\Broombridge_v0.2\broombridg
+e_v0.2.yaml
 ```
 
 If the instance is not a valid instance, then an exception will be raised that details how the instance failed validation.

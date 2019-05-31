@@ -149,7 +149,7 @@
             "items": {
                 "type": "object",
                 "required": [
-                    "metadata", "coulomb_repulsion", "fci_energy",
+                    "metadata", "coulomb_repulsion",
                     "n_electrons", "energy_offset", "hamiltonian"
                 ],
                 "propertyNames": {
