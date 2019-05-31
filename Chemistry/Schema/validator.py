@@ -17,7 +17,7 @@ from glob import glob
 
 @click.command()
 @click.argument("instance", type=str)
-@click.argument("schema", type=str, default="broombridge-0.1.schema.json")
+@click.argument("schema", type=str, default="broombridge-0.2.schema.json")
 def validate(instance, schema):
     """
     Given a YAML-serialized object, determines if
