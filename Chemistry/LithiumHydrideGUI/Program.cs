@@ -53,7 +53,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
         // return estimate of energy.
         internal static (Double, Double) GetSimulationResult(int idxBond, string inputState = "Greedy")
         {
-            // Choose the desired hamiltonian indexed by `idx`.
+            // Choose the desired Hamiltonian indexed by `idx`.
             var problem = problemData.ElementAt(idxBond);
 
             // Bond length conversion from Bohr radius to Angstrom
@@ -75,7 +75,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
                 problem.Wavefunctions[inputState].ToIndexing(IndexConvention.UpDown);
 
 
-            // Package hamiltonian and wavefunction data into a format
+            // Package Hamiltonian and wavefunction data into a format
             // consumed by Q#.
             var qSharpData = QSharpFormat.Convert.ToQSharpFormat(
                 pauliHamiltonian.ToQSharpFormat(),
