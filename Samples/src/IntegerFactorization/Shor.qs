@@ -45,9 +45,9 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         let coprimeCandidate = RandomInt(number - 2) + 1;
 
         // Check if the random integer indeed co-prime using
-        // Microsoft.Quantum.Canon.IsCoprime.
+        // Microsoft.Quantum.Math.IsCoprimeI.
         // If true use Quantum algorithm for Period finding.
-        if (IsCoprime(coprimeCandidate, number)) {
+        if (IsCoprimeI(coprimeCandidate, number)) {
 
             // Print a message using Microsoft.Quantum.Intrinsic.Message
             // indicating that we are doing something quantum.
@@ -62,8 +62,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             if (period % 2 == 0) {
 
                 // Compute `coprimeCandidate` ^ `period/2` mod `number`
-                // using Microsoft.Quantum.ExpMod.
-                let halfPower = ExpMod(coprimeCandidate, period / 2, number);
+                // using Microsoft.Quantum.Math.ExpModI.
+                let halfPower = ExpModI(coprimeCandidate, period / 2, number);
 
                 // If we are unlucky, halfPower is just -1 mod N,
                 // This is a trivial case not useful for factoring
@@ -71,8 +71,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
 
                     // When the halfPower is not -1 mod N
                     // halfPower-1 or halfPower+1 share non-trivial divisor with `number`.
-                    // We find a divisor Microsoft.Quantum.Canon.GCD.
-                    let factor = MaxI(GCD(halfPower - 1, number), GCD(halfPower + 1, number));
+                    // We find a divisor Microsoft.Quantum.Math.GreatestCommonDivisorI.
+                    let factor = MaxI(GreatestCommonDivisorI(halfPower - 1, number), GreatestCommonDivisorI(halfPower + 1, number));
 
                     // Return computed non-trivial factors.
                     return (factor, number / factor);
@@ -94,8 +94,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         // In this case we guessed a divisor by accident
         else {
 
-            // Find a divisor using Microsoft.Quantum.Canon.GCD
-            let gcd = GCD(number, coprimeCandidate);
+            // Find a divisor using Microsoft.Quantum.Math.GreatestCommonDivisorI
+            let gcd = GreatestCommonDivisorI(number, coprimeCandidate);
 
             // And do not forget to tell the user that we were lucky and didn't do anything
             // quantum using Microsoft.Quantum.Intrinsic.Message
@@ -127,17 +127,17 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// `modulus`.
     operation OrderFindingOracle (generator : Int, modulus : Int, power : Int, target : Qubit[]) : Unit is Adj + Ctl {
         // Check that the parameters satisfy the requirements.
-        EqualityFactB(IsCoprime(generator, modulus), true, "`generator` and `modulus` must be co-prime");
+        EqualityFactB(IsCoprimeI(generator, modulus), true, "`generator` and `modulus` must be co-prime");
 
         // The oracle we use for order finding essentially wraps
         // Microsoft.Quantum.Canon.ModularMultiplyByConstantLE operation
         // that implements |x⟩ ↦ |x⋅a mod N ⟩.
-        // We also use Quantum.Canon.ExpMod to compute a by which
+        // We also use Microsoft.Quantum.Math.ExpModI to compute a by which
         // x must be multiplied.
         // Also note that we interpret target as unsigned integer
         // in little-endian encoding by using Microsoft.Quantum.Canon.LittleEndian
         // type.
-        MultiplyByModularInteger(ExpMod(generator, power, modulus), modulus, LittleEndian(target));
+        MultiplyByModularInteger(ExpModI(generator, power, modulus), modulus, LittleEndian(target));
     }
 
 
@@ -161,13 +161,13 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     operation EstimatePeriod (generator : Int, modulus : Int, useRobustPhaseEstimation : Bool) : Int {
 
         // Here we check that the inputs to the EstimatePeriod operation are valid.
-        EqualityFactB(IsCoprime(generator, modulus), true, "`generator` and `modulus` must be co-prime");
+        EqualityFactB(IsCoprimeI(generator, modulus), true, "`generator` and `modulus` must be co-prime");
 
         // The variable that stores the divisor of the generator period found so far.
         mutable result = 1;
 
         // Number of bits in the modulus with respect to which we are estimating the period.
-        let bitsize = BitSize(modulus);
+        let bitsize = BitSizeI(modulus);
 
         // The EstimatePeriod operation estimates the period r by finding an
         // approximation k/2^bitsPrecision to a fraction s/r where s is some integer.
@@ -250,11 +250,11 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             // using Microsoft.Quantum.Intrinsic.Message
             Message($"Estimated eigenvalue is {dyadicFractionNum}/2^{bitsPrecision}.");
 
-            // Now we use Microsoft.Quantum.Canon.ContinuedFractionConvergent
+            // Now we use Microsoft.Quantum.Math.ContinuedFractionConvergentI
             // function to recover s/r from dyadic fraction k/2^bitsPrecision.
-            let (numerator, period) = (ContinuedFractionConvergent(Fraction(dyadicFractionNum, 2 ^ bitsPrecision), modulus))!;
+            let (numerator, period) = (ContinuedFractionConvergentI(Fraction(dyadicFractionNum, 2 ^ bitsPrecision), modulus))!;
 
-            // ContinuedFractionConvergent does not guarantee the signs of the numerator
+            // ContinuedFractionConvergentI does not guarantee the signs of the numerator
             // and denominator. Here we make sure that both are positive using
             // AbsI.
             let (numeratorAbs, periodAbs) = (AbsI(numerator), AbsI(period));
@@ -264,10 +264,10 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             Message($"Estimated divisor of period is {periodAbs}, " + $" we have projected on eigenstate marked by {numeratorAbs}.");
 
             // Update the result variable by including newly found divisor.
-            // Uses GCD function from Microsoft.Quantum.Canon.
-            set result = (periodAbs * result) / GCD(result, periodAbs);
+            // Uses Microsoft.Quantum.Math.GreatestCommonDivisorI function from Microsoft.Quantum.Math.
+            set result = (periodAbs * result) / GreatestCommonDivisorI(result, periodAbs);
         }
-        until (ExpMod(generator, result, modulus) == 1)
+        until (ExpModI(generator, result, modulus) == 1)
         fixup {
 
             // Above we checked if we have found actual period, or only the divisor of it.
