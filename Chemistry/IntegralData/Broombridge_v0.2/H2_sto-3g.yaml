@@ -42,10 +42,10 @@ problem_description:
     method: unitary_coupled_cluster
     cluster_operator:             
         reference_state: [1.0, (1a)+, (1b)+, '|vacuum>']             
-        one_body_amplitudes:             # t^{q}_{p} p q 
+        one_body_amplitudes:
             - [-1.97094587e-06, "(2a)+", "(1a)"]
             - [1.52745368e-07, "(2b)+", "(1b)"]
-        two_body_amplitudes: 			# t^{pq}_{rs} p q r s 			
+        two_body_amplitudes:
             - [1.13070239e-01, "(2a)+", "(2b)+", "(1a)", "(1b)"]
   metadata: {molecule_name: unknown}
   n_electrons: 2

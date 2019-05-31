@@ -30,18 +30,13 @@ def validate(instance, schema):
     
     # Get version number
     def get_schema_name(instance_data):
-        try:
-            version_number = instance_data['format']['version']
-            if version_number == "0.1":
-                return broombridge_v0_1
-            elif version_number == "0.2":
-                return broombridge_v0_2
-            else:
-                return schema
-        except:
-            print(f"Validation of {instance} failed. Could not identify version number")
-            failed.append(instance_path)
-
+        version_number = instance_data['format']['version']
+        if version_number == "0.1":
+            return broombridge_v0_1
+        elif version_number == "0.2":
+            return broombridge_v0_2
+        else:
+            return schema
 
     for schema_path in [schema, broombridge_v0_1, broombridge_v0_2]:
         with open(schema_path, 'r') as f:
@@ -50,15 +45,15 @@ def validate(instance, schema):
     for instance_path in glob(instance, recursive=True):
         with open(instance_path, 'r') as f:
             instance_data = yaml.load(f)
-            get_schema_name = get_schema_name(instance_data)
-            print(f"Attempting to validate with {get_schema_name}.")
+        
         try:
-            jsonschema.validate(instance_data, schema_data[get_schema_name])
+            schema_name = get_schema_name(instance_data)
+            jsonschema.validate(instance_data, schema_data[schema_name])
         except jsonschema.ValidationError as ex:
             print(f"Validation of {instance_path} failed with exception:\n{ex}")
             failed.append(instance_path)
         else:
-            print(f"{instance_path} is a valid instance of {get_schema_name}.")
+            print(f"{instance_path} is a valid instance of {schema_name}.")
 
     if failed:
         stderr.write("\n\nThe following files failed validation:\n")
