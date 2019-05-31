@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 // This loads a Hamiltonian from file and performs gate estimates of a
-// - Jordan-Wigner Trotter step
-// - Jordan-Wigner Qubitization iterate
+// - Jordan–Wigner Trotter step
+// - Jordan–Wigner Qubitization iterate
 
 #region Using Statements
 // We will need several different libraries in this sample.
@@ -36,6 +36,15 @@ using System.Management.Automation;
 
 namespace Microsoft.Quantum.Chemistry.Samples
 {
+
+    /// <summary>
+    ///     Represents the possible formats that can be used to represent integral
+    ///     data sets.
+    /// </summary>
+    public enum IntegralDataFormat
+    {
+        Liquid, YAML
+    }
 
     #region PowerShell Integration
     // In addition to providing the gate count sample as a command-line program,
