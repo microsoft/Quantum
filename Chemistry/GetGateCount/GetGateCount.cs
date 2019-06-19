@@ -25,7 +25,6 @@ using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
 // The System namespace provides a number of useful built-in
 // types and methods that we'll use throughout this sample.
-using System;
 using System.Linq;
 
 // The System.Diagnostics namespace provides us with the
@@ -45,8 +44,6 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Quantum.Chemistry.Samples
 {
-    using ProductFormulaConfig = HamiltonianSimulationConfig.ProductFormulaConfig;
-    using QubitizationConfig = HamiltonianSimulationConfig.QubitizationConfig;
 
     // We begin by specifying a data structure that we can use to hold
     // results from gate counting a particular method on a particular
@@ -95,14 +92,14 @@ namespace Microsoft.Quantum.Chemistry.Samples
             {
                 // Quantum walk by Qubitization that minimizes the Qubit count.
                 yield return new HamiltonianSimulationConfig(
-                    new QubitizationConfig { qubitizationStatePrep = QubitizationConfig.QubitizationStatePrep.MinimizeQubitCount }
+                    new QubitizationConfig { qubitizationStatePrep = QubitizationStatePrep.MinimizeQubitCount }
                 );
             }
             if (runMinTCountQubitizationStep)
             {
                 // Quantum walk by Qubitization that minimizes the T count.
                 yield return new HamiltonianSimulationConfig(
-                    new QubitizationConfig { qubitizationStatePrep = QubitizationConfig.QubitizationStatePrep.MinimizeTGateCount }
+                    new QubitizationConfig { qubitizationStatePrep = QubitizationStatePrep.MinimizeTGateCount }
                 );
             }
         }
@@ -165,7 +162,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
 
             var gateCountResults = new GateCountResults();
             #region Trace Simulator on Trotter step
-            if (config.hamiltonianSimulationAlgorithm == HamiltonianSimulationConfig.HamiltonianSimulationAlgorithm.ProductFormula)
+            if (config.hamiltonianSimulationAlgorithm == HamiltonianSimulationAlgorithm.ProductFormula)
             {
                 var res = await stopWatch.Measure(async () => await RunTrotterStep.Run(sim, qSharpData));
 
@@ -191,9 +188,9 @@ namespace Microsoft.Quantum.Chemistry.Samples
             #endregion
 
             #region Trace Simulator on Qubitization step
-            if (config.hamiltonianSimulationAlgorithm == HamiltonianSimulationConfig.HamiltonianSimulationAlgorithm.Qubitization)
+            if (config.hamiltonianSimulationAlgorithm == HamiltonianSimulationAlgorithm.Qubitization)
             {
-                if (config.qubitizationConfig.qubitizationStatePrep == HamiltonianSimulationConfig.QubitizationConfig.QubitizationStatePrep.MinimizeQubitCount)
+                if (config.qubitizationConfig.qubitizationStatePrep == QubitizationStatePrep.MinimizeQubitCount)
                 {
                     var res = await stopWatch.Measure(async () => await RunQubitizationStep.Run(sim, qSharpData));
 
@@ -220,9 +217,9 @@ namespace Microsoft.Quantum.Chemistry.Samples
             #endregion
 
             #region Trace Simulator on Optimized Qubitization step
-            if (config.hamiltonianSimulationAlgorithm == HamiltonianSimulationConfig.HamiltonianSimulationAlgorithm.Qubitization)
+            if (config.hamiltonianSimulationAlgorithm == HamiltonianSimulationAlgorithm.Qubitization)
             {
-                if (config.qubitizationConfig.qubitizationStatePrep == HamiltonianSimulationConfig.QubitizationConfig.QubitizationStatePrep.MinimizeTGateCount)
+                if (config.qubitizationConfig.qubitizationStatePrep == QubitizationStatePrep.MinimizeTGateCount)
                 {
                     // This primarily affects the Qubit count and CNOT count.
                     // The T-count only has a logarithmic dependence on this parameter.

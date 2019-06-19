@@ -10,6 +10,72 @@ namespace Microsoft.Quantum.Chemistry.Samples
 {
 
     /// <summary>
+    /// Enumeration type for choice of Hamiltonian simulation algorithm
+    /// </summary>
+    public enum HamiltonianSimulationAlgorithm
+    {
+        ProductFormula,
+        Qubitization
+    };
+    /// <summary>
+    /// Configuration data for product formula simulation algorithm
+    /// </summary>
+    public struct ProductFormulaConfig
+    {
+        /// <summary>
+        /// Order of product formula integrator.
+        /// </summary>
+        public Int64 Order;
+        /// <summary>
+        /// Step-size of product formula
+        /// </summary>
+        public Double StepSize;
+        /// <summary>
+        /// Product formula configuration constructor.
+        /// </summary>
+        /// <param name="setStepSize">Step size of integrator</param>
+        /// <param name="setOrder">Order of integrator</param>
+        public ProductFormulaConfig(Double setStepSize, Int64 setOrder = 1)
+        {
+            Order = setOrder;
+            if (setOrder > 2)
+            {
+                throw new System.NotImplementedException($"Product formulas of order > 2 not implemented.");
+            }
+            StepSize = setStepSize;
+        }
+    };
+    /// <summary>
+    /// Configuration data for Qubitization simulation algorithm
+    /// </summary>
+    public struct QubitizationConfig
+    {
+        /// <summary>
+        /// Choice of quantum state preparation
+        /// </summary>
+        public QubitizationStatePrep qubitizationStatePrep;
+        /// <summary>
+        /// Qubitization configuration constructor.
+        /// </summary>
+        /// <param name="setQubitizationStatePrep">Choice of quantum state preparation algorithm</param>
+        public QubitizationConfig(QubitizationStatePrep setQubitizationStatePrep = QubitizationStatePrep.MinimizeQubitCount)
+        {
+            qubitizationStatePrep = setQubitizationStatePrep;
+        }
+
+    }
+
+        
+    /// <summary>
+    /// Enumeration type for choice of quantum state preparation.
+    /// </summary>
+    public enum QubitizationStatePrep
+    {
+        MinimizeQubitCount,
+        MinimizeTGateCount
+    }
+
+    /// <summary>
     /// Configuration data for Hamiltonian simulation algorithm
     /// </summary>
     public struct HamiltonianSimulationConfig
@@ -47,69 +113,6 @@ namespace Microsoft.Quantum.Chemistry.Samples
             qubitizationConfig = setQubitizationConfig;
             // Default settings for all other parameters
             productFormulaConfig = new ProductFormulaConfig();
-        }
-        /// <summary>
-        /// Enumeration type for choice of Hamiltonian simulation algorithm
-        /// </summary>
-        public enum HamiltonianSimulationAlgorithm
-        {
-            ProductFormula,
-            Qubitization
-        };
-        /// <summary>
-        /// Configuration data for product formula simulation algorithm
-        /// </summary>
-        public struct ProductFormulaConfig
-        {
-            /// <summary>
-            /// Order of product formula integrator.
-            /// </summary>
-            public Int64 Order;
-            /// <summary>
-            /// Step-size of product formula
-            /// </summary>
-            public Double StepSize;
-            /// <summary>
-            /// Product formula configuration constructor.
-            /// </summary>
-            /// <param name="setStepSize">Step size of integrator</param>
-            /// <param name="setOrder">Order of integrator</param>
-            public ProductFormulaConfig(Double setStepSize, Int64 setOrder = 1)
-            {
-                Order = setOrder;
-                if (setOrder > 2)
-                {
-                    throw new System.NotImplementedException($"Product formulas of order > 2 not implemented.");
-                }
-                StepSize = setStepSize;
-            }
-        };
-        /// <summary>
-        /// Configuration data for Qubitization simulation algorithm
-        /// </summary>
-        public struct QubitizationConfig
-        {
-            /// <summary>
-            /// Choice of quantum state preparation
-            /// </summary>
-            public QubitizationStatePrep qubitizationStatePrep;
-            /// <summary>
-            /// Qubitization configuration constructor.
-            /// </summary>
-            /// <param name="setQubitizationStatePrep">Choice of quantum state preparation algorithm</param>
-            public QubitizationConfig(QubitizationStatePrep setQubitizationStatePrep = QubitizationStatePrep.MinimizeQubitCount)
-            {
-                qubitizationStatePrep = setQubitizationStatePrep;
-            }
-            /// <summary>
-            /// Enumeration type for choice of quantum state preparation.
-            /// </summary>
-            public enum QubitizationStatePrep
-            {
-                MinimizeQubitCount,
-                MinimizeTGateCount
-            }
-
         }
     }
 }
