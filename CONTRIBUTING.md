@@ -7,7 +7,7 @@ For more details on how to contribute to the samples or to the rest of the Quant
 
 ## Asking Questions
 
-Have a question? Rather than opening an issue, please ask away on [Stack Overflow](https://stackoverflow.com/questions/tagged/vscode) using the tag `qsharp`.
+Have a question? Rather than opening an issue, please ask on [Stack Overflow](https://stackoverflow.com/questions/tagged/q%23) or [Quantum Computing StackExchange](https://quantumcomputing.stackexchange.com/questions/tagged/q%23) using the tag `q#`.
 
 The active community will be eager to assist you.
 Your well-worded question will serve as a resource to others searching for help.
