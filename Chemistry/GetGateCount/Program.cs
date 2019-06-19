@@ -94,6 +94,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
             bool runMinQubitQubitizationStep = true;
             bool runMinTCountQubitizationStep = true;
             bool showHelp = false;
+            string outputFolder = null;
 
             string logPath = null;
 
@@ -120,6 +121,10 @@ namespace Microsoft.Quantum.Chemistry.Samples
                 { "l|log=",
                     "Controls where log messages will be written to.",
                     (string l) => logPath = l
+                },
+                { "output=",
+                    "Specifies the folder into which gate count estimates should be written as CSVs.",
+                    (string o) => outputFolder = o
                 }
             };
 
@@ -154,7 +159,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
                 logger.LogInformation($"Loading...");
 
                 // Read Hamiltonian terms from file and run gate counts.
-                var gateCountResults = RunGateCount(filename, format, configurations).Result;
+                var gateCountResults = RunGateCount(filename, format, configurations, outputFolder).Result;
 
                 foreach(var result in gateCountResults)
                 {
@@ -177,34 +182,40 @@ namespace Microsoft.Quantum.Chemistry.Samples
         }
 
         // This convenience method configures the simulation algorithm to be run.
-        public static List<HamiltonianSimulationConfig> MakeConfig(
+        public static IEnumerable<HamiltonianSimulationConfig> MakeConfig(
             bool runTrotterStep = true,
             bool runMinQubitQubitizationStep = true, 
             bool runMinTCountQubitizationStep = true)
         {
             // Here, we specify the Hamiltonian simulation configurations we wish to run.
-            var configurations = new List<HamiltonianSimulationConfig>();
             if (runTrotterStep)
             {
                 // First-order product formula. Note that we only apply a single Trotter step, so the stepSize parameter does not affect gate counts.
-                configurations.Add(new HamiltonianSimulationConfig(new ProductFormulaConfig { StepSize = 1.0, Order = 1 }));
+                yield return new HamiltonianSimulationConfig(
+                    new ProductFormulaConfig { StepSize = 1.0, Order = 1 }
+                );
             }
             if (runMinQubitQubitizationStep)
             {
                 // Quantum walk by Qubitization that minimizes the Qubit count.
-                configurations.Add(new HamiltonianSimulationConfig(new QubitizationConfig { qubitizationStatePrep = QubitizationConfig.QubitizationStatePrep.MinimizeQubitCount }));
-
+                yield return new HamiltonianSimulationConfig(
+                    new QubitizationConfig { qubitizationStatePrep = QubitizationConfig.QubitizationStatePrep.MinimizeQubitCount }
+                );
             }
             if (runMinTCountQubitizationStep)
             {
                 // Quantum walk by Qubitization that minimizes the T count.
-                configurations.Add(new HamiltonianSimulationConfig(new QubitizationConfig { qubitizationStatePrep = QubitizationConfig.QubitizationStatePrep.MinimizeTGateCount }));
+                yield return new HamiltonianSimulationConfig(
+                    new QubitizationConfig { qubitizationStatePrep = QubitizationConfig.QubitizationStatePrep.MinimizeTGateCount }
+                );
             }
-            return configurations;
         }
 
         // This method computes the gate count of simulation by all configurations passed to it.
-        internal static async Task<IEnumerable<GateCountResults>> RunGateCount(string filename, IntegralDataFormat format, IEnumerable<HamiltonianSimulationConfig> configurations)
+        internal static async Task<IEnumerable<GateCountResults>> RunGateCount(
+            string filename, IntegralDataFormat format, IEnumerable<HamiltonianSimulationConfig> configurations,
+            string outputFolder = null
+        )
         {
             // Read Hamiltonian terms from file.
             IEnumerable<OrbitalIntegrals.OrbitalIntegralHamiltonian> hamiltonians =
@@ -227,7 +238,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
 
             foreach (var config in configurations)
             {
-                GateCountResults results = await RunGateCount(qSharpData, config);
+                GateCountResults results = await RunGateCount(qSharpData, config, outputFolder);
                 results.HamiltonianName = filename;
                 results.IntegralDataPath = filename;
                 results.SpinOrbitals = jordanWignerEncoding.SystemIndices.Count();
@@ -238,7 +249,10 @@ namespace Microsoft.Quantum.Chemistry.Samples
         }
 
         // This method computes the gate count of simulation a single configuration passed to it.
-        internal static async Task<GateCountResults> RunGateCount(JordanWignerEncodingData qSharpData, HamiltonianSimulationConfig config)
+        internal static async Task<GateCountResults> RunGateCount(
+            JordanWignerEncodingData qSharpData, HamiltonianSimulationConfig config,
+            string outputFolder = null
+        )
         {
             // Creates and configures Trace simulator for accumulating gate counts.
             QCTraceSimulator sim = CreateAndConfigureTraceSim();
@@ -250,13 +264,10 @@ namespace Microsoft.Quantum.Chemistry.Samples
             #region Trace Simulator on Trotter step
             if (config.hamiltonianSimulationAlgorithm == HamiltonianSimulationConfig.HamiltonianSimulationAlgorithm.ProductFormula)
             {
-                stopWatch.Reset();
-                stopWatch.Start();
-                var res = await RunTrotterStep.Run(sim, qSharpData);
+                var res = await stopWatch.Measure(async () => await RunTrotterStep.Run(sim, qSharpData));
                 
-                stopWatch.Stop();
-                
-                gateCountResults = new GateCountResults {
+                gateCountResults = new GateCountResults
+                {
                     Method = "Trotter",
                     ElapsedMilliseconds = stopWatch.ElapsedMilliseconds,
                     RotationsCount = sim.GetMetric<RunTrotterStep>(PrimitiveOperationsGroupsNames.R),
@@ -268,10 +279,9 @@ namespace Microsoft.Quantum.Chemistry.Samples
                 // Dump all the statistics to CSV files, one file per statistics collector
                 // FIXME: the names here aren't varied, and so the CSVs will get overwritten when running many
                 //        different Hamiltonians.
-                var gateStats = sim.ToCSV();
-                foreach (var x in gateStats)
+                if (outputFolder != null)
                 {
-                    System.IO.File.WriteAllLines($"TrotterGateCountEstimates.{x.Key}.csv", new string[] { x.Value });
+                    sim.WriteResultsToFolder(outputFolder, "TrotterGateCountEstimates");
                 }
                 
             }
@@ -282,11 +292,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
             {
                 if (config.qubitizationConfig.qubitizationStatePrep == HamiltonianSimulationConfig.QubitizationConfig.QubitizationStatePrep.MinimizeQubitCount)
                 {
-                    stopWatch.Reset();
-                    stopWatch.Start();
-                    var res = await RunQubitizationStep.Run(sim, qSharpData);
-
-                    stopWatch.Stop();
+                    var res = await stopWatch.Measure(async () => await RunQubitizationStep.Run(sim, qSharpData));
 
                     gateCountResults = new GateCountResults
                     {
@@ -302,10 +308,9 @@ namespace Microsoft.Quantum.Chemistry.Samples
                     // Dump all the statistics to CSV files, one file per statistics collector
                     // FIXME: the names here aren't varied, and so the CSVs will get overwritten when running many
                     //        different Hamiltonians.
-                    var gateStats = sim.ToCSV();
-                    foreach (var x in gateStats)
+                    if (outputFolder != null)
                     {
-                        System.IO.File.WriteAllLines($"QubitizationGateCountEstimates.{x.Key}.csv", new string[] { x.Value });
+                        sim.WriteResultsToFolder(outputFolder, "QubitizationGateCountEstimates");
                     }
                 }
             }
@@ -316,15 +321,10 @@ namespace Microsoft.Quantum.Chemistry.Samples
             {
                 if (config.qubitizationConfig.qubitizationStatePrep == HamiltonianSimulationConfig.QubitizationConfig.QubitizationStatePrep.MinimizeTGateCount)
                 {
-                    stopWatch.Reset();
-                    stopWatch.Start();
-
                     // This primarily affects the Qubit count and CNOT count.
                     // The T-count only has a logarithmic dependence on this parameter.
                     var targetError = 0.001;
-
-                    var res = await RunOptimizedQubitizationStep.Run(sim, qSharpData, targetError);
-
+                    var res = await stopWatch.Measure(async () => await RunOptimizedQubitizationStep.Run(sim, qSharpData, targetError));
                     stopWatch.Stop();
 
                     gateCountResults = new GateCountResults
@@ -341,10 +341,9 @@ namespace Microsoft.Quantum.Chemistry.Samples
                     // Dump all the statistics to CSV files, one file per statistics collector
                     // FIXME: the names here aren't varied, and so the CSVs will get overwritten when running many
                     //        different Hamiltonians.
-                    var gateStats = sim.ToCSV();
-                    foreach (var x in gateStats)
+                    if (outputFolder != null)
                     {
-                        System.IO.File.WriteAllLines($"OptimizedQubitizationGateCountEstimates.{x.Key}.csv", new string[] { x.Value });
+                        sim.WriteResultsToFolder(outputFolder, "OptimizedQubitizationGateCountEstimates");
                     }
                 }
             }

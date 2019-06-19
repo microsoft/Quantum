@@ -31,6 +31,7 @@ using Microsoft.Extensions.Logging;
 // libraries to make it easy to use this sample from the command line.
 using Mono.Options;
 using System.Management.Automation;
+using System.Linq;
 
 #endregion
 
@@ -91,14 +92,14 @@ namespace Microsoft.Quantum.Chemistry.Samples
 
         [Parameter(Position = 5)]
         public string LogPath { get; set; } = null;
+
+        [Parameter(Position = 6)]
+        public string OutputPath { get; set; } = null;
         
-        public List<HamiltonianSimulationConfig> config
-        {
-            get
-            {
-                return Program.MakeConfig(RunTrotterStep, RunMinQubitQubitizationStep, RunMinTCountQubitizationStep);
-            }
-        }
+        public List<HamiltonianSimulationConfig> config =>
+            Program
+                .MakeConfig(RunTrotterStep, RunMinQubitQubitizationStep, RunMinTCountQubitizationStep)
+                .ToList();
 
         // The last bit of metadata we might want to specify is
         // what parts of the output are shown by default.
@@ -145,9 +146,9 @@ namespace Microsoft.Quantum.Chemistry.Samples
             {
                 // We can run the same method as in the traditional command
                 // line program.
-                var gateCountResults = Program.RunGateCount(path, Format, config).Result;
+                var gateCountResults = Program.RunGateCount(path, Format, config, OutputPath).Result;
                 
-                foreach(var result in gateCountResults)
+                foreach (var result in gateCountResults)
                 {
                     var psObj = PSObject.AsPSObject(result);
                     psObj.Members.Add(psStandardMembers);
