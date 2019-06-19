@@ -51,7 +51,7 @@ Please include the following with each issue:
 ## Contributing Documentation
 
 If you are interested in contributing to conceptual documentation about the Quantum Development Kit, please see the [MicrosoftDocs/quantum-docs-pr](https://github.com/MicrosoftDocs/quantum-docs-pr) repository.
-If you are interested in contributing API references, please see [Contributing Code](https://docs.microsoft.com/quantum/contributing/code) in the contribution guide.
+If you are interested in contributing to API references, please see [Contributing to the API References](https://docs.microsoft.com/quantum/contributing/docs#contributing-to-the-api-references) in the contribution guide.
 
 ## Contributing Fixes and New Features
 
