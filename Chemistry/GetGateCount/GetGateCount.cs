@@ -51,7 +51,6 @@ namespace Microsoft.Quantum.Chemistry.Samples
     public class GateCountResults
     {
         public string IntegralDataPath;
-        public string HamiltonianName;
         public string Method;
         public double SpinOrbitals;
         public double TCount;
@@ -118,8 +117,12 @@ namespace Microsoft.Quantum.Chemistry.Samples
                     (IntegralDataFormat.Liquid, () => LiQuiD.Deserialize(filename).Select(o => o.OrbitalIntegralHamiltonian)),
                     (IntegralDataFormat.Broombridge, () => Broombridge.Deserializers.DeserializeBroombridge(filename).ProblemDescriptions.Select(o => o.OrbitalIntegralHamiltonian))
                 )
-                // Next, we pick out the first Hamiltonian that we loaded above.
-                .First()
+                // In general, Broombridge allows for loading multiple Hamiltonians
+                // from a single file. For the purpose of simplicitly, however,
+                // we'll only load a single Hamiltonian from each file in this
+                // sample. We use .Single here instead of .First to make sure
+                // that we raise an error instead of silently discarding data.
+                .Single()
                 // Next, we convert to a fermionic Hamiltonian using the UpDown
                 // convention.
                 .ToFermionHamiltonian(IndexConvention.UpDown)
@@ -139,7 +142,6 @@ namespace Microsoft.Quantum.Chemistry.Samples
             foreach (var config in configurations)
             {
                 var results = await RunGateCount(qSharpData, config, outputFolder);
-                results.HamiltonianName = filename;
                 results.IntegralDataPath = filename;
                 results.SpinOrbitals = jordanWignerEncoding.SystemIndices.Count();
                 gateCountResults.Add(results);
