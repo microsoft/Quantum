@@ -7,7 +7,7 @@ For more details on how to contribute to the samples or to the rest of the Quant
 
 ## Asking Questions
 
-Have a question? Rather than opening an issue, please ask away on [Stack Overflow](https://stackoverflow.com/questions/tagged/vscode) using the tag `qsharp`.
+Have a question? Rather than opening an issue, please ask on [Stack Overflow](https://stackoverflow.com/questions/tagged/q%23) or [Quantum Computing StackExchange](https://quantumcomputing.stackexchange.com/questions/tagged/q%23) using the tag `q#`.
 
 The active community will be eager to assist you.
 Your well-worded question will serve as a resource to others searching for help.
@@ -51,7 +51,7 @@ Please include the following with each issue:
 ## Contributing Documentation
 
 If you are interested in contributing to conceptual documentation about the Quantum Development Kit, please see the [MicrosoftDocs/quantum-docs-pr](https://github.com/MicrosoftDocs/quantum-docs-pr) repository.
-If you are interested in contributing API references, please see [Contributing Code](https://docs.microsoft.com/quantum/contributing/code) in the contribution guide.
+If you are interested in contributing to API references, please see [Contributing to the API References](https://docs.microsoft.com/quantum/contributing/docs#contributing-to-the-api-references) in the contribution guide.
 
 ## Contributing Fixes and New Features
 
