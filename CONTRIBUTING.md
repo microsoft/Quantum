@@ -55,7 +55,7 @@ If you are interested in contributing API references, please see [Contributing C
 
 ## Contributing Fixes and New Features
 
-If you are interested in writing code to fix issues or to implement new features, please see [Contributing Code](https://docs.microsoft.com/quantum/contributing/code) in the contribution guide.
+If you are interested in writing code to fix issues, to implement new features in existing samples, or even to contribute entirely new samples, please see [Contributing Code](https://docs.microsoft.com/quantum/contributing/code) in the contribution guide.
 
 # Thank You!
 
