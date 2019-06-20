@@ -91,14 +91,14 @@ namespace Microsoft.Quantum.Chemistry.Samples
             {
                 // Quantum walk by Qubitization that minimizes the Qubit count.
                 yield return new HamiltonianSimulationConfig(
-                    new QubitizationConfig { qubitizationStatePrep = QubitizationStatePrep.MinimizeQubitCount }
+                    new QubitizationConfig { QubitizationStatePrep = QubitizationStatePrep.MinimizeQubitCount }
                 );
             }
             if (runMinTCountQubitizationStep)
             {
                 // Quantum walk by Qubitization that minimizes the T count.
                 yield return new HamiltonianSimulationConfig(
-                    new QubitizationConfig { qubitizationStatePrep = QubitizationStatePrep.MinimizeTGateCount }
+                    new QubitizationConfig { QubitizationStatePrep = QubitizationStatePrep.MinimizeTGateCount }
                 );
             }
         }
@@ -164,7 +164,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
 
             var gateCountResults = new GateCountResults();
             #region Trace Simulator on Trotter step
-            if (config.hamiltonianSimulationAlgorithm == HamiltonianSimulationAlgorithm.ProductFormula)
+            if (config.HamiltonianSimulationAlgorithm == HamiltonianSimulationAlgorithm.ProductFormula)
             {
                 var res = await stopWatch.Measure(async () => await RunTrotterStep.Run(sim, qSharpData));
 
@@ -190,9 +190,9 @@ namespace Microsoft.Quantum.Chemistry.Samples
             #endregion
 
             #region Trace Simulator on Qubitization step
-            if (config.hamiltonianSimulationAlgorithm == HamiltonianSimulationAlgorithm.Qubitization)
+            if (config.HamiltonianSimulationAlgorithm == HamiltonianSimulationAlgorithm.Qubitization)
             {
-                if (config.qubitizationConfig.qubitizationStatePrep == QubitizationStatePrep.MinimizeQubitCount)
+                if (config.QubitizationConfig.QubitizationStatePrep == QubitizationStatePrep.MinimizeQubitCount)
                 {
                     var res = await stopWatch.Measure(async () => await RunQubitizationStep.Run(sim, qSharpData));
 
@@ -219,9 +219,9 @@ namespace Microsoft.Quantum.Chemistry.Samples
             #endregion
 
             #region Trace Simulator on Optimized Qubitization step
-            if (config.hamiltonianSimulationAlgorithm == HamiltonianSimulationAlgorithm.Qubitization)
+            if (config.HamiltonianSimulationAlgorithm == HamiltonianSimulationAlgorithm.Qubitization)
             {
-                if (config.qubitizationConfig.qubitizationStatePrep == QubitizationStatePrep.MinimizeTGateCount)
+                if (config.QubitizationConfig.QubitizationStatePrep == QubitizationStatePrep.MinimizeTGateCount)
                 {
                     // This primarily affects the Qubit count and CNOT count.
                     // The T-count only has a logarithmic dependence on this parameter.
