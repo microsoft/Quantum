@@ -10,12 +10,11 @@
 // utilities for working with collections such as lists and dictionaries.
 using System.Collections.Generic;
 
-// We use the logging library provided with .NET Core to handle output
-// in a robust way that makes it easy to turn on and off different messages.
-
-// We use the System.Management.Automation
-// library to integrate with PowerShell.
+// We use the System.Management.Automation library to integrate with PowerShell.
 using System.Management.Automation;
+
+// The Linq namespace makes it much easier to work with enumerable collections,
+// so we use that here as well.
 using System.Linq;
 
 // Finally, we include the gate counting logic itself.
