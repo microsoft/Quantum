@@ -17,6 +17,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
         ProductFormula,
         Qubitization
     };
+
     /// <summary>
     /// Configuration data for product formula simulation algorithm
     /// </summary>
@@ -45,6 +46,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
             StepSize = setStepSize;
         }
     };
+
     /// <summary>
     /// Configuration data for Qubitization simulation algorithm
     /// </summary>
