@@ -7,10 +7,9 @@ For more details on how to contribute to the samples or to the rest of the Quant
 
 ## Asking Questions
 
-Have a question? Rather than opening an issue, please ask on [Stack Overflow](https://stackoverflow.com/questions/tagged/q%23) or [Quantum Computing StackExchange](https://quantumcomputing.stackexchange.com/questions/tagged/q%23) using the tag `q#`.
-
-The active community will be eager to assist you.
-Your well-worded question will serve as a resource to others searching for help.
+Have a question? We have already answered it on the [Q# Development Blog](https://devblogs.microsoft.com/qsharp/), if not feel free to ask us in a comment!
+The `q#` tags on [Stack Overflow](https://stackoverflow.com/questions/tagged/q%23) and [Quantum Computing StackExchange](https://quantumcomputing.stackexchange.com/questions/tagged/q%23) are also great places to ask questions about the Quantum Development Kit.
+However you ask it, your well-worded question will serve as a resource to others searching for help.
 
 ## Reporting Issues
 
