@@ -27,8 +27,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// ## number
     /// An integer to be factored
     /// ## useRobustPhaseEstimation
-    /// If set to true, we use Microsoft.Quantum.Canon.RobustPhaseEstimation and
-    /// Microsoft.Quantum.Canon.QuantumPhaseEstimation otherwise
+    /// If set to true, we use Microsoft.Quantum.Characterization.RobustPhaseEstimation and
+    /// Microsoft.Quantum.Characterization.QuantumPhaseEstimation otherwise
     ///
     /// # Output
     /// Pair of numbers p > 1 and q > 1 such that p⋅q = `number`
@@ -130,12 +130,12 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         EqualityFactB(IsCoprimeI(generator, modulus), true, "`generator` and `modulus` must be co-prime");
 
         // The oracle we use for order finding essentially wraps
-        // Microsoft.Quantum.Canon.ModularMultiplyByConstantLE operation
+        // Microsoft.Quantum.Arithmetic.MultiplyByModularInteger operation
         // that implements |x⟩ ↦ |x⋅a mod N ⟩.
         // We also use Microsoft.Quantum.Math.ExpModI to compute a by which
         // x must be multiplied.
         // Also note that we interpret target as unsigned integer
-        // in little-endian encoding by using Microsoft.Quantum.Canon.LittleEndian
+        // in little-endian encoding by using Microsoft.Quantum.Arithmetic.LittleEndian
         // type.
         MultiplyByModularInteger(ExpModI(generator, power, modulus), modulus, LittleEndian(target));
     }
@@ -153,8 +153,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// The modulus which defines the residue ring Z mod `modulus`
     /// in which the multiplicative order of `generator` is being estimated.
     /// ## useRobustPhaseEstimation
-    /// If set to true, we use Microsoft.Quantum.Canon.RobustPhaseEstimation and
-    /// Microsoft.Quantum.Canon.QuantumPhaseEstimation
+    /// If set to true, we use Microsoft.Quantum.Characterization.RobustPhaseEstimation and
+    /// Microsoft.Quantum.Characterization.QuantumPhaseEstimation
     ///
     /// # Output
     /// The period ( multiplicative order ) of the generator mod `modulus`
@@ -196,7 +196,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                 let eigenstateRegisterLE = LittleEndian(eigenstateRegister);
                 ApplyXorInPlace(1, eigenstateRegisterLE);
 
-                // An oracle of type Microsoft.Quantum.Canon.DiscreteOracle
+                // An oracle of type Microsoft.Quantum.Oracles.DiscreteOracle
                 // that we are going to use with phase estimation methods below.
                 let oracle = DiscreteOracle(OrderFindingOracle(generator, modulus, _, _));
 
@@ -204,7 +204,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                 // s/r where r is the multiplicative order ( period ) of g
                 if (useRobustPhaseEstimation) {
 
-                    // Use Microsoft.Quantum.Canon.RobustPhaseEstimation to estimate s/r.
+                    // Use Microsoft.Quantum.Characterization.RobustPhaseEstimation to estimate s/r.
                     // RobustPhaseEstimation needs only one extra qubit, but requires
                     // several calls to the oracle
                     let phase = RobustPhaseEstimation(bitsPrecision, oracle, eigenstateRegisterLE!);
@@ -216,7 +216,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                 }
                 else {
 
-                    // Use Microsoft.Quantum.Canon.QuantumPhaseEstimation to estimate s/r.
+                    // Use Microsoft.Quantum.Characterization.QuantumPhaseEstimation to estimate s/r.
                     // When using QuantumPhaseEstimation we will need extra `bitsPrecision`
                     // qubits
                     using (register = Qubit[bitsPrecision]) {
@@ -225,7 +225,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                         // The register that will contain the numerator k of
                         // dyadic fraction k/2^bitsPrecision. The numerator is unsigned
                         // integer encoded in big-endian format. This is indicated by
-                        // use of Microsoft.Quantum.Canon.BigEndian type.
+                        // use of Microsoft.Quantum.Arithmetic.BigEndian type.
                         QuantumPhaseEstimation(oracle, eigenstateRegisterLE!, LittleEndianAsBigEndian(dyadicFractionNumerator));
 
                         // Directly measure the numerator k of dyadic fraction k/2^bitsPrecision
@@ -236,7 +236,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                 }
 
                 // Return all the qubits used for oracle's eigenstate back to 0 state
-                // using Microsoft.Quantum.Canon.ResetAll
+                // using Microsoft.Quantum.Intrinsic.ResetAll
                 ResetAll(eigenstateRegister);
             }
 
