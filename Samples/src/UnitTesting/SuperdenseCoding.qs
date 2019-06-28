@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Diagnostics;
     
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,33 +35,28 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// in the array of Integers, so this function can be used
     /// with IterateThroughCartesianPower.
     operation SuperdenseCodingProtocolRun (bitsAsInt : Int[]) : Unit {
-        
-        AssertIntEqual(2, Length(bitsAsInt), "Array bitsAsInt must have length 2");
-        
+        EqualityFactI(2, Length(bitsAsInt), "Array bitsAsInt must have length 2");
+
         // Get the bits we are going to transmit.
         let (bit1, bit2) = (bitsAsInt[0] == 0, bitsAsInt[1] == 0);
-        
+
         // Get a temporary register for the protocol run.
-        using (qubits = Qubit[2]) {
-            
-            // introduce convenient names for the qubits
-            let (qubit1, qubit2) = (qubits[0], qubits[1]);
-            
+        using ((qubit1, qubit2) = (Qubit(), Qubit())) {
             // Create an EPR pair shared between A and B.
             CreateEPRPair(qubit1, qubit2);
-            
+
             // A encodes 2 bits in the first qubit.
             SuperdenseEncode(bit1, bit2, qubit1);
-            
+
             // "Send" qubit to B and let B decode two bits.
             let (decodedBit1, decodedBit2) = SuperdenseDecode(qubit1, qubit2);
-            
+
             // Now test if the bits were transferred correctly.
-            AssertBoolEqual(bit1, decodedBit1, "bit1 should be transferred correctly");
-            AssertBoolEqual(bit2, decodedBit2, "bit2 should be transferred correctly");
+            EqualityFactB(bit1, decodedBit1, "bit1 should be transferred correctly");
+            EqualityFactB(bit2, decodedBit2, "bit2 should be transferred correctly");
             
             // Make sure that we return qubits back in 0 state.
-            ResetAll(qubits);
+            ResetAll([qubit1, qubit2]);
         }
     }
     
@@ -71,15 +66,14 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// into zero state.
     /// In Dirac notation EPR state is (|00⟩+|11⟩)/√2.
     operation CreateEPRPair (qubit1 : Qubit, qubit2 : Qubit) : Unit {
-        
         // Check that the inputs are as expected.
         Assert([PauliZ], [qubit1], Zero, "First qubit is expected to be in a zero state");
         Assert([PauliZ], [qubit2], Zero, "Second qubit is expected to be in a zero state");
-        
+
         // Make an EPR pair.
         H(qubit1);
         CNOT(qubit1, qubit2);
-        
+
         // Check that we indeed prepared one.
         Assert([PauliZ, PauliZ], [qubit1, qubit2], Zero, "EPR state must be +1 eigenstate of ZZ");
         Assert([PauliX, PauliX], [qubit1, qubit2], Zero, "EPR state must be +1 eigenstate of XX");

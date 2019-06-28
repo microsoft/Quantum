@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.Ising {
-    
-    open Microsoft.Quantum.Primitive;
-    open Microsoft.Quantum.Extensions.Convert;
+    open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Convert;
     
     
     /// Test Ising model anti-ferromagnetic simulation by ZZ correlation function
@@ -13,7 +12,7 @@ namespace Microsoft.Quantum.Samples.Ising {
         let adiabaticTime = 100.1;
         let trotterOrder = 1;
         let scheduleSteps = 100;
-        let trotterStepSize = adiabaticTime / ToDouble(scheduleSteps);
+        let trotterStepSize = adiabaticTime / IntAsDouble(scheduleSteps);
         let hXamplitude = 1.123;
         let hXfinal = 0.0;
         let jCamplitude = -0.985;
@@ -23,7 +22,7 @@ namespace Microsoft.Quantum.Samples.Ising {
         let probZZ = [4.42226E-05, 2.13399E-05, 2.13399E-05, 4.42226E-05];
         
         using (qubits = Qubit[nSites]) {
-            Ising1DStatePrep(qubits);
+            Prepare1DIsingState(qubits);
             (IsingAdiabaticEvolutionManual(nSites, hXamplitude, hXfinal, jCamplitude, adiabaticTime, trotterStepSize, trotterOrder))(qubits);
             
             for (idxQubit in 0 .. 4) {
@@ -35,7 +34,7 @@ namespace Microsoft.Quantum.Samples.Ising {
             }
             
             ResetAll(qubits);
-            Ising1DStatePrep(qubits);
+            Prepare1DIsingState(qubits);
             (IsingAdiabaticEvolutionManual(nSites, hXamplitude, hXfinal, jCamplitude, adiabaticTime, trotterStepSize, trotterOrder))(qubits);
             
             for (idxQubit in 0 .. 4) {

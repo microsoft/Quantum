@@ -9,9 +9,9 @@
   <ItemGroup>
     <ProjectReference Include="..\IsingGenerators\IsingGeneratorsSample.csproj" />
   </ItemGroup>
-    
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.4.1901.3104" />
-    <PackageReference Include="Microsoft.Quantum.Canon" Version="0.4.1901.3104" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.7.1905.3109" />
+    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.7.1905.3109" />
   </ItemGroup>
 </Project>

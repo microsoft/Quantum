@@ -12,7 +12,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
     public class ConsoleDriver : OpenQasmDriver
     {
         //Use 20 for now
-        public override int QBitCount => 20;
+        public override int QubitCount => 20;
 
         public override string Name => "Console";
 
@@ -20,7 +20,7 @@ namespace Microsoft.Quantum.Samples.OpenQasm
         {
             Console.WriteLine(qasm);
             //No measurement
-            return Enumerable.Repeat(Result.Zero, QBitCount);
+            return Enumerable.Repeat(Result.Zero, QubitCount);
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace Microsoft.Quantum.Samples.CHSHGame
-{
+namespace Microsoft.Quantum.Samples.CHSHGame {
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Math;
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Measurement;
 
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@ namespace Microsoft.Quantum.Samples.CHSHGame
     // be such a string of bits inside the entangled qubits which enables the
     // quantum strategy to work so well: it must be something else, something
     // spookier!
-    
+
     //////////////////////////////////////////////////////////////////////////
     // This Program //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
@@ -92,7 +92,7 @@ namespace Microsoft.Quantum.Samples.CHSHGame
     // the unit circle. This measurement scheme ensures Alice and Bob have an
     // 85% probability of their qubits collapsing to the same value, except
     // when both X and Y are 1, in which case they have an 85% probability of
-    // their qubits collapsing to *different* values - thus satisfying the 
+    // their qubits collapsing to *different* values - thus satisfying the
     // X·Y = A ⊕ B formula with an 85% probability in all cases. This
     // strategy works regardless of who first measures their qubit.
 
@@ -100,36 +100,26 @@ namespace Microsoft.Quantum.Samples.CHSHGame
     // the state vector by π/8 radians in one direction or another, then
     // measuring in the standard computational (Z) basis.
 
-    operation MeasureAliceQbit(bit : Bool, qubit : Qubit) : Result
-    {
-        if (bit)
-        {
+    operation MeasureAliceQubit(bit : Bool, qubit : Qubit) : Result {
+        return (
+            bit
             // Measure in sign basis if bit is 1
-            return Measure([PauliX], [qubit]);
-        }
-        else
-        {
+            ? MResetX
             // Measure in computational basis if bit is 0
-            return Measure([PauliZ], [qubit]);
-        }
+            | MResetZ
+        )(qubit);
     }
 
-    operation MeasureBobQbit(bit : Bool, qubit : Qubit) : Result
-    {
-        if (bit)
-        {
+    operation MeasureBobQubit(bit : Bool, qubit : Qubit) : Result {
+        Ry(
+            bit
             // Measure in -π/8 basis if bit is 1
-            let rotation = 2.0 * PI() / 8.0;
-            Ry(rotation, qubit);
-            return M(qubit);
-        }
-        else
-        {
+            ? (2.0 * PI() / 8.0)
             // Measure in π/8 basis if bit is 0
-            let rotation = -2.0 * PI() / 8.0;
-            Ry(rotation, qubit);
-            return M(qubit);
-        }
+            | (-2.0 * PI() / 8.0),
+            qubit
+        );
+        return MResetZ(qubit);
     }
 
     operation PlayQuantumStrategy(
@@ -138,34 +128,16 @@ namespace Microsoft.Quantum.Samples.CHSHGame
         aliceMeasuresFirst : Bool)
         : Bool
     {
-        mutable aliceResult = Zero;
-        mutable bobResult = Zero;
 
-        using (qubits = Qubit[2])
-        {
-            // Alice and Bob get one qubit each
-            let aliceQbit = qubits[0];
-            let bobQbit = qubits[1];
-
+        using ((aliceQubit, bobQubit) = (Qubit(), Qubit())) {
             // Entangle Alice & Bob's qubits
-            H(aliceQbit);
-            CNOT(aliceQbit, bobQbit);
+            H(aliceQubit);
+            CNOT(aliceQubit, bobQubit);
 
             // Randomize who measures first
-            if (aliceMeasuresFirst)
-            {
-                set aliceResult = MeasureAliceQbit(aliceBit, aliceQbit);
-                set bobResult = MeasureBobQbit(bobBit, bobQbit);
-            }
-            else
-            {
-                set bobResult = MeasureBobQbit(bobBit, bobQbit);
-                set aliceResult = MeasureAliceQbit(aliceBit, aliceQbit);
-            }
-
-            ResetAll(qubits);
+            return aliceMeasuresFirst
+            ? MeasureAliceQubit(aliceBit, aliceQubit) == MeasureBobQubit(bobBit, bobQubit)
+            | MeasureBobQubit(bobBit, bobQubit) == MeasureAliceQubit(aliceBit, aliceQubit);
         }
-
-        return aliceResult == bobResult;
     }
 }

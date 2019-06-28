@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Testing;
+    open Microsoft.Quantum.Diagnostics;
     
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,7 +17,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// Any operation that maps |000⟩ to |000⟩
     /// # See Also
     /// - CircuitMetrics.cs
-    operation CollectMetrics (op : ((Qubit, Qubit, Qubit) => Unit : Adjoint)) : Unit {
+    operation CollectMetrics (op : ((Qubit, Qubit, Qubit) => Unit is Adj)) : Unit {
         
         using (qubits = Qubit[3]) {
             op(qubits[0], qubits[1], qubits[2]);
@@ -42,7 +41,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
             Message($"Testing if {actual} is equal to {expected}.");
             
             // this checks that gates are equal
-            AssertOperationsEqualInPlace(ApplyToFirstThreeQubits(actual, _), ApplyToFirstThreeQubitsA(expected, _), 3);
+            AssertOperationsEqualInPlace(3, ApplyToFirstThreeQubits(actual, _), ApplyToFirstThreeQubitsA(expected, _));
             
             // We used partial application and ApplyToFirstThreeQubits to convert operation with
             // signature (Qubit,Qubit,Qubit) => () to operation with signature Qubit[] => ()

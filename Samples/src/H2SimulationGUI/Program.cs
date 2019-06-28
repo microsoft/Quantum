@@ -141,7 +141,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation
         static string FindOnPath(string fileName)
         {
             foreach (var candidateRoot in (
-                Environment.GetEnvironmentVariable("PATH").Split(
+                System.Environment.GetEnvironmentVariable("PATH").Split(
                     Path.PathSeparator
                 ))
             )
@@ -191,7 +191,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation
 
             // If we got this far, go on and call Environment's exit method,
             // killing the server thread.
-            Environment.Exit(process.ExitCode);
+            System.Environment.Exit(process.ExitCode);
         }
     }
 }

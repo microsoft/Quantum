@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
-    
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     
     
@@ -17,7 +17,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     // with controls and target Qubit |t₁⟩. On computational basis states it acts as:
     // |c₁,…,cₙ⟩⊗|t₁⟩ ↦ |c₁,…,cₙ⟩⊗|t₁⊕(c₁∧…∧cₙ)⟩, i.e. the target qubit t is flipped
     // if and only if all control qubits are in state |1⟩ .
-    // The gate is also equivalent to Controlled(Microsoft.Quantum.Primitive.X)
+    // The gate is also equivalent to Controlled(Microsoft.Quantum.Intrinsic.X)
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -37,7 +37,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
         
         body (...) {
             let numControls = Length(controls);
-            
+
             if (numControls == 0) {
                 X(target);
             }
@@ -52,7 +52,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                 multiNot(Rest(controls), [Head(controls), target]);
             }
         }
-        
+
         adjoint invert;
         
         controlled (extraControls, ...) {
