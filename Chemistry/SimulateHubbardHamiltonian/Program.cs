@@ -6,12 +6,14 @@
 // Here, we expose these libraries to our program using the
 // C# "using" statement, similar to the Q# "open" statement.
 
-// We will use the data model implemented by the Quantum Development Kit Chemistry
-// Libraries. This model defines what a fermionic Hamiltonian is, and how to
+// We will use the data model implemented by the Quantum Development Kit chemistry
+// libraries. This model defines what a fermionic Hamiltonian is, and how to
 // represent Hamiltonians on disk.
-using Microsoft.Quantum.Chemistry;
+using Microsoft.Quantum.Chemistry.OrbitalIntegrals;
+using Microsoft.Quantum.Chemistry.Fermion;
+using Microsoft.Quantum.Chemistry.QSharpFormat;
 
-// To count gates, we'll use the trace simulator provided with
+// To perform the simulation, we'll use the full state simulator provided with
 // the Quantum Development Kit.
 using Microsoft.Quantum.Simulation.Simulators;
 
@@ -19,20 +21,7 @@ using Microsoft.Quantum.Simulation.Simulators;
 // types and methods that we'll use throughout this sample.
 using System;
 
-// The System.Diagnostics namespace provides us with the
-// Stopwatch class, which is quite useful for measuring
-// how long each gate counting run takes.
-using System.Diagnostics;
-
-// The System.Collections.Generic library provides many different
-// utilities for working with collections such as lists and dictionaries.
-using System.Collections.Generic;
-
-// We use the logging library provided with .NET Core to handle output
-// in a robust way that makes it easy to turn on and off different messages.
-using Microsoft.Extensions.Logging;
-
-// We use this for convnience functions for manipulation arrays.
+// We use this for convenience methods for manipulating arrays.
 using System.Linq;
 #endregion
 
@@ -65,24 +54,29 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
             var u = 1.0; // repulsion coefficient
             var nSites = 6; // number of sites;
             // Construct Hubbard Hamiltonian
-            var hubbardHamiltonian = new FermionHamiltonian(nOrbitals: nSites, nElectrons: nSites);
+            var hubbardOrbitalIntegralHamiltonian = new OrbitalIntegralHamiltonian();
 
             foreach (var i in Enumerable.Range(0, nSites))
             {
-                hubbardHamiltonian.AddFermionTerm(new OrbitalIntegral(new[] { i, (i + 1) % nSites }, - t));
-                hubbardHamiltonian.AddFermionTerm(new OrbitalIntegral(new[] { i, i, i, i }, u));
+                hubbardOrbitalIntegralHamiltonian.Add(new OrbitalIntegral(new[] { i, (i + 1) % nSites }, -t));
+                hubbardOrbitalIntegralHamiltonian.Add(new OrbitalIntegral(new[] { i, i, i, i }, u));
             }
 
-            // Let us verify that both Hamiltonians are identical
-            hubbardHamiltonian.SortAndAccumulate();
-            Console.WriteLine($"Hubbard Hamiltonian:");
-            Console.WriteLine(hubbardHamiltonian + "\n");
+            // Create fermion representation of Hamiltonian
+            // In this case, we use the spin-orbital to integer
+            // indexing convention `x = orbitalIdx + spin * nSites`; as it 
+            // minimizes the length of Jordan–Wigner strings
+            var hubbardFermionHamiltonian = hubbardOrbitalIntegralHamiltonian.ToFermionHamiltonian(IndexConvention.HalfUp);
+
             #endregion
 
 
             #region Estimating energies by simulating quantum phase estimation
-            var jordanWignerEncoding = JordanWignerEncoding.Create(hubbardHamiltonian);
-            var qSharpData = jordanWignerEncoding.QSharpData();
+            // Create Jordan–Wigner representation of Hamiltonian
+            var jordanWignerEncoding = hubbardFermionHamiltonian.ToPauliHamiltonian();
+
+            // Create data structure to pass to QSharp.
+            var qSharpData = jordanWignerEncoding.ToQSharpFormat().Pad();
 
             Console.WriteLine($"Estimate Hubbard Hamiltonian energy:");
             // Bits of precision in phase estimation.
