@@ -1,0 +1,7 @@
+{
+    "image": "msquantum.azurecr.io/internal/quantum/iqsharp-base:0.8.1906.2007-beta",
+    "extensions": [
+        "quantum.quantum-devkit-vscode",
+        "ms-vscode.csharp"
+    ]
+}
