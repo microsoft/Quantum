@@ -2,6 +2,9 @@
 # https://github.com/microsoft/iqsharp/blob/master/images/iqsharp-base/Dockerfile.
 FROM mcr.microsoft.com/quantum/iqsharp-base:0.8.1906.2007-beta
 
+# Mark that this Dockerfile is used with the samples repository.
+ENV IQSHARP_HOSTING_ENV=SAMPLES_DOCKERFILE
+
 # We need to do a few additional things as root here.
 USER root
 
@@ -22,10 +25,14 @@ RUN apt-get -y update && \
 RUN pip install cython \
                 numpy \
                 scipy && \
-    pip install matplotlib \
+    pip install qutip
+# We install the rest of our Python dependencies as a separate layer since
+# building QuTiP can take a few moments. This makes it easier if we want to add
+# other Python packages later.
+RUN pip install matplotlib \
                 ipyparallel \
                 mpltools \
-                qutip
+                qinfer
 
 # Make sure the contents of our repo are in ${HOME}.
 # These steps are required for use on mybinder.org.

@@ -3,5 +3,6 @@
     "extensions": [
         "quantum.quantum-devkit-vscode",
         "ms-vscode.csharp"
-    ]
+    ],
+    "runArgs": ["-e","IQSHARP_HOSTING_ENV=SAMPLES_DEVCONTAINER"]
 }
