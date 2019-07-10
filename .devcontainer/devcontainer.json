@@ -1,5 +1,5 @@
 {
-    "image": "mcr.microsoft.com/quantum/iqsharp-base:0.8.1906.2007-beta",
+    "dockerFile": "../Dockerfile",
     "extensions": [
         "quantum.quantum-devkit-vscode",
         "ms-vscode.csharp"
