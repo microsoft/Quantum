@@ -24,14 +24,19 @@ function Test-One {
 }
 
 function Validate-Integrals {
-    Push-Location (Join-Path $PSScriptRoot "..\Chemistry\Schema\")
-        python validator.py ../IntegralData/**/*.yaml broombridge-0.1.schema.json
 
-        if  ($LastExitCode -ne 0) {
-            Write-Host "##vso[task.logissue type=error;]Failed to validate IntegralData"
-            $script:all_ok = $False
-        }
-    Pop-Location
+    if (($Env:AGENT_OS -ne $null) -and ($Env:AGENT_OS.StartsWith("Win"))) {
+        Push-Location (Join-Path $PSScriptRoot "..\Chemistry\Schema\")
+            python validator.py ../IntegralData/**/*.yaml broombridge-0.1.schema.json
+
+            if  ($LastExitCode -ne 0) {
+                Write-Host "##vso[task.logissue type=error;]Failed to validate IntegralData"
+                $script:all_ok = $False
+            }
+        Pop-Location
+    } else {
+        Write-Host "##vso[task.logissue type=warning;]Validation of IntegralData only supported in Windows."
+    }
 }
 
 Validate-Integrals
