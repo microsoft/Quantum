@@ -28,7 +28,7 @@ namespace Microsoft.Quantum.Simulation.Emulation
         ///     f: (x, y) -> (x, f(x, y)).
         /// </summary>
         public static void ApplyOracle(QuantumSimulator simulator, Func<Int64, Int64, Int64> oracle,
-             QArray<Qubit> xbits, QArray<Qubit> ybits, bool adjoint = false)
+             IQArray<Qubit> xbits, IQArray<Qubit> ybits, bool adjoint = false)
         {
             var permutation = BuildPermutationTable(oracle, (int)xbits.Length, (int)ybits.Length);
             ApplyOracle(simulator, permutation, xbits, ybits, adjoint);
@@ -40,12 +40,12 @@ namespace Microsoft.Quantum.Simulation.Emulation
         /// tables.
         /// </summary>
         public static void ApplyOracle(QuantumSimulator simulator, Int64[] permutation,
-             QArray<Qubit> xbits, QArray<Qubit> ybits, bool adjoint = false)
+             IQArray<Qubit> xbits, IQArray<Qubit> ybits, bool adjoint = false)
         {
             simulator.CheckQubits(xbits, "x");
             simulator.CheckQubits(ybits, "y");
             Debug.Assert(CheckPermutation(permutation));
-            var qbits = (xbits + ybits).GetIds();
+            var qbits = QArray<Qubit>.Add(xbits, ybits).GetIds();
             if (adjoint)
                 AdjPermuteBasisTable(simulator.Id, (uint)qbits.Length, qbits, permutation.LongLength, permutation);
             else
@@ -99,7 +99,7 @@ namespace Microsoft.Quantum.Simulation.Emulation
         /// <summary>
         /// Create an oracle Operation that applies a permutation to the basis
         /// states of two registers.
-        public static Adjointable<(QArray<Qubit>, QArray<Qubit>)> Create(QuantumSimulator simulator, Func<Int64, Int64, Int64> permutation)
+        public static Adjointable<(IQArray<Qubit>, IQArray<Qubit>)> Create(QuantumSimulator simulator, Func<Int64, Int64, Int64> permutation)
         {
             return new PermutationOracleImpl<ICallable>(simulator, permutation);
         }
@@ -127,7 +127,7 @@ namespace Microsoft.Quantum.Simulation.Emulation
         private static extern void AdjPermuteBasisTable(uint id, uint num_qbits, [In] uint[] qbits, long table_size, [In] long[] permutation_table);
 
         // Infrastructure to allow for programmatic definition and registration of new oracles.
-        private class PermutationOracleImpl<Op> : Adjointable<(QArray<Qubit>, QArray<Qubit>)>, ICallable
+        private class PermutationOracleImpl<Op> : Adjointable<(IQArray<Qubit>, IQArray<Qubit>)>, ICallable
         {
             private static Dictionary<Type, Func<Int64, Int64, Int64>> registered_permutations = new Dictionary<Type, Func<Int64, Int64, Int64>>();
             public static void RegisterPermutation(Func<Int64, Int64, Int64> permutation)
@@ -154,14 +154,14 @@ namespace Microsoft.Quantum.Simulation.Emulation
 
             public override void Init() { }
 
-            public override Func<(QArray<Qubit>, QArray<Qubit>), QVoid> Body => (_args) =>
+            public override Func<(IQArray<Qubit>, IQArray<Qubit>), QVoid> Body => (_args) =>
             {
                 var (xbits, ybits) = _args;
                 ApplyOracle(this.Simulator, this.Permutation, xbits, ybits, adjoint: false);
                 return QVoid.Instance;
             };
 
-            public override Func<(QArray<Qubit>, QArray<Qubit>), QVoid> AdjointBody => (_args) =>
+            public override Func<(IQArray<Qubit>, IQArray<Qubit>), QVoid> AdjointBody => (_args) =>
             {
                 var (xbits, ybits) = _args;
                 ApplyOracle(this.Simulator, this.Permutation, xbits, ybits, adjoint: true);
@@ -196,14 +196,14 @@ namespace Microsoft.Quantum.Simulation.Emulation
                 this.Simulator = m;
             }
 
-            public override Func<(ICallable, QArray<Qubit>, QArray<Qubit>), QVoid> Body => (_args) =>
+            public override Func<(ICallable, IQArray<Qubit>, IQArray<Qubit>), QVoid> Body => (_args) =>
             {
                 var (oracle, xbits, ybits) = _args;
                 PermutationOracle.ApplyOracle(this.Simulator, (x, y) => oracle.Apply<Int64>((x, y)), xbits, ybits, adjoint: false);
                 return QVoid.Instance;
             };
 
-            public override Func<(ICallable, QArray<Qubit>, QArray<Qubit>), QVoid> AdjointBody => (_args) =>
+            public override Func<(ICallable, IQArray<Qubit>, IQArray<Qubit>), QVoid> AdjointBody => (_args) =>
             {
                 var (oracle, xbits, ybits) = _args;
                 PermutationOracle.ApplyOracle(this.Simulator, (x, y) => oracle.Apply<Int64>((x, y)), xbits, ybits, adjoint: true);

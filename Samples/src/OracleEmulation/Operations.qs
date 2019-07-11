@@ -5,7 +5,9 @@
 namespace Microsoft.Quantum.Samples.OracleEmulation
 {
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Arithmetic;
+    open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Extensions.Emulation;
 
 
@@ -94,8 +96,8 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
     operation PrepareSummands(numbers: (Int, Int), registers: (Qubit[], Qubit[])) : (LittleEndian, LittleEndian) {
         let x = LittleEndian(Fst(registers));
         let y = LittleEndian(Snd(registers));
-        InPlaceXorLE(Fst(numbers), x);
-        InPlaceXorLE(Snd(numbers), y);
+        ApplyXorInPlace(Fst(numbers), x);
+        ApplyXorInPlace(Snd(numbers), y);
         return (x, y);
     }
 
@@ -104,7 +106,7 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
         let mx = MeasureInteger(x);
         let my = MeasureInteger(y);
         Message($"Computed {mx} + {y_init} = {my} mod {2^8}");
-        AssertBoolEqual((mx + y_init) % 2^8 == my, true, "sum is wrong");
+        EqualityFactI((mx + y_init) % 2^8, my, "sum is wrong");
         return (mx, my);
     }
 
@@ -144,7 +146,7 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
             // Measure the registers. Check that the addition was performed and
             // the input register `x` has not been changed.
             let (mx, my) = MeasureAndCheckAddResult(Snd(numbers), x, y);
-            AssertBoolEqual(mx == Fst(numbers), true, "x changed!");
+            EqualityFactI(mx, Fst(numbers), "x changed!");
         }
         
         // Now do two additions in superposition.
@@ -160,7 +162,7 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
                 // Measure the registers. Check that the addition was performed and
                 // the input register `x` has collapsed into either 123 or 251.
                 let (mx, my) = MeasureAndCheckAddResult(Snd(numbers), x, y);
-                AssertBoolEqual(mx == Fst(numbers) or mx == (Fst(numbers) + 2^7) % 2^width, true, "x changed!");
+                Fact(mx == Fst(numbers) or mx == (Fst(numbers) + 2^7) % 2^width, "x changed!");
             }
         }
     }
