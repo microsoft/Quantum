@@ -28,3 +28,13 @@ steps:
   displayName: "Packing"
   workingDirectory: $(System.DefaultWorkingDirectory)/Build
 
+##
+# Wrap-up
+##
+- task: PublishTestResults@2
+  displayName: 'Publish tests results'
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFormat: VSTest
+    testResultsFiles: '$(System.DefaultWorkingDirectory)/**/*.trx'
+    testRunTitle: 'Q# runtime tests'
