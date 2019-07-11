@@ -16,7 +16,12 @@ RUN apt-get -y update && \
                powershell \
                # For the Python interoperability sample, we require QuTiP,
                # which in turn requires gcc's C++ support.
-               g++ && \
+               g++ \
+               # The version of Matplotlib we use also needs a couple header
+               # packages.
+               pkg-config \
+               libfreetype6-dev \
+               libpng-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/
 
 # Install additional Python dependencies for the PythonInterop sample.
@@ -29,10 +34,10 @@ RUN pip install cython \
 # We install the rest of our Python dependencies as a separate layer since
 # building QuTiP can take a few moments. This makes it easier if we want to add
 # other Python packages later.
-RUN pip install matplotlib \
-                ipyparallel \
-                mpltools \
-                qinfer
+RUN pip install "matplotlib<=2.1.2" \
+                "ipyparallel" \
+                "mpltools" \
+                "qinfer"
 
 # Make sure the contents of our repo are in ${HOME}.
 # These steps are required for use on mybinder.org.
