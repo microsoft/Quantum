@@ -1,0 +1,30 @@
+steps:
+
+##
+# Pre-reqs
+##
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.6'
+    architecture: 'x64'
+  displayName: 'Use Python 3.6'
+
+- script: pip install ruamel_yaml jsonschema click setuptools wheel pytest jupyter
+  displayName: 'Install Python tools'
+
+##
+# Build, test & pack
+##
+- powershell: ./build.ps1
+  displayName: "Building"
+  workingDirectory: $(System.DefaultWorkingDirectory)/Build
+
+- powershell: ./test.ps1
+  displayName: "Testing"
+  workingDirectory: $(System.DefaultWorkingDirectory)/Build
+  condition: and(succeeded(), ne(variables['Skip.Tests'], 'true'))
+
+- powershell: ./pack.ps1
+  displayName: "Packing"
+  workingDirectory: $(System.DefaultWorkingDirectory)/Build
+
