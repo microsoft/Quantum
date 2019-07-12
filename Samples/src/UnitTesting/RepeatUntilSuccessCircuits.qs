@@ -82,7 +82,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                 fixup {
 
                     // Upon failure the identity gate has been applied to the target qubit
-                    // Now let us record the failure to log. again";
+                    // Now let us record the failure to log.
                     Message(
                         "We failed. Outcomes of measuring first and second auxillary qubits " +
                         $"were {(outcome0, outcome1)}. Applying fix-up and trying again."
