@@ -5,7 +5,7 @@ This folder defines a _development container_ for the Quantum Development Kit sa
 ## What is a Development Container? ##
 
 Visual Studio Code allows for using [Docker](https://docs.microsoft.com/dotnet/standard/microservices-architecture/container-docker-introduction/docker-defined) to quickly define development environments, including all the compilers, command-line tools, libraries, and programming platforms you need to get up and running quickly.
-Using the definitions provided in this folder, Visual Studio Code can use Docker automatically install the correct version of the Quantum Development Kit as well as other software you might want to use with Q#, such as Python and Jupyter Notebook --- all into an isolated container that doesn't affect the rest of the software you have on your system.
+Using the definitions provided in this folder, Visual Studio Code can use Docker to automatically install the correct version of the Quantum Development Kit as well as other software you might want to use with Q#, such as Python and Jupyter Notebook --- all into an isolated container that doesn't affect the rest of the software you have on your system.
 
 Next steps:
 - [Visual Studio Code: Developing inside a container](https://code.visualstudio.com/docs/remote/containers)
