@@ -59,19 +59,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Interoperability", "4. I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReversibleLogicSynthesis", "src\ReversibleLogicSynthesis\ReversibleLogicSynthesis.csproj", "{B9C0A4DA-C98C-4259-B488-AC4BC09B03B2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. OpenQASM", "5. OpenQASM", "{0C7801D7-4483-46AD-922B-B392972A650B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenQasm", "src\OpenQasm\OpenQasm.csproj", "{8F18B926-58EE-4A2D-8108-A5C671921F93}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qiskit", "src\Qiskit\Qiskit.csproj", "{951F83D9-30FA-41A6-9438-AB7A4D7E5110}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTesting", "src\UnitTesting\UnitTesting.csproj", "{F69A39D6-D90E-4239-B6CF-6CD83F7C70C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleTests", "tests\SampleTests\SampleTests.csproj", "{84BB2194-9980-40CA-9B90-7A860A4E1EDF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenQasmReader", "src\OpenQasmReader\OpenQasmReader.csproj", "{13D5F812-67CF-4E2D-BFF3-C91397E9B80A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenQasmReader.Tests", "tests\OpenQasmReader.Tests\OpenQasmReader.Tests.csproj", "{E70A7B19-D3FC-475F-BAC5-6C757FFE9810}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHSHGame", "src\CHSHGame\CHSHGame.csproj", "{8865089D-56D7-4A46-B580-CAE0116B26CA}"
 EndProject
