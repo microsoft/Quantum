@@ -1,26 +1,22 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
+using Microsoft.Quantum.Simulation;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
-namespace Microsoft.Quantum.Simulation.Emulation
+namespace Microsoft.Quantum.Extensions.Oracles
 {
     /// <summary>
-    /// A permutation oracle is a unitary operation that is defined in terms of
-    /// a permutation of the computational basis states. This class provides
-    /// the infrastructure to define and efficiently apply such oracles within
-    /// a (full state) simulator.
+    /// This class provides  the infrastructure to define and efficiently
+    /// apply permutation oracles within a (full state) simulator.
     /// </summary>
-    public class PermutationOracle
+    public class OracleEmulator
     {
         /// <summary>
         /// The main entry point for emulation of a permutation oracle: Apply
@@ -96,9 +92,69 @@ namespace Microsoft.Quantum.Simulation.Emulation
             return true;
         }
 
+        // Entry points to the simulator backend
+        [DllImport(QuantumSimulator.QSIM_DLL_NAME, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sim_PermuteBasis")]
+        private static extern void PermuteBasisTable(uint id, uint num_qbits, [In] uint[] qbits, long table_size, [In] long[] permutation_table);
+        [DllImport(QuantumSimulator.QSIM_DLL_NAME, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sim_AdjPermuteBasis")]
+        private static extern void AdjPermuteBasisTable(uint id, uint num_qbits, [In] uint[] qbits, long table_size, [In] long[] permutation_table);
+    }
+
+
+    /// <summary>
+    /// Extension of the PermutationOracle operation defined in
+    /// PermutationOracle.qs with an emulated version.
+    /// </summary>
+    public partial class PermutationOracle
+    {
+
+        /// <summary>
+        /// Native emulation of permutation oracles when run on a full state
+        /// simulator. Directly permutes the basis state amplitudes in the wave
+        /// function of the simulator, rather than computing and applying a
+        /// sequence of gates with the same effect.
+        /// </summary>
+        public class Native : PermutationOracle
+        {
+            private QuantumSimulator Simulator { get; }
+
+            public Native(QuantumSimulator m) : base(m)
+            {
+                this.Simulator = m;
+            }
+
+            /// <summary>
+            /// Overrides the body to do the emulation.
+            /// </summary>
+            public override Func<(ICallable, IQArray<Qubit>, IQArray<Qubit>), QVoid> Body => (_args) =>
+            {
+                var (oracle, xbits, ybits) = _args;
+                OracleEmulator.ApplyOracle(this.Simulator, (x, y) => oracle.Apply<Int64>((x, y)), xbits, ybits, adjoint: false);
+                return QVoid.Instance;
+            };
+
+            /// <summary>
+            /// Overrides the adjoint body to do the emulation.
+            /// </summary>
+            public override Func<(ICallable, IQArray<Qubit>, IQArray<Qubit>), QVoid> AdjointBody => (_args) =>
+            {
+                var (oracle, xbits, ybits) = _args;
+                OracleEmulator.ApplyOracle(this.Simulator, (x, y) => oracle.Apply<Int64>((x, y)), xbits, ybits, adjoint: true);
+                return QVoid.Instance;
+            };
+        }
+    }
+
+
+    /// <summary>
+    /// Factory class facilitating the creation of emulated permutation oracles
+    /// from C# code.
+    /// </summary>
+    public class EmulatedOracleFactory
+    {
         /// <summary>
         /// Create an oracle Operation that applies a permutation to the basis
         /// states of two registers.
+        /// </summary>
         public static Adjointable<(IQArray<Qubit>, IQArray<Qubit>)> Create(QuantumSimulator simulator, Func<Int64, Int64, Int64> permutation)
         {
             return new PermutationOracleImpl<ICallable>(simulator, permutation);
@@ -119,12 +175,6 @@ namespace Microsoft.Quantum.Simulation.Emulation
             simulator.Register(typeof(Op), typeof(PermutationOracleImpl<Op>), typeof(ICallable));
         }
 
-
-        // Entry points to the simulator backend
-        [DllImport(QuantumSimulator.QSIM_DLL_NAME, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sim_PermuteBasis")]
-        private static extern void PermuteBasisTable(uint id, uint num_qbits, [In] uint[] qbits, long table_size, [In] long[] permutation_table);
-        [DllImport(QuantumSimulator.QSIM_DLL_NAME, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sim_AdjPermuteBasis")]
-        private static extern void AdjPermuteBasisTable(uint id, uint num_qbits, [In] uint[] qbits, long table_size, [In] long[] permutation_table);
 
         // Infrastructure to allow for programmatic definition and registration of new oracles.
         private class PermutationOracleImpl<Op> : Adjointable<(IQArray<Qubit>, IQArray<Qubit>)>, ICallable
@@ -157,59 +207,16 @@ namespace Microsoft.Quantum.Simulation.Emulation
             public override Func<(IQArray<Qubit>, IQArray<Qubit>), QVoid> Body => (_args) =>
             {
                 var (xbits, ybits) = _args;
-                ApplyOracle(this.Simulator, this.Permutation, xbits, ybits, adjoint: false);
+                OracleEmulator.ApplyOracle(this.Simulator, this.Permutation, xbits, ybits, adjoint: false);
                 return QVoid.Instance;
             };
 
             public override Func<(IQArray<Qubit>, IQArray<Qubit>), QVoid> AdjointBody => (_args) =>
             {
                 var (xbits, ybits) = _args;
-                ApplyOracle(this.Simulator, this.Permutation, xbits, ybits, adjoint: true);
+                OracleEmulator.ApplyOracle(this.Simulator, this.Permutation, xbits, ybits, adjoint: true);
                 return QVoid.Instance;
             };
         }
-    }
-
-
-    /// <summary>
-    /// QuantumEmulator is a QuantumSimulator exposing an additional
-    /// `EmulateOracle` primitive.
-    /// </summary>
-    public class QuantumEmulator : QuantumSimulator
-    {
-        /// <summary>
-        /// Emulate the effect of a classical oracle by permuting the basis
-        /// states of the simulator's wavefunction such that
-        ///     $\ket{x}\ket{y}\ket{w} -> \ket{x}\ket{f(x, y)}\ket{w}$,
-        /// with registers x, y, w and the oracle function f.
-        /// The oracle
-        ///     f: (x, y) -> (x, z=f(x, y)) 
-        /// is passed as the first argument to EmulateOracle and must be a
-        /// bijective mapping on the computational basis states.
-        /// </summary>
-        public class QSimEmulateOracle : Quantum.Extensions.Emulation.PermutationOracle
-        {
-            private QuantumSimulator Simulator { get; }
-
-            public QSimEmulateOracle(QuantumSimulator m) : base(m)
-            {
-                this.Simulator = m;
-            }
-
-            public override Func<(ICallable, IQArray<Qubit>, IQArray<Qubit>), QVoid> Body => (_args) =>
-            {
-                var (oracle, xbits, ybits) = _args;
-                PermutationOracle.ApplyOracle(this.Simulator, (x, y) => oracle.Apply<Int64>((x, y)), xbits, ybits, adjoint: false);
-                return QVoid.Instance;
-            };
-
-            public override Func<(ICallable, IQArray<Qubit>, IQArray<Qubit>), QVoid> AdjointBody => (_args) =>
-            {
-                var (oracle, xbits, ybits) = _args;
-                PermutationOracle.ApplyOracle(this.Simulator, (x, y) => oracle.Apply<Int64>((x, y)), xbits, ybits, adjoint: true);
-                return QVoid.Instance;
-            };
-        }
-
     }
 }

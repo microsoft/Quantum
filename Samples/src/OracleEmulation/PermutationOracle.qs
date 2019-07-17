@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 
-namespace Microsoft.Quantum.Extensions.Emulation
+namespace Microsoft.Quantum.Extensions.Oracles
 {
     /// # Summary
     /// Apply a classical permutation oracle to two registers.

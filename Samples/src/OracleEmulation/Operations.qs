@@ -8,7 +8,7 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
     open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Diagnostics;
-    open Microsoft.Quantum.Extensions.Emulation;
+    open Microsoft.Quantum.Extensions.Oracles;
 
 
     //////////////////////////////////////////////////////////////////////////
