@@ -23,4 +23,4 @@ dependencies:
         - qinfer
         - duecredit
         - mpltools
-        - qsharp==0.8.1906.2007b1
+        - qsharp==0.8.1907.1701
