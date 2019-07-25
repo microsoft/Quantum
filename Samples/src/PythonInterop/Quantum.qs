@@ -3,6 +3,7 @@
 namespace Microsoft.Quantum.Samples.Python {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Preparation;
 
     function HelloWorld (pauli : Pauli) : Unit {
         Message($"Hello, world! {pauli}");

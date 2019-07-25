@@ -17,7 +17,7 @@ dotnet run
 Specific sets of integrals can be specified using the `--path` option (`-p`) and the `--format` option (`-f`):
 
 ```bash
-dotnet run -- --path=../IntegralData/YAML/h2.yaml --format=YAML
+dotnet run -- --path=../IntegralData/YAML/h2.yaml --format=Broombridge
 ```
 
 For more options, run `dotnet run -- -?`.
@@ -26,17 +26,17 @@ To use this sample from PowerShell, import the `get-gatecount.dll` assembly as a
 ```powershell
 dotnet publish --self-contained -r <runtime>
 Import-Module ./bin/Debug/netcoreapp2.0/<runtime>/publish/get-gatecount.dll
-Get-GateCount -Path ../IntegralData/YAML/h2.yaml -Format YAML
+Get-GateCount -Path ../IntegralData/YAML/h2.yaml -Format Broombridge
 ```
 
 When using this sample from PowerShell, you can pipe the results into an Excel spreadsheet using the [ImportExcel package](https://github.com/dfinke/ImportExcel):
 ```powershell
-Get-ChildItem ../IntegralData/YAML/LiHData/*.yaml | Get-GateCount -Format YAML | Export-Excel out.xlsx
+Get-ChildItem ../IntegralData/YAML/LiHData/*.yaml | Get-GateCount -Format Broombridge | Export-Excel out.xlsx
 Invoke-Item $$
 ```
 Alternatively, you can pipe the results into the provided Python plotting tool using the [posh-tex package](https://www.cgranade.com/posh-tex/):
 ```powershell
-Get-ChildItem ../IntegralData/YAML/LiHData/*.yaml | Get-GateCount -Format YAML | ./Out-Plot.ps1
+Get-ChildItem ../IntegralData/YAML/LiHData/*.yaml | Get-GateCount -Format Broombridge | ./Out-Plot.ps1
 ```
 
 For more options and documentation, run `Get-GateCount -?`.
@@ -155,7 +155,7 @@ Most typically, this will be the `Get-ChildItem` command, which lists all files 
 > [!TIP]
 > The `Get-ChildItem` is by default made available under the alias `gci` (`g` for "Get" and `ci` for "ChildItem"), as well as aliases corresponding to traditional shells (`ls` and `dir`).
 
-For instance, to load all YAML format files provided with the chemistry package:
+For instance, to load all Broombridge format files provided with the chemistry package:
 
 ```PowerShell
 $results = Get-ChildItem ..\IntegralData\LiquidSelected\* | Get-GateCount -Format Liquid
