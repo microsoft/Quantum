@@ -103,10 +103,10 @@ namespace Microsoft.Quantum.Samples.UnitTesting
             output.WriteLine($"Writing all collected metrics result to" +
                 $" {directory}");
 
-            foreach( KeyValuePair<string,string> collectedData in sim.ToCSV() )
+            foreach (var collectedData in sim.ToCSV())
             {
                 File.WriteAllText(
-                    $"{directory}\\CCNOTCircuitsMetrics.{collectedData.Key}.csv", 
+                    Path.Combine(directory, "CCNOTCircuitsMetrics.{collectedData.Key}.csv"), 
                     collectedData.Value);
             }
         }

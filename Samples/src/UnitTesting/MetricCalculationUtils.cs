@@ -17,17 +17,17 @@ namespace Microsoft.Quantum.Samples.UnitTesting
             // Setup QCTraceSimulator to collect all available metrics
             var config = new QCTraceSimulatorConfiguration
             {
-                useDepthCounter = true,
-                usePrimitiveOperationsCounter = true,
-                useWidthCounter = true
+                UseDepthCounter = true,
+                UsePrimitiveOperationsCounter = true,
+                UseWidthCounter = true
             };
 
             // Set up gate times to compute T depth
-            config.gateTimes[PrimitiveOperationsGroups.CNOT] = 0;
-            config.gateTimes[PrimitiveOperationsGroups.QubitClifford] = 0;
-            config.gateTimes[PrimitiveOperationsGroups.Measure] = 0;
-            config.gateTimes[PrimitiveOperationsGroups.R] = 0;
-            config.gateTimes[PrimitiveOperationsGroups.T] = 1;
+            config.TraceGateTimes[PrimitiveOperationsGroups.CNOT] = 0;
+            config.TraceGateTimes[PrimitiveOperationsGroups.QubitClifford] = 0;
+            config.TraceGateTimes[PrimitiveOperationsGroups.Measure] = 0;
+            config.TraceGateTimes[PrimitiveOperationsGroups.R] = 0;
+            config.TraceGateTimes[PrimitiveOperationsGroups.T] = 1;
 
             // Create an instance of Quantum Computer Trace Simulator
             return new QCTraceSimulator(config);
