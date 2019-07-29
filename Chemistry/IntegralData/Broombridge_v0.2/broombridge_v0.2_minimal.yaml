@@ -1,0 +1,39 @@
+# This is a minimal example of valid Broombridge containing only required parameters.
+
+"$schema": https://raw.githubusercontent.com/Microsoft/Quantum/master/Chemistry/Schema/broombridge-0.2.schema.json
+
+format:
+    version: "0.2"             
+
+problem_description:
+  - metadata:                 
+        molecule_name: "A molecule"
+
+    coulomb_repulsion:         
+        value: 1.9844146837    
+        units: hartree         
+
+    n_electrons: 4
+
+    energy_offset:
+        value: 0              
+        units: hartree   
+
+    hamiltonian:
+
+        one_electron_integrals:
+            units: hartree     
+            format: sparse     
+            values:            
+                - [1, 1, -5.0478572499]
+                - [1, 2,  0.1704971263]
+                - [1, 3,  0.1602915494]
+
+        two_electron_integrals:
+            index_convention: mulliken
+            units: hartree         
+            format: sparse         
+            values:                
+                - [1, 1, 1, 1,  1.6264810823]
+                - [2, 1, 1, 1, -0.1864319375]
+                - [2, 1, 2, 1,  0.0458175647]

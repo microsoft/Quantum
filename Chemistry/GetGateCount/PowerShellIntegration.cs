@@ -2,40 +2,36 @@
 // Licensed under the MIT License.
 
 // This loads a Hamiltonian from file and performs gate estimates of a
-// - Jordan-Wigner Trotter step
-// - Jordan-Wigner Qubitization iterate
+// - Jordan–Wigner Trotter step
+// - Jordan–Wigner Qubitization iterate
 
 #region Using Statements
-// We will need several different libraries in this sample.
-// Here, we expose these libraries to our program using the
-// C# "using" statement, similar to the Q# "open" statement.
-
-// The System namespace provides a number of useful built-in
-// types and methods that we'll use throughout this sample.
-using System;
-
-// The System.Diagnostics namespace provides us with the
-// Stopwatch class, which is quite useful for measuring
-// how long each gate counting run takes.
-using System.Diagnostics;
-
 // The System.Collections.Generic library provides many different
 // utilities for working with collections such as lists and dictionaries.
 using System.Collections.Generic;
 
-// We use the logging library provided with .NET Core to handle output
-// in a robust way that makes it easy to turn on and off different messages.
-using Microsoft.Extensions.Logging;
-
-// Finally, we use the Mono.Options and System.Management.Automation
-// libraries to make it easy to use this sample from the command line.
-using Mono.Options;
+// We use the System.Management.Automation library to integrate with PowerShell.
 using System.Management.Automation;
 
+// The Linq namespace makes it much easier to work with enumerable collections,
+// so we use that here as well.
+using System.Linq;
+
+// Finally, we include the gate counting logic itself.
+using static Microsoft.Quantum.Chemistry.Samples.GetGateCount;
 #endregion
 
 namespace Microsoft.Quantum.Chemistry.Samples
 {
+
+    /// <summary>
+    ///     Represents the possible formats that can be used to represent integral
+    ///     data sets.
+    /// </summary>
+    public enum IntegralDataFormat
+    {
+        Liquid, Broombridge
+    }
 
     #region PowerShell Integration
     // In addition to providing the gate count sample as a command-line program,
@@ -49,7 +45,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
     // We can specify the output type, so that PowerShell can offer tab completion
     // and fancy formatting on the results of running Get-GateCount.
     [OutputType(typeof(GateCountResults))]
-    public class GetGateCount : PSCmdlet
+    public class GetGateCountCmdlet : PSCmdlet
     {
 
         // Command-line options to Get-GateCount are defined as properties of the new
@@ -82,14 +78,13 @@ namespace Microsoft.Quantum.Chemistry.Samples
 
         [Parameter(Position = 5)]
         public string LogPath { get; set; } = null;
+
+        [Parameter(Position = 6)]
+        public string OutputPath { get; set; } = null;
         
-        public List<HamiltonianSimulationConfig> config
-        {
-            get
-            {
-                return Program.MakeConfig(RunTrotterStep, RunMinQubitQubitizationStep, RunMinTCountQubitizationStep);
-            }
-        }
+        public List<HamiltonianSimulationConfig> config =>
+            Configure(RunTrotterStep, RunMinQubitQubitizationStep, RunMinTCountQubitizationStep)
+            .ToList();
 
         // The last bit of metadata we might want to specify is
         // what parts of the output are shown by default.
@@ -136,9 +131,9 @@ namespace Microsoft.Quantum.Chemistry.Samples
             {
                 // We can run the same method as in the traditional command
                 // line program.
-                var gateCountResults = Program.RunGateCount(path, Format, config).Result;
-                
-                foreach(var result in gateCountResults)
+                var gateCountResults = RunGateCount(path, Format, config, OutputPath).Result;
+
+                foreach (var result in gateCountResults)
                 {
                     var psObj = PSObject.AsPSObject(result);
                     psObj.Members.Add(psStandardMembers);
@@ -146,7 +141,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
                 }
             }
         }
-        
+
     }
 
     #endregion

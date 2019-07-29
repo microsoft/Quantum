@@ -1,54 +1,48 @@
-# The same image used by mybinder.org
-FROM python:3.7-slim
+# Start from the IQ# base image. The definition for this image can be found at
+# https://github.com/microsoft/iqsharp/blob/master/images/iqsharp-base/Dockerfile.
+FROM mcr.microsoft.com/quantum/iqsharp-base:0.8.1907.1701
 
-# install qsharp and the notebook packages
-RUN pip install --no-cache --upgrade pip && \
-    pip install --no-cache notebook qsharp
+# Mark that this Dockerfile is used with the samples repository.
+ENV IQSHARP_HOSTING_ENV=SAMPLES_DOCKERFILE
 
-# pre-requisites for .NET SDK
-RUN apt-get update && apt-get -y install wget && \
-    apt-get update && apt-get -y install pgp && \
-    apt-get update && apt-get -y install libgomp1 && \
-# add vim for editing local files:
-    apt-get update && apt-get -y install vim
-
-# install .NET SDK 2.2
-RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.asc.gpg && \
-    mv microsoft.asc.gpg /etc/apt/trusted.gpg.d/ && \
-    wget -q https://packages.microsoft.com/config/debian/9/prod.list && \
-    mv prod.list /etc/apt/sources.list.d/microsoft-prod.list && \
-    chown root:root /etc/apt/trusted.gpg.d/microsoft.asc.gpg && \
-    chown root:root /etc/apt/sources.list.d/microsoft-prod.list && \
-    apt-get -y install apt-transport-https && \
-    apt-get -y update && \
-    apt-get -y install dotnet-sdk-2.2
-
-# create user with a home directory
-# Required for mybinder.org
-ARG NB_USER=jovyan
-ARG NB_UID=1000
-ENV USER=${NB_USER} \
-    HOME=/home/${NB_USER}
-
-RUN adduser --disabled-password \
-    --gecos "Default user" \
-    --uid ${NB_UID} \
-    ${NB_USER}
-WORKDIR ${HOME}
-USER ${USER}
-
-# Make sure .net tools is in the path
-ENV PATH=$PATH:${HOME}/dotnet:${HOME}/.dotnet/tools \
-    DOTNET_ROOT=${HOME}/dotnet
-
-# install IQSharp
-RUN dotnet tool install -g Microsoft.Quantum.IQSharp 
-RUN dotnet iqsharp install --user --path-to-tool="$(which dotnet-iqsharp)"
-
-# Make sure the contents of our repo are in ${HOME}
-# Required for mybinder.org
-COPY . ${HOME}
+# We need to do a few additional things as root here.
 USER root
-RUN chown -R ${NB_UID} ${HOME}
-USER ${NB_USER}
 
+# Install additional system packages from apt.
+RUN apt-get -y update && \
+    apt-get -y install \
+               # For the chemistry samples, we'll need PowerShell to be
+               # installed.
+               powershell \
+               # For the Python interoperability sample, we require QuTiP,
+               # which in turn requires gcc's C++ support.
+               g++ \
+               # The version of Matplotlib we use also needs a couple header
+               # packages.
+               pkg-config \
+               libfreetype6-dev \
+               libpng-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/
+
+# Install additional Python dependencies for the PythonInterop sample.
+# Note that QuTiP has as a hard requirement that its dependencies must be
+# installed first, so we separate into two pip install steps.
+RUN pip install cython \
+                numpy \
+                scipy && \
+    pip install qutip
+# We install the rest of our Python dependencies as a separate layer since
+# building QuTiP can take a few moments. This makes it easier if we want to add
+# other Python packages later.
+RUN pip install "matplotlib<=2.1.2" \
+                "ipyparallel" \
+                "mpltools" \
+                "qinfer"
+
+# Make sure the contents of our repo are in ${HOME}.
+# These steps are required for use on mybinder.org.
+COPY . ${HOME}
+RUN chown -R ${USER} ${HOME}
+
+# Finish by dropping back to the notebook user.
+USER ${USER}
