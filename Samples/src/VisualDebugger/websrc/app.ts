@@ -31,13 +31,13 @@ const stateChart = new chart.Chart(chartContext, {
             {
                 data: [],
                 label: "Real",
-				backgroundColor: "#ff0000aa",
+				backgroundColor: "#ff0000",
 				borderColor: "#ff0000",
             },
             {
                 data: [],
                 label: "Imag",
-				backgroundColor: "#0000ffaa",
+				backgroundColor: "#0000ff",
 				borderColor: "#0000ff",
             }
         ]
