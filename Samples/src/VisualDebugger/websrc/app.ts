@@ -44,7 +44,15 @@ const stateChart = new chart.Chart(chartContext, {
     },
     options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    suggestedMin: -1,
+                    suggestedMax: 1
+                }
+            }]
+        }
     }
 });
 
