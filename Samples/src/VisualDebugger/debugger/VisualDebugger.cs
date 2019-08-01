@@ -73,7 +73,6 @@ namespace vis_sim
         {
             var qubits = arguments.Qubits?.Select(q => q.Id).ToArray() ?? Array.Empty<int>();
             BroadcastAsync("operationStarted", GetOperationDisplayName(operation), qubits).Wait();
-            UserInput().Wait();
         }
 
         private void OnOperationEndHandler(ICallable operation, IApplyData result)

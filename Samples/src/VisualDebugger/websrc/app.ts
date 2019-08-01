@@ -84,35 +84,13 @@ connection.start().catch(err => document.write(err));
 connection.on("operationStarted", onOperationStarted);
 connection.on("operationEnded", onOperationEnded);
 
-function format(data: any) : string {
-    console.log("formatting:", data, typeof(data));
-    if (data instanceof Object && Object.keys(data).length == 0) {
-        // Empty tuple.
-        return "()"
-    }
-    // TODO: consider arity 9, 8, …, 4.
-    else if (data instanceof Object && "item3" in data) {
-        return `(${format(data.item1)}, ${format(data.item2)}, ${format(data.item3)})`;
-    }
-    else if (data instanceof Object && "item2" in data) {
-        return `(${format(data.item1)}, ${format(data.item2)})`;
-    }
-    else if (data instanceof Object && "item1" in data) {
-        return `(${format(data.item1)})`;
-    }
-    else if (typeof(data) == "string") {
-        return `"${data}"`;
-    }
-    else return data.toString();
-}
-
 const operations: HTMLLIElement[] = [];
 
-function onOperationStarted(operationName: string, input: any) {
+function onOperationStarted(operationName: string, input: number[]) {
     console.log(operationName, input);
     const operation = document.createElement("li");
     operation.innerHTML =
-        `<span class="operation-name">${operationName}</span>(<span class="operation-args">${format(input)}</span>)`;
+        `<span class="operation-name">${operationName}</span>(<span class="operation-args">${input.join(", ")}</span>)`;
 
     if (operations.length == 0) {
         olOperations.appendChild(operation);
@@ -132,7 +110,10 @@ function onOperationStarted(operationName: string, input: any) {
 
 function onOperationEnded(output: any) {
     const operation = operations.pop();
-    operation.innerHTML += ` = ${format(output)}`;
+    // Show only return values that aren't unit.
+    if (!(output instanceof Object) || Object.keys(output).length > 0) {
+        operation.innerHTML += ` = ${output}`;
+    }
     olOperations.scrollTop = olOperations.scrollHeight;
     updateState();
 }
