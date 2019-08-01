@@ -55,6 +55,12 @@ namespace vis_sim
             underlyingSimulator.OnOperationEnd += OnOperationEndHandler;
         }
 
+        public async Task Run(Func<IOperationFactory, Task<QVoid>> operation)
+        {
+            await UserInput();
+            await operation(underlyingSimulator);
+        }
+
         private T GetService<T>() => ((T) host.Services.GetService(typeof(T)));
 
         private Task BroadcastAsync(string method, object arg) =>

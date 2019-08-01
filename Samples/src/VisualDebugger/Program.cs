@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace vis_sim
 {
@@ -15,7 +8,7 @@ namespace vis_sim
         public static void Main(string[] args)
         {
             var sim = new VisualizationSimulator();
-            HelloQ.Run(sim.underlyingSimulator).Wait();
+            sim.Run(HelloQ.Run).Wait();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
