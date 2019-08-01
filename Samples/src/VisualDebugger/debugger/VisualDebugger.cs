@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,13 +19,8 @@ namespace vis_sim
     {
         internal readonly QuantumSimulator simulator;
         private readonly IWebHost host;
-
         private readonly IHubContext<VisualizationHub> context;
         private readonly AdvanceEvent advance;
-
-        private readonly ManualResetEvent readyToProceed = new ManualResetEvent(true);
-
-        private readonly Stack<IApplyData> operations = new Stack<IApplyData>();
 
         public VisualDebugger(QuantumSimulator simulator)
         {
@@ -68,9 +62,6 @@ namespace vis_sim
         private Task BroadcastAsync(string method, object arg1, object arg2) =>
             context.Clients.All.SendAsync(method, arg1, arg2);
 
-        private Task BroadcastAsync(string method, object arg1, object arg2, object arg3) =>
-            context.Clients.All.SendAsync(method, arg1, arg2, arg3);
-
         private async Task UserInput()
         {
             await Task.Run(() => {
@@ -78,18 +69,17 @@ namespace vis_sim
             });
         }
 
-        private async Task AnnounceOperation(string operationName, object arguments = null, object result = null)
+        private void OnOperationStartHandler(ICallable operation, IApplyData arguments)
         {
-            await BroadcastAsync("operationCalled", operationName, arguments ?? QVoid.Instance, result ?? QVoid.Instance);
-            await UserInput();
+            var qubits = arguments.Qubits?.Select(q => q.Id).ToArray() ?? Array.Empty<int>();
+            BroadcastAsync("operationStarted", GetOperationDisplayName(operation), qubits).Wait();
+            UserInput().Wait();
         }
-
-        private void OnOperationStartHandler(ICallable operation, IApplyData arguments) => operations.Push(arguments);
 
         private void OnOperationEndHandler(ICallable operation, IApplyData result)
         {
-            var qubits = operations.Pop().Qubits?.Select(q => q.Id).ToArray();
-            AnnounceOperation(GetOperationDisplayName(operation), qubits, result.Value).Wait();
+            BroadcastAsync("operationEnded", result.Value).Wait();
+            UserInput().Wait();
         }
 
         private static string GetOperationDisplayName(ICallable operation)

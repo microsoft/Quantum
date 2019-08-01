@@ -1,7 +1,6 @@
 import "./css/main.css";
 import * as signalR from "@aspnet/signalr";
 import * as chart from "chart.js";
-import { stat } from "fs";
 
 //#region Serialization contract
 
@@ -17,6 +16,7 @@ type State = {
 //#region HTML elements
 
 const divMessages: HTMLDivElement = document.querySelector("#divMessages");
+const olOperations: HTMLDivElement = document.querySelector("#olOperations");
 const btnAdvance: HTMLButtonElement = document.querySelector("#btnAdvance");
 const canvas: HTMLCanvasElement = document.querySelector("#chartCanvas");
 const chartContext = canvas.getContext("2d");
@@ -76,7 +76,8 @@ const connection = new signalR.HubConnectionBuilder()
 
 connection.start().catch(err => document.write(err));
 
-connection.on("operationCalled", announceOperation);
+connection.on("operationStarted", onOperationStarted);
+connection.on("operationEnded", onOperationEnded);
 
 function format(data: any) : string {
     console.log("formatting:", data, typeof(data));
@@ -100,14 +101,33 @@ function format(data: any) : string {
     else return data.toString();
 }
 
+const operations: HTMLLIElement[] = [];
 
-function announceOperation(operationName: string, input: any, output: any) {
+function onOperationStarted(operationName: string, input: any) {
     console.log(operationName, input);
-    let announcement = document.createElement("div");
-    announcement.innerHTML =
-        `<span class="operation-name">${operationName}</span>(<span class="operation-args">${format(input)}</span>) = ${format(output)}`;
+    const operation = document.createElement("li");
+    operation.innerHTML =
+        `<span class="operation-name">${operationName}</span>(<span class="operation-args">${format(input)}</span>)`;
 
-    divMessages.appendChild(announcement);
+    if (operations.length == 0) {
+        olOperations.appendChild(operation);
+    } else {
+        const last = operations[operations.length - 1];
+        let children = last.querySelector(".operation-children");
+        if (children === null) {
+            children = document.createElement("ol");
+            children.className = "operation-children";
+            last.appendChild(children);
+        }
+        children.appendChild(operation);
+    }
+    divMessages.scrollTop = divMessages.scrollHeight;
+    operations.push(operation);
+}
+
+function onOperationEnded(output: any) {
+    const operation = operations.pop();
+    operation.innerHTML += ` = ${format(output)}`;
     divMessages.scrollTop = divMessages.scrollHeight;
     updateState();
 }
