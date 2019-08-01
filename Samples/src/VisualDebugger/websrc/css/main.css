@@ -19,12 +19,22 @@ html, body {
     margin-right: 10px;
 }
 
-.messages {
-    border: 1px solid #000;
-    margin: 10px;
+.operations {
+    margin: 0;
+    padding: 10px;
+    font-family: sans-serif;
+    border-bottom: 1px solid #ccc;
     overflow-y: auto;
-    padding: 1em;
     height: calc(30vh - 3em);
+}
+.operations li {
+    list-style-type: none;
+    padding: 2px 5px;
+    border-left: 1px solid #ccc;
+}
+.operation-children {
+    padding-top: 2px;
+    padding-left: 30px;
 }
 
 .chart-container {

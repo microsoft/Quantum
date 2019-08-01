@@ -15,7 +15,6 @@ type State = {
 
 //#region HTML elements
 
-const divMessages: HTMLDivElement = document.querySelector("#divMessages");
 const olOperations: HTMLDivElement = document.querySelector("#olOperations");
 const btnAdvance: HTMLButtonElement = document.querySelector("#btnAdvance");
 const canvas: HTMLCanvasElement = document.querySelector("#chartCanvas");
@@ -127,14 +126,14 @@ function onOperationStarted(operationName: string, input: any) {
         }
         children.appendChild(operation);
     }
-    divMessages.scrollTop = divMessages.scrollHeight;
+    olOperations.scrollTop = olOperations.scrollHeight;
     operations.push(operation);
 }
 
 function onOperationEnded(output: any) {
     const operation = operations.pop();
     operation.innerHTML += ` = ${format(output)}`;
-    divMessages.scrollTop = divMessages.scrollHeight;
+    olOperations.scrollTop = olOperations.scrollHeight;
     updateState();
 }
 
