@@ -15,7 +15,7 @@ namespace vis_sim
         public static void Main(string[] args)
         {
             var sim = new VisualizationSimulator();
-            HelloQ.Run(sim).Wait();
+            HelloQ.Run(sim.underlyingSimulator).Wait();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
