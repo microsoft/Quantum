@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,9 +22,14 @@ namespace vis_sim
         private readonly IWebHost host;
         private readonly IHubContext<VisualizationHub> context;
         private readonly AdvanceEvent advance;
+        private readonly IList<(string method, object[] args)> history = new List<(string, object[])>();
 
         public VisualDebugger(QuantumSimulator simulator)
         {
+            simulator.OnOperationStart += OnOperationStartHandler;
+            simulator.OnOperationEnd += OnOperationEndHandler;
+            this.simulator = simulator;
+
             host = WebHost
                 .CreateDefaultBuilder()
                 .UseStartup<Startup>()
@@ -35,17 +41,10 @@ namespace vis_sim
                 .UseUrls("http://localhost:5000")
                 .UseKestrel()
                 .Build();
-            var serverThread = new Thread(
-                () => host.Run()
-            );
-            serverThread.Start();
+            new Thread(() => host.Run()).Start();
 
             context = GetService<IHubContext<VisualizationHub>>();
             advance = GetService<AdvanceEvent>();
-
-            this.simulator = simulator;
-            this.simulator.OnOperationStart += OnOperationStartHandler;
-            this.simulator.OnOperationEnd += OnOperationEndHandler;
         }
 
         public async Task Run(Func<IOperationFactory, Task<QVoid>> operation)
@@ -54,20 +53,21 @@ namespace vis_sim
             await operation(simulator);
         }
 
-        private T GetService<T>() => ((T) host.Services.GetService(typeof(T)));
-
-        private Task BroadcastAsync(string method, object arg) =>
-            context.Clients.All.SendAsync(method, arg);
-
-        private Task BroadcastAsync(string method, object arg1, object arg2) =>
-            context.Clients.All.SendAsync(method, arg1, arg2);
-
-        private async Task UserInput()
+        public async Task ReplayHistory(IClientProxy client)
         {
-            await Task.Run(() => {
-                advance.WaitForUser();
-            });
+            foreach (var (method, args) in history)
+                await client.SendCoreAsync(method, args);
         }
+
+        private T GetService<T>() => (T) host.Services.GetService(typeof(T));
+
+        private async Task BroadcastAsync(string method, params object[] args)
+        {
+            history.Add((method, args));
+            await context.Clients.All.SendCoreAsync(method, args);
+        }
+
+        private async Task UserInput() => await Task.Run(() => advance.WaitForUser());
 
         private void OnOperationStartHandler(ICallable operation, IApplyData arguments)
         {
