@@ -55,12 +55,10 @@ function updateChart(state: State) {
     let nQubits = Math.log2(newCount) >>> 0;
     stateChart.data.datasets[0].data = real;
     stateChart.data.datasets[1].data = imag;
-    stateChart.data.labels =
-        Array(real.length)
-            .map(idx => {
-                let bitstring = (idx >>> 0).toString(2).padStart(nQubits, "0");
-                return `|${idx}⟩`;
-            });
+    stateChart.data.labels = Array.from(Array(state.length).keys()).map(idx => {
+        let bitstring = (idx >>> 0).toString(2).padStart(nQubits, "0");
+        return `|${bitstring}⟩`;
+    });
     stateChart.update();
 }
 
