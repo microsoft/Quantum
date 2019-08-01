@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Linq;
-using System.Collections.Generic;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
-using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Hosting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace vis_sim
 {
@@ -82,8 +83,20 @@ namespace vis_sim
 
         private void OnOperationEndHandler(ICallable operation, IApplyData result)
         {
-            var arguments = operations.Pop();
-            AnnounceOperation(operation.Name, arguments.Qubits?.Select(q => q.Id).ToArray(), result.Value).Wait();
+            var qubits = operations.Pop().Qubits?.Select(q => q.Id).ToArray();
+            AnnounceOperation(GetOperationDisplayName(operation), qubits, result.Value).Wait();
+        }
+
+        private static string GetOperationDisplayName(ICallable operation)
+        {
+            switch (operation.Variant)
+            {
+                case OperationFunctor.Body: return operation.Name;
+                case OperationFunctor.Adjoint: return $"Adjoint {operation.Name}";
+                case OperationFunctor.Controlled: return $"Controlled {operation.Name}";
+                case OperationFunctor.ControlledAdjoint: return $"Controlled Adjoint {operation.Name}";
+                default: throw new ArgumentException("Invalid operation variant", nameof(operation));
+            }
         }
     }
 }
