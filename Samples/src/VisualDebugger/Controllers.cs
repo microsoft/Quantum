@@ -37,17 +37,17 @@ namespace vis_sim
     [ApiController]
     public class StateController : ControllerBase
     {
-        private readonly VisualizationSimulator simulator;
+        private readonly VisualDebugger debugger;
 
-        public StateController(VisualizationSimulator simulator)
+        public StateController(VisualDebugger debugger)
         {
-            this.simulator = simulator;
+            this.debugger = debugger;
         }
 
         [HttpGet]
         public async Task<ActionResult<Complex[]>> GetSimulatorState()
         {
-            var dumper = new ApiDumper(simulator.underlyingSimulator);
+            var dumper = new ApiDumper(debugger.simulator);
             dumper.BeginDump();
             dumper.Dump();
             return dumper.EndDump();

@@ -16,9 +16,9 @@ using System.Threading.Tasks;
 
 namespace vis_sim
 {
-    public partial class VisualizationSimulator
+    public class VisualDebugger
     {
-        internal readonly QuantumSimulator underlyingSimulator;
+        internal readonly QuantumSimulator simulator;
         private readonly IWebHost host;
 
         private readonly IHubContext<VisualizationHub> context;
@@ -28,17 +28,15 @@ namespace vis_sim
 
         private readonly Stack<IApplyData> operations = new Stack<IApplyData>();
 
-        public VisualizationSimulator()
+        public VisualDebugger(QuantumSimulator simulator)
         {
-            underlyingSimulator = new QuantumSimulator();
-
             host = WebHost
                 .CreateDefaultBuilder()
                 .UseStartup<Startup>()
                 .ConfigureServices(services => {
                     // Register ourselves as a service so that the different
                     // hubs and controllers can use us through DI.
-                    services.AddSingleton(typeof(VisualizationSimulator), this);
+                    services.AddSingleton(typeof(VisualDebugger), this);
                 })
                 .UseUrls("http://localhost:5000")
                 .UseKestrel()
@@ -51,14 +49,15 @@ namespace vis_sim
             context = GetService<IHubContext<VisualizationHub>>();
             advance = GetService<AdvanceEvent>();
 
-            underlyingSimulator.OnOperationStart += OnOperationStartHandler;
-            underlyingSimulator.OnOperationEnd += OnOperationEndHandler;
+            this.simulator = simulator;
+            this.simulator.OnOperationStart += OnOperationStartHandler;
+            this.simulator.OnOperationEnd += OnOperationEndHandler;
         }
 
         public async Task Run(Func<IOperationFactory, Task<QVoid>> operation)
         {
             await UserInput();
-            await operation(underlyingSimulator);
+            await operation(simulator);
         }
 
         private T GetService<T>() => ((T) host.Services.GetService(typeof(T)));

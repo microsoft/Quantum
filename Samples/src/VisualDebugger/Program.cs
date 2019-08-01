@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Quantum.Simulation.Simulators;
 
 namespace vis_sim
 {
@@ -7,8 +8,8 @@ namespace vis_sim
     {
         public static void Main(string[] args)
         {
-            var sim = new VisualizationSimulator();
-            sim.Run(HelloQ.Run).Wait();
+            var debugger = new VisualDebugger(new QuantumSimulator());
+            debugger.Run(HelloQ.Run).Wait();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
