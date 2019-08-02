@@ -26,11 +26,14 @@ html, body {
 .operations {
     font-family: "Segoe UI", "Tahoma", "Geneva", "Verdana", sans-serif;
     margin: 0;
-    padding: 10px 10px 10px 30px;
+    padding: 0 10px 0 30px;
     overflow-y: auto;
     width: 20%;
     height: 100%;
     float: left;
+}
+.operations > *:last-child {
+    margin-bottom: 10px;
 }
 .operations ol {
     border-left: 1px solid #ccc;
