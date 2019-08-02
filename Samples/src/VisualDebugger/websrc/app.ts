@@ -89,6 +89,7 @@ const operations: HTMLLIElement[] = [];
 function onOperationStarted(operationName: string, input: number[]) {
     console.log(operationName, input);
     const operation = document.createElement("li");
+    operation.className = "current";
     operation.innerHTML =
         `<span class="operation-name">${operationName}</span>(<span class="operation-args">${input.join(", ")}</span>)`;
 
@@ -96,6 +97,7 @@ function onOperationStarted(operationName: string, input: number[]) {
         olOperations.appendChild(operation);
     } else {
         const last = operations[operations.length - 1];
+        last.className = "";
         let children = last.querySelector(".operation-children");
         if (children === null) {
             children = document.createElement("ol");
@@ -113,6 +115,10 @@ function onOperationEnded(output: any) {
     // Show only return values that aren't unit.
     if (!(output instanceof Object) || Object.keys(output).length > 0) {
         operation.innerHTML += ` = ${output}`;
+    }
+    operation.className = "";
+    if (operations.length > 0) {
+        operations[operations.length - 1].className = "current";
     }
     olOperations.scrollTop = olOperations.scrollHeight;
     updateState();

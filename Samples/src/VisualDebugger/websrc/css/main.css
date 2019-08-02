@@ -24,9 +24,9 @@ html, body {
 }
 
 .operations {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", "Tahoma", "Geneva", "Verdana", sans-serif;
     margin: 0;
-    padding: 10px;
+    padding: 10px 10px 10px 30px;
     overflow-y: auto;
     width: 20%;
     height: 100%;
@@ -37,9 +37,15 @@ html, body {
 }
 .operations li {
     list-style-type: none;
+    position: relative;
 }
 .operation-children {
     padding-left: 30px;
+}
+.current:after {
+    content: "➡";
+    position: absolute;
+    right: calc(100% + 5px);
 }
 
 .chart-container {
