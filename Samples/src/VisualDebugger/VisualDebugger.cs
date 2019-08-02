@@ -78,7 +78,8 @@ namespace vis_sim
 
         private void OnOperationEndHandler(ICallable operation, IApplyData result)
         {
-            BroadcastAsync("operationEnded", result.Value).Wait();
+            var state = new StateController(this).GetSimulatorState().GetAwaiter().GetResult();  // TODO
+            BroadcastAsync("operationEnded", result.Value, state.Value).Wait();
             UserInput().Wait();
         }
 

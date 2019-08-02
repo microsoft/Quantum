@@ -46,6 +46,7 @@ html, body {
     content: "➡";
     position: absolute;
     right: calc(100% + 5px);
+    top: 0;
 }
 
 .chart-container {

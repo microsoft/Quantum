@@ -16,11 +16,29 @@ type State = {
 //#region HTML elements
 
 const olOperations: HTMLDivElement = document.querySelector("#olOperations");
-const btnAdvance: HTMLButtonElement = document.querySelector("#btnAdvance");
+const btnNext: HTMLButtonElement = document.querySelector("#btnNext");
+const btnPrevious: HTMLButtonElement = document.querySelector("#btnPrevious");
 const canvas: HTMLCanvasElement = document.querySelector("#chartCanvas");
 const chartContext = canvas.getContext("2d");
 
 //#endregion
+
+const operations: HTMLLIElement[] = [];
+
+type Snapshot = {
+    currentOperation: HTMLLIElement,
+    state: State
+};
+
+type History = {
+    snapshots: Snapshot[],
+    position: number
+};
+
+const history: History = {
+    snapshots: [],
+    position: -1
+};
 
 const stateChart = new chart.Chart(chartContext, {
     type: "bar",
@@ -69,8 +87,26 @@ function updateChart(state: State) {
     stateChart.update();
 }
 
-function updateState() {
-    getJSON<State>("/state").then(updateChart);
+function goToHistory(position: number): void {
+    const lastOperation = history.snapshots[history.position].currentOperation;
+    if (lastOperation !== null) {
+        lastOperation.className = "";
+    }
+
+    const currentOperation = history.snapshots[position].currentOperation;
+    if (currentOperation !== null) {
+        currentOperation.className = "current";
+    }
+    history.position = position;
+    updateChart(history.snapshots[position].state);
+}
+
+function pushHistory(currentOperation: HTMLLIElement, state: State = null): void {
+    if (state === null) {
+        state = history.snapshots.length === 0 ? [] : history.snapshots[history.snapshots.length - 1].state;
+    }
+    history.snapshots.push({ state, currentOperation });
+    history.position = history.snapshots.length - 1;
 }
 
 //#region SignalR hub connection
@@ -84,10 +120,9 @@ connection.start().catch(err => document.write(err));
 connection.on("operationStarted", onOperationStarted);
 connection.on("operationEnded", onOperationEnded);
 
-const operations: HTMLLIElement[] = [];
-
 function onOperationStarted(operationName: string, input: number[]) {
     console.log(operationName, input);
+
     const operation = document.createElement("li");
     operation.className = "current";
     operation.innerHTML =
@@ -108,20 +143,26 @@ function onOperationStarted(operationName: string, input: number[]) {
     }
     olOperations.scrollTop = olOperations.scrollHeight;
     operations.push(operation);
+    pushHistory(operation);
 }
 
-function onOperationEnded(output: any) {
+function onOperationEnded(output: any, state: State) {
     const operation = operations.pop();
+    operation.className = "";
+
     // Show only return values that aren't unit.
     if (!(output instanceof Object) || Object.keys(output).length > 0) {
-        operation.innerHTML += ` = ${output}`;
+        operation.appendChild(document.createTextNode(` = ${output}`));
     }
-    operation.className = "";
+
+    let current = null;
     if (operations.length > 0) {
-        operations[operations.length - 1].className = "current";
+        current = operations[operations.length - 1];
+        current.className = "current";
     }
+    updateChart(state);
+    pushHistory(current, state);
     olOperations.scrollTop = olOperations.scrollHeight;
-    updateState();
 }
 
 //#endregion
@@ -130,7 +171,22 @@ function advance(): Promise<boolean> {
     return getJSON<boolean>("/advance");
 }
 
-btnAdvance.addEventListener("click", advance);
+function next(): void {
+    if (history.position == history.snapshots.length - 1) {
+        advance();
+    } else {
+        goToHistory(history.position + 1);
+    }
+}
+
+function previous(): void {
+    if (history.position > 0) {
+        goToHistory(history.position - 1);
+    }
+}
+
+btnNext.addEventListener("click", next);
+btnPrevious.addEventListener("click", previous);
 
 // TODO: refactor advancing to use SignalR hub instead
 //       of raw AJAX call.
