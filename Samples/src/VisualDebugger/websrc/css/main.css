@@ -5,27 +5,32 @@
 html, body {
     margin: 0;
     padding: 0;
-}
-
-.input-zone {
-    align-items: center;
+    height: 100%;
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    margin: 10px;
+    flex-direction: column;
 }
 
-.input-zone-input {
-    flex: 1;
-    margin-right: 10px;
+.toolbar {
+    text-align: center;
+    padding: 10px;
+}
+.toolbar button {
+    font-size: large;
+}
+
+.state {
+    display: flex;
+    flex-grow: 1;
 }
 
 .operations {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 10px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-bottom: 1px solid #ccc;
     overflow-y: auto;
-    height: calc(30vh - 3em);
+    width: 20%;
 }
 .operations ol {
     border-left: 1px solid #ccc;
@@ -38,13 +43,9 @@ html, body {
 }
 
 .chart-container {
-    position: absolute;
-    height: calc(70vh - 1em);
-    width: calc(100vw - 2em);
     left: 1em;
     bottom: 1em;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    flex-grow: 1;
 }
 
 canvas {

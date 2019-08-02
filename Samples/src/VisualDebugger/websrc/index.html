@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8" />
-    <title>Q# Visual Debugger</title>
-</head>
-
-<body>
-    <ol id="olOperations" class="operations"></ol>
-    <button id="btnAdvance">Advance</button>
-
-
-    <div class="chart-container">
-        <canvas id="chartCanvas"></canvas>
-    </div>
-</body>
-
+    <head>
+        <meta charset="utf-8" />
+        <title>Q# Visual Debugger</title>
+    </head>
+    <body>
+        <div class="toolbar">
+            <button id="btnAdvance">Advance</button>
+        </div>
+        <div class="state">
+            <ol id="olOperations" class="operations"></ol>
+            <div class="chart-container">
+                <canvas id="chartCanvas"></canvas>
+            </div>
+        </div>
+    </body>
 </html>
