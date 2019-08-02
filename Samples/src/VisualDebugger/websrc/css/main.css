@@ -42,10 +42,16 @@ html, body {
 .operation-children {
     padding-left: 30px;
 }
-.current:after {
-    content: "➡";
+.last:after, .next:after {
     position: absolute;
     right: calc(100% + 5px);
+}
+.last:after {
+    content: "✅";
+    bottom: 0;
+}
+.next:after {
+    content: "➡";
     top: 0;
 }
 

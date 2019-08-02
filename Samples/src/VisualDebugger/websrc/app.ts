@@ -26,8 +26,9 @@ const chartContext = canvas.getContext("2d");
 const operations: HTMLLIElement[] = [];
 
 type Snapshot = {
-    currentOperation: HTMLLIElement,
-    state: State
+    state: State,
+    lastOperation: HTMLLIElement,
+    nextOperation: HTMLLIElement
 };
 
 type History = {
@@ -88,24 +89,30 @@ function updateChart(state: State) {
 }
 
 function goToHistory(position: number): void {
-    const lastOperation = history.snapshots[history.position].currentOperation;
-    if (lastOperation !== null) {
-        lastOperation.className = "";
+    const lastSnapshot = history.snapshots[history.position];
+    if (lastSnapshot.lastOperation !== null) {
+        lastSnapshot.lastOperation.className = "";
+    }
+    if (lastSnapshot.nextOperation !== null) {
+        lastSnapshot.nextOperation.className = "";
     }
 
-    const currentOperation = history.snapshots[position].currentOperation;
-    if (currentOperation !== null) {
-        currentOperation.className = "current";
+    const nextSnapshot = history.snapshots[position];
+    if (nextSnapshot.lastOperation !== null) {
+        nextSnapshot.lastOperation.className = "last";
+    }
+    if (nextSnapshot.nextOperation !== null) {
+        nextSnapshot.nextOperation.className = "next";
     }
     history.position = position;
-    updateChart(history.snapshots[position].state);
+    updateChart(nextSnapshot.state);
 }
 
-function pushHistory(currentOperation: HTMLLIElement, state: State = null): void {
+function pushHistory(lastOperation: HTMLLIElement, nextOperation: HTMLLIElement, state: State): void {
     if (state === null) {
         state = history.snapshots.length === 0 ? [] : history.snapshots[history.snapshots.length - 1].state;
     }
-    history.snapshots.push({ state, currentOperation });
+    history.snapshots.push({ state, lastOperation, nextOperation });
     history.position = history.snapshots.length - 1;
 }
 
@@ -123,8 +130,13 @@ connection.on("operationEnded", onOperationEnded);
 function onOperationStarted(operationName: string, input: number[]) {
     console.log(operationName, input);
 
+    const last = olOperations.querySelector(".last");
+    if (last !== null) {
+        last.className = "";
+    }
+
     const operation = document.createElement("li");
-    operation.className = "current";
+    operation.className = "next";
     operation.innerHTML =
         `<span class="operation-name">${operationName}</span>(<span class="operation-args">${input.join(", ")}</span>)`;
 
@@ -143,25 +155,25 @@ function onOperationStarted(operationName: string, input: number[]) {
     }
     olOperations.scrollTop = olOperations.scrollHeight;
     operations.push(operation);
-    pushHistory(operation);
+    pushHistory(null, operation, null);
 }
 
 function onOperationEnded(output: any, state: State) {
+    const last = olOperations.querySelector(".last");
+    if (last !== null) {
+        last.className = "";
+    }
+    
     const operation = operations.pop();
-    operation.className = "";
+    operation.className = "last";
 
     // Show only return values that aren't unit.
     if (!(output instanceof Object) || Object.keys(output).length > 0) {
         operation.appendChild(document.createTextNode(` = ${output}`));
     }
 
-    let current = null;
-    if (operations.length > 0) {
-        current = operations[operations.length - 1];
-        current.className = "current";
-    }
     updateChart(state);
-    pushHistory(current, state);
+    pushHistory(operation, null, state);
     olOperations.scrollTop = olOperations.scrollHeight;
 }
 
