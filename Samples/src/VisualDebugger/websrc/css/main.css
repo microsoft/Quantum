@@ -22,18 +22,18 @@ html, body {
 .operations {
     margin: 0;
     padding: 10px;
-    font-family: sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-bottom: 1px solid #ccc;
     overflow-y: auto;
     height: calc(30vh - 3em);
 }
-.operations li {
-    list-style-type: none;
-    padding: 2px 5px;
+.operations ol {
     border-left: 1px solid #ccc;
 }
+.operations li {
+    list-style-type: none;
+}
 .operation-children {
-    padding-top: 2px;
     padding-left: 30px;
 }
 
