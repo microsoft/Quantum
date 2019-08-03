@@ -79,8 +79,9 @@ namespace vis_sim
 
         private void OnOperationStartHandler(ICallable operation, IApplyData arguments)
         {
+            var variant = operation.Variant == OperationFunctor.Body ? "" : operation.Variant.ToString();
             var qubits = arguments.Qubits?.Select(q => q.Id).ToArray() ?? Array.Empty<int>();
-            BroadcastAsync("operationStarted", GetOperationDisplayName(operation), qubits).Wait();
+            BroadcastAsync("OperationStarted", $"{variant} {operation.Name}", qubits).Wait();
             WaitForAdvance().Wait();
         }
 
@@ -88,20 +89,8 @@ namespace vis_sim
         {
             var stateDumper = new StateDumper(simulator);
             stateDumper.Dump();
-            BroadcastAsync("operationEnded", result.Value, stateDumper.GetAmplitudes()).Wait();
+            BroadcastAsync("OperationEnded", result.Value, stateDumper.GetAmplitudes()).Wait();
             WaitForAdvance().Wait();
-        }
-
-        private static string GetOperationDisplayName(ICallable operation)
-        {
-            switch (operation.Variant)
-            {
-                case OperationFunctor.Body: return operation.Name;
-                case OperationFunctor.Adjoint: return $"Adjoint {operation.Name}";
-                case OperationFunctor.Controlled: return $"Controlled {operation.Name}";
-                case OperationFunctor.ControlledAdjoint: return $"Controlled Adjoint {operation.Name}";
-                default: throw new ArgumentException("Invalid operation variant", nameof(operation));
-            }
         }
     }
 

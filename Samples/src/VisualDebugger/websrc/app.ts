@@ -136,8 +136,8 @@ const connection = new signalR.HubConnectionBuilder()
 
 connection.start().catch(err => document.write(err));
 
-connection.on("operationStarted", onOperationStarted);
-connection.on("operationEnded", onOperationEnded);
+connection.on("OperationStarted", onOperationStarted);
+connection.on("OperationEnded", onOperationEnded);
 
 function onOperationStarted(operationName: string, input: number[]) {
     console.log("Operation start:", operationName, input);
