@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 
 namespace vis_sim
 {
-    public class VisualizationHub : Hub
+    public class VisualHub : Hub
     {
         private readonly VisualDebugger debugger;
 
-        public VisualizationHub(VisualDebugger debugger)
+        public VisualHub(VisualDebugger debugger)
         {
             this.debugger = debugger;
         }

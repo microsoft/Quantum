@@ -28,6 +28,6 @@ namespace vis_sim
                 .UseStaticFiles()
                 .UseDeveloperExceptionPage()
                 .UseMvc()
-                .UseSignalR(routes => routes.MapHub<VisualizationHub>("/events"));
+                .UseSignalR(routes => routes.MapHub<VisualHub>("/events"));
     }
 }

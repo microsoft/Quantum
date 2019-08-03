@@ -20,7 +20,7 @@ namespace vis_sim
     {
         internal readonly QuantumSimulator simulator;
         private readonly IWebHost host;
-        private readonly IHubContext<VisualizationHub> context;
+        private readonly IHubContext<VisualHub> context;
         private readonly ManualResetEvent advanceEvent = new ManualResetEvent(true);
         private readonly IList<(string method, object[] args)> history = new List<(string, object[])>();
 
@@ -41,9 +41,8 @@ namespace vis_sim
                 .UseUrls("http://localhost:5000")
                 .UseKestrel()
                 .Build();
-            new Thread(() => host.Run()).Start();
-
-            context = GetService<IHubContext<VisualizationHub>>();
+            new Thread(host.Run).Start();
+            context = GetService<IHubContext<VisualHub>>();
         }
 
         public async Task Run(Func<IOperationFactory, Task<QVoid>> operation)
