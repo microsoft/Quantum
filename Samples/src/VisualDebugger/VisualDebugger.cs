@@ -21,7 +21,7 @@ namespace vis_sim
         internal readonly QuantumSimulator simulator;
         private readonly IWebHost host;
         private readonly IHubContext<VisualizationHub> context;
-        private readonly AdvanceEvent advance;
+        private readonly ManualResetEvent advanceEvent = new ManualResetEvent(true);
         private readonly IList<(string method, object[] args)> history = new List<(string, object[])>();
 
         public VisualDebugger(QuantumSimulator simulator)
@@ -44,14 +44,15 @@ namespace vis_sim
             new Thread(() => host.Run()).Start();
 
             context = GetService<IHubContext<VisualizationHub>>();
-            advance = GetService<AdvanceEvent>();
         }
 
         public async Task Run(Func<IOperationFactory, Task<QVoid>> operation)
         {
-            await UserInput();
+            await WaitForAdvance();
             await operation(simulator);
         }
+
+        public bool Advance() => advanceEvent.Set();
 
         public async Task ReplayHistory(IClientProxy client)
         {
@@ -67,20 +68,24 @@ namespace vis_sim
             await context.Clients.All.SendCoreAsync(method, args);
         }
 
-        private async Task UserInput() => await Task.Run(() => advance.WaitForUser());
+        private async Task WaitForAdvance() => await Task.Run(() =>
+        {
+            advanceEvent.Reset();
+            advanceEvent.WaitOne();
+        });
 
         private void OnOperationStartHandler(ICallable operation, IApplyData arguments)
         {
             var qubits = arguments.Qubits?.Select(q => q.Id).ToArray() ?? Array.Empty<int>();
             BroadcastAsync("operationStarted", GetOperationDisplayName(operation), qubits).Wait();
-            UserInput().Wait();
+            WaitForAdvance().Wait();
         }
 
         private void OnOperationEndHandler(ICallable operation, IApplyData result)
         {
             var state = new StateController(this).GetSimulatorState().GetAwaiter().GetResult();  // TODO
             BroadcastAsync("operationEnded", result.Value, state.Value).Wait();
-            UserInput().Wait();
+            WaitForAdvance().Wait();
         }
 
         private static string GetOperationDisplayName(ICallable operation)

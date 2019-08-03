@@ -179,13 +179,9 @@ function onOperationEnded(output: any, state: State) {
 
 //#endregion
 
-function advance(): Promise<boolean> {
-    return getJSON<boolean>("/advance");
-}
-
 function next(): void {
     if (history.position == history.snapshots.length - 1) {
-        advance();
+        connection.invoke("Advance");
     } else {
         goToHistory(history.position + 1);
     }
@@ -199,26 +195,3 @@ function previous(): void {
 
 btnNext.addEventListener("click", next);
 btnPrevious.addEventListener("click", previous);
-
-// TODO: refactor advancing to use SignalR hub instead
-//       of raw AJAX call.
-
-function getJSON<TExpected>(url) {
-    return new Promise<TExpected>((resolve, reject) => {
-        let xhr = new XMLHttpRequest();
-
-        xhr.open('GET', url);
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === xhr.DONE) {
-                if (xhr.status === 200) {
-                    resolve(xhr.response as TExpected);
-                } else {
-                    reject(new Error('getJSON: `' + url + '` failed with status: [' + xhr.status + ']'));
-                }
-            }
-        };
-        xhr.responseType = 'json';
-        xhr.setRequestHeader('Accept', 'application/json');
-        xhr.send();
-    });
-}

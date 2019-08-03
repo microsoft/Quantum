@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +19,6 @@ namespace vis_sim
         {
             services.AddSignalR();
             services.AddMvc();
-            services.AddSingleton<AdvanceEvent>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -32,10 +27,7 @@ namespace vis_sim
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseDeveloperExceptionPage()
-                .UseMvc(routes => {
-                })
-                .UseSignalR(routes => {
-                    routes.MapHub<VisualizationHub>("/events");
-                });
+                .UseMvc()
+                .UseSignalR(routes => routes.MapHub<VisualizationHub>("/events"));
     }
 }

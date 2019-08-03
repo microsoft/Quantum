@@ -17,5 +17,7 @@ namespace vis_sim
             await debugger.ReplayHistory(Clients.Caller);
             await base.OnConnectedAsync();
         }
+
+        public bool Advance() => debugger.Advance();
     }
 }
