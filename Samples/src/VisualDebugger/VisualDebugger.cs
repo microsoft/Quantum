@@ -11,6 +11,7 @@ using Microsoft.Quantum.Simulation.Simulators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,7 +19,8 @@ namespace vis_sim
 {
     public class VisualDebugger
     {
-        internal readonly QuantumSimulator simulator;
+        private readonly QuantumSimulator simulator;
+        private readonly StateDumper stateDumper;
         private readonly IWebHost host;
         private readonly IHubContext<VisualHub> context;
         private readonly ManualResetEvent advanceEvent = new ManualResetEvent(true);
@@ -29,6 +31,7 @@ namespace vis_sim
             simulator.OnOperationStart += OnOperationStartHandler;
             simulator.OnOperationEnd += OnOperationEndHandler;
             this.simulator = simulator;
+            stateDumper = new StateDumper(simulator);
 
             host = WebHost
                 .CreateDefaultBuilder()
@@ -82,8 +85,9 @@ namespace vis_sim
 
         private void OnOperationEndHandler(ICallable operation, IApplyData result)
         {
-            var state = new StateController(this).GetSimulatorState().GetAwaiter().GetResult();  // TODO
-            BroadcastAsync("operationEnded", result.Value, state.Value).Wait();
+            var stateDumper = new StateDumper(simulator);
+            stateDumper.Dump();
+            BroadcastAsync("operationEnded", result.Value, stateDumper.GetAmplitudes()).Wait();
             WaitForAdvance().Wait();
         }
 
@@ -98,5 +102,28 @@ namespace vis_sim
                 default: throw new ArgumentException("Invalid operation variant", nameof(operation));
             }
         }
+    }
+
+    internal class StateDumper : QuantumSimulator.StateDumper
+    {
+        private List<Complex> amplitudes = new List<Complex>();
+
+        public StateDumper(QuantumSimulator simulator) : base(simulator)
+        {
+        }
+
+        public override bool Callback(uint index, double real, double imaginary)
+        {
+            amplitudes.Add(new Complex(real, imaginary));
+            return true;
+        }
+
+        public override bool Dump(IQArray<Qubit> qubits = null)
+        {
+            amplitudes = new List<Complex>();
+            return base.Dump();
+        }
+
+        public Complex[] GetAmplitudes() => amplitudes.ToArray();
     }
 }
