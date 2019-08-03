@@ -27,8 +27,9 @@ html, body {
     font-family: "Segoe UI", "Tahoma", "Geneva", "Verdana", sans-serif;
     margin: 0;
     padding: 0 10px 0 30px;
-    overflow-y: auto;
-    width: 20%;
+    overflow: auto;
+    white-space: nowrap;
+    width: 25%;
     height: 100%;
     float: left;
 }
@@ -64,7 +65,7 @@ html, body {
 .chart-container {
     left: 1em;
     bottom: 1em;
-    width: 80%;
+    width: 75%;
     height: 100%;
     float: right;
 }
