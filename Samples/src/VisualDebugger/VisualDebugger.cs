@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace vis_sim
 {
-    public class VisualDebugger
+    internal class VisualDebugger
     {
         private readonly QuantumSimulator simulator;
         private readonly StateDumper stateDumper;
@@ -36,7 +36,8 @@ namespace vis_sim
             host = WebHost
                 .CreateDefaultBuilder()
                 .UseStartup<Startup>()
-                .ConfigureServices(services => {
+                .ConfigureServices(services =>
+                {
                     // Register ourselves as a service so that the different
                     // hubs and controllers can use us through DI.
                     services.AddSingleton(typeof(VisualDebugger), this);
