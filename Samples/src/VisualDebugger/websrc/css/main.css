@@ -57,7 +57,7 @@ html, body {
     bottom: 0;
 }
 .next:after {
-    content: "➡";
+    content: "➡️";
     top: 0;
 }
 
