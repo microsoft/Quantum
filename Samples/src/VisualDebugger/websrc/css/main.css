@@ -38,6 +38,9 @@ html, body {
 .operations ol {
     border-left: 1px solid #ccc;
 }
+.operations ol:empty {
+    display: none;
+}
 .operations li {
     list-style-type: none;
     position: relative;

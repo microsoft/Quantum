@@ -64,12 +64,14 @@ const stateChart = new chart.Chart(chartContext, {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-            yAxes: [{
-                ticks: {
-                    suggestedMin: -1,
-                    suggestedMax: 1
+            yAxes: [
+                {
+                    ticks: {
+                        suggestedMin: -1,
+                        suggestedMax: 1
+                    }
                 }
-            }]
+            ]
         }
     }
 });
@@ -116,6 +118,16 @@ function pushHistory(lastOperation: HTMLLIElement, nextOperation: HTMLLIElement,
     history.position = history.snapshots.length - 1;
 }
 
+function clearLastOperation(): void {
+    if (operations.length > 0) {
+        operations[operations.length - 1].className = "";
+    }
+    const last = olOperations.querySelector(".last");
+    if (last !== null) {
+        last.className = "";
+    }
+}
+
 //#region SignalR hub connection
 
 const connection = new signalR.HubConnectionBuilder()
@@ -128,30 +140,20 @@ connection.on("operationStarted", onOperationStarted);
 connection.on("operationEnded", onOperationEnded);
 
 function onOperationStarted(operationName: string, input: number[]) {
-    console.log(operationName, input);
+    console.log("Operation start:", operationName, input);
 
-    const last = olOperations.querySelector(".last");
-    if (last !== null) {
-        last.className = "";
-    }
-
+    clearLastOperation();
     const operation = document.createElement("li");
     operation.className = "next";
     operation.innerHTML =
-        `<span class="operation-name">${operationName}</span>(<span class="operation-args">${input.join(", ")}</span>)`;
+        `<span class="operation-name">${operationName}</span>` +
+        `(<span class="operation-args">${input.join(", ")}</span>)` +
+        `<ol class="operation-children"></ol>`;
 
     if (operations.length == 0) {
         olOperations.appendChild(operation);
     } else {
-        const last = operations[operations.length - 1];
-        last.className = "";
-        let children = last.querySelector(".operation-children");
-        if (children === null) {
-            children = document.createElement("ol");
-            children.className = "operation-children";
-            last.appendChild(children);
-        }
-        children.appendChild(operation);
+        operations[operations.length - 1].querySelector(".operation-children").appendChild(operation);
     }
     olOperations.scrollTop = olOperations.scrollHeight;
     operations.push(operation);
@@ -159,11 +161,9 @@ function onOperationStarted(operationName: string, input: number[]) {
 }
 
 function onOperationEnded(output: any, state: State) {
-    const last = olOperations.querySelector(".last");
-    if (last !== null) {
-        last.className = "";
-    }
-    
+    console.log("Operation end:", output);
+
+    clearLastOperation();
     const operation = operations.pop();
     operation.className = "last";
 
