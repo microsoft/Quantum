@@ -45,6 +45,7 @@ html, body {
 .operations li {
     list-style-type: none;
     position: relative;
+    cursor: pointer;
 }
 .operation-children {
     padding-left: 30px;

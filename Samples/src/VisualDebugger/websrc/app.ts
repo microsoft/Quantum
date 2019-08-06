@@ -193,5 +193,21 @@ function previous(): void {
     }
 }
 
+function jump(event: Event): void {
+    let operation: HTMLLIElement;
+    if (event.target instanceof HTMLLIElement) {
+        operation = event.target;
+    } else if (event.target instanceof HTMLSpanElement && event.target.parentElement instanceof HTMLLIElement) {
+        operation = event.target.parentElement;
+    } else {
+        return;
+    }
+    const position = history.snapshots.findIndex(snapshot => operation === snapshot.nextOperation);
+    if (position !== -1) {
+        goToHistory(position);
+    }
+}
+
 btnNext.addEventListener("click", next);
 btnPrevious.addEventListener("click", previous);
+olOperations.addEventListener("click", jump);
