@@ -23,18 +23,18 @@ html, body {
     height: calc(100vh - 40px);
 }
 
-.operations {
+.operations-container {
     font-family: "Segoe UI", "Tahoma", "Geneva", "Verdana", sans-serif;
-    margin: 0;
-    padding: 0 10px 0 30px;
     overflow: auto;
     white-space: nowrap;
     width: 25%;
     height: 100%;
     float: left;
 }
-.operations > *:last-child {
-    margin-bottom: 10px;
+.operations {
+    margin: 0 10px 10px 30px;
+    padding: 0;
+    display: inline-block;
 }
 .operations ol {
     border-left: 1px solid #ccc;
