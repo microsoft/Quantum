@@ -179,17 +179,26 @@ function onOperationEnded(output: any, state: State) {
 
 //#endregion
 
-function next(): void {
+async function next(): Promise<void> {
     if (history.position == history.snapshots.length - 1) {
-        connection.invoke("Advance");
+        await connection.invoke("Advance");
     } else {
         goToHistory(history.position + 1);
     }
 }
 
-function previous(): void {
+async function previous(): Promise<void> {
+    // This is only async for symmetry with next, which needs to be async.
     if (history.position > 0) {
         goToHistory(history.position - 1);
+    }
+}
+
+async function repeatUntilOperationStart(step: () => Promise<void>): Promise<void> {
+    const before = history.position;  // Make sure we're making progress each step.
+    await step();
+    if (history.snapshots[history.position].nextOperation === null && history.position !== before) {
+        await repeatUntilOperationStart(step);
     }
 }
 
@@ -208,6 +217,6 @@ function jump(event: Event): void {
     }
 }
 
-btnNext.addEventListener("click", next);
-btnPrevious.addEventListener("click", previous);
+btnNext.addEventListener("click", () => repeatUntilOperationStart(next));
+btnPrevious.addEventListener("click", () => repeatUntilOperationStart(previous));
 olOperations.addEventListener("click", jump);
