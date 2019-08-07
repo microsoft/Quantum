@@ -194,14 +194,19 @@ function onOperationEnded(output: any, state: State) {
 }
 
 function nextEvent(): Promise<void> {
-    return new Promise((resolve, _reject) => {
+    return new Promise((resolve, reject) => {
         function finish(): void {
             resolve();
             connection.off("OperationStarted", finish);
             connection.off("OperationEnded", finish);
         }
-        connection.on("OperationStarted", finish);
-        connection.on("OperationEnded", finish);
+
+        if (operations.length === 0) {
+            reject("All operations have finished");
+        } else {
+            connection.on("OperationStarted", finish);
+            connection.on("OperationEnded", finish);
+        }
     });
 }
 
@@ -209,8 +214,10 @@ function nextEvent(): Promise<void> {
 
 async function next(): Promise<void> {
     if (history.position == history.snapshots.length - 1) {
-        connection.invoke("Advance");
-        await nextEvent();
+        if (operations.length > 0) {
+            connection.invoke("Advance");
+            await nextEvent();
+        }
     } else {
         goToHistory(history.position + 1);
     }
