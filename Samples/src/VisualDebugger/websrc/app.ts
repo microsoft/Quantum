@@ -15,7 +15,8 @@ type State = {
 
 //#region HTML elements
 
-const olOperations: HTMLDivElement = document.querySelector("#olOperations");
+const divOperations: HTMLDivElement = document.querySelector("#divOperations");
+const olOperations: HTMLOListElement = document.querySelector("#olOperations");
 const btnStepIn: HTMLButtonElement = document.querySelector("#btnStepIn");
 const btnStepOver: HTMLButtonElement = document.querySelector("#btnStepOver");
 const btnPrevious: HTMLButtonElement = document.querySelector("#btnPrevious");
@@ -144,6 +145,27 @@ function getLevel(operation: HTMLLIElement): number {
     }
 }
 
+function getOffsetTop(operation: HTMLElement): number {
+    if (!olOperations.contains(operation.offsetParent)) {
+        return 0;
+    } else {
+        return operation.offsetTop + getOffsetTop(operation.offsetParent as HTMLElement);
+    }
+}
+
+function scrollToCurrentOperation(): void {
+    const snapshot = history.snapshots[history.position];
+    const operation = snapshot.lastOperation !== null ? snapshot.lastOperation : snapshot.nextOperation;
+    const offset = getOffsetTop(operation);
+    const name = operation.querySelector(".operation-name") as HTMLElement;
+    if (offset < divOperations.scrollTop) {
+        operation.querySelector("span").scrollIntoView(true);
+    } else if (offset + name.offsetHeight > divOperations.scrollTop + divOperations.offsetHeight) {
+        operation.querySelector("span").scrollIntoView(false);
+        divOperations.scrollTop += 5;
+    }
+}
+
 //#region SignalR hub connection
 
 const connection = new signalR.HubConnectionBuilder()
@@ -257,10 +279,17 @@ function isOperationStart(): boolean {
     return history.snapshots[history.position].nextOperation !== null;
 }
 
-btnStepIn.addEventListener("click", () => repeatUntil(next, isOperationStart));
-btnStepOver.addEventListener("click", () => {
-    const level = getLevel(getCurrentOperation());
-    repeatUntil(next, () => isOperationStart() && getLevel(getCurrentOperation()) <= level);
+btnStepIn.addEventListener("click", async () => {
+    await repeatUntil(next, isOperationStart);
+    scrollToCurrentOperation();
 });
-btnPrevious.addEventListener("click", () => repeatUntil(previous, isOperationStart));
+btnStepOver.addEventListener("click", async () => {
+    const level = getLevel(getCurrentOperation());
+    await repeatUntil(next, () => isOperationStart() && getLevel(getCurrentOperation()) <= level);
+    scrollToCurrentOperation();
+});
+btnPrevious.addEventListener("click", async () => {
+    await repeatUntil(previous, isOperationStart);
+    scrollToCurrentOperation();
+});
 olOperations.addEventListener("click", jump);
