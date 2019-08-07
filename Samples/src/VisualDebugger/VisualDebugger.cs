@@ -51,7 +51,6 @@ namespace vis_sim
 
         public async Task Run(Func<IOperationFactory, Task<QVoid>> operation)
         {
-            await WaitForAdvance();
             await operation(simulator);
         }
 
