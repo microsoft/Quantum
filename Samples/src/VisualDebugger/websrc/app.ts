@@ -155,13 +155,22 @@ function getOffsetTop(operation: HTMLElement): number {
 
 function scrollToCurrentOperation(): void {
     const snapshot = history.snapshots[history.position];
-    const operation = snapshot.lastOperation !== null ? snapshot.lastOperation : snapshot.nextOperation;
-    const offset = getOffsetTop(operation);
-    const name = operation.querySelector(".operation-name") as HTMLElement;
-    if (offset < divOperations.scrollTop) {
-        operation.querySelector("span").scrollIntoView(true);
-    } else if (offset + name.offsetHeight > divOperations.scrollTop + divOperations.offsetHeight) {
-        operation.querySelector("span").scrollIntoView(false);
+    const operationEnded = snapshot.lastOperation !== null;
+    const operation = operationEnded ? snapshot.lastOperation : snapshot.nextOperation;
+
+    let target: HTMLElement;
+    if (operationEnded) {
+        const children = operation.querySelectorAll(".operation-name");
+        target = children[children.length - 1] as HTMLElement;
+    } else {
+        target = operation.querySelector(".operation-name");
+    }
+
+    const offsetTop = getOffsetTop(target);
+    if (offsetTop < divOperations.scrollTop) {
+        target.scrollIntoView(true);
+    } else if (offsetTop + target.offsetHeight > divOperations.scrollTop + divOperations.offsetHeight) {
+        target.scrollIntoView(false);
         divOperations.scrollTop += 5;
     }
 }
