@@ -16,7 +16,8 @@ type State = {
 //#region HTML elements
 
 const olOperations: HTMLDivElement = document.querySelector("#olOperations");
-const btnNext: HTMLButtonElement = document.querySelector("#btnNext");
+const btnStepIn: HTMLButtonElement = document.querySelector("#btnStepIn");
+const btnStepOver: HTMLButtonElement = document.querySelector("#btnStepOver");
 const btnPrevious: HTMLButtonElement = document.querySelector("#btnPrevious");
 const canvas: HTMLCanvasElement = document.querySelector("#chartCanvas");
 const chartContext = canvas.getContext("2d");
@@ -128,6 +129,21 @@ function clearLastOperation(): void {
     }
 }
 
+function getCurrentOperation(): HTMLLIElement {
+    const snapshot = history.snapshots[history.position];
+    return snapshot.nextOperation !== null ? snapshot.nextOperation : snapshot.lastOperation;
+}
+
+function getLevel(operation: HTMLLIElement): number {
+    if (operation.parentElement === null) {
+        throw new Error("Operation is not in olOperations");
+    } else if (operation.parentElement === olOperations) {
+        return 0;
+    } else if (operation.parentElement.parentElement instanceof HTMLLIElement) {
+        return 1 + getLevel(operation.parentElement.parentElement);
+    }
+}
+
 //#region SignalR hub connection
 
 const connection = new signalR.HubConnectionBuilder()
@@ -177,11 +193,24 @@ function onOperationEnded(output: any, state: State) {
     olOperations.scrollTop = olOperations.scrollHeight;
 }
 
+function nextEvent(): Promise<void> {
+    return new Promise((resolve, _reject) => {
+        function finish(): void {
+            resolve();
+            connection.off("OperationStarted", finish);
+            connection.off("OperationEnded", finish);
+        }
+        connection.on("OperationStarted", finish);
+        connection.on("OperationEnded", finish);
+    });
+}
+
 //#endregion
 
 async function next(): Promise<void> {
     if (history.position == history.snapshots.length - 1) {
-        await connection.invoke("Advance");
+        connection.invoke("Advance");
+        await nextEvent();
     } else {
         goToHistory(history.position + 1);
     }
@@ -194,11 +223,11 @@ async function previous(): Promise<void> {
     }
 }
 
-async function repeatUntilOperationStart(step: () => Promise<void>): Promise<void> {
+async function repeatUntil(step: () => Promise<void>, success: () => boolean): Promise<void> {
     const before = history.position;  // Make sure we're making progress each step.
     await step();
-    if (history.snapshots[history.position].nextOperation === null && history.position !== before) {
-        await repeatUntilOperationStart(step);
+    if (history.position !== before && !success()) {
+        await repeatUntil(step, success);
     }
 }
 
@@ -217,6 +246,14 @@ function jump(event: Event): void {
     }
 }
 
-btnNext.addEventListener("click", () => repeatUntilOperationStart(next));
-btnPrevious.addEventListener("click", () => repeatUntilOperationStart(previous));
+function isOperationStart(): boolean {
+    return history.snapshots[history.position].nextOperation !== null;
+}
+
+btnStepIn.addEventListener("click", () => repeatUntil(next, isOperationStart));
+btnStepOver.addEventListener("click", () => {
+    const level = getLevel(getCurrentOperation());
+    repeatUntil(next, () => isOperationStart() && getLevel(getCurrentOperation()) <= level);
+});
+btnPrevious.addEventListener("click", () => repeatUntil(previous, isOperationStart));
 olOperations.addEventListener("click", jump);

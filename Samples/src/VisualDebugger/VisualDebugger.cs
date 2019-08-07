@@ -90,6 +90,7 @@ namespace vis_sim
             var stateDumper = new StateDumper(simulator);
             stateDumper.Dump();
             BroadcastAsync("OperationEnded", result.Value, stateDumper.GetAmplitudes()).Wait();
+            WaitForAdvance().Wait();
         }
     }
 
