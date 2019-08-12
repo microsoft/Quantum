@@ -6,7 +6,7 @@ namespace vis_sim {
     open Microsoft.Quantum.Measurement;
 
     operation HelloQ() : Unit {
-        // Teleport();
+        Teleport();
         GroversSearch();
     }
 
@@ -33,13 +33,7 @@ namespace vis_sim {
     // https://github.com/microsoft/QuantumKatas/tree/master/GroversAlgorithm
 
     operation AllOnesPhaseOracle (register : Qubit[]) : Unit {
-        using (target = Qubit()) {
-            X(target);
-            H(target);
-            Controlled X(register, target);
-            H(target);
-            X(target);
-        }
+        Controlled Z(register[1...], register[0]);
     }
 
     operation AllZeroesPhaseOracle (register : Qubit[]) : Unit {
