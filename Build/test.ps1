@@ -45,8 +45,6 @@ Test-One '../Samples/src/UnitTesting'
 
 Test-One '../Samples/tests/SampleTests'
 
-Test-One '../Samples/tests/OpenQasmReader.Tests'
-
 if (-not $all_ok) 
 {
     throw "At least one project failed to compile. Check the logs."

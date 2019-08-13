@@ -1,6 +1,6 @@
 # Start from the IQ# base image. The definition for this image can be found at
 # https://github.com/microsoft/iqsharp/blob/master/images/iqsharp-base/Dockerfile.
-FROM mcr.microsoft.com/quantum/iqsharp-base:0.8.1906.2007-beta
+FROM mcr.microsoft.com/quantum/iqsharp-base:0.8.1907.1701
 
 # Mark that this Dockerfile is used with the samples repository.
 ENV IQSHARP_HOSTING_ENV=SAMPLES_DOCKERFILE
