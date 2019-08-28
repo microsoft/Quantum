@@ -29,7 +29,8 @@ RUN apt-get -y update && \
 # Add the nteract extension as well, as per @captainsafia's suggestion.
 # This will allow us to use the nteract UI as our frontend through the
 # existing Jupyter Notebook server.
-RUN pip install nteract_on_jupyter
+RUN pip install nteract_on_jupyter && \
+    jupyter serverextension enable nteract_on_jupyter
 
 # Install additional Python dependencies for the PythonInterop sample.
 # Note that QuTiP has as a hard requirement that its dependencies must be
