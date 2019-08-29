@@ -15,7 +15,7 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace vis_sim
+namespace Microsoft.Quantum.Samples.VisualDebugger
 {
     internal class VisualDebugger
     {

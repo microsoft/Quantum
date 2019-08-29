@@ -1,6 +1,6 @@
 ﻿using Microsoft.Quantum.Simulation.Simulators;
 
-namespace vis_sim
+namespace Microsoft.Quantum.Samples.VisualDebugger
 {
     internal class Program
     {

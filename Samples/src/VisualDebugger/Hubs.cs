@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
-namespace vis_sim
+namespace Microsoft.Quantum.Samples.VisualDebugger
 {
     internal class VisualHub : Hub
     {

@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace vis_sim
+namespace Microsoft.Quantum.Samples.VisualDebugger
 {
     internal class Startup
     {

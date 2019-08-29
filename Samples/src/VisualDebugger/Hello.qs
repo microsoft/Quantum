@@ -1,4 +1,4 @@
-namespace vis_sim {
+namespace Microsoft.Quantum.Samples.VisualDebugger {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Intrinsic;
