@@ -54,14 +54,14 @@ const stateChart = new chart.Chart(chartContext, {
             {
                 data: [],
                 label: "Real",
-				backgroundColor: "#ff0000",
-				borderColor: "#ff0000",
+                backgroundColor: "#ff0000",
+                borderColor: "#ff0000",
             },
             {
                 data: [],
                 label: "Imag",
-				backgroundColor: "#0000ff",
-				borderColor: "#0000ff",
+                backgroundColor: "#0000ff",
+                borderColor: "#0000ff",
             }
         ]
     },
