@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import "./css/main.css";
 import * as signalR from "@aspnet/signalr";
 import * as chart from "chart.js";
