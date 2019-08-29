@@ -28,6 +28,11 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
 
         public VisualDebugger(QuantumSimulator simulator)
         {
+            if (simulator == null)
+            {
+                throw new ArgumentNullException(nameof(simulator));
+            }
+
             simulator.OnOperationStart += OnOperationStartHandler;
             simulator.OnOperationEnd += OnOperationEndHandler;
             this.simulator = simulator;
@@ -59,10 +64,13 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
         public async Task ReplayHistory(IClientProxy client)
         {
             foreach (var (method, args) in history)
+            {
                 await client.SendCoreAsync(method, args);
+            }
         }
 
-        private T GetService<T>() => (T) host.Services.GetService(typeof(T));
+        private T GetService<T>() =>
+            (T) host.Services.GetService(typeof(T));
 
         private async Task BroadcastAsync(string method, params object[] args)
         {
