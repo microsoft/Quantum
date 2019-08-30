@@ -8,9 +8,9 @@ namespace Microsoft.Quantum.Samples.VisualDebugger {
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Measurement;
 
-    operation HelloQ() : Unit {
+    operation QsMain () : Unit {
         Teleport();
-        GroversSearch();
+        GroverSearch();
     }
 
     // Teleportation
@@ -50,7 +50,7 @@ namespace Microsoft.Quantum.Samples.VisualDebugger {
         ApplyToEach(H, register);
     }
 
-    operation GroversSearch () : Unit {
+    operation GroverSearch () : Unit {
         let n = 3;
         using (register = Qubit[n]) {
             ApplyToEach(H, register);

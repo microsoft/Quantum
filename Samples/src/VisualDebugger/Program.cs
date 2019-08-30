@@ -10,7 +10,7 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
         private static void Main(string[] args)
         {
             var debugger = new VisualDebugger(new QuantumSimulator());
-            debugger.Run(HelloQ.Run).Wait();
+            debugger.Run(QsMain.Run).Wait();
         }
     }
 }
