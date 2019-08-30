@@ -30,5 +30,9 @@ http://localhost:5000 in a web browser to use it.
 
 ## Editing the Q# Program ##
 
-To change the Q# program that is executed by the debugger, edit the `Program.qs`
-file. The debugger will start the program by running the `QsMain` operation.
+To change the Q# program that is executed by the visual debugger, edit the
+`Program.qs` file. The debugger will start the program by running the `QsMain`
+operation.
+
+Restart the debugger by running the `dotnet run` command again to see the new
+program.
