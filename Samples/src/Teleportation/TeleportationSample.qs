@@ -8,22 +8,22 @@ namespace Microsoft.Quantum.Samples.Teleportation {
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
-    
+
     // Quantum teleportation provides a way of moving a quantum state from one
     // location  to another without having to move physical particle(s) along
     // with it. This is done with the help of previously shared quantum
     // entanglement between the sending and the receiving locations and
     // classical communication.
-    
+
     //////////////////////////////////////////////////////////////////////////
     // Teleportation /////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
-    
-    
+
+
     /// # Summary
     /// Sends the state of one qubit to a target qubit by using
     /// teleportation.
-    /// 
+    ///
     /// Notice that after calling Teleport, the state of `msg` is
     /// collapsed.
     ///
@@ -47,21 +47,21 @@ namespace Microsoft.Quantum.Samples.Teleportation {
             let data1 = M(msg);
             let data2 = M(register);
 
-            // decode the message by applying the corrections on
+            // Decode the message by applying the corrections on
             // the target qubit accordingly:
-            if (data1 == One) { Z(target); }
-            if (data2 == One) { X(target); }
+            if (M(msg)      == One) { Z(target); }
+            if (M(register) == One) { X(target); }
 
             // Reset our "register" qubit before releasing it.
             Reset(register);
         }
     }
-    
+
     // One can use quantum teleportation circuit to send an unobserved
     // (unknown) classical message from source qubit to target qubit
     // by sending specific (known) classical information from source
     // to target.
-    
+
     /// # Summary
     /// Uses teleportation to send a classical message from one qubit
     /// to another.
