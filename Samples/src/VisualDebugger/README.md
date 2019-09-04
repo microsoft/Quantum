@@ -11,7 +11,11 @@ classical functions.
 
 ## Running the Sample ##
 
-First install the Node.js package dependencies and build the TypeScript
+Install [Node.js](https://nodejs.org/en/) and the
+[.NET Core SDK](https://dotnet.microsoft.com/download) if you do not already
+have them installed.
+
+Then install the Q# visual debugger's dependencies and build the TypeScript
 component:
 
 ```
@@ -19,7 +23,7 @@ npm install
 npm run release
 ```
 
-Then start the visual debugger:
+Finally, start the visual debugger:
 
 ```
 dotnet run
