@@ -4,9 +4,9 @@ namespace Microsoft.Quantum.Samples.SimpleGrover {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Math;
-	open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Arrays;
-	open Microsoft.Quantum.Arithmetic;
+    open Microsoft.Quantum.Arithmetic;
 
     // This operation adds a (-1)-phase to the marked state(s)
     operation ReflectMarked (inputQubits : Qubit[]) : Unit is Adj + Ctl {

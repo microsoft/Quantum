@@ -11,7 +11,7 @@ namespace Microsoft.Quantum.Samples.SimpleGrover
     {
         static void Main(string[] args)
         {
-            var sim = new QuantumSimulator(throwOnReleasingQubitsNotInZeroState: true);
+            var sim = new QuantumSimulator();
             var nDatabaseQubits = 5;
 
             var result = ApplyGrover.Run(sim, nDatabaseQubits).Result;
