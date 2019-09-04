@@ -32,10 +32,14 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
             {
                 throw new ArgumentNullException(nameof(simulator));
             }
-
+            
+            this.simulator = simulator;
             simulator.OnOperationStart += OnOperationStartHandler;
             simulator.OnOperationEnd += OnOperationEndHandler;
-            this.simulator = simulator;
+            simulator.OnAllocateQubits += OnAllocateQubitsHandler;
+            simulator.OnBorrowQubits += OnBorrowQubitsHandler;
+            simulator.OnReleaseQubits += OnReleaseQubitsHandler;
+            simulator.OnReturnQubits += OnReturnQubitsHandler;
             stateDumper = new StateDumper(simulator);
 
             host = WebHost
@@ -97,6 +101,30 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
             var stateDumper = new StateDumper(simulator);
             stateDumper.Dump();
             BroadcastAsync("OperationEnded", result.Value, stateDumper.GetAmplitudes()).Wait();
+            WaitForAdvance().Wait();
+        }
+
+        private void OnAllocateQubitsHandler(long count)
+        {
+            BroadcastAsync("Log", $"Allocate {count} qubit(s)").Wait();
+            WaitForAdvance().Wait();
+        }
+
+        private void OnBorrowQubitsHandler(long count)
+        {
+            BroadcastAsync("Log", $"Borrow {count} qubit(s)").Wait();
+            WaitForAdvance().Wait();
+        }
+
+        private void OnReleaseQubitsHandler(IQArray<Qubit> qubits)
+        {
+            BroadcastAsync("Log", $"Release qubit(s) {string.Join(", ", qubits.Select(q => q.Id))}").Wait();
+            WaitForAdvance().Wait();
+        }
+
+        private void OnReturnQubitsHandler(IQArray<Qubit> qubits)
+        {
+            BroadcastAsync("Log", $"Return qubit(s) {string.Join(", ", qubits.Select(q => q.Id))}").Wait();
             WaitForAdvance().Wait();
         }
     }

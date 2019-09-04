@@ -178,6 +178,15 @@ function scrollToCurrentOperation(): void {
     }
 }
 
+function appendOperation(operation: HTMLLIElement): void {
+    if (operations.length === 0) {
+        olOperations.appendChild(operation);
+    } else {
+        operations[operations.length - 1].querySelector(".operation-children").appendChild(operation);
+    }
+    olOperations.scrollTop = olOperations.scrollHeight;
+}
+
 //#region SignalR hub connection
 
 const connection = new signalR.HubConnectionBuilder()
@@ -188,8 +197,9 @@ connection.start().catch(err => document.write(err));
 
 connection.on("OperationStarted", onOperationStarted);
 connection.on("OperationEnded", onOperationEnded);
+connection.on("Log", onLog);
 
-function onOperationStarted(operationName: string, input: number[]) {
+function onOperationStarted(operationName: string, input: number[]): void {
     console.log("Operation start:", operationName, input);
 
     clearLastOperation();
@@ -199,18 +209,12 @@ function onOperationStarted(operationName: string, input: number[]) {
         `<span class="operation-name">${operationName}</span>` +
         `(<span class="operation-args">${input.join(", ")}</span>)` +
         `<ol class="operation-children"></ol>`;
-
-    if (operations.length == 0) {
-        olOperations.appendChild(operation);
-    } else {
-        operations[operations.length - 1].querySelector(".operation-children").appendChild(operation);
-    }
-    olOperations.scrollTop = olOperations.scrollHeight;
+    appendOperation(operation);
     operations.push(operation);
     pushHistory(null, operation, null);
 }
 
-function onOperationEnded(output: any, state: State) {
+function onOperationEnded(output: any, state: State): void {
     console.log("Operation end:", output);
 
     clearLastOperation();
@@ -225,6 +229,18 @@ function onOperationEnded(output: any, state: State) {
     updateChart(state);
     pushHistory(operation, null, state);
     olOperations.scrollTop = olOperations.scrollHeight;
+}
+
+function onLog(message: string): void {
+    console.log("Log: ", message);
+
+    clearLastOperation();
+    const operation = document.createElement("li");
+    operation.className = "last";
+    operation.textContent = message;
+    appendOperation(operation);
+    pushHistory(null, operation, null);
+    pushHistory(operation, null, null);
 }
 
 function nextEvent(): Promise<void> {

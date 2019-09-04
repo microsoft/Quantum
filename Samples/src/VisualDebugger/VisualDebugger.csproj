@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App"/>
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.8.1906.2007-beta" />
-    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.8.1906.2007-beta" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.9.1908.2906" />
+    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.9.1908.2906" />
   </ItemGroup>
 </Project>
