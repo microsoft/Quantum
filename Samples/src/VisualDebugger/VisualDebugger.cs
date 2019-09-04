@@ -98,7 +98,6 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
 
         private void OnOperationEndHandler(ICallable operation, IApplyData result)
         {
-            var stateDumper = new StateDumper(simulator);
             stateDumper.Dump();
             BroadcastAsync("OperationEnded", result.Value, stateDumper.GetAmplitudes()).Wait();
             WaitForAdvance().Wait();
