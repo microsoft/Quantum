@@ -5,6 +5,10 @@ using Microsoft.Quantum.Simulation.Simulators;
 
 namespace Microsoft.Quantum.Samples.VisualDebugger
 {
+    /// <summary>
+    /// Runs the Q# visual debugger. See the README for more information, including instructions on how to build and run
+    /// this program.
+    /// </summary>
     internal class Program
     {
         private static void Main(string[] args)

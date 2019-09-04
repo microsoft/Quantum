@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Quantum.Samples.VisualDebugger
 {
-    internal class VisualHub : Hub
+    /// <summary>
+    /// The hub recives receives events and commands from the web browser client and sends them to the visual debugger
+    /// server.
+    /// </summary>
+    internal class VisualDebuggerHub : Hub
     {
         private readonly VisualDebugger debugger;
 
-        public VisualHub(VisualDebugger debugger)
+        public VisualDebuggerHub(VisualDebugger debugger)
         {
             this.debugger = debugger;
         }

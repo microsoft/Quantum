@@ -22,7 +22,7 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
         private readonly QuantumSimulator simulator;
         private readonly StateDumper stateDumper;
         private readonly IWebHost host;
-        private readonly IHubContext<VisualHub> context;
+        private readonly IHubContext<VisualDebuggerHub> context;
         private readonly ManualResetEvent advanceEvent = new ManualResetEvent(true);
         private readonly IList<(string method, object[] args)> history = new List<(string, object[])>();
 
@@ -55,7 +55,7 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
                 .UseKestrel()
                 .Build();
             new Thread(host.Run).Start();
-            context = GetService<IHubContext<VisualHub>>();
+            context = GetService<IHubContext<VisualDebuggerHub>>();
         }
 
         public async Task Run(Func<IOperationFactory, Task<QVoid>> operation)

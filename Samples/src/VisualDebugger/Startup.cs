@@ -7,6 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Quantum.Samples.VisualDebugger
 {
+    /// <summary>
+    /// Configures the ASP.NET Core web host. This class is used when the web host is created in
+    /// <see cref="VisualDebugger"/>.
+    /// </summary>
     internal class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -23,6 +27,6 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
                 .UseStaticFiles()
                 .UseDeveloperExceptionPage()
                 .UseMvc()
-                .UseSignalR(routes => routes.MapHub<VisualHub>("/events"));
+                .UseSignalR(routes => routes.MapHub<VisualDebuggerHub>("/events"));
     }
 }
