@@ -2,6 +2,7 @@
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Measurement;
 
     /// # Summary
     /// A quantum oracle which implements the following function: 
@@ -40,9 +41,7 @@
     /// # Output
     /// A bit vector r which generates the same oracle as the given one
     /// Note that this doesn't have to be the same bit vector as the one used to initialize the oracle!
-    operation RestoreOracleParameters (N : Int, oracle : ((Qubit[], Qubit) => Unit)) : Int[] {
-        mutable r = new Int[N];
-        
+    operation RestoreOracleParameters(N : Int, oracle : ((Qubit[], Qubit) => Unit)) : Int[] {
         using ((x, y) = (Qubit[N], Qubit())) {
             // apply oracle to qubits in all 0 state
             oracle(x, y);
@@ -56,23 +55,19 @@
             // now y = Σᵢ rᵢ
             
             // measure the output register
-            let m = M(y);
-            if (m == One) {
-                // adjust parity of bit vector r
-                set r w/= 0 <- 1;
-            }
-            
+            let m = MResetZ(y);
+
             // before releasing the qubits make sure they are all in |0⟩ state
             ResetAll(x);
-            Reset(y);
+            return m == One
+                   ? ConstantArray(N, 0) w/ 0 <- 1
+                   | ConstantArray(N, 0);
         }
-        
-        return r;
     }
 
     /// # Summary
     /// Instantiates the oracle and runs the parameter restoration algorithm.
-    operation RunAlgorithm (bits : Int[]) : Int[] {
+    operation RunAlgorithm(bits : Int[]) : Int[] {
         Message("Hello, quantum world!");
         // construct an oracle using the input array
         let oracle = ApplyProductWithNegationFunction(bits, _, _);
