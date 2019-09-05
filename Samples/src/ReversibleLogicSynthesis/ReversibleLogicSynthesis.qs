@@ -74,66 +74,6 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
 
 
     /// # Summary
-    /// Get an array of integers in a given interval.
-    ///
-    /// # Input
-    /// ## from
-    /// An inclusive nonnegative start index of the interval.
-    /// ## to
-    /// An inclusive nonnegative end index of the interval that is not smaller
-    /// than `from`.
-    ///
-    /// # Output
-    /// An array containing the sequence of numbers `from`, `from + 1`, ...,
-    /// `to`.
-    ///
-    /// # Example
-    /// ```Q#
-    /// Sequence(0, 3); // [0, 1, 2, 3]
-    /// Sequence(23, 29); // [23, 24, 25, 26, 27, 28, 29]
-    /// ```
-    function Sequence (from : Int, to : Int) : Int[] {
-
-        let n = (to - from) + 1;
-        mutable array = new Int[n];
-
-        for (i in 0 .. n - 1) {
-            set array w/= i <- from + i;
-        }
-
-        return array;
-    }
-
-
-    /// # Summary
-    /// Get a sequence of numbers starting from 0.
-    ///
-    /// # Input
-    /// ## count
-    /// A nonnegative number of how many elements the resulting array should
-    /// contain.
-    ///
-    /// # Output
-    /// An array with the elements `0`, `1`, ..., `count - 1`.
-    ///
-    /// # Example
-    /// ```Q#
-    /// Numbers(3); // [0, 1, 2]
-    /// Numbers(5); // [0, 1, 2, 3, 4]
-    /// ```
-    function Numbers (count : Int) : Int[] {
-
-        mutable array = new Int[count];
-
-        for (i in 0 .. count - 1) {
-            set array w/= i <- i;
-        }
-
-        return array;
-    }
-
-
-    /// # Summary
     /// Returns all positions in which bits of an integer are set.
     ///
     /// # Input
@@ -154,7 +94,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// IntegerBits(10, 4); // [1, 3]
     /// ```
     function IntegerBits (value : Int, length : Int) : Int[] {
-        return Filtered(IsBitSet(value, _), Numbers(length));
+        return Filtered(IsBitSet(value, _), RangeAsIntArray(0..length - 1));
     }
 
 
@@ -183,12 +123,9 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
 
         let (controls, targets) = gateMask!;
 
-        if ((pattern &&& controls) == controls) {
-            return pattern ^^^ targets;
-        }
-        else {
-            return pattern;
-        }
+        return (pattern &&& controls) == controls
+               ? pattern ^^^ targets
+               | pattern;
     }
 
 
@@ -216,7 +153,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// Compute gate masks to synthesize permutation.
     function TBSMain (perm : Int[]) : MCMTMask[] {
 
-        let xs = Numbers(Length(perm));
+        let xs = RangeAsIntArray(0..Length(perm) - 1);
         let gates = new MCMTMask[0];
         return Reversed(Snd(Fold(TBSStep, (perm, gates), xs)));
     }
@@ -230,15 +167,15 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         mutable result = new MCTGate[0];
         let n = Length(qubits);
 
-        for (i in 0 .. Length(masks) - 1) {
-            let (controls, targets) = (masks[i])!;
+        for (mask in masks) {
+            let (controls, targets) = mask!;
             let controlBits = IntegerBits(controls, n);
             let targetBits = IntegerBits(targets, n);
             let cQubits = Subarray(controlBits, qubits);
             let tQubits = Subarray(targetBits, qubits);
 
-            for (t in 0 .. Length(tQubits) - 1) {
-                set result += [MCTGate(cQubits, tQubits[t])];
+            for (t in tQubits) {
+                set result += [MCTGate(cQubits, t)];
             }
         }
 
@@ -319,8 +256,8 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     ) : Unit is Adj + Ctl {
             let gates = synth(perm, qubits);
 
-            for (i in IndexRange(gates)) {
-                let (controls, target) = (gates[i])!;
+            for (gate in gates) {
+                let (controls, target) = gate!;
                 Controlled X(controls, target);
             }
     }
@@ -421,8 +358,8 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
             let Superpos = ApplyToEachA(H, _);
             let Shift = ApplyShift(shift, _);
             let Synth = PermutationOracle(perm, TBS, _);
-            let PermX = ApplyToSubregisterA(Synth, Sequence(0, n - 1), _);
-            let PermY = ApplyToSubregisterA(Synth, Sequence(n, 2 * n - 1), _);
+            let PermX = ApplyToSubregisterA(Synth, RangeAsIntArray(0..n - 1), _);
+            let PermY = ApplyToSubregisterA(Synth, RangeAsIntArray(n..2 * n - 1), _);
             ApplyWith(BoundA([Superpos, Shift, PermY]), InnerProduct, qubits);
             ApplyWith(Adjoint PermX, InnerProduct, qubits);
             Superpos(qubits);

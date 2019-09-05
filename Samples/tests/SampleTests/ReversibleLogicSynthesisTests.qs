@@ -8,6 +8,7 @@ namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Diagnostics;
+    open Microsoft.Quantum.Arrays;
 
 
     operation IsBitSetTest () : Unit {
@@ -16,29 +17,6 @@ namespace Microsoft.Quantum.Tests {
         Fact(not IsBitSet(10, 2), "2nd bit should not be set in 10");
         Fact(IsBitSet(10, 3), "3rd bit should be set in 10");
         Fact(not IsBitSet(10, 4), "4th bit should not be set in 10");
-    }
-
-
-    operation SequenceTest () : Unit {
-
-        let b = 37;
-        let e = 73;
-        let s = Sequence(b, e);
-
-        for (i in 0 .. e - b) {
-            EqualityFactI(s[i], b + i, $"Unexpected value in range at index {i}");
-        }
-    }
-
-
-    operation NumbersTest () : Unit {
-
-        let numbers = Numbers(23);
-        EqualityFactI(Length(numbers), 23, "Unexpected length of numbers array");
-
-        for (i in 0 .. 22) {
-            EqualityFactI(numbers[i], i, $"Wrong number at index ${i}");
-        }
     }
 
 
@@ -55,7 +33,7 @@ namespace Microsoft.Quantum.Tests {
         mutable result = true;
         let nbits = BitSizeI(Length(perm));
 
-        for (i in 0 .. Length(perm) - 1) {
+        for (i in IndexRange(perm)) {
 
             using (qubits = Qubit[nbits]) {
                 let init = IntAsBoolArray(i, nbits);
