@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "quantum.quantum-devkit-vscode",
+        "ms-vscode.csharp",
+        "ms-python.python",
+        "EditorConfig.EditorConfig"
+    ]
+}

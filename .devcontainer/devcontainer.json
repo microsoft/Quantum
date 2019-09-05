@@ -3,7 +3,8 @@
     "extensions": [
         "quantum.quantum-devkit-vscode",
         "ms-vscode.csharp",
-        "editorconfig.editorconfig"
+        "editorconfig.editorconfig",
+        "ms-python.python"
     ],
     "runArgs": ["-e","IQSHARP_HOSTING_ENV=SAMPLES_DEVCONTAINER"]
 }
