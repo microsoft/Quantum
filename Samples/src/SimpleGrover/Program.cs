@@ -16,8 +16,8 @@ namespace Microsoft.Quantum.Samples.SimpleGrover
             var result = ApplyGrover.Run(sim, nDatabaseQubits).Result;
             Console.WriteLine($"Result: {result}");
 
-            System.Console.WriteLine("\n\nPress any key to continue...\n\n");
-            System.Console.ReadKey();
+            Console.WriteLine("\n\nPress any key to continue...\n\n");
+            Console.ReadKey();
         }
     }
 }
