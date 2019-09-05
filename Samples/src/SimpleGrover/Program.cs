@@ -6,7 +6,6 @@ using System;
 
 namespace Microsoft.Quantum.Samples.SimpleGrover
 {
-    
     class Program
     {
         static void Main(string[] args)
