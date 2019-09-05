@@ -2,7 +2,8 @@
     "dockerFile": "../Dockerfile",
     "extensions": [
         "quantum.quantum-devkit-vscode",
-        "ms-vscode.csharp"
+        "ms-vscode.csharp",
+        "editorconfig.editorconfig"
     ],
     "runArgs": ["-e","IQSHARP_HOSTING_ENV=SAMPLES_DEVCONTAINER"]
 }
