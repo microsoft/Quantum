@@ -121,8 +121,8 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// A `GeneratorSystem` representing the interpolated Hamiltonian H(s) of
     /// the Ising model.
     function IsingEvolutionScheduleImpl (nSites : Int, hXInitial : Double, hXFinal : Double, jFinal : Double, schedule : Double) : GeneratorSystem {
-        let hX = GenerateUniformHCoupling(hXFinal * schedule + hXInitial * (1.0 - schedule), _);
-        let jZ = GenerateUniform1DJCoupling(nSites, schedule * jFinal, _);
+        let hX = UniformHCoupling(hXFinal * schedule + hXInitial * (1.0 - schedule), _);
+        let jZ = Uniform1DJCoupling(nSites, schedule * jFinal, _);
         let (evolutionSet, generatorSystem) = (Ising1DEvolutionGenerator(nSites, hX, jZ))!;
         return generatorSystem;
     }
@@ -344,15 +344,16 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// A `Result[]` storing the outcome of Z basis measurements on each site
     /// of the Ising model.
     operation Ising1DAdiabaticAndMeasureBuiltIn (nSites : Int, hXInitial : Double, jFinal : Double, adiabaticTime : Double, trotterStepSize : Double, trotterOrder : Int) : Result[] {
-
-        let hXCoupling = GenerateUniformHCoupling(hXInitial, _);
+        let hXCoupling = UniformHCoupling(hXInitial, _);
 
         // For antiferromagnetic coupling, choose jFinal to be negative.
-        let jCoupling = GenerateUniform1DJCoupling(nSites, jFinal, _);
+        let jCoupling = Uniform1DJCoupling(nSites, jFinal, _);
 
         using (qubits = Qubit[nSites]) {
             Prepare1DIsingState(qubits);
-            (IsingAdiabaticEvolutionBuiltIn(nSites, adiabaticTime, trotterStepSize, trotterOrder, hXCoupling, jCoupling))(qubits);
+            (IsingAdiabaticEvolutionBuiltIn(
+                nSites, adiabaticTime, trotterStepSize, trotterOrder, hXCoupling, jCoupling
+            ))(qubits);
             return ForEach(MResetZ, qubits);
         }
     }

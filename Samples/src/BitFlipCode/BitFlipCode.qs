@@ -99,9 +99,8 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
         // We start by preparing R_x(π / 3) |0〉 as our
         // test state, along with two auxiliary qubits in the |00〉
         // state that we can use to encode.
-        using (register = Qubit[3]) {
-            let data = register[0];
-            let auxiliaryQubits = register[1 .. 2];
+        using ((data, auxiliaryQubits) = (Qubit(), Qubit[2])) {
+            let register = [data] + auxiliaryQubits;
             Rx(PI() / 3.0, data);
             
             // Next, we encode our test state.
@@ -170,14 +169,12 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     /// This operation will fail when the error correction step fails
     /// if run on a target machine which supports assertions, and thus
     /// can be used as a unit test of error-correction functionality.
-    operation CheckBitFlipCodeCorrectsError (error : (Qubit[] => Unit)) : Unit {
-        
-        using (register = Qubit[3]) {
+    operation CheckBitFlipCodeCorrectsError(error : (Qubit[] => Unit)) : Unit {
+        using ((data, auxiliaryQubits) = (Qubit(), Qubit[2])) {
+            let register = [data] + auxiliaryQubits;
             
             // We start by proceeding the same way as above
             // in order to obtain the code block state |̅ψ〉.
-            let data = register[0];
-            let auxiliaryQubits = register[1 .. 2];
             Rx(PI() / 3.0, data);
             EncodeIntoBitFlipCode(data, auxiliaryQubits);
             
@@ -256,8 +253,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     /// This operation will fail when error correction fails
     /// if run on a target machine which supports assertions, and thus
     /// can be used as a unit test of error-correction functionality.
-    operation CheckBitFlipCodeCorrectsBitFlipErrors () : Unit {
-        
+    operation CheckBitFlipCodeCorrectsBitFlipErrors() : Unit {
         // First, we declare our errors using the notation
         // described above.
         let X0 = ApplyPauli([PauliX, PauliI, PauliI], _);
@@ -300,17 +296,16 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     /// This operation will fail when the error correction step fails
     /// if run on a target machine which supports assertions, and thus
     /// can be used as a unit test of error-correction functionality.
-    operation CheckCodeCorrectsError (code : QECC, nScratch : Int, fn : RecoveryFn, error : (Qubit[] => Unit)) : Unit {
+    operation CheckCodeCorrectsError(code : QECC, nScratch : Int, fn : RecoveryFn, error : (Qubit[] => Unit)) : Unit {
         
         // We once again begin by allocating some qubits to use as data
         // and auxiliary qubits, and by preparing a test state on the
         // data qubit.
-        using (register = Qubit[1 + nScratch]) {
-            
+        using ((data, auxiliaryQubits) = (Qubit(), Qubit[nScratch])) {
             // We start by proceeding the same way as above
             // in order to obtain the code block state |̅ψ〉.
-            let data = register[0];
-            let auxiliaryQubits = register[1 .. nScratch];
+            let register = [data] + auxiliaryQubits;
+
             Rx(PI() / 3.0, data);
             
             // We differ this time, however, in how we perform the
@@ -364,7 +359,6 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     /// if run on a target machine which supports assertions, and thus
     /// can be used as a unit test of error-correction functionality.
     operation CheckCanonBitFlipCodeCorrectsBitFlipErrors () : Unit {
-        
         let code = BitFlipCode();
         let recoveryFn = BitFlipRecoveryFn();
         let X0 = ApplyPauli([PauliX, PauliI, PauliI], _);
@@ -381,5 +375,3 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     }
     
 }
-
-

@@ -17,12 +17,12 @@ namespace Microsoft.Quantum.Samples.CHSHGame
         /// <param name="args">Command-line parameters.</param>
         static void Main(string[] args)
         {
-            const int trialCount = 10000;
-            Random generator = new Random();
+            const var trialCount = 10000;
+            var generator = new Random();
             using (QuantumSimulator sim = new QuantumSimulator())
             {
-                int classicalWinCount = 0;
-                int quantumWinCount = 0;
+                var classicalWinCount = 0;
+                var quantumWinCount = 0;
                 for (int i = 0; i < trialCount; i++)
                 {
                     bool aliceBit = GetRandomBit(generator);

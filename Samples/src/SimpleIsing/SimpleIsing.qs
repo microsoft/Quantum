@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.SimpleIsing {
+    open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Measurement;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Math;
@@ -67,11 +69,6 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
     /// such that it is straightforward to call this operation from
     /// conventional .NET code.
     operation Ising (nSites : Int, time : Double, dt : Double) : Result[] {
-
-        // We start by allocating an array to hold measurement results,
-        // so that we can return them when we are done.
-        mutable result = new Result[nSites];
-
         // Next, we use the using keyword to declare that the following
         // block needs freshly initialized qubits.
         using (qs = Qubit[nSites]) {
@@ -82,9 +79,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
             // prepare an initial state |+〉 for each qubit.
             // That is, we align all of the initial states with the
             // X operator.
-            for (idxQubit in 0 .. Length(qs) - 1) {
-                H(qs[idxQubit]);
-            }
+            ApplyToEach(H, qs);
 
             // Next, we find the number of steps that we need to perform
             // the requested decomposition.
@@ -94,37 +89,37 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
             // and provide specific values for each.
             // Transverse field:
             let hx = 1.0;
-            
+
             // Longitudinal field:
             let hz = 0.5;
-            
+
             // Ising coupling:
             let J = 1.0;
-            
+
             // Having defined everything that we need, we can now proceed
             // to perform the actual Trotter–Suzuki decomposition and evolve
             // according to the Ising model Hamiltonian.
-            
+
             // We do so by iterating over the number of time steps, and
             // applying each Hamiltonian term within each step and at each
             // site.
             for (idxIter in 0 .. nSteps - 1) {
-                
+
                 // Find where we are in the sweep from the transverse
                 // field to the final Ising model.
                 let sweepParameter = IntAsDouble(idxIter) / IntAsDouble(nSteps);
-                
+
                 // In order to improve the locality of qubit references,
                 // we apply all terms locally before proceeding to the next
                 // site.
                 for (idxSite in 0 .. nSites - 1) {
-                    
+
                     // Evolve under the transverse field for φx ≔ (1 - s) hx dt.
                     Rx(((-2.0 * (1.0 - sweepParameter)) * hx) * dt, qs[idxSite]);
-                    
+
                     // Evolve under the longitudinal field for φz ≔ s hz dt.
                     Rz(((-2.0 * sweepParameter) * hz) * dt, qs[idxSite]);
-                    
+
                     // If we aren't the last qubit, evolve under the Ising
                     // coupling for φJ ≔ s J dt.
                     if (idxSite < nSites - 2) {
@@ -132,29 +127,12 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
                     }
                 }
             }
-            
+
             // Having thus approximated the evolution under the Ising
             // model Hamiltonian, we now measure each qubit in the Z basis and
             // return the results.
-            for (idxQubit in 0 .. Length(qs) - 1) {
-                set result w/= idxQubit <- M(qs[idxQubit]);
-                
-                // If we observed that we were in the |1〉 state, the
-                // -1 eigenstate of Z, then we need to flip it back to
-                // a |0〉 state before releasing.
-                if (result[idxQubit] == One) {
-                    X(qs[idxQubit]);
-                }
-            }
+            return ForEach(MResetZ, qs);
         }
-        
-        // Once the `using` block above ends, all of the qubits that
-        // we allocated are automatically made available again, such that
-        // we can now finish up by returning the measurement results
-        // that we collected.
-        return result;
     }
-    
+
 }
-
-
