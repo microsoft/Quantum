@@ -68,7 +68,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
     /// This operation allocates qubits internally to use in simulation,
     /// such that it is straightforward to call this operation from
     /// conventional .NET code.
-    operation Ising (nSites : Int, time : Double, dt : Double) : Result[] {
+    operation SimulateIsingEvolution(nSites : Int, time : Double, dt : Double) : Result[] {
         // Next, we use the using keyword to declare that the following
         // block needs freshly initialized qubits.
         using (qs = Qubit[nSites]) {

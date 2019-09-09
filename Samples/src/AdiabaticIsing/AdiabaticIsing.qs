@@ -200,7 +200,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// A unitary operator implementing time-dependent evolution by the
     /// Hamiltonian H(s) when s is varied uniformly between 0 and 1 over time
     /// `adiabaticTime`.
-    function IsingAdiabaticEvolutionManual (nSites : Int, hXInitial : Double, hXFinal : Double, jFinal : Double, adiabaticTime : Double, trotterStepSize : Double, trotterOrder : Int) : (Qubit[] => Unit is Adj + Ctl) {
+    function IsingAdiabaticEvolutionManual(nSites : Int, hXInitial : Double, hXFinal : Double, jFinal : Double, adiabaticTime : Double, trotterStepSize : Double, trotterOrder : Int) : (Qubit[] => Unit is Adj + Ctl) {
         let timeDependentSimulationAlgorithm = TimeDependentTrotterSimulationAlgorithm(trotterStepSize, trotterOrder);
         return IsingAdiabaticEvolutionManualImpl(nSites, hXInitial, hXFinal, jFinal, adiabaticTime, timeDependentSimulationAlgorithm, _);
     }

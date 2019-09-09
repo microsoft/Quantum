@@ -22,10 +22,10 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     ///
     /// # Example
     /// ```Q#
-    /// Square([1, 2, 3, 0]), // [2, 3, 0, 1]
-    /// Square([2, 3, 0, 1]), // [0, 1, 2, 3]
+    /// Squared([1, 2, 3, 0]), // [2, 3, 0, 1]
+    /// Squared([2, 3, 0, 1]), // [0, 1, 2, 3]
     /// ```
-    function Square(perm : Int[]) : Int[] {
+    function Squared(perm : Int[]) : Int[] {
         return Mapped(LookupFunction(perm), perm);
     }
 
@@ -48,7 +48,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     /// ## index
     /// Index of permutation
     ///
-    operation OrderFinding(perm : Int[], input : Int) : Int {
+    operation FindOrder(perm : Int[], input : Int) : Int {
         let n = BitSizeI(Length(perm) - 1);
         mutable accumulatedPermutation = perm;
 
@@ -56,8 +56,8 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
             ApplyToEach(H, topQubits);
 
             for (i in 0..n) {
-                Controlled (PermutationOracle(accumulatedPermutation, TBS, _))([topQubits[n - i]], bottomQubits);
-                set accumulatedPermutation = Square(accumulatedPermutation);
+                Controlled (ApplyPermutationOracle(accumulatedPermutation, TBS, _))([topQubits[n - i]], bottomQubits);
+                set accumulatedPermutation = Squared(accumulatedPermutation);
             }
 
             let register = BigEndianAsLittleEndian(BigEndian(topQubits));

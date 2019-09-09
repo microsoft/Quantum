@@ -143,28 +143,28 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// GrayCode(2); // [(0, 0);(1, 1);(3, 0);(2, 1)]
     /// ```
     function GrayCode(n : Int) : (Int, Int)[] {
-      let N = 1 <<< n;
+        let N = 1 <<< n;
 
-      mutable res = new (Int, Int)[N];
-      mutable j = 0;
-      mutable current = IntAsBoolArray(0, n);
+        mutable res = new (Int, Int)[N];
+        mutable j = 0;
+        mutable current = IntAsBoolArray(0, n);
 
-      for (i in 0..N - 1) {
-        if (i % 2 == 0) {
-            set j = 0;
-        } else {
-            let e = Zip(current, RangeAsIntArray(0..N - 1));
-            set j = Snd(Head(Filtered(Fst<Bool, Int>, e))) + 1;
+        for (i in 0..N - 1) {
+            if (i % 2 == 0) {
+                set j = 0;
+            } else {
+                let e = Zip(current, RangeAsIntArray(0..N - 1));
+                set j = Snd(Head(Filtered(Fst<Bool, Int>, e))) + 1;
+            }
+
+            set j = MaxI(0, Min([j, n - 1]));
+            set res w/= i <- (BoolArrayAsInt(current), j);
+            if (j < n) {
+                set current w/= j <- not current[j];
+            }
         }
 
-        set j = MaxI(0, Min([j, n - 1]));
-        set res w/= i <- (BoolArrayAsInt(current), j);
-        if (j < n) {
-            set current w/= j <- not current[j];
-        }
-      }
-
-      return res;
+        return res;
     }
 
     /// # Summary
@@ -177,7 +177,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// Control qubits
     /// ## target
     /// Target qubit
-    operation Oracle(func : Bool[], controls : Qubit[], target : Qubit) : Unit {
+    operation ApplyOracleFromFunction(func : Bool[], controls : Qubit[], target : Qubit) : Unit {
         let vars = Length(controls);
         let table = Encode(func);
         let spectrum = Extend(FastHadamardTransform(table));
@@ -213,7 +213,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// Control qubits
     /// ## target
     /// Target qubit
-    operation OracleCleanTargetQubit(func : Bool[], controls : Qubit[], target : Qubit) : Unit {
+    operation ApplyOracleFromFunctionOnCleanTarget(func : Bool[], controls : Qubit[], target : Qubit) : Unit {
         body (...) {
             let vars = Length(controls);
             let table = Encode(func);
@@ -258,7 +258,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
 
     /// # Summary
     /// Operation to run Oracle operation
-    operation OracleSynthesis(func : Int, vars : Int) : Bool {
+    operation RunOracleSynthesis(func : Int, vars : Int) : Bool {
         mutable result = true;
         let tableBits = TruthTable(func, vars);
 
@@ -266,7 +266,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
             using (qubits = Qubit[vars + 1]) {
                 let init = IntAsBoolArray(x, vars + 1);
                 ApplyPauliFromBitString(PauliX, true, init, qubits);
-                Oracle(tableBits, qubits[0..vars - 1], qubits[vars]);
+                ApplyOracleFromFunction(tableBits, qubits[0..vars - 1], qubits[vars]);
 
                 let y = IsResultOne(M(qubits[vars])) != init[vars];
                 if ((tableBits + tableBits)[x] != y) {
@@ -281,7 +281,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
 
     /// # Summary
     /// Operation to run OracleCleanTargetQubit operation
-    operation OracleSynthesisCleanTargetQubit(func : Int, vars : Int) : Bool {
+    operation RunOracleSynthesisOnCleanTarget(func : Int, vars : Int) : Bool {
         mutable result = true;
         let tableBits = TruthTable(func, vars);
 
@@ -289,9 +289,9 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
             using (qubits = Qubit[vars + 2]) {
                 let init = IntAsBoolArray(x, vars);
                 ApplyPauliFromBitString(PauliX, true, init, qubits[0..vars - 1]);
-                OracleCleanTargetQubit(tableBits, qubits[0..vars - 1], qubits[vars]);
+                ApplyOracleFromFunctionOnCleanTarget(tableBits, qubits[0..vars - 1], qubits[vars]);
                 CNOT(qubits[vars], qubits[vars + 1]);
-                (Adjoint OracleCleanTargetQubit)(tableBits, qubits[0..vars - 1], qubits[vars]);
+                (Adjoint ApplyOracleFromFunctionOnCleanTarget)(tableBits, qubits[0..vars - 1], qubits[vars]);
 
                 let y = IsResultOne(M(qubits[vars + 1]));
                 if (tableBits[x] != y) {

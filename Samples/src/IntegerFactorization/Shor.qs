@@ -32,7 +32,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     ///
     /// # Output
     /// Pair of numbers p > 1 and q > 1 such that p⋅q = `number`
-    operation Shor (number : Int, useRobustPhaseEstimation : Bool) : (Int, Int) {
+    operation FactorInteger(number : Int, useRobustPhaseEstimation : Bool) : (Int, Int) {
 
         // First check the most trivial case, if the provided number is even
         if (number % 2 == 0) {
@@ -76,16 +76,12 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
 
                     // Return computed non-trivial factors.
                     return (factor, number / factor);
-                }
-                else {
-
+                } else {
                     // Report the failure of hitting a trivial case.
                     // We have to start over again.
                     fail "Residue xᵃ = -1 (mod N) where a is a period.";
                 }
-            }
-            else {
-
+            } else {
                 // When period is odd we have to pick another number to estimate
                 // period of and start over.
                 fail "Period is odd.";
@@ -93,7 +89,6 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         }
         // In this case we guessed a divisor by accident
         else {
-
             // Find a divisor using Microsoft.Quantum.Math.GreatestCommonDivisorI
             let gcd = GreatestCommonDivisorI(number, coprimeCandidate);
 
@@ -125,9 +120,11 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// Register interpreted as LittleEndian which is multiplied by
     /// given power of the generator. The multiplication is performed modulo
     /// `modulus`.
-    operation OrderFindingOracle (generator : Int, modulus : Int, power : Int, target : Qubit[]) : Unit is Adj + Ctl {
+    operation ApplyOrderFindingOracle(generator : Int, modulus : Int, power : Int, target : Qubit[])
+    : Unit
+    is Adj + Ctl {
         // Check that the parameters satisfy the requirements.
-        EqualityFactB(IsCoprimeI(generator, modulus), true, "`generator` and `modulus` must be co-prime");
+        Fact(IsCoprimeI(generator, modulus), "`generator` and `modulus` must be co-prime");
 
         // The oracle we use for order finding essentially wraps
         // Microsoft.Quantum.Arithmetic.MultiplyByModularInteger operation
@@ -158,8 +155,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     ///
     /// # Output
     /// The period ( multiplicative order ) of the generator mod `modulus`
-    operation EstimatePeriod (generator : Int, modulus : Int, useRobustPhaseEstimation : Bool) : Int {
-
+    operation EstimatePeriod(generator : Int, modulus : Int, useRobustPhaseEstimation : Bool) : Int {
         // Here we check that the inputs to the EstimatePeriod operation are valid.
         EqualityFactB(IsCoprimeI(generator, modulus), true, "`generator` and `modulus` must be co-prime");
 
@@ -198,12 +194,11 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
 
                 // An oracle of type Microsoft.Quantum.Oracles.DiscreteOracle
                 // that we are going to use with phase estimation methods below.
-                let oracle = DiscreteOracle(OrderFindingOracle(generator, modulus, _, _));
+                let oracle = DiscreteOracle(ApplyOrderFindingOracle(generator, modulus, _, _));
 
                 // Find the numerator of a dyadic fraction that approximates
                 // s/r where r is the multiplicative order ( period ) of g
                 if (useRobustPhaseEstimation) {
-
                     // Use Microsoft.Quantum.Characterization.RobustPhaseEstimation to estimate s/r.
                     // RobustPhaseEstimation needs only one extra qubit, but requires
                     // several calls to the oracle
@@ -213,9 +208,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                     // approximating s/r. Note that phase estimation project on the eigenstate
                     // corresponding to random s.
                     set dyadicFractionNum = Round(((phase * IntAsDouble(2 ^ bitsPrecision)) / 2.0) / PI());
-                }
-                else {
-
+                } else {
                     // Use Microsoft.Quantum.Characterization.QuantumPhaseEstimation to estimate s/r.
                     // When using QuantumPhaseEstimation we will need extra `bitsPrecision`
                     // qubits
@@ -283,5 +276,3 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     }
 
 }
-
-

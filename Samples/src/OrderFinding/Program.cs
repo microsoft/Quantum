@@ -76,7 +76,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding
         /// <summary>
         private int GuessOrderQuantumOne(int index)
         {
-            var result = OrderFinding.Run(_sim, new QArray<long>(_p.ConvertAll(x => (long)x)), (long)index).Result;
+            var result = FindOrder.Run(_sim, new QArray<long>(_p.ConvertAll(x => (long)x)), (long)index).Result;
 
             if (result == 0)
             {
