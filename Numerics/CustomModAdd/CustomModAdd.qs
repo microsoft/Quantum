@@ -44,12 +44,14 @@ namespace Microsoft.Quantum.Numerics.Samples {
                 // we have to subtract `modulus` from the result:
                 let yc = LittleEndian(yQubits + [tmp]);
                 (Adjoint AddI)(m, yc);
-                CNOT(tmp, ctrl);
-                // we should not have subtracted m if there is overflow:
-                (Controlled AddI)([ctrl], (m, yc));
-                // now, uncompute temporary qubits:
-                (Adjoint AddI)(x, yc);
-                CNOT(tmp, ctrl);
+                within {
+                    CNOT(tmp, ctrl);
+                } apply {
+                    // we should not have subtracted m if there is overflow:
+                    (Controlled AddI)([ctrl], (m, yc));
+                    // now, uncompute temporary qubits:
+                    (Adjoint AddI)(x, yc);
+                }
                 AddI(x, yc);
                 X(ctrl);
 
