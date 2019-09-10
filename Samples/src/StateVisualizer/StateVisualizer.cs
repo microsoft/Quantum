@@ -92,38 +92,50 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         {
             var variant = operation.Variant == OperationFunctor.Body ? "" : operation.Variant.ToString();
             var qubits = arguments.Qubits?.Select(q => q.Id).ToArray() ?? Array.Empty<int>();
-            BroadcastAsync("OperationStarted", $"{variant} {operation.Name}", qubits).Wait();
+            BroadcastAsync(
+                "OperationStarted",
+                $"{variant} {operation.Name}",
+                qubits,
+                stateDumper.DumpAndGetAmplitudes()
+            ).Wait();
             WaitForAdvance().Wait();
         }
 
         private void OnOperationEndHandler(ICallable operation, IApplyData result)
         {
-            stateDumper.Dump();
-            BroadcastAsync("OperationEnded", result.Value, stateDumper.GetAmplitudes()).Wait();
+            BroadcastAsync("OperationEnded", result.Value, stateDumper.DumpAndGetAmplitudes()).Wait();
             WaitForAdvance().Wait();
         }
 
         private void OnAllocateQubitsHandler(long count)
         {
-            BroadcastAsync("Log", $"Allocate {count} qubit(s)").Wait();
+            BroadcastAsync("Log", $"Allocate {count} qubit(s)", stateDumper.DumpAndGetAmplitudes()).Wait();
             WaitForAdvance().Wait();
         }
 
         private void OnBorrowQubitsHandler(long count)
         {
-            BroadcastAsync("Log", $"Borrow {count} qubit(s)").Wait();
+            BroadcastAsync("Log", $"Borrow {count} qubit(s)", stateDumper.DumpAndGetAmplitudes()).Wait();
             WaitForAdvance().Wait();
         }
 
         private void OnReleaseQubitsHandler(IQArray<Qubit> qubits)
         {
-            BroadcastAsync("Log", $"Release qubit(s) {string.Join(", ", qubits.Select(q => q.Id))}").Wait();
+            BroadcastAsync(
+                "Log",
+                $"Release qubit(s) {string.Join(", ", qubits.Select(q => q.Id))}",
+                stateDumper.DumpAndGetAmplitudes()
+            ).Wait();
             WaitForAdvance().Wait();
         }
 
         private void OnReturnQubitsHandler(IQArray<Qubit> qubits)
         {
-            BroadcastAsync("Log", $"Return qubit(s) {string.Join(", ", qubits.Select(q => q.Id))}").Wait();
+            BroadcastAsync(
+                "Log",
+                $"Return qubit(s) {string.Join(", ", qubits.Select(q => q.Id))}",
+                stateDumper.DumpAndGetAmplitudes()
+            ).Wait();
             WaitForAdvance().Wait();
         }
     }
@@ -145,9 +157,15 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         public override bool Dump(IQArray<Qubit> qubits = null)
         {
             amplitudes = new List<Complex>();
-            return base.Dump();
+            return base.Dump(qubits);
         }
 
         public Complex[] GetAmplitudes() => amplitudes.ToArray();
+
+        public Complex[] DumpAndGetAmplitudes(IQArray<Qubit> qubits = null)
+        {
+            Dump(qubits);
+            return GetAmplitudes();
+        }
     }
 }

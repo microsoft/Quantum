@@ -123,9 +123,10 @@ function pushHistory(lastOperation: HTMLLIElement, nextOperation: HTMLLIElement,
     history.position = history.snapshots.length - 1;
 }
 
-function clearLastOperation(): void {
-    if (operations.length > 0) {
-        operations[operations.length - 1].className = "";
+function clearIcon(): void {
+    const next = olOperations.querySelector(".next");
+    if (next !== null) {
+        next.className = "";
     }
     const last = olOperations.querySelector(".last");
     if (last !== null) {
@@ -199,10 +200,10 @@ connection.on("OperationStarted", onOperationStarted);
 connection.on("OperationEnded", onOperationEnded);
 connection.on("Log", onLog);
 
-function onOperationStarted(operationName: string, input: number[]): void {
+function onOperationStarted(operationName: string, input: number[], state: State): void {
     console.log("Operation start:", operationName, input);
 
-    clearLastOperation();
+    clearIcon();
     const operation = document.createElement("li");
     operation.className = "next";
     operation.innerHTML =
@@ -211,13 +212,15 @@ function onOperationStarted(operationName: string, input: number[]): void {
         `<ol class="operation-children"></ol>`;
     appendOperation(operation);
     operations.push(operation);
-    pushHistory(null, operation, null);
+    updateChart(state);
+
+    pushHistory(null, operation, state);
 }
 
 function onOperationEnded(output: any, state: State): void {
     console.log("Operation end:", output);
 
-    clearLastOperation();
+    clearIcon();
     const operation = operations.pop();
     operation.className = "last";
 
@@ -231,16 +234,17 @@ function onOperationEnded(output: any, state: State): void {
     olOperations.scrollTop = olOperations.scrollHeight;
 }
 
-function onLog(message: string): void {
+function onLog(message: string, state: State): void {
     console.log("Log: ", message);
 
-    clearLastOperation();
+    clearIcon();
     const operation = document.createElement("li");
-    operation.className = "last";
+    operation.className = "next";
     operation.textContent = message;
     appendOperation(operation);
-    pushHistory(null, operation, null);
-    pushHistory(operation, null, null);
+    updateChart(state);
+
+    pushHistory(null, operation, state);
 }
 
 function nextEvent(): Promise<void> {
