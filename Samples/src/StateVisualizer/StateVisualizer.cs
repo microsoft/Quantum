@@ -15,18 +15,18 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Quantum.Samples.VisualDebugger
+namespace Microsoft.Quantum.Samples.StateVisualizer
 {
-    internal class VisualDebugger
+    internal class StateVisualizer
     {
         private readonly QuantumSimulator simulator;
         private readonly StateDumper stateDumper;
         private readonly IWebHost host;
-        private readonly IHubContext<VisualDebuggerHub> context;
+        private readonly IHubContext<StateVisualizerHub> context;
         private readonly ManualResetEvent advanceEvent = new ManualResetEvent(true);
         private readonly IList<(string method, object[] args)> history = new List<(string, object[])>();
 
-        public VisualDebugger(QuantumSimulator simulator)
+        public StateVisualizer(QuantumSimulator simulator)
         {
             if (simulator == null)
             {
@@ -49,13 +49,13 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
                 {
                     // Register ourselves as a service so that the different
                     // hubs and controllers can use us through DI.
-                    services.AddSingleton(typeof(VisualDebugger), this);
+                    services.AddSingleton(typeof(StateVisualizer), this);
                 })
                 .UseUrls("http://localhost:5000")
                 .UseKestrel()
                 .Build();
             new Thread(host.Run).Start();
-            context = GetService<IHubContext<VisualDebuggerHub>>();
+            context = GetService<IHubContext<StateVisualizerHub>>();
         }
 
         public async Task Run(Func<IOperationFactory, Task<QVoid>> operation)

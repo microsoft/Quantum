@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Quantum.Samples.VisualDebugger
+namespace Microsoft.Quantum.Samples.StateVisualizer
 {
     /// <summary>
     /// Configures the ASP.NET Core web host. This class is used when the web host is created in
-    /// <see cref="VisualDebugger"/>.
+    /// <see cref="StateVisualizer"/>.
     /// </summary>
     internal class Startup
     {
@@ -27,6 +27,6 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
                 .UseStaticFiles()
                 .UseDeveloperExceptionPage()
                 .UseMvc()
-                .UseSignalR(routes => routes.MapHub<VisualDebuggerHub>("/events"));
+                .UseSignalR(routes => routes.MapHub<StateVisualizerHub>("/events"));
     }
 }

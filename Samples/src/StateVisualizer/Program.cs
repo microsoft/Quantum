@@ -3,7 +3,7 @@
 
 using Microsoft.Quantum.Simulation.Simulators;
 
-namespace Microsoft.Quantum.Samples.VisualDebugger
+namespace Microsoft.Quantum.Samples.StateVisualizer
 {
     /// <summary>
     /// Runs the Q# visual debugger. See the README for more information, including instructions on how to build and run
@@ -13,8 +13,8 @@ namespace Microsoft.Quantum.Samples.VisualDebugger
     {
         private static void Main(string[] args)
         {
-            var debugger = new VisualDebugger(new QuantumSimulator());
-            debugger.Run(QsMain.Run).Wait();
+            var visualizer = new StateVisualizer(new QuantumSimulator());
+            visualizer.Run(QsMain.Run).Wait();
         }
     }
 }

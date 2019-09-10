@@ -4,27 +4,27 @@
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
-namespace Microsoft.Quantum.Samples.VisualDebugger
+namespace Microsoft.Quantum.Samples.StateVisualizer
 {
     /// <summary>
     /// The hub recives receives events and commands from the web browser client and sends them to the visual debugger
     /// server.
     /// </summary>
-    internal class VisualDebuggerHub : Hub
+    internal class StateVisualizerHub : Hub
     {
-        private readonly VisualDebugger debugger;
+        private readonly StateVisualizer visualizer;
 
-        public VisualDebuggerHub(VisualDebugger debugger)
+        public StateVisualizerHub(StateVisualizer visualizer)
         {
-            this.debugger = debugger;
+            this.visualizer = visualizer;
         }
 
         public override async Task OnConnectedAsync()
         {
-            await debugger.ReplayHistory(Clients.Caller);
+            await visualizer.ReplayHistory(Clients.Caller);
             await base.OnConnectedAsync();
         }
 
-        public bool Advance() => debugger.Advance();
+        public bool Advance() => visualizer.Advance();
     }
 }
