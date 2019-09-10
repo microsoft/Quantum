@@ -253,6 +253,7 @@ function nextEvent(): Promise<void> {
             resolve();
             connection.off("OperationStarted", finish);
             connection.off("OperationEnded", finish);
+            connection.off("Log", finish);
         }
 
         if (operations.length === 0) {
@@ -260,6 +261,7 @@ function nextEvent(): Promise<void> {
         } else {
             connection.on("OperationStarted", finish);
             connection.on("OperationEnded", finish);
+            connection.on("Log", finish);
         }
     });
 }
