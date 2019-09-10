@@ -40,24 +40,24 @@ namespace Microsoft.Quantum.Chemistry.Samples
         );
 
         [Option("-f|--format", Description="Format to use when loading integral data.")]
-        public IntegralDataFormat Format = IntegralDataFormat.Liquid;
+        public IntegralDataFormat Format { get; } = IntegralDataFormat.Liquid;
 
         [Option("--skip-trotter-suzuki", Description="If set, skips estimating for the Trotter–Suzuki simulation step.")]
         public bool SkipTrotterSuzuki { get; } = false;
         public bool RunTrotterSuzuki => !SkipTrotterSuzuki;
 
-        [Option("--skip-qubitization", Description="If set, skips estimating for the qubitized simulation step.")]
+        [Option("--skip-qubitization", Description = "If set, skips estimating for the qubitized simulation step.")]
         public bool SkipQubitization { get; } = false;
         public bool RunQubitization => !SkipQubitization;
 
-        [Option("--skip-opt-qubitization", Description="If set, skips estimating for the optimized qubitized simulation step.")]
+        [Option("--skip-opt-qubitization", Description = "If set, skips estimating for the optimized qubitized simulation step.")]
         public bool SkipOptimizedQubitization { get; } = false;
         public bool RunOptimizedQubitization => !SkipOptimizedQubitization;
 
-        [Option("-l|--log", Description="Controls where log messages will be written to.")]
+        [Option("-l|--log", Description = "Controls where log messages will be written to.")]
         public string LogPath { get; } = null;
 
-        [Option("-o|--output", "Specifies the folder into which gate count estimates should be written as CSVs.")]
+        [Option("-o|--output", Description = "Specifies the folder into which gate count estimates should be written as CSVs.")]
         public string OutputPath { get; } = null;
         
 
