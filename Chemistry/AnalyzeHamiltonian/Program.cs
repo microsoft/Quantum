@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Quantum.Chemistry;
 using System.Linq;
 using Microsoft.Quantum.Chemistry.OrbitalIntegrals;
+using McMaster.Extensions.CommandLineUtils;
 
 // This loads a Hamiltonian from file and computes some of its features
 // - L1-Norm of terms
@@ -15,7 +16,23 @@ namespace Microsoft.Quantum.Chemistry.Sample
     class Program
     {
 
-        static void Main(string[] args)
+        public static int Main(string[] args) =>
+            CommandLineApplication.Execute<Program>(args);
+
+        public enum DataFormat
+        {
+            LiQuiD, Broombridge
+        }
+
+        [Option(Description = "Format to use when loading data.")]
+        public DataFormat Format { get; } = DataFormat.Broombridge;
+
+        [Option(Description = "Path to data to be loaded.")]
+        public string Path { get; } = System.IO.Path.Combine(
+            "..", "IntegralData", "YAML", "lih_sto-3g_0.800_int.yaml"
+        );
+
+        void OnExecute()
         {
             var logger = Logging.LoggerFactory.CreateLogger<Program>();
 
@@ -33,28 +50,31 @@ namespace Microsoft.Quantum.Chemistry.Sample
             "nitrogenase_tzvp_54.dat" // 108 SO
             */
 
-            string LiquidRoot = @"..\IntegralData\Liquid\";
-            string LiquidFilename = "Be_sto6g_10.dat";
-
             // For loading data in the format consumed by Liquid.
-            logger.LogInformation($"Processing {LiquidFilename}");
-            var generalHamiltonian0 = LiQuiD.Deserialize($@"{LiquidRoot}\{LiquidFilename}").Single()
-                .OrbitalIntegralHamiltonian
-                .ToFermionHamiltonian(IndexConvention.UpDown);
+            logger.LogInformation($"Processing {Path}...");
+            var generalHamiltonian =
+                (
+                    Format == DataFormat.Broombridge
 
-            // For loading data in the YAML format.
-            string YAMLRoot = @"..\IntegralData\YAML\";
-            string YAMLFilename = "lih_sto-3g_0.800_int.yaml";
-            var generalHamiltonian1 = Broombridge.Deserializers.DeserializeBroombridge($@"{YAMLRoot}\{YAMLFilename}")
-                .ProblemDescriptions.Single()
-                .OrbitalIntegralHamiltonian
+                    ? Broombridge
+                      .Deserializers
+                      .DeserializeBroombridge(Path)
+                      .ProblemDescriptions
+                      .Single()
+                      .OrbitalIntegralHamiltonian
+
+                    : LiQuiD
+                      .Deserialize(Path)
+                      .Single()
+                      .OrbitalIntegralHamiltonian
+                )
                 .ToFermionHamiltonian(IndexConvention.UpDown);
-            // Read Hamiltonian terms from file.
 
             logger.LogInformation("End read file. Computing one-norms.");
-            foreach (var termType in generalHamiltonian0.Terms.Keys)
+            
+            foreach (var termType in generalHamiltonian.Terms.Keys)
             {
-                var line = $"One-norm for term type {termType}: {generalHamiltonian0.Norm(new[] { termType }, 1.0)}";
+                var line = $"One-norm for term type {termType}: {generalHamiltonian.Norm(new[] { termType }, 1.0)}";
                 logger.LogInformation(line);
             }
             logger.LogInformation("Computed one-norm.");
@@ -66,4 +86,3 @@ namespace Microsoft.Quantum.Chemistry.Sample
         }
     }
 }
-
