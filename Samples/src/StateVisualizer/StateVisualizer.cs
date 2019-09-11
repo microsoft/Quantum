@@ -24,6 +24,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         private readonly IWebHost host;
         private readonly IHubContext<StateVisualizerHub> context;
         private readonly ManualResetEvent advanceEvent = new ManualResetEvent(true);
+        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly IList<(string method, object[] args)> history = new List<(string, object[])>();
 
         public StateVisualizer(QuantumSimulator simulator)
@@ -65,6 +66,12 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
 
         public bool Advance() => advanceEvent.Set();
 
+        public void Stop()
+        {
+            cancellationTokenSource.Cancel();
+            advanceEvent.Set();
+        }
+
         public async Task ReplayHistory(IClientProxy client)
         {
             foreach (var (method, args) in history)
@@ -82,11 +89,12 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
             await context.Clients.All.SendCoreAsync(method, args);
         }
 
-        private async Task WaitForAdvance() => await Task.Run(() =>
-        {
-            advanceEvent.Reset();
-            advanceEvent.WaitOne();
-        });
+        private async Task WaitForAdvance() =>
+            await Task.Run(() =>
+            {
+                advanceEvent.Reset();
+                advanceEvent.WaitOne();
+            }, cancellationTokenSource.Token);
 
         private void OnOperationStartHandler(ICallable operation, IApplyData arguments)
         {
@@ -103,7 +111,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
 
         private void OnOperationEndHandler(ICallable operation, IApplyData result)
         {
-            BroadcastAsync("OperationEnded", result.Value, stateDumper.DumpAndGetAmplitudes()).Wait();
+            BroadcastAsync("OperationEnded", result?.Value, stateDumper.DumpAndGetAmplitudes()).Wait();
             WaitForAdvance().Wait();
         }
 
