@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <RootNamespace>Microsoft.Quantum.Samples.VisualDebugger</RootNamespace>
+    <RootNamespace>Microsoft.Quantum.Samples.StateVisualizer</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
