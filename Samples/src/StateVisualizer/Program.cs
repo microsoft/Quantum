@@ -8,8 +8,8 @@ using Microsoft.Quantum.Simulation.Simulators;
 namespace Microsoft.Quantum.Samples.StateVisualizer
 {
     /// <summary>
-    /// Runs the Q# visual debugger. See the README for more information, including instructions on how to build and run
-    /// this program.
+    /// Runs the Q# state visualizer. See the README for more information, including instructions on how to build and
+    /// run this program.
     /// </summary>
     internal class Program
     {

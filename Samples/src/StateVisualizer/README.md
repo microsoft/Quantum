@@ -15,8 +15,7 @@ Install [Node.js](https://nodejs.org/en/) and the
 [.NET Core SDK](https://dotnet.microsoft.com/download) if you do not already
 have them installed.
 
-Then install the dependencies and build the TypeScript
-component:
+Then install the dependencies and build the TypeScript component:
 
 ```
 npm install
@@ -35,8 +34,8 @@ http://localhost:5000 in a web browser to use it.
 ## Editing the Q# Program ##
 
 To change the Q# program that is executed by the state visualizer, edit the
-`Program.qs` file. The debugger will start the program by running the `QsMain`
+`Program.qs` file. The visualizer will start the program by running the `QsMain`
 operation.
 
-Restart the debugger by running the `dotnet run` command again to see the new
+Restart the visualizer by running the `dotnet run` command again to see the new
 program.
