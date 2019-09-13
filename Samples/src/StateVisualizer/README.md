@@ -1,4 +1,4 @@
-# Q# Visual Debugger #
+# Q# State Visualizer #
 
 This sample lets you interactively step through the execution of a Q# program.
 It shows the tree of operation calls and a visualization of the quantum state
@@ -15,7 +15,7 @@ Install [Node.js](https://nodejs.org/en/) and the
 [.NET Core SDK](https://dotnet.microsoft.com/download) if you do not already
 have them installed.
 
-Then install the Q# visual debugger's dependencies and build the TypeScript
+Then install the dependencies and build the TypeScript
 component:
 
 ```
@@ -23,18 +23,18 @@ npm install
 npm run release
 ```
 
-Finally, start the visual debugger:
+Finally, start the dotnet host application:
 
 ```
 dotnet run
 ```
 
-This will launch a web server running the visual debugger. Open
+This will launch a web server running the state visualizer. Open
 http://localhost:5000 in a web browser to use it.
 
 ## Editing the Q# Program ##
 
-To change the Q# program that is executed by the visual debugger, edit the
+To change the Q# program that is executed by the state visualizer, edit the
 `Program.qs` file. The debugger will start the program by running the `QsMain`
 operation.
 
