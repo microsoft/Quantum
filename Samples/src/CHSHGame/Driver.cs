@@ -17,7 +17,7 @@ namespace Microsoft.Quantum.Samples.CHSHGame
         /// <param name="args">Command-line parameters.</param>
         static void Main(string[] args)
         {
-            const var trialCount = 10000;
+            const int trialCount = 10000;
             var generator = new Random();
             using (QuantumSimulator sim = new QuantumSimulator())
             {

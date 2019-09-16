@@ -461,7 +461,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// # Remarks
     /// On input |0〉|0〉, this prepares the state |1〉|marked〉 with amplitude
     /// Sin((2*nIterations + 1) ArcSin(Sqrt(M/N))).
-    function GroverSearch (markedElements : Int[], nIterations : Int, idxMarkedQubit : Int)
+    function GroverSearch(markedElements : Int[], nIterations : Int, idxMarkedQubit : Int)
     : (Qubit[] => Unit is Adj + Ctl) {
         return AmpAmpByOracle(nIterations, GroverStatePrepOracle(markedElements), idxMarkedQubit);
     }

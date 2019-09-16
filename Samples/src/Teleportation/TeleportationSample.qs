@@ -4,6 +4,7 @@
 namespace Microsoft.Quantum.Samples.Teleportation {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Measurement;
 
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
@@ -48,12 +49,15 @@ namespace Microsoft.Quantum.Samples.Teleportation {
             let data2 = M(register);
 
             // Decode the message by applying the corrections on
-            // the target qubit accordingly:
-            if (M(msg)      == One) { Z(target); }
-            if (M(register) == One) { X(target); }
-
-            // Reset our "register" qubit before releasing it.
-            Reset(register);
+            // the target qubit accordingly.
+            // We use MResetZ from the Microsoft.Quantum.Measurement namespace
+            // to reset our qubits as we go.
+            if (MResetZ(msg) == One) { Z(target); }
+            // We can also use library functions such as IsResultOne to write
+            // out correction steps. This is especially helpful when composing
+            // conditionals with other functions and operations, or with partial
+            // application.
+            if (IsResultOne(MResetZ(register))) { X(target); }
         }
     }
 
@@ -87,14 +91,7 @@ namespace Microsoft.Quantum.Samples.Teleportation {
             Teleport(msg, target);
 
             // Check what message was sent.
-            let measurement = M(target) == One;
-
-            // Reset all of the qubits that we used before releasing
-            // them.
-            Reset(msg);
-            Reset(target);
-
-            return measurement;
+            return M(target) == One;
         }
     }
 

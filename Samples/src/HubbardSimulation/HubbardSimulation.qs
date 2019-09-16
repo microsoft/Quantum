@@ -88,7 +88,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     /// let paulis = JordanWignerPZPString(5, PauliX, 3, 1);
     /// let paulis = [PauliI, PauliX, PauliZ, PauliX, PauliI];
     /// ```
-    function JordanWignerPZPString (nQubits : Int, idxPauli : Pauli, idxQubitA : Int, idxQubitB : Int) : Pauli[] {
+    function JordanWignerPZPString(nQubits : Int, idxPauli : Pauli, idxQubitA : Int, idxQubitB : Int) : Pauli[] {
         let idxQubitMin = MinI(idxQubitA, idxQubitB);
         let idxQubitMax = MaxI(idxQubitA, idxQubitB);
 

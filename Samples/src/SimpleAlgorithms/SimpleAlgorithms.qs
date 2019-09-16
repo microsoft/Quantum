@@ -49,7 +49,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     /// # References
     /// - [ *Ethan Bernstein and Umesh Vazirani*,
     ///     SIAM J. Comput., 26(5), 1411–1473, 1997 ](https://doi.org/10.1137/S0097539796300921)
-    operation ParityViaFourierSampling (Uf : ((Qubit[], Qubit) => Unit), n : Int) : Bool[] {
+    operation ParityViaFourierSampling(Uf : ((Qubit[], Qubit) => Unit), n : Int) : Bool[] {
         // Now, we allocate n + 1 clean qubits. Note that the function Uf is defined
         // on inputs of the form (x, y), where x has n bits and y has 1 bit.
         using ((queryRegister, target) = (Qubit[n], Qubit())) {
@@ -70,6 +70,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
                 // We now apply Uf to the n+1 qubits, computing |x, y〉 ↦ |x, y ⊕ f(x)〉.
                 Uf(queryRegister, target);
             }
+
             // The following for-loop measures all qubits and resets them to
             // zero so that they can be safely returned at the end of the
             // using-block.
@@ -390,8 +391,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
 
     // Again, using partial application we create a function which for a given bit
     // size u constructs the IP Boolean function on 2u qubits, computed into the phase.
-    function InnerProductBentFunction (u : Int) : (Qubit[] => Unit) {
-
+    function InnerProductBentFunction(u : Int) : (Qubit[] => Unit) {
         return InnerProductBentFunctionImpl(u, _);
     }
 
@@ -404,7 +404,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // version by applying a bit flip to the |x〉 register first, then applying the
     // diagonal operation, and then undoing the bit flips to the |x〉 register. We
     // use this principle to define shifted versions of the IP operation.
-    operation _ShiftedInnerProductBentFunction (shift : Bool[], u : Int, qs : Qubit[]) : Unit {
+    operation _ShiftedInnerProductBentFunction(shift : Bool[], u : Int, qs : Qubit[]) : Unit {
         let n = 2 * u;
 
         if (Length(shift) != n or Length(qs) != n) {

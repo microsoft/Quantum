@@ -143,12 +143,12 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     // estimation iteration follows the likelihood function that we expect.
     // To make it simpler to call this check from C#, we write a small
     // operation that partially applies Exp as an oracle.
-    operation ExpOracle (eigenphase : Double, time : Double, register : Qubit[]) : Unit is Adj + Ctl {
+    operation ExpOracle(eigenphase : Double, time : Double, register : Qubit[]) : Unit is Adj + Ctl {
         Rz((2.0 * eigenphase) * time, Head(register));
     }
 
 
-    operation PhaseEstimationIterationCheck () : Unit {
+    operation PhaseEstimationIterationCheck() : Unit {
 
         let dt = 0.1;
         let nTimes = 101;
@@ -248,7 +248,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     function PointwiseProduct(left : Double[], right : Double[]) : Double[] {
         mutable product = new Double[Length(left)];
 
-        for (idxElement in 0 .. Length(left) - 1) {
+        for (idxElement in IndexRange(left)) {
             set product w/= idxElement <- left[idxElement] * right[idxElement];
         }
 
@@ -281,7 +281,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     /// An estimate ̂φ of the unknown phase φ.
     /// - For the theoretical and algorithmic background see
     ///   [ Page 1 of arXiv:1508.00869 ](https://arxiv.org/pdf/1508.00869.pdf#page=1)
-    operation BayesianPhaseEstimation (nGridPoints : Int, nMeasurements : Int, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Double {
+    operation BayesianPhaseEstimation(nGridPoints : Int, nMeasurements : Int, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Double {
 
         // Initialize a grid for the prior and posterior discretization.
         // We'll choose the grid to be uniform.
@@ -330,12 +330,12 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
             mutable likelihood = new Double[nGridPoints];
 
             if (sample == One) {
-                for (idxGridPoint in 0 .. Length(likelihood) - 1) {
+                for (idxGridPoint in IndexRange(likelihood)) {
                     let arg = ((phases[idxGridPoint] - inversionAngle) * time) / 2.0;
                     set likelihood w/= idxGridPoint <- PowD(Sin(arg), 2.0);
                 }
             } else {
-                for (idxGridPoint in 0 .. Length(likelihood) - 1) {
+                for (idxGridPoint in IndexRange(likelihood)) {
                     let arg = ((phases[idxGridPoint] - inversionAngle) * time) / 2.0;
                     set likelihood w/= idxGridPoint <- PowD(Cos(arg), 2.0);
                 }
@@ -367,7 +367,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
             // next iteration of the for loop over measurements.
             let normalization = Integrated(phases, unnormalizedPosterior);
 
-            for (idxGridPoint in 0 .. Length(prior) - 1) {
+            for (idxGridPoint in IndexRange(prior)) {
                 set prior w/= idxGridPoint <- unnormalizedPosterior[idxGridPoint] / normalization;
             }
 
