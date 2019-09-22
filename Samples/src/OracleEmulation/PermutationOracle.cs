@@ -93,9 +93,9 @@ namespace Microsoft.Quantum.Extensions.Oracles
         }
 
         // Entry points to the simulator backend
-        [DllImport(QuantumSimulator.QSIM_DLL_NAME, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sim_PermuteBasis")]
+        [DllImport(QuantumSimulator.QSIM_DLL_NAME, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PermuteBasis")]
         private static extern void PermuteBasisTable(uint id, uint num_qbits, [In] uint[] qbits, long table_size, [In] long[] permutation_table);
-        [DllImport(QuantumSimulator.QSIM_DLL_NAME, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sim_AdjPermuteBasis")]
+        [DllImport(QuantumSimulator.QSIM_DLL_NAME, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, EntryPoint = "AdjPermuteBasis")]
         private static extern void AdjPermuteBasisTable(uint id, uint num_qbits, [In] uint[] qbits, long table_size, [In] long[] permutation_table);
     }
 

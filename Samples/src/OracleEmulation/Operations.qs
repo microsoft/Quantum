@@ -18,6 +18,10 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
     // Declare an oracle to be implemented in C#. See the
     // `PermutationOracle.Register` call in the driver for its implementation.
     operation HalfAnswer(x: Qubit[], y: Qubit[]) : Unit {
+        // Since we are here only interested in the emulation feature, we do not
+        // provide a native Q# implementation. In general, providing a Q#
+        // implementation is encouraged because it allows for resource counting
+        // and running on target machines without emulation capabilities.
         body (...)
         {
             fail "not implemented";
@@ -34,7 +38,7 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
     // Measure and print the result.
     operation MeasureAndDisplay(message: String, register: Qubit[]) : Unit {
         let answer = MeasureInteger(LittleEndian(register));
-        Message(message + $"{answer}.");
+        Message($"{message}{answer}.");
     }
 
     // # Summary
@@ -63,8 +67,8 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
             oracle([flag], result);
             MeasureAndDisplay("The answer is ", result);
 
-            // Apply an oracle that was declared as `intrinsic` above and
-            // implemented in the C# driver.
+            // Apply an oracle that was declared above and implemented in the C#
+            // driver.
             HalfAnswer([flag], result);
             MeasureAndDisplay("Half the answer is ", result);
 

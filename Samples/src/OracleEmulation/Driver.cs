@@ -16,8 +16,7 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
 
         static void Main(string[] args)
         {
-            // We begin by defining a quantum emulator (defined in Emulator.cs)
-            // to be our target machine.
+            // We begin by defining a quantum simulator to be our target machine
             using (var qsim = new QuantumSimulator())
             {
                 #region Simple oracles
