@@ -12,6 +12,7 @@ using System.Diagnostics;
 using Microsoft.Quantum.Chemistry.OrbitalIntegrals;
 using Microsoft.Quantum.Chemistry.Fermion;
 using Microsoft.Quantum.Chemistry.QSharpFormat;
+using McMaster.Extensions.CommandLineUtils;
 
 // This loads a Hamiltonian from file and performs quantum phase estimation on
 // - Jordan–Wigner Trotter step
@@ -23,8 +24,68 @@ namespace Microsoft.Quantum.Chemistry.Samples
 
     class Program
     {
+        public static int Main(string[] args) =>
+            CommandLineApplication.Execute<Program>(args);
 
-        static void Main(string[] args)
+        public enum DataFormat
+        {
+            LiQuiD, Broombridge
+        }
+
+        [Option(Description = "Format to use when loading data.")]
+        public DataFormat Format { get; } = DataFormat.Broombridge;
+
+        [Option(Description = "Path to data to be loaded.")]
+        public string Path { get; } = System.IO.Path.Combine(
+            "..", "IntegralData", "YAML", "lih_sto-3g_0.800_int.yaml"
+        );
+
+        [Option("--n-bits", Description = "Number of bits of precision to report from phase estimation.")]
+        public int NBits { get; } = 10;
+
+        [Option("--n-reps", Description = "Number of repetitions to use to find the minimum energy.")]
+        public int NRepetitions { get; } = 5;
+
+        [Option("--skip-jw", Description = "Skips simulating phase estimation with a Jordan–Wigner transformed Trotter–Suzuki approximation.")]
+        public bool SkipJordanWigner { get; } = false;
+
+        public bool RunJordanWigner => !SkipJordanWigner;
+
+        [Option(Description = "Step size to use in the Trotter–Suzuki approximation.")]
+        public double StepSize { get; } = 0.4;
+
+        [Option("--skip-opt-jw", Description = "Skips simulating phase estimation with an optimized Jordan–Wigner transformed Trotter–Suzuki approximation.")]
+        public bool SkipOptimizedJordanWigner { get; } = false;
+        public bool RunOptimizedJordanWigner => !SkipOptimizedJordanWigner;
+
+        [Option("--skip-qubitized-jw", Description = "Skips simulating phase estimation with a Jordan–Wigner transformed qubitization representation.")]
+        public bool SkipQubitizedJordanWigner { get; } = false;
+        public bool RunQubitizedJordanWigner => !SkipQubitizedJordanWigner;
+
+        static void ParseLiQuiD(string path, out int nElectrons, out FermionHamiltonian hamiltonian)
+        {
+            nElectrons = 2;
+            hamiltonian = LiQuiD
+                          .Deserialize(path)
+                          .Single()
+                          .OrbitalIntegralHamiltonian
+                          .ToFermionHamiltonian(IndexConvention.UpDown);
+        }
+
+        static void ParseBroombridge(string path, out int nElectrons, out FermionHamiltonian hamiltonian)
+        {
+            var description = Broombridge
+                              .Deserializers
+                              .DeserializeBroombridge(path)
+                              .ProblemDescriptions
+                              .Single();
+            nElectrons = description.NElectrons;
+            hamiltonian = description
+                          .OrbitalIntegralHamiltonian
+                          .ToFermionHamiltonian(IndexConvention.UpDown);
+        }
+
+        void OnExecute()
         {
             var logger = Logging.LoggerFactory.CreateLogger<Program>();
 
@@ -51,29 +112,23 @@ namespace Microsoft.Quantum.Chemistry.Samples
 
             #region For loading data in the format consumed by Liquid.
             stopWatch.Start();
-            string LiquidRoot = @"..\IntegralData\Liquid\";
-            string LiquidFilename = "h2_sto3g_4.dat";
             
-            logger.LogInformation($"Processing {LiquidFilename}");
-            var problemDescriptionLiQuiD = LiQuiD.Deserialize($@"{LiquidRoot}\{LiquidFilename}").Single();
-            // Number of electrons. This must be specified for the liquid format.
-            problemDescriptionLiQuiD.NElectrons = 2;
+            logger.LogInformation($"Processing {Path}...");
+            int nElectrons;
+            FermionHamiltonian fermionHamiltonian;
+            if (Format == DataFormat.Broombridge)
+            {
+                ParseBroombridge(Path, out nElectrons, out fermionHamiltonian);
+            }
+            else
+            {
+                ParseLiQuiD(Path, out nElectrons, out fermionHamiltonian);
+            }
 
-            logger.LogInformation($"Liquid Load took {stopWatch.ElapsedMilliseconds}ms");
+            logger.LogInformation($"Load took {stopWatch.ElapsedMilliseconds}ms.");
             stopWatch.Restart();
             #endregion
-            #region For loading data in the Broombridge format.
-            stopWatch.Start();
-            string YAMLRoot = @"..\IntegralData\YAML\";
-            string YAMLFilename = "lih_sto-3g_0.800_int.yaml";
-            var problemDescriptionBroombridge = Broombridge.Deserializers.DeserializeBroombridge($@"{YAMLRoot}\{YAMLFilename}").ProblemDescriptions.Single();
-            logger.LogInformation($"Broombridge Load took {stopWatch.ElapsedMilliseconds}ms");
-            stopWatch.Restart();
-            #endregion
 
-            // Select problem description to use
-            var problemDescription = problemDescriptionBroombridge;
-            var fermionHamiltonian = problemDescription.OrbitalIntegralHamiltonian.ToFermionHamiltonian(IndexConvention.UpDown);
 
             // Logs spin-orbital data in Logger.Message.
             logger.LogInformation(fermionHamiltonian.ToString());
@@ -82,7 +137,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
             var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Paulis.QubitEncoding.JordanWigner);
 
             // Create input wavefunction.
-            var wavefunction = fermionHamiltonian.CreateHartreeFockState(problemDescription.NElectrons);
+            var wavefunction = fermionHamiltonian.CreateHartreeFockState(nElectrons);
 
             // Alternately, use wavefunction contained in problem description,
             // if available
@@ -100,48 +155,32 @@ namespace Microsoft.Quantum.Chemistry.Samples
                 // consumed by Q#.
                 var qSharpData = QSharpFormat.Convert.ToQSharpFormat(
                     jordanWignerEncoding.ToQSharpFormat(),
-                    wavefunction.ToQSharpFormat());
+                    wavefunction.ToQSharpFormat()
+                );
 
                 #region Calling into Q#
-                // Bits of precision in phase estimation.
-                var bits = 10;
 
-                // Repetitions to find minimum energy.
-                var reps = 5;
-
-                // Run phase estimation simulation using Jordan–Wigner Trotterization.
-                var runJW = true;
-                
-                // Trotter step size.
-                var trotterStep = .4;
-
-                // Run phase estimation simulation using Jordan–Wigner Trotterization with optimzied circuit.
-                var runJWOptimized = true;
-                
-                // Run phase estimation simulation using Jordan–Wigner qubitization.
-                var runJWQubitization = true;
-
-                if (runJW)
+                if (RunJordanWigner)
                 {
-                    for (int i = 0; i < reps; i++)
+                    for (int i = 0; i < NRepetitions; i++)
                     {
-                        var (phaseEst, energyEst) = TrotterEstimateEnergy.Run(qsim, qSharpData, bits, trotterStep).Result;
+                        var (phaseEst, energyEst) = TrotterEstimateEnergy.Run(qsim, qSharpData, NBits, StepSize).Result;
                         logger.LogInformation($"Trotter simulation. phase: {phaseEst}; energy {energyEst}");
                     }
                 }
-                if (runJWOptimized)
+                if (RunOptimizedJordanWigner)
                 {
-                    for (int i = 0; i < reps; i++)
+                    for (int i = 0; i < NRepetitions; i++)
                     {
-                        var (phaseEst, energyEst) = OptimizedTrotterEstimateEnergy.Run(qsim, qSharpData, bits - 1, trotterStep).Result;
+                        var (phaseEst, energyEst) = OptimizedTrotterEstimateEnergy.Run(qsim, qSharpData, NBits - 1, StepSize).Result;
                         logger.LogInformation($"Optimized Trotter simulation. phase {phaseEst}; energy {energyEst}");
                     }
                 }
-                if (runJWQubitization)
+                if (RunQubitizedJordanWigner)
                 {
-                    for (int i = 0; i < reps; i++)
+                    for (int i = 0; i < NRepetitions; i++)
                     {
-                        var (phaseEst, energyEst) = QubitizationEstimateEnergy.Run(qsim, qSharpData, bits - 2).Result;
+                        var (phaseEst, energyEst) = QubitizationEstimateEnergy.Run(qsim, qSharpData, NBits - 2).Result;
                         logger.LogInformation($"Qubitization simulation. phase: {phaseEst}; energy {energyEst}");
                     }
                 }
