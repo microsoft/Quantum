@@ -59,7 +59,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing
             {
                 // Each operation has a static method called Run which takes a simulator as
                 // an argument, along with all the arguments defined by the operation itself.
-                var task = Ising.Run(qsim, nSites, sweepTime, timeStep);
+                var task = SimulateIsingEvolution.Run(qsim, nSites, sweepTime, timeStep);
 
                 // Since this method is asynchronous, we need to explicitly
                 // wait for the result back from the simulator. We do this by

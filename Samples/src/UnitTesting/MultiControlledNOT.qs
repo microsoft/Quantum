@@ -109,9 +109,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     let totalNumberOfQubits = Length(allQubits);
                     let outerOperation1 = CCNOTByIndexLadder(numberOfDirtyQubits + 1, 1, 0, numberOfDirtyQubits, _);
                     let innerOperation = CCNOTByIndex(totalNumberOfQubits - 1, totalNumberOfQubits - 2, lastDirtyQubit, _);
-                    WithA(outerOperation1, innerOperation, allQubits);
+                    ApplyWithA(outerOperation1, innerOperation, allQubits);
                     let outerOperation2 = CCNOTByIndexLadder(numberOfDirtyQubits + 2, 2, 1, numberOfDirtyQubits - 1, _);
-                    WithA(outerOperation2, innerOperation, allQubits);
+                    ApplyWithA(outerOperation2, innerOperation, allQubits);
                 }
             }
         }

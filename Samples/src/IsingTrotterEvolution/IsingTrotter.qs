@@ -63,17 +63,17 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// Duration of time-evolution by term in Hamiltonian.
     /// ## qubits
     /// Qubit register Hamiltonian acts on.
-    operation Ising1DTrotterUnitariesImpl (nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+    operation _Ising1DTrotterUnitaries(nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[])
+    : Unit
+    is Adj + Ctl {
         // when idxHamiltonian is in [0, nSites - 1], apply transverse field "hx"
         // when idxHamiltonian is in [nSites, 2 * nSites - 1], apply and longitudinal field "hz"
         // when idxHamiltonian is in [2 * nSites, 3 * nSites - 2], apply Ising coupling "jC"
         if (idxHamiltonian <= nSites - 1) {
             Exp([PauliX], (-1.0 * hXCoupling) * stepSize, [qubits[idxHamiltonian]]);
-        }
-        elif (idxHamiltonian <= 2 * nSites - 1) {
+        } elif (idxHamiltonian <= 2 * nSites - 1) {
             Exp([PauliZ], (-1.0 * hZCoupling) * stepSize, [qubits[idxHamiltonian % nSites]]);
-        }
-        else {
+        } else {
             Exp([PauliZ, PauliZ], (-1.0 * jCoupling) * stepSize, qubits[idxHamiltonian % nSites .. (idxHamiltonian + 1) % nSites]);
         }
     }
@@ -106,10 +106,11 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// # Output
     /// A tuple containing the number of terms in the Hamiltonian and a
     /// unitary operation classically controlled by the term index and
-    /// stepsize.
-    function Ising1DTrotterUnitaries (nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double) : (Int, ((Int, Double, Qubit[]) => Unit is Adj + Ctl)) {
+    /// step size.
+    function Ising1DTrotterUnitaries(nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double)
+    : (Int, ((Int, Double, Qubit[]) => Unit is Adj + Ctl)) {
         let nTerms = 3 * nSites - 1;
-        return (nTerms, Ising1DTrotterUnitariesImpl(nSites, hXCoupling, hZCoupling, jCoupling, _, _, _));
+        return (nTerms, _Ising1DTrotterUnitaries(nSites, hXCoupling, hZCoupling, jCoupling, _, _, _));
     }
 
     // We now invoke the Trotterization control structure. This requires two
@@ -137,7 +138,8 @@ namespace Microsoft.Quantum.Samples.Ising {
     ///
     /// # Output
     /// A unitary operation.
-    function Ising1DTrotterEvolution (nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit is Adj + Ctl) {
+    function Ising1DTrotterEvolution(nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double, trotterOrder : Int, trotterStepSize : Double)
+    : (Qubit[] => Unit is Adj + Ctl) {
         let op = Ising1DTrotterUnitaries(nSites, hXCoupling, hZCoupling, jCoupling);
         return (DecomposeIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
     }

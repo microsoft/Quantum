@@ -22,7 +22,9 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// are set correspond to target line indexes.
     ///
     /// The bit indexes of both integers must be disjoint.
-    newtype MCMTMask = (Int, Int);
+    newtype MCMTMask = (
+        ControlMask : Int, TargetMask : Int
+    );
 
     /// # Summary
     /// A type to represent a multiple-controlled Toffoli gate.
@@ -41,7 +43,10 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     ///   let gate = MCTGate([qubits[0], qubits[1], qubits[2]], qubits[3]);
     /// }
     /// ```
-    newtype MCTGate = (Qubit[], Qubit);
+    newtype MCTGate = (
+        Controls : Qubit[],
+        Target : Qubit
+    );
 
 
     // Some helper functions
@@ -68,7 +73,6 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// # Note
     /// Implementation with right-shift did not work
     function IsBitSet (value : Int, position : Int) : Bool {
-
         return (value &&& 2 ^ position) == 2 ^ position;
     }
 
@@ -120,11 +124,8 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// # Summary
     /// Update an output pattern according to gate mask.
     function UpdateOutputPattern (pattern : Int, gateMask : MCMTMask) : Int {
-
-        let (controls, targets) = gateMask!;
-
-        return (pattern &&& controls) == controls
-               ? pattern ^^^ targets
+        return (pattern &&& gateMask::ControlMask) == gateMask::ControlMask
+               ? pattern ^^^ gateMask::TargetMask
                | pattern;
     }
 
@@ -140,7 +141,6 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// Computes gate masks to transform perm[x] to x and updates the current
     /// permutation.
     function TBSStep (state : (Int[], MCMTMask[]), x : Int) : (Int[], MCMTMask[]) {
-
         let (perm, gates) = state;
         let y = perm[x];
         let masks = GateMasksForAssignment(x, y);
@@ -151,8 +151,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
 
     /// # Summary
     /// Compute gate masks to synthesize permutation.
-    function TBSMain (perm : Int[]) : MCMTMask[] {
-
+    function TBSMain(perm : Int[]) : MCMTMask[] {
         let xs = RangeAsIntArray(0..Length(perm) - 1);
         let gates = new MCMTMask[0];
         return Reversed(Snd(Fold(TBSStep, (perm, gates), xs)));
@@ -163,7 +162,6 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// Translate MCT masks into multiple-controlled Toffoli gates (with single
     /// targets).
     function GateMasksToToffoliGates (qubits : Qubit[], masks : MCMTMask[]) : MCTGate[] {
-
         mutable result = new MCTGate[0];
         let n = Length(qubits);
 
@@ -248,18 +246,17 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// # Example
     /// ```Q#
     /// using (qubits = Qubit[3]) {
-    ///   PermutationOracle([0, 2, 1, 3], TBS, qubits); // synthesize SWAP operation
+    ///   ApplyPermutationOracle([0, 2, 1, 3], TBS, qubits); // synthesize SWAP operation
     /// }
     /// ```
-    operation PermutationOracle(
+    operation ApplyPermutationOracle(
             perm : Int[], synth : ((Int[], Qubit[]) -> MCTGate[]), qubits : Qubit[]
     ) : Unit is Adj + Ctl {
-            let gates = synth(perm, qubits);
+        let gates = synth(perm, qubits);
 
-            for (gate in gates) {
-                let (controls, target) = gate!;
-                Controlled X(controls, target);
-            }
+        for (gate in gates) {
+            Controlled X(gate::Controls, gate::Target);
+        }
     }
 
 
@@ -278,14 +275,14 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     ///
     /// # Output
     /// True, if the circuit correctly implements the permutation.
-    operation PermutationSimulation (perm : Int[]) : Bool {
+    operation SimulatePermutation(perm : Int[]) : Bool {
         mutable result = true;
         let nbits = BitSizeI(Length(perm));
         for (i in IndexRange(perm)) {
             using (qubits = Qubit[nbits]) {
                 let init = IntAsBoolArray(i, nbits);
                 ApplyPauliFromBitString(PauliX, true, init, qubits);
-                PermutationOracle(perm, TBS, qubits);
+                ApplyPermutationOracle(perm, TBS, qubits);
                 let simres = MeasureInteger(LittleEndian(qubits));
 
                 if (simres != perm[i]) {
@@ -310,7 +307,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// ## qubits
     /// An array of an even number of qubits.  The function pairs qubits from
     /// the first half of the array with the second half of the array.
-    operation InnerProduct (qubits : Qubit[]) : Unit {
+    operation ComputeInnerProduct(qubits : Qubit[]) : Unit {
         let m = Length(qubits) / 2;
         ApplyToEach(CZ, Zip(qubits[0..m - 1], qubits[m..Length(qubits) - 1]));
     }
@@ -327,7 +324,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// A nonnegative number.
     /// ## qubits
     /// An array of qubits.
-    operation ApplyShift (shift : Int, qubits : Qubit[]) : Unit is Adj {
+    operation ApplyShift(shift : Int, qubits : Qubit[]) : Unit is Adj {
         let n = Length(qubits);
         let bits = IntAsBoolArray(shift, n);
         ApplyPauliFromBitString(PauliX, true, bits, qubits);
@@ -351,17 +348,17 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// - [*Martin Roetteler*,
     ///    Proc. SODA 2010, ACM, pp. 448-457,
     ///    2010](https://doi.org/10.1137/1.9781611973075.37)
-    operation HiddenShiftProblem (perm : Int[], shift : Int) : Int {
+    operation FindHiddenShift (perm : Int[], shift : Int) : Int {
 
         let n = BitSizeI(Length(perm));
         using (qubits = Qubit[2 * n]) {
             let Superpos = ApplyToEachA(H, _);
             let Shift = ApplyShift(shift, _);
-            let Synth = PermutationOracle(perm, TBS, _);
+            let Synth = ApplyPermutationOracle(perm, TBS, _);
             let PermX = ApplyToSubregisterA(Synth, RangeAsIntArray(0..n - 1), _);
             let PermY = ApplyToSubregisterA(Synth, RangeAsIntArray(n..2 * n - 1), _);
-            ApplyWith(BoundA([Superpos, Shift, PermY]), InnerProduct, qubits);
-            ApplyWith(Adjoint PermX, InnerProduct, qubits);
+            ApplyWith(BoundA([Superpos, Shift, PermY]), ComputeInnerProduct, qubits);
+            ApplyWith(Adjoint PermX, ComputeInnerProduct, qubits);
             Superpos(qubits);
             return MeasureInteger(LittleEndian(qubits));
         }

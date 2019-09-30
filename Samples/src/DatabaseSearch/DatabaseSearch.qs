@@ -69,7 +69,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     ///
     /// where f(k) = 1 if and only if k = 2^(Length(databaseRegister)) - 1 and
     /// 0 otherwise.
-    operation DatabaseOracle (markedQubit : Qubit, databaseRegister : Qubit[]) : Unit is Adj + Ctl {
+    operation ApplyDatabaseOracle(markedQubit : Qubit, databaseRegister : Qubit[]) : Unit is Adj + Ctl {
         // The Controlled functor applies its operation conditioned on the
         // first input being in the |11…1〉 state, which is precisely
         // what we need for this example.
@@ -102,7 +102,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// # Input
     /// ## databaseRegister
     /// A register of n qubits initially in the |00…0〉 state.
-    operation UniformSuperpositionOracle (databaseRegister : Qubit[]) : Unit is Adj + Ctl {
+    operation ApplyUniformSuperpositionOracle(databaseRegister : Qubit[]) : Unit is Adj + Ctl {
         ApplyToEachCA(H, databaseRegister);
     }
 
@@ -133,9 +133,9 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// Qubit that indicates whether database element is marked.
     /// ## databaseRegister
     /// A register of n qubits initially in the |00…0〉 state.
-    operation StatePreparationOracle (markedQubit : Qubit, databaseRegister : Qubit[]) : Unit is Adj + Ctl{
-        UniformSuperpositionOracle(databaseRegister);
-        DatabaseOracle(markedQubit, databaseRegister);
+    operation ApplyStatePreparationOracle (markedQubit : Qubit, databaseRegister : Qubit[]) : Unit is Adj + Ctl {
+        ApplyUniformSuperpositionOracle(databaseRegister);
+        ApplyDatabaseOracle(markedQubit, databaseRegister);
     }
 
 
@@ -149,41 +149,45 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     // +1 phase. We now implement these reflections.
 
     /// # Summary
-    /// Reflection `RM` about the marked state.
+    /// Performs a reflection about the marked state.
     ///
     /// # Input
     /// ## markedQubit
     /// Qubit that indicated whether database element is marked.
-    operation ReflectMarked (markedQubit : Qubit) : Unit {
+    operation ReflectAboutMarkedState(markedQubit : Qubit) : Unit {
         // Marked elements always have the marked qubit in the state |1〉.
         R1(PI(), markedQubit);
     }
 
     /// # Summary
-    /// Reflection about the |00…0〉 state.
+    /// Performs a reflection about the |00…0〉 state.
     ///
     /// # Input
     /// ## databaseRegister
     /// A register of n qubits initially in the |00…0〉 state.
-    operation ReflectZero (databaseRegister : Qubit[]) : Unit {
-        ApplyToEachCA(X, databaseRegister);
-        Controlled Z(Rest(databaseRegister), Head(databaseRegister));
-        ApplyToEachCA(X, databaseRegister);
+    operation ReflectAboutZero(databaseRegister : Qubit[]) : Unit {
+        within {
+            ApplyToEachCA(X, databaseRegister);
+        } apply {
+            Controlled Z(Rest(databaseRegister), Head(databaseRegister));
+        }
     }
 
 
     /// # Summary
-    /// Reflection `RS` about the start state DU|0〉|0〉.
+    /// Performs a reflection around the initial state, given by DU|0〉|0〉.
     ///
     /// # Input
     /// ## markedQubit
     /// Qubit that indicated whether database element is marked.
     /// ## databaseRegister
     /// A register of n qubits initially in the |00…0〉 state.
-    operation ReflectStart (markedQubit : Qubit, databaseRegister : Qubit[]) : Unit {
-        Adjoint StatePreparationOracle(markedQubit, databaseRegister);
-        ReflectZero([markedQubit] + databaseRegister);
-        StatePreparationOracle(markedQubit, databaseRegister);
+    operation ReflectAboutInitialState(markedQubit : Qubit, databaseRegister : Qubit[]) : Unit {
+        within {
+            Adjoint ApplyStatePreparationOracle(markedQubit, databaseRegister);
+        } apply {
+            ReflectAboutZero([markedQubit] + databaseRegister);
+        }
     }
 
 
@@ -213,18 +217,15 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// Qubit that indicated whether database element is marked.
     /// ## databaseRegister
     /// A register of n qubits initially in the |00…0〉 state.
-    operation QuantumSearch (nIterations : Int, markedQubit : Qubit, databaseRegister : Qubit[]) : Unit {
-
-        StatePreparationOracle(markedQubit, databaseRegister);
+    operation SearchForMarkedState(nIterations : Int, markedQubit : Qubit, databaseRegister : Qubit[]) : Unit {
+        ApplyStatePreparationOracle(markedQubit, databaseRegister);
 
         // Loop over Grover iterates.
         for (idx in 0 .. nIterations - 1) {
-            ReflectMarked(markedQubit);
-            ReflectStart(markedQubit, databaseRegister);
+            ReflectAboutMarkedState(markedQubit);
+            ReflectAboutInitialState(markedQubit, databaseRegister);
         }
-
     }
-
 
     // Let us now create an operation that allocates qubits for Grover's
     // algorithm, implements the `QuantumSearch`, measures the marked qubit
@@ -249,7 +250,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         // state.
         using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
             // Implement the quantum search algorithm.
-            QuantumSearch(nIterations, markedQubit, databaseRegister);
+            SearchForMarkedState(nIterations, markedQubit, databaseRegister);
 
             // Measure the marked qubit. On success, this should be One.
             let resultSuccess = MResetZ(markedQubit);
@@ -270,10 +271,10 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// # Summary
     /// Checks whether state preparation marks the right fraction of elements
     /// against theoretical predictions.
-    operation StatePreparationOracleTest () : Unit {
+    operation StatePreparationOracleTest() : Unit {
         for (nDatabaseQubits in 0 .. 5) {
             using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
-                StatePreparationOracle(markedQubit, databaseRegister);
+                ApplyStatePreparationOracle(markedQubit, databaseRegister);
 
                 // This is the success probability as predicted by theory.
                 // Note that this is computed only to verify that we have
@@ -304,31 +305,30 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     operation GroverHardCodedTest () : Unit {
 
         for (nDatabaseQubits in 0 .. 4) {
-
             for (nIterations in 0 .. 5) {
-
                 using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
-                    QuantumSearch(nIterations, markedQubit, databaseRegister);
-                    let successAmplitude = Sin(IntAsDouble(2 * nIterations + 1) * ArcSin(1.0 / Sqrt(IntAsDouble(2 ^ nDatabaseQubits))));
-                    let successProbability = successAmplitude * successAmplitude;
+                    SearchForMarkedState(nIterations, markedQubit, databaseRegister);
+                    let dimension = IntAsDouble(2 ^ nDatabaseQubits);
+                    let successAmplitude = Sin(
+                        IntAsDouble(2 * nIterations + 1) *
+                        ArcSin(1.0 / Sqrt(dimension))
+                    );
+                    let successProbability = PowD(successAmplitude, 2.0);
                     AssertProb([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
 
                     // If this result is One, we have found the marked
                     // element.
-                    let result = M(markedQubit);
+                    let isMarked = MResetZ(markedQubit) == One;
 
-                    if (result == One) {
-                        let results = MultiM(databaseRegister);
+                    if (isMarked) {
+                        let results = ForEach(MResetZ, databaseRegister);
 
                         // Post-selected on success, verify that that
                         // database qubits are all |1〉.
-                        for (idxResult in 0 .. nDatabaseQubits - 1) {
-                            EqualityFactR(results[idxResult], One, "Found state should be 1..1 string.");
+                        for (result in results) {
+                            EqualityFactR(result, One, "Found state should be 1..1 string.");
                         }
                     }
-
-                    ResetAll(databaseRegister);
-                    Reset(markedQubit);
                 }
             }
         }
@@ -380,23 +380,12 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// size of the database qubit register. Let x = x₀x₁...x_{N-1} be a
     /// binary string of N elements. Then xₖ is 1 if k is in "markedElements"
     /// and 0 otherwise.
-    operation DatabaseOracleFromInts (markedElements : Int[], markedQubit : Qubit, databaseRegister : Qubit[]) : Unit {
-
-        body (...) {
-            let nMarked = Length(markedElements);
-
-            for (idxMarked in 0 .. nMarked - 1) {
-
-                // Note: As X accepts a Qubit, and ControlledOnInt only
-                // accepts Qubit[], we use ApplyToEachCA(X, _) which accepts
-                // Qubit[] even though the target is only 1 Qubit.
-                (ControlledOnInt(markedElements[idxMarked], ApplyToEachCA(X, _)))(databaseRegister, [markedQubit]);
-            }
+    operation ApplyDatebaseOracleFromInts(markedElements : Int[], markedQubit : Qubit, databaseRegister : Qubit[])
+    : Unit
+    is Adj + Ctl {
+        for (markedElement in markedElements) {
+            (ControlledOnInt(markedElement, X))(databaseRegister, markedQubit);
         }
-
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
     }
 
 
@@ -422,24 +411,18 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// DU|0〉|0〉 = √(M/N)|1〉|marked〉 + √(1-(M/N)^2)|0〉|unmarked〉 where
     /// `M` is the length of `markedElements`, and
     /// `N` is 2^n, where `n` is the number of database qubits.
-    operation GroverStatePrepOracleImpl (markedElements : Int[], idxMarkedQubit : Int, startQubits : Qubit[]) : Unit {
+    operation _GroverStatePrepOracle(markedElements : Int[], idxMarkedQubit : Int, startQubits : Qubit[])
+    : Unit
+    is Adj + Ctl {
+        let flagQubit = startQubits[idxMarkedQubit];
+        let databaseRegister = Exclude([idxMarkedQubit], startQubits);
 
-        body (...) {
-            let flagQubit = startQubits[idxMarkedQubit];
-            let databaseRegister = Exclude([idxMarkedQubit], startQubits);
+        // Apply oracle `U`
+        ApplyToEachCA(H, databaseRegister);
 
-            // Apply oracle `U`
-            ApplyToEachCA(H, databaseRegister);
-
-            // Apply oracle `D`
-            DatabaseOracleFromInts(markedElements, flagQubit, databaseRegister);
-        }
-
-        adjoint invert;
-        controlled distribute;
-        controlled adjoint distribute;
+        // Apply oracle `D`
+        ApplyDatebaseOracleFromInts(markedElements, flagQubit, databaseRegister);
     }
-
 
     /// # Summary
     /// `StateOracle` type for the preparation of a start state that has a
@@ -452,10 +435,9 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     ///
     /// # Output
     /// A `StateOracle` type with signature
-    /// ((Int, Qubit[]) => ()is Adj + Ctl).
-    function GroverStatePrepOracle (markedElements : Int[]) : StateOracle {
-
-        return StateOracle(GroverStatePrepOracleImpl(markedElements, _, _));
+    /// ((Int, Qubit[]) => () is Adj + Ctl).
+    function GroverStatePrepOracle(markedElements : Int[]) : StateOracle {
+        return StateOracle(_GroverStatePrepOracle(markedElements, _, _));
     }
 
 
@@ -479,11 +461,10 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// # Remarks
     /// On input |0〉|0〉, this prepares the state |1〉|marked〉 with amplitude
     /// Sin((2*nIterations + 1) ArcSin(Sqrt(M/N))).
-    function GroverSearch (markedElements : Int[], nIterations : Int, idxMarkedQubit : Int) : (Qubit[] => Unit is Adj + Ctl) {
-
+    function GroverSearch(markedElements : Int[], nIterations : Int, idxMarkedQubit : Int)
+    : (Qubit[] => Unit is Adj + Ctl) {
         return AmpAmpByOracle(nIterations, GroverStatePrepOracle(markedElements), idxMarkedQubit);
     }
-
 
     // Let us now allocate qubits and run GroverSearch.
 
@@ -502,7 +483,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// # Output
     /// Measurement outcome of marked Qubit and measurement outcomes of
     /// the database register converted to an integer.
-    operation ApplyGroverSearch (markedElements : Int[], nIterations : Int, nDatabaseQubits : Int) : (Result, Int) {
+    operation ApplyGroverSearch(markedElements : Int[], nIterations : Int, nDatabaseQubits : Int) : (Result, Int) {
         // Allocate nDatabaseQubits + 1 qubits. These are all in the |0〉
         // state.
         using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {

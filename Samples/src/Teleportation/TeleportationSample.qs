@@ -4,26 +4,27 @@
 namespace Microsoft.Quantum.Samples.Teleportation {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Measurement;
 
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
-    
+
     // Quantum teleportation provides a way of moving a quantum state from one
     // location  to another without having to move physical particle(s) along
     // with it. This is done with the help of previously shared quantum
     // entanglement between the sending and the receiving locations and
     // classical communication.
-    
+
     //////////////////////////////////////////////////////////////////////////
     // Teleportation /////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
-    
-    
+
+
     /// # Summary
     /// Sends the state of one qubit to a target qubit by using
     /// teleportation.
-    /// 
+    ///
     /// Notice that after calling Teleport, the state of `msg` is
     /// collapsed.
     ///
@@ -47,21 +48,24 @@ namespace Microsoft.Quantum.Samples.Teleportation {
             let data1 = M(msg);
             let data2 = M(register);
 
-            // decode the message by applying the corrections on
-            // the target qubit accordingly:
-            if (data1 == One) { Z(target); }
-            if (data2 == One) { X(target); }
-
-            // Reset our "register" qubit before releasing it.
-            Reset(register);
+            // Decode the message by applying the corrections on
+            // the target qubit accordingly.
+            // We use MResetZ from the Microsoft.Quantum.Measurement namespace
+            // to reset our qubits as we go.
+            if (MResetZ(msg) == One) { Z(target); }
+            // We can also use library functions such as IsResultOne to write
+            // out correction steps. This is especially helpful when composing
+            // conditionals with other functions and operations, or with partial
+            // application.
+            if (IsResultOne(MResetZ(register))) { X(target); }
         }
     }
-    
+
     // One can use quantum teleportation circuit to send an unobserved
     // (unknown) classical message from source qubit to target qubit
     // by sending specific (known) classical information from source
     // to target.
-    
+
     /// # Summary
     /// Uses teleportation to send a classical message from one qubit
     /// to another.
@@ -87,14 +91,7 @@ namespace Microsoft.Quantum.Samples.Teleportation {
             Teleport(msg, target);
 
             // Check what message was sent.
-            let measurement = M(target) == One;
-
-            // Reset all of the qubits that we used before releasing
-            // them.
-            Reset(msg);
-            Reset(target);
-
-            return measurement;
+            return M(target) == One;
         }
     }
 

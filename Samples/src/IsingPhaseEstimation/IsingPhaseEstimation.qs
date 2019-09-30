@@ -48,7 +48,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// Size of Trotter step in simulation algorithm.
     /// ## qubits
     /// Qubit register encoding the Ising model quantum state.
-    operation IsingQPEUnitary (nSites : Int, hXFinal : Double, jFinal : Double, qpeStepSize : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+    operation SimulateIsingStep(nSites : Int, hXFinal : Double, jFinal : Double, qpeStepSize : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
         // The Hamiltonian used for phase estimation here is the Ising
         // model defined previously at the schedule parameter s = 1.
         let hXInitial = hXFinal;
@@ -109,10 +109,11 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// # References
     /// We use the Robust Phase Estimation algorithm of Kimmel et al.
     /// (https://arxiv.org/abs/1502.02677)
-    operation EstimateIsingEnergy(nSites : Int, hXInitial : Double, hXFinal : Double, jFinal : Double, adiabaticTime : Double, trotterStepSize : Double, trotterOrder : Int, qpeStepSize : Double, nBitsPrecision : Int) : (Double, Result[]) {
+    operation EstimateIsingEnergy(nSites : Int, hXInitial : Double, hXFinal : Double, jFinal : Double, adiabaticTime : Double, trotterStepSize : Double, trotterOrder : Int, qpeStepSize : Double, nBitsPrecision : Int)
+    : (Double, Result[]) {
         
         // Define the input to the phase estimation algorithm.
-        let qpeOracle = OracleToDiscrete(IsingQPEUnitary(nSites, hXFinal, jFinal, qpeStepSize, _));
+        let qpeOracle = OracleToDiscrete(SimulateIsingStep(nSites, hXFinal, jFinal, qpeStepSize, _));
         
         // Choose the robust phase estimation algorithm.
         let qpeAlgorithm = RobustPhaseEstimation(nBitsPrecision, _, _);
@@ -174,7 +175,8 @@ namespace Microsoft.Quantum.Samples.Ising {
     ///
     /// # Output
     /// An `Double` for the estimate of the Ising ground state energy.
-    operation EstimateIsingEnergyUsingBuiltin (nSites : Int, hXInitial : Double, hXFinal : Double, jFinal : Double, adiabaticTime : Double, trotterStepSize : Double, trotterOrder : Int, qpeStepSize : Double, nBitsPrecision : Int) : Double {
+    operation EstimateIsingEnergyUsingBuiltin(nSites : Int, hXInitial : Double, hXFinal : Double, jFinal : Double, adiabaticTime : Double, trotterStepSize : Double, trotterOrder : Int, qpeStepSize : Double, nBitsPrecision : Int)
+    : Double {
 
         // Prepare ground state of initial Hamiltonian.
         let statePrepUnitary = Prepare1DIsingState;
@@ -183,7 +185,7 @@ namespace Microsoft.Quantum.Samples.Ising {
         let adiabaticUnitary = IsingAdiabaticEvolutionManual(nSites, hXInitial, hXFinal, jFinal, adiabaticTime, trotterStepSize, trotterOrder);
 
         // Oracle for phase estimation.
-        let qpeUnitary = IsingQPEUnitary(nSites, hXFinal, jFinal, qpeStepSize, _);
+        let qpeUnitary = SimulateIsingStep(nSites, hXFinal, jFinal, qpeStepSize, _);
 
         // Choice of phase esitmation algorithm.
         let phaseEstAlgorithm = RobustPhaseEstimation(nBitsPrecision, _, _);
@@ -196,5 +198,3 @@ namespace Microsoft.Quantum.Samples.Ising {
     }
 
 }
-
-

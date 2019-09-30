@@ -66,7 +66,7 @@ namespace Microsoft.Quantum.Samples.Hubbard
             {
                 // Each operation has a static method called Run which takes a simulator as
                 // an argument, along with all the arguments defined by the operation itself.
-                var task = HubbardAntiFerromagneticEnergyEsimate.Run(qsim, nSites, tCoefficient, uCoefficient, bitsPrecision, trotterStepSize);
+                var task = EstimateHubbardAntiFerromagneticEnergy.Run(qsim, nSites, tCoefficient, uCoefficient, bitsPrecision, trotterStepSize);
                 // Since this method is asynchronous, we need to explicitly wait for the result back
                 // from the simulator. We do this by getting the Result property. 
                 var energyEst = task.Result;

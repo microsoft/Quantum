@@ -328,3 +328,6 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# Common VS Code extensions
+.ionide/symbolCache.db

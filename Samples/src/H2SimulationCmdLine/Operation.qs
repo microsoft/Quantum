@@ -21,13 +21,13 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /////////////////////////////////////////////////////////////////////////////
     // Hamiltonian Definition ///////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
-    function H2BondLengths () : Double[] {
 
+    function H2BondLengths() : Double[] {
         return [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95, 2.0, 2.05, 2.1, 2.15, 2.2, 2.25, 2.3, 2.35, 2.4, 2.45, 2.5, 2.55, 2.6, 2.65, 2.7, 2.75, 2.8, 2.85];
     }
 
 
-    function H2Coeff (idxBondLength : Int) : Double[] {
+    function H2Coeff(idxBondLength : Int) : Double[] {
         return [
             [0.5678, -1.4508, 0.6799, 0.0791, 0.0791],
             [0.5449, -1.287, 0.6719, 0.0798, 0.0798],
@@ -87,10 +87,10 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     }
 
 
-    function H2IdentityCoeff (idxBond : Int) : Double {
-
-        let coeffIdentity = [2.8489, 2.1868, 1.7252, 1.3827, 1.1182, 0.9083, 0.7381, 0.5979, 0.4808, 0.3819, 0.2976, 0.2252, 0.1626, 0.1083, 0.0609, 0.0193, -0.0172, -0.0493, -0.0778, -0.1029, -0.1253, -0.1452, -0.1629, -0.1786, -0.1927, -0.2053, -0.2165, -0.2265, -0.2355, -0.2436, -0.2508, -0.2573, -0.2632, -0.2684, -0.2731, -0.2774, -0.2812, -0.2847, -0.2879, -0.2908, -0.2934, -0.2958, -0.298, -0.3, -0.3018, -0.3035, -0.3051, -0.3066, -0.3079, -0.3092, -0.3104, -0.3115, -0.3125, -0.3135];
-        return coeffIdentity[idxBond];
+    function H2IdentityCoeff(idxBond : Int) : Double {
+        return [
+            2.8489, 2.1868, 1.7252, 1.3827, 1.1182, 0.9083, 0.7381, 0.5979, 0.4808, 0.3819, 0.2976, 0.2252, 0.1626, 0.1083, 0.0609, 0.0193, -0.0172, -0.0493, -0.0778, -0.1029, -0.1253, -0.1452, -0.1629, -0.1786, -0.1927, -0.2053, -0.2165, -0.2265, -0.2355, -0.2436, -0.2508, -0.2573, -0.2632, -0.2684, -0.2731, -0.2774, -0.2812, -0.2847, -0.2879, -0.2908, -0.2934, -0.2958, -0.298, -0.3, -0.3018, -0.3035, -0.3051, -0.3066, -0.3079, -0.3092, -0.3104, -0.3115, -0.3125, -0.3135
+        ][idxBond];
     }
 
 
@@ -104,11 +104,11 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     ///     // Returns ([3], [0]), to represent H₀ ≔ Z₀.
     ///     let (idxsPaulis, idxsQubits) = H2Terms(0)
     /// ```
-    function H2Terms (idxHamiltonian : Int) : (Int[], Int[]) {
-
-        //This is how a user might input the raw data
-        let hamiltonianTerms = [([3], [0]), ([3], [1]), ([3, 3], [0, 1]), ([2, 2], [0, 1]), ([1, 1], [0, 1])];
-        return hamiltonianTerms[idxHamiltonian];
+    function H2Terms(idxHamiltonian : Int) : (Int[], Int[]) {
+        // This is how a user might input the raw data.
+        return [
+            ([3], [0]), ([3], [1]), ([3, 3], [0, 1]), ([2, 2], [0, 1]), ([1, 1], [0, 1])
+        ][idxHamiltonian];
     }
 
 
@@ -122,9 +122,10 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// term to a register of qubits for that step size.
     ///
     /// # Remarks
-    /// This operation uses the common "Impl" idiom to expose a user-facing
-    /// API in terms of functions (no side effects).
-    operation H2TrotterUnitariesImpl (idxBondLength : Int, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+    /// This operation uses the common idiom of using a leading underscore to
+    /// denote a private operation. Here, that private operation lets us expose
+    /// a user-facing API in terms of functions (no side effects).
+    operation _H2TrotterUnitaries(idxBondLength : Int, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
         let (idxPauliString, idxQubits) = H2Terms(idxHamiltonian);
         let coeff = (H2Coeff(idxBondLength))[idxHamiltonian];
 
@@ -139,9 +140,8 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// represents the decomposition of the corresponding Hamiltonian
     /// into unitary gates.
     function H2TrotterUnitaries (idxBondLength : Int) : (Int, ((Int, Double, Qubit[]) => Unit is Adj + Ctl)) {
-
         let nTerms = 5;
-        return (nTerms, H2TrotterUnitariesImpl(idxBondLength, _, _, _));
+        return (nTerms, _H2TrotterUnitaries(idxBondLength, _, _, _));
     }
 
 
@@ -153,7 +153,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// This is a function, such that the user can call this as flow control
     /// and be guaranteed that there will be no side effects until they
     /// act on a particular register.
-    function H2TrotterStepManual (idxBondLength : Int, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit is Adj + Ctl) {
+    function H2TrotterStepManual(idxBondLength : Int, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit is Adj + Ctl) {
         let op = H2TrotterUnitaries(idxBondLength);
         return (DecomposeIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
     }
@@ -169,8 +169,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// # Summary
     /// Represents a term in the H₂ Hamiltonian for a particular bond
     /// length using the GeneratorTerm type from Canon.
-    function H2GeneratorIndex (idxBondLength : Int, idxHamiltonian : Int) : GeneratorIndex {
-
+    function H2GeneratorIndex(idxBondLength : Int, idxHamiltonian : Int) : GeneratorIndex {
         let (idxPauliString, idxQubits) = H2Terms(idxHamiltonian);
         let coefficient = (H2Coeff(idxBondLength))[idxHamiltonian];
         return GeneratorIndex((idxPauliString, [coefficient]), idxQubits);
@@ -185,8 +184,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// The GeneratorSystem type takes a function and not an
     /// array, enabling us to calculate terms on the fly if
     /// appropriate.
-    function H2GeneratorSystem (idxBondLength : Int) : GeneratorSystem {
-
+    function H2GeneratorSystem(idxBondLength : Int) : GeneratorSystem {
         let nTerms = 5;
         return GeneratorSystem(nTerms, H2GeneratorIndex(idxBondLength, _));
     }
@@ -200,8 +198,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// We could choose other evolution sets as well, allowing the
     /// canon to be very general with respect to how Hamiltonians
     /// are represented.
-    function H2EvolutionGenerator (idxBondLength : Int) : EvolutionGenerator {
-
+    function H2EvolutionGenerator(idxBondLength : Int) : EvolutionGenerator {
         return EvolutionGenerator(PauliEvolutionSet(), H2GeneratorSystem(idxBondLength));
     }
 
@@ -220,7 +217,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// # Summary
     /// Prepares the an approximation to the H₂ ground state,
     /// assuming an initial state of |00〉.
-    operation H2StatePrep (q : Qubit[]) : Unit {
+    operation H2StatePrep(q : Qubit[]) : Unit {
         X(q[0]);
     }
 
@@ -228,7 +225,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// # Summary
     /// We can now use Canon's phase estimation algorithms to
     /// learn the ground state energy using the above simulation.
-    operation H2EstimateEnergy (idxBondLength : Int, trotterStepSize : Double, phaseEstAlgorithm : ((DiscreteOracle, Qubit[]) => Double)) : Double {
+    operation H2EstimateEnergy(idxBondLength : Int, trotterStepSize : Double, phaseEstAlgorithm : ((DiscreteOracle, Qubit[]) => Double)) : Double {
 
         let nQubits = 2;
         let trotterOrder = 1;
@@ -241,8 +238,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// # Summary
     /// We finish by using the Robust Phase Estimation algorithm
     /// of Kimmel, Low and Yoder.
-    operation H2EstimateEnergyRPE (idxBondLength : Int, nBitsPrecision : Int, trotterStepSize : Double) : Double {
-
+    operation H2EstimateEnergyRPE(idxBondLength : Int, nBitsPrecision : Int, trotterStepSize : Double) : Double {
         return H2EstimateEnergy(idxBondLength, trotterStepSize, RobustPhaseEstimation(nBitsPrecision, _, _));
     }
 

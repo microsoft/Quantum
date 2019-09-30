@@ -64,28 +64,31 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     // the qubit index. Let the fermion site be indexed by the qubit i + n*s
     
     /// # Summary
-    /// Returns an array of Pauli operators corresponding to a Jordan-Wigner
+    /// Returns an array of Pauli operators corresponding to a Jordan–Wigner
     /// string PZ...ZP
     ///
     /// # Input
     /// ## nQubits
     /// Number of qubits that the represented system will act upon.
     /// ## idxPauli
-    /// Pauli operator P to be inserted at the ends of the Jordan-Wigner
+    /// Pauli operator P to be inserted at the ends of the Jordan–Wigner
     /// string
     /// ## idxQubitMin
-    /// Smallest index to qubits in the Jordan-Wigner string
+    /// Smallest index to qubits in the Jordan–Wigner string
     /// ## idxQubitMax
-    /// Largest index to qubits in the Jordan-Wigner string
+    /// Largest index to qubits in the Jordan–Wigner string
     ///
     /// # Output
     /// An array of Pauli operators PZ...ZP of length nQubits padded by
     /// identity terms.
     ///
     /// # Example
-    /// JordanWignerPZPString(5, PauliX, 3, 1) outputs the `Pauli[]` type
-    /// `[PauliI, PauliX, PauliZ, PauliX, PauliI]`.
-    function JordanWignerPZPString (nQubits : Int, idxPauli : Pauli, idxQubitA : Int, idxQubitB : Int) : Pauli[] {
+    /// The following are equivalent:
+    /// ```Q#
+    /// let paulis = JordanWignerPZPString(5, PauliX, 3, 1);
+    /// let paulis = [PauliI, PauliX, PauliZ, PauliX, PauliI];
+    /// ```
+    function JordanWignerPZPString(nQubits : Int, idxPauli : Pauli, idxQubitA : Int, idxQubitB : Int) : Pauli[] {
         let idxQubitMin = MinI(idxQubitA, idxQubitB);
         let idxQubitMax = MaxI(idxQubitA, idxQubitB);
 
@@ -117,7 +120,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     /// Coefficient of the hopping term in the Hubbard Hamiltonian.
     /// ## qubits
     /// Qubits that the encoded Hubbard Hamiltonian acts on.
-    operation HubbardHoppingTerm (nSites : Int, idxSite : Int, idxSpin : Int, coefficient : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+    operation ApplyHubbardHoppingTerm(nSites : Int, idxSite : Int, idxSpin : Int, coefficient : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
         // The number of qubits in this encoding is as follows
         let nQubits = 2 * nSites;
 
@@ -149,7 +152,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     /// Coefficient of the hopping term in the Hubbard Hamiltonian.
     /// ## qubits
     /// Qubits that the encoded Hubbard Hamiltonian acts on.
-    operation HubbardRepulsionTerm (nSites : Int, idxSite : Int, coefficient : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+    operation ApplyHubbardRepulsionTerm(nSites : Int, idxSite : Int, coefficient : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
         let nQubits = 2 * nSites;
         let idxQubitA = nSites * 0 + idxSite;
         let idxQubitB = nSites * 1 + idxSite;
@@ -183,17 +186,16 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     /// Duration of single step of time-evolution
     /// ## qubits
     /// Qubits that the encoded Hubbard Hamiltonian acts on.
-    operation HubbardTrotterUnitariesImpl (nSites : Int, tCoefficient : Double, uCoefficient : Double, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
+    operation _HubbardTrotterUnitaries(nSites : Int, tCoefficient : Double, uCoefficient : Double, idxHamiltonian : Int, stepSize : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
         // when idxHamiltonian is in [0, 2 * nSites - 1], we return a hopping term
         // when idxHamiltonian is in [2 * nSites, 3 * nSites - 1], we return a repulsion term
         if (idxHamiltonian < 2 * nSites) {
             let idxSite = (idxHamiltonian / 2) % nSites;
             let idxSpin = idxHamiltonian % 2;
-            HubbardHoppingTerm(nSites, idxSite, idxSpin, tCoefficient * stepSize, qubits);
-        }
-        else {
+            ApplyHubbardHoppingTerm(nSites, idxSite, idxSpin, tCoefficient * stepSize, qubits);
+        } else {
             let idxSite = idxHamiltonian % nSites;
-            HubbardRepulsionTerm(nSites, idxSite, uCoefficient * stepSize, qubits);
+            ApplyHubbardRepulsionTerm(nSites, idxSite, uCoefficient * stepSize, qubits);
         }
     }
     
@@ -221,7 +223,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     // real parameter for the step size t / r.
     
     // We now invoke the Trotter–Suzuki control structure. This requires two
-    // additional parameters -- the trotterOrder, which determines the order
+    // additional parameters — the trotterOrder, which determines the order
     // the Trotter decompositions, and the trotterStepSize, which determines
     // the duration of time-evolution of a single Trotter step.
     
@@ -243,9 +245,9 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     ///
     /// # Output
     /// A unitary operation.
-    function HubbardTrotterEvolution (nSites : Int, tCoefficient : Double, uCoefficient : Double, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit is Adj + Ctl) {
+    function HubbardTrotterEvolution(nSites : Int, tCoefficient : Double, uCoefficient : Double, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit is Adj + Ctl) {
         let nTerms = nSites * 3;
-        let op = (nTerms, HubbardTrotterUnitariesImpl(nSites, tCoefficient, uCoefficient, _, _, _));
+        let op = (nTerms, _HubbardTrotterUnitaries(nSites, tCoefficient, uCoefficient, _, _, _));
         return (DecomposeIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
     }
 
@@ -269,7 +271,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     ///
     /// # Output
     /// Array of single-site measurement results.
-    operation HubbardAntiFerromagneticEnergyEsimate (nSites : Int, tCoefficient : Double, uCoefficient : Double, bitsPrecision : Int, trotterStepSize : Double) : Double {
+    operation EstimateHubbardAntiFerromagneticEnergy(nSites : Int, tCoefficient : Double, uCoefficient : Double, bitsPrecision : Int, trotterStepSize : Double) : Double {
         
         // Number of qubits in this encoding is equal to the number of
         // Fermion sites * number of spin indices.
@@ -312,5 +314,3 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     }
     
 }
-
-

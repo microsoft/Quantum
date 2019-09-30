@@ -53,7 +53,7 @@ namespace Microsoft.Quantum.Samples.Ising
             // system to verify that they match expectations.
             // Let us recall that the Paulis IXYZ are represented by integers 0123.
             foreach(var idxHamiltonian in Enumerable.Range(0, nTerms)){
-                var task = Ising1DUnpackEvolutionGenerator.Run(qsim, nSites, hAmplitude, jAmplitude, idxHamiltonian);
+                var task = Uniform1DIsingGeneratorIndex.Run(qsim, nSites, hAmplitude, jAmplitude, idxHamiltonian);
 
                 var generatorIndex = task.Result;
 
@@ -75,7 +75,7 @@ namespace Microsoft.Quantum.Samples.Ising
             // system to verify that they match expectations.
             foreach (var idxHamiltonian in Enumerable.Range(0, nTermsXXZ))
             {
-                var task = HeisenbergXXZUnpackGeneratorSystem.Run(qsim, nSites, hAmplitude, jAmplitude, idxHamiltonian);
+                var task = HeisenbergXXZGeneratorIndex.Run(qsim, nSites, hAmplitude, jAmplitude, idxHamiltonian);
 
                 var generatorIndex = task.Result;
 
