@@ -48,7 +48,7 @@ namespace Microsoft.Quantum.Numerics.Samples {
                     CNOT(tmp, ctrl);
                 } apply {
                     // we should not have subtracted m if there is overflow:
-                    (Controlled AddI)([ctrl], (m, yc));
+                    Controlled AddI([ctrl], (m, yc));
                     // now, uncompute temporary qubits:
                     (Adjoint AddI)(x, yc);
                 }
