@@ -16,17 +16,6 @@ for instructions on how to build and use it.
 
 The samples are broken down into four broad categories, each of which is described below.
 
-## 1. Algorithm Samples ##
-
-- **[DatabaseSearch](./Samples/src/DatabaseSearch)**:
-  This sample demonstrates how to use Grover's algorithm to efficiently search a database represented as a quantum register.
-- **[IntegerFactorization](./Samples/src/IntegerFactorization)**:
-  This sample demonstrates how to use Shor's algorithm to efficiently factor integers.
-- **[ReversibleLogicSynthesis](./Samples/src/ReversibleLogicSynthesis)**:
-  This sample demonstrates how to use reversible logic synthesis to solve the hidden shift problem.
-- **[CHSHGame](./Samples/src/CHSHGame)**:
-  This sample demonstrates a famous nonlocal game which proves that no theory of local hidden variables can ever reproduce all the predictions of quantum mechanics.
-
 ## 2. Characterization and Testing Samples ##
 
 - **[UnitTesting](./Samples/src/UnitTesting)**:
@@ -50,22 +39,6 @@ The samples are broken down into four broad categories, each of which is describ
   - **[IsingPhaseEstimation](./Samples/src/IsingPhaseEstimation)**: This sample adiabatically prepares the ground state of the Ising model Hamiltonian, and then perform phase estimation to obtain an estimate of the ground state energy. 
   - **[IsingTrotterEvolution](./Samples/src/IsingTrotterEvolution)**: This sample walks through constructing the time-evolution operator for the Ising model using the Trotterization library feature.
 - **[HubbardSimulation](./Samples/src/HubbardSimulation)**: This sample walks through constructing the time-evolution operator for the 1D Hubbard Simulation model.
-
-## 4. Interoperability ##
-
-- **[PythonInterop](./Samples/src/PythonInterop)** (Windows-only preview):
-  This sample walks through using Python to perform quantum process tomography on an operation written in Q#.
-- **[FSharpWithQSharp](./Samples/src/FSharpWithQSharp)**:
-  This sample shows how to use Q# operations with an F# driver.
- 
-## 5. Qasm (Quantum Assembler Language) ##
-
-- **[OpenQasm](./Samples/src/OpenQasm)**:
-  This sample shows that one can output a subset of the quantum operations of a Q# application in OpenQASM.
-- **[Qiskit](./Samples/src/Qiskit)**:
-  This sample shows that one can run the quantum operations of a Q# application by using the OpenQASM output on the IBMQuantumExperience by changing the driver.
-- **[OpenQasmReader](./Samples/src/OpenQasmReader)**:
-  This sample shows that one can convert OpenQasm 2.0 specifications to Q# methods. This allows one to import algorithms written in OpenQasm 2.0 to be used on the Microsoft Q# Simulator. Apart of the barrier gate (which has no meaning in Q#) all gates are converted to Q# constructions.
 
 ## Docker image
 

@@ -1,4 +1,4 @@
-# Using Q# with F#
+# Using Q# with F# #
 
 This sample shows how to use Q# code with a classical host program written in F#.
 
