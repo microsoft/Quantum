@@ -16,18 +16,6 @@ for instructions on how to build and use it.
 
 The samples are broken down into four broad categories, each of which is described below.
 
-## 0. Introductory Samples ##
-
-- **[TeleportationSample](./Samples/src/Teleportation/)**:
-  This sample documents how to write quantum programs with Q#, C#, and Visual Studio, using the [development techniques](https://docs.microsoft.com/quantum/quantum-devguide-1-intro) covered in the main documentation.
-  It also shows how to simulate the same algorithms from Python and Jupyter.
-- **[Measurement](./Samples/src/Measurement)**:
-  This sample goes into more detail about how single- and multiple-qubit measurements are represented in Q#, and how to measure in interesting bases such as the Bell basis.
-- **[SimpleAlgorithms](./Samples/src/SimpleAlgorithms)**:
-  This sample covers several different basic quantum algorithms, and how each can be written in Q#.
-- **[IntroToIQSharp](./Samples/src/IntroToIQSharp)**:
-  This samples explains how to create interactive notebooks using Jupyter and IQ#.
-
 ## 1. Algorithm Samples ##
 
 - **[DatabaseSearch](./Samples/src/DatabaseSearch)**:
