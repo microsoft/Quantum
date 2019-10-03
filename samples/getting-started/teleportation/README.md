@@ -20,6 +20,8 @@ It shows how to call the teleport quantum samples from 3 different classical hos
 
 ## Running the Sample ##
 
+This sample can be run in a number of different ways, depending on your preferred environment.
+
 ### Jupyter Notebook ###
 
 From the command line, start Jupyter Notebook and open the [Notebook.ipynb](./Notebook.ipynb) file.

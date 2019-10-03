@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Measurement", "measurement\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleportationSample", "teleportation\TeleportationSample.csproj", "{1A92C1F7-FC0E-43B8-BCF4-F7A705702089}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAlgorithms", "simple-algorithms\SimpleAlgorithms.csproj", "{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{1A92C1F7-FC0E-43B8-BCF4-F7A705702089}.Release|x64.Build.0 = Release|Any CPU
 		{1A92C1F7-FC0E-43B8-BCF4-F7A705702089}.Release|x86.ActiveCfg = Release|Any CPU
 		{1A92C1F7-FC0E-43B8-BCF4-F7A705702089}.Release|x86.Build.0 = Release|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Debug|x64.Build.0 = Debug|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Debug|x86.Build.0 = Debug|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Release|x64.ActiveCfg = Release|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Release|x64.Build.0 = Release|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Release|x86.ActiveCfg = Release|Any CPU
+		{18C89371-C65E-4E4D-9A47-BB72D0FB3FB1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
