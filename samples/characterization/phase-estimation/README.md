@@ -43,4 +43,5 @@ Press Start in Visual Studio to run the sample.
 
 - [PhaseEstimationSample.csproj](./PhaseEstimationSample.csproj): Main C# project for the example.
 - [Host.cs](./Host.cs): C# code to call the operations defined in Q#.
+- [host.py](./host.py): a sample Python program to call the Q# phase estimation operation.
 - [BayesianPhaseEstimation.qs](./BayesianPhaseEstimation.qs): The Q# implementation of iterative phase estimation and Bayesian inference.

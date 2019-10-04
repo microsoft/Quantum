@@ -57,5 +57,5 @@ Press Start in Visual Studio to run the sample.
 - [Utils.qs](./Utils.qs): Q# code with some utility operations used to prepare and read |+> and |-> states.
 - [Host.cs](./Program.cs): C# code to call the operations defined in Q#.
 - [TeleportationSample.csproj](./TeleportationSample.csproj): Main C# project for the example.
-- [host.py](./host.py): a sample Python code to call the Q# teleport operation.
+- [host.py](./host.py): a sample Python program to call the Q# teleport operation.
 - [Notebook.ipynb](./Notebook.ipynb): a Jupyter notebook that shows how to implement the Q# teleport operation.
