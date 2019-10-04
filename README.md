@@ -22,8 +22,6 @@ The samples are broken down into four broad categories, each of which is describ
   This sample demonstrates how to use the Quantum Development Kit together with the [xUnit](https://xunit.github.io/) framework to check the correctness of quantum programs by testing the correctness and computing the metrics of various small quantum circuits.
 - **[BitFlipCode](./Samples/src/BitFlipCode)**:
   This sample shows how to use a simple quantum error correcting code to protect against errors in a quantum device.
-- **[PhaseEstimation](./Samples/src/PhaseEstimation)**:
-  This sample introduces iterative phase estimation, an important statistical problem in analyzing the output of quantum programs.
 
 ## 3. Hamiltonian Simulation Samples ##
 
