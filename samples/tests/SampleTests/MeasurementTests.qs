@@ -4,12 +4,12 @@ namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Samples.Measurement;
     open Microsoft.Quantum.Intrinsic;
 
-    operation MeasurementTest () : Unit {
+    operation MeasurementTest() : Unit {
         // The use of mutables here is to enforce types.
         // Effectively, these are facts that guard against changing the signatures
         // of operations in the samples.
         mutable resOne = Zero;
-        set resOne = MeasureOneQubit();
+        set resOne = SampleQrng();
         mutable resTwo = (Zero, Zero);
         set resTwo = MeasureTwoQubits();
         mutable resBell = (Zero, Zero);
