@@ -27,7 +27,7 @@ function Validate-Integrals {
 
     if (($Env:AGENT_OS -ne $null) -and ($Env:AGENT_OS.StartsWith("Win"))) {
         Push-Location (Join-Path $PSScriptRoot "..\Chemistry\Schema\")
-            python validator.py ../IntegralData/**/*.yaml broombridge-0.1.schema.json
+            python validator.py $PSScriptRoot/Samples/chemistry/IntegralData/**/*.yaml broombridge-0.1.schema.json
 
             if  ($LastExitCode -ne 0) {
                 Write-Host "##vso[task.logissue type=error;]Failed to validate IntegralData"
