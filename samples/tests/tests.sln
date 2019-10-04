@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Measurement", "..\getting-s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAlgorithms", "..\getting-started\simple-algorithms\SimpleAlgorithms.csproj", "{2FF2D74E-934C-4527-B113-CC956BB95869}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseSearchSample", "..\algorithms\database-search\DatabaseSearchSample.csproj", "{D455C07E-3315-47E1-AA11-C710B579EB2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReversibleLogicSynthesis", "..\algorithms\reversible-logic-synthesis\ReversibleLogicSynthesis.csproj", "{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +62,29 @@ Global
 		{2FF2D74E-934C-4527-B113-CC956BB95869}.Release|x64.Build.0 = Release|Any CPU
 		{2FF2D74E-934C-4527-B113-CC956BB95869}.Release|x86.ActiveCfg = Release|Any CPU
 		{2FF2D74E-934C-4527-B113-CC956BB95869}.Release|x86.Build.0 = Release|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Debug|x64.Build.0 = Debug|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Debug|x86.Build.0 = Debug|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Release|x64.ActiveCfg = Release|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Release|x64.Build.0 = Release|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Release|x86.ActiveCfg = Release|Any CPU
+		{D455C07E-3315-47E1-AA11-C710B579EB2F}.Release|x86.Build.0 = Release|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Debug|x64.Build.0 = Debug|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Debug|x86.Build.0 = Debug|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Release|x64.ActiveCfg = Release|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Release|x64.Build.0 = Release|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Release|x86.ActiveCfg = Release|Any CPU
+		{2198D4DB-4B65-41D0-9A79-1CAF8299A02D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
