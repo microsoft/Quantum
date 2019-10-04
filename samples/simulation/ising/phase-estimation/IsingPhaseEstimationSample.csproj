@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdiabaticIsing\AdiabaticIsingSample.csproj" />
-    <ProjectReference Include="..\IsingGenerators\IsingGeneratorsSample.csproj" />
+    <ProjectReference Include="..\adiabatic\AdiabaticIsingSample.csproj" />
+    <ProjectReference Include="..\generators\IsingGeneratorsSample.csproj" />
   </ItemGroup>
 
   <ItemGroup>
