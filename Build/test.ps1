@@ -24,8 +24,7 @@ function Test-One {
 }
 
 function Validate-Integrals {
-
-    if (($Env:AGENT_OS -ne $null) -and ($Env:AGENT_OS.StartsWith("Win"))) {
+    if (($null -ne $Env:AGENT_OS) -and ($Env:AGENT_OS.StartsWith("Win"))) {
         Push-Location (Join-Path $PSScriptRoot "..\Chemistry\Schema\")
             python validator.py $PSScriptRoot/Samples/chemistry/IntegralData/**/*.yaml broombridge-0.1.schema.json
 
@@ -41,12 +40,10 @@ function Validate-Integrals {
 
 Validate-Integrals
 
-Test-One '../Samples/src/UnitTesting'
+Test-One '../samples/tests/sample-tests'
+Test-One '../samples/diagnostics/unit-testing'
 
-Test-One '../Samples/tests/SampleTests'
-
-if (-not $all_ok) 
-{
+if (-not $all_ok) {
     throw "At least one project failed to compile. Check the logs."
 }
 
