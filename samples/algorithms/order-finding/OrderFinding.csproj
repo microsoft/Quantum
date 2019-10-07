@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ReversibleLogicSynthesis\ReversibleLogicSynthesis.csproj" />
+    <ProjectReference Include="..\reversible-logic-synthesis\ReversibleLogicSynthesis.csproj" />
   </ItemGroup>
 
   <ItemGroup>
