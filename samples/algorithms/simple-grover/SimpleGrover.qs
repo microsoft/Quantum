@@ -10,29 +10,28 @@ namespace Microsoft.Quantum.Samples.SimpleGrover {
     open Microsoft.Quantum.Measurement;
 
     // This operation adds a (-1)-phase to the marked state(s)
-    operation ReflectAboutMarked (inputQubits : Qubit[]) : Unit {
+    operation ReflectAboutMarked(inputQubits : Qubit[]) : Unit {
         using (outputQubit = Qubit()) {
             within {
                 // Initialize the outputQubit to 1/sqrt(2) ( |0> - |1> )
                 // so that toggling it results in a (-1)-phase
                 X(outputQubit);
                 H(outputQubit);
-            }
-            apply {
+            } apply {
                 // Flip the outputQubit for marked states.
                 // Here: For the state with alternating 0s and 1s
                 within {
                     ApplyToEachA(X, inputQubits[0..2..Length(inputQubits)-1]);
                 }
                 apply {
-                    (Controlled X) (inputQubits, outputQubit);
+                    Controlled X(inputQubits, outputQubit);
                 }
             }
         }
     }
-    
+
     // This operation adds a (-1)-phase to the uniform superposition
-    operation ReflectAboutUniform (inputQubits : Qubit[]) : Unit {
+    operation ReflectAboutUniform(inputQubits : Qubit[]) : Unit {
         within {
             // Transform the uniform superposition to all-zero
             ApplyToEachA(H, inputQubits);
@@ -41,10 +40,10 @@ namespace Microsoft.Quantum.Samples.SimpleGrover {
         }
         apply {
             // Add a (-1)-phase to the all-ones state
-            (Controlled Z) (Rest(inputQubits), Head(inputQubits));
+            (Controlled Z)(Rest(inputQubits), Head(inputQubits));
         }
     }
-    
+
     // This operation applies Grover search using `numQubits` qubits
     // to represent the index / input to the function.
     operation ApplyGrover (numQubits : Int) : Result[] {

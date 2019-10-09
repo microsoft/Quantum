@@ -1,7 +1,7 @@
 # Quantum Chemistry Library Samples #
 
 These samples demonstrate the use of the Quantum Chemistry library.
-Each sample is provided as a Visual Studio 2017 C# or project in their respective directories.
+Each sample is provided as a Visual Studio 2019 C# or project in their respective directories.
 Each of these samples are described below.
 Most of the samples consist of a Q# source file with detailed comments explaining the sample and a commented classical program `Program.cs` to call into Q# operations and functions.
 
@@ -10,7 +10,7 @@ Most of the samples consist of a Q# source file with detailed comments explainin
 All the C# samples may be run with default settings by entering their root directory in command line and entering `dotnet run`.
 
 These samples focus on simple models in chemistry and material sciences. They are thoroughly commented to build familiarity with usage of the chemistry library.
-  
+
 - **[CreateHubbardHamiltonian](CreateHubbardHamiltonian/)**:
   Construct a Hamiltonian describing a simple one-dimensional Hubbard model.
 

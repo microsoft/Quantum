@@ -1,27 +1,47 @@
 ﻿# Microsoft Quantum Development Kit Samples #
+
  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Microsoft/Quantum/master)
 
 These samples demonstrate the use of the Quantum Development Kit for a variety of different quantum computing tasks.
-Most samples are provided as a Visual Studio 2017 C# or F# project under the [`QsharpSamples.sln`](./Samples/QsharpSamples.sln) solution.
 
-Each sample is self-contained in a folder. Most of the samples consist of a Q# source file with detailed comments explaining the sample and a short classical program (either `Program.cs` (C#), `Program.fs` (F#), or `host.py` (Python)) that calls into the Q# operations and functions. 
-There are some samples that are written as an interactive Jupyter notebook thus require no classical host.
+Each sample is self-contained in a folder, and demonstrates how to use Q# to develop quantum applications.
 
 A small number of the samples have additional installation requirements beyond those for the rest of the Quantum Development Kit.
 These are noted in the README.md files for each sample, along with complete installation instructions.
 
-You can find instructions on how to install the Quantum Development Kit in [our online documentation](https://docs.microsoft.com/en-us/quantum/install-guide/), which also includes
-an introduction to [quantum programming concepts](https://docs.microsoft.com/en-us/quantum/concepts/). A [Docker](https://docs.docker.com/install/) image definition is also provided for your convenience, see below
-for instructions on how to build and use it.
+You can find instructions on how to install the Quantum Development Kit in [our online documentation](https://docs.microsoft.com/quantum/install-guide/), which also includes
+an introduction to [quantum programming concepts](https://docs.microsoft.com/en-us/quantum/concepts/).
+A [Docker](https://docs.docker.com/install/) image definition is also provided for your convenience, see below for instructions on how to build and use it.
 
-The samples are broken down into four broad categories, each of which is described below.
+## Getting started ##
 
-## 2. Characterization and Testing Samples ##
+If you're new to quantum or to the Quantum Development Kit, we recommend starting with the [Getting Started samples](./samples/getting-started/).
 
-- **[UnitTesting](./Samples/src/UnitTesting)**:
-  This sample demonstrates how to use the Quantum Development Kit together with the [xUnit](https://xunit.github.io/) framework to check the correctness of quantum programs by testing the correctness and computing the metrics of various small quantum circuits.
-- **[BitFlipCode](./Samples/src/BitFlipCode)**:
-  This sample shows how to use a simple quantum error correcting code to protect against errors in a quantum device.
+## Going further ##
+
+As you go further with quantum development, we provide several different categories of samples for you to explore:
+
+- **[Algorithms](./samples/algorithms)**:
+  These samples demonstrate various quantum algorithms, such as database search and integer factorization.
+- **[Arithmetic](./samples/arithmetic)**:
+  These samples show how to coherently transform arithmetic data.
+- **[Characterization](./samples/characterization)**:
+  These samples demonstrate how to learn properties of quantum systems from classical data.
+- **[Chemistry](./samples/chemistry)**:
+- **[Diagnostics](./samples/diagnostics)**:
+  These samples show how to diagnose and test Q# applications.
+- **[Error Correction](./samples/error-correction)**:
+  These samples show how to work with quantum error correcting codes in Q# programs.
+- **[Interoperability](./samples/interoperability)**:
+  These samples show how to use Q# with different host languages.
+- **[Numerics](./samples/numerics)**:
+  The samples in this folder show how to use the numerics library.
+- **[Runtime](./samples/runtime)**:
+  These samples show how to work with the Q# simulation runtime.
+- **[Simulation](./samples/simulation)**:
+  These samples show how to simulate evolution under different Hamiltonians.
+
+We also encourage taking a look at the [unit tests](./samples/tests) used to check the correctness of the Quantum Development Kit samples.
 
 ## Docker image
 

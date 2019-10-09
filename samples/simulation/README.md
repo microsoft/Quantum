@@ -1,5 +1,7 @@
 # Hamiltonian Simulation Samples #
 
+These samples show how to simulate evolution under different Hamiltonians.
+
 - *H₂ Simulation*
   - **[H2SimulationCmdLine](./Samples/src/H2SimulationCmdLine)**:
       This sample walks through the simulation of molecular hydrogen using the Trotter–Suzuki decomposition.
