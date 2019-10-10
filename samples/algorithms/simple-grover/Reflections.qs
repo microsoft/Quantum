@@ -14,6 +14,7 @@ namespace Microsoft.Quantum.Samples.SimpleGrover {
     /// This operation defines what input we are trying to find in the main
     /// search.
     operation ReflectAboutMarked(inputQubits : Qubit[]) : Unit {
+        Message("Reflecting about marked state...");
         using (outputQubit = Qubit()) {
             within {
                 // We initialize the outputQubit to (|0⟩ - |1⟩) / √2,
