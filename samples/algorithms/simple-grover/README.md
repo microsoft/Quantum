@@ -1,10 +1,15 @@
-﻿---
+---
 page_type: sample
-languages: [qsharp, python, csharp]
-products: [qdk]
+languages:
+- qsharp
+- python
+- csharp
+products:
+- qdk
+description: "This sample implements Grover's search algorithm, an example of a quantum development technique known as amplitude amplification."
 ---
 
-# Searching with Grover's Algorithm #
+# Searching with Grover's Algorithm
 
 This sample implements Grover's search algorithm, an example of a quantum development technique known as _amplitude amplification_.
 Oracles implementing the database are explicitly constructed together with all steps of the algorithm.
