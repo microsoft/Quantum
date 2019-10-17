@@ -6,7 +6,7 @@ languages:
 - csharp
 products:
 - qdk
-description: "This sample implements Grover's search algorithm, an example of a quantum development technique known as amplitude amplification."
+description: "This sample uses the CHSH game to demonstrate how Q# programs can be used to prepare and work with entanglement."
 ---
 
 # Validating Quantum Mechanics with the CHSH Game #
