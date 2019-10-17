@@ -14,15 +14,10 @@ description: "This sample implements Grover's search algorithm, an example of a 
 This sample demonstrates:
 - How to prepare entangled states with Q#.
 - How to measure part of an entangled register.
-- Using Q# to validate quantum mechanics.
+- Using Q# to understand superposition and entanglement.
 
-In 1935, three physicists - Einstein, Podolsky, and Rosen - released a paper detailing an apparent contradiction in the workings of quantum mechanics.
-The EPR Paradox (as it came to be known) posited a scenario in which quantum mechanics appeared to violate Heisenberg's uncertainty principle.
-In certain cases (later known as "entanglement"), measuring a property of one particle gives knowledge of that same property of another particle; if a different property of the second particle is then measured, more information about the particle is learned than is allowed by Heisenberg's uncertainty principle.
-The EPR trio assumed that measuring the first particle would have no effect on the second; in fact, it does!
-When two particles are entangled, operations on one instantaneously affect the other, which dissolves the alleged paradox.
-This violation of local realism was deeply troubling to Einstein, and he spent much of the remainder of his life trying to find an explanation which did not involve "spooky action at a distance" as he called it.
-
+In this sample, you can use Q# to prepare qubits in an entangled state, and to check that measuring these qubits lets you win a game known as the _CHSH game_ more often than you can without entanglement.
+This game helps us understand entanglement, and has even been used experimentally to help test that the universe really is quantum mechanical in nature.
 
 ## Prerequisites ##
 
