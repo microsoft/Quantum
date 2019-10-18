@@ -1,7 +1,9 @@
 ---
 page_type: sample
-languages: [qsharp]
-products: [qdk]
+languages:
+- qsharp
+products:
+- qdk
 ---
 
 # Intro to Q# and Jupyter Notebook

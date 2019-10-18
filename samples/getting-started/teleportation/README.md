@@ -1,7 +1,11 @@
 ﻿---
 page_type: sample
-languages: [qsharp, python, csharp]
-products: [qdk]
+languages:
+- qsharp
+- python
+- csharp
+products:
+- qdk
 ---
 
 # Quantum Teleportation Sample #

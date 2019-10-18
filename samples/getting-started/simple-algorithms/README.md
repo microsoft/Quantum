@@ -1,7 +1,10 @@
 ﻿---
 page_type: sample
-languages: [qsharp, csharp]
-products: [qdk]
+languages:
+- qsharp
+- csharp
+products:
+- qdk
 ---
 
 # Simple Quantum Algorithms Sample #
