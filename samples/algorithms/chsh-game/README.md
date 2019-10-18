@@ -7,6 +7,7 @@ languages:
 products:
 - qdk
 description: "This sample uses the CHSH game to demonstrate how Q# programs can be used to prepare and work with entanglement."
+urlFragment: validating-quantum-mechanics
 ---
 
 # Validating Quantum Mechanics with the CHSH Game
