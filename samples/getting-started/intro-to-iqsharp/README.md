@@ -1,7 +1,11 @@
 ---
 page_type: sample
-languages: [qsharp]
-products: [qdk]
+languages:
+- qsharp
+products:
+- qdk
+description: "This sample demonstrates how to use Jupyter Notebook as a host program to run Q# applications."
+urlFragment: intro-to-qsharp-jupyter
 ---
 
 # Intro to Q# and Jupyter Notebook
