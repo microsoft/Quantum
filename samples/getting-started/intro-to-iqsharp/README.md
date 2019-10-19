@@ -4,7 +4,7 @@ languages:
 - qsharp
 products:
 - qdk
-description: "This sample demonstrates how to use Jupyter Notebook as a host program to run Q# applications."
+description: "This sample shows how to use Jupyter Notebook as a host program to run Q# applications."
 urlFragment: intro-to-qsharp-jupyter
 ---
 
