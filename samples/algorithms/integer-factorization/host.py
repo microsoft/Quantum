@@ -1,5 +1,6 @@
 import argparse
 import qsharp
+# Maybe try catching the error with from qsharp import IQSharpError
 from Microsoft.Quantum.Samples.IntegerFactorization import FactorInteger
 
 def factor_integer(number_to_factor, n_trials, use_robust_phase_estimation):
@@ -27,7 +28,7 @@ if __name__ == "__main__":
 		'--trials',
 		type=int,
 		help='number of trial to perform',
-		default=100
+		default=10
 		)
 	parser.add_argument(
 		'-u',
