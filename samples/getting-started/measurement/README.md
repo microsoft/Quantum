@@ -1,4 +1,4 @@
-﻿---
+---
 page_type: sample
 languages:
 - qsharp
@@ -6,6 +6,8 @@ languages:
 - csharp
 products:
 - qdk
+description: "This sample demonstrates the use of measurement operations to measure one or more qubits."
+urlFragment: measuring-qubits
 ---
 
 # Measuring Qubits #
