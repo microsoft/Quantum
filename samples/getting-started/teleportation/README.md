@@ -1,4 +1,4 @@
-﻿---
+---
 page_type: sample
 languages:
 - qsharp
@@ -6,9 +6,11 @@ languages:
 - csharp
 products:
 - qdk
+urlFragment: quantum-teleportation
+description: "This sample demonstrates the use of the Quantum Development Kit for quantum teleportation."
 ---
 
-# Quantum Teleportation Sample #
+# Quantum Teleportation Sample
 
 This sample demonstrates the use of the Quantum Development Kit for quantum teleportation, a sort of "hello, world" for quantum programming.
 
