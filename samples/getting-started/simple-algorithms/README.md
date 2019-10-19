@@ -1,10 +1,12 @@
-﻿---
+---
 page_type: sample
 languages:
 - qsharp
 - csharp
 products:
 - qdk
+description: "This sample describes three simple quantum algorithms."
+urlFragment: simple-quantum-algorithms
 ---
 
 # Simple Quantum Algorithms Sample #
