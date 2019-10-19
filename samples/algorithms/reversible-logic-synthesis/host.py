@@ -2,7 +2,7 @@ import qsharp
 from Microsoft.Quantum.Samples.ReversibleLogicSynthesis import SimulatePermutation,  FindHiddenShift
 
 if __name__ == "__main__":
-	perm = [_ for _ in range(7)]
+	perm = [0, 2, 3, 5, 7, 1, 4, 6]
 	res = SimulatePermutation.simulate(perm=perm)
 	print(f'Does circuit realize permutation: {res}')
 	

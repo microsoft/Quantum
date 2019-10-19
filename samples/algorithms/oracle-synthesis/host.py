@@ -1,6 +1,8 @@
 import qsharp
 from Microsoft.Quantum.Samples.OracleSynthesis import RunOracleSynthesisOnCleanTarget, RunOracleSynthesis
 
+# Maybe try shwing the diff of the result.
+
 for i in range(256):
 	res = RunOracleSynthesisOnCleanTarget.simulate(func=i, vars=3)
 	if not res:

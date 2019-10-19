@@ -12,13 +12,9 @@ def get_order(perm, index):
 	return order
 
 def guess_quantum(perm, index):
-	#result = FindOrder.simulate(perm=perm, input=index)
-	result = 0
+	result = FindOrder.simulate(perm=perm, input=index)
 	if result == 0:
 		guess = random.random()
-		# the probability distribution is extracted from the second
-		# column (m = 0) in Fig. 2's table on the right-hand side,
-		# in the original and referenced paper.
 		if guess <= 0.5505:
 			return 1
 		elif guess <= 0.5505 + 0.1009:
@@ -43,10 +39,14 @@ def guess_order(perm, index, shots):
 	for i in range(shots):
 		c_guesses[guess_classical(perm, index)] += 1
 		q_guesses[guess_quantum(perm, index)] += 1
+
+	print("\nClassical Guesses: ")
 	for k, v in c_guesses.items():
-		print(f"{k}: {v}")
+		print(f"{k}: {round((v / shots)*100, 2)}%")
+	
+	print("\nQuantum Guesses: ")
 	for k, v in q_guesses.items():
-		print(f"{k}: {v}")
+		print(f"{k}: {round((v / shots)*100, 2)}%")
 
 
 if __name__ == "__main__":
@@ -65,6 +65,20 @@ if __name__ == "__main__":
 		help='number of trial to perform',
 		default=0
 		)
+	parser.add_argument(
+		'-s',
+		'--shots',
+		type=int,
+		help='number of trial to perform',
+		default=1024
+		)
+	
 	args = parser.parse_args()
-	guess_order([1,2,3,0], 0, 5)
+	print(f"Permutation: {args.permutation}")
+	print(f"Find cycle length at index: {args.index}")
+
+	exact_order = get_order(args.permutation, args.index)
+	print(f"Exact order: {exact_order}")
+
+	guess_order(args.permutation, args.index, args.shots)
 
