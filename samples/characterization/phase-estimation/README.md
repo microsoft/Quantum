@@ -6,7 +6,7 @@ languages:
 - csharp
 products:
 - qdk
-description: "This sample demonstrates iterative phase estimation using Bayesian inference to provide a simple method to perform the classical statistical analysis."
+description: "This sample demonstrates using Bayesian inference to learn phases of quantum operations."
 urlFragment: iterative-phase-estimation
 ---
 
