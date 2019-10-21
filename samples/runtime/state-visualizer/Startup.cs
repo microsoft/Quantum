@@ -27,8 +27,12 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseDeveloperExceptionPage()
-                .UseMvc()
-                .UseSignalR(routes => routes.MapHub<StateVisualizerHub>("/events"));
+                .UseRouting()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                    endpoints.MapHub<StateVisualizerHub>("/events");
+                });
             lifetime.ApplicationStopping.Register(visualizer.Stop);
         }
     }
