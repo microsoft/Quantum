@@ -2,7 +2,7 @@
 # https://github.com/microsoft/iqsharp/blob/master/images/iqsharp-base/Dockerfile.
 # As per Binder documentation, we choose to use an SHA sum here instead of a
 # tag.
-FROM mcr.microsoft.com/quantum/iqsharp-base:0.9.1909.3002
+FROM mcr.microsoft.com/quantum/iqsharp-base:0.10.1910.1804
 
 # Mark that this Dockerfile is used with the samples repository.
 ENV IQSHARP_HOSTING_ENV=SAMPLES_DOCKERFILE
