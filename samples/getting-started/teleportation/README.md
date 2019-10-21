@@ -7,7 +7,7 @@ languages:
 products:
 - qdk
 urlFragment: quantum-teleportation
-description: "This sample demonstrates the use of the Quantum Development Kit for quantum teleportation."
+description: "This sample demonstrates using Quantum Development Kit to move quantum data with quantum teleportation."
 ---
 
 # Quantum Teleportation Sample

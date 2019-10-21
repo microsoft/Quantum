@@ -30,3 +30,4 @@ jupyter notebook Notebook.ipynb
 
 - [Notebook.ipynb](./Notebook.ipynb): a Jupyter Notebook demonstrating how to simulate Q# operations and functions.
 - [Operations.qs](./Operations.qs): Q# code called from the Jupyter Notebook for this sample.
+
