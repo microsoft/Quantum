@@ -50,7 +50,7 @@ Press Start in Visual Studio to run the sample.
 
 ## Manifest ##
 
-- [SimpleGrover.qs](./SimpleGrover.qs): Q# code implementing quantum operations for this sample.
-- [Host.cs](./Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
-- [SimpleGroverSample.csproj](./SimpleGroverSample.csproj): Main C# project for the sample.
+- [SimpleGrover.qs](https://github.com/microsoft/quantum/tree/master/samples/algorithms/simple-grover/SimpleGrover.qs): Q# code implementing quantum operations for this sample.
+- [Host.cs](https://github.com/microsoft/quantum/tree/master/samples/algorithms/simple-grover/Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
+- [SimpleGroverSample.csproj](https://github.com/microsoft/quantum/tree/master/samples/algorithms/simple-grover/SimpleGroverSample.csproj): Main C# project for the sample.
 

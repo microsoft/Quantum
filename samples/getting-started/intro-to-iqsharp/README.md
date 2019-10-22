@@ -28,6 +28,6 @@ jupyter notebook Notebook.ipynb
 
 ## Manifest
 
-- [Notebook.ipynb](./Notebook.ipynb): a Jupyter Notebook demonstrating how to simulate Q# operations and functions.
-- [Operations.qs](./Operations.qs): Q# code called from the Jupyter Notebook for this sample.
+- [Notebook.ipynb](https://github.com/microsoft/quantum/tree/master/samples/getting-started/intro-to-iqsharp/Notebook.ipynb): a Jupyter Notebook demonstrating how to simulate Q# operations and functions.
+- [Operations.qs](https://github.com/microsoft/quantum/tree/master/samples/getting-started/intro-to-iqsharp/Operations.qs): Q# code called from the Jupyter Notebook for this sample.
 

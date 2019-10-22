@@ -1,4 +1,4 @@
----
+﻿---
 page_type: sample
 languages:
 - qsharp
@@ -47,7 +47,7 @@ Press Start in Visual Studio to run the sample.
 
 ## Manifest ##
 
-- [PhaseEstimationSample.csproj](./PhaseEstimationSample.csproj): Main C# project for the example.
-- [Host.cs](./Host.cs): C# code to call the operations defined in Q#.
-- [host.py](./host.py): a sample Python program to call the Q# phase estimation operation.
-- [BayesianPhaseEstimation.qs](./BayesianPhaseEstimation.qs): The Q# implementation of iterative phase estimation and Bayesian inference.
+- [PhaseEstimationSample.csproj](https://github.com/microsoft/quantum/tree/master/samples/characterization/phase-estimation/PhaseEstimationSample.csproj): Main C# project for the example.
+- [Host.cs](https://github.com/microsoft/quantum/tree/master/samples/characterization/phase-estimation/Host.cs): C# code to call the operations defined in Q#.
+- [host.py](https://github.com/microsoft/quantum/tree/master/samples/characterization/phase-estimation/host.py): a sample Python program to call the Q# phase estimation operation.
+- [BayesianPhaseEstimation.qs](https://github.com/microsoft/quantum/tree/master/samples/characterization/phase-estimation/BayesianPhaseEstimation.qs): The Q# implementation of iterative phase estimation and Bayesian inference.
