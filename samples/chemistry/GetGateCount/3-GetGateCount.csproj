@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
     <AssemblyName>get-gatecount</AssemblyName>
   </PropertyGroup>
@@ -17,9 +17,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
     <PackageReference Include="Microsoft.PowerShell.5.ReferenceAssemblies" Version="1.1.0" NoWarn="NU1701" />
-    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.9.1909.3002" />
-    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.9.1909.3002" />
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.9.1909.3002" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.10.1910.2304-alpha" />
+    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.10.1910.2304-alpha" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.10.1910.2301-alpha" />
   </ItemGroup>
 
 
