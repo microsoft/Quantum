@@ -10,7 +10,7 @@ description: "This sample demonstrates the use of measurement operations to meas
 urlFragment: measuring-qubits
 ---
 
-# Measuring Qubits #
+# Measuring Qubits
 
 This sample demonstrates:
 - The use of measurement operations to measure one or more qubits, getting classical data back that can be used in classical logic.
@@ -20,15 +20,15 @@ This sample demonstrates:
 In Q#, the most basic measurement operation is the [`M`](https://docs.microsoft.com/qsharp/api/qsharp/microsoft.quantum.intrinsic.m) operation, which measures a single qubit in the _computational basis_ (sometimes also called the 𝑍-basis).
 In this sample, we show how `M` can be used to sample random numbers, and to measure registers of qubits.
 
-## Prerequisites ##
+## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
 
-## Running the Sample ##
+## Running the Sample
 
 This sample can be run in a number of different ways, depending on your preferred environment.
 
-### Python in Visual Studio Code or the Command Line ###
+### Python in Visual Studio Code or the Command Line
 
 At a terminal, run the following command:
 
@@ -36,7 +36,7 @@ At a terminal, run the following command:
 python host.py
 ```
 
-### C# in Visual Studio Code or the Command Line ###
+### C# in Visual Studio Code or the Command Line
 
 At a terminal, run the following command:
 
@@ -44,19 +44,19 @@ At a terminal, run the following command:
 dotnet run
 ```
 
-### C# in Visual Studio 2019 ###
+### C# in Visual Studio 2019
 
 Open the `getting-started.sln` solution in Visual Studio and set `measurement/Measurement.csproj` as the startup project.
 Press Start in Visual Studio to run the sample.
 
-## Manifest ##
+## Manifest
 
 - [Measurement.qs](./Measurement.qs): Q# code preparing and measuring a few qubits.
 - [host.py](./host.py): Python host program to call into the Q# sample.
 - [Host.cs](./Host.cs): C# code to call the operations defined in Q#.
 - [Measurement.csproj](./Measurement.csproj): Main C# project for the sample.
 
-## Further resources ##
+## Further resources
 
 - [Measurement concepts](https://docs.microsoft.com/quantum/concepts/pauli-measurements)
 - [Logging and assertion techniques](https://docs.microsoft.com/quantum/techniques/testing-and-debugging#logging-and-assertions)
