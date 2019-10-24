@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.Quantum.Samples.StateVisualizer
 {
@@ -21,7 +22,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IApplicationLifetime lifetime, StateVisualizer visualizer)
+        public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime, StateVisualizer visualizer)
         {
             app
                 .UseDefaultFiles()
