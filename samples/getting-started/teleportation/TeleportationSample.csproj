@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.10.1910.1804-beta" />
-    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.10.1910.1804-beta" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.10.1910.2301-alpha" />
+    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.10.1910.2304-alpha" />
   </ItemGroup>
 </Project>
