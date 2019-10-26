@@ -41,8 +41,8 @@ def quantum_oracle():
 		success_count += 1 if marked_qubit == 1 else 0
 
 		if (i+1)%10 == 0:
-			empiracle_success = round((success_count / i+1), 3)
-			speed_up = round(((empiracle_success / classic_success) / queries), 3)
+			empiracle_success = round(success_count / (i+1), 3)
+			speed_up = round( (empiracle_success / classic_success) / queries, 3)
 			print(f"Attempt: {i} Success: {marked_qubit} Probability: {empiracle_success} Speed: {speed_up} Found database index at: {', '.join([str(x) for x in register])}")
 
 def multiple_quantum_elements():
