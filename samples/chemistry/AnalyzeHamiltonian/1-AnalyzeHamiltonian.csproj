@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -14,8 +14,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.9.1909.3002" />
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.9.1909.3002" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.10.1910.3107" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.10.1910.3107" />
   </ItemGroup>
 
 </Project>
