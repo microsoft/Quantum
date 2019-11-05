@@ -38,6 +38,6 @@ Press Start in Visual Studio to run the sample.
 
 - [SimpleAlgorithms.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/simple-algorithms/SimpleAlgorithms.qs): Q# code implementing quantum operations for this sample.
 - [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/simple-algorithms/Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
-- [SimpleAlgorithms.csproj](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/simple-algorithms/Host.cs): Main C# project for the sample.
+- [SimpleAlgorithms.csproj](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/simple-algorithms/SimpleAlgorithms.csproj): Main C# project for the sample.
 
 
