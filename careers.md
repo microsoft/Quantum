@@ -2,8 +2,8 @@
 
 ## Software Development ##
 
-- [Software Development Engineer](https://careers.microsoft.com/us/en/job/721958/Software-Development-Engineer-Quantum)
-- [Software Development Engineer](https://careers.microsoft.com/us/en/job/722090/Quantum-Software-Development-Engineer)
+- [Software Development Engineer](https://careers.microsoft.com/us/en/job/721958)
+- [Software Development Engineer](https://careers.microsoft.com/us/en/job/722090)
 
 ## Hardware Engineering ##
 
