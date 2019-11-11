@@ -61,7 +61,7 @@ Press Start in Visual Studio to run the sample.
 
 - [TeleportationSample.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/teleportation/TeleportationSample.qs): Q# code defining how to teleport qubit states.
 - [Utils.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/teleportation/Utils.qs): Q# code with some utility operations used to prepare and read |+> and |-> states.
-- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/teleportation/Program.cs): C# code to call the operations defined in Q#.
+- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/teleportation/Host.cs): C# code to call the operations defined in Q#.
 - [TeleportationSample.csproj](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/teleportation/TeleportationSample.csproj): Main C# project for the example.
 - [host.py](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/teleportation/host.py): a sample Python program to call the Q# teleport operation.
 - [Notebook.ipynb](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/teleportation/Notebook.ipynb): a Jupyter notebook that shows how to implement the Q# teleport operation.
