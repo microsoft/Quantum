@@ -11,6 +11,6 @@ _Check back soon, new positions open frequently!_
 
 ## Program Management ##
 
-- [Senior Outreach Program Manager] (https://careers.microsoft.com/us/en/job/694487/Senior-Outreach-Program-Manager)
+- [Senior Outreach Program Manager](https://careers.microsoft.com/us/en/job/694487)
 
 ## Research ##
