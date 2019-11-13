@@ -30,7 +30,7 @@ namespace Microsoft.Quantum.Samples
                 new double[] { 5.21662, 6.04363, 0.224184, 1.53913, 1.64524, 4.79508, 1.49742, 1.5455}
             };
             using var targetMachine = new QuantumSimulator(false, 12345678);
-            var (optimizedParameters, optimizedBias) = await Train.Run(
+            var (optimizedParameters, optimizedBias) = await TrainHalfMoonModel.Run(
                 targetMachine,
                 new QArray<QArray<double>>(vectors.Select(vector => new QArray<double>(vector))),
                 new QArray<long>(labels),
@@ -39,14 +39,14 @@ namespace Microsoft.Quantum.Samples
 
             //NOW DO SOME TESTING
             var (testVecs, testLabs) = LoadDataFromCsv("moon-test.csv");
-            var testMisses = await Validate.Run(
+            var testMisses = await ValidateHalfMoonModel.Run(
                 targetMachine,
                 new QArray<QArray<double>>(testVecs.Select(vector => new QArray<double>(vector))),
                 new QArray<long>(testLabs),
                 optimizedParameters,
                 optimizedBias
             );
-            System.Console.WriteLine($"Observed {testMisses} out of {testVecs.Count} validation samples.");
+            System.Console.WriteLine($"Observed {testMisses} misclassifications out of {testVecs.Count} validation samples.");
         } //HalfMoonsExample
 
 

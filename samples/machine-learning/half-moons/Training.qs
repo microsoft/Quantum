@@ -26,47 +26,49 @@ namespace Microsoft.Quantum.Samples {
         );
     }
 
-    function DefaultSchedule(samples : Double[][]) : Int[][] {
-        return [
-            [0, 1, Length(samples) - 1]
-        ];
+    function DefaultSchedule(samples : Double[][]) : SamplingSchedule {
+        return SamplingSchedule([
+            0..Length(samples) - 1
+        ]);
     }
 
     // FIXME: This needs to return a GateSequence value, but that requires adapting
     //        TrainQcccSequential.
-    function ClassifierStructure() : Int[][] {
-        // FIXME: Change these to Pauli values, change Y to be 3.
+    function ClassifierStructure() : GateSequence {
         let (x, y, z) = (1, 2, 3);
-        return [
-            [4, x, 0],
-            [5, z, 0],
-            [6, x, 1],
-            [7, z, 1],
-            [0, x, 0, 1],
-            [1, x, 1, 0],
-            [2, z, 1],
-            [3, x, 1]
-        ];
+        return GateSequence([
+            ControlledRotation(GateSpan(0, new Int[0]), PauliX, 4),
+            ControlledRotation(GateSpan(0, new Int[0]), PauliZ, 5),
+            ControlledRotation(GateSpan(1, new Int[0]), PauliX, 6),
+            ControlledRotation(GateSpan(1, new Int[0]), PauliZ, 7),
+            ControlledRotation(GateSpan(0, [1]), PauliX, 0),
+            ControlledRotation(GateSpan(1, [0]), PauliX, 1),
+            ControlledRotation(GateSpan(1, new Int[0]), PauliZ, 2),
+            ControlledRotation(GateSpan(1, new Int[0]), PauliX, 3)
+        ]);
     }
 
-    operation Train(
+    operation TrainHalfMoonModel(
         trainingVectors : Double[][],
         trainingLabels : Int[],
         initialParameters : Double[][]
     ) : (Double[], Double) {
+        let samples = Mapped(
+            LabeledSample,
+            Zip(Preprocessed(trainingVectors), trainingLabels)
+        );
         let nQubits = 2;
         let learningRate = 0.1;
         let minibatchSize = 15;
         let tolerance = 0.005;
         let nMeasurements = 10000;
         let maxEpochs = 16;
-        let ppVectors = Preprocessed(trainingVectors);
         Message("Ready to train.");
-        let (optimizedParameters, optimialBias) = TrainQcccSequential(
+        let (optimizedParameters, optimialBias) = TrainSequentialClassifier(
             nQubits,
             ClassifierStructure(),
             initialParameters,
-            ppVectors, trainingLabels,
+            samples,
             DefaultSchedule(trainingVectors),
             DefaultSchedule(trainingVectors),
             learningRate, tolerance, minibatchSize,
@@ -77,26 +79,30 @@ namespace Microsoft.Quantum.Samples {
         return (optimizedParameters, optimialBias);
     }
 
-    operation Validate(
+    operation ValidateHalfMoonModel(
         validationVectors : Double[][],
         validationLabels : Int[],
         parameters : Double[],
         bias : Double
     ) : Int {
+        let samples = Mapped(
+            LabeledSample,
+            Zip(Preprocessed(validationVectors), validationLabels)
+        );
         let nQubits = 2;
         let tolerance = 0.005;
         let nMeasurements = 10000;
-        return CountValidationMisses(
+        let results = ValidateModel(
             tolerance,
             nQubits,
-            validationVectors,
-            validationLabels,
+            samples,
             DefaultSchedule(validationVectors),
             ClassifierStructure(),
             parameters,
             bias,
             nMeasurements
         );
+        return results::NMisclassifications;
     }
 
 }
