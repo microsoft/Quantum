@@ -1,8 +1,8 @@
 import qsharp
 from Microsoft.Quantum.Samples.BitFlipCode import (
-	CheckBitFlipCodeCorrectsBitFlipErrors,
-	CheckBitFlipCodeStateParity,
-	CheckCanonBitFlipCodeCorrectsBitFlipErrors
+    CheckBitFlipCodeCorrectsBitFlipErrors,
+    CheckBitFlipCodeStateParity,
+    CheckCanonBitFlipCodeCorrectsBitFlipErrors
 )
 
 """First, we call the CheckBitFlipCodeStateParity operation defined in BitFlipCode.
