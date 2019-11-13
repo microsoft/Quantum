@@ -135,9 +135,11 @@ namespace Microsoft.Quantum.Samples.CHSHGame {
             CNOT(aliceQubit, bobQubit);
 
             // Randomize who measures first
-            return aliceMeasuresFirst
-            ? MeasureAliceQubit(aliceBit, aliceQubit) == MeasureBobQubit(bobBit, bobQubit)
-            | MeasureBobQubit(bobBit, bobQubit) == MeasureAliceQubit(aliceBit, aliceQubit);
+            if (aliceMeasuresFirst) {
+                return MeasureAliceQubit(aliceBit, aliceQubit) == MeasureBobQubit(bobBit, bobQubit);
+            } else {
+                return MeasureBobQubit(bobBit, bobQubit) == MeasureAliceQubit(aliceBit, aliceQubit);
+            }
         }
     }
 }

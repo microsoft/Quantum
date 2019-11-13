@@ -1,7 +1,12 @@
-﻿---
+---
 page_type: sample
-languages: [qsharp, csharp]
-products: [qdk]
+languages:
+- qsharp
+- csharp
+products:
+- qdk
+description: "This sample describes three simple quantum algorithms."
+urlFragment: simple-quantum-algorithms
 ---
 
 # Simple Quantum Algorithms Sample #
@@ -34,4 +39,5 @@ Press Start in Visual Studio to run the sample.
 - [SimpleAlgorithms.qs](./SimpleAlgorithms.qs): Q# code implementing quantum operations for this sample.
 - [Host.cs](./Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
 - [SimpleAlgorithms.csproj](./SimpleAlgorithms.csproj): Main C# project for the sample.
+
 

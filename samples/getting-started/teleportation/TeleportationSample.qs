@@ -91,7 +91,7 @@ namespace Microsoft.Quantum.Samples.Teleportation {
             Teleport(msg, target);
 
             // Check what message was sent.
-            return M(target) == One;
+            return MResetZ(target) == One;
         }
     }
 
