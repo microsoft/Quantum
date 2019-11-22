@@ -40,7 +40,7 @@ python host.py
 
 At a terminal, run the following command:
 
-```bash
+```dotnetcli
 dotnet run
 ```
 
@@ -51,13 +51,12 @@ Press Start in Visual Studio to run the sample.
 
 ## Manifest
 
-- [Measurement.qs](./Measurement.qs): Q# code preparing and measuring a few qubits.
-- [host.py](./host.py): Python host program to call into the Q# sample.
-- [Host.cs](./Host.cs): C# code to call the operations defined in Q#.
-- [Measurement.csproj](./Measurement.csproj): Main C# project for the sample.
+- [Measurement.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/measurement/Measurement.qs): Q# code preparing and measuring a few qubits.
+- [host.py](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/measurement/host.py): Python host program to call into the Q# sample.
+- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/measurement/Host.cs): C# code to call the operations defined in Q#.
+- [Measurement.csproj](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/measurement/Measurement.csproj): Main C# project for the sample.
 
 ## Further resources
 
 - [Measurement concepts](https://docs.microsoft.com/quantum/concepts/pauli-measurements)
 - [Logging and assertion techniques](https://docs.microsoft.com/quantum/techniques/testing-and-debugging#logging-and-assertions)
-
