@@ -146,7 +146,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// Given the index of a bond length, returns an operation that
     /// represents the decomposition of the corresponding Hamiltonian
     /// into unitary gates.
-    function H2TrotterUnitaries (idxBondLength : Int) : (Int, ((Int, Double, Qubit[]) => Unit : Adjoint, Controlled)) {
+    function H2TrotterUnitaries (idxBondLength : Int) : (Int, ((Int, Double, Qubit[]) => Unit is Adj + Ctl)) {
         
         let nTerms = 5;
         return (nTerms, H2TrotterUnitariesImpl(idxBondLength, _, _, _));
