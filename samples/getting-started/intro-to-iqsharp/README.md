@@ -20,7 +20,7 @@ This sample demonstrates:
 
 ## Running the Sample
 
-From the command line, start Jupyter Notebook and open the [Notebook.ipynb](./Notebook.ipynb) file.
+From the command line, start Jupyter Notebook and open the [Notebook.ipynb](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/intro-to-iqsharp/Notebook.ipynb) file.
 
 ```
 jupyter notebook Notebook.ipynb
@@ -28,6 +28,5 @@ jupyter notebook Notebook.ipynb
 
 ## Manifest
 
-- [Notebook.ipynb](./Notebook.ipynb): a Jupyter Notebook demonstrating how to simulate Q# operations and functions.
-- [Operations.qs](./Operations.qs): Q# code called from the Jupyter Notebook for this sample.
-
+- [Notebook.ipynb](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/intro-to-iqsharp/Notebook.ipynb): a Jupyter Notebook demonstrating how to simulate Q# operations and functions.
+- [Operations.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/intro-to-iqsharp/Operations.qs): Q# code called from the Jupyter Notebook for this sample.
