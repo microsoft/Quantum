@@ -7,6 +7,7 @@ using Microsoft.Quantum.Simulation.Simulators;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace Microsoft.Quantum.Samples
     {
         static async Task Main()
         {
-            var (vectors, labels) = LoadDataFromCsv("sorted-data.csv");
+            var data = await LoadData("data.json");
             var paramSource = new double[][]
             {
                 new double[] {0.060057, 3.00522, 2.03083, 0.63527, 1.03771, 1.27881, 4.10186,   5.34396},
@@ -32,40 +33,44 @@ namespace Microsoft.Quantum.Samples
             using var targetMachine = new QuantumSimulator(false, 12345678);
             var (optimizedParameters, optimizedBias) = await TrainHalfMoonModel.Run(
                 targetMachine,
-                new QArray<QArray<double>>(vectors.Select(vector => new QArray<double>(vector))),
-                new QArray<long>(labels),
+                new QArray<QArray<double>>(data.TrainingData.Features.Select(vector => new QArray<double>(vector))),
+                new QArray<long>(data.TrainingData.Labels),
                 new QArray<QArray<double>>(paramSource.Select(parameterSet => new QArray<double>(parameterSet)))
             );
 
             //NOW DO SOME TESTING
-            var (testVecs, testLabs) = LoadDataFromCsv("moon-test.csv");
             var testMisses = await ValidateHalfMoonModel.Run(
                 targetMachine,
-                new QArray<QArray<double>>(testVecs.Select(vector => new QArray<double>(vector))),
-                new QArray<long>(testLabs),
+                new QArray<QArray<double>>(data.ValidationData.Features.Select(vector => new QArray<double>(vector))),
+                new QArray<long>(data.ValidationData.Labels),
                 optimizedParameters,
                 optimizedBias
             );
-            System.Console.WriteLine($"Observed {testMisses} misclassifications out of {testVecs.Count} validation samples.");
-        } //HalfMoonsExample
+            System.Console.WriteLine($"Observed {testMisses} misclassifications out of {data.ValidationData.Labels.Count} validation samples.");
+        }
 
-
-        static (List<double[]>, List<long>) LoadDataFromCsv(string dataPath, double offset = 0.0, double filler = 1.0)
+        class LabeledData
         {
-            var vectors = new List<double[]>();
-            var labels = new List<long>();
-            using var dataReader = new StreamReader(dataPath);
-            while (dataReader.ReadLine() is string line)
-            {
-                var tokens = line.Split(',');
-                var x = double.Parse(tokens[0]) + offset;
-                var y = double.Parse(tokens[1]) + offset;
-                //pre-applying "product state" kernel
-                var vec = new double[] { x, y };
-                vectors.Add(vec);
-                labels.Add(long.Parse(tokens[2]));
-            }
-            return (vectors, labels);
+            public List<double[]> Features  { get; set; }
+            public List<long> Labels  { get; set; }
+        }
+
+        class DataSet
+        {
+            public LabeledData TrainingData { get; set; }
+            public LabeledData ValidationData  { get; set; }
+        }
+
+        static async Task<DataSet> LoadData(string dataPath, double offset = 0.0, double filler = 1.0)
+        {
+            using var dataReader = File.OpenRead(dataPath);
+            return await JsonSerializer.DeserializeAsync<DataSet>(
+                dataReader,
+                new JsonSerializerOptions
+                {
+                    ReadCommentHandling = JsonCommentHandling.Skip
+                }
+            );
         }
 
     }

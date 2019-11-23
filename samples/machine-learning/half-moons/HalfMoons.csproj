@@ -10,5 +10,6 @@
     <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.10.1911.307" />
     <PackageReference Include="Microsoft.Quantum.Standard" Version="0.10.1911.2204-alpha" />
     <PackageReference Include="Microsoft.Quantum.MachineLearning" Version="0.10.1911.2204-alpha" />
+    <PackageReference Include="System.Text.Json" Version="4.6.0" />
   </ItemGroup>
 </Project>
