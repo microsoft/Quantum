@@ -19,10 +19,6 @@ namespace Microsoft.Quantum.Samples
 
     class Program
     {
-        /// <summary>
-        /// Simple 2D data classes that are, however, not linearly separable
-        /// </summary>
-        /// <returns>true iff fewer that 3 misclassifications are achieved on test data</returns>
         static async Task Main()
         {
             var (vectors, labels) = LoadDataFromCsv("sorted-data.csv");
