@@ -65,17 +65,17 @@ docker run -it --name iqsharp-container -p 8888:8888 iqsharp /bin/bash
 
 From the corresponding container command line, you can run the C# version of the Teleportation sample using: 
 ```sh
-cd ~/Samples/src/Teleportation && dotnet run
+cd ~/samples/getting-started/teleportation && dotnet run
 ```
 
 Similarly, you can run the Python version of the Teleportation sample using: 
 ```sh
-cd ~/Samples/src/Teleportation && python host.py
+cd ~/samples/getting-started/teleportation && python host.py
 ```
 
 Finally, to start jupyter notebook within the image for the Teleportation sample, use:
 ```sh
-cd ~/Samples/src/Teleportation && jupyter notebook --ip=0.0.0.0 --no-browser 
+cd ~/samples/getting-started/teleportation && jupyter notebook --ip=0.0.0.0 --no-browser 
 ```
 
 Once Jupyter has started, you can open in your browser the Teleportation notebook (you
