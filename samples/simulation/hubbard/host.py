@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 import argparse
 import qsharp
 from Microsoft.Quantum.Samples.Hubbard import EstimateHubbardAntiFerromagneticEnergy

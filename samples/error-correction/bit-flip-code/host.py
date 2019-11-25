@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 import qsharp
 from Microsoft.Quantum.Samples.BitFlipCode import (
     CheckBitFlipCodeCorrectsBitFlipErrors,

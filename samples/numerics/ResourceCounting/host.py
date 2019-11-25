@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 from Microsoft.Quantum.Numerics.Samples import EvaluatePolynomial
 import qsharp
 print("Loading the numerics library...")

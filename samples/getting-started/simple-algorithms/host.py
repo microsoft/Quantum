@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 import qsharp
 from Microsoft.Quantum.Samples.SimpleAlgorithms import BernsteinVaziraniTestCase, DeutschJozsaTestCase, HiddenShiftBentCorrelationTestCase
 

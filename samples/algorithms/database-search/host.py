@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 import math
 import qsharp
 from Microsoft.Quantum.Samples.DatabaseSearch import ApplyQuantumSearch, ApplyGroverSearch
