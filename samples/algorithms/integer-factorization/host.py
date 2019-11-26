@@ -53,12 +53,12 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         '-u',
-        '--use-phase-estimation',
+        '--use-robust-pe',
         action='store_true',
-        help='if true uses Robust Phase Estimation, uses Quantum Phase Estimation.(default=False)',
+        help='if true uses Robust Phase Estimation, otherwise uses Quantum Phase Estimation.(default=False)',
         default=False)
     args = parser.parse_args()
     if args.number >= 1:
-        factor_integer(args.number, args.trials, args.use_phase_estimation)
+        factor_integer(args.number, args.trials, args.use_robust_pe)
     else:
         print("Error: Invalid number. The number '-n' must be greater than or equal to 1.")

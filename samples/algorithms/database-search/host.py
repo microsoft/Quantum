@@ -65,8 +65,8 @@ def quantum_oracle():
         marked_qubit, register = ApplyQuantumSearch.simulate(nIterations=n_iterations, nDatabaseQubits=n_qubits)
         success_count += 1 if marked_qubit == 1 else 0
         # Print the results of the search every 10 attempts.
-        if (i+1)%10 == 0:
-            empirical_success = round(success_count / (i+1), 3)
+        if (i + 1) % 10 == 0:
+            empirical_success = round(success_count / (i + 1), 3)
             # This is how much faster the quantum algorithm performs on average over the classical search.
             speed_up = round( (empirical_success / classical_success) / queries, 3)
             print(f"Attempt: {i} Success: {marked_qubit} Probability: {empirical_success} Speed: {speed_up} Found database index at: {', '.join([str(x) for x in register])}")
@@ -103,7 +103,7 @@ def multiple_quantum_elements():
         success_count += 1 if marked_qubits == 1 else 0
 
         # Print the results of the search every attempt.
-        empirical_success = round(success_count / (i+1), 3)
+        empirical_success = round(success_count / (i + 1), 3)
         # This is how much faster the quantum algorithm performs on average over the classical search.
         speed_up = round( (empirical_success / classical_success) / queries, 3)
         print(f"Attempt: {i}. Success: {marked_qubits}, Probability: {empirical_success} Speed up: {speed_up} Found database index: {register}")

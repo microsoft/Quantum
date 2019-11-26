@@ -1,14 +1,14 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-from Microsoft.Quantum.Numerics.Samples import EvaluatePolynomial
 import qsharp
 print("Loading the numerics library...")
 # Need to load the numerics library.
-qsharp.packages.add("microsoft.quantum.numerics")
+qsharp.packages.add("Microsoft.Quantum.Numerics")
 print("Done. Running program...")
 # Refresh to make sure the file is correctly compiled.
 qsharp.reload()
+from Microsoft.Quantum.Numerics.Samples import EvaluatePolynomial
 
 if __name__ == "__main__":
     # Points at which to evaluate the polynomial
@@ -30,7 +30,7 @@ if __name__ == "__main__":
         polynomial += "*x"
     # Further construct the polynomial string.
     for i in range(len(coefficients)):
-        polynomial += f" + {coefficients[i]}* x^{i + (i+1 if odd else 0) + (i if even else 0)}"
+        polynomial += f" + {coefficients[i]}* x^{i + (i + 1 if odd else 0) + (i if even else 0)}"
     # Show the polynomial.
     print(f"{polynomial}.")
 

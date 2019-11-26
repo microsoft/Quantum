@@ -10,21 +10,21 @@ if __name__ == "__main__":
         description="Guess the order of a given permutation, using both classical and Quantum computing.")
     parser.add_argument(
         '-n',
-        '--nSites',
+        '--number-sites',
         type=int,
-        help='number of sites in the 1D Hubbard Model.(default=6)',
+        help='Number of sites in the 1D Hubbard Model.(default=6)',
         default=6
     )
     parser.add_argument(
         '-u',
-        '--uCoefficient',
+        '--u-coefficient',
         type=float,
-        help='the repulsion coefficient.(default=1.0)',
+        help='The repulsion coefficient.(default=1.0)',
         default=1.0
     )
     parser.add_argument(
         '-t',
-        '--tCoefficient',
+        '--t-coefficient',
         type=float,
         help='the hpping coefficient.(default=0.2)',
         default=0.2
@@ -33,21 +33,21 @@ if __name__ == "__main__":
         '-p',
         '--precision',
         type=int,
-        help='the number of bits of precision in phase estimation.(default=7)',
+        help='The number of bits of precision in phase estimation.(default=7)',
         default=7
     )
     parser.add_argument(
         '-s',
         '--step-size',
         type=float,
-        help='the trotter step size.(default=0.5)',
+        help='The trotter step size.(default=0.5)',
         default=0.5
     )
     parser.add_argument(
         '-a',
         '--attempts',
         type=int,
-        help='the number of estimation attempts to perform.(default=10)',
+        help='The number of estimation attempts to perform.(default=10)',
         default=10
     )
 
@@ -55,11 +55,11 @@ if __name__ == "__main__":
     attempts = args.attempts
     # For this example, we'll consider a loop of size sites, each one of which
     # is simulated using two qubits.
-    n = args.nSites
+    n = args.number_sites
     # Choose a repulsion term somewhat larger than the hopping term to favor
     # single-site occupancy.
-    u = args.uCoefficient
-    t = args.tCoefficient
+    u = args.u_coefficient
+    t = args.t_coefficient
 
     # We need to choose the number of bits of precision in phase estimation.
     # Bear in mind that this is bits of precision before rescaling by the trotterStepSize.

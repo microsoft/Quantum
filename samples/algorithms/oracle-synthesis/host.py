@@ -14,7 +14,8 @@ if __name__ == "__main__":
     """
     print("Running Synthesis on clean target...")
     for i in range(256):
-        # Implements oracle circuit for a given function, assuming that target qubit is initialized 0.  The adjoint operation assumes that the target qubit will be released to 0.
+        # Implements oracle circuit for a given function, assuming that target qubit is initialized 0.
+        # The adjoint operation assumes that the target qubit will be released to 0.
         res = RunOracleSynthesisOnCleanTarget.simulate(func=i, vars=3)
         if not res:
             print(f"Result = {res}")
