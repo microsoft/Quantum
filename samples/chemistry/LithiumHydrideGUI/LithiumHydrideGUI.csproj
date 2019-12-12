@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.10.1912.1211-beta" />
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.10.1912.1211-beta" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.10.1912.1212-beta" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.10.1912.1212-beta" />
     <PackageReference Include="Mono.Options" Version="5.3.0.1" />
   </ItemGroup>
 

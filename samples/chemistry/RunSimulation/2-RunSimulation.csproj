@@ -9,10 +9,10 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.10.1912.1211-beta" />
-    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.10.1912.1211-beta" />
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.10.1912.1211-beta" />
-    <PackageReference Include="Microsoft.Quantum.Research" Version="0.10.1912.1211-beta" />
+    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.10.1912.1212-beta" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.10.1912.1212-beta" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.10.1912.1212-beta" />
+    <PackageReference Include="Microsoft.Quantum.Research" Version="0.10.1912.1212-beta" />
   </ItemGroup>
 
   <ItemGroup>
