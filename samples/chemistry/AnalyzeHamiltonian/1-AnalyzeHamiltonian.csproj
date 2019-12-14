@@ -14,8 +14,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.10.1912.1307-beta" />
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.10.1912.1307-beta" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.10.1912.1401-beta" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.10.1912.1401-beta" />
   </ItemGroup>
 
 </Project>
