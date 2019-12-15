@@ -217,16 +217,15 @@ function onOperationStarted(operationName: string, input: number[], state: State
     pushHistory(null, operation, state);
 }
 
-function onOperationEnded(output: any, state: State): void {
-    console.log("Operation end:", output);
+function onOperationEnded(returnValue: string, state: State): void {
+    console.log("Operation end:", returnValue);
 
     clearIcon();
     const operation = operations.pop();
     operation.className = "last";
-
-    // Show only return values that aren't unit.
-    if (!(output instanceof Object) || Object.keys(output).length > 0) {
-        operation.appendChild(document.createTextNode(` = ${output}`));
+    if (returnValue !== "()") {
+        // Show only return values that aren't unit.
+        operation.appendChild(document.createTextNode(` = ${returnValue}`));
     }
 
     updateChart(state);
