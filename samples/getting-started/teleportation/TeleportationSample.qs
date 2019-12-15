@@ -96,7 +96,7 @@ namespace Microsoft.Quantum.Samples.Teleportation {
     }
 
     // One can also use quantum teleportation to send any quantum state
-    // without loosing any information. The following sample shows
+    // without losing any information. The following sample shows
     // how a randomly picked non-trivial state (|-> or |+>)
     // gets moved from one qubit to another.
 
