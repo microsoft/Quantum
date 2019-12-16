@@ -111,7 +111,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
 
         private void OnOperationEndHandler(ICallable operation, IApplyData result)
         {
-            BroadcastAsync("OperationEnded", result?.Value.ToString(), stateDumper.DumpAndGetAmplitudes()).Wait();
+            BroadcastAsync("OperationEnded", result?.Value?.ToString(), stateDumper.DumpAndGetAmplitudes()).Wait();
             WaitForAdvance().Wait();
         }
 
