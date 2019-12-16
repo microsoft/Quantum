@@ -207,9 +207,11 @@ function onOperationStarted(operationName: string, input: number[], state: State
     const operation = document.createElement("li");
     operation.className = "next";
     operation.innerHTML =
-        `<span class="operation-name">${operationName}</span>` +
-        `(<span class="operation-args">${input.join(", ")}</span>)` +
-        `<ol class="operation-children"></ol>`;
+        '<span class="operation-name"></span>' +
+        '(<span class="operation-args"></span>)' +
+        '<ol class="operation-children"></ol>';
+    operation.querySelector(".operation-name").textContent = operationName;
+    operation.querySelector(".operation-args").textContent = input.join(", ");
     appendOperation(operation);
     operations.push(operation);
     updateChart(state);
@@ -239,7 +241,8 @@ function onLog(message: string, state: State): void {
     clearIcon();
     const operation = document.createElement("li");
     operation.className = "next";
-    operation.textContent = message;
+    operation.innerHTML = '<span class="operation-name"></span>';
+    operation.querySelector(".operation-name").textContent = message;
     appendOperation(operation);
     updateChart(state);
 
