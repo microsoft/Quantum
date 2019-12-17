@@ -30,7 +30,7 @@ jobs:
         $RepoName = "public/quantum/samples"
         
         $LocalTag = "${ImageName}:${ImageTag}"
-        $RemoteRepo = "https://${{ secrets.ACR_REGISTRY }}/${RepoName}/${ImageName}"
+        $RemoteRepo = "${{ secrets.ACR_REGISTRY }}/${RepoName}/${ImageName}"
 
         docker build Build/images/samples --tag $LocalTag
         docker tag $LocalTag "${RemoteRepo}:${ImageTag}"
