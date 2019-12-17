@@ -1,8 +1,10 @@
-name: CI
+name: Prebuild Docker image
 
 on:
   push:
-    branches: [master]
+    branches:
+    - master
+    - cgranade/prebuild-docker # Temporarily enable on wrong branch to help test.
 
 jobs:
   build:
