@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Docker Login
+      uses: Azure/docker-login@v1
+      with:
+        # Container registry username
+        username: microsoft
+        # Container registry password
+        password: ${{ secrets.GITHUB_TOKEN }}
+        # Container registry server url
+        login-server: https://docker.pkg.github.com/
+    - name: Build and push Docker image
+      run: |
+        $ImageTag = "$([DateTime]::Now.Ticks)"
+        $ImageName = "samples"
+        $RepoName = "microsoft/quantum"
+        $CompleteTag = "docker.pkg.github.com/$RepoName/$ImageName:$ImageTag"
+
+        docker build . --tag $ImageName:$ImageTag
+        docker tag $ImageName:$ImageTag $CompleteTag
+        docker push $CompleteTag
+      shell: pwsh
