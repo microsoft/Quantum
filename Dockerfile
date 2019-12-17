@@ -7,6 +7,7 @@ ENV IQSHARP_HOSTING_ENV=SAMPLES_DOCKERFILE
 
 # Make sure the contents of our repo are in ${HOME}.
 # These steps are required for use on mybinder.org.
+USER root
 COPY . ${HOME}
 RUN chown -R ${USER} ${HOME}
 
