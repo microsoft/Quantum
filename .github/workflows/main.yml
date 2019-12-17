@@ -27,9 +27,11 @@ jobs:
         $ImageTag = "$([DateTime]::Now.Ticks)"
         $ImageName = "samples"
         $RepoName = "microsoft/quantum"
-        $CompleteTag = "docker.pkg.github.com/$RepoName/$ImageName:$ImageTag"
+        
+        $LocalTag = "${ImageName}:${ImageTag}"
+        $RemoteTag = "docker.pkg.github.com/${RepoName}/${ImageName}:${ImageTag}"
 
-        docker build . --tag $ImageName:$ImageTag
-        docker tag $ImageName:$ImageTag $CompleteTag
-        docker push $CompleteTag
+        docker build . --tag $LocalTag
+        docker tag $LocalTag $RemoteTag
+        docker push $RemoteTag
       shell: pwsh
