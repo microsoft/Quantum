@@ -31,7 +31,7 @@ jobs:
         $LocalTag = "${ImageName}:${ImageTag}"
         $RemoteRepo = "docker.pkg.github.com/${RepoName}/${ImageName}"
 
-        docker build . --tag $LocalTag
+        docker build Build/images/samples --tag $LocalTag
         docker tag $LocalTag "${RemoteRepo}:${ImageTag}"
         docker push "${RemoteRepo}:${ImageTag}"
         docker tag $LocalTag "${RemoteRepo}:latest"
