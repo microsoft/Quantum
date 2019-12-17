@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - cgranade/prebuild-docker # Temporarily enable on wrong branch to help test.
 
 jobs:
   build:
