@@ -13,15 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Docker Login
-      uses: Azure/docker-login@v1
+    - name: Azure login
+      uses: Azure/login@v1
       with:
-        # Container registry username
-        username: ${{ secrets.ACR_SERVICE_PRINCIPAL_NAME }}
-        # Container registry password
-        password: ${{ secrets.ACR_SERVICE_PRINCIPAL_PASSWORD }}
-        # Container registry server url
-        login-server: ${{ secrets.ACR_REGISTRY }}
+        creds: ${{ secrets.ACR_CREDENTIALS }}
+    - name: Docker Login
+      run: az acr login -n msquantum
     - name: Build and push Docker image
       run: |
         $Now = [DateTime]::Now;
