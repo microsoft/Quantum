@@ -24,7 +24,8 @@ jobs:
         login-server: https://docker.pkg.github.com/
     - name: Build and push Docker image
       run: |
-        $ImageTag = "$([DateTime]::Now.Ticks)"
+        $Now = [DateTime]::Now;
+        $ImageTag = "{0}{1:d2}{2:d2}.{3:d2}{4:d2}.{5:d2}{6:d4}" -f $Now.Year, $Now.Month, $Now.Day, $Now.Hour, $Now.Minute, $Now.Second, $Now.Millisecond
         $ImageName = "samples"
         $RepoName = "microsoft/quantum"
         
