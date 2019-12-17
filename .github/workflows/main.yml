@@ -29,9 +29,11 @@ jobs:
         $RepoName = "microsoft/quantum"
         
         $LocalTag = "${ImageName}:${ImageTag}"
-        $RemoteTag = "docker.pkg.github.com/${RepoName}/${ImageName}:${ImageTag}"
+        $RemoteRepo = "docker.pkg.github.com/${RepoName}/${ImageName}"
 
         docker build . --tag $LocalTag
-        docker tag $LocalTag $RemoteTag
-        docker push $RemoteTag
+        docker tag $LocalTag "${RemoteRepo}:${ImageTag}"
+        docker push "${RemoteRepo}:${ImageTag}"
+        docker tag $LocalTag "${RemoteRepo}:latest"
+        docker push "${RemoteRepo}:latest"
       shell: pwsh
