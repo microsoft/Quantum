@@ -17,20 +17,20 @@ jobs:
       uses: Azure/docker-login@v1
       with:
         # Container registry username
-        username: microsoft
+        username: ${{ secrets.ACR_SERVICE_PRINCIPAL_NAME }}
         # Container registry password
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ secrets.ACR_SERVICE_PRINCIPAL_PASSWORD }}
         # Container registry server url
-        login-server: https://docker.pkg.github.com/
+        login-server: https://${{ secrets.ACR_REGISTRY }}
     - name: Build and push Docker image
       run: |
         $Now = [DateTime]::Now;
         $ImageTag = "{0}{1:d2}{2:d2}.{3:d2}{4:d2}.{5:d2}{6:d4}" -f $Now.Year, $Now.Month, $Now.Day, $Now.Hour, $Now.Minute, $Now.Second, $Now.Millisecond
         $ImageName = "samples"
-        $RepoName = "microsoft/quantum"
+        $RepoName = "public/quantum/samples"
         
         $LocalTag = "${ImageName}:${ImageTag}"
-        $RemoteRepo = "docker.pkg.github.com/${RepoName}/${ImageName}"
+        $RemoteRepo = "https://${{ secrets.ACR_REGISTRY }}/${RepoName}/${ImageName}"
 
         docker build Build/images/samples --tag $LocalTag
         docker tag $LocalTag "${RemoteRepo}:${ImageTag}"
