@@ -52,6 +52,6 @@ jobs:
           | Set-Content ./Dockerfile
 
         git add Dockerfile
-        git commit -m "Updated Binder to use $ThisCommit."
+        git commit -m "Updated Binder to use $ThisCommit." --author="$Env:GITHUB_ACTOR <$Env:GITHUB_ACTOR@users.noreply.github.com>"
         git push origin ⭐binder
       shell: pwsh
