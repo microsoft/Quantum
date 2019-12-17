@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - cgranade/prebuild-docker # Allow this to run on PR branch again.
 
 jobs:
   build:
@@ -32,4 +33,25 @@ jobs:
         docker push "${RemoteRepo}:${ImageTag}"
         docker tag $LocalTag "${RemoteRepo}:latest"
         docker push "${RemoteRepo}:latest"
+      shell: pwsh
+    - name: Update Binder configuration
+      run: |
+        $ThisCommit = "${{ github.sha }}"
+        git checkout ⭐binder
+        git reset --hard $ThisCommit
+        
+        $Dockerfile = Get-Content ./Dockerfile;
+        $Dockerfile `
+          | ForEach-Object {
+            if ($_.StartsWith("FROM ")) {
+              "FROM mcr.microsoft.com/quantum/samples:$ThisCommit" | Write-Output;
+            } else {
+              $_ | Write-Output;
+            }
+          } `
+          | Set-Content ./Dockerfile
+
+        git add Dockerfile
+        git commit -m "Updated Binder to use $ThisCommit."
+        git push origin ⭐binder
       shell: pwsh
