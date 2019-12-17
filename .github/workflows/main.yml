@@ -21,7 +21,7 @@ jobs:
         # Container registry password
         password: ${{ secrets.ACR_SERVICE_PRINCIPAL_PASSWORD }}
         # Container registry server url
-        login-server: https://${{ secrets.ACR_REGISTRY }}
+        login-server: ${{ secrets.ACR_REGISTRY }}
     - name: Build and push Docker image
       run: |
         $Now = [DateTime]::Now;
