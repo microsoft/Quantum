@@ -3,7 +3,7 @@
 FROM mcr.microsoft.com/quantum/samples:latest
 
 # Mark that this Dockerfile is used with the samples repository.
-ENV IQSHARP_HOSTING_ENV=SAMPLES_DOCKERFILE
+ENV IQSHARP_HOSTING_ENV=SAMPLES_HOSTED
 
 # Make sure the contents of our repo are in ${HOME}.
 # These steps are required for use on mybinder.org.
