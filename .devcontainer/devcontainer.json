@@ -6,7 +6,7 @@
     //
     //     "dockerFile": "../Build/images/samples/Dockerfile",
     
-    "image": "docker.pkg.github.com/microsoft/quantum/samples:latest",
+    "image": "mcr.microsoft.com/quantum/samples:latest",
     "extensions": [
         "quantum.quantum-devkit-vscode",
         "ms-vscode.csharp",
