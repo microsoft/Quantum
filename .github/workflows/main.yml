@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - cgranade/prebuild-docker # Allow this to run on PR branch again.
 
 jobs:
   build:
