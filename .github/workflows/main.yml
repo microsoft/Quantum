@@ -36,6 +36,8 @@ jobs:
       shell: pwsh
     - name: Update Binder configuration
       run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
         $ThisCommit = "${{ github.sha }}"
         git checkout ⭐binder
         git reset --hard $ThisCommit
@@ -52,6 +54,10 @@ jobs:
           | Set-Content ./Dockerfile
 
         git add Dockerfile
-        git commit -m "Updated Binder to use $ThisCommit." --author="$Env:GITHUB_ACTOR <$Env:GITHUB_ACTOR@users.noreply.github.com>"
-        git push origin ⭐binder
+        git commit -m "Updated Binder to use $ThisCommit."
       shell: pwsh
+    
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
