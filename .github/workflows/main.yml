@@ -1,0 +1,64 @@
+name: Prebuild Docker image
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Azure login
+      uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.ACR_CREDENTIALS }}
+    - name: Docker Login
+      run: az acr login -n msquantum
+    - name: Build and push Docker image
+      run: |
+        $Now = [DateTime]::Now;
+        $ImageTag = "${{ github.sha }}"
+        $RepoName = "public/quantum/samples"
+        
+        $LocalTag = "${RepoName}:${ImageTag}"
+        $RemoteRepo = "${{ secrets.ACR_REGISTRY }}/${RepoName}"
+
+        docker build Build/images/samples --tag $LocalTag
+        docker tag $LocalTag "${RemoteRepo}:${ImageTag}"
+        docker push "${RemoteRepo}:${ImageTag}"
+        docker tag $LocalTag "${RemoteRepo}:latest"
+        docker push "${RemoteRepo}:latest"
+      shell: pwsh
+    - name: Update Binder configuration
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        $ThisCommit = "${{ github.sha }}"
+        git checkout ⭐binder
+        git reset --hard $ThisCommit
+        
+        $Dockerfile = Get-Content ./Dockerfile;
+        $Dockerfile `
+          | ForEach-Object {
+            if ($_.StartsWith("FROM ")) {
+              "FROM mcr.microsoft.com/quantum/samples:$ThisCommit" | Write-Output;
+            } else {
+              $_ | Write-Output;
+            }
+          } `
+          | Set-Content ./Dockerfile
+
+        git add Dockerfile
+        git commit -m "Updated Binder to use $ThisCommit."
+      shell: pwsh
+    
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        force: true
+        branch: ⭐binder
