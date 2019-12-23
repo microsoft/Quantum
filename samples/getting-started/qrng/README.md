@@ -44,7 +44,7 @@ dotnet run
 
 ### C# in Visual Studio 2019 ###
 
-Open the `algorithms.sln` solution in Visual Studio, then right-click on **Qrng** and select "Set As StartUp Project."
+Open the `getting-started.sln` solution in Visual Studio, then right-click on **Qrng** and select "Set As StartUp Project."
 Press Start in Visual Studio to run the sample.
 
 ## Manifest ##
