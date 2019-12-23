@@ -22,7 +22,7 @@ namespace Qrng
                 int size = Convert.ToInt32(Math.Floor(Math.Log(max, 2.0) + 1));
                 // To calculate the amount of needed bits
                 int output = max + 1; // Int to store the output
-                while(output > max)  // Loop to generate the number
+                while (output > max)  // Loop to generate the number
                 {
                     bitString = "0"; // Restart the bit string if fails 
                     for(int counter = 0; counter < size ; counter++){
