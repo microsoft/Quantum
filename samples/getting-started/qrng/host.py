@@ -1,5 +1,5 @@
 # Copyright (c) Microsoft Corporation.
-## Licensed under the MIT License.
+# Licensed under the MIT License.
 
 # This Python script contains a quantum random integer generator
 # using the operation QuantumRandomNumberGenerator defined in
