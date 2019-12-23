@@ -13,7 +13,7 @@ description: "This sample implements a quantum random number generator using Q#,
 
 This sample implements a quantum random number generator, a very simple application that is useful to learn how to write a first Q# code and it's integration with the host programs in C# or Python.
 
-In the Q# code (Qrng.qs) you can find the code for extracting a random bit using quantum measurements over a qubit in superposition. For more information, you can take a look at the [full tutorial](https://docs.microsoft.com/en-us/quantum/quickstarts/qrng?view=qsharp-preview).
+In the Q# code (Qrng.qs) you can find the code for extracting a random bit using quantum measurements over a qubit in superposition. For more information, you can take a look at the [full tutorial](https://docs.microsoft.com/quantum/quickstarts/qrng).
 
 In the classical code (Host.cs for C# and host.py for Python) you will find the code to create a random integer from 0 to a maximum integer by invoking several times the Q# operation for extracting a random bit.
 
@@ -53,4 +53,3 @@ Press Start in Visual Studio to run the sample.
 - [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/qrng/Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
 - [Qrng.csproj](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/qrng/Qrng.csproj): Main C# project for the sample.
 - [host.py](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/qrng/host.py): Python code to interact with and print out results of the Q# operations for this sample.
-
