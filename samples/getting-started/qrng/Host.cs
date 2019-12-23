@@ -6,7 +6,8 @@ using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
 
-namespace Qrng{
+namespace Qrng
+{
     class Driver
     {
         static void Main(string[] args)
