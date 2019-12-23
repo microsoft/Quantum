@@ -16,7 +16,7 @@ namespace Qrng
             {
                 // First we initialize all the variables:
                 var bitString = "0"; // To save the bit string
-                string a = "0"; // Auxiliary string variable
+                var a = "0"; // Auxiliary string variable
                 int max = 50; // The maximum of the range 
                 bool b = false; // Auxiliary bool
                 int size = Convert.ToInt32(Math.Floor(Math.Log(max, 2.0) + 1));
