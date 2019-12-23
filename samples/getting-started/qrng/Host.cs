@@ -24,7 +24,7 @@ namespace Qrng
                 {
                     bitString = "0"; // Restart the bit string if fails
                     bitString = String.Join("", Enumerable.Range(0, size).Select(idx =>
-                                                                                 SampleQuantumRandomNumberGenerator.Run(sim).Result == Result.One ? "1" : "0"
+                                            SampleQuantumRandomNumberGenerator.Run(sim).Result == Result.One ? "1" : "0"
                                                                                 )
                                            );
                     // Generate and concatenate the bits using using the Q# operation
