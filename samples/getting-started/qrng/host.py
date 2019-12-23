@@ -3,7 +3,7 @@
 
 # This Python script contains a quantum random integer generator
 # using the operation QuantumRandomNumberGenerator defined in
-# the file qrng.qs
+# the file qrng.qs.
 
 # For instructions on how to install the qsharp package,
 # see: https://docs.microsoft.com/quantum/install-guide/python
