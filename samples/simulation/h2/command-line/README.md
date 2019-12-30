@@ -40,7 +40,7 @@ dotnet run
 
 ### C# in Visual Studio 2019
 
-Open the `simulation.sln` solution in Visual Studio and set `simulation/h2/command-line/H2SimulationSampleCmdLine.csproj` as the startup project.
+Open the folder containing this sample in Visual Studio ("Open a local folder" from the Getting Started screen or "File → Open → Folder..." from the menu bar) and set `H2SimulationSampleCmdLine.csproj` as the startup project.
 Press Start in Visual Studio to run the sample.
 
 ## Manifest
