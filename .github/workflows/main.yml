@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - cgranade/delay-update-binder # FIXME: This is for testing only, and must be removed.
 
 jobs:
   build:
