@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - cgranade/delay-update-binder # FIXME: This is for testing only, and must be removed.
 
 jobs:
   build:
@@ -32,6 +33,23 @@ jobs:
         docker push "${RemoteRepo}:${ImageTag}"
         docker tag $LocalTag "${RemoteRepo}:latest"
         docker push "${RemoteRepo}:latest"
+      shell: pwsh
+    - name: Wait for image to publish
+      run: |
+        function Get-Tags() {
+          Invoke-WebRequest https://mcr.microsoft.com/v2/quantum/samples/tags/list `
+            | Select-Object -ExpandProperty Content `
+            | ConvertFrom-Json `
+            | Select-Object -ExpandProperty tags `
+            | Write-Output;
+        }
+
+        $ImageAvailable = $false;
+        $ImageTag = "${{ github.sha }}";
+        while (-not $ImageAvailable) {
+          $ImageAvailable = $ImageTag -in (Get-Tags);
+          Start-Sleep -Seconds (60 * 5);
+        }
       shell: pwsh
     - name: Update Binder configuration
       run: |
