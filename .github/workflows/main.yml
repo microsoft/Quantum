@@ -24,7 +24,7 @@ jobs:
         $Now = [DateTime]::Now;
         $ImageTag = "${{ github.sha }}"
         $RepoName = "public/quantum/samples"
-        
+
         $LocalTag = "${RepoName}:${ImageTag}"
         $RemoteRepo = "${{ secrets.ACR_REGISTRY }}/${RepoName}"
 
@@ -46,9 +46,16 @@ jobs:
 
         $ImageAvailable = $false;
         $ImageTag = "${{ github.sha }}";
+        $CheckInterval = 30; # [seconds]
         while (-not $ImageAvailable) {
-          $ImageAvailable = $ImageTag -in (Get-Tags);
-          Start-Sleep -Seconds (60 * 5);
+          if ($ImageTag -in (Get-Tags)) {
+            Write-Host "##[info] Image $ImageTag now available on mcr.microsoft.com, proceeding."
+            $ImageAvailable = $true;
+          } else {
+            Write-Host "##[info] Image $ImageTag not yet available on mcr.microsoft.com, waiting $CheckInterval seconds.";
+          }
+
+          Start-Sleep -Seconds $CheckInterval;
         }
       shell: pwsh
     - name: Update Binder configuration
@@ -58,7 +65,7 @@ jobs:
         $ThisCommit = "${{ github.sha }}"
         git checkout ⭐binder
         git reset --hard $ThisCommit
-        
+
         $Dockerfile = Get-Content ./Dockerfile;
         $Dockerfile `
           | ForEach-Object {
@@ -73,7 +80,7 @@ jobs:
         git add Dockerfile
         git commit -m "Updated Binder to use $ThisCommit."
       shell: pwsh
-    
+
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
