@@ -1,0 +1,5 @@
+# Use #-style section headings without the ending # marks, as that can
+# cause problems working with the Samples Browser.
+MD003:
+  style: "atx"
+MD013: false
