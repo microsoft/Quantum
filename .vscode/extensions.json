@@ -3,6 +3,7 @@
         "quantum.quantum-devkit-vscode",
         "ms-vscode.csharp",
         "ms-python.python",
-        "EditorConfig.EditorConfig"
+        "EditorConfig.EditorConfig",
+        "davidanson.vscode-markdownlint"
     ]
 }
