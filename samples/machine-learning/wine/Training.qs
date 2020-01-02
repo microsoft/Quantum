@@ -6,25 +6,19 @@ namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.MachineLearning;
+    open Microsoft.Quantum.MachineLearning.Datasets as Datasets;
     open Microsoft.Quantum.Math;
 
-    function WithOffset(offset : Double, sample : Double[]) : Double[] {
-        return Mapped(TimesD(offset, _), sample);
+    function WithOffset(offset : Double, sample : LabeledSample) : LabeledSample {
+        return sample
+            w/ Features <- Mapped(TimesD(offset, _), sample::Features);
     }
 
-    function WithProductKernel(scale : Double, sample : Double[]) : Double[] {
-        return sample + [scale * Fold(TimesD, 1.0, sample)];
-    }
-
-    function Preprocessed(samples : Double[][]) : Double[][] {
-        let offset = 0.75;
-        let scale = 1.0;
+    function Preprocessed(samples : LabeledSample) : LabeledSample {
+        let offset = 0.80;
 
         return Mapped(
-            Compose(
-                WithOffset(offset, _),
-                WithProductKernel(scale, _)
-            ),
+            WithOffset(offset, _),
             samples
         );
     }
@@ -38,27 +32,19 @@ namespace Microsoft.Quantum.Samples {
     // FIXME: This needs to return a GateSequence value, but that requires adapting
     //        TrainQcccSequential.
     function ClassifierStructure() : GateSequence {
-        return GateSequence([
-            ControlledRotation(GateSpan(0, new Int[0]), PauliX, 4),
-            ControlledRotation(GateSpan(0, new Int[0]), PauliZ, 5),
-            ControlledRotation(GateSpan(1, new Int[0]), PauliX, 6),
-            ControlledRotation(GateSpan(1, new Int[0]), PauliZ, 7),
-            ControlledRotation(GateSpan(0, [1]), PauliX, 0),
-            ControlledRotation(GateSpan(1, [0]), PauliX, 1),
-            ControlledRotation(GateSpan(1, new Int[0]), PauliZ, 2),
-            ControlledRotation(GateSpan(1, new Int[0]), PauliX, 3)
+        return CombinedGateSequence([
+            LocalRotationsLayer(4, PauliZ),
+            LocalRotationsLayer(4, PauliX),
+            CyclicEntanglingLayer(4, PauliX),
+            PartialLocalLayer([3], PauliX)
         ]);
     }
 
-    operation TrainHalfMoonModel(
-        trainingVectors : Double[][],
-        trainingLabels : Int[],
-        initialParameters : Double[][]
+    operation TrainWineModel(
+        initialParameters : Double[]
     ) : (Double[], Double) {
-        let samples = Mapped(
-            LabeledSample,
-            Zip(Preprocessed(trainingVectors), trainingLabels)
-        );
+        // Get the first 143 samples to use as training data.
+        let samples = Preprocessed((Datasets.WineData())[...142]);
         Message("Ready to train.");
         let optimizedModel = TrainSequentialClassifier(
             ClassifierStructure(),
@@ -77,16 +63,12 @@ namespace Microsoft.Quantum.Samples {
         return (optimizedModel::Parameters, optimizedModel::Bias);
     }
 
-    operation ValidateHalfMoonModel(
-        validationVectors : Double[][],
-        validationLabels : Int[],
+    operation TrainWineModel(
         parameters : Double[],
         bias : Double
     ) : Int {
-        let samples = Mapped(
-            LabeledSample,
-            Zip(Preprocessed(validationVectors), validationLabels)
-        );
+        // Get the remaining samples to use as validation data.
+        let samples = Preprocessed((Datasets.WineData())[143...]);
         let nQubits = 2;
         let tolerance = 0.005;
         let nMeasurements = 10000;
