@@ -60,26 +60,22 @@ namespace Microsoft.Quantum.Samples {
             LabeledSample,
             Zip(Preprocessed(trainingVectors), trainingLabels)
         );
-        let nQubits = 2;
-        let learningRate = 0.1;
-        let minibatchSize = 15;
-        let tolerance = 0.005;
-        let nMeasurements = 10000;
-        let maxEpochs = 16;
         Message("Ready to train.");
-        let (optimizedParameters, optimialBias) = TrainSequentialClassifier(
-            nQubits,
+        let optimizedModel = TrainSequentialClassifier(
             ClassifierStructure(),
             initialParameters,
             samples,
+            DefaultTrainingOptions()
+                w/ LearningRate <- 0.1
+                w/ MinibatchSize <- 15
+                w/ Tolerance <- 0.005
+                w/ NMeasurements <- 10000
+                w/ MaxEpochs <- 16,
             DefaultSchedule(trainingVectors),
-            DefaultSchedule(trainingVectors),
-            learningRate, tolerance, minibatchSize,
-            maxEpochs,
-            nMeasurements
+            DefaultSchedule(trainingVectors)
         );
-        Message($"Training complete, found optimal parameters: {optimizedParameters}");
-        return (optimizedParameters, optimialBias);
+        Message($"Training complete, found optimal parameters: {optimizedModel::Parameters}");
+        return (optimizedModel::Parameters, optimizedModel::Bias);
     }
 
     operation ValidateHalfMoonModel(
@@ -96,14 +92,12 @@ namespace Microsoft.Quantum.Samples {
         let tolerance = 0.005;
         let nMeasurements = 10000;
         let results = ValidateModel(
-            tolerance,
-            nQubits,
-            samples,
-            DefaultSchedule(validationVectors),
             ClassifierStructure(),
-            parameters,
-            bias,
-            nMeasurements
+            SequentialModel(parameters, bias),
+            samples,
+            tolerance,
+            nMeasurements,
+            DefaultSchedule(validationVectors)
         );
         return results::NMisclassifications;
     }
