@@ -35,25 +35,39 @@ namespace Microsoft.Quantum.Samples {
         return CombinedGateSequence([
             LocalRotationsLayer(4, PauliZ),
             LocalRotationsLayer(4, PauliX),
-            CyclicEntanglingLayer(4, PauliX),
-            PartialLocalLayer([3], PauliX)
+            CyclicEntanglingLayer(4, PauliX, 1),
+            PartialRotationsLayer([3], PauliX)
         ]);
     }
 
-    operation TrainWineModel(
-        initialParameters : Double[]
-    ) : (Double[], Double) {
+    operation SampleSingleParameter() : Double {
+        return PI() * (RandomReal() - 1.0);
+    }
+
+    operation SampleParametersForSequence(structure : GateSequence) : Double[] {
+        return ForEach(SampleSingleParameter, ConstantArray(Length(structure!), ()));
+    }
+
+    operation SampleInitialParameters(nInitialParameterSets : Int, structure : GateSequence) : Double[][] {
+        return ForEach(SampleParametersForSequence, ConstantArray(Length(nInitialParameterSets!), structure));
+    }
+
+    operation TrainWineModel() : (Double[], Double) {
         // Get the first 143 samples to use as training data.
         let samples = Preprocessed((Datasets.WineData())[...142]);
+        let structure = ClassifierStructure();
+        // Sample a random set of parameters.
+        let initialParameters = SampleInitialParameters(structure);
+
         Message("Ready to train.");
         let optimizedModel = TrainSequentialClassifier(
-            ClassifierStructure(),
+            structure,
             initialParameters,
             samples,
             DefaultTrainingOptions()
-                w/ LearningRate <- 0.1
-                w/ MinibatchSize <- 15
-                w/ Tolerance <- 0.005
+                w/ LearningRate <- 0.4
+                w/ MinibatchSize <- 2
+                w/ Tolerance <- 0.01
                 w/ NMeasurements <- 10000
                 w/ MaxEpochs <- 16,
             DefaultSchedule(trainingVectors),
@@ -63,7 +77,7 @@ namespace Microsoft.Quantum.Samples {
         return (optimizedModel::Parameters, optimizedModel::Bias);
     }
 
-    operation TrainWineModel(
+    operation ValidateWineModel(
         parameters : Double[],
         bias : Double
     ) : Int {
