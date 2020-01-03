@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v2
     - name: markdownlint-cli
       uses: cgranade/github-action-markdown-cli@cgranade/debug-cmd
       with:
