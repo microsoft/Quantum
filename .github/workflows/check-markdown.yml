@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: markdownlint-cli
-      uses: nosborn/github-action-markdown-cli@v1.1.1
+      uses: cgranade/github-action-markdown-cli@cgranade/debug-cmd
       with:
         files: .
         # config_file: ".markdownlint.yaml"
