@@ -15,4 +15,4 @@ jobs:
       uses: cgranade/github-action-markdown-cli@cgranade/debug-cmd
       with:
         files: .
-        # config_file: ".markdownlint.yaml"
+        config_file: ".markdownlint.yaml"
