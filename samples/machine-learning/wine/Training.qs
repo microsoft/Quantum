@@ -23,7 +23,7 @@ namespace Microsoft.Quantum.Samples {
         );
     }
 
-    function DefaultSchedule(samples : Double[][]) : SamplingSchedule {
+    function DefaultSchedule(samples : LabeledSample[]) : SamplingSchedule {
         return SamplingSchedule([
             0..Length(samples) - 1
         ]);
@@ -57,7 +57,7 @@ namespace Microsoft.Quantum.Samples {
         let samples = Preprocessed((Datasets.WineData())[...142]);
         let structure = ClassifierStructure();
         // Sample a random set of parameters.
-        let initialParameters = SampleInitialParameters(structure);
+        let initialParameters = SampleInitialParameters(16, structure);
 
         Message("Ready to train.");
         let optimizedModel = TrainSequentialClassifier(
@@ -70,8 +70,8 @@ namespace Microsoft.Quantum.Samples {
                 w/ Tolerance <- 0.01
                 w/ NMeasurements <- 10000
                 w/ MaxEpochs <- 16,
-            DefaultSchedule(trainingVectors),
-            DefaultSchedule(trainingVectors)
+            DefaultSchedule(samples),
+            DefaultSchedule(samples)
         );
         Message($"Training complete, found optimal parameters: {optimizedModel::Parameters}");
         return (optimizedModel::Parameters, optimizedModel::Bias);
@@ -92,7 +92,7 @@ namespace Microsoft.Quantum.Samples {
             samples,
             tolerance,
             nMeasurements,
-            DefaultSchedule(validationVectors)
+            DefaultSchedule(samples)
         );
         return results::NMisclassifications;
     }
