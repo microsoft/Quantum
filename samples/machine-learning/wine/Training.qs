@@ -14,7 +14,7 @@ namespace Microsoft.Quantum.Samples {
             w/ Features <- Mapped(TimesD(offset, _), sample::Features);
     }
 
-    function Preprocessed(samples : LabeledSample) : LabeledSample {
+    function Preprocessed(samples : LabeledSample[]) : LabeledSample[] {
         let offset = 0.80;
 
         return Mapped(
@@ -41,7 +41,7 @@ namespace Microsoft.Quantum.Samples {
     }
 
     operation SampleSingleParameter() : Double {
-        return PI() * (RandomReal() - 1.0);
+        return PI() * (RandomReal(16) - 1.0);
     }
 
     operation SampleParametersForSequence(structure : GateSequence) : Double[] {
@@ -49,7 +49,7 @@ namespace Microsoft.Quantum.Samples {
     }
 
     operation SampleInitialParameters(nInitialParameterSets : Int, structure : GateSequence) : Double[][] {
-        return ForEach(SampleParametersForSequence, ConstantArray(Length(nInitialParameterSets!), structure));
+        return ForEach(SampleParametersForSequence, ConstantArray(nInitialParameterSets, structure));
     }
 
     operation TrainWineModel() : (Double[], Double) {
