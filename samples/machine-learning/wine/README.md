@@ -12,14 +12,14 @@ description: "This sample implements using the quantum machine learning library 
 # Training sequential models with Q\#
 
 This sample uses Q# and the Microsoft.Quantum.MachineLearning library to train a simple sequential model.
-The model is trained on a half-moon dataset, loaded in C# using the System.Text.Json package, then preprocessed using Q#.
+The model is trained on the [wine dataset](https://archive.ics.uci.edu/ml/datasets/wine) from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/), using a classifier structure defined in Q#.
 
 
-## Prerequisites ##
+## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
 
-## Running the Sample ##
+## Running the Sample
 
 This sample can be run in a number of different ways, depending on your preferred environment.
 
@@ -32,7 +32,7 @@ At a terminal, run the following command:
 python host.py
 ``` -->
 
-### C# in Visual Studio Code or the Command Line ###
+### C# in Visual Studio Code or the Command Line
 
 At a terminal, run the following command:
 
@@ -40,14 +40,13 @@ At a terminal, run the following command:
 dotnet run
 ```
 
-### C# in Visual Studio 2019 ###
+### C# in Visual Studio 2019
 
 Open the folder containing this sample in Visual Studio ("Open a local folder" from the Getting Started screen or "File → Open → Folder..." from the menu bar) and set `HalfMoons.csproj` as the startup project.
 Press Start in Visual Studio to run the sample.
 
-## Manifest ##
+## Manifest
 
-- [Training.qs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/Training.qs): Q# code implementing quantum operations for this sample.
-- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/Host.cs): C# code to load data, and to interact with and print out results of the Q# operations for this sample.
-- [HalfMoons.csproj](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/HalfMoons.csproj): Main C# project for the sample.
-- [data.json](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/data.json): JSON-serialized training and validation data used by this sample.
+- [Training.qs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/wine/Training.qs): Q# code implementing quantum operations for this sample.
+- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/wine/Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
+- [Wine.csproj](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/wine/Wine.csproj): Main C# project for the sample.
