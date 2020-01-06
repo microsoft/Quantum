@@ -26,7 +26,6 @@
 
 ## Program Management ##
 
-- [Senior Outreach Program Manager](https://careers.microsoft.com/us/en/job/694407)
 - [Program Manager](https://careers.microsoft.com/us/en/job/748231)
 - [Creative Director (or UX Program Manager)](https://careers.microsoft.com/us/en/job/748230)
 - [Quantum Services Program Manager Lead](https://careers.microsoft.com/us/en/job/748227)
