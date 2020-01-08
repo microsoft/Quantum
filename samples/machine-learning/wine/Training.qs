@@ -29,8 +29,6 @@ namespace Microsoft.Quantum.Samples {
         ]);
     }
 
-    // FIXME: This needs to return a GateSequence value, but that requires adapting
-    //        TrainQcccSequential.
     function ClassifierStructure() : GateSequence {
         return CombinedGateSequence([
             LocalRotationsLayer(4, PauliZ),
