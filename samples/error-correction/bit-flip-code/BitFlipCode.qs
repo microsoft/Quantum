@@ -6,6 +6,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Arrays;
 
 
     //////////////////////////////////////////////////////////////////////////
@@ -368,11 +369,9 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
 
         // For each of these errors, we can then check
         // that the bit flip code corrects them appropriately.
-        let check = CheckCodeCorrectsError(code, 2, recoveryFn, _);
-        let errors = [X0, X1, X2];
-        check(errors[0]);
-        check(errors[1]);
-        check(errors[2]);
+        for (error in [X0, X1, X2]) {
+            CheckCodeCorrectsError(code, 2, recoveryFn, error);
+        }
     }
 
 }
