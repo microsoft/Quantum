@@ -26,7 +26,6 @@
 
 ## Program Management ##
 
-- [Program Manager](https://careers.microsoft.com/us/en/job/748231)
 - [Creative Director (or UX Program Manager)](https://careers.microsoft.com/us/en/job/748230)
 - [Quantum Services Program Manager Lead](https://careers.microsoft.com/us/en/job/748227)
 
@@ -40,3 +39,8 @@
 - [Research Software Development Engineer](https://careers.microsoft.com/us/en/job/750649)
 - [Quantum Software Engineer](https://careers.microsoft.com/us/en/job/751487)
 - [Quantum Associate Researcher](https://careers.microsoft.com/us/en/job/760527)
+
+## Internships ##
+
+- [2019 Microsoft Quantum Research Internship](https://careers.microsoft.com/us/en/job/756936/Research-Intern-Quantum-Computing)
+- [2019 Microsoft Quantum Programming Internship](https://careers.microsoft.com/us/en/job/756934/Research-Intern-Quantum-Programming)
