@@ -32,7 +32,7 @@ namespace Microsoft.Quantum.Extensions.Oracles
 
         /// <summary>
         /// Apply a permutation defined by a permutation table. This overload
-        /// allows for perfomance optimizations like reuse of permutation
+        /// allows for performance optimizations like reuse of permutation
         /// tables.
         /// </summary>
         public static void ApplyOracle(QuantumSimulator simulator, Int64[] permutation,
