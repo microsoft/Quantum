@@ -11,8 +11,7 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides
 {
     /// <summary>
     /// A simulator which extends QuantumSimulator and redefines measurement operation 
-    /// to return the correct measurement result with certain probability 
-    /// and the opposite measurement result in the rest of the cases.
+    /// to introduce a bit-flip error happening before measurement with certain probability.
     /// </summary>
     public class FaultyMeasurementsSimulator : QuantumSimulator
     {
@@ -22,19 +21,14 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides
         public class M : QSimM
         {
             /// <summary>
-            /// The probability with which the measurement result will be flipped.
+            /// The probability with which the error will be introduced before measurement.
             /// </summary>
             const double flipProbability = 0.1;
 
             /// <summary>
-            /// Random number generator used to decide when to flip the result.
+            /// Random number generator used to decide when to introduce the error.
             /// </summary>
             private static readonly System.Random rnd = new System.Random();
-
-            /// <summary>
-            /// The X gate operation used to adjust the state to match flipped measurement results.
-            /// </summary>
-            private static IUnitary<Qubit> gateX;
 
             public M(FaultyMeasurementsSimulator m) : base(m) { }
 
@@ -46,24 +40,20 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides
                     // Get the original M operation to call it and process the results
                     Func<Qubit, Result> originalMeasurementOperation = base.Body;
 
-                    // Get the X gate
-                    gateX = this.Factory.Get<IUnitary<Qubit>>(typeof(X));
+                    // Get the X gate operation (used to introduce the error)
+                    IUnitary<Qubit> gateX = this.Factory.Get<IUnitary<Qubit>>(typeof(X));
 
                     // The body of the operation is a lambda
                     return (qubit =>
                     {
-                        // Call the original M operation to get correct measurement results
-                        Result originalResult = originalMeasurementOperation(qubit);
-
-                        // Flip the measurement result with certain probability
+                        // Introduce the X error with certain probability
                         if (rnd.NextDouble() < flipProbability)
                         {
-                            // Remember to adjust the state of the wave function
                             gateX.Apply(qubit);
-
-                            return originalResult == Result.Zero ? Result.One : Result.Zero;
                         }
-                        return originalResult;
+
+                        // Call the original (perfect) M operation to get final measurement results
+                        return originalMeasurementOperation(qubit);
                     });
                 }
             }
