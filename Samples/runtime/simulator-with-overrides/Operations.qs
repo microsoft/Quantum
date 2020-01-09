@@ -27,6 +27,6 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides {
                 ResetAll([q1, q2]);
             }
         }
-        Message($"{nSame} runs out of {nRuns} produced the same results");
+        Message($"{nSame} runs out of {nRuns} produced the same results.");
     }
 }

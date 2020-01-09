@@ -27,7 +27,7 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides
             const double flipProbability = 0.1;
 
             /// <summary>
-            /// Random numbers generator used to decide when to flip the result.
+            /// Random number generator used to decide when to flip the result.
             /// </summary>
             private static readonly System.Random rnd = new System.Random();
 
@@ -56,7 +56,8 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides
                         Result originalResult = originalMeasurementOperation(qubit);
 
                         // Flip the measurement result with certain probability
-                        if (rnd.NextDouble() < flipProbability) {
+                        if (rnd.NextDouble() < flipProbability)
+                        {
                             // Remember to adjust the state of the wave function
                             gateX.Apply(qubit);
 
