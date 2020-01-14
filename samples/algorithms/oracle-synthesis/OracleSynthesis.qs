@@ -62,22 +62,6 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     }
 
     /// # Summary
-    /// Inverts an integer
-    ///
-    /// # Input
-    /// ## n
-    /// Integer
-    ///
-    /// # Output
-    /// Inverted input
-    ///
-    /// # Note
-    /// This wraps inversion for use in functions like `Map`.
-    function IntInvert(n : Int) : Int {
-        return -n;
-    }
-
-    /// # Summary
     /// Extends a spectrum by inverted coefficients
     ///
     /// # Input
@@ -92,7 +76,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// Extend([2, 2, 2, -2]); // [2, 2, 2, -2, -2, -2, -2, 2]
     /// ```
     function Extend(spectrum : Int[]) : Int[] {
-        return spectrum + Mapped(IntInvert, spectrum);
+        return spectrum + Mapped(NegationI, spectrum);
     }
 
     /// # Summary
@@ -217,7 +201,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
         body (...) {
             let vars = Length(controls);
             let table = Encode(func);
-            let spectrum = Extend(FastHadamardTransform(table));
+            let spectrum = FastHadamardTransform(table);
 
             AssertAllZero([target]);
 
@@ -235,7 +219,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
         adjoint (...) {
             let vars = Length(controls);
             let table = Encode(func);
-            let spectrum = Extend(FastHadamardTransform(table));
+            let spectrum = FastHadamardTransform(table);
 
             H(target);
             AssertProb([PauliZ], [target], One, 0.5, "Probability of the measurement must be 0.5", 1e-10);

@@ -23,7 +23,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode
 
             // We begin by defining a quantum simulator to be our target
             // machine.
-            var sim = new QuantumSimulator(throwOnReleasingQubitsNotInZeroState: true);
+            using var sim = new QuantumSimulator(throwOnReleasingQubitsNotInZeroState: true);
 
             #endregion
 
