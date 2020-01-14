@@ -27,7 +27,6 @@
 ## Program Management ##
 
 - [Creative Director (or UX Program Manager)](https://careers.microsoft.com/us/en/job/748230)
-- [Quantum Services Program Manager Lead](https://careers.microsoft.com/us/en/job/748227)
 
 ## Research ##
 
