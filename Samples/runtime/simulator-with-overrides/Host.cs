@@ -7,7 +7,7 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides
     {
         static void Main(string[] args)
         {
-            using FaultyMeasurementsSimulator qsim = new FaultyMeasurementsSimulator();
+            using var qsim = new FaultyMeasurementsSimulator();
             DoCorrelatedMeasurements.Run(qsim).Wait();
         }
     }

@@ -52,7 +52,8 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides
                             gateX.Apply(qubit);
                         }
 
-                        // Call the original (perfect) M operation to get final measurement results
+                        // Call the original (perfect) M operation to get final measurement results.
+                        // Q# type Result which denotes measurement results maps to C# type with the same name
                         return originalMeasurementOperation(qubit);
                     });
                 }
