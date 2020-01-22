@@ -29,8 +29,8 @@ namespace Microsoft.Quantum.Samples {
         ]);
     }
 
-    function ClassifierStructure() : GateSequence {
-        return CombinedGateSequence([
+    function ClassifierStructure() : SequentialClassifierStructure {
+        return CombinedStructure([
             LocalRotationsLayer(4, PauliZ),
             LocalRotationsLayer(4, PauliX),
             CyclicEntanglingLayer(4, PauliX, 1),
@@ -42,11 +42,11 @@ namespace Microsoft.Quantum.Samples {
         return PI() * (RandomReal(16) - 1.0);
     }
 
-    operation SampleParametersForSequence(structure : GateSequence) : Double[] {
+    operation SampleParametersForSequence(structure : SequentialClassifierStructure) : Double[] {
         return ForEach(SampleSingleParameter, ConstantArray(Length(structure!), ()));
     }
 
-    operation SampleInitialParameters(nInitialParameterSets : Int, structure : GateSequence) : Double[][] {
+    operation SampleInitialParameters(nInitialParameterSets : Int, structure : SequentialClassifierStructure) : Double[][] {
         return ForEach(SampleParametersForSequence, ConstantArray(nInitialParameterSets, structure));
     }
 
@@ -81,10 +81,9 @@ namespace Microsoft.Quantum.Samples {
     ) : Int {
         // Get the remaining samples to use as validation data.
         let samples = Preprocessed((Datasets.WineData())[143...]);
-        let nQubits = 2;
         let tolerance = 0.005;
         let nMeasurements = 10000;
-        let results = ValidateModel(
+        let results = ValidateSequentialClassifier(
             ClassifierStructure(),
             SequentialModel(parameters, bias),
             samples,
