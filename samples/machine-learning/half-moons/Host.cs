@@ -16,7 +16,6 @@ using static System.Math;
 namespace Microsoft.Quantum.Samples
 {
     using Microsoft.Quantum.MachineLearning;
-    using Microsoft.Quantum.MachineLearning.Interop;
 
     class Program
     {
