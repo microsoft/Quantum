@@ -35,8 +35,8 @@ namespace Microsoft.Quantum.Samples {
         ]);
     }
 
-    function ClassifierStructure() : GateSequence {
-        return GateSequence([
+    function ClassifierStructure() : SequentialClassifierStructure {
+        return SequentialClassifierStructure([
             ControlledRotation(GateSpan(0, new Int[0]), PauliX, 4),
             ControlledRotation(GateSpan(0, new Int[0]), PauliZ, 5),
             ControlledRotation(GateSpan(1, new Int[0]), PauliX, 6),
@@ -85,10 +85,9 @@ namespace Microsoft.Quantum.Samples {
             LabeledSample,
             Zip(Preprocessed(validationVectors), validationLabels)
         );
-        let nQubits = 2;
         let tolerance = 0.005;
         let nMeasurements = 10000;
-        let results = ValidateModel(
+        let results = ValidateSequentialClassifier(
             ClassifierStructure(),
             SequentialModel(parameters, bias),
             samples,
