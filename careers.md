@@ -26,7 +26,7 @@
 
 ## Program Management ##
 
-- [Creative Director (or UX Program Manager)](https://careers.microsoft.com/us/en/job/748230)
+- [Senior Research Program Manager](https://careers.microsoft.com/us/en/job/781290/Senior-Program-Manager)
 
 ## Research ##
 
