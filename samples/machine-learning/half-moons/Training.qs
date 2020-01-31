@@ -35,17 +35,17 @@ namespace Microsoft.Quantum.Samples {
         ]);
     }
 
-    function ClassifierStructure() : SequentialClassifierStructure {
-        return SequentialClassifierStructure([
-            ControlledRotation(GateSpan(0, new Int[0]), PauliX, 4),
-            ControlledRotation(GateSpan(0, new Int[0]), PauliZ, 5),
-            ControlledRotation(GateSpan(1, new Int[0]), PauliX, 6),
-            ControlledRotation(GateSpan(1, new Int[0]), PauliZ, 7),
-            ControlledRotation(GateSpan(0, [1]), PauliX, 0),
-            ControlledRotation(GateSpan(1, [0]), PauliX, 1),
-            ControlledRotation(GateSpan(1, new Int[0]), PauliZ, 2),
-            ControlledRotation(GateSpan(1, new Int[0]), PauliX, 3)
-        ]);
+    function ClassifierStructure() : ControlledRotation[] {
+        return [
+            ControlledRotation((0, new Int[0]), PauliX, 4),
+            ControlledRotation((0, new Int[0]), PauliZ, 5),
+            ControlledRotation((1, new Int[0]), PauliX, 6),
+            ControlledRotation((1, new Int[0]), PauliZ, 7),
+            ControlledRotation((0, [1]), PauliX, 0),
+            ControlledRotation((1, [0]), PauliX, 1),
+            ControlledRotation((1, new Int[0]), PauliZ, 2),
+            ControlledRotation((1, new Int[0]), PauliX, 3)
+        ];
     }
 
     operation TrainHalfMoonModel(
@@ -59,8 +59,10 @@ namespace Microsoft.Quantum.Samples {
         );
         Message("Ready to train.");
         let optimizedModel = TrainSequentialClassifier(
-            ClassifierStructure(),
-            initialParameters,
+            Mapped(
+                SequentialModel(ClassifierStructure(), _, 0.0),
+                initialParameters
+            ),
             samples,
             DefaultTrainingOptions()
                 w/ LearningRate <- 0.1
@@ -88,8 +90,7 @@ namespace Microsoft.Quantum.Samples {
         let tolerance = 0.005;
         let nMeasurements = 10000;
         let results = ValidateSequentialClassifier(
-            ClassifierStructure(),
-            SequentialModel(parameters, bias),
+            SequentialModel(ClassifierStructure(), parameters, bias),
             samples,
             tolerance,
             nMeasurements,
