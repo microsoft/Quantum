@@ -29,7 +29,7 @@ namespace Microsoft.Quantum.Samples {
         ]);
     }
 
-    function ClassifierStructure() : SequentialClassifierStructure {
+    function ClassifierStructure() : ControlledRotation[] {
         return CombinedStructure([
             LocalRotationsLayer(4, PauliZ),
             LocalRotationsLayer(4, PauliX),
@@ -42,11 +42,11 @@ namespace Microsoft.Quantum.Samples {
         return PI() * (RandomReal(16) - 1.0);
     }
 
-    operation SampleParametersForSequence(structure : SequentialClassifierStructure) : Double[] {
-        return ForEach(SampleSingleParameter, ConstantArray(Length(structure!), ()));
+    operation SampleParametersForSequence(structure : ControlledRotation[]) : Double[] {
+        return ForEach(SampleSingleParameter, ConstantArray(Length(structure), ()));
     }
 
-    operation SampleInitialParameters(nInitialParameterSets : Int, structure : SequentialClassifierStructure) : Double[][] {
+    operation SampleInitialParameters(nInitialParameterSets : Int, structure : ControlledRotation[]) : Double[][] {
         return ForEach(SampleParametersForSequence, ConstantArray(nInitialParameterSets, structure));
     }
 
@@ -59,8 +59,10 @@ namespace Microsoft.Quantum.Samples {
 
         Message("Ready to train.");
         let optimizedModel = TrainSequentialClassifier(
-            structure,
-            initialParameters,
+            Mapped(
+                SequentialModel(structure, _, 0.0),
+                initialParameters
+            ),
             samples,
             DefaultTrainingOptions()
                 w/ LearningRate <- 0.4
@@ -84,8 +86,7 @@ namespace Microsoft.Quantum.Samples {
         let tolerance = 0.005;
         let nMeasurements = 10000;
         let results = ValidateSequentialClassifier(
-            ClassifierStructure(),
-            SequentialModel(parameters, bias),
+            SequentialModel(ClassifierStructure(), parameters, bias),
             samples,
             tolerance,
             nMeasurements,
