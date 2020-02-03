@@ -24,7 +24,8 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
     /// # Summary
     /// Implementation of ControlledSWAP using standard Microsoft.Quantum.Intrinsic.SWAP
-    operation ControlledSWAP0 (control : Qubit, target1 : Qubit, target2 : Qubit) : Unit is Adj + Ctl {
+    operation ControlledSWAP0 (control : Qubit, target1 : Qubit, target2 : Qubit)
+    : Unit is Adj + Ctl {
         Controlled SWAP([control], (target1, target2));
     }
 
@@ -34,17 +35,14 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # Remarks
     /// Number of gates used for this implementation is 2 CNOTs + number of gates used for the
     /// implementation of CCNOTOp
-    operation ControlledSWAPUsingCCNOT (CCNOTOp : ((Qubit, Qubit, Qubit) => Unit is Adj + Ctl), control : Qubit, target1 : Qubit, target2 : Qubit) : Unit is Ctl {
-        body (...) {
-            // Note that SWAP(a,b) = CNOT(b,a) CNOT(a,b) CNOT(b,a)
-            // Since CNOT(b,a) is self-adjoint: CNOT(b,a)CNOT(b,a)=I,
-            // Controlled SWAP(a,b) = CNOT(b,a) CCNOT(c,a,b) CNOT(b,a)
-            CNOT(target2, target1);
-            CCNOTOp(control, target1, target2);
-            CNOT(target2, target1);
-        }
-
-        adjoint self;
+    operation ControlledSWAPUsingCCNOT (CCNOTOp : ((Qubit, Qubit, Qubit) => Unit is Adj + Ctl), control : Qubit, target1 : Qubit, target2 : Qubit)
+    : Unit is Adj + Ctl {
+        // Note that SWAP(a,b) = CNOT(b,a) CNOT(a,b) CNOT(b,a)
+        // Since CNOT(b,a) is self-adjoint: CNOT(b,a)CNOT(b,a)=I,
+        // Controlled SWAP(a,b) = CNOT(b,a) CCNOT(c,a,b) CNOT(b,a)
+        CNOT(target2, target1);
+        CCNOTOp(control, target1, target2);
+        CNOT(target2, target1);
     }
 
 
