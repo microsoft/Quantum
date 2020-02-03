@@ -13,9 +13,6 @@ USER root
 # Install additional system packages from apt.
 RUN apt-get -y update && \
     apt-get -y install \
-               # For the chemistry samples, we'll need PowerShell to be
-               # installed.
-               powershell \
                # For the Python interoperability sample, we require QuTiP,
                # which in turn requires gcc's C++ support.
                g++ \
@@ -25,6 +22,12 @@ RUN apt-get -y update && \
                libfreetype6-dev \
                libpng-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/
+
+# For the chemistry samples, we'll need PowerShell to be
+# installed. It tends to be more stable to use the .NET Core SDK to do so than
+# to use the Debian package manager, due to issues with syncing libicu
+# dependencies.
+RUN dotnet tool install --global PowerShell
 
 # Install additional Python dependencies for the PythonInterop sample.
 # Note that QuTiP has as a hard requirement that its dependencies must be
