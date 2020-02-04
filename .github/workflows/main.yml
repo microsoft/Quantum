@@ -35,19 +35,22 @@ jobs:
       shell: pwsh
     - name: Wait for image to publish
       run: |
-        function Get-Tags() {
-          Invoke-WebRequest https://mcr.microsoft.com/v2/quantum/samples/tags/list `
-            | Select-Object -ExpandProperty Content `
-            | ConvertFrom-Json `
-            | Select-Object -ExpandProperty tags `
-            | Write-Output;
+        function Test-Manifest() {
+          try {
+            $manifest = Invoke-RestMethod `
+              "https://mcr.microsoft.com/v2/quantum/samples/manifests/${{ github.sha }}" `
+              -ErrorAction Continue;
+            Write-Verbose $manifest;
+            return $true;
+          } catch {
+            return $false;
+          }
         }
 
         $ImageAvailable = $false;
-        $ImageTag = "${{ github.sha }}";
         $CheckInterval = 30; # [seconds]
         while (-not $ImageAvailable) {
-          if ($ImageTag -in (Get-Tags)) {
+          if (Test-Manifest) {
             Write-Host "##[info] Image $ImageTag now available on mcr.microsoft.com, proceeding."
             $ImageAvailable = $true;
           } else {
