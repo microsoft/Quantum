@@ -141,7 +141,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     function Ising1DTrotterEvolution(nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double, trotterOrder : Int, trotterStepSize : Double)
     : (Qubit[] => Unit is Adj + Ctl) {
         let op = Ising1DTrotterUnitaries(nSites, hXCoupling, hZCoupling, jCoupling);
-        return (DecomposeIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
+        return (DecomposedIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
     }
 
 

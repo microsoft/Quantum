@@ -1,0 +1,15 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v1.2.3
+    hooks:
+    - id: trailing-whitespace
+      args: [--markdown-linebreak-ext=md]
+    - id: no-commit-to-branch
+      args: [-b, "master"]
+    - id: check-yaml
+- repo: local
+  hooks:
+  - id: check_indents
+    name: check_indents
+    entry: python Build/check_indents.py
+    language: system
