@@ -92,7 +92,7 @@ if __name__ == "__main__":
             nSites=n,
             tCoefficient=t,
             uCoefficient=u,
-            bitsPrecision=precision,
+            nBitsPrecision=precision,
             trotterStepSize=step_size
         )
         print(f"Energy estimated in attempt {i}: {energy_est}")
