@@ -136,7 +136,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
 
         // This is how we index the qubits
         let idxQubitA = FermionicIndexAsQubitIndex(nSites, (idxSite, idxSpin));
-        let idxQubitB = FermionicIndexAsQubitIndex(nSites, (idxSite + 1, idxSpin));
+        let idxQubitB = FermionicIndexAsQubitIndex(nSites, ((idxSite + 1) % nSites, idxSpin));
         let JordanWignerStringX = JordanWignerPZPString(nQubits, PauliX, idxQubitA, idxQubitB);
         let JordanWignerStringY = JordanWignerPZPString(nQubits, PauliY, idxQubitA, idxQubitB);
         Exp(JordanWignerStringX, 0.5 * coefficient, qubits);
@@ -253,7 +253,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     : (Qubit[] => Unit is Adj + Ctl) {
         let nTerms = nSites * 3;
         let op = (nTerms, _ApplyHubbardTerm(nSites, tCoefficient, uCoefficient, _, _, _));
-        return (DecomposeIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
+        return (DecomposedIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
     }
 
     // We now define an operation that prepares the anti-Ferromagnetic initial

@@ -112,27 +112,24 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # References
     /// - [ *Michael A. Nielsen , Isaac L. Chuang*,
     ///     Quantum Computation and Quantum Information ](http://doi.org/10.1017/CBO9780511976667)
-    operation CCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Ctl {
-        body (...) {
-            H(target);
-            CNOT(control1, target);
-            Adjoint T(target);
-            CNOT(control2, target);
-            T(target);
-            CNOT(control1, target);
-            Adjoint T(target);
-            CNOT(control2, target);
-            T(target);
-            Adjoint T(control1);
-            CNOT(control2, control1);
-            H(target);
-            Adjoint T(control1);
-            CNOT(control2, control1);
-            T(control2);
-            S(control1);
-        }
-
-        adjoint self;
+    operation CCNOT1 (control1 : Qubit, control2 : Qubit, target : Qubit)
+    : Unit is Adj + Ctl {
+        H(target);
+        CNOT(control1, target);
+        Adjoint T(target);
+        CNOT(control2, target);
+        T(target);
+        CNOT(control1, target);
+        Adjoint T(target);
+        CNOT(control2, target);
+        T(target);
+        Adjoint T(control1);
+        CNOT(control2, control1);
+        H(target);
+        Adjoint T(control1);
+        CNOT(control2, control1);
+        T(control2);
+        S(control1);
     }
 
 
