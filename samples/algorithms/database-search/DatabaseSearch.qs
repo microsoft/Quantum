@@ -463,7 +463,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// Sin((2*nIterations + 1) ArcSin(Sqrt(M/N))).
     function GroverSearch(markedElements : Int[], nIterations : Int, idxMarkedQubit : Int)
     : (Qubit[] => Unit is Adj + Ctl) {
-        return AmpAmpByOracle(nIterations, GroverStatePrepOracle(markedElements), idxMarkedQubit);
+        return StandardAmplitudeAmplification(nIterations, GroverStatePrepOracle(markedElements), idxMarkedQubit);
     }
 
     // Let us now allocate qubits and run GroverSearch.
