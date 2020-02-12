@@ -11,7 +11,10 @@
         "quantum.quantum-devkit-vscode",
         "ms-vscode.csharp",
         "editorconfig.editorconfig",
-        "ms-python.python"
+        "ms-python.python",
+        "davidanson.vscode-markdownlint"
     ],
-    "runArgs": ["-e","IQSHARP_HOSTING_ENV=SAMPLES_DEVCONTAINER"]
+    "containerEnv": {
+        "IQSHARP_HOSTING_ENV": "SAMPLES_DEVCONTAINER"
+    }
 }
