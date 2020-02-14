@@ -9,20 +9,6 @@ namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.MachineLearning.Datasets as Datasets;
     open Microsoft.Quantum.Math;
 
-    function WithOffset(offset : Double, sample : LabeledSample) : LabeledSample {
-        return sample
-            w/ Features <- Mapped(TimesD(offset, _), sample::Features);
-    }
-
-    function Preprocessed(samples : LabeledSample[]) : LabeledSample[] {
-        let offset = 0.80;
-
-        return Mapped(
-            WithOffset(offset, _),
-            samples
-        );
-    }
-
     function DefaultSchedule(samples : LabeledSample[]) : SamplingSchedule {
         return SamplingSchedule([
             0..Length(samples) - 1
@@ -52,7 +38,7 @@ namespace Microsoft.Quantum.Samples {
 
     operation TrainWineModel() : (Double[], Double) {
         // Get the first 143 samples to use as training data.
-        let samples = Preprocessed((Datasets.WineData())[...142]);
+        let samples = (Datasets.WineData())[...142];
         let structure = ClassifierStructure();
         // Sample a random set of parameters.
         let initialParameters = SampleInitialParameters(16, structure);
@@ -82,7 +68,7 @@ namespace Microsoft.Quantum.Samples {
         bias : Double
     ) : Int {
         // Get the remaining samples to use as validation data.
-        let samples = Preprocessed((Datasets.WineData())[143...]);
+        let samples = (Datasets.WineData())[143...];
         let tolerance = 0.005;
         let nMeasurements = 10000;
         let results = ValidateSequentialClassifier(

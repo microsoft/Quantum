@@ -17,7 +17,7 @@ function Build-One {
         -v $Env:BUILD_VERBOSITY `
         /property:DefineConstants=$Env:ASSEMBLY_CONSTANTS `
         /property:Version=$Env:ASSEMBLY_VERSION `
-        /property:QsharpDocsOutDir=$Env:DOCS_OUTDIR
+        /property:QsharpDocsOutputPath=$Env:DOCS_OUTDIR
 
     if  ($LastExitCode -ne 0) {
         Write-Host "##vso[task.logissue type=error;]Failed to build $project."

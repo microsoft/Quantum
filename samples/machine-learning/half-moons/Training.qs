@@ -2,29 +2,22 @@
 // Licensed under the MIT License.
 
 namespace Microsoft.Quantum.Samples {
+    open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.MachineLearning;
     open Microsoft.Quantum.Math;
 
-    function WithOffset(offset : Double, sample : Double[]) : Double[] {
-        return Mapped(TimesD(offset, _), sample);
-    }
-
     function WithProductKernel(scale : Double, sample : Double[]) : Double[] {
         return sample + [scale * Fold(TimesD, 1.0, sample)];
     }
 
     function Preprocessed(samples : Double[][]) : Double[][] {
-        let offset = 0.75;
         let scale = 1.0;
 
         return Mapped(
-            Compose(
-                WithOffset(offset, _),
-                WithProductKernel(scale, _)
-            ),
+            WithProductKernel(scale, _),
             samples
         );
     }
@@ -82,7 +75,7 @@ namespace Microsoft.Quantum.Samples {
         validationLabels : Int[],
         parameters : Double[],
         bias : Double
-    ) : Int {
+    ) : Double {
         let samples = Mapped(
             LabeledSample,
             Zip(Preprocessed(validationVectors), validationLabels)
@@ -96,7 +89,7 @@ namespace Microsoft.Quantum.Samples {
             nMeasurements,
             DefaultSchedule(validationVectors)
         );
-        return results::NMisclassifications;
+        return IntAsDouble(results::NMisclassifications) / IntAsDouble(Length(samples));
     }
 
 }
