@@ -51,14 +51,14 @@ namespace Microsoft.Quantum.Samples
 
             // After training, we can use the validation data to test the accuracy
             // of our new classifier.
-            var testMisses = await ValidateHalfMoonModel.Run(
+            var missRate = await ValidateHalfMoonModel.Run(
                 targetMachine,
                 new QArray<QArray<double>>(data.ValidationData.Features.Select(vector => new QArray<double>(vector))),
                 new QArray<long>(data.ValidationData.Labels),
                 optimizedParameters,
                 optimizedBias
             );
-            System.Console.WriteLine($"Observed {testMisses} misclassifications out of {data.ValidationData.Labels.Count} validation samples.");
+            System.Console.WriteLine($"Observed {100 * missRate:F2}% misclassifications.");
         }
 
         class LabeledData
@@ -73,7 +73,7 @@ namespace Microsoft.Quantum.Samples
             public LabeledData ValidationData  { get; set; }
         }
 
-        static async Task<DataSet> LoadData(string dataPath, double offset = 0.0, double filler = 1.0)
+        static async Task<DataSet> LoadData(string dataPath)
         {
             using var dataReader = File.OpenRead(dataPath);
             return await JsonSerializer.DeserializeAsync<DataSet>(
