@@ -77,11 +77,7 @@ namespace Microsoft.Quantum.Samples
         {
             using var dataReader = File.OpenRead(dataPath);
             return await JsonSerializer.DeserializeAsync<DataSet>(
-                dataReader,
-                new JsonSerializerOptions
-                {
-                    ReadCommentHandling = JsonCommentHandling.Skip
-                }
+                dataReader
             );
         }
 
