@@ -48,5 +48,6 @@ Press Start in Visual Studio to run the sample.
 ## Manifest
 
 - [Training.qs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/wine/Training.qs): Q# code implementing quantum operations for this sample.
+- [host.py](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/wine/host.py): Python code to interact with and print out results of the Q# operations for this sample.
 - [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/wine/Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
 - [Wine.csproj](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/wine/Wine.csproj): Main C# project for the sample.
