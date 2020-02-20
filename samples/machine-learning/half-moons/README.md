@@ -48,7 +48,7 @@ Press Start in Visual Studio to run the sample.
 ## Manifest
 
 - [Training.qs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/Training.qs): Q# code implementing quantum operations for this sample.
--[Host.py](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/host.py): Python code to load data, and to interact with and print out results of the Q# operations for this sample.
+- [Host.py](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/host.py): Python code to load data, and to interact with and print out results of the Q# operations for this sample.
 - [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/Host.cs): C# code to load data, and to interact with and print out results of the Q# operations for this sample.
 - [HalfMoons.csproj](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/HalfMoons.csproj): Main C# project for the sample.
 - [data.json](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/data.json): JSON-serialized training and validation data used by this sample.
