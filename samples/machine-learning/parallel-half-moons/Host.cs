@@ -46,9 +46,14 @@ namespace Microsoft.Quantum.Samples
                 .AsParallel()
                 .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
                 .Select(
-                    startPoint =>
+                    (startPoint, idxStartPoint) =>
                     {
                         using var targetMachine = new QuantumSimulator();
+                        // We attach a tag to log output so that we can tell
+                        // each training job's messages apart.
+                        targetMachine.DisableLogToConsole();
+                        targetMachine.OnLog += message =>
+                            Console.WriteLine($"[{idxStartPoint}] {message}");
                         
                         return TrainHalfMoonModelAtStartPoint.Run(
                             targetMachine,
@@ -59,14 +64,14 @@ namespace Microsoft.Quantum.Samples
                     }
                 )
                 .AsSequential()
-                .Min(result => result.Item3);
+                .MinBy(result => result.Item3);
 
             // After training, we can use the validation data to test the accuracy
             // of our new classifier.
             using var targetMachine = new QuantumSimulator();
             var missRate = await ValidateHalfMoonModel.Run(
                 targetMachine,
-                samples,
+                new QArray<QArray<double>>(data.ValidationData.Features.Select(vector => new QArray<double>(vector))),
                 new QArray<long>(data.ValidationData.Labels),
                 optimizedParameters,
                 optimizedBias
@@ -94,5 +99,18 @@ namespace Microsoft.Quantum.Samples
             );
         }
 
+    }
+
+    public static class LinqExtensions
+    {
+        public static TSource MinBy<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> by)
+        where TResult : IComparable<TResult> =>
+            source
+                .Aggregate(
+                    (minimum, next) =>
+                        by(minimum).CompareTo(by(next)) <= 0
+                        ? minimum
+                        : next
+                );
     }
 }
