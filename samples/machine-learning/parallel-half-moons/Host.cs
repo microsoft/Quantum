@@ -37,23 +37,36 @@ namespace Microsoft.Quantum.Samples
                 new [] {5.21662,  6.04363,  0.224184, 1.53913,  1.64524, 4.79508, 1.49742,  1.5455}
             };
 
-            // Next, we initialize a full state-vector simulator as our target machine.
-            using var targetMachine = new QuantumSimulator();
+            // Convert samples to Q# form.
+            var samples = new QArray<QArray<double>>(data.TrainingData.Features.Select(vector => new QArray<double>(vector)));
 
             // Once we have the data loaded and have initialized our target machine,
             // we can then use that target machine to train a QCC classifier.
-            var (optimizedParameters, optimizedBias) = await TrainHalfMoonModel.Run(
-                targetMachine,
-                new QArray<QArray<double>>(data.TrainingData.Features.Select(vector => new QArray<double>(vector))),
-                new QArray<long>(data.TrainingData.Labels),
-                new QArray<QArray<double>>(parameterStartingPoints.Select(parameterSet => new QArray<double>(parameterSet)))
-            );
+            var (optimizedParameters, optimizedBias, nMisses) = parameterStartingPoints
+                .AsParallel()
+                .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+                .Select(
+                    startPoint =>
+                    {
+                        using var targetMachine = new QuantumSimulator();
+                        
+                        return TrainHalfMoonModelAtStartPoint.Run(
+                            targetMachine,
+                            samples,
+                            new QArray<long>(data.TrainingData.Labels),
+                            new QArray<double>(startPoint)
+                        ).Result;
+                    }
+                )
+                .AsSequential()
+                .Min(result => result.Item3);
 
             // After training, we can use the validation data to test the accuracy
             // of our new classifier.
+            using var targetMachine = new QuantumSimulator();
             var missRate = await ValidateHalfMoonModel.Run(
                 targetMachine,
-                new QArray<QArray<double>>(data.ValidationData.Features.Select(vector => new QArray<double>(vector))),
+                samples,
                 new QArray<long>(data.ValidationData.Labels),
                 optimizedParameters,
                 optimizedBias

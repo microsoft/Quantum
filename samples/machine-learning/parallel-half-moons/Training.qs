@@ -45,7 +45,7 @@ namespace Microsoft.Quantum.Samples {
         trainingVectors : Double[][],
         trainingLabels : Int[],
         startPoint : Double[]
-    ) : (Double[], Double) {
+    ) : (Double[], Double, Int) {
         let samples = Mapped(
             LabeledSample,
             Zip(Preprocessed(trainingVectors), trainingLabels)
@@ -60,35 +60,14 @@ namespace Microsoft.Quantum.Samples {
         Message("Ready to train.");
         // Train at the given start point, and get back an
         // optimized model.
-        let optimizedModel = TrainSequentialClassifierAtModel(
+        let (optimizedModel, nMisses) = TrainSequentialClassifierAtModel(
             SequentialModel(ClassifierStructure(), startPoint, 0.0),
             samples,
             options,
             DefaultSchedule(trainingVectors),
-            1
+            DefaultSchedule(trainingVectors)
         );
-
-        
-        let probabilities = EstimateClassificationProbabilities(
-            options::Tolerance,
-            optimizedModel,
-            Sampled(validationSchedule, features),
-            options::NMeasurements
-        );
-        // Find the best bias for the new classification parameters.
-        let localBias = _UpdatedBias(
-            Zip(probabilities, Sampled(validationSchedule, labels)),
-            0.0,
-            options::Tolerance
-        );
-        let localPL = InferredLabels(localBias, probabilities);
-        let localMisses = NMisclassifications(localPL, Sampled(validationSchedule, labels));
-        if (bestValidation > localMisses) {
-            set bestValidation = localMisses;
-            set bestSoFar = proposedUpdate;
-        }
-        Message($"Training complete, found optimal parameters: {optimizedModel::Parameters}");
-        return (optimizedModel::Parameters, optimizedModel::Bias);
+        return (optimizedModel::Parameters, optimizedModel::Bias, nMisses);
     }
 
     operation ValidateHalfMoonModel(
