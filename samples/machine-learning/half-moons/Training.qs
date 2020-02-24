@@ -51,7 +51,7 @@ namespace Microsoft.Quantum.Samples {
             Zip(Preprocessed(trainingVectors), trainingLabels)
         );
         Message("Ready to train.");
-        let optimizedModel = TrainSequentialClassifier(
+        let (optimizedModel, nMisses) = TrainSequentialClassifier(
             Mapped(
                 SequentialModel(ClassifierStructure(), _, 0.0),
                 initialParameters
