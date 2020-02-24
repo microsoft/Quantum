@@ -43,18 +43,38 @@ namespace Microsoft.Quantum.Samples
             // Once we have the data loaded and have initialized our target machine,
             // we can then use that target machine to train a QCC classifier.
             var (optimizedParameters, optimizedBias, nMisses) = parameterStartingPoints
+                // We can use parallel LINQ (PLINQ) to convert the IEnumerable
+                // over starting points into a parallelized query.
                 .AsParallel()
+                // By default, PLINQ may or may not actually run our query in
+                // parallel, depending on the capabilities of your machine.
+                // We can force PLINQ to actually parallelize, however, by using
+                // the WithExecutionMode method.
                 .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+                // Many of the same LINQ methods are defined for PLINQ queries
+                // as well as IEnumerable objects, so we can go on and run
+                // the training loop in parallel by selecting on the start point.
                 .Select(
                     (startPoint, idxStartPoint) =>
                     {
+                        // Since we want each start point to run on its own
+                        // instance of the full-state simulator, we create a new
+                        // instance here, using C# 8's "using var" syntax to
+                        // ensure that the simulator is deallocated once
+                        // training is complete for this start point.
                         using var targetMachine = new QuantumSimulator();
+
                         // We attach a tag to log output so that we can tell
                         // each training job's messages apart.
+                        // To do so, we disable the default output to the console
+                        // and attach our own event with the index of the
+                        // starting point that generated each message.
                         targetMachine.DisableLogToConsole();
                         targetMachine.OnLog += message =>
                             Console.WriteLine($"[{idxStartPoint}] {message}");
-                        
+
+                        // Finally, we can call the Q# entry point with the
+                        // samples, their labels, and our given start point.
                         return TrainHalfMoonModelAtStartPoint.Run(
                             targetMachine,
                             samples,
@@ -63,7 +83,13 @@ namespace Microsoft.Quantum.Samples
                         ).Result;
                     }
                 )
+                // We can then gather the results back into a sequential
+                // (IEnumerable) collection.
                 .AsSequential()
+                // Finally, we want to minimize over the number of misses,
+                // returning the corresponding sequential classifier model.
+                // In this case, we use a handy extension method defined below
+                // to perform the minimization.
                 .MinBy(result => result.Item3);
 
             // After training, we can use the validation data to test the accuracy
@@ -103,12 +129,27 @@ namespace Microsoft.Quantum.Samples
 
     public static class LinqExtensions
     {
+        /// <summary>
+        ///      Minimizes over the elements of an enumerable, using a given
+        ///      projection function to define the relative ordering between
+        ///      elements.
+        /// </summary>
+        /// <param name="source">A source of elements to be minimized over.</param>
+        /// <param name="by">
+        ///     A projection function used to define comparisons between
+        ///     elements
+        /// </param>
+        /// <returns>
+        ///     The element <c>min</c> of <c>source</c> such that <c>by(min)</c>
+        ///     is minimized. In the case that two or more elements share the
+        ///     same value of <c>by</c>, the first element will be returned.
+        /// </returns>
         public static TSource MinBy<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> by)
         where TResult : IComparable<TResult> =>
             source
                 .Aggregate(
                     (minimum, next) =>
-                        by(minimum).CompareTo(by(next)) <= 0
+                        by(minimum).CompareTo(by(next)) < 0
                         ? minimum
                         : next
                 );

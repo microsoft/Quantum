@@ -12,7 +12,7 @@ description: "This sample implements using the quantum machine learning library 
 # Training sequential models with Q\#
 
 This sample uses Q# and the Microsoft.Quantum.MachineLearning library to train a simple sequential model.
-The model is trained on a half-moon dataset, loaded in C# using the System.Text.Json package, then preprocessed using Q#.
+The model is trained on a half-moon dataset, loaded in C# using the System.Text.Json package or in Python using the `json` module, then preprocessed using Q#.
 
 
 ## Prerequisites
