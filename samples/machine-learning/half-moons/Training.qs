@@ -93,4 +93,24 @@ namespace Microsoft.Quantum.Samples {
         return IntAsDouble(results::NMisclassifications) / IntAsDouble(Length(samples));
     }
 
+    operation ClassifyHalfMoonModel(
+        samples : Double[][],
+        parameters : Double[],
+        bias : Double,
+        tolerance  : Double,
+        nMeasurements : Int
+    )
+    : Int[] {
+        let model = Default<SequentialModel>()
+            w/ Structure <- ClassifierStructure()
+            w/ Parameters <- parameters
+            w/ Bias <- bias;
+        let features = Preprocessed(samples);
+        let probabilities = EstimateClassificationProbabilities(
+            tolerance, model,
+            features, nMeasurements
+        );
+        return InferredLabels(model::Bias, probabilities);
+    }
+
 }
