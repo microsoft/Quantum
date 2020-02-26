@@ -17,8 +17,8 @@ namespace Microsoft.Quantum.Samples {
 
     function ClassifierStructure() : ControlledRotation[] {
         return CombinedStructure([
-            PartialRotationsLayer([1, 2, 3], PauliZ),
-            PartialRotationsLayer([1, 2, 3], PauliX),
+            LocalRotationsLayer(4, PauliZ),
+            LocalRotationsLayer(4, PauliX),
             CyclicEntanglingLayer(4, PauliX, 1),
             PartialRotationsLayer([3], PauliX)
         ]);
