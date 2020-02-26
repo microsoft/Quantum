@@ -17,8 +17,8 @@ namespace Microsoft.Quantum.Samples {
 
     function ClassifierStructure() : ControlledRotation[] {
         return CombinedStructure([
-            LocalRotationsLayer(4, PauliZ),
-            LocalRotationsLayer(4, PauliX),
+            PartialRotationsLayer([1, 2, 3], PauliZ),
+            PartialRotationsLayer([1, 2, 3], PauliX),
             CyclicEntanglingLayer(4, PauliX, 1),
             PartialRotationsLayer([3], PauliX)
         ]);
@@ -43,7 +43,7 @@ namespace Microsoft.Quantum.Samples {
         // Sample a random set of parameters.
         let initialParameters = SampleInitialParameters(16, structure);
 
-        Message("Ready to train.");
+        Message($"Ready to train using {structure}.");
         let (optimizedModel, nMisses) = TrainSequentialClassifier(
             Mapped(
                 SequentialModel(structure, _, 0.0),
@@ -54,8 +54,8 @@ namespace Microsoft.Quantum.Samples {
                 w/ LearningRate <- 0.4
                 w/ MinibatchSize <- 2
                 w/ Tolerance <- 0.01
-                w/ NMeasurements <- 10000
-                w/ MaxEpochs <- 16
+                w/ NMeasurements <- 100000
+                w/ MaxEpochs <- 10
                 w/ VerboseMessage <- Message,
             DefaultSchedule(samples),
             DefaultSchedule(samples)
