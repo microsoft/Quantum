@@ -41,34 +41,33 @@ namespace Microsoft.Quantum.Samples {
         ];
     }
 
-    operation TrainHalfMoonModel(
+    operation TrainHalfMoonModelAtStartPoint(
         trainingVectors : Double[][],
         trainingLabels : Int[],
-        initialParameters : Double[][]
-    ) : (Double[], Double) {
+        startPoint : Double[]
+    ) : (Double[], Double, Int) {
         let samples = Mapped(
             LabeledSample,
             Zip(Preprocessed(trainingVectors), trainingLabels)
         );
-        Message("Ready to train.");
-        let (optimizedModel, nMisses) = TrainSequentialClassifier(
-            Mapped(
-                SequentialModel(ClassifierStructure(), _, 0.0),
-                initialParameters
-            ),
-            samples,
-            DefaultTrainingOptions()
+        let options = DefaultTrainingOptions()
                 w/ LearningRate <- 0.1
                 w/ MinibatchSize <- 15
                 w/ Tolerance <- 0.005
                 w/ NMeasurements <- 10000
-                w/ MaxEpochs <- 16
-                w/ VerboseMessage <- Message,
+                w/ MaxEpochs <- 2
+                w/ VerboseMessage <- Message;
+        Message("Ready to train.");
+        // Train at the given start point, and get back an
+        // optimized model.
+        let (optimizedModel, nMisses) = TrainSequentialClassifierAtModel(
+            SequentialModel(ClassifierStructure(), startPoint, 0.0),
+            samples,
+            options,
             DefaultSchedule(trainingVectors),
             DefaultSchedule(trainingVectors)
         );
-        Message($"Training complete, found optimal parameters: {optimizedModel::Parameters}");
-        return (optimizedModel::Parameters, optimizedModel::Bias);
+        return (optimizedModel::Parameters, optimizedModel::Bias, nMisses);
     }
 
     operation ValidateHalfMoonModel(
@@ -91,26 +90,6 @@ namespace Microsoft.Quantum.Samples {
             DefaultSchedule(validationVectors)
         );
         return IntAsDouble(results::NMisclassifications) / IntAsDouble(Length(samples));
-    }
-
-    operation ClassifyHalfMoonModel(
-        samples : Double[][],
-        parameters : Double[],
-        bias : Double,
-        tolerance  : Double,
-        nMeasurements : Int
-    )
-    : Int[] {
-        let model = Default<SequentialModel>()
-            w/ Structure <- ClassifierStructure()
-            w/ Parameters <- parameters
-            w/ Bias <- bias;
-        let features = Preprocessed(samples);
-        let probabilities = EstimateClassificationProbabilities(
-            tolerance, model,
-            features, nMeasurements
-        );
-        return InferredLabels(model::Bias, probabilities);
     }
 
 }

@@ -44,7 +44,7 @@ namespace Microsoft.Quantum.Samples {
         let initialParameters = SampleInitialParameters(16, structure);
 
         Message("Ready to train.");
-        let optimizedModel = TrainSequentialClassifier(
+        let (optimizedModel, nMisses) = TrainSequentialClassifier(
             Mapped(
                 SequentialModel(structure, _, 0.0),
                 initialParameters
