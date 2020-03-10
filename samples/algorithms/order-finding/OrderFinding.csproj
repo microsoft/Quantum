@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.Quantum.Sdk/0.10.2001.2831">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>Microsoft.Quantum.Samples.OrderFinding.Program</StartupObject>
   </PropertyGroup>
 
