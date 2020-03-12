@@ -40,15 +40,12 @@ namespace Microsoft.Quantum.Samples.Teleportation {
             H(register);
             CNOT(register, target);
 
-            // Encode the message into the entangled pair,
-            // and measure the qubits to extract the classical data
-            // we need to correctly decode the message into the target qubit:
+            // Encode the message into the entangled pair.
             CNOT(msg, register);
             H(msg);
-            let data1 = M(msg);
-            let data2 = M(register);
 
-            // Decode the message by applying the corrections on
+            // Measure the qubits to extract the classical data we need to
+            // decode the message by applying the corrections on
             // the target qubit accordingly.
             // We use MResetZ from the Microsoft.Quantum.Measurement namespace
             // to reset our qubits as we go.
