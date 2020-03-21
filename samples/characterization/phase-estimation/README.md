@@ -12,7 +12,7 @@ urlFragment: iterative-phase-estimation
 
 # Iterative Phase Estimation
 
-This sample demonstrates iterative phase estimation using Bayesian inference to provide a simple method to perform the classical statistical analysis.
+This sample demonstrates iterative phase estimation using Bayesian inference to provide a simple method to perform the classical statistical analysis. You can read more about iterative phase estimation in [our documentation on quantum characterization and statistics](https://docs.microsoft.com/quantum/libraries/standard/characterization#iterative-phase-estimation).
 
 ## Prerequisites ##
 
