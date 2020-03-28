@@ -2,6 +2,7 @@
 
 ## Software Development ##
 
+- [Principal Software Development Engineer – Quantum Compiler](https://careers.microsoft.com/us/en/job/810320)
 - [Software Development Engineer - Quantum Libraries](https://careers.microsoft.com/us/en/job/721958)
 - [Software Development Engineer](https://careers.microsoft.com/us/en/job/722090)
 - [Software Development Engineer](https://careers.microsoft.com/us/en/job/721989)
