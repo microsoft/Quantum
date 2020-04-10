@@ -11,7 +11,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis
     {
         static void Main(string[] args)
         {
-            var sim = new QuantumSimulator();
+            using var sim = new QuantumSimulator();
 
             for (var func = 0; func < (1 << 8); ++func)
             {
