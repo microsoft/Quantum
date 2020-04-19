@@ -1,48 +1,89 @@
-# Microsoft Quantum Development Kit Samples and Libraries #
+﻿# Microsoft Quantum Development Kit Samples #
 
-Welcome to the Microsoft Quantum Development Kit!
-This repository contains the libraries and samples provided with the Quantum Development Kit:
+ [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Microsoft/Quantum/master)
 
-- **[Docs/](./Docs)**: Additional documentation for developing on the libraries and samples. Please see [QDK online documentation](https://docs.microsoft.com/quantum/) for online documentation. 
-- **[LibraryTests/](./LibraryTests)**: Tests to ensure correctness of the libraries and samples.
-- **[Microsoft.Quantum.Canon/](./Microsoft.Quantum.Canon)**: Q# sources used to implement [the canon](https://docs.microsoft.com/quantum/libraries/intro) portion of the Q# standard library.
-- **[Samples/](./Samples)**: C# and F# projects demonstrating how to use Q#, the prelude, and the canon.
-- **[LICENSE](./LICENSE)**: Terms of use and license details for the Quantum Development Kit libraries and samples.
-- **[QsharpLibraries.sln](./QsharpLibraries.sln)**: The main Visual Studio 2017 solution for all libraries and samples provided in this repository.
+These samples demonstrate the use of the Quantum Development Kit for a variety of different quantum computing tasks.
 
-## New to Quantum? ##
+Each sample is self-contained in a folder, and demonstrates how to use Q# to develop quantum applications.
 
-See [introduction to quantum computing](https://docs.microsoft.com/quantum/quantum-concepts-1-intro) provided with the Quantum Development Kit.
+A small number of the samples have additional installation requirements beyond those for the rest of the Quantum Development Kit.
+These are noted in the README.md files for each sample, along with complete installation instructions.
 
-## Getting Started ##
+You can find instructions on how to install the Quantum Development Kit in [our online documentation](https://docs.microsoft.com/quantum/install-guide/), which also includes
+an introduction to [quantum programming concepts](https://docs.microsoft.com/en-us/quantum/concepts/).
+A [Docker](https://docs.docker.com/install/) image definition is also provided for your convenience, see below for instructions on how to build and use it.
 
-The libraries and samples provided in this repository are designed to work with Visual Studio 2017 and the Quantum Development Kit.
-Please see the [installation guide](https://docs.microsoft.com/quantum/quantum-installconfig) for how to get up and running.
+## Getting started ##
 
-## Build Status ##
+If you're new to quantum or to the Quantum Development Kit, we recommend starting with the [Getting Started samples](./samples/getting-started/).
 
-| branch | status    |
-|--------|-----------|
-| master | [![Build Status](https://travis-ci.org/Microsoft/Quantum.svg?branch=master)](https://travis-ci.org/Microsoft/Quantum) |
+## Going further ##
 
+As you go further with quantum development, we provide several different categories of samples for you to explore:
 
-## Feedback ##
+- **[Algorithms](./samples/algorithms)**:
+  These samples demonstrate various quantum algorithms, such as database search and integer factorization.
+- **[Arithmetic](./samples/arithmetic)**:
+  These samples show how to coherently transform arithmetic data.
+- **[Characterization](./samples/characterization)**:
+  These samples demonstrate how to learn properties of quantum systems from classical data.
+- **[Chemistry](./samples/chemistry)**:
+- **[Diagnostics](./samples/diagnostics)**:
+  These samples show how to diagnose and test Q# applications.
+- **[Error Correction](./samples/error-correction)**:
+  These samples show how to work with quantum error correcting codes in Q# programs.
+- **[Interoperability](./samples/interoperability)**:
+  These samples show how to use Q# with different host languages.
+- **[Numerics](./samples/numerics)**:
+  The samples in this folder show how to use the numerics library.
+- **[Runtime](./samples/runtime)**:
+  These samples show how to work with the Q# simulation runtime.
+- **[Simulation](./samples/simulation)**:
+  These samples show how to simulate evolution under different Hamiltonians.
 
-We are collecting feedback for the entire Microsoft Quantum Development Kit
-at [user voice](https://quantum.uservoice.com/). Please leave your suggestions,
-requests and bugs (or praises!) there.
+We also encourage taking a look at the [unit tests](./samples/tests) used to check the correctness of the Quantum Development Kit samples.
 
+## Docker image
 
-## Contributing ##
+You can use the included [Dockerfile](./Dockerfile) to create a docker image 
+with all the necessary libraries to use the Quantum Development Kit to build
+quantum applications in C#, Python or Jupyter.
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+Once you have installed [Docker](https://docs.docker.com/install/), you can
+use the following commands to get you started:
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+To build the docker image and tag it `iqsharp`:
+```sh
+docker build -t iqsharp .
+```
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+To run the image in the container named `iqsharp-container` with interactive command-line and 
+redirect container port 8888 to local port 8888 (needed to run jupyter):
+```sh
+docker run -it --name iqsharp-container -p 8888:8888 iqsharp /bin/bash
+```
+
+From the corresponding container command line, you can run the C# version of the Teleportation sample using: 
+```sh
+cd ~/samples/getting-started/teleportation && dotnet run
+```
+
+Similarly, you can run the Python version of the Teleportation sample using: 
+```sh
+cd ~/samples/getting-started/teleportation && python host.py
+```
+
+Finally, to start jupyter notebook within the image for the Teleportation sample, use:
+```sh
+cd ~/samples/getting-started/teleportation && jupyter notebook --ip=0.0.0.0 --no-browser 
+```
+
+Once Jupyter has started, you can open in your browser the Teleportation notebook (you
+will need a token generated by jupyter when it started on the previous step):
+
+> http://localhost:8888/notebooks/Notebook.ipynb
+
+Once you're done, to remove container named `iqsharp-container`:
+```sh
+docker rm --force iqsharp-container
+```

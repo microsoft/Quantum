@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.11.2003.3107" />
+    <!-- NB: Since this project does not include any Q# sources, it is not yet compatible with the new-style SDK package. -->
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.11.2003.3107" />
+  </ItemGroup>
+
+</Project>
