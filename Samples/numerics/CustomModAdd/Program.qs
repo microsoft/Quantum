@@ -1,15 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace CustomModAdd {
+namespace Microsoft.Quantum.Numerics.Samples {
 
     open Microsoft.Quantum.Arrays;
-    open Microsoft.Quantum.Numerics.Samples;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
 
     @EntryPoint()
-    operation Program () : Unit {
+    operation RunProgram () : Unit {
 
         let inputs1 = [3, 5, 3, 4, 5];
         let inputs2 = [5, 4, 6, 4, 1];

@@ -1,16 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace CustomModAdd {
+namespace Microsoft.Quantum.Numerics.Samples {
 
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Arrays;
-    open Microsoft.Quantum.Numerics.Samples;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
 
     @EntryPoint()
-    operation Program () : Double[] {
+    operation RunProgram () : Double[] {
 
         let evaluationPoints = [0.0];
         let polynomialCoefficients = [0.9992759725166501, -0.16566707016968898, 0.007958079331694682, -0.0001450780334861007];
