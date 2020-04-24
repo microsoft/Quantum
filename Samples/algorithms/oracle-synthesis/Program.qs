@@ -4,20 +4,19 @@
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
 
-
     @EntryPoint()
     operation Program () : Unit {  
         
+        mutable success = true;
         for (func in 0 .. (1 <<< 8) - 1) {
-            if (not RunOracleSynthesisOnCleanTarget(func, 3)) {
-                Message($"Result = false");
-            }
+            set success = RunOracleSynthesisOnCleanTarget(func, 3) and success;
         }
 
         for (func in 0 .. (1 <<< 8) - 1) {                
-            if (not RunOracleSynthesis(func, 3)) {
-                Message($"Result = false");
-            }
+            set success = RunOracleSynthesis(func, 3) and success;
         }
+
+        let status = success ? "succeeded" | "failed";
+        Message($"Execution {status}.");
     }
 }
