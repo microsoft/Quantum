@@ -1,4 +1,7 @@
-﻿namespace PhaseEstimationSample {
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace PhaseEstimationSample {
 
     open Microsoft.Quantum.Samples.PhaseEstimation;
     open Microsoft.Quantum.Canon;

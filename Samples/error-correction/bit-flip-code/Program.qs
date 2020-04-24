@@ -1,4 +1,7 @@
-﻿namespace BitFlipCode {
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace BitFlipCode {
 
     open Microsoft.Quantum.Samples.BitFlipCode;
     open Microsoft.Quantum.Canon;

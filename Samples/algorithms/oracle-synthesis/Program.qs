@@ -1,4 +1,7 @@
-﻿namespace IntegerFactorization {
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace IntegerFactorization {
 
     open Microsoft.Quantum.Samples.OracleSynthesis;
     open Microsoft.Quantum.Canon;

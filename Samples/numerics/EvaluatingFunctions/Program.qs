@@ -1,4 +1,7 @@
-﻿namespace CustomModAdd {
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace CustomModAdd {
 
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Arrays;
