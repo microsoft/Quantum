@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace PhaseEstimationSample {
+namespace Microsoft.Quantum.Samples.PhaseEstimation {
 
-    open Microsoft.Quantum.Samples.PhaseEstimation;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
 
     @EntryPoint()
-    operation Program () : Unit {
+    operation RunProgram () : Unit {
         
         // We pick an arbitrary value for the eigenphase to be
         // estimated. Note that we have assumed in the Q# operations that

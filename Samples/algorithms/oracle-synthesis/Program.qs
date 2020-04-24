@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace IntegerFactorization {
+namespace Microsoft.Quantum.Samples.OracleSynthesis {
 
-    open Microsoft.Quantum.Samples.OracleSynthesis;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
 
     @EntryPoint()
-    operation Program () : Unit {  
+    operation RunProgram () : Unit {  
         
         mutable success = true;
         for (func in 0 .. (1 <<< 8) - 1) {
