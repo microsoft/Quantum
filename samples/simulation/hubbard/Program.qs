@@ -7,7 +7,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     open Microsoft.Quantum.Intrinsic;
 
     @EntryPoint()
-    operation Program () : Unit {
+    operation RunProgram () : Unit {
         
         // For this example, we'll consider a loop of siz sites, each one of which
         // is simulated using two qubits.
@@ -39,9 +39,9 @@ namespace Microsoft.Quantum.Samples.Hubbard {
 
 
         // Now that we've defined everything we need, let's proceed to
-        // actually call the simulator. Since there's a finite chance of successfully
-        // projecting onto the ground state, we will call our new operation through
-        // the simulator several times, reporting the estimated energy after each attempt.
+        // actually call the operation. Since there's a finite chance of successfully
+        // projecting onto the ground state, we will call it several times, 
+        // reporting the estimated energy after each attempt.
 
         for (idxAttempt in 1 .. 10)
         {
