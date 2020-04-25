@@ -104,7 +104,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // To indicate that we are using this idiom, we name the operation
     // with an initial underscore to mark it as private, and provide
     // documentation comments for the function itself.
-    operation _ParityOperation(pattern : Bool[], queryRegister : Qubit[], target : Qubit) : Unit {
+    internal operation ParityOperationImpl(pattern : Bool[], queryRegister : Qubit[], target : Qubit) : Unit {
         if (Length(queryRegister) != Length(pattern)) {
             fail "Length of input register must be equal to the pattern length.";
         }
@@ -131,7 +131,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     /// # Output
     /// An operation implementing 𝑈.
     function ParityOperation(pattern : Bool[]) : ((Qubit[], Qubit) => Unit) {
-        return _ParityOperation(pattern, _, _);
+        return ParityOperationImpl(pattern, _, _);
     }
 
 
@@ -220,7 +220,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // As before, we define an operation and a function to construct black-box
     // operations and a test case to make it easier to test Deutsch–Jozsa
     // algorithm from a C# driver.
-    operation _BooleanFunctionFromMarkedElements(n : Int, markedElements : Int[], query : Qubit[], target : Qubit) : Unit {
+    internal operation BooleanFunctionFromMarkedElementsImpl(n : Int, markedElements : Int[], query : Qubit[], target : Qubit) : Unit {
         // This operation applies the unitary
 
         //     𝑈 |𝑧〉 |𝑘〉 = |𝑧 ⊕ 𝑥ₖ〉 |𝑘〉,
@@ -253,7 +253,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     /// # Output
     /// An operation representing the unitary 𝑈 |𝑧〉 |𝑘〉 = |𝑧 ⊕ 𝑥ₖ〉 |𝑘〉.
     function BooleanFunctionFromMarkedElements (nQubits : Int, markedElements : Int[]) : ((Qubit[], Qubit) => Unit) {
-        return _BooleanFunctionFromMarkedElements(nQubits, markedElements, _, _);
+        return BooleanFunctionFromMarkedElementsImpl(nQubits, markedElements, _, _);
     }
 
 
@@ -404,7 +404,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // version by applying a bit flip to the |x〉 register first, then applying the
     // diagonal operation, and then undoing the bit flips to the |x〉 register. We
     // use this principle to define shifted versions of the IP operation.
-    operation _ShiftedInnerProductBentFunction(shift : Bool[], u : Int, qs : Qubit[]) : Unit {
+    internal operation ShiftedInnerProductBentFunctionImpl(shift : Bool[], u : Int, qs : Qubit[]) : Unit {
         let n = 2 * u;
 
         if (Length(shift) != n or Length(qs) != n) {
@@ -430,7 +430,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     // and are then passed to the quantum algorithm `HiddenShiftBentCorrelation`
     // which computes the hidden shift.
     function ShiftedInnerProductBentFunction(shift : Bool[], u : Int) : (Qubit[] => Unit) {
-        return _ShiftedInnerProductBentFunction(shift, u, _);
+        return ShiftedInnerProductBentFunctionImpl(shift, u, _);
     }
 
 
