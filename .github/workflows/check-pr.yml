@@ -9,7 +9,7 @@ jobs:
       uses: prologic/action-markdownlint@v0.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        reporter: github-pr-check
+        reporter: github-check
         level: warning
     - uses: gaurav-nelson/github-action-markdown-link-check@v1
       with:
