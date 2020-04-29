@@ -1,0 +1,15 @@
+on: [pull_request]
+name: Check PR for issues
+jobs:
+  markdown:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: markdownlint
+      uses: prologic/action-markdownlint@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        reporter: github-pr-check
+    - uses: gaurav-nelson/github-action-markdown-link-check@v1
+      with:
+        use-verbose-mode: 'yes'
