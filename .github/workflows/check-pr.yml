@@ -5,7 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: xt0rted/markdownlint-problem-matcher@v1
+    - run: |
+        $problemMatcher = Resolve-Path (Join-Path ".github" "problem-matchers" "markdownlint.json");
+        Write-Host "::add-matcher::$problemMatcher";
+      shell: pwsh
     - name: markdownlint-cli
       uses: nosborn/github-action-markdown-cli@v1.1.1
       with:
