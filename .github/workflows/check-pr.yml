@@ -10,6 +10,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         reporter: github-pr-check
+        level: warning
     - uses: gaurav-nelson/github-action-markdown-link-check@v1
       with:
         use-verbose-mode: 'yes'
