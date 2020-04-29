@@ -6,7 +6,10 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - uses: xt0rted/markdownlint-problem-matcher@v1
-    - run: markdownlint **/*.md --ignore node_modules
+    - name: markdownlint-cli
+      uses: nosborn/github-action-markdown-cli@v1.1.1
+      with:
+        files: .
     - uses: gaurav-nelson/github-action-markdown-link-check@v1
       with:
         use-verbose-mode: 'yes'
