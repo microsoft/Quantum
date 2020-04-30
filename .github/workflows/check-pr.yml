@@ -19,4 +19,4 @@ jobs:
     - uses: gaurav-nelson/github-action-markdown-link-check@v1
       with:
         use-verbose-mode: 'yes'
-      if: succeeded() || failed()
+      if: ${{ success() || failure() }}
