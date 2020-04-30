@@ -16,18 +16,25 @@ namespace Qrng {
     }
     
     @EntryPoint()
-    operation Main() : Int {
+    operation RunMain() : Int {
         let max = 10;
-        Message($"Random number between 0 and {max}: ");  
-        
-        let nBits = Floor(Log(IntAsDouble(max))/LogOf2() + 1.);
+        Message($"Sampling a random number between 0 and {max}: ");
+        let nBits = Floor(Log(IntAsDouble(max)) / LogOf2() + 1.);
     
         mutable bits = new Result[0];
-        for(bit in 1 .. nBits) {
-            set bits += [SampleQuantumRandomNumberGenerator()];
+        mutable output = 0;
+        repeat {
+            set bits = new Result[0];
+            for (bit in 1 .. nBits) {
+                set bits += [SampleQuantumRandomNumberGenerator()];
+            }
+            set output = ResultArrayAsInt(bits);
         }
-    
-        let output = ResultArrayAsInt(bits); 
-        return output <= max ? output | Main();
+        until (output <= max)
+        fixup {
+            Message($"{output} > {max}, trying again.");
+        }
+
+        return output;
     }
 }
