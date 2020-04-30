@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Qrng {
-
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Measurement;
@@ -16,7 +15,7 @@ namespace Qrng {
     }
     
     @EntryPoint()
-    operation RunMain() : Int {
+    operation SampleRandomNumber() : Int {
         let max = 10;
         Message($"Sampling a random number between 0 and {max}: ");
         let nBits = Floor(Log(IntAsDouble(max)) / LogOf2() + 1.);
