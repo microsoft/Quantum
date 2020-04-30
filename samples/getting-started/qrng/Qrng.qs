@@ -16,7 +16,7 @@ namespace Qrng {
     
     @EntryPoint()
     operation SampleRandomNumber() : Int {
-        let max = 10;
+        let max = 50;
         Message($"Sampling a random number between 0 and {max}: ");
         let nBits = Floor(Log(IntAsDouble(max)) / LogOf2() + 1.);
     
