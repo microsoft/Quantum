@@ -49,7 +49,7 @@ Press Start in Visual Studio to run the sample.
 
 ## Manifest ##
 
-- [Qrng.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/qrng/Qrng.qs): Q# code implementing quantum operations for this sample.
-- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/qrng/Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
-- [Qrng.csproj](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/qrng/Qrng.csproj): Main C# project for the sample.
-- [host.py](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/qrng/host.py): Python code to interact with and print out results of the Q# operations for this sample.
+- [Qrng.qs](https://github.com/microsoft/Quantum/blob/master/samples/interoperability/qrng/Qrng.qs): Q# code implementing quantum operations for this sample.
+- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/interoperability/qrng/Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
+- [Qrng.csproj](https://github.com/microsoft/Quantum/blob/master/samples/interoperability/qrng/Qrng.csproj): Main C# project for the sample.
+- [host.py](https://github.com/microsoft/Quantum/blob/master/samples/interoperability/qrng/host.py): Python code to interact with and print out results of the Q# operations for this sample.
