@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Samples.Hubbard {
+
     open Microsoft.Quantum.Oracles;
     open Microsoft.Quantum.Characterization;
     open Microsoft.Quantum.Intrinsic;

@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.11.2003.3107" />
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.11.2003.3107" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.11.2004.2414-beta" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.11.2004.2414-beta" />
   </ItemGroup>
 
 </Project>
