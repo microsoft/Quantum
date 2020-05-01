@@ -30,3 +30,4 @@ To run the sample, use the `dotnet run` command from your terminal.
 
 - [OracleSynthesis.csproj](./OracleSynthesis.csproj): Main Q# project for the example.
 - [OracleSynthesis.qs](./OracleSynthesis.qs): The Q# implementation for oracle synthesis.
+- [Program.qs](./Program.qs): The Q# program entry point for the example.

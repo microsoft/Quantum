@@ -26,6 +26,7 @@ To run the sample, use the `dotnet run` command from your terminal.
 ## Manifest
 
 - [BitFlipCode.qs](https://github.com/microsoft/Quantum/blob/master/samples/error-correction/bit-flip-code/BitFlipCode.qs): Q# code implementing quantum operations for this sample.
+- [Program.qs](https://github.com/microsoft/Quantum/blob/master/samples/error-correction/bit-flip-code/Program.qs): Q# entry point to interact with and print out results of the Q# operations for this sample.
 - [BitFlipCode.csproj](https://github.com/microsoft/Quantum/blob/master/samples/error-correction/bit-flip-code/BitFlipCode.csproj): Main Q# project for the sample.
 
 ## Further resources

@@ -26,19 +26,6 @@ In this sample, we show how `M` can be used to sample random numbers, and to mea
 
 To run the sample, use the `dotnet run` command from your terminal.
 
-### C# in Visual Studio Code or the Command Line
-
-At a terminal, run the following command:
-
-```dotnetcli
-dotnet run
-```
-
-### C# in Visual Studio 2019
-
-Open the folder containing this sample in Visual Studio ("Open a local folder" from the Getting Started screen or "File → Open → Folder..." from the menu bar) and set `Measurement.csproj` as the startup project.
-Press Start in Visual Studio to run the sample.
-
 ## Manifest
 
 - [Measurement.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/measurement/Measurement.qs): Q# code preparing and measuring a few qubits.

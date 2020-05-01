@@ -26,3 +26,4 @@ To run the sample, use the `dotnet run` command from your terminal.
 
 - [PhaseEstimationSample.csproj](https://github.com/microsoft/Quantum/tree/master/samples/characterization/phase-estimation/PhaseEstimationSample.csproj): Main Q# project for the example.
 - [BayesianPhaseEstimation.qs](https://github.com/microsoft/Quantum/tree/master/samples/characterization/phase-estimation/BayesianPhaseEstimation.qs): The Q# implementation of iterative phase estimation and Bayesian inference.
+- [Program.qs](https://github.com/microsoft/Quantum/tree/master/samples/characterization/phase-estimation/Program.qs): Q# entry point to interact with and print out results of the Q# operations for this sample.

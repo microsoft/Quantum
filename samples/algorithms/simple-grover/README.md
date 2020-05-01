@@ -28,4 +28,5 @@ To run the sample, use the `dotnet run` command from your terminal.
 ## Manifest ##
 
 - [SimpleGrover.qs](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/simple-grover/SimpleGrover.qs): Q# code implementing quantum operations for this sample.
+- [Reflections.qs](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/simple-grover/Reflections.qs): Q# code implementing quantum operations for this sample.
 - [SimpleGroverSample.csproj](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/simple-grover/SimpleGroverSample.csproj): Main Q# project for the sample.
