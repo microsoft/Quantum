@@ -2,8 +2,6 @@
 page_type: sample
 languages:
 - qsharp
-- python
-- csharp
 products:
 - qdk
 description: "This sample implements Grover's search algorithm, an example of a quantum development technique known as amplitude amplification."
@@ -25,32 +23,9 @@ For examples of how to solve more general problems using amplitude amplification
 
 ## Running the Sample ##
 
-This sample can be run in a number of different ways, depending on your preferred environment.
-
-### Python in Visual Studio Code or the Command Line ###
-
-At a terminal, run the following command:
-
-```bash
-python host.py
-```
-
-### C# in Visual Studio Code or the Command Line ###
-
-At a terminal, run the following command:
-
-```dotnetcli
-dotnet run
-```
-
-### C# in Visual Studio 2019 ###
-
-Open the folder containing this sample in Visual Studio ("Open a local folder" from the Getting Started screen or "File → Open → Folder..." from the menu bar) and set `SimpleGroverSample.csproj` as the startup project.
-Press Start in Visual Studio to run the sample.
+To run the sample, use the `dotnet run` command from your terminal.
 
 ## Manifest ##
 
 - [SimpleGrover.qs](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/simple-grover/SimpleGrover.qs): Q# code implementing quantum operations for this sample.
-- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/simple-grover/Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
-- [SimpleGroverSample.csproj](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/simple-grover/SimpleGroverSample.csproj): Main C# project for the sample.
-
+- [SimpleGroverSample.csproj](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/simple-grover/SimpleGroverSample.csproj): Main Q# project for the sample.
