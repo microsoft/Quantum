@@ -13,27 +13,22 @@ namespace Qrng {
             return MResetZ(q);  // Measure the qubit value.
         }
     }
+
+    operation SampleRandomNumberInRange(max : Int) : Int {
+        mutable bits = new Result[0];
+        for (idxBit in 1..BitSizeI(max)) {
+            set bits += [SampleQuantumRandomNumberGenerator()];
+        }
+        let sample = ResultArrayAsInt(bits);
+        return sample > max
+               ? SampleRandomNumberInRange(max)
+               | sample;
+    }
     
     @EntryPoint()
     operation SampleRandomNumber() : Int {
         let max = 50;
         Message($"Sampling a random number between 0 and {max}: ");
-        let nBits = Floor(Log(IntAsDouble(max)) / LogOf2() + 1.);
-    
-        mutable bits = new Result[0];
-        mutable output = 0;
-        repeat {
-            set bits = new Result[0];
-            for (bit in 1 .. nBits) {
-                set bits += [SampleQuantumRandomNumberGenerator()];
-            }
-            set output = ResultArrayAsInt(bits);
-        }
-        until (output <= max)
-        fixup {
-            Message($"{output} > {max}, trying again.");
-        }
-
-        return output;
+        return SampleRandomNumberInRange(max);
     }
 }
