@@ -135,4 +135,10 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
         }
     }
 
+    /// # Summary
+    /// Helper function for computing the magnetization 
+    /// by converting each Result into a floating point number.
+    internal function AddMagnetization(current : Double, spinMeasurement : Result) : Double {
+        return current + (spinMeasurement == One ? 0.5 | -0.5); 
+    }
 }
