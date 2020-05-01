@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QuantumCode\QuantumCode.csproj" />
+    <ProjectReference Include="..\qsharp\qsharp.csproj" />
   </ItemGroup>
 
 </Project>

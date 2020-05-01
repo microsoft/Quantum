@@ -1,4 +1,7 @@
-﻿namespace Microsoft.Quantum.Samples {
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Arrays;
@@ -10,19 +13,15 @@
     ///
     /// # Input
     /// ## r
-    /// A bit vector of length N represented as Int[]
+    /// A bit vector of length N
     /// ## x
     /// N qubits in arbitrary state |x⟩ (input register)
     /// ## y
     /// A qubit in arbitrary state |y⟩ (output qubit)
-    operation ApplyProductWithNegationFunction (r : Int[], x : Qubit[], y : Qubit) : Unit is Adj {
-        for (idx in IndexRange(x)) {
-            if (r[idx] == 1) {
-                CNOT(x[idx], y);
-            } else {
-                // do a 0-controlled NOT
-                (ControlledOnInt(0, X))([x[idx]], y);
-            }
+    operation ApplyProductWithNegationFunction (vector : Bool[], controls : Qubit[], target : Qubit)
+    : Unit is Adj {
+        for ((bit, control) in Zip(vector, controls)) {
+            (ControlledOnInt(bit ? 1 | 0, X))([control], target);
         }
     }
 
@@ -41,7 +40,7 @@
     /// # Output
     /// A bit vector r which generates the same oracle as the given one
     /// Note that this doesn't have to be the same bit vector as the one used to initialize the oracle!
-    operation RestoreOracleParameters(N : Int, oracle : ((Qubit[], Qubit) => Unit)) : Int[] {
+    operation ReconstructOracleParameters(N : Int, oracle : ((Qubit[], Qubit) => Unit)) : Bool[] {
         using ((x, y) = (Qubit[N], Qubit())) {
             // apply oracle to qubits in all 0 state
             oracle(x, y);
@@ -60,18 +59,18 @@
             // before releasing the qubits make sure they are all in |0⟩ state
             ResetAll(x);
             return m == One
-                   ? ConstantArray(N, 0) w/ 0 <- 1
-                   | ConstantArray(N, 0);
+                   ? ConstantArray(N, false) w/ 0 <- true
+                   | ConstantArray(N, false);
         }
     }
 
     /// # Summary
     /// Instantiates the oracle and runs the parameter restoration algorithm.
-    operation RunAlgorithm(bits : Int[]) : Int[] {
+    operation RunAlgorithm(bits : Bool[]) : Bool[] {
         Message("Hello, quantum world!");
         // construct an oracle using the input array
         let oracle = ApplyProductWithNegationFunction(bits, _, _);
         // run the algorithm on this oracle and return the result
-        return RestoreOracleParameters(Length(bits), oracle);
+        return ReconstructOracleParameters(Length(bits), oracle);
     }
 }
