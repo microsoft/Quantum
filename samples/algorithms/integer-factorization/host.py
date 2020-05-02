@@ -4,7 +4,7 @@
 import argparse
 import qsharp
 from qsharp import IQSharpError
-from Microsoft.Quantum.Samples.IntegerFactorization import FactorInteger
+from Microsoft.Quantum.Samples.IntegerFactorization import FactorSemiprimeInteger
 
 
 def factor_integer(number_to_factor, n_trials, use_robust_phase_estimation):
@@ -21,7 +21,7 @@ def factor_integer(number_to_factor, n_trials, use_robust_phase_estimation):
         print(f'Factoring {number_to_factor}')
         # Compute the factors
         try:
-            output = FactorInteger.simulate(
+            output = FactorSemiprimeInteger.simulate(
                 number=number_to_factor,
                 useRobustPhaseEstimation=use_robust_phase_estimation,
                 raise_on_stderr=True)
