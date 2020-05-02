@@ -10,9 +10,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.11.2003.3107" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.11.2004.2414-beta" />
     <!-- NB: Since this project does not include any Q# sources, it is not yet compatible with the new-style SDK package. -->
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.11.2003.3107" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.11.2004.2414-beta" />
   </ItemGroup>
 
 </Project>
