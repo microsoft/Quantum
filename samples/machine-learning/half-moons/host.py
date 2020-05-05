@@ -10,7 +10,7 @@ import matplotlib.cm as cmx
 plt.style.use('ggplot')
 
 import qsharp
-qsharp.packages.add("Microsoft.Quantum.MachineLearning::0.10.2002.2310-beta")
+qsharp.packages.add("Microsoft.Quantum.MachineLearning::0.11.2004.2825")
 qsharp.reload()
 
 from Microsoft.Quantum.Samples import (
