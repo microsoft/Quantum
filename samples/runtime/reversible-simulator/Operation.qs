@@ -8,7 +8,7 @@ namespace Microsoft.Quantum.Samples {
     // This operation computes the majority of input qubits `a`, `b`, and `c`
     // onto the output qubit `f`.  If `f` is in state 0, it is 1, if and only if
     // at least two of the input qubits are 1.
-    operation Majority(a : Qubit, b : Qubit, c : Qubit, f : Qubit) : Unit {
+    operation ApplyMajority(a : Qubit, b : Qubit, c : Qubit, f : Qubit) : Unit {
         within {
             CNOT(b, a);
             CNOT(b, c);
@@ -20,13 +20,12 @@ namespace Microsoft.Quantum.Samples {
 
     // This applies the Majority operation to three qubits who are initialized
     // based on the Boolean input arguments.
-    @EntryPoint()
-    operation MajorityRun(a : Bool, b : Bool, c : Bool) : Bool {
+    operation RunMajority(a : Bool, b : Bool, c : Bool) : Bool {
         using ((qa, qb, qc, f) = (Qubit(), Qubit(), Qubit(), Qubit())) {
             within {   
                 ApplyPauliFromBitString(PauliX, true, [a, b, c], [qa, qb, qc]);
             } apply {
-                Majority(qa, qb, qc, f);
+                ApplyMajority(qa, qb, qc, f);
             }
 
             // The target qubit `f` is measured and reset afterwards.  The
