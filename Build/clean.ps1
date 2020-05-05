@@ -10,4 +10,4 @@ Get-ChildItem -recurse *.csproj, *.fsproj `
     | ForEach-Object { $_.Directory } `
     | Sort-Object `
     | Get-Unique `
-    | ForEach-Object -Parallel { dotnet clean $_ };
+    | ForEach-Object { dotnet clean $_ };
