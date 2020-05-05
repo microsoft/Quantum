@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 using System;
 
-namespace Microsoft.Quantum.Samples {
+namespace Microsoft.Quantum.Samples
+{
     class Driver {
-        public static void Main(string[] args) {
+        public static async Task Main(string[] args) {
             var sim = new ReversibleSimulator();
             var bits = new[] {false, true};
 

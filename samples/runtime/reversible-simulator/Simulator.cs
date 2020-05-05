@@ -5,7 +5,8 @@ using Microsoft.Quantum.Simulation.QuantumProcessor;
 using Microsoft.Quantum.Simulation.Common;
 using Microsoft.Quantum.Simulation.Core;
 
-namespace Microsoft.Quantum.Samples {
+namespace Microsoft.Quantum.Samples
+{
     // The ReversibleSimulator will be implemented based on
     // `QuantumProcessorDispatcher`, which is constructed using a specialization
     // `QuantumProcessorBase`.  The specialization overrides methods to specify
