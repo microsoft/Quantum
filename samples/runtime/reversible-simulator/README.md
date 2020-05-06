@@ -11,7 +11,7 @@ description: "This sample implements a simple reversible simulator for Q# using 
 
 This samples shows how to build a simple reversible simulator.  It is very
 similar to the [existing Toffoli
-simulator](https://docs.microsoft.com/en-us/quantum/machines/toffoli-simulator?view=qsharp-preview),
+simulator](https://docs.microsoft.com/quantum/machines/toffoli-simulator?view=qsharp-preview),
 but presented as an example of how to use the `IQuantumProcessor` interface. A
 reversible simulator can simulate quantum programs that consist only of
 *classical* operations: `X`, `CNOT`, `CCNOT` (Toffoli gate), or arbitrarily
