@@ -2,6 +2,7 @@
 page_type: sample
 languages:
 - qsharp
+- csharp
 products:
 - qdk
 description: "This sample implements a simple reversible simulator for Q# using the `IQuantumProcessor` interface."
