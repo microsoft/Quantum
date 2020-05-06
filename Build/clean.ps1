@@ -6,8 +6,12 @@ $ErrorActionPreference = 'Stop'
 & "$PSScriptRoot/set-env.ps1"
 $all_ok = $True
 
-Get-ChildItem -recurse *.csproj, *.fsproj `
+Get-ChildItem -Recurse -Path ".." -Include *.csproj, *.fsproj `
     | ForEach-Object { $_.Directory } `
     | Sort-Object `
     | Get-Unique `
-    | ForEach-Object { dotnet clean $_ };
+    | ForEach-Object {
+        Write-Host "##[info] Cleaning $_.";
+        dotnet clean $_ `
+            --configuration $Env:BUILD_CONFIGURATION;
+    };
