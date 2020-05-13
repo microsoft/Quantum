@@ -9,7 +9,7 @@ products:
 description: "This sample implements a quantum random number generator using Q#, a good first example to teach how to use the language."
 ---
 
-# Creating random numbers with quantum computing
+# Creating random numbers with quantum computing (host)
 
 This sample implements a quantum random number generator, a very simple application that is useful to learn how to write a first Q# code and it's integration with the host programs in C# or Python.
 
