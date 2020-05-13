@@ -2,17 +2,17 @@
 page_type: sample
 languages:
 - qsharp
-# - python # TODO
+- python
 - csharp
 products:
 - qdk
 description: "This sample implements using the quantum machine learning library to train a sequential model on the half-moons dataset."
 ---
 
-# Training sequential models with Q\#
+# Training sequential models with Q\# (half-moons)
 
 This sample uses Q# and the Microsoft.Quantum.MachineLearning library to train a simple sequential model.
-The model is trained on a half-moon dataset, loaded in C# using the System.Text.Json package or in Python using the `json` module, then preprocessed using Q#.
+The model is trained on a half-moons dataset, loaded in C# using the System.Text.Json package or in Python using the `json` module, then preprocessed using Q#.
 
 
 ## Prerequisites
@@ -23,14 +23,13 @@ The model is trained on a half-moon dataset, loaded in C# using the System.Text.
 
 This sample can be run in a number of different ways, depending on your preferred environment.
 
-<!-- TODO
 ### Python in Visual Studio Code or the Command Line ###
 
 At a terminal, run the following command:
 
 ```bash
 python host.py
-``` -->
+```
 
 ### C# in Visual Studio Code or the Command Line
 
