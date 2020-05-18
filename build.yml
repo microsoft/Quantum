@@ -15,7 +15,7 @@ variables:
 jobs:
 - job: Windows
   pool:
-    vmImage: 'windows-latest'
+    vmImage: 'windows-2019'
   steps:
   - template: Build/steps.yml
 - job: macOS
