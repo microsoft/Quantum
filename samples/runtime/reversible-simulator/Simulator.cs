@@ -78,7 +78,7 @@ namespace Microsoft.Quantum.Samples
         public override Result M(Qubit qubit) =>
             // The simulation value is converted to a Q# result value: `true`
             // corresponds to `One`, and `false` corresponds to `Zero`.
-            simulationValues[qubit] ? Result.One : Result.Zero;
+            simulationValues[qubit].ToResult();
     }
 
     // The actual simulator is created by extending
