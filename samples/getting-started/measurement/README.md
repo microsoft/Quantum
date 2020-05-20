@@ -24,7 +24,7 @@ In this sample, we show how `M` can be used to sample random numbers, and to mea
 
 ## Running the Sample
 
-To run the sample, use the `dotnet run` command from your terminal.
+To run the sample, use the `dotnet run` command from your terminal. 
 
 ## Manifest
 

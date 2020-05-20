@@ -23,7 +23,8 @@ Once everything is installed, run `jupyter notebook` to start the Jupyter Notebo
 PS> jupyter notebook
 ```
 
-In the browser, select the `tomography-sample.ipynb` notebook in your browser to view the sample.
+In the browser, select the `tomography-sample.ipynb` notebook in your browser to
+view the sample. 
 
 
 ## Manifest ##

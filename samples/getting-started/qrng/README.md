@@ -11,9 +11,9 @@ description: "This sample implements a quantum random number generator using Q#,
 
 This sample implements a quantum random number generator, a very simple application that is useful to learn how to write a first Q# program.
 
-In the Q# code (Qrng.qs) you will find the Q# operation for extracting a random bit using quantum measurements over a qubit in superposition. For more information, you can take a look at the [full tutorial](https://docs.microsoft.com/quantum/quickstarts/qrng).
+In the Q# code (Qrng.qs) you will find the Q# operation for extracting a random bit using quantum measurements over a qubit in superposition. For more information, you can take a look at the [full tutorial](https://docs.microsoft.com/quantum/quickstarts/qrng). 
 
-You will also find a Q# operation that creates a random integer from 0 to a maximum integer by invoking several times the Q# operation for extracting a random bit.
+You will also find a Q# operation that creates a random integer from 0 to a maximum integer by invoking several times the Q# operation for extracting a random bit. 
 
 ## Prerequisites ##
 
@@ -21,7 +21,7 @@ You will also find a Q# operation that creates a random integer from 0 to a maxi
 
 ## Running the Sample ##
 
-To run the sample, use the `dotnet run` command from your terminal.
+To run the sample, use the `dotnet run` command from your terminal. 
 
 ## Manifest ##
 

@@ -45,7 +45,7 @@ dotnet run
 ### C# in Visual Studio 2019 ###
 
 Open the folder containing this sample in Visual Studio ("Open a local folder" from the Getting Started screen or "File → Open → Folder..." from the menu bar) and set `Qrng.csproj` as the startup project.
-Press Start in Visual Studio to run the sample.
+Press Start in Visual Studio to run the sample. 
 
 ## Manifest ##
 

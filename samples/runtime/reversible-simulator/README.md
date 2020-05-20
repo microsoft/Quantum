@@ -43,7 +43,7 @@ dotnet run
 Open the folder containing this sample in Visual Studio ("Open a local folder"
 from the Getting Started screen or "File → Open → Folder..." from the menu bar)
 and set `ReversibleSimulator.csproj` as the startup project. Press Start in
-Visual Studio to run the sample.
+Visual Studio to run the sample. 
 
 ## Manifest ##
 

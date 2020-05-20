@@ -11,7 +11,7 @@ To start the Jupyter Notebook use the following command in this directory.
 ```
 PS> jupyter notebook AdderExample.ipynb
 ```
-Use the `Run` button to walk through the notebook line by line.
+Use the `Run` button to walk through the notebook line by line. 
 
 ## Manifest ##
 

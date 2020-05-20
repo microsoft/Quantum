@@ -9,7 +9,7 @@ Press Start in Visual Studio to run the sample.
 
 ## Running the Sample in Jupyter Notebook ##
 
-This sample can also be viewed using Jupyter Notebook.
+This sample can also be viewed using Jupyter Notebook. 
 To do so, ensure that you have the IQ# kernel installed using the instructions in the [getting started guide](https://docs.microsoft.com/quantum/install-guide/jupyter).
 Then, start a new Jupyter Notebook session from this directory:
 

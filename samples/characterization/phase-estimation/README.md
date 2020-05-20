@@ -20,7 +20,7 @@ This sample demonstrates iterative phase estimation using Bayesian inference to 
 
 This sample can be run in a number of different ways, depending on your preferred environment.
 
-To run the sample, use the `dotnet run` command from your terminal.
+To run the sample, use the `dotnet run` command from your terminal. 
 
 ## Manifest
 
