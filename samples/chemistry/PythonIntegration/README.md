@@ -25,7 +25,7 @@ The first time you run the sample you might see errors like this when the script
 fail: Microsoft.Quantum.IQSharp.Workspace[0]
       QS5022: No identifier with that name exists.
 ```
-these are known and are safe to ignore.
+these are known and are safe to ignore. 
 
 If the script runs successfully, you should see this message in the output.
 ```

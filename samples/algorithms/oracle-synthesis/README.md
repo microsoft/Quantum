@@ -24,7 +24,7 @@ ancillas](http://iopscience.iop.org/article/10.1088/1367-2630/16/3/033040/meta),
 
 ## Running the Sample ##
 
-To run the sample, use the `dotnet run` command from your terminal.
+To run the sample, use the `dotnet run` command from your terminal. 
 
 ## Manifest
 

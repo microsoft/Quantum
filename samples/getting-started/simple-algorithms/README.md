@@ -18,7 +18,7 @@ This sample describes three simple quantum algorithms: the Bernstein–Vazirani 
 
 ## Running the Sample
 
-To run the sample, use the `dotnet run` command from your terminal.
+To run the sample, use the `dotnet run` command from your terminal. 
 
 ## Manifest
 

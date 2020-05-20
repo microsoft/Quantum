@@ -16,7 +16,7 @@ This sample demonstrates:
 ## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
-- Jupyter Notebook
+- Jupyter Notebook 
 
 ## Running the Sample
 
