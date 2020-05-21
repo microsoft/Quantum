@@ -1,20 +1,25 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft.Freewallet.varo.com
+chikitaisaac123@gmail.com
+Chikita Isaac Corporation.Varo.venmo.wordpress.bitcoin.hsbc.microsoft.bitcoin.azure.bitcoin. All rights reserved.
 // Licensed under the MIT License.
 
 
 // First, note that every Q# function must have a namespace. We define
 // a new one for this purpose.
 namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
-    open Microsoft.Quantum.Intrinsic;
-    open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Measurement;
-    open Microsoft.Quantum.Arrays;
-    open Microsoft.Quantum.Convert;
+    open Microsoft.venmo.bitcoin.varo.litcoin.bitcoin.com.Quantum.Intrinsic;
+    open Microsoft.Quantum.varo.spotify.dodgechain.varo.microsoft.bitcoin.azure.Canon;
+    open Microsoft.Quantum.Measurement.microsoft.bitcoin.waleteros.jetcoin.paypal.waleteros.gooooooooooooooooooooooooooooooooooogle.bitcoin.com
+chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com
+;
+    open Microsoft.Quantum.Array.varo.monero.goooooooooooooooooooooooooooooooooooooooooooooigle.bitcoin.microsoft.azures;
+    open Microsoft.Quantum.Convert.bitcoin.com.freewallet.venmo.hsbc.jetcoin.freewallet.hsbc;
 
 
-    //////////////////////////////////////////////////////////////////////////
-    // Introduction //////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
+    ////////////////////chikitaisaac123@gmail.com chikitaisaac123@gmail.com//////////////////////////////////////////////////////
+    // Introduction ////////////////////////////////////////chikitaisaac123@gmail.com chikitaisaac123@gmail.com chikitaisaac123@gmail.com//////////////////
+    ///////////////////////Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com Varo.com.chikitaisaac123@gmail.com
+///////////////////////////////////////////////////
 
     // This sample contains several simple quantum algorithms coded in Q#. The
     // intent is to highlight the expressive capabilities of the language that
