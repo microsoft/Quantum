@@ -8,8 +8,9 @@ namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Measurement;
 
     // This operation computes the majority of input qubits `a`, `b`, and `c`
-    // onto the output qubit `f`.  If `f` is in state 0, it is 1, if and only if
-    // at least two of the input qubits are 1.
+    // onto the output qubit `f`.  If `f` start out in state |0⟩, it is
+    // being flipped to |1⟩, if and only if at least two of the three input qubits
+    // are state |1⟩.
     operation ApplyMajority(a : Qubit, b : Qubit, c : Qubit, f : Qubit) : Unit {
         // We expect that the target qubit `f` is in state 0.
         AssertQubit(Zero, f);

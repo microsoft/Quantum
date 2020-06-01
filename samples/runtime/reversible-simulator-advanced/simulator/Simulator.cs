@@ -33,9 +33,8 @@ namespace Microsoft.Quantum.Samples
         // We implement three helper functions to manipulate the bits in the
         // bit array given a qubit as input.
         // GetValue returns the simulation value at the corresponding index.
-        private bool GetValue(Qubit qubit) {
-            return simulationValues[qubit.Id];
-        }
+        private bool GetValue(Qubit qubit) =>
+            simulationValues[qubit.Id];
 
         // SetValue sets the simulation value at the corresponding index.
         private void SetValue(Qubit qubit, bool value) {
@@ -134,10 +133,11 @@ namespace Microsoft.Quantum.Samples
             : base(new ReversibleSimulatorProcessor { ThrowOnReleasingQubitsNotInZeroState = throwOnReleasingQubitsNotInZeroState }) {
 
             // We register the ApplyAnd and the ApplyLowDepthAnd operation as
-            // CCNOT operations.  By doing this, Q# programs that contain these
-            // operations can be simulated using the reversible simulator, even
-            // though they are using non-classical operations in their
-            // implementation.
+            // CCNOT operations.  These are both standard library operations
+            // in the Microsoft.Quantum.Canon namespace. By doing this, Q#
+            // programs that contain these operations can be simulated using
+            // the reversible simulator, even though they are using non-classical
+            // operations in their implementation.
             Register(typeof(ApplyAnd), typeof(CCNOT), typeof(IUnitary<(Qubit, Qubit, Qubit)>));
             Register(typeof(ApplyLowDepthAnd), typeof(CCNOT), typeof(IUnitary<(Qubit, Qubit, Qubit)>));
         }
