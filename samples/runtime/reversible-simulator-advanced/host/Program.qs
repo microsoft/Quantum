@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Diagnostics;
@@ -22,7 +23,7 @@ namespace Microsoft.Quantum.Samples {
         }
     }
 
-    // The entry point applies the ApplyMajority operation to three qubits who
+    // The entry point applies the ApplyMajority operation to three qubits that
     // are initialized based on the Boolean input arguments.  It returns the
     // evaluation of the function by measuring the qubit that holds the function
     // output.

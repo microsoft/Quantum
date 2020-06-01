@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
+#nullable enable
+
 using System;
 using System.Collections;
 using System.Linq;
@@ -10,7 +13,8 @@ using Microsoft.Quantum.Simulation.Common;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators.Exceptions;
 
-namespace Microsoft.Quantum.Samples {
+namespace Microsoft.Quantum.Samples
+{
     // The ReversibleSimulator will be implemented based on
     // `QuantumProcessorDispatcher`, which is constructed using a specialization
     // `QuantumProcessorBase`.  The specialization overrides methods to specify
@@ -95,7 +99,7 @@ namespace Microsoft.Quantum.Samples {
         // Overriding the Assert methods enables the use of statements such as
         // `AssertQubit(Zero, q)` inside a Q# program.
         public override void Assert(IQArray<Pauli> bases, IQArray<Qubit> qubits, Result expected, string msg) {
-            Qubit filter(Pauli p, Qubit q) =>
+            Qubit? filter(Pauli p, Qubit q) =>
                 p switch {
                     Pauli.PauliI => null,
                     Pauli.PauliZ => q,

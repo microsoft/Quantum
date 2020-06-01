@@ -27,11 +27,11 @@ preferred environment.
 At a terminal, run the following command (with example arguments for the inputs) in the `host` directory:
 
 ```dotnetcli
-dotnet run -- -a True -b True -c False
+dotnet run -- -a true -b true -c false
 ```
 
-The simular has been set to the custom one in the project file of the Q# project.
-However, the simulator can also be specified explicitly.
+The simulator included in this sample has been set as the default simulator in the Q# project file.
+However, the simulator can also be specified explicitly using the `--simulator`/`-s` option.
 
 ```dotnetcli
 dotnet run -- -a True -b True -c False -s Microsoft.Quantum.Samples.ReversibleSimulator
