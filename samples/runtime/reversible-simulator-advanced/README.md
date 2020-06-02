@@ -34,7 +34,7 @@ The simulator included in this sample has been set as the default simulator in t
 However, the simulator can also be specified explicitly using the `--simulator`/`-s` option.
 
 ```dotnetcli
-dotnet run -- -a True -b True -c False -s Microsoft.Quantum.Samples.ReversibleSimulator
+dotnet run -- -a true -b true -c false -s Microsoft.Quantum.Samples.ReversibleSimulator
 ```
 
 ### C# in Visual Studio 2019
