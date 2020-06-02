@@ -336,7 +336,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// The unsigned integer multiplicative order ( period )
     /// of which is being estimated. Must be co-prime to `modulus`.
     /// ## period
-    /// The estimated period from 
+    /// The estimated period ( multiplicative order ) of the generator mod `modulus`.
     ///
     /// # Output
     /// A tuple of a flag indicating whether factors were found successfully,
