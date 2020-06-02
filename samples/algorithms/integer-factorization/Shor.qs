@@ -25,7 +25,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     ///
     /// # Input
     /// ## number
-    /// An Semiprime integer to be factored
+    /// A semiprime integer to be factored
     /// ## useRobustPhaseEstimation
     /// If set to true, we use Microsoft.Quantum.Characterization.RobustPhaseEstimation and
     /// Microsoft.Quantum.Characterization.QuantumPhaseEstimation otherwise
@@ -68,16 +68,17 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                 // classical algorithm succeeds.
                 set (foundFactors, factors) = MaybeFactorsFromPeriod(number, generator, period);
             }
-            // In this case we guessed a divisor by accident
+            // In this case, we guessed a divisor by accident.
             else {
                 // Find a divisor using Microsoft.Quantum.Math.GreatestCommonDivisorI
                 let gcd = GreatestCommonDivisorI(number, generator);
                 
-                // And do not forget to tell the user that we were lucky and didn't do anything
-                // quantum using Microsoft.Quantum.Intrinsic.Message
+                // Don't forget to tell the user that we were lucky and didn't do anything
+                // quantum by using Microsoft.Quantum.Intrinsic.Message.
                 Message($"We have guessed a divisor of {number} to be {gcd} by accident.");
 
-                // Set the flag `foundFactors` to true
+                // Set the flag `foundFactors` to true, indicating that we succeeded in finding
+                // factors.
                 set foundFactors = true;
                 set factors = (gcd, number / gcd);
             }
@@ -159,7 +160,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         let bitsize = BitSizeI(modulus);
 
         // The EstimatePeriod operation estimates the period r by finding an
-        // approximation k/2^bits precision to a fraction s/r where s is some integer.
+        // approximation k/2^(bits precision) to a fraction s/r, where s is some integer.
         // Note that if s and r have common divisors we will end up recovering a divisor of r
         // and not r itself. However, if we recover enough divisors of r
         // we recover r itself pretty soon.
@@ -209,7 +210,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// this operation uses Microsoft.Quantum.Characterization.QuantumPhaseEstimation
     /// ## bitsize
     /// Number of bits needed to represent the modulus.
-
+    ///
     /// # Output
     /// The numerator k of dyadic fraction k/2^bitsPrecision
     /// approximating s/r.
@@ -224,12 +225,12 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         let bitsPrecision =  2 * bitsize + 1;
         
         // Allocate qubits for the superposition of eigenstates of
-        // the oracle that is used in period finding
+        // the oracle that is used in period finding.
         using (eigenstateRegister = Qubit[bitsize]) {
 
-            // Initialize eigenstateRegister to 1 which is a superposition of
+            // Initialize eigenstateRegister to 1, which is a superposition of
             // the eigenstates we are estimating the phases of.
-            // We first interpret the register as encoding unsigned integer
+            // We first interpret the register as encoding an unsigned integer
             // in little endian encoding.
             let eigenstateRegisterLE = LittleEndian(eigenstateRegister);
             ApplyXorInPlace(1, eigenstateRegisterLE);
@@ -238,7 +239,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             // that we are going to use with phase estimation methods below.
             let oracle = DiscreteOracle(ApplyOrderFindingOracle(generator, modulus, _, _));
 
-            if (useRobustPhaseEstimation){
+            if (useRobustPhaseEstimation) {
 
                 // Use Microsoft.Quantum.Characterization.RobustPhaseEstimation to estimate s/r.
                 // RobustPhaseEstimation needs only one extra qubit, but requires
@@ -250,7 +251,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                 // corresponding to random s.
                 set frequencyEstimate = Round(((phase * IntAsDouble(2 ^ bitsPrecision)) / 2.0) / PI());
             }
-            else{
+            else {
                 // Use Microsoft.Quantum.Characterization.QuantumPhaseEstimation to estimate s/r.
                 // When using QuantumPhaseEstimation we will need extra `bitsPrecision`
                 // qubits
@@ -258,7 +259,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                     let frequencyEstimateNumerator = LittleEndian(register);  
 
                     // The register that will contain the numerator k of
-                    // dyadic fraction k/2^bitsPrecision. The numerator is unsigned
+                    // dyadic fraction k/2^bitsPrecision. The numerator is an unsigned
                     // integer encoded in big-endian format. This is indicated by
                     // use of Microsoft.Quantum.Arithmetic.BigEndian type.
                     QuantumPhaseEstimation(
@@ -273,7 +274,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             }
             
             // Return all the qubits used for oracle's eigenstate back to 0 state
-            // using Microsoft.Quantum.Intrinsic.ResetAll
+            // using Microsoft.Quantum.Intrinsic.ResetAll.
             ResetAll(eigenstateRegister);
         }
 
@@ -338,8 +339,10 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// The estimated period from 
     ///
     /// # Output
-    /// A tuple of a flag bool and tuple that represent whether it 
-    /// found the factors and if it did a tuple of the factors.
+    /// A tuple of a flag indicating whether factors were found successfully,
+    /// and a pair of integers representing the factors that were found.
+    /// Note that the second output is only meaningful when the first
+    /// output is `true`.
     ///
     /// # See Also
     /// - Microsoft.Quantum.Math.GreatestCommonDivisorI
