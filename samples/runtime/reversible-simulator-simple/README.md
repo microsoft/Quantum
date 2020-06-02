@@ -21,7 +21,7 @@ quantum state by assigning one Boolean value to each qubit, it can run even
 quantum programs that consist of thousands of qubits. This simulator is very
 useful for testing quantum operations that evaluate Boolean functions.
 
-## Prerequisites ##
+## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
 
@@ -45,7 +45,7 @@ from the Getting Started screen or "File → Open → Folder..." from the menu b
 and set `ReversibleSimulator.csproj` as the startup project. Press Start in
 Visual Studio to run the sample. 
 
-## Manifest ##
+## Manifest
 
 - [Operation.qs](Operation.qs): Q# code implementing quantum operations for this sample.
 - [Simulator.cs](Simulator.cs): C# implementation of a reversible simulator using the `IQuantumProcessor` interface.
