@@ -67,7 +67,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
 
                         // Compute the factors
                         (long factor1, long factor2) = 
-                            FactorInteger.Run(sim, numberToFactor, useRobustPhaseEstimation).Result;
+                            FactorSemiprimeInteger.Run(sim, numberToFactor, useRobustPhaseEstimation).Result;
 
                         Console.WriteLine($"Factors are {factor1} and {factor2}");
                     }
