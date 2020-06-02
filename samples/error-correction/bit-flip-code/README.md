@@ -1,4 +1,4 @@
-﻿---
+---
 page_type: sample
 languages:
 - qsharp
@@ -11,7 +11,7 @@ urlFragment: bit-flip-code
 
 # Bit-flip Quantum Code Sample
 
-This sample demonstrates:
+This sample demonstrates: 
 
 - Using the Q# standard libraries to implement a simple quantum error correction code.
 

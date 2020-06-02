@@ -1,6 +1,6 @@
 # Quantum Chemistry Library Samples #
 
-These samples demonstrate the use of the Quantum Chemistry library.
+These samples demonstrate the use of the Quantum Chemistry library. 
 Each sample is provided as a Visual Studio 2019 C# or project in their respective directories.
 Each of these samples are described below.
 Most of the samples consist of a Q# source file with detailed comments explaining the sample and a commented classical program `Program.cs` to call into Q# operations and functions.

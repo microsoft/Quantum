@@ -8,10 +8,10 @@ products:
 description: "This sample implements using the quantum machine learning library to train a sequential model on the half-moons dataset, parallelizing over target machines."
 ---
 
-# Training sequential models with Q\#
+# Training sequential models with Q\#, using multiple simulators in parallel
 
 This sample uses Q# and the Microsoft.Quantum.MachineLearning library to train a simple sequential model.
-The model is trained on a half-moon dataset, loaded in C# using the System.Text.Json package, then preprocessed using Q#.
+The model is trained on a half-moons dataset, loaded in C# using the System.Text.Json package, then preprocessed using Q#.
 
 In this sample, the training loop is parallelized over model start points, with each model using its own instance of the full-state quantum simulator.
 Parallelizing in this way can lead to significantly improved performance, especially when using a large number of cores on a small number of qubits.
@@ -36,7 +36,7 @@ dotnet run
 ### C# in Visual Studio 2019
 
 Open the folder containing this sample in Visual Studio ("Open a local folder" from the Getting Started screen or "File → Open → Folder..." from the menu bar) and set `HalfMoons.csproj` as the startup project.
-Press Start in Visual Studio to run the sample.
+Press Start in Visual Studio to run the sample. 
 
 ## Manifest
 

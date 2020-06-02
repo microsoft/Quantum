@@ -20,7 +20,7 @@ The steps are as follows:
 
    This will transitively include the [`Microsoft.Quantum.Development.Kit` NuGet package](https://www.nuget.org/packages/Microsoft.Quantum.Development.Kit) to your C# or F# application.
    You will not be writing any Q# code in `csharp.csproj` or `fsharp.fsproj`, but you will need to use functionality provided by the Quantum Development Kit to create a quantum simulator to run your quantum code on, and to define data types used to pass the parameters to your quantum program.
-4. Write the classical host program in your .NET application.
+4. Write the classical host program in your .NET application. 
 
 ## Q# Code in the Sample
 

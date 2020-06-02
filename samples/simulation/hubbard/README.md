@@ -1,4 +1,4 @@
-﻿---
+---
 page_type: sample
 languages:
 - qsharp
@@ -19,7 +19,7 @@ This time-evolution operator is applied to project onto the ground state of the 
 
 ## Running the Sample
 
-To run the sample, use the `dotnet run` command from your terminal.
+To run the sample, use the `dotnet run` command from your terminal. 
 
 ## Manifest ##
 

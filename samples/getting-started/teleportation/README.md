@@ -18,7 +18,7 @@ This sample demonstrates the use of the Quantum Development Kit for quantum tele
 
 ## Running the Sample
 
-To run the sample, use the `dotnet run` command from your terminal.
+To run the sample, use the `dotnet run` command from your terminal. 
 
 ## Manifest ##
 
