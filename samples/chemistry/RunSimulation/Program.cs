@@ -133,7 +133,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
             // Logs spin-orbital data in Logger.Message.
             logger.LogInformation(fermionHamiltonian.ToString());
 
-            // Process Hamiltonitn to obtain Jordan–Wigner representation.
+            // Process Hamiltonian to obtain Jordan–Wigner representation.
             var jordanWignerEncoding = fermionHamiltonian.ToPauliHamiltonian(Paulis.QubitEncoding.JordanWigner);
 
             // Create input wavefunction.

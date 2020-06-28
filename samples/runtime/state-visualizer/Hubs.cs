@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Microsoft.Quantum.Samples.StateVisualizer
 {
     /// <summary>
-    /// The hub recives receives events and commands from the web browser client and sends them to the state visualizer
+    /// The hub receives events and commands from the web browser client and sends them to the state visualizer
     /// server.
     /// </summary>
     internal class StateVisualizerHub : Hub

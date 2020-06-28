@@ -118,7 +118,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
                     (IntegralDataFormat.Broombridge, () => Broombridge.Deserializers.DeserializeBroombridge(filename).ProblemDescriptions.Select(o => o.OrbitalIntegralHamiltonian))
                 )
                 // In general, Broombridge allows for loading multiple Hamiltonians
-                // from a single file. For the purpose of simplicitly, however,
+                // from a single file. For the purpose of simplicity, however,
                 // we'll only load a single Hamiltonian from each file in this
                 // sample. We use .Single here instead of .First to make sure
                 // that we raise an error instead of silently discarding data.

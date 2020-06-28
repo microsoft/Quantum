@@ -323,7 +323,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
                     if (isMarked) {
                         let results = ForEach(MResetZ, databaseRegister);
 
-                        // Post-selected on success, verify that that
+                        // Post-selected on success, verify that 
                         // database qubits are all |1〉.
                         for (result in results) {
                             EqualityFactR(result, One, "Found state should be 1..1 string.");

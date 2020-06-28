@@ -11,9 +11,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
         EqualityFactI(Length(arg), 1, "Helper is defined only on single qubit input");
 
-        using (auxillary = Qubit()) {
-            Teleportation(arg[0], auxillary);
-            SWAP(arg[0], auxillary);
+        using (auxiliary = Qubit()) {
+            Teleportation(arg[0], auxiliary);
+            SWAP(arg[0], auxiliary);
         }
     }
 
