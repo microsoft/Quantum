@@ -94,7 +94,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
                 for (int i = 0; i < reps; i++)
                 {
                     // EstimateEnergyByTrotterization
-                    // Name shold make clear that it does it by trotterized
+                    // Name should make clear that it does it by trotterized
                     var (phaseEst, energyEst) = GetEnergy.Run(qsim, qSharpData, bits, trotterStep).Result;
 
                     Console.WriteLine($"Rep #{i}: Energy estimate: {energyEst}; Phase estimate: {phaseEst}");

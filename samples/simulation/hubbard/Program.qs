@@ -9,7 +9,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     @EntryPoint()
     operation RunProgram () : Unit {
         
-        // For this example, we'll consider a loop of siz sites, each one of which
+        // For this example, we'll consider a loop of six sites, each one of which
         // is simulated using two qubits.
         let nSites = 6;
 

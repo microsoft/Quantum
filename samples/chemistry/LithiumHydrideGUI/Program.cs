@@ -64,7 +64,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
                 .OrbitalIntegralHamiltonian
                 .ToFermionHamiltonian(IndexConvention.UpDown);
 
-            // Crete Pauli reprsentation of Hamiltonian using
+            // Crete Pauli representation of Hamiltonian using
             // the Jordan–Wigner encoding.
             var pauliHamiltonian = fermionHamiltonian
                 .ToPauliHamiltonian(Paulis.QubitEncoding.JordanWigner);
@@ -239,7 +239,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
             var options = new OptionSet {
                 { "o|integrator-order=", "Order of Trotter-Suzuki integrator", (Int64 o) => integratorOrder = o},
                 { "s|step-size=", "Step size of Trotter-Suzuki integrator", (Double s) => stepSize = s},
-                { "b|bits-precision=", "Bits of preicison in quantum phase estimation algorithm", (Int64 b) => bitsOfPrecision = b},
+                { "b|bits-precision=", "Bits of precision in quantum phase estimation algorithm", (Int64 b) => bitsOfPrecision = b},
             };
 
             LiHSimulation.IntegratorOrder = integratorOrder;

@@ -189,7 +189,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
                 // As the last step before the measurement, a Hadamard transform is
                 // but the very last one. We could apply the Hadamard transform to
                 // the last qubit also, but this would not affect the final outcome.
-                // We use a within-apply block to ensure that the Hadmard transform is
+                // We use a within-apply block to ensure that the Hadamard transform is
                 // correctly inverted.
                 ApplyToEachA(H, queryRegister);
             } apply {
@@ -205,7 +205,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
             // Finally, the last qubit, which held the 𝑦-register, is reset.
             Reset(target);
 
-            // We use the predicte `IsResultZero` from Microsoft.Quantum.Canon
+            // We use the predicate `IsResultZero` from Microsoft.Quantum.Canon
             // and compose it with the All function from
             // Microsoft.Quantum.Arrays. This will return
             // `true` if the all zero string has been measured, i.e., if the function

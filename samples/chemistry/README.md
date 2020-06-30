@@ -24,7 +24,7 @@ These samples focus on simple models in chemistry and material sciences. They ar
   Import the Q# operations for energy estimation in [MolecularHydrogen](MolecularHydrogen/) to create a plot of Hydrogen ground state energy with respect to distance between its two Hydrogen atoms.
 
 - **[LithiumHydrideGUI](LithiumHydrideGUI/)**:
-  Import the Q# operations for energy estimation in [MolecularHydrogen](MolecularHydrogen/) to create a plot of Lithium Hyride ground state and excited energies with respect to distance between its atoms.
+  Import the Q# operations for energy estimation in [MolecularHydrogen](MolecularHydrogen/) to create a plot of Lithium Hydride ground state and excited energies with respect to distance between its atoms.
 
 
 ### General Samples ###

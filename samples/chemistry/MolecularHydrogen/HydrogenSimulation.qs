@@ -16,13 +16,13 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen {
     // - Trotter simulation algorithm
     // - Qubitization simulation algorithm
     
-    // These operations are invoked as orcales in the quantum phase estimation
+    // These operations are invoked as oracles in the quantum phase estimation
     // algorithm to extract energy estimates of various eigenstate of the
     // Hamiltonian.
     
     // The returned energy estimate is chosen probabilistically, depending on
-    // the overlap of the initial trial state. By default, we greedly
-    // fill spin-orbitals to minize the diagonal component of the one-electron
+    // the overlap of the initial trial state. By default, we greedily
+    // fill spin-orbitals to minimize the diagonal component of the one-electron
     // energies.
     
     //////////////////////////////////////////////////////////////////////////
