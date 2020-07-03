@@ -29,8 +29,7 @@ namespace Microsoft.Quantum.Samples
         // string.
         public void AddCommand(string format, params object[] args) {
             // get all Qubit objects from args
-            var qubitIds = args.Select(obj => obj switch { Qubit q => q, _ => null })
-                               .WhereNotNull();
+            var qubitIds = args.OfType<Qubit>();
 
             foreach (var builder in Pictures.Values) {
                 builder.AppendFormat(QpicFormatter.Instance, format, args);
@@ -162,12 +161,17 @@ namespace Microsoft.Quantum.Samples
 
         // No action needs to be taken in the `RunThenClause` method.  It
         // returns true to ensure that the corresponding operations in the
-        // `then` clause are executed.
+        // `then` clause are executed.  The `statement` parameter corresponds to
+        // the return value of `StartConditionalStatement` to link conditional
+        // statements that involve the same qubit.
         public override bool RunThenClause(long statement) => true;
 
         // In the `RunElseClause` method the invert flag of the corresponding
         // dictionary entry is toggled.  The method also returns true to ensure
         // that the corresponding operations in the `else` clause are executed.
+        // The `statement` parameter corresponds to the return value of
+        // `StartConditionalStatement` to link conditional statements that
+        // involve the same qubit.
         public override bool RunElseClause(long statement) {
             var (qubit, invert) = classicallyControlledQubits[statement];
             classicallyControlledQubits[statement] = (qubit, !invert);
@@ -176,7 +180,10 @@ namespace Microsoft.Quantum.Samples
 
         // When finishing a conditional statement, the corresponding entry is
         // removed from the dictionary, and a qpic command for the visual
-        // termination of the measured qubit is added.
+        // termination of the measured qubit is added.  The `statement`
+        // parameter corresponds to the return value of
+        // `StartConditionalStatement` to link conditional statements that
+        // involve the same qubit.
         public override void EndConditionalStatement(long statement) {
             var (qubit, _) = classicallyControlledQubits[statement];
             AddCommand("{0} OUT {{}}", qubit);
