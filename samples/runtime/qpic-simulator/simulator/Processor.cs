@@ -9,7 +9,8 @@ using Microsoft.Quantum.Simulation.Core;
 
 namespace Microsoft.Quantum.Samples
 {
-    internal class QpicProcessor : QuantumProcessorBase {
+    internal class QpicProcessor : QuantumProcessorBase
+    {
         // This dictionary tracks open `SaveImage` scopes with the filename as
         // its key and a `StringBuilder` object as value.  The `StringBuilder`
         // object is populated with qpic commands for all open scopes.

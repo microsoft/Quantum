@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+#nullable enable
+
 using System;
 using Microsoft.Quantum.Simulation.QuantumProcessor;
 using Microsoft.Quantum.Simulation.Core;

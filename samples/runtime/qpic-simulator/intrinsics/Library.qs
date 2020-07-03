@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples {
     /// # Summary
-    /// A simulator specific operation to specify a picture scope
+    /// A simulator-specific operation to specify a picture scope.
     ///
     /// # Description
     /// The scope is opened with a standard call to the operation
-    /// and closed with an Ajoint call to the operation.
+    /// and closed with an `Adjoint` call to the operation.
     ///
     /// # Example
     /// Saves qpic commands into `filename.qpic`
@@ -23,7 +23,7 @@ namespace Microsoft.Quantum.Samples {
     }
 
     /// # Summary
-    /// A simulator specific operation to add a qpic BARRIER command.
+    /// A simulator-specific operation to add a qpic BARRIER command.
     operation Barrier() : Unit {
     }
 }
