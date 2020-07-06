@@ -47,7 +47,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
                     if (result2 == One) { //|01>
                         H(ancilla); // Reset ancilla from |0> to |+>
                         PrepareXZero(resource); // Reset resource from |1> to |+>
-                        Z(target); // Correct rotation on target
+                        Adjoint Z(target); // Correct effective Z rotation on target
                     }
                 } else { // |1X>, skip Part 2
                     // Reset ancilla from |1> to |+>
@@ -89,7 +89,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         H(target); // Prepare |+>
     }
 
-    // Part 1 of RUS circuit
+    // Part 1 of RUS circuit (red)
     operation ApplyAndMeasurePart1(
         ancilla: Qubit,
         resource: Qubit
@@ -103,7 +103,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         return Measure([PauliX], [ancilla]);
     }
 
-    // Part 2 of RUS circuit
+    // Part 2 of RUS circuit (blue)
     operation ApplyAndMeasurePart2(
         resource: Qubit,
         target: Qubit
