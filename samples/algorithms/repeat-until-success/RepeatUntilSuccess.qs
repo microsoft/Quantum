@@ -8,20 +8,21 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     open Microsoft.Quantum.Preparation;
 
     /// # Summary
-    /// Example of a Repeat-until-success circuit implementing exp(i⋅ArcTan(2)⋅Z)
-    /// by Paetznick & Svore. Gate exp(i⋅ArcTan(2)⋅Z) is also know as V gate.
+    /// Example of a Repeat-until-success program implementing a circuit that achieves
+    /// exp(i⋅ArcTan(2)⋅Z) by Paetznick & Svore. Gate exp(i⋅ArcTan(2)⋅Z) is also know as
+    /// V gate.
     /// # References
     /// - [ *Adam Paetznick, Krysta M. Svore*,
     ///     Quantum Information & Computation 14(15 & 16): 1277-1301 (2014)
     ///   ](https://arxiv.org/abs/1311.1074)
-    /// For circuit, see file RUS.png (to be added to README).
+    /// For circuit diagram, see file RUS.png (to be added to README).
     ///
-    /// The circuit is executed on a "target" qubit using an "auxiliary" and 
+    /// The program executes a circuit on a "target" qubit using an "auxiliary" and 
     /// "resource" qubit. The circuit consists of two parts (red and blue in image).
     /// The goal is to measure Zero for both the auxiliary and resource qubit.
-    /// If this succeeds, the circuit will have effectively applied an 
+    /// If this succeeds, the program will have effectively applied an 
     /// Rz(arctan(2)) gate (also known as V_3 gate) on the target qubit.
-    /// If this fails, rerun the circuit up to <limit> times.
+    /// If this fails, the program reruns the circuit up to <limit> times.
     @EntryPoint()
     operation ApplyRzArcTan2(
         inputValue : Bool,
@@ -42,7 +43,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
 
             repeat {
                 PrepareXZero(auxiliary);
-                // Run Part 1 of the circuit.
+                // Run Part 1 of the program.
                 let result1 = ApplyAndMeasurePart1(auxiliary, resource);
                 // We'll only run Part 2 if Part 1 returns Zero.
                 // Otherwise, we'll skip and rerun Part 1 again.
