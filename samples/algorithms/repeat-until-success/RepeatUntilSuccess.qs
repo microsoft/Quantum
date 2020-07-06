@@ -31,8 +31,8 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     ) : (Bool, Result, Int) {
         using ((auxiliary, resource, target) = (Qubit(), Qubit(), Qubit())) {
             /// Prepare auxiliary and resource qubits in |+> state
-            PrepareXZero(auxiliary);
-            PrepareXZero(resource);
+            SetXZeroFromOne(auxiliary);
+            SetXZeroFromOne(resource);
             /// Prepare target qubit in |0> or |1> state, depending on input value
             PrepareValueForBasis(inputValue, inputBasis, target);
 
@@ -42,7 +42,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
             mutable numIter = 0;
 
             repeat {
-                PrepareXZero(auxiliary);
+                SetXZeroFromOne(auxiliary);
                 // Run Part 1 of the program.
                 let result1 = ApplyAndMeasurePart1(auxiliary, resource);
                 // We'll only run Part 2 if Part 1 returns Zero.
@@ -53,12 +53,12 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
                         set success = true;
                     } else { //|01>
                         H(auxiliary); // Reset auxiliary from |0> to |+>
-                        PrepareXZero(resource); // Reset resource from |1> to |+>
+                        SetXZeroFromOne(resource); // Reset resource from |1> to |+>
                         Adjoint Z(target); // Correct effective Z rotation on target
                     }
                 } else { // |1X>, skip Part 2
                     // Reset auxiliary from |1> to |+>
-                    PrepareXZero(auxiliary);
+                    SetXZeroFromOne(auxiliary);
                 }
                 set done = (success or numIter >= limit);
                 set numIter = numIter + 1;
@@ -90,7 +90,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     }
 
     /// Prepare qubit in |+> state given it is in the |1> state
-    operation PrepareXZero(target : Qubit) : Unit {
+    operation SetXZeroFromOne(target : Qubit) : Unit {
         X(target); // Flip to |0>
         H(target); // Prepare |+>
     }
