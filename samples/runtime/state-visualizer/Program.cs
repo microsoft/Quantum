@@ -18,7 +18,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
             var visualizer = new StateVisualizer(new QuantumSimulator());
             try
             {
-                visualizer.Run(QsMain.Run).Wait();
+                visualizer.Run(SimpleGrover.SearchForMarkedInput.Run, 4L).Wait();
             }
             catch (AggregateException aggregate)
             {
