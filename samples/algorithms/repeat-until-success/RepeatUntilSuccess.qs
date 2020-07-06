@@ -65,13 +65,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
             }
             until (done);
 
-            // Rz(2.0*ArcTan(2.0), target);
             let result = Measure([inputBasis], [target]);
-
-            Reset(target);
-            Reset(resource);
-            Reset(auxiliary);
-
             return ( success, result, numIter );
         }
     }
