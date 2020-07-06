@@ -4,9 +4,16 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Preparation;
 
-    /// Example of a Repeat-until-success circuit
+    /// Example of a Repeat-until-success circuit implementing exp(i⋅ArcTan(2)⋅Z)
+    /// by Paetznick & Svore. Gate exp(i⋅ArcTan(2)⋅Z) is also know as V gate.
+    /// # References
+    /// - [ *Adam Paetznick, Krysta M. Svore*,
+    ///     Quantum Information & Computation 14(15 & 16): 1277-1301 (2014)
+    ///   ](https://arxiv.org/abs/1311.1074)
+    /// For circuit, see file RUS.png (to be added to README).
+    ///
     /// The circuit is executed on a "target" qubit using an "ancilla" and 
-    /// "resource" qubit.
+    /// "resource" qubit. The circuit consists of two parts (red and blue in image).
     /// The goal is to measure Zero for both the ancilla and resource qubit.
     /// If this succeeds, the circuit will have effectively applied an 
     /// Rz(arctan(2)) gate (also known as V_3 gate) on the target qubit.
