@@ -64,7 +64,7 @@ namespace Microsoft.Quantum.Chemistry.Samples {
     
     
     // # Summary
-    // Instead of implemeting real-time evolution e^{iHt} with a Product formula,
+    // Instead of implementing real-time evolution e^{iHt} with a Product formula,
     // we may encode e^{isin^{-1}{H}} in a quantum walk created using
     // the `Qubitization` procedure.
     

@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.DatabaseSearch {
     open Microsoft.Quantum.Intrinsic;
@@ -323,7 +323,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
                     if (isMarked) {
                         let results = ForEach(MResetZ, databaseRegister);
 
-                        // Post-selected on success, verify that that
+                        // Post-selected on success, verify that 
                         // database qubits are all |1〉.
                         for (result in results) {
                             EqualityFactR(result, One, "Found state should be 1..1 string.");
@@ -345,7 +345,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     // oracle that allows us to mark multiple elements.
 
     // The amplitude amplification library has a function called
-    // `AmpAmpByOracle` that automates many details of Grover search. Its
+    // ` StandardAmplitudeAmplification ` that automates many details of Grover search. Its
     // arguments have signature (Int, StateOracle, Int), where the first
     // parameter is the number of Grover iterates applied, the second
     // parameter is a unitary of type `StateOracle` and the third parameter
@@ -359,7 +359,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     // all qubits.
 
     // Our goal is thus to construct this `StateOracle` oracle type and pass it
-    // to the `AmpAmpByOracle` function. `AmpAmpByOracle` acting on freshly
+    // to the ` StandardAmplitudeAmplification ` function. ` StandardAmplitudeAmplification ` acting on freshly
     // allocated qubits then automatically prepares a quantum state where the
     // marked subspace has been amplified.
 
@@ -380,7 +380,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// size of the database qubit register. Let x = x₀x₁...x_{N-1} be a
     /// binary string of N elements. Then xₖ is 1 if k is in "markedElements"
     /// and 0 otherwise.
-    operation ApplyDatebaseOracleFromInts(markedElements : Int[], markedQubit : Qubit, databaseRegister : Qubit[])
+    operation ApplyDatabaseOracleFromInts(markedElements : Int[], markedQubit : Qubit, databaseRegister : Qubit[])
     : Unit
     is Adj + Ctl {
         for (markedElement in markedElements) {
@@ -421,7 +421,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         ApplyToEachCA(H, databaseRegister);
 
         // Apply oracle `D`
-        ApplyDatebaseOracleFromInts(markedElements, flagQubit, databaseRegister);
+        ApplyDatabaseOracleFromInts(markedElements, flagQubit, databaseRegister);
     }
 
     /// # Summary
@@ -441,7 +441,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     }
 
 
-    // The library function `AmpAmpByOracle` then returns a unitary that
+    // The library function ` StandardAmplitudeAmplification ` then returns a unitary that
     // implements all steps of Grover's algorithm.
 
     /// # Summary

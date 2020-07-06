@@ -29,7 +29,7 @@ namespace Microsoft.Quantum.Samples.Ising {
 
     // We provide two solutions.
     // In the first solution, we manually construct and put together all the 
-    // ingredients needed for this task. This provides the most flexiblity. 
+    // ingredients needed for this task. This provides the most flexibility. 
     // In the second solution, we use a built-in function in the simulation 
     // library that is less flexible, but takes care of most of the 
     // implementation details.
@@ -187,7 +187,7 @@ namespace Microsoft.Quantum.Samples.Ising {
         // Oracle for phase estimation.
         let qpeUnitary = SimulateIsingStep(nSites, hXFinal, jFinal, qpeStepSize, _);
 
-        // Choice of phase esitmation algorithm.
+        // Choice of phase estimation algorithm.
         let phaseEstAlgorithm = RobustPhaseEstimation(nBitsPrecision, _, _);
 
         // Execute the entire procedure to obtain an energy estimate.

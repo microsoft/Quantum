@@ -67,11 +67,11 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     AssertProb([PauliX], [aux1], Zero, 0.75, "Error: the probability to measure |+⟩ in the second ancilla must be 3/4", 1E-10);
                     let outcome0 = Measure([PauliX], [aux0]);
 
-                    // After the first auxillary qubit has been measured the probability is conditional
+                    // After the first auxiliary qubit has been measured the probability is conditional
                     // upon measurement outcome.
-                    // If we measured Zero on the first auxillary qubit, the probability of
-                    // measuring |+⟩ on the second auxillary qubit is 5/6
-                    // If we measured One on the first auxillary qubit, the probability of
+                    // If we measured Zero on the first auxiliary qubit, the probability of
+                    // measuring |+⟩ on the second auxiliary qubit is 5/6
+                    // If we measured One on the first auxiliary qubit, the probability of
                     // measuring |+⟩ on the second ancilla is 1/2
                     let prob = outcome0 == One ? 0.5 | 5.0 / 6.0;
 
@@ -84,7 +84,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     // Upon failure the identity gate has been applied to the target qubit
                     // Now let us record the failure to log.
                     Message(
-                        "We failed. Outcomes of measuring first and second auxillary qubits " +
+                        "We failed. Outcomes of measuring first and second auxiliary qubits " +
                         $"were {(outcome0, outcome1)}. Applying fix-up and trying again."
                     );
 
@@ -129,9 +129,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     operation ExpIZArcTan2PS (target : Qubit) : Unit {
 
         body (...) {
-            using (auxillaryQubit = Qubit()) {
+            using (auxiliaryQubit = Qubit()) {
                 // Set ancilla to |+⟩ state
-                H(auxillaryQubit);
+                H(auxiliaryQubit);
 
                 // Note that because T and Z on the target commutes through the control,
                 // we can just count the number of T's we need to apply over the course of
@@ -144,18 +144,18 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     // succeeding.
                     Message("Trying ...");
 
-                    // we expect to start with auxillaryQubit being in |+⟩ state
-                    AssertProb([PauliX], [auxillaryQubit], Zero, 1.0, "auxillaryQubit must be in |+⟩ state", 1E-10);
-                    RepeatUntilSuccessStatePreparation(auxillaryQubit);
-                    CNOT(target, auxillaryQubit);
-                    T(auxillaryQubit);
+                    // we expect to start with auxiliaryQubit being in |+⟩ state
+                    AssertProb([PauliX], [auxiliaryQubit], Zero, 1.0, "auxiliaryQubit must be in |+⟩ state", 1E-10);
+                    RepeatUntilSuccessStatePreparation(auxiliaryQubit);
+                    CNOT(target, auxiliaryQubit);
+                    T(auxiliaryQubit);
 
                     // This is instead of Z(target), T(target)
                     set TGatesToApplyInTheEnd += 5;
 
-                    // The probability to measure |+⟩ on auxillaryQubit is 5/6
-                    AssertProb([PauliX], [auxillaryQubit], Zero, 5.0 / 6.0, "The probability to measure |+⟩ on auxillaryQubit must be 5/6", 1E-10);
-                    let outcome = Measure([PauliX], [auxillaryQubit]);
+                    // The probability to measure |+⟩ on auxiliaryQubit is 5/6
+                    AssertProb([PauliX], [auxiliaryQubit], Zero, 5.0 / 6.0, "The probability to measure |+⟩ on auxiliaryQubit must be 5/6", 1E-10);
+                    let outcome = Measure([PauliX], [auxiliaryQubit]);
                 }
                 until (outcome == Zero)
                 fixup {
@@ -167,8 +167,8 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     // This is instead of Z(target)
                     set TGatesToApplyInTheEnd += 4;
 
-                    // Make sure that auxillaryQubit is back to |+⟩ state
-                    Z(auxillaryQubit);
+                    // Make sure that auxiliaryQubit is back to |+⟩ state
+                    Z(auxiliaryQubit);
                 }
 
                 // If outcome is Zero we successfully applied exp(i⋅ArcTan(2)⋅Z)
@@ -180,8 +180,8 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                 // In other words apply exp( i⋅π⋅k/2² |1⟩⟨1| ), where k = TGatesToApplyInTheEnd
                 R1Frac(TGatesToApplyInTheEnd, 2, target);
 
-                // Now return the auxillary qubit to the |0⟩ state
-                H(auxillaryQubit);
+                // Now return the auxiliary qubit to the |0⟩ state
+                H(auxiliaryQubit);
             }
         }
 
@@ -202,37 +202,37 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// - Used in @"Microsoft.Quantum.Samples.UnitTesting.ExpIZArcTan2PS"
     operation RepeatUntilSuccessStatePreparation (target : Qubit) : Unit {
 
-        using (auxillaryQubit = Qubit()) {
-            H(auxillaryQubit);
+        using (auxiliaryQubit = Qubit()) {
+            H(auxiliaryQubit);
 
             repeat {
 
-                // we expect the target and auxillary qubits to each be in the |+⟩ state.
+                // we expect the target and auxiliary qubits to each be in the |+⟩ state.
                 AssertProb([PauliX], [target], Zero, 1.0, "target qubit should be in |+⟩ state", 1E-10);
-                AssertProb([PauliX], [auxillaryQubit], Zero, 1.0, "auxillaryQubit qubit should be in |+⟩ state", 1E-10);
-                Adjoint T(auxillaryQubit);
-                CNOT(target, auxillaryQubit);
-                T(auxillaryQubit);
+                AssertProb([PauliX], [auxiliaryQubit], Zero, 1.0, "auxiliaryQubit qubit should be in |+⟩ state", 1E-10);
+                Adjoint T(auxiliaryQubit);
+                CNOT(target, auxiliaryQubit);
+                T(auxiliaryQubit);
 
-                // Probability of measuring |+⟩ state on auxillaryQubit is 3/4
-                AssertProb([PauliX], [auxillaryQubit], Zero, 3.0 / 4.0, "Error: the probability to measure |+⟩ in the first auxillaryQubit must be 3/4", 1E-10);
+                // Probability of measuring |+⟩ state on auxiliaryQubit is 3/4
+                AssertProb([PauliX], [auxiliaryQubit], Zero, 3.0 / 4.0, "Error: the probability to measure |+⟩ in the first auxiliaryQubit must be 3/4", 1E-10);
 
                 // if measurement outcome zero we prepared required state
-                let outcome = Measure([PauliX], [auxillaryQubit]);
+                let outcome = Measure([PauliX], [auxiliaryQubit]);
             }
             until (outcome == Zero)
             fixup {
 
-                // Bring auxillaryQubit and target back to |+⟩ state
+                // Bring auxiliaryQubit and target back to |+⟩ state
                 if (outcome == One) {
-                    Z(auxillaryQubit);
+                    Z(auxiliaryQubit);
                     X(target);
                     H(target);
                 }
             }
 
-            // Return auxillaryQubit back to Zero state
-            H(auxillaryQubit);
+            // Return auxiliaryQubit back to Zero state
+            H(auxiliaryQubit);
         }
     }
 

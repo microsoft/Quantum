@@ -169,7 +169,7 @@ namespace Microsoft.Quantum.Tests {
         
         using (qubits = Qubit[7]) {
             
-            //It appears that single-qubit paulis only have have double the coefficient
+            //It appears that single-qubit paulis only have double the coefficient
             Exp([PauliX], 0.5 * step, qubits[0 .. 0]);
             Exp([PauliX], -0.5 * step, [qubits[0]]);
             AssertProb([PauliZ], [qubits[0]], Zero, 1.0, "Fail [PauliX] [0]", 1E-10);
@@ -343,7 +343,7 @@ namespace Microsoft.Quantum.Tests {
     
     
     /// summary:
-    ///     Checks that operations containing == are equal to themseleves.
+    ///     Checks that operations containing == are equal to themselves.
     operation ConditionalOperationTest () : Unit {
         
         AssertOperationsEqualReferenced(2, ExpTestHelper(_, 0), ExpTestHelper(_, 0));

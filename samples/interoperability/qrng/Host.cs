@@ -27,7 +27,7 @@ namespace Qrng
                                             SampleQuantumRandomNumberGenerator.Run(sim).Result == Result.One ? "1" : "0"
                                                                                 )
                                            );
-                    // Generate and concatenate the bits using using the Q# operation
+                    // Generate and concatenate the bits using the Q# operation
                     output = Convert.ToInt32(bitString, 2);
                     // Convert the bit string to an integer
                 }

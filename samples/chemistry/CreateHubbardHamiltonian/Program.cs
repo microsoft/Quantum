@@ -65,7 +65,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
             var orbitalIdx = 5;
 
             // Second, we assign a spin index. In addition to
-            // assigning them up and down integer indices, a good memonic is to
+            // assigning them up and down integer indices, a good mnemonic is to
             // label then with a `Spin` enumeration type, say `u` for up and `d`
             // for down.
             var spin = Spin.d;
@@ -91,8 +91,8 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
             #endregion
 
             #region Hamiltonian term representation
-            // Each term in the Hamiltonian is then labelled by an ordered sequence of
-            // spin-orbtal indices, and a coefficient. By default, normal-ordering is
+            // Each term in the Hamiltonian is then labeled by an ordered sequence of
+            // spin-orbital indices, and a coefficient. By default, normal-ordering is
             // assumed, meaning that all creation operators are left of all annihilation
             // operators. By default, the number of creation and annihilation operators
             // are also assumed to be equal as chemistry Hamiltonian often conserve
@@ -153,7 +153,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
             var hamiltonian = new FermionHamiltonian();
 
             // The library provides a number of helpful methods for adding terms to this
-            // Hamiltonian. Below, we choose a straightfoward approch where we manually 
+            // Hamiltonian. Below, we choose a straightforward approach where we manually 
             // add terms one by one. For instance, 
             hamiltonian.Add(fermionTerm0, coefficient);
             hamiltonian.Add(fermionTerm0Reversed, 0.123);
@@ -174,10 +174,10 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
             var u = 1.0; // repulsion coefficient
             var nSites = 5; // number of sites;
 
-            // First, initialize a new hamiltonian.
+            // First, initialize a new Hamiltonian.
             var hubbardHamiltonian = new FermionHamiltonian();
 
-            // Second, add terms to the hamiltonian.
+            // Second, add terms to the Hamiltonian.
             for (int i = 0; i < nSites; i++)
             {
                 foreach (Spin s in Enum.GetValues(typeof(Spin)))
@@ -242,7 +242,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
                 orbitalIntegralHamiltonian.Add(new OrbitalIntegral(new[] { i, i, i, i }, u));
             }
 
-            // Second, we use convenience methods of the orbital integral Hamiltonain
+            // Second, we use convenience methods of the orbital integral Hamiltonian
             // to create a fermion Hamiltonian, using the spin-orbital to integer
             //indexing convention `x = 2 * orbitalIdx + spin`;
             FermionHamiltonian anotherHubbardHamiltonian = orbitalIntegralHamiltonian.ToFermionHamiltonian(IndexConvention.UpDown);
