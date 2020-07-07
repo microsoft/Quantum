@@ -19,7 +19,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// transformation-based synthesis, and checks whether the circuit realizes
     /// the input permutation.
     ///
-    /// # Description
+    /// # Remarks
     /// Details on reversible logic synthesis and the operation
     /// that applies a permutation to the quantum state can be found
     /// in the Q# Standard library:
@@ -123,5 +123,4 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     }
 
 }
-
 
