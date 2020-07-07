@@ -30,7 +30,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         limit: Int
     ) : (Bool, Result, Int) {
         using ((auxiliary, resource, target) = (Qubit(), Qubit(), Qubit())) {
-            /// Prepare auxiliary and resource qubits in |+> state
+            // Prepare auxiliary and resource qubits in |+〉state
             SetXZeroFromOne(auxiliary);
             SetXZeroFromOne(resource);
             /// Prepare target qubit in |0> or |1> state, depending on input value
@@ -66,7 +66,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
             until (done);
 
             let result = Measure([inputBasis], [target]);
-            return ( success, result, numIter );
+            return (success, result, numIter);
         }
     }
 
@@ -84,7 +84,8 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
 
     /// Prepare qubit in |+> state given it is in the |1> state
     operation SetXZeroFromOne(target : Qubit) : Unit {
-        X(target); // Flip to |0>
+        AssertQubit(One, target);
+        X(target); // Flip to |0〉
         H(target); // Prepare |+>
     }
 
