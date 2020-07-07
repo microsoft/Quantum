@@ -22,8 +22,8 @@ This sample describes in detail the underlying concepts that were used to implem
 the following operations from the [Q# Standard library](https://github.com/microsoft/QuantumLibraries/tree/master/Standard):
 
 - [Microsoft.Quantum.Canon.ApplyAnd](https://docs.microsoft.com/qsharp/api/qsharp/microsoft.quantum.canon.applyand)
-- Microsoft.Quantum.Synthesis.ApplyXControlledOnTruthTable
-- Microsoft.Quantum.Synthesis.ApplyXControlledOnTruthTableWithCleanTarget
+- [Microsoft.Quantum.Synthesis.ApplyXControlledOnTruthTable](https://docs.microsoft.com/qsharp/api/qsharp/microsoft.quantum.synthesis.applyxcontrolledontruthtable)
+- [Microsoft.Quantum.Synthesis.ApplyXControlledOnTruthTableWithCleanTarget](https://docs.microsoft.com/qsharp/api/qsharp/microsoft.quantum.synthesis.applyxcontrolledontruthtablewithcleantarget)
 
 ## Prerequisites
 
