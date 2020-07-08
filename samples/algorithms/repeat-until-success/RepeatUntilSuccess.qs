@@ -6,6 +6,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Preparation;
+    open Microsoft.Quantum.Diagnostics;
 
     /// # Summary
     /// Example of a Repeat-until-success algorithm implementing a circuit 
