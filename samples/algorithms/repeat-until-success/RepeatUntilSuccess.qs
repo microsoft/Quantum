@@ -34,10 +34,10 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
             // Prepare auxiliary and resource qubits in |+〉state
             SetXZeroFromOne(auxiliary);
             SetXZeroFromOne(resource);
-            /// Prepare target qubit in |0> or |1> state, depending on input value
+            // Prepare target qubit in |0〉or |1〉state, depending on input value
             PrepareValueForBasis(inputValue, inputBasis, target);
 
-            /// Initialize results to One by default.
+            // Initialize results to One by default.
             mutable done = false;
             mutable success = false;
             mutable numIter = 0;
@@ -48,17 +48,18 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
                 let result1 = ApplyAndMeasurePart1(auxiliary, resource);
                 // We'll only run Part 2 if Part 1 returns Zero.
                 // Otherwise, we'll skip and rerun Part 1 again.
-                if (result1 == Zero) { //|0X>
+                if (result1 == Zero) { //|0X〉
                     let result2 = ApplyAndMeasurePart2(resource, target);
-                    if (result2 == Zero) { //|00>
+                    if (result2 == Zero) { //|00〉
                         set success = true;
-                    } else { //|01>
-                        H(auxiliary); // Reset auxiliary from |0> to |+>
-                        SetXZeroFromOne(resource); // Reset resource from |1> to |+>
+                    } else { //|01〉
+                        H(auxiliary); // Reset auxiliary from |0〉to |+〉
+                        SetXZeroFromOne(resource); // Reset resource from |1〉to |+〉
                         Adjoint Z(target); // Correct effective Z rotation on target
                     }
-                } else { // |1X>, skip Part 2
-                    // Reset auxiliary from |1> to |+>
+                } else { // |1X〉, skip Part 2
+                    // Reset auxiliary from |1〉to |+〉
+                    AssertQubit(One, auxiliary);
                     SetXZeroFromOne(auxiliary);
                 }
                 set done = (success or numIter >= limit);
@@ -71,7 +72,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         }
     }
 
-    /// Prepare qubit in either |0> or |1> for the given basis
+    /// Prepare qubit in either |0〉or |1〉for the given basis
     operation PrepareValueForBasis(
         inputValue : Bool,
         inputBasis : Pauli,
@@ -83,9 +84,8 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
             PrepareQubit(inputBasis, input);
     }
 
-    /// Prepare qubit in |+> state given it is in the |1> state
+    /// Prepare qubit in |+〉state given it is in the |1〉state
     operation SetXZeroFromOne(target : Qubit) : Unit {
-        AssertQubit(One, target);
         X(target); // Flip to |0〉
         H(target); // Prepare |+>
     }
