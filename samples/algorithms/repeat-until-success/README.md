@@ -34,7 +34,7 @@ Options are:
   - [Program.cs](./Program.cs): C# code to call the operations defined in Q# and perform classical post-processing.
   - [RepeatUntilSuccess.qs](./RepeatUntilSuccess.qs): The Q# implementation of the RUS algorithm.
 
-## Example run ##
+## Example run
 
 ```
 > dotnet run --no-build --input-value true --input-basis PauliZ --limit 10
