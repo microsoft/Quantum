@@ -15,9 +15,9 @@ namespace Microsoft.Quantum.Samples
     // Qubit, and Pauli can be passed as formatting arguments.
     internal sealed class QpicFormatter : IFormatProvider, ICustomFormatter
     {
-        public object GetFormat(Type formatType) => (formatType == typeof(ICustomFormatter)) ? this : null;
+        public object? GetFormat(Type? formatType) => (formatType == typeof(ICustomFormatter)) ? this : null;
 
-        public string Format(string fmt, object? arg, IFormatProvider formatProvider) =>
+        public string Format(string? fmt, object? arg, IFormatProvider? formatProvider) =>
             arg switch
             {
                 Qubit q => $"q{q.Id}",
