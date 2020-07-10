@@ -24,7 +24,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// Rz(arctan(2)) gate (also known as V_3 gate) on the target qubit.
     /// If this fails, the program reruns the circuit up to <limit> times.
     @EntryPoint()
-    operation ApplyRzArcTan2(
+    operation CreateQubitsAndApplyRzArcTan2(
         inputValue : Bool,
         inputBasis: Pauli,
         limit: Int
@@ -32,49 +32,59 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         using ((auxiliary, resource, target) = (Qubit(), Qubit(), Qubit())) {
             // Initialize qubits to starting values (|+⟩, |+⟩, |0⟩/|1⟩)
             InitializeQubits(auxiliary, resource, target, inputBasis, inputValue);
-
-            // Initialize results to One by default.
-            mutable done = false;
-            mutable success = false;
-            mutable numIter = 0;
-
-            repeat {
-                // Assert valid starting states for all qubits
-                AssertMeasurement([PauliX], [auxiliary], One, "Auxiliary qubit is not in |+⟩ state.");
-                AssertMeasurement([PauliX], [resource], One, "Resource qubit is not in |+⟩ state.");
-                AssertQubitIsInState(target, inputBasis, inputValue);
-
-                // Run Part 1 of the program.
-                let result1 = ApplyAndMeasurePart1(auxiliary, resource);
-                // We'll only run Part 2 if Part 1 returns Zero.
-                // Otherwise, we'll skip and rerun Part 1 again.
-                if (result1 == Zero) { //0X
-                    let result2 = ApplyAndMeasurePart2(resource, target);
-                    if (result2 == Zero) { //00
-                        set success = true;
-                    } else { //01
-                        Z(auxiliary); // Reset auxiliary from |-⟩ to |+⟩
-                        Adjoint Z(target); // Correct effective Z rotation on target
-                    }
-                } else { //1X
-                    // Set resource qubit back to |+⟩
-                    Reset(resource);
-                    X(resource);
-                    PrepareQubit(PauliX, resource);
-                }
-                set done = (success or numIter >= limit);
-                set numIter = numIter + 1;
-            }
-            until (done);
-
+            let (success, numIter) = ApplyRzArcTan2(auxiliary, resource, target, inputBasis, inputValue, limit);
             let result = Measure([inputBasis], [target]);
             // From version 0.12 it is no longer necessary to release qubits in zero state.
             Reset(target);
             Reset(resource);
             Reset(auxiliary);
-
             return (success, result, numIter);
         }
+    }
+
+    /// Apply Rz(arctan(2)) on qubits using repeat until success algorithm
+    operation ApplyRzArcTan2(
+        auxiliary: Qubit,
+        resource: Qubit,
+        target: Qubit,
+        inputBasis: Pauli,
+        inputValue: Bool,
+        limit: Int
+    ) : (Bool, Int) {
+        // Initialize results to One by default.
+        mutable done = false;
+        mutable success = false;
+        mutable numIter = 0;
+
+        repeat {
+            // Assert valid starting states for all qubits
+            AssertMeasurement([PauliX], [auxiliary], Zero, "Auxiliary qubit is not in |+⟩ state.");
+            AssertMeasurement([PauliX], [resource], Zero, "Resource qubit is not in |+⟩ state.");
+            AssertQubitIsInState(target, inputBasis, inputValue);
+
+            // Run Part 1 of the program.
+            let result1 = ApplyAndMeasurePart1(auxiliary, resource);
+            // We'll only run Part 2 if Part 1 returns Zero.
+            // Otherwise, we'll skip and rerun Part 1 again.
+            if (result1 == Zero) { //0X
+                let result2 = ApplyAndMeasurePart2(resource, target);
+                if (result2 == Zero) { //00
+                    set success = true;
+                } else { //01
+                    Z(resource); // Reset resource from |-⟩ to |+⟩
+                    Adjoint Z(target); // Correct effective Z rotation on target
+                }
+            } else { //1X
+                // Set auxiliary and resource qubit back to |+⟩
+                Z(auxiliary);
+                Reset(resource);
+                H(resource);
+            }
+            set done = (success or numIter >= limit);
+            set numIter = numIter + 1;
+        }
+        until (done);
+        return (success, numIter);
     }
 
     /// Initialize axiliary and resource qubits in |+⟩, target in |0⟩ or |1⟩
@@ -86,19 +96,14 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         inputValue: Bool
     ) : Unit {
         // Prepare auxiliary and resource qubits in |+⟩ state
-        X(auxiliary);
-        PrepareQubit(PauliX, auxiliary);
-        X(resource);
-        PrepareQubit(PauliX, resource);
-        AssertMeasurement([PauliX], [auxiliary], One, "Auxiliary qubit is not in |+> state.");
-        AssertMeasurement([PauliX], [resource], One, "Resource qubit is not in |+> state.");
+        H(auxiliary);
+        H(resource);
 
         // Prepare target qubit in |0⟩ or |1⟩ state, depending on input value
         if (inputValue) {
             X(target);
         }
         PrepareQubit(inputBasis, target);
-        AssertQubitIsInState(target, inputBasis, inputValue);
     }
 
     /// Part 1 of RUS circuit (red)
@@ -106,11 +111,9 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         auxiliary: Qubit,
         resource: Qubit
     ) : Result {
-        within {
-            Adjoint T(auxiliary);
-        } apply {
-            CNOT(resource, auxiliary);
-        }
+        T(auxiliary);
+        CNOT(resource, auxiliary);
+        Adjoint T(auxiliary);
 
         return Measure([PauliX], [auxiliary]);
     }
@@ -120,9 +123,10 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         resource: Qubit,
         target: Qubit
     ) : Result {
+        T(target);
+        Z(target);
         CNOT(target, resource);
         T(resource);
-        T(target);
         
         return Measure([PauliX], [resource]);
     }
