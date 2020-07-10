@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateVisualizer", "state-vi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimulatorWithOverrides", "simulator-with-overrides\SimulatorWithOverrides.csproj", "{96BFA26E-04E8-4C0C-A4E7-AB13B1103E6F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleGroverSample", "..\algorithms\simple-grover\SimpleGroverSample.csproj", "{829FBC53-487D-4157-84F6-7DA34F4D13B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{96BFA26E-04E8-4C0C-A4E7-AB13B1103E6F}.Release|x64.Build.0 = Release|Any CPU
 		{96BFA26E-04E8-4C0C-A4E7-AB13B1103E6F}.Release|x86.ActiveCfg = Release|Any CPU
 		{96BFA26E-04E8-4C0C-A4E7-AB13B1103E6F}.Release|x86.Build.0 = Release|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Debug|x64.Build.0 = Debug|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Debug|x86.Build.0 = Debug|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Release|x64.ActiveCfg = Release|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Release|x64.Build.0 = Release|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Release|x86.ActiveCfg = Release|Any CPU
+		{829FBC53-487D-4157-84F6-7DA34F4D13B2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
