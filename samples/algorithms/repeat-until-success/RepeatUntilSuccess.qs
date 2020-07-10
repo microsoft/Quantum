@@ -80,7 +80,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
                 Reset(resource);
                 H(resource);
             }
-            set done = (success or numIter >= limit);
+            set done = success or (numIter >= limit);
             set numIter = numIter + 1;
         }
         until (done);
