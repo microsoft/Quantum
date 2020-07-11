@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "quantum.quantum-devkit-vscode",
+        "ms-dotnettools.csharp",
+        "ms-python.python",
+        "EditorConfig.EditorConfig",
+        "davidanson.vscode-markdownlint"
+    ]
+}

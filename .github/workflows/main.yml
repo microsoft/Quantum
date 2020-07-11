@@ -1,0 +1,91 @@
+name: Prebuild Docker image
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Azure login
+      uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.ACR_CREDENTIALS }}
+    - name: Docker Login
+      run: az acr login -n qdkimages
+    - name: Build and push Docker image
+      run: |
+        $Now = [DateTime]::Now;
+        $ImageTag = "${{ github.sha }}"
+        $RepoName = "public/quantum/samples"
+
+        $LocalTag = "${RepoName}:${ImageTag}"
+        $RemoteRepo = "${{ secrets.ACR_REGISTRY }}/${RepoName}"
+
+        docker build Build/images/samples --tag $LocalTag
+        docker tag $LocalTag "${RemoteRepo}:${ImageTag}"
+        docker push "${RemoteRepo}:${ImageTag}"
+        docker tag $LocalTag "${RemoteRepo}:latest"
+        docker push "${RemoteRepo}:latest"
+      shell: pwsh
+    - name: Wait for image to publish
+      run: |
+        function Test-Manifest() {
+          try {
+            $manifest = Invoke-RestMethod `
+              "https://mcr.microsoft.com/v2/quantum/samples/manifests/${{ github.sha }}" `
+              -ErrorAction Continue;
+            Write-Verbose $manifest;
+            return $true;
+          } catch {
+            return $false;
+          }
+        }
+
+        $ImageAvailable = $false;
+        $CheckInterval = 30; # [seconds]
+        while (-not $ImageAvailable) {
+          if (Test-Manifest) {
+            Write-Host "##[info] Image $ImageTag now available on mcr.microsoft.com, proceeding."
+            $ImageAvailable = $true;
+          } else {
+            Write-Host "##[info] Image $ImageTag not yet available on mcr.microsoft.com, waiting $CheckInterval seconds.";
+          }
+
+          Start-Sleep -Seconds $CheckInterval;
+        }
+      shell: pwsh
+    - name: Update Binder configuration
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        $ThisCommit = "${{ github.sha }}"
+        git checkout ⭐binder
+        git reset --hard $ThisCommit
+
+        $Dockerfile = Get-Content ./Dockerfile;
+        $Dockerfile `
+          | ForEach-Object {
+            if ($_.StartsWith("FROM ")) {
+              "FROM mcr.microsoft.com/quantum/samples:$ThisCommit" | Write-Output;
+            } else {
+              $_ | Write-Output;
+            }
+          } `
+          | Set-Content ./Dockerfile
+
+        git add Dockerfile
+        git commit -m "Updated Binder to use $ThisCommit."
+      shell: pwsh
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        force: true
+        branch: ⭐binder
