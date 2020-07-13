@@ -122,14 +122,14 @@ namespace Microsoft.Quantum.Samples
         #region Classical control
         // This is a custom Result class which can hold the qubit that is being
         // measured.  In this simulator we are not interested in the simulation
-        // value, but need to keep track of qubits that were being measured to
+        // value, but need to keep track of qubits that were measured to
         // support classical control.
         class DelayedResult : Result {
             public Qubit Qubit { get; set; }
 
             // Since we are not interested in the outcome of a measurement, we
             // simply return One.  This method needs to be implemented to avoid
-            // an exception from being thrown, but the value will not be used by
+            // an exception being thrown, but the value will not be used by
             // the simulator.
             public override ResultValue GetValue() {
                 return ResultValue.One;
