@@ -10,7 +10,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// # Summary
     /// Example of a Repeat-until-success algorithm implementing a circuit 
     /// that achieves exp(i⋅ArcTan(2)⋅Z) by Paetznick & Svore. 
-    /// Gate exp(i⋅ArcTan(2)⋅Z) is also know as V gate.
+    /// The exp(𝑖 ArcTan(2) 𝑍) operation is also known as the "𝑉 gate."
     /// # References
     /// - [ *Adam Paetznick, Krysta M. Svore*,
     ///     Quantum Information & Computation 14(15 & 16): 1277-1301 (2014)
