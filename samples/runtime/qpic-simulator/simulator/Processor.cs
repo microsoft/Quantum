@@ -99,21 +99,6 @@ namespace Microsoft.Quantum.Samples
             AddCommand("{0} G {{$T^\\dagger$}}", qubit);
         }
 
-        public override void ExpFrac(IQArray<Pauli> paulis, long numerator, long power, IQArray<Qubit> qubits) {
-            // we are using a color coding for some angles according to the visualizations in
-            // [arXiv:1808.02892](https://arxiv.org/abs/1808.02892)
-            var style = (numerator, power) switch {
-                (1, 1) => ":fill={{rgb,255:red,217; green,217; blue,217}}",
-                (1, 2) => ":fill={{rgb,255:red,245; green,189; blue,112}}",
-                (1, 4) => ":fill={{rgb,255:red,229; green,255; blue,162}}",
-                _ => ""
-            };
-
-            var format = String.Join(" ", Enumerable.Range(0, (int)qubits.Length)
-                                                    .Zip(paulis, (index, pauli) => String.Format(QpicFormatter.Instance, "{{{0}}} P{1} {{{{{2}}}}}", index, style, pauli)));
-            AddCommand(format, qubits.ToArray<object>());
-        }
-
         public override void Reset(Qubit qubit) {
             AddCommand("{0} OUT {{0}}", qubit);
         }
