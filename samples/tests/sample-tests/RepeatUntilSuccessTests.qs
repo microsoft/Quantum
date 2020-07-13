@@ -12,7 +12,7 @@ namespace Microsoft.Quantum.Tests {
         let inputValue = true;
         using ((auxiliary, resource, target) = (Qubit(), Qubit(), Qubit())) {
             // Initialize qubits to starting values (|+⟩, |+⟩, |0⟩/|1⟩)
-            InitializeQubits(auxiliary, resource, target, inputBasis, inputValue);
+            InitializeQubits(inputBasis, inputValue, auxiliary, resource, target);
 
             // Assert valid starting states for all qubits
             AssertMeasurement([PauliX], [auxiliary], Zero, "Auxiliary qubit is not in |+⟩ state.");
@@ -33,9 +33,9 @@ namespace Microsoft.Quantum.Tests {
         let limit = 50; // typically executes succesfully in n < 10 so 50 is playing it safe 
         using ((auxiliary, resource, target) = (Qubit(), Qubit(), Qubit())) {
             // Initialize qubits to starting values (|+⟩, |+⟩, |0⟩/|1⟩)
-            InitializeQubits(auxiliary, resource, target, inputBasis, inputValue);
+            InitializeQubits(inputBasis, inputValue, auxiliary, resource, target);
             AssertMeasurement([inputBasis], [target], One, "Target qubit is not in |1⟩ state.");
-            let (success, numIter) = ApplyRzArcTan2(auxiliary, resource, target, inputBasis, inputValue, limit);
+            let (success, numIter) = ApplyRzArcTan2(inputBasis, inputValue, limit, auxiliary, resource, target);
             Rz(2.0 * ArcTan(2.0), target); // Rotate back to initial state
 
             if (success == true) {

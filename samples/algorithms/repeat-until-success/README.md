@@ -33,12 +33,12 @@ The program returns a tuple with three values: whether the program ran successfu
 
 Browse to the `samples/algorithms/repeat-until-success` folder and run `dotnet build` to build the project. Then run `dotnet run [options] --no-build`. Optionally, omit the `--no-build` option to automatically build the project before execution.
 
-Options are:
+To see options, run `dotnet run -- -help`.
 ```
-  --input-value <true|false> (REQUIRED)                     The input value to use.
-  --input-basis <PauliI|PauliX|PauliY|PauliZ> (REQUIRED)    The input basis to use.
-  --limit <limit> (REQUIRED)                                The repetition limit.
-  -s, --simulator <simulator>                               The name of the simulator to use.
+Options:
+  --input-value (REQUIRED)                                  Boolean value for input qubit (true maps to One, false maps to Zero)
+  --input-basis <PauliI|PauliX|PauliY|PauliZ> (REQUIRED)    Pauli basis to prepare input qubit in
+  --limit <limit> (REQUIRED)                                Integer limit to number of repeats of circuit
 ```
 
 ## Manifest
