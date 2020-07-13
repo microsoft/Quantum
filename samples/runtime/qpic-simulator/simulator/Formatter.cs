@@ -10,7 +10,7 @@ using Microsoft.Quantum.Simulation.Core;
 namespace Microsoft.Quantum.Samples
 {
     // The QPicSimulator creates text files with qpic commands. Since its
-    // implementation will make heavily use of string formatting for this
+    // implementation will make heavy use of string formatting for this
     // purpose, it is convenient to use a custom formatter such that types like
     // Qubit, and Pauli can be passed as formatting arguments.
     internal sealed class QpicFormatter : IFormatProvider, ICustomFormatter
