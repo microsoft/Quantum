@@ -1,3 +1,12 @@
+---
+page_type: sample
+languages:
+- qsharp
+products:
+- qdk
+description: "This is an example of a Repeat-Until-Success (RUS) algorithm that executes a exp(i⋅ArcTan(2)⋅Z) operation."
+---
+
 # Repeat-until-success
 
 This is an example of a Repeat-Until-Success (RUS) algorithm implemented in a Q# program.
