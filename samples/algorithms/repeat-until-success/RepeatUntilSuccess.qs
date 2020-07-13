@@ -26,8 +26,9 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// Integer limit to number of repeats of circuit
     ///
     /// # Remarks
-    /// The program executes a circuit on a "target" qubit using an "auxiliary" and 
-    /// "resource" qubit. The circuit consists of two parts (red and blue in image).
+    /// The program executes a circuit on a "target" qubit using an "auxiliary"
+    /// and "resource" qubit. The circuit consists of two parts (red and blue 
+    /// in image).
     /// The goal is to measure Zero for both the auxiliary and resource qubit.
     /// If this succeeds, the program will have effectively applied an 
     /// Rz(arctan(2)) gate (also known as V_3 gate) on the target qubit.
@@ -41,10 +42,14 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     : (Bool, Result, Int) {
         using ((auxiliary, resource, target) = (Qubit(), Qubit(), Qubit())) {
             // Initialize qubits to starting values (|+⟩, |+⟩, |0⟩/|1⟩)
-            InitializeQubits(inputBasis, inputValue, auxiliary, resource, target);
-            let (success, numIter) = ApplyRzArcTan2(inputBasis, inputValue, limit, auxiliary, resource, target);
+            InitializeQubits(
+                inputBasis, inputValue, auxiliary, resource, target
+                );
+            let (success, numIter) = ApplyRzArcTan2(
+                inputBasis, inputValue, limit, auxiliary, resource, target);
             let result = Measure([inputBasis], [target]);
-            // From version 0.12 it is no longer necessary to release qubits in zero state.
+            // From version 0.12 it is no longer necessary to release qubits 
+            /// in zero state.
             ResetAll([target, resource, auxiliary]);
             return (success, result, numIter);
         }
@@ -68,7 +73,8 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// Target qubit
     ///
     /// # Output
-    /// Tuple of (success, numIter) where success = false if the number of iterations (numIter) exceeds the input <limit>
+    /// Tuple of (success, numIter) where success = false if the number of 
+    /// iterations (numIter) exceeds the input <limit>
     operation ApplyRzArcTan2(
         inputBasis: Pauli,
         inputValue: Bool,
@@ -76,7 +82,8 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         auxiliary: Qubit,
         resource: Qubit,
         target: Qubit
-    ) : (Bool, Int) {
+    )
+    : (Bool, Int) {
         // Initialize results to One by default.
         mutable done = false;
         mutable success = false;
@@ -84,8 +91,10 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
 
         repeat {
             // Assert valid starting states for all qubits
-            AssertMeasurement([PauliX], [auxiliary], Zero, "Auxiliary qubit is not in |+⟩ state.");
-            AssertMeasurement([PauliX], [resource], Zero, "Resource qubit is not in |+⟩ state.");
+            AssertMeasurement([PauliX], [auxiliary], Zero,
+             "Auxiliary qubit is not in |+⟩ state.");
+            AssertMeasurement([PauliX], [resource], Zero,
+             "Resource qubit is not in |+⟩ state.");
             AssertQubitIsInState(target, inputBasis, inputValue);
 
             // Run Part 1 of the program.
@@ -135,7 +144,8 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         auxiliary: Qubit,
         resource: Qubit,
         target: Qubit
-    ) : Unit {
+    )
+    : Unit {
         // Prepare auxiliary and resource qubits in |+⟩ state
         H(auxiliary);
         H(resource);
@@ -148,7 +158,8 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     }
 
     /// # Summary
-    /// Apply part 1 of RUS circuit (red circuit shown in README) and measure auxiliary qubit in Pauli X basis 
+    /// Apply part 1 of RUS circuit (red circuit shown in README) and measure 
+    /// auxiliary qubit in Pauli X basis 
     ///
     /// # Input
     /// ## auxiliary
@@ -158,7 +169,8 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     operation ApplyAndMeasurePart1(
         auxiliary: Qubit,
         resource: Qubit
-    ) : Result {
+    )
+    : Result {
         within {
             T(auxiliary);
         } apply {
@@ -169,17 +181,15 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     }
 
     /// # Summary
-    /// Apply part 2 of RUS circuit (blue circuit shown in README) and measure resource qubit in Pauli X basis
+    /// Apply part 2 of RUS circuit (blue circuit shown in README) and measure 
+    /// resource qubit in Pauli X basis
     ///
     /// # Input
     /// ## resource
     /// Resource qubit
     /// ## target
     /// Target qubit
-    operation ApplyAndMeasurePart2(
-        resource: Qubit,
-        target: Qubit
-    ) : Result {
+    operation ApplyAndMeasurePart2(resource: Qubit, target: Qubit) : Result {
         T(target);
         Z(target);
         CNOT(target, resource);
@@ -189,7 +199,8 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     }
 
     /// # Summary
-    /// Assert target qubit state is the desired input value in the desired input basis.
+    /// Assert target qubit state is the desired input value in the desired 
+    /// input basis.
     ///
     /// ## target
     /// Target qubit
@@ -201,7 +212,8 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         target: Qubit,
         inputBasis: Pauli,
         inputValue: Bool
-    ) : Unit {
+    )
+    : Unit {
         AssertMeasurement(
             [inputBasis], [target], inputValue ? One | Zero,
             $"Qubit is not in {inputValue ? One | Zero} state for given input basis."
