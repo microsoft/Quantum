@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     open Microsoft.Quantum.Intrinsic;
@@ -17,6 +17,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     ///   ](https://arxiv.org/abs/1311.1074)
     /// For circuit diagram, see file RUS.png (to be added to README).
     ///
+    /// # Remarks
     /// The program executes a circuit on a "target" qubit using an "auxiliary" and 
     /// "resource" qubit. The circuit consists of two parts (red and blue in image).
     /// The goal is to measure Zero for both the auxiliary and resource qubit.
@@ -26,18 +27,17 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     @EntryPoint()
     operation CreateQubitsAndApplyRzArcTan2(
         inputValue : Bool,
-        inputBasis: Pauli,
+        inputBasis : Pauli,
         limit: Int
-    ) : (Bool, Result, Int) {
+    )
+    : (Bool, Result, Int) {
         using ((auxiliary, resource, target) = (Qubit(), Qubit(), Qubit())) {
             // Initialize qubits to starting values (|+⟩, |+⟩, |0⟩/|1⟩)
             InitializeQubits(auxiliary, resource, target, inputBasis, inputValue);
             let (success, numIter) = ApplyRzArcTan2(auxiliary, resource, target, inputBasis, inputValue, limit);
             let result = Measure([inputBasis], [target]);
             // From version 0.12 it is no longer necessary to release qubits in zero state.
-            Reset(target);
-            Reset(resource);
-            Reset(auxiliary);
+            ResetAll([target, resource, auxiliary]);
             return (success, result, numIter);
         }
     }
@@ -111,9 +111,11 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         auxiliary: Qubit,
         resource: Qubit
     ) : Result {
-        T(auxiliary);
-        CNOT(resource, auxiliary);
-        Adjoint T(auxiliary);
+        within {
+            T(auxiliary);
+        } apply {
+            CNOT(resource, auxiliary);
+        }
 
         return Measure([PauliX], [auxiliary]);
     }
@@ -137,10 +139,9 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         inputBasis: Pauli,
         inputValue: Bool
     ) : Unit {
-        if (inputValue) {
-            AssertMeasurement([inputBasis], [target], One, "Qubit is not in 1 state for given input basis.");
-        } else {
-            AssertMeasurement([inputBasis], [target], Zero, "Qubit is not in 0 state for given input basis.");
-        }
+        AssertMeasurement(
+            [inputBasis], [target], inputValue ? One | Zero,
+            $"Qubit is not in {inputValue ? One | Zero} state for given input basis."
+        );
     }
 }
