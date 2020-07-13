@@ -19,7 +19,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     ///
     /// # Input
     /// ## inputBasis
-    /// Pauli basis to prepare input qubit in
+    /// Pauli basis in which to prepare input qubit
     /// ## inputValue
     /// Boolean value for input qubit (true maps to One, false maps to Zero)
     /// ## limit
@@ -37,7 +37,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     operation CreateQubitsAndApplyRzArcTan2(
         inputValue : Bool,
         inputBasis : Pauli,
-        limit: Int
+        limit : Int
     )
     : (Bool, Result, Int) {
         using ((auxiliary, resource, target) = (Qubit(), Qubit(), Qubit())) {
@@ -60,7 +60,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     ///
     /// # Input
     /// ## inputBasis
-    /// Pauli basis to prepare input qubit in
+    /// Pauli basis in which to prepare input qubit
     /// ## inputValue
     /// Boolean value for input qubit (true maps to One, false maps to Zero)
     /// ## limit
@@ -76,12 +76,12 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// Tuple of (success, numIter) where success = false if the number of 
     /// iterations (numIter) exceeds the input <limit>
     operation ApplyRzArcTan2(
-        inputBasis: Pauli,
-        inputValue: Bool,
-        limit: Int,
-        auxiliary: Qubit,
-        resource: Qubit,
-        target: Qubit
+        inputBasis : Pauli,
+        inputValue : Bool,
+        limit : Int,
+        auxiliary : Qubit,
+        resource : Qubit,
+        target : Qubit
     )
     : (Bool, Int) {
         // Initialize results to One by default.
@@ -127,7 +127,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     ///
     /// # Input
     /// ## inputBasis
-    /// Pauli basis to prepare input qubit in
+    /// Pauli basis in which to prepare input qubit
     /// ## inputValue
     /// Boolean value for input qubit (true maps to One, false maps to Zero)
     /// ## limit
@@ -139,13 +139,13 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// ## target
     /// Target qubit
     operation InitializeQubits(
-        inputBasis: Pauli,
-        inputValue: Bool,
-        auxiliary: Qubit,
-        resource: Qubit,
-        target: Qubit
+        inputBasis : Pauli,
+        inputValue : Bool,
+        auxiliary : Qubit,
+        resource : Qubit,
+        target : Qubit
     )
-    : Unit {
+     : Unit {
         // Prepare auxiliary and resource qubits in |+⟩ state
         H(auxiliary);
         H(resource);
@@ -167,10 +167,10 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// ## resource
     /// Resource qubit
     operation ApplyAndMeasurePart1(
-        auxiliary: Qubit,
-        resource: Qubit
+        auxiliary : Qubit,
+        resource : Qubit
     )
-    : Result {
+     : Result {
         within {
             T(auxiliary);
         } apply {
@@ -189,7 +189,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// Resource qubit
     /// ## target
     /// Target qubit
-    operation ApplyAndMeasurePart2(resource: Qubit, target: Qubit) : Result {
+    operation ApplyAndMeasurePart2(resource : Qubit, target : Qubit)  : Result {
         T(target);
         Z(target);
         CNOT(target, resource);
@@ -205,15 +205,15 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// ## target
     /// Target qubit
     /// ## inputBasis
-    /// Pauli basis to prepare input qubit in
+    /// Pauli basis in which to prepare input qubit
     /// ## inputValue
     /// Boolean value for input qubit (true maps to One, false maps to Zero)
     operation AssertQubitIsInState(
-        target: Qubit,
-        inputBasis: Pauli,
-        inputValue: Bool
+        target : Qubit,
+        inputBasis : Pauli,
+        inputValue : Bool
     )
-    : Unit {
+     : Unit {
         AssertMeasurement(
             [inputBasis], [target], inputValue ? One | Zero,
             $"Qubit is not in {inputValue ? One | Zero} state for given input basis."
