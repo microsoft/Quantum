@@ -86,7 +86,7 @@ When creating the Codespace, make sure to enter `microsoft/Quantum` in the "Git 
 
 When you click "Create", a new Codespace instance is created with a development environment based on the Docker container that is defined in this repo's Dockerfile. Recommended plug-ins are also automatically installed for you.
 
-1. Done! You can now start developing using Q# in your browser. Open a terminal to start running your first samples (see [here](#first-samples)).
+3. Done! You can now start developing using Q# in your browser. Open a terminal to start running your first samples (see [here](#first-samples)).
 
 ### Visual Studio Code ###
 
