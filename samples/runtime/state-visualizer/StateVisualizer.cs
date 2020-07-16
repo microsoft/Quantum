@@ -64,6 +64,10 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
             await operation(simulator);
         }
 
+        public async Task<O> Run<I, O>(Func<IOperationFactory, I, Task<O>> operation, I args) =>
+            await operation(simulator, args);
+        
+
         public bool Advance() => advanceEvent.Set();
 
         public void Stop()

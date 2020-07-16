@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.Quantum.Sdk/0.12.20070124">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <PlatformTarget>x64</PlatformTarget>
@@ -19,11 +19,12 @@
     <ProjectReference Include="..\..\characterization\phase-estimation\PhaseEstimationSample.csproj" />
     <ProjectReference Include="..\..\algorithms\reversible-logic-synthesis\ReversibleLogicSynthesis.csproj" />
     <ProjectReference Include="..\..\getting-started\simple-algorithms\SimpleAlgorithms.csproj" />
+    <ProjectReference Include="..\..\algorithms\repeat-until-success\RepeatUntilSuccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.11.2004.2825" />
-    <PackageReference Include="Microsoft.Quantum.Xunit" Version="0.11.2004.2825" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.12.20070124" />
+    <PackageReference Include="Microsoft.Quantum.Xunit" Version="0.12.20070124" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
