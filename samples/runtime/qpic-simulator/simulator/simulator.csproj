@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.Net.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.Compiler" Version="0.12.20070124" />
+    <PackageReference Include="Microsoft.Quantum.Simulators" Version="0.12.20070124" />
+    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.12.20070124" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\intrinsics\intrinsics.csproj" />
+  </ItemGroup>
+</Project>
