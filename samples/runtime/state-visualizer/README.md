@@ -9,6 +9,8 @@ Note that since this sample relies on the quantum simulator for information
 about the program execution, it can only step through quantum operations, not
 classical functions.
 
+You can read more about this sample in [this blog post](https://www.sarahmarshall.name/blog/visualizing-quantum-state-with-qsharp.html).
+
 ## Running the Sample ##
 
 Install [Node.js](https://nodejs.org/en/) and the
