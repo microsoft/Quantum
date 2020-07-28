@@ -4,8 +4,4 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>Microsoft.Quantum.Samples.OrderFinding.Program</StartupObject>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\reversible-logic-synthesis\ReversibleLogicSynthesis.csproj" />
-  </ItemGroup>
 </Project>
