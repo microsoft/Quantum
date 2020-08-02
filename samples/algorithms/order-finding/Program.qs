@@ -3,9 +3,10 @@
 
 namespace Microsoft.Quantum.Samples.OrderFinding {
     open Microsoft.Quantum.Intrinsic;
-    open Microsoft.Quantum.Measurement;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Simulation;
+    open Microsoft.Quantum.Math;
 
     @EntryPoint()
     operation GuessOrder(index : Int) : Unit {
@@ -28,6 +29,10 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
         // guess order classically
         Message("\nGuess classically:");
         GuessOrderClassical(index, perm, shots);
+
+        // guess order quantum computationally
+        Message("\nGuess Quantum Computationally");
+        GuessOrderQuantum(index, perm, shots);
         return ();
     }
     
@@ -75,6 +80,60 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
         }
         else {
             return rnd == 0 ? 2 | 4;
+        }
+    }
+
+    /// # Summary
+    /// Guesses order using Q# for shots times, and returns the percentage for each order that was returned.
+    operation GuessOrderQuantum(index: Int, perm: Int[], shots : Int) : Unit {
+        mutable guess = 0;
+        mutable counts = [0, 0, 0, 0];
+
+        for (_ in 0 .. shots - 1) {
+            set guess = GuessOrderQuantumOne(index, perm);
+            set counts w/= guess -1 <- counts[guess - 1] + 1;
+        }
+
+        for ((i, count) in Enumerated(counts)) {
+            if (count > 0) {
+                Message($"{i+1}: {IntAsDouble(count) / IntAsDouble(shots) * 100.}%");
+            }
+        }
+    }
+
+    /// # Summary
+    /// The quantum estimation calls the quantum algorithm in the Q# file which computes the permutation
+    /// πⁱ(input) where i is a superposition of all values from 0 to 7.  The algorithm then uses QFT to
+    /// find a period in the resulting state.  The result needs to be post-processed to find the estimate.
+    operation GuessOrderQuantumOne(index: Int, perm: Int[]) : Int {
+        let result = FindOrder(perm, index);
+
+        if (result == 0) {
+            let guess = RandomReal(4);
+            // the probability distribution is extracted from the second
+            // column (m = 0) in Fig. 2's table on the right-hand side,
+            // in the original and referenced paper.
+            if (guess <= 0.5505) {
+                return 1;
+            }
+            elif (guess <= 0.5505 + 0.1009) {
+                return 2;
+            }
+            elif (guess <= 0.5505 + 0.1009 + 0.1468) {
+                return 3;
+            }
+            else {
+                return 4;
+            }
+        }
+        elif (result % 2 == 1) {
+            return 3;
+        }
+        elif (result == 2 or result == 6) {
+            return 4;
+        }
+        else {
+            return 2;
         }
     }
 }
