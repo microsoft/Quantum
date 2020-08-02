@@ -5,7 +5,6 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Simulation;
     open Microsoft.Quantum.Math;
 
     @EntryPoint()
@@ -19,7 +18,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
 
         // early exit for index out of bounds 
         if (index >= Length(perm)){
-            Message("Index cannot be greater than 3");
+            Message("Index can only be between 0 and 3 inclusive");
             return ();
         }
 
@@ -33,7 +32,6 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
         // guess order quantum computationally
         Message("\nGuess Quantum Computationally");
         GuessOrderQuantum(index, perm, shots);
-        return ();
     }
     
     /// # Summary
@@ -42,10 +40,12 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
         // ...
         mutable order = 1;
         mutable cur = index;
+
         while (index != perm[cur]) {
             set order = order + 1;
             set cur = perm[cur];
         }
+
         return order;
     }
 
@@ -74,7 +74,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     /// returns 1 or 3 with probability 50% each, otherwise, it
     /// returns 2 or 4 with probability 50% each.
     operation GuessOrderClassicalOne(index : Int, perm : Int[]) : Int {
-        let rnd = Random([0.5, 0.5]);
+        let rnd = RandomInt(2);
         if (perm[perm[perm[index]]] == index) {
             return rnd == 0 ? 1 | 3;
         }
