@@ -13,8 +13,8 @@ in the C# file is restricted to permutations over 4 elements.
 
 ## Running the Sample
 
-To run the sample, use the `dotnet run --index` command from your terminal.
-The value passed to the index argument must be between 0 and 3 inclusive.
+To run the sample, use the `dotnet run --index VALUE` command from your terminal.
+The value `VALUE` passed to the index argument must be between 0 and 3 inclusive.
 
 ## Manifest
 

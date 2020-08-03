@@ -105,7 +105,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     /// The quantum estimation calls the quantum algorithm in the Q# file which computes the permutation
     /// πⁱ(input) where i is a superposition of all values from 0 to 7.  The algorithm then uses QFT to
     /// find a period in the resulting state.  The result needs to be post-processed to find the estimate.
-    operation GuessOrderQuantumOne(index: Int, perm: Int[]) : Int {
+    internal operation GuessOrderQuantumOne(index: Int, perm: Int[]) : Int {
         let result = FindOrder(perm, index);
 
         if (result == 0) {
@@ -115,24 +115,18 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
             // in the original and referenced paper.
             if (guess <= 0.5505) {
                 return 1;
-            }
-            elif (guess <= 0.5505 + 0.1009) {
+            } elif (guess <= 0.5505 + 0.1009) {
                 return 2;
-            }
-            elif (guess <= 0.5505 + 0.1009 + 0.1468) {
+            } elif (guess <= 0.5505 + 0.1009 + 0.1468) {
                 return 3;
-            }
-            else {
+            } else {
                 return 4;
             }
-        }
-        elif (result % 2 == 1) {
+        } elif (result % 2 == 1) {
             return 3;
-        }
-        elif (result == 2 or result == 6) {
+        } elif (result == 2 or result == 6) {
             return 4;
-        }
-        else {
+        } else {
             return 2;
         }
     }
