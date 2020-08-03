@@ -73,7 +73,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     /// The algorithm computes π³(index).  If the result is index, it
     /// returns 1 or 3 with probability 50% each, otherwise, it
     /// returns 2 or 4 with probability 50% each.
-    operation GuessOrderClassicalOne(index : Int, perm : Int[]) : Int {
+    internal operation GuessOrderClassicalOne(index : Int, perm : Int[]) : Int {
         let rnd = RandomInt(2);
         if (perm[perm[perm[index]]] == index) {
             return rnd == 0 ? 1 | 3;
@@ -85,7 +85,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
 
     /// # Summary
     /// Guesses order using Q# for shots times, and returns the percentage for each order that was returned.
-    operation GuessOrderQuantum(index: Int, perm: Int[], shots : Int) : Unit {
+    internal operation GuessOrderQuantum(index: Int, perm: Int[], shots : Int) : Unit {
         mutable guess = 0;
         mutable counts = [0, 0, 0, 0];
 
