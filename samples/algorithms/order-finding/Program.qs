@@ -8,7 +8,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     open Microsoft.Quantum.Math;
 
     @EntryPoint()
-    operation GuessOrder(index : Int) : Unit {
+    operation GetOrder(index : Int) : Unit {
         let perm = [1, 2, 3, 0];
         let shots = 1024;
 
@@ -27,17 +27,16 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
 
         // guess order classically
         Message("\nGuess classically:");
-        GuessOrderClassical(index, perm, shots);
+        GuessOrder(index, perm, shots, GuessOrderClassical);
 
         // guess order quantum computationally
         Message("\nGuess Quantum Computationally");
-        GuessOrderQuantum(index, perm, shots);
+        GuessOrder(index, perm, shots, GuessOrderQuantum);
     }
     
     /// # Summary
     /// Returns the exact order (length) of the cycle that contains a given index.
     function ComputeOrder(index : Int, perm : Int[]) : Int {
-        // ...
         mutable order = 1;
         mutable cur = index;
 
@@ -50,13 +49,12 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     }
 
     /// # Summary
-    /// Guesses the order classically by applying estimate `shots` many times and returning the percentage for each order that was returned.
-    operation GuessOrderClassical(index : Int, perm : Int[], shots : Int) : Unit {
-        mutable guess = 0;
+    /// Guesses order using Q# for shots times, and returns the percentage for each order that was returned.
+    internal operation GuessOrder(index: Int, perm: Int[], shots : Int, guessMode: ((Int, Int[]) => Int)) : Unit {
         mutable counts = [0, 0, 0, 0];
 
         for (_ in 0 .. shots - 1) {
-            set guess = GuessOrderClassicalOne(index, perm);
+            let guess = guessMode(index, perm);
             set counts w/= guess -1 <- counts[guess - 1] + 1;
         }
 
@@ -73,7 +71,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     /// The algorithm computes π³(index).  If the result is index, it
     /// returns 1 or 3 with probability 50% each, otherwise, it
     /// returns 2 or 4 with probability 50% each.
-    internal operation GuessOrderClassicalOne(index : Int, perm : Int[]) : Int {
+    internal operation GuessOrderClassical(index : Int, perm : Int[]) : Int {
         let rnd = RandomInt(2);
         if (perm[perm[perm[index]]] == index) {
             return rnd == 0 ? 1 | 3;
@@ -84,28 +82,10 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     }
 
     /// # Summary
-    /// Guesses order using Q# for shots times, and returns the percentage for each order that was returned.
-    internal operation GuessOrderQuantum(index: Int, perm: Int[], shots : Int) : Unit {
-        mutable guess = 0;
-        mutable counts = [0, 0, 0, 0];
-
-        for (_ in 0 .. shots - 1) {
-            set guess = GuessOrderQuantumOne(index, perm);
-            set counts w/= guess -1 <- counts[guess - 1] + 1;
-        }
-
-        for ((i, count) in Enumerated(counts)) {
-            if (count > 0) {
-                Message($"{i+1}: {IntAsDouble(count) / IntAsDouble(shots) * 100.}%");
-            }
-        }
-    }
-
-    /// # Summary
     /// The quantum estimation calls the quantum algorithm in the Q# file which computes the permutation
     /// πⁱ(input) where i is a superposition of all values from 0 to 7.  The algorithm then uses QFT to
     /// find a period in the resulting state.  The result needs to be post-processed to find the estimate.
-    internal operation GuessOrderQuantumOne(index: Int, perm: Int[]) : Int {
+    internal operation GuessOrderQuantum(index: Int, perm: Int[]) : Int {
         let result = FindOrder(perm, index);
 
         if (result == 0) {
