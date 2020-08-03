@@ -17,26 +17,26 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
         Message($"Find cycle length at index {index}\n");
 
         // early exit for index out of bounds 
-        if (index >= Length(perm)){
-            Message("Index can only be between 0 and 3 inclusive");
+        if (index < 0 or index >= Length(perm)){
+            Message("Index must be value from 0 to 3");
             return ();
         }
 
         // compute exact order
-        Message($"Exact Order: {ComputeOrder(index, perm)}");
+        Message($"Exact Order: {ComputedOrder(index, perm)}");
 
         // guess order classically
         Message("\nGuess classically:");
         GuessOrder(index, perm, shots, GuessOrderClassical);
 
         // guess order quantum computationally
-        Message("\nGuess Quantum Computationally");
+        Message("\nGuess using quantum algorithm");
         GuessOrder(index, perm, shots, GuessOrderQuantum);
     }
     
     /// # Summary
     /// Returns the exact order (length) of the cycle that contains a given index.
-    function ComputeOrder(index : Int, perm : Int[]) : Int {
+    internal function ComputedOrder(index : Int, perm : Int[]) : Int {
         mutable order = 1;
         mutable cur = index;
 
@@ -55,7 +55,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
 
         for (_ in 0 .. shots - 1) {
             let guess = guessMode(index, perm);
-            set counts w/= guess -1 <- counts[guess - 1] + 1;
+            set counts w/= (guess - 1) <- counts[guess - 1] + 1;
         }
 
         for ((i, count) in Enumerated(counts)) {
