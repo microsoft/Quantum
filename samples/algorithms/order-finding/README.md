@@ -13,8 +13,8 @@ in the C# file is restricted to permutations over 4 elements.
 
 ## Running the Sample
 
-Open the `QsharpSamples.sln` solution in Visual Studio and set *Samples / 1. Algorithms / OrderFinding* as the startup project.
-Press Start in Visual Studio to run the sample.
+To run the sample, use the `dotnet run --index VALUE` command from your terminal.
+The value `VALUE` passed to the index argument must be between 0 and 3 inclusive.
 
 ## Manifest
 
