@@ -19,11 +19,6 @@ operations and classical control transformations.
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
 
-### Note
-
-This sample only works with version 0.11.2006.403 of the QDK.
-
-
 ## Running the Sample
 
 This sample can be run in a number of different ways, depending on your
@@ -60,7 +55,8 @@ Visual Studio to run the sample.
 - [simulator/Processor.cs](simulator/Processor.cs): C# implementation of the `QuantumProcessorBase` abstract class.
 - [simulator/Simulator.cs](simulator/Simulator.cs): C# implementation of the `QuantumProcessorDispatcher` abstract class for custom simulators.
 - [simulator/Library.qs](simulator/Library.qs): Q# custom intrinsic operations used with this simulator.
-- [simulator/RewriteStep.qs](simulator/RewriteStep.cs): Q# custom intrinsic operations used with this simulator.
-- [simulator/Simulator.Barrier.qs](simulator/Simulator.Barrier.cs): Simulator specific implementation of intrinsic `Barrier` operation.
-- [simulator/Simulator.SavePicture.qs](simulator/Simulator.SavePicture.cs): Simulator specific implementation of intrinsic `SavePicture` operation.
+- [simulator/Simulator.Barrier.cs](simulator/Simulator.Barrier.cs): Simulator specific implementation of intrinsic `Barrier` operation.
+- [simulator/Simulator.SavePicture.cs](simulator/Simulator.SavePicture.cs): Simulator specific implementation of intrinsic `SavePicture` operation.
 - [simulator/simulator.csproj](simulator/simulator.csproj): C# library project for the simulator.
+- [rewrite/RewriteStep.cs](rewrite/RewriteStep.cs): Rewrite step to make classical control accessible in simulator.
+- [rewrite/rewrite.csproj](rewrite/RewriteStep.cs): C# library project for rewrite step.
