@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 namespace Microsoft.Quantum.Samples.OrderFinding {
@@ -6,7 +6,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Samples.ReversibleLogicSynthesis;
+    open Microsoft.Quantum.Synthesis;
     open Microsoft.Quantum.Arithmetic;
 
     /// # Summary
@@ -38,7 +38,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     /// of the permutation.  The permutation is called n + 1 times for exponents
     /// 2⁰, 2¹, ..., 2ⁿ on the lower n qubits.  For each exponent, we update the
     /// permutation and compute a quantum circuit using reversible logic synthesis
-    /// from the namespace `Microsoft.Quantum.Samples.ReversibleLogicSynthesis`.
+    /// from the namespace `Microsoft.Quantum.Synthesis`.
     /// Finally, a QFT is applied to the upper qubits.
     ///
     /// # Input
@@ -56,7 +56,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
             ApplyToEach(H, topQubits);
 
             for (i in 0..n) {
-                Controlled (ApplyPermutationOracle(accumulatedPermutation, TBS, _))([topQubits[n - i]], bottomQubits);
+                Controlled (ApplyPermutationUsingTransformation(accumulatedPermutation, _))([topQubits[n - i]], LittleEndian(bottomQubits));
                 set accumulatedPermutation = Squared(accumulatedPermutation);
             }
 
