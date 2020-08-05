@@ -18,6 +18,7 @@ operations and classical control transformations.
 ## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- [⟨q|pic⟩](https://github.com/qpic/qpic)
 
 ## Running the Sample
 
@@ -37,9 +38,13 @@ circuit diagrams for the test cases.  You can create picture files from them
 using the following commands (assuming that ⟨q|pic⟩ is installed):
 
 ```shell
-cp bin/Debug/netcoreapp3.1/if-then-else.qpic .
-qpic -f png if-then-else.qpic
+cp bin/Debug/netcoreapp3.1/t-injection.qpic .
+qpic -f png t-injection.qpic
 ```
+
+The resulting file will look as follows:
+
+![T injection circuit diagram](t-injection.png)
 
 ### C# in Visual Studio 2019
 
