@@ -13,7 +13,7 @@ namespace Microsoft.Quantum.Samples
     {
         // This dictionary tracks open `SaveImage` scopes with the filename as
         // its key and a `StringBuilder` object as value.  The `StringBuilder`
-        // object is populated with qpic commands for all open scopes.
+        // object is populated with ⟨q|pic⟩ commands for all open scopes.
         public Dictionary<String, StringBuilder> Pictures { get; } = new Dictionary<String, StringBuilder>();
 
         // This dictionary tracks measured qubits in `if` statements.  The key
@@ -22,7 +22,7 @@ namespace Microsoft.Quantum.Samples
         // operations are classically controlled on a |0〉 value or a |1〉 value.
         private Dictionary<long, (Qubit, bool)> classicallyControlledQubits = new Dictionary<long, (Qubit, bool)>();
 
-        // This method adds a qpic command to all open `StringBuilder` objects
+        // This method adds a ⟨q|pic⟩ command to all open `StringBuilder` objects
         // corresponding to all open `SavePicture` scopes.  It also extends
         // commands with classical control directives if necessary.  Qubit
         // objects should be passed as argument, and not as part of the format
@@ -122,7 +122,7 @@ namespace Microsoft.Quantum.Samples
         }
 
         // A measurement is used to keep track of the measured qubit, and adds a
-        // qpic measurement command.
+        // ⟨q|pic⟩ measurement command.
         public override Result M(Qubit qubit) {
             AddCommand("{0} M", qubit);
             return new DelayedResult { Qubit = qubit };
@@ -164,7 +164,7 @@ namespace Microsoft.Quantum.Samples
         }
 
         // When finishing a conditional statement, the corresponding entry is
-        // removed from the dictionary, and a qpic command for the visual
+        // removed from the dictionary, and a ⟨q|pic⟩ command for the visual
         // termination of the measured qubit is added.  The `statement`
         // parameter corresponds to the return value of
         // `StartConditionalStatement` to link conditional statements that

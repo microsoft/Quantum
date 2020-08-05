@@ -8,10 +8,10 @@ products:
 description: "This sample uses `IQuantumProcessor` to generate quantum circuit diagrams from execution traces."
 ---
 
-# An advanced reversible simulator
+# Generating quantum circuit diagrams from execution traces
 
 This sample illustrates how `IQuantumProcessor` can be used to generate quantum
-circuit diagrams from Q# program execution traces, using the [qpic
+circuit diagrams from Q# program execution traces, using the [⟨q|pic⟩
 language](https://github.com/qpic/qpic).  It makes uses of custom intrinsic
 operations and classical control transformations.
 
@@ -32,9 +32,9 @@ At a terminal, run the following command (with example arguments for the inputs)
 dotnet test
 ```
 
-After running the tests, the directory `bin/Debug/netcoreapp3.1` contains qpic
+After running the tests, the directory `bin/Debug/netcoreapp3.1` contains ⟨q|pic⟩
 circuit diagrams for the test cases.  You can create picture files from them
-using the following commands (assuming that qpic is installed):
+using the following commands (assuming that ⟨q|pic⟩ is installed):
 
 ```shell
 cp bin/Debug/netcoreapp3.1/if-then-else.qpic .

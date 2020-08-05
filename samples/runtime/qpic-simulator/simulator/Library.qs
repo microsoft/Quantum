@@ -9,7 +9,7 @@ namespace Microsoft.Quantum.Samples {
     /// and closed with an `Adjoint` call to the operation.
     ///
     /// # Example
-    /// Saves qpic commands into `filename.qpic`
+    /// Saves ⟨q|pic⟩ commands into `filename.qpic`
     /// ```Q#
     /// within { SavePicture("filename.qpic"); }
     /// apply {
@@ -23,7 +23,7 @@ namespace Microsoft.Quantum.Samples {
     }
 
     /// # Summary
-    /// A simulator-specific operation to add a qpic BARRIER command.
+    /// A simulator-specific operation to add a ⟨q|pic⟩ BARRIER command.
     operation Barrier() : Unit {
     }
 }

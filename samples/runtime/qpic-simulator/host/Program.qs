@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Arrays;
@@ -10,6 +11,13 @@ namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Logical;
     open Microsoft.Quantum.Measurement;
 
+    /// # Summary
+    /// Implements the Toffoli operation (CCNOT) using Clifford+T gates
+    ///
+    ///
+    /// # Reference
+    /// This circuit is described in Figure 13 of
+    /// [arXiv:1206.0758](https://arxiv.org/pdf/1206.0758.pdf)
     internal operation Toffoli(a : Qubit, b : Qubit, c : Qubit) : Unit {
         H(c);
         ApplyToEach(T, [a, b, c]);
@@ -27,9 +35,17 @@ namespace Microsoft.Quantum.Samples {
         H(c);
     }
 
-    internal operation TInject(a : Qubit, b : Qubit) : Unit {
+    /// # Summary
+    /// Applies a T operation to `b` using a T state prepared
+    /// on `a`
+    internal operation InjectT(a : Qubit, b : Qubit) : Unit {
+        // prepare T state |T⟩ = TH|0⟩
         H(a);
         T(a);
+
+        // `Barrier` is an intrinsic operation offered by the ⟨q|pic⟩
+        // simulator to draw a barrier into the circuit diagram (it
+        // has no effect in other simulators)
         Barrier();
         CNOT(b, a);
         if (M(a) == One) {
@@ -40,6 +56,11 @@ namespace Microsoft.Quantum.Samples {
 
     @Test("Microsoft.Quantum.Samples.QpicSimulator")
     operation PrintToffoli() : Unit {
+        // The `SavePicture` operation in the `within` block will
+        // create a circuit diagram of the operations in the `apply`
+        // block in the corresponding file.  It is an intrinsic operation
+        // offered by the ⟨q|pic⟩ simulator and has no effect in other
+        // simulators.
         within { SavePicture("toffoli.qpic"); }
         apply {
             using ((a, b, c) = (Qubit(), Qubit(), Qubit())) {
@@ -49,11 +70,11 @@ namespace Microsoft.Quantum.Samples {
     }
 
     @Test("Microsoft.Quantum.Samples.QpicSimulator")
-    operation PrintTInject() : Unit {
+    operation PrintInjectT() : Unit {
         within { SavePicture("t-injection.qpic"); }
         apply {
             using ((a, b) = (Qubit(), Qubit())) {
-                TInject(a, b);
+                InjectT(a, b);
             }
         }
     }
