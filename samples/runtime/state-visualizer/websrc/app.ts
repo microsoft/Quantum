@@ -4,6 +4,8 @@
 import "./css/main.css";
 import * as signalR from "@aspnet/signalr";
 import * as chart from "chart.js";
+import { executionPathToHtml } from "./ExecutionPathVisualizer";
+import { ExecutionPath } from "./ExecutionPathVisualizer/executionPath";
 
 //#region Serialization contract
 
@@ -200,7 +202,7 @@ connection.on("OperationStarted", onOperationStarted);
 connection.on("OperationEnded", onOperationEnded);
 connection.on("Log", onLog);
 
-function onOperationStarted(operationName: string, input: number[], state: State): void {
+function onOperationStarted(operationName: string, input: number[], state: State, executionPath: ExecutionPath): void {
     console.log("Operation start:", operationName, input);
 
     clearIcon();
@@ -217,6 +219,12 @@ function onOperationStarted(operationName: string, input: number[], state: State
     updateChart(state);
 
     pushHistory(null, operation, state);
+
+    // Render circuit visualization
+    const html: string = executionPathToHtml(executionPath);
+    const container: HTMLElement = document.getElementById("circuit-container");
+    if (container == null) throw new Error("circuit-container div not found.");
+    container.innerHTML = html;
 }
 
 function onOperationEnded(returnValue: string, state: State): void {

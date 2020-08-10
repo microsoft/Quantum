@@ -26,7 +26,19 @@ html, body {
 }
 
 .state {
+    display: flex;
+    flex-flow: column;
     height: calc(100vh - 40px);
+    overflow: scroll;
+}
+
+#top-container {
+    flex-grow: 1;
+}
+
+#bottom-container {
+    display: flex;
+    height: 30%;
 }
 
 .operations-container {
@@ -81,4 +93,8 @@ canvas {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+}
+
+#circuit-container {
+    margin: auto;
 }

@@ -7,5 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\algorithms\simple-grover\SimpleGroverSample.csproj" />
+    <ProjectReference Include="..\ExecutionPathTracer\ExecutionPathTracer.csproj" />
   </ItemGroup>
 </Project>

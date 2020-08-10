@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "wwwroot/scripts/",
-        "target": "es5"
+        "target": "es5",
+        "lib": [ "DOM", "ES2019" ]
     }
 }
