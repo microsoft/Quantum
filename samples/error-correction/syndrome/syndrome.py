@@ -1,3 +1,5 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
 """
 Script for running Pseudo-syndrome example as defined in Syndrome.qs.
 This script takes the number of data qubits as input.
