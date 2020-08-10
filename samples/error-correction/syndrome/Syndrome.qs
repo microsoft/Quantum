@@ -37,7 +37,7 @@ namespace Microsoft.Quantum.Samples.Hardware.Syndrome
 			input_values: Bool[],
 			encoding_bases: Pauli[], 
 			indexes: Int[]
-	): Result[] {
+	): ( Result, Result[] ) {
 		using ((block, ancilla) = (Qubit[Length(input_values)], Qubit())) {
 			for ((qubit, value, basis) in Zip3(block, input_values, encoding_bases)) {
 				Prepare(qubit, value, basis);
@@ -46,8 +46,10 @@ namespace Microsoft.Quantum.Samples.Hardware.Syndrome
 			for (index in indexes) {
 				ControlledPauli(encoding_bases[index], ancilla, block[index]);
 			}
+			let ancilla_result = Measure([PauliX], [ancilla]);
+			let data_result = ForEach(BasisMeasure, Zip(encoding_bases, block));
 			Reset(ancilla);
-			return ForEach(BasisMeasure, Zip(encoding_bases, block));
+			return ( ancilla_result, data_result );
 		}
 	}
 }
