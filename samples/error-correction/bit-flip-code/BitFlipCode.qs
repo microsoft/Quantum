@@ -16,7 +16,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     // In this sample, we build on the discussion in the quantum error
     // correction section of the developers' guide:
 
-    //     https://docs.microsoft.com/quantum/libraries/error-correction
+    //     https://docs.microsoft.com/quantum/user-guide/libraries/standard/error-correction
 
     // In particular, we start by manually encoding into the bit-flip code.
     // We then show how operations and functions provided in the Q# canon
