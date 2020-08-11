@@ -56,7 +56,7 @@ namespace Microsoft.Quantum.Samples.Hardware.Syndrome {
 
     /// # Summary
     /// Creates a Pseudo Syndrome by using an auxiliary qubit.
-    /// This algorithm relies on several controlled pauli operations. When there is
+    /// This algorithm relies on several controlled Pauli operations. When there is
     /// no error introduced after state preparation, the circuit is trivial and no 
     /// change is measured on the auxiliary qubit. However, if there are miscellaneous
     /// rotations on the data qubits due to noise, due to phase kickback the auxiliary
