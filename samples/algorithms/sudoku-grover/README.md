@@ -4,18 +4,10 @@ languages:
 - qsharp
 products:
 - qdk
-description: "This sample implements Grover's search algorithm to solve Sudoku puzzles, an example of a quantum development technique known as amplitude amplification."
+description: "This sample uses Grover's search algorithm to solve Sudoku puzzles, an example of a quantum development technique known as amplitude amplification."
 ---
 
-# Searching with Grover's Algorithm
-
-This sample implements Grover's search algorithm, an example of a quantum development technique known as _amplitude amplification_.
-Oracles implementing the database are explicitly constructed together with all steps of the algorithm.
-See the [DatabaseSearch](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/database-search/README.md) sample for and extended version and the [Grover Search Kata](https://github.com/microsoft/QuantumKatas/tree/master/GroversAlgorithm) to learn more about Grover's algorithm and how to implement it in Q#.
-
-This sample uses the example of an operation that marks inputs of the form "010101…", then uses Grover's algorithm to find these inputs given only the ability to call that operation.
-In this case, the sample uses a hard-coded operation, but operations and functions in the [Microsoft.Quantum.AmplitudeAmplification namespace](https://docs.microsoft.com/qsharp/api/qsharp/microsoft.quantum.amplitudeamplification) can be used to efficiently and easily construct different inputs to Grover's algorithm, and to quickly build up useful variations of amplitude amplification for different applications.
-For examples of how to solve more general problems using amplitude amplification, check out the more in-depth [database search sample](https://github.com/microsoft/Quantum/tree/master/samples/algorithms/database-search).
+# Solving Sudoku using Grover's Algorithm
 
      This program demonstrates solving Sudoku puzzle using Grovers algorithm
      To make it easier to understand, a 4x4 puzzle is solved with number 0 to 3,
