@@ -7,6 +7,8 @@ namespace Microsoft.Quantum.Samples.Hardware.Syndrome {
     open Microsoft.Quantum.Measurement;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Core;
+    open Microsoft.Quantum.Diagnostics;
+    open Microsoft.Quantum.Convert;
 
     /// # Summary
     /// Apply a controlled Pauli operation for a given basis and control/target qubits
@@ -56,31 +58,42 @@ namespace Microsoft.Quantum.Samples.Hardware.Syndrome {
 
     /// # Summary
     /// Creates a Pseudo Syndrome by using an auxiliary qubit.
-    /// This algorithm relies on several controlled Pauli operations. When there is
-    /// no error introduced after state preparation, the circuit is trivial and no 
-    /// change is measured on the auxiliary qubit. However, if there are miscellaneous
-    /// rotations on the data qubits due to noise, due to phase kickback the auxiliary
-    /// qubit will gain a small phase shift. By measuring the auxiliary qubit in the
-    /// X basis we then project that phase difference onto the measurement basis.
+    /// This algorithm relies on several controlled Pauli operations. When 
+    /// there is no error introduced after state preparation, the circuit is 
+    /// trivial and no change is measured on the auxiliary qubit. However, if 
+    /// there are miscellaneous rotations on the data qubits due to noise, due
+    /// to phase kickback the auxiliary qubit will gain a small phase shift. 
+    /// By measuring the auxiliary qubit in the X basis we then project that 
+    /// phase difference onto the measurement basis.
     ///
     /// # Input
     /// ## input_values
     /// List of boolean values for data qubits
     /// ## encoding_bases
     /// List of Pauli bases
-    /// ## indexes
-    /// List of indexes on which to apply controlled pauli operators
+    /// ## qubit_indices
+    /// List of qubit indices on which to apply controlled pauli operators
     operation SamplePseudoSyndrome (
             input_values: Bool[],
             encoding_bases: Pauli[], 
-            indexes: Int[]
+            qubit_indices: Int[]
     ): ( Result, Result[] ) {
+        // Check that input lists are of equal length
+        if ((Length(input_values) != Length(encoding_bases)) 
+            or (Length(input_values) != Length(qubit_indices))) {
+            fail "Lengths of input values, encoding bases and qubit_indices must be 
+            equal. Found lengths: " 
+            + IntAsString(Length(input_values)) + ", " 
+            + IntAsString(Length(encoding_bases)) + ", " 
+            + IntAsString(Length(qubit_indices)) + ".";
+        }
+
         using ((block, auxiliary) = (Qubit[Length(input_values)], Qubit())) {
             for ((qubit, value, basis) in Zip3(block, input_values, encoding_bases)) {
                 Prepare(qubit, value, basis);
             }
             H(auxiliary);
-            for (index in indexes) {
+            for (index in qubit_indices) {
                 ControlledPauli(encoding_bases[index], auxiliary, block[index]);
             }
             let auxiliary_result = Measure([PauliX], [auxiliary]);
