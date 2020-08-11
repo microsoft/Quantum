@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-namespace Microsoft.Quantum.Samples.Hardware.Syndrome
-{
-    open Microsoft.Quantum.Math;
+namespace Microsoft.Quantum.Samples.Hardware.Syndrome {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Preparation;
@@ -15,7 +13,7 @@ namespace Microsoft.Quantum.Samples.Hardware.Syndrome
     ///
     /// # Input
     /// ## basis
-    /// Pauli basis in which to apply the controlled pauli
+    /// Basis in which to apply the controlled Pauli operation.
     /// ## control
     /// Control qubit
     /// ## target
