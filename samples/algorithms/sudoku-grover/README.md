@@ -76,10 +76,10 @@ To run the sample, use the `dotnet run` command from your terminal.
 
 ## Manifest ##
 
-- [ColoringGroverWithConstraints.qs](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/sudoku-grover/ColoringGroverWithConstraints.qs): Q# code implementing graph coloring with flexible number of bits per color and ability to specify constraints on the colors found per Vertex.
-- [Program.cs](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/sudoku-grover/Program.cs): C# code with Sudoku problems that it converts to arrays of edges and starting number constraints. It then calls the Q# code to get the results, and verifies they are correct. It also implements the classical C# code to solve a Sudoku puzzle.
-- [Sudoku.qs](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/sudoku-grover/Sudoku.qs): Q# code which accepts edges and constraints and calls Grovers algorthm with the coloring oracle. Also checks the result is correct.
-- [SimpleGroverSample.csproj](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/sudoku-grover/sudoku-grover.csproj): Main project for the sample.
+- [ColoringGroverWithConstraints.qs](ColoringGroverWithConstraints.qs): Q# code implementing graph coloring with flexible number of bits per color and ability to specify constraints on the colors found per Vertex.
+- [Program.cs](Program.cs): C# code with Sudoku problems that it converts to arrays of edges and starting number constraints. It then calls the Q# code to get the results, and verifies they are correct. It also implements the classical C# code to solve a Sudoku puzzle.
+- [Sudoku.qs](sudoku-grover/Sudoku.qs): Q# code which accepts edges and constraints and calls Grovers algorthm with the coloring oracle. Also checks the result is correct.
+- [SimpleGroverSample.csproj](sudoku-grover.csproj): Main project for the sample.
 
 ## Sample Output ##
 
