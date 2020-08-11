@@ -5,14 +5,17 @@ languages:
 products:
 - qdk
 description: "This sample uses Grover's search algorithm to solve Sudoku puzzles, an example of a quantum development technique known as amplitude amplification."
+
 ---
 
 # Solving Sudoku using Grover's Algorithm
 
+
      This program demonstrates solving Sudoku puzzle using Grovers algorithm
-     To make it easier to understand, a 4x4 puzzle is solved with number 0 to 3,
-     instead of usual 9x9 grid with numbers 1 to 9
-     However, the same rules apply
+     
+     The code supports both 4x4 and 9x9 Sudoku puzzles.
+          
+     For 4x4 puzzles, the same rules apply
         - The numbers 0 to 3 may only appear once per row, column and 2x2 sub squares
      As an example              has solution
      _________________          _________________
@@ -45,13 +48,21 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      _________________
      | 0 |   | 1 |   |
      -----------------
-     and 
-     emptySquareEdges = (0,1)         // cell#,cell# i.e. cell 0 can't have the same number as cell 1
-     startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   // cell#,constraint  e.g. empty cell 0 can't have value 1 or 3, and empty call #1 can't have values 1 or 3
+     and emptySquareEdges is the array of edges e.g. cell 0 can't have the same number as cell 1
+     emptySquareEdges = (0,1)      
+     and startingNumberConstraints is the array of (Cell#,constraint) e.g. empty cell 0 can't have value 1 or 3
+     startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   
+     
+     Note that the puzzles are initially defined in C# using numbers from 1 to 4, or 1 to 9. 
+     However, when solving with Quantum QuBits, the numbers are changed to 0 to 3 and 0 to 8 and then converted back. 
+     This allows a 4x4 puzzle to be solved using 2 QuBits per number.
 
-     Note that the puzzles are initially defined in C# using numbers from 1 to 4, or 1 to 9. However, when solving with Quantum QuBits, the numbers are changed to 0 to 3 and 0 to 8 and then converted back. This allows a 4x4 puzzle to be solved using 2 QuBits per number.
+     The code can also solve 9x9 sudoku puzzles using 4 qubits per number. 
+     However, trying to use more than 6 or 7 QuBits in a simulation becomes very slow, 
+     so here we only run it for 1 missing square in a 9x9 puzzle.
 
-     The code can also solve 9x9 sudoku puzzles using 3 qubits per number. However, trying to use more than 6 or 7 QuBits in a simulation becomes very slow, so you can only run it for 2 missing squares in a 9x9 puzzle.
+
+The graph coloring code is based on the [Graph Coloring Kata](https://github.com/microsoft/QuantumKatas/tree/master/GraphColoring)
 
 
 ## Prerequisites ##

@@ -25,21 +25,13 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 { 4,1,2,3 } };
             Console.WriteLine("Solving 4x4 using classical computing");
             int size = 4;
-            showGrid(puzzle4, size);
-            solve_suduko_classic(puzzle4, 4, 2);
+            ShowGrid(puzzle4, size);
+            SolveSudukoClassic(puzzle4, 4, 2);
             bool good = puzzle4.Cast<int>().SequenceEqual(answer4.Cast<int>());
             if (good)
                 Console.WriteLine("result verified correct");
-            showGrid(puzzle4, size);
+            ShowGrid(puzzle4, size);
             Pause();
-
-
-            // var emptySquareEdges = new QArray<ValueTuple<long, long>>();
-            // // Starting Number constraints on blank squares
-            // var startingNumberConstraints = new QArray<ValueTuple<long, long>>(ValueTuple.Create(0, 1), ValueTuple.Create(0, 2), ValueTuple.Create(0, 3));
-            // int V = 1;    // 1 empty square 
-            // var task = SolvePuzzle.Run(sim, V, 2, emptySquareEdges, startingNumberConstraints);
-            // Pause();
 
             Console.WriteLine("Quantum Solving 4x4 with 1 missing number");
             int[,] puzzle4_1 = {
@@ -47,7 +39,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 { 3,4,1,2 },
                 { 2,3,4,1 },
                 { 4,1,2,3 } };
-            quantumSolve(puzzle4_1, 4, 2, sim);
+            QuantumSolve(puzzle4_1, 4, 2, sim);
             good = puzzle4_1.Cast<int>().SequenceEqual(answer4.Cast<int>());
             if (good)
                 Console.WriteLine("quantum result verified correct");
@@ -59,7 +51,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 { 3,0,1,2 },
                 { 2,3,4,1 },
                 { 4,0,2,3 } };
-            quantumSolve(puzzle4_3, 4, 2, sim);
+            QuantumSolve(puzzle4_3, 4, 2, sim);
             good = puzzle4_3.Cast<int>().SequenceEqual(answer4.Cast<int>());
             if (good)
                 Console.WriteLine("quantum result verified correct");
@@ -71,7 +63,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 { 0,0,1,2 },
                 { 2,3,4,1 },
                 { 4,1,2,3 } };
-            quantumSolve(puzzle4_4, 4, 2, sim);
+            QuantumSolve(puzzle4_4, 4, 2, sim);
             good = puzzle4_4.Cast<int>().SequenceEqual(answer4.Cast<int>());
             if (good)
                 Console.WriteLine("quantum result verified correct");
@@ -87,7 +79,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 { 4,6,9, 1,2,8, 7,3,5 },
                 { 2,8,7, 3,5,6, 1,4,9 },
                 { 3,5,1, 9,4,7, 6,2,8} };
-            var puzzle9_1_copy = copyArray(puzzle9_1, 9);
+            var puzzle9_1_copy = CopyArray(puzzle9_1, 9);
             int[,] answer9 = {
                 { 6,7,3, 8,9,4, 5,1,2 },
                 { 9,1,2, 7,3,5, 4,8,6 },
@@ -99,42 +91,23 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 { 2,8,7, 3,5,6, 1,4,9 },
                 { 3,5,1, 9,4,7, 6,2,8} };
             Console.WriteLine("Solving 9x9 with 1 missing number using classical computing");
-            showGrid(puzzle9_1, 9);
-            solve_suduko_classic(puzzle9_1, 9, 3);
+            ShowGrid(puzzle9_1, 9);
+            SolveSudukoClassic(puzzle9_1, 9, 3);
             good = puzzle9_1.Cast<int>().SequenceEqual(answer9.Cast<int>());
             if (!good)
                 Console.WriteLine("classical test failed");
             else
             {
                 Console.WriteLine("classical test passed");
-                showGrid(puzzle9_1, 9);
+                ShowGrid(puzzle9_1, 9);
             }
             Pause();
             Console.WriteLine("Solving 9x9 with 1 missing number using Quantum Computing");
-            quantumSolve(puzzle9_1_copy, 9, 3, sim);
+            QuantumSolve(puzzle9_1_copy, 9, 3, sim);
             good = puzzle9_1_copy.Cast<int>().SequenceEqual(answer9.Cast<int>());
             if (good)
                 Console.WriteLine("quantum result verified correct");
             Pause();
-
-            int[,] puzzle9_2 = {
-                { 0,7,3, 8,9,4, 5,1,2 },
-                { 9,0,2, 7,3,5, 4,8,6 },
-                { 8,4,5, 6,1,2, 9,7,3 },
-                { 7,9,8, 2,6,1, 3,5,4 },
-                { 5,2,6, 4,7,3, 8,9,1 },
-                { 1,3,4, 5,8,9, 2,6,7 },
-                { 4,6,9, 1,2,8, 7,3,5 },
-                { 2,8,7, 3,5,6, 1,4,9 },
-                { 3,5,1, 9,4,7, 6,2,8} };
-            var puzzle9_2_copy = copyArray(puzzle9_2, 9);
-            Console.WriteLine("Solving 9x9 with 2 missing numbers using Quantum Computing");
-            quantumSolve(puzzle9_2_copy, 9, 3, sim);
-            good = puzzle9_2_copy.Cast<int>().SequenceEqual(answer9.Cast<int>());
-            if (good)
-                Console.WriteLine("quantum result verified correct");
-            Pause();            
-
 
             int[,] puzzle9 = {
                 { 0,0,0, 0,0,0, 0,1,2 },
@@ -146,23 +119,23 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 { 0,0,0, 1,2,0, 0,0,0 },
                 { 0,8,0, 0,0,0, 0,4,0 },
                 { 0,5,0, 0,0,0, 6,0,0 } };
-            var puzzle9_copy = copyArray(puzzle9, 9);
+            var puzzle9_copy = CopyArray(puzzle9, 9);
             Console.WriteLine("Solving 9x9 with lots of missing number using classical computing");
-            showGrid(puzzle9, 9);
-            solve_suduko_classic(puzzle9, 9, 3);
+            ShowGrid(puzzle9, 9);
+            SolveSudukoClassic(puzzle9, 9, 3);
             good = puzzle9.Cast<int>().SequenceEqual(answer9.Cast<int>());
             if (!good)
                 Console.WriteLine("classical test failed");
             else
             {
                 Console.WriteLine("classical test passed");
-                showGrid(puzzle9, 9);
+                ShowGrid(puzzle9, 9);
             }
             Pause();
 
             Console.WriteLine("Solving 9x9 with lots of missing number using Quantum Computing - uncomment to test this");
             // this would be fun
-            // quantumSolve(puzzle9_copy, 9, 3, sim);
+            // QuantumSolve(puzzle9_copy, 9, 3, sim);
             Pause();
             Console.WriteLine("finished");
 
@@ -173,7 +146,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             public int i, j;
         }
 
-        public static int[,] copyArray(int[,] org, int size)
+        public static int[,] CopyArray(int[,] org, int size)
         {
             int[,] result = new int[size, size];
             for (int i = 0; i < size; i++)
@@ -183,12 +156,12 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         }
  
         // size of the puzzle is either 4 (for 4x4) or 9 (for 9x9)
-        public static void quantumSolve(int[,] puzzle, int size, int subSize, QuantumSimulator sim)
+        public static void QuantumSolve(int[,] puzzle, int size, int subSize, QuantumSimulator sim)
         {
             List<ValueTuple<long, long>> emptySquareEdges;
             HashSet<ValueTuple<long, long>> startingNumberConstraints;
             List<EmptySquare> emptySquares;
-            findEdgesAndInitialNumberConstraints(puzzle, size, subSize, out emptySquareEdges, out startingNumberConstraints, out emptySquares);
+            FindEdgesAndInitialNumberConstraints(puzzle, size, subSize, out emptySquareEdges, out startingNumberConstraints, out emptySquares);
             // if 4x4 puzzle, numbers 0-3 can be encoded with 2 bits. Otherwise, use 4 bits for encoding numbers 0-8 in a 9x9 puzzle
             int bitsPerColor = size == 4 ? 2 : 4;
             // add dissallowed numbers for each vertex. e.g. for size=9x9, no numbers above 8 are allowed 
@@ -199,7 +172,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             var emptySquareEdgesQArray = new QArray<ValueTuple<long, long>>(emptySquareEdges);
             var startingNumberConstraintsQArray = new QArray<ValueTuple<long, long>>(startingNumberConstraints);
             Console.WriteLine("Quantum solving puzzle ");
-            showGrid(puzzle, size);
+            ShowGrid(puzzle, size);
             var task = SolvePuzzle.Run(sim, emptySquares.Count, bitsPerColor, size, emptySquareEdgesQArray, startingNumberConstraintsQArray);
             if (!task.Result.Item1)
                 Console.WriteLine("no solution found ");
@@ -211,11 +184,11 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                     puzzle[emptySquares[i].i, emptySquares[i].j] = (int)solution[i] + 1;
                 }
                 Console.WriteLine("solved puzzle ");
-                showGrid(puzzle, size);
+                ShowGrid(puzzle, size);
             }
         }
 
-        public static void showGrid(int[,] puzzle, int size)
+        public static void ShowGrid(int[,] puzzle, int size)
         {
             for (int i = 0; i < size; i++)
             {
@@ -239,7 +212,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             Console.WriteLine("");
         }
 
-        public static void findEdgesAndInitialNumberConstraints(int[,] puzzle, int size, int subSize,
+        public static void FindEdgesAndInitialNumberConstraints(int[,] puzzle, int size, int subSize,
             out List<ValueTuple<long, long>> emptySquareEdges, out HashSet<ValueTuple<long, long>> startingNumberConstraints,
             out List<EmptySquare> emptySquares)
         {
@@ -301,10 +274,10 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             System.Console.WriteLine("\n\nPress any key to continue...\n\n");
             System.Console.ReadKey();
         }
-        static bool solve_suduko_classic(int[,] puzzle, int size, int subSize)
+        static bool SolveSudukoClassic(int[,] puzzle, int size, int subSize)
         {
             // find empty cell will least possible options and try each
-            Candidate c = best_square(puzzle, size, subSize);
+            Candidate c = BestSquare(puzzle, size, subSize);
             if (c == null)
                 return true; // no more empty cells --- success!!
             if (c.values.Count == 0)
@@ -312,7 +285,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             foreach (int v in c.values)
             {
                 puzzle[c.i, c.j] = v;
-                bool result = solve_suduko_classic(puzzle, size, subSize);
+                bool result = SolveSudukoClassic(puzzle, size, subSize);
                 if (result)
                     return true;
             }
@@ -326,7 +299,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             public int j;
             public List<int> values = new List<int>();
         }
-        static Candidate best_square(int[,] puzzle, int size, int subSize)
+        static Candidate BestSquare(int[,] puzzle, int size, int subSize)
         {
             // go thru entire puzzle and find all empty squares and, for each, number of possible numbers for that square
             List<Candidate> candidates = new List<Candidate>();
