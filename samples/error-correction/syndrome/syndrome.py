@@ -12,7 +12,7 @@ import numpy as np
 import qsharp
 import argparse
 
-from Microsoft.Quantum.Samples.Hardware.Syndrome import SamplePseudoSyndrome
+from Microsoft.Quantum.Samples.ErrorCorrection.Syndrome import SamplePseudoSyndrome
 
 parser = argparse.ArgumentParser(
     prog="PseudoSyndrome",
@@ -32,10 +32,10 @@ if __name__ == "__main__":
         input_values=input_values,
         encoding_bases=encoding_bases,
         qubit_indices=qubit_indices)
-    ancilla, data = result
+    auxiliary, data = result
 
     print(f"Inputs: {[int(val) for val in input_values]}\
             \nBases: {encoding_bases}\
             \nQubit indices: {qubit_indices}")
-    print(f"Ancilla: {ancilla}")
+    print(f"Auxiliary: {auxiliary}")
     print(f"Data qubits: {data}")

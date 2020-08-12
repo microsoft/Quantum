@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-namespace Microsoft.Quantum.Samples.Hardware.Syndrome {
+namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome
+{
+    open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Preparation;
@@ -11,45 +13,33 @@ namespace Microsoft.Quantum.Samples.Hardware.Syndrome {
     open Microsoft.Quantum.Convert;
 
     /// # Summary
-    /// Apply a controlled Pauli operation for a given basis and control/target qubits
-    ///
-    /// # Input
-    /// ## basis
-    /// Basis in which to apply the controlled Pauli operation.
-    /// ## control
-    /// Control qubit
-    /// ## target
-    /// Target qubit
-    operation ControlledPauli(basis: Pauli, control: Qubit, target: Qubit): Unit {
-        if (PauliZ == basis) {
-            CZ(control, target);
-        }
-        if (PauliX == basis) {
-            CX(control, target);
-        }
-        if (PauliY == basis) {
-            CY(control, target);
-        }
-    }
-
-    /// # Summary
     /// Measure qubit in a given basis and return the result
     ///
     /// # Input
-    /// ## basis_qubit
-    /// Tuple of the Pauli basis and qubit to measure
+    /// ## basis
+    /// Pauli basis in which to perform measurement
+    /// ## qubit
+    /// Qubit to measure
     /// 
     /// # Output
     /// ## result
     /// Measurement result
-    operation BasisMeasure(basis_qubit: (Pauli, Qubit)): Result {
-        let (basis, qubit) = basis_qubit;
+    operation BasisMeasure(basis: Pauli, qubit: Qubit): Result {
         let result = Measure([basis], [qubit]);
-        Reset(qubit);
         return result;
     }
 
-    operation Prepare(qubit: Qubit, value: Bool, basis: Pauli): Unit {
+    /// # Summary
+    /// Prepare qubit in a given basis. Optionally flip the qubit if the value is True (One).
+    ///
+    /// # Input
+    /// ## qubit
+    /// Qubit to prepare
+    /// ## value
+    /// Value to prepare the qubit in (True for One, False for Zero)
+    /// ## basis
+    /// Basis to prepare the qubit in
+    operation PrepareInBasis(qubit: Qubit, value: Bool, basis: Pauli): Unit {
         if (value) {
             X(qubit);
         }
@@ -68,11 +58,19 @@ namespace Microsoft.Quantum.Samples.Hardware.Syndrome {
     ///
     /// # Input
     /// ## input_values
-    /// List of boolean values for data qubits
+    /// Array of Boolean input values for data qubits.
     /// ## encoding_bases
-    /// List of Pauli bases
+    /// Array of Pauli bases to encode errors in for controlled Pauli operations on.
+    /// The length of this array needs to be the same as 
+    /// input_qubits.
     /// ## qubit_indices
-    /// List of qubit indices on which to apply controlled pauli operators
+    /// List of qubit indices on which to apply controlled Pauli operators. 
+    /// This determines the order in which the controlled Pauli's are applied.
+    /// The length of this array needs to be the same as input_qubits.
+    /// 
+    /// # Output
+    /// ## (auxiliary_result, data_result)
+    /// Tuple of the measurement results of the auxiliary qubit and data qubits.
     operation SamplePseudoSyndrome (
             input_values: Bool[],
             encoding_bases: Pauli[], 
@@ -90,14 +88,18 @@ namespace Microsoft.Quantum.Samples.Hardware.Syndrome {
 
         using ((block, auxiliary) = (Qubit[Length(input_values)], Qubit())) {
             for ((qubit, value, basis) in Zip3(block, input_values, encoding_bases)) {
-                Prepare(qubit, value, basis);
+                PrepareInBasis(qubit, value, basis);
             }
             H(auxiliary);
-            for (index in qubit_indices) {
-                ControlledPauli(encoding_bases[index], auxiliary, block[index]);
+            // Apply Controlled Pauli's to data qubits, resulting in a phase kickback 
+            /// on the auxiliary qubit
+            for ((qubit, basis) in Zip(block, encoding_bases)) {
+                Controlled ApplyPauli([auxiliary], ([basis], [qubit]));
             }
             let auxiliary_result = Measure([PauliX], [auxiliary]);
             let data_result = ForEach(BasisMeasure, Zip(encoding_bases, block));
+            // Reset qubits - optional, only for QDK version < 0.12
+            ResetAll(block);
             Reset(auxiliary);
             return ( auxiliary_result, data_result );
         }
