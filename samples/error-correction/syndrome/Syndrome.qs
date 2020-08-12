@@ -2,13 +2,11 @@
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome
 {
-    open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Preparation;
     open Microsoft.Quantum.Measurement;
     open Microsoft.Quantum.Arrays;
-    open Microsoft.Quantum.Core;
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Convert;
 
