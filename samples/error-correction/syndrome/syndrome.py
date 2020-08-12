@@ -23,15 +23,17 @@ parser.add_argument("-q", "--qubits", type=int, default=1)
 
 if __name__ == "__main__":
     args = parser.parse_args()
+    # To be refactored to qsharp.Pauli
+    # (See IQSharp ticket https://github.com/microsoft/iqsharp/issues/256)
     paulis = ["PauliX", "PauliY", "PauliZ"]
     qubit_indices = list(range(args.qubits))
     np.random.shuffle(qubit_indices)
     input_values = [np.random.rand() > .5 for n in range(args.qubits)]
     encoding_bases = [np.random.choice(paulis) for n in range(args.qubits)]
     result = SamplePseudoSyndrome.simulate(
-        input_values=input_values,
-        encoding_bases=encoding_bases,
-        qubit_indices=qubit_indices)
+        inputValues=input_values,
+        encodingBases=encoding_bases,
+        qubitIndices=qubit_indices)
     auxiliary, data = result
 
     print(f"Inputs: {[int(val) for val in input_values]}\

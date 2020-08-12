@@ -57,51 +57,51 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome
     /// phase difference onto the measurement basis.
     ///
     /// # Input
-    /// ## input_values
+    /// ## inputValues
     /// Array of Boolean input values for data qubits.
-    /// ## encoding_bases
+    /// ## encodingBases
     /// Array of Pauli bases to encode errors in for controlled Pauli operations on.
     /// The length of this array needs to be the same as 
-    /// input_qubits.
-    /// ## qubit_indices
+    /// inputValues.
+    /// ## qubitIndices
     /// List of qubit indices on which to apply controlled Pauli operators. 
     /// This determines the order in which the controlled Pauli's are applied.
-    /// The length of this array needs to be the same as input_qubits.
+    /// The length of this array needs to be the same as inputValues.
     /// 
     /// # Output
-    /// ## (auxiliary_result, data_result)
+    /// ## (auxiliaryResult, dataResult)
     /// Tuple of the measurement results of the auxiliary qubit and data qubits.
     operation SamplePseudoSyndrome (
-            input_values: Bool[],
-            encoding_bases: Pauli[], 
-            qubit_indices: Int[]
+            inputValues: Bool[],
+            encodingBases: Pauli[], 
+            qubitIndices: Int[]
     ): ( Result, Result[] ) {
         // Check that input lists are of equal length
-        if ((Length(input_values) != Length(encoding_bases)) 
-            or (Length(input_values) != Length(qubit_indices))) {
-            fail "Lengths of input values, encoding bases and qubit_indices must be 
+        if ((Length(inputValues) != Length(encodingBases)) 
+            or (Length(inputValues) != Length(qubitIndices))) {
+            fail "Lengths of input values, encoding bases and qubitIndices must be 
             equal. Found lengths: " 
-            + IntAsString(Length(input_values)) + ", " 
-            + IntAsString(Length(encoding_bases)) + ", " 
-            + IntAsString(Length(qubit_indices)) + ".";
+            + IntAsString(Length(inputValues)) + ", " 
+            + IntAsString(Length(encodingBases)) + ", " 
+            + IntAsString(Length(qubitIndices)) + ".";
         }
 
-        using ((block, auxiliary) = (Qubit[Length(input_values)], Qubit())) {
-            for ((qubit, value, basis) in Zip3(block, input_values, encoding_bases)) {
+        using ((block, auxiliary) = (Qubit[Length(inputValues)], Qubit())) {
+            for ((qubit, value, basis) in Zip3(block, inputValues, encodingBases)) {
                 PrepareInBasis(qubit, value, basis);
             }
             H(auxiliary);
             // Apply Controlled Pauli's to data qubits, resulting in a phase kickback 
             /// on the auxiliary qubit
-            for ((qubit, basis) in Zip(block, encoding_bases)) {
+            for ((qubit, basis) in Zip(block, encodingBases)) {
                 Controlled ApplyPauli([auxiliary], ([basis], [qubit]));
             }
-            let auxiliary_result = Measure([PauliX], [auxiliary]);
-            let data_result = ForEach(BasisMeasure, Zip(encoding_bases, block));
+            let auxiliaryResult = Measure([PauliX], [auxiliary]);
+            let dataResult = ForEach(BasisMeasure, Zip(encodingBases, block));
             // Reset qubits - optional, only for QDK version < 0.12
             ResetAll(block);
             Reset(auxiliary);
-            return ( auxiliary_result, data_result );
+            return ( auxiliaryResult, dataResult );
         }
     }
 }
