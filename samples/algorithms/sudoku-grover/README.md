@@ -58,13 +58,12 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      This allows a 4x4 puzzle to be solved using 2 QuBits per number.
 
      The code can also solve 9x9 sudoku puzzles using 4 qubits per number. 
-     However, trying to use more than 6 or 7 QuBits in a simulation becomes very slow, 
-     so here we only run it for 1 missing square in a 9x9 puzzle.
+     However, trying to use more than 8 QuBits (2 empty squares) in a simulation becomes very slow, 
+     so here we only run it for 1 or 2 missing squares in a 9x9 puzzle.
 
 
 The graph coloring code is based on the [Graph Coloring Kata](https://github.com/microsoft/QuantumKatas/tree/master/GraphColoring) 
 with changes to allow for varying QuBits per color and constraints on Vertex colors based on initial colors when you start.
-
 
 ## Prerequisites ##
 
@@ -76,7 +75,7 @@ To run the sample, use the `dotnet run` command from your terminal.
 
 ## Manifest ##
 
-- [ColoringGroverWithConstraints.qs](ColoringGroverWithConstraints.qs): Q# code implementing graph coloring with flexible number of bits per color and ability to specify constraints on the colors found per Vertex.
+- [ColoringGroverWithConstraints.qs](ColoringGroverWithConstraints.qs): Q# code implementing graph coloring with flexible number of bits per color and ability to specify constraints on the colors found per Vertex.  A custom oracle for coloring with only 9 colors is also implemented.
 - [Program.cs](Program.cs): C# code with Sudoku problems that it converts to arrays of edges and starting number constraints. It then calls the Q# code to get the results, and verifies they are correct. It also implements the classical C# code to solve a Sudoku puzzle.
 - [Sudoku.qs](Sudoku.qs): Q# code which accepts edges and constraints and calls Grovers algorthm with the coloring oracle. Also checks the result is correct.
 - [SimpleGroverSample.csproj](sudoku-grover.csproj): Main project for the sample.
@@ -120,7 +119,8 @@ To run the sample, use the `dotnet run` command from your terminal.
     -----------------
     | 4 | 1 | 2 | 3 |
     -----------------
-    Running Quantum test with #Vertex = 1, Bits Per Color = 2
+    Running Quantum test with #Vertex = 1
+    Bits Per Color = 2
     emptySquareEdges = []
     startingNumberConstraints = [(0, 2),(0, 1),(0, 3)]
     estimated #iterations needed = 1
@@ -155,10 +155,11 @@ To run the sample, use the `dotnet run` command from your terminal.
     -----------------
     | 4 |   | 2 | 3 |
     -----------------
-    Running Quantum test with #Vertex = 3, Bits Per Color = 2
+    Running Quantum test with #Vertex = 3
+    Bits Per Color = 2
     emptySquareEdges = [(1, 0),(2, 1)]
     startingNumberConstraints = [(0, 2),(0, 1),(0, 3),(1, 1),(1, 2),(1, 0),(2, 1),(2, 2),(2, 3)]
-    estimated #iterations needed = 2
+    estimated #iterations needed = 6
     size of Sudoku grid = 4x4
     Trying search with 1 iterations
     Trying search with 2 iterations
@@ -192,16 +193,15 @@ To run the sample, use the `dotnet run` command from your terminal.
     -----------------
     | 4 | 1 | 2 | 3 |
     -----------------
-    Running Quantum test with #Vertex = 4, Bits Per Color = 2
+    Running Quantum test with #Vertex = 4
+    Bits Per Color = 2
     emptySquareEdges = [(1, 0),(2, 0),(3, 0),(3, 1),(3, 2)]
     startingNumberConstraints = [(0, 1),(0, 3),(0, 2),(1, 2),(1, 0),(1, 3),(2, 1),(2, 3),(2, 0),(3, 2),(3, 0),(3, 1)]
-    estimated #iterations needed = 3
+    estimated #iterations needed = 12
     size of Sudoku grid = 4x4
     Trying search with 1 iterations
     Trying search with 2 iterations
     Trying search with 3 iterations
-    Trying search with 4 iterations
-    Trying search with 5 iterations
     Got sudoku solution: [0,1,2,3]
     Got valid sudoku solution: [0,1,2,3]
     solved puzzle 
@@ -286,13 +286,13 @@ To run the sample, use the `dotnet run` command from your terminal.
     -------------------------------------
     | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
     -------------------------------------
-    Running Quantum test with #Vertex = 1, Bits Per Color = 4
+    Running Quantum test with #Vertex = 1
+    Bits Per Color = 4
     emptySquareEdges = []
-    startingNumberConstraints = [(0, 8),(0, 7),(0, 6),(0, 4),(0, 0),(0, 3),(0, 1),(0, 2),(0, 9),(0, 10),(0, 11),(0, 12),(0, 13),(0, 14),(0, 15)]
-    estimated #iterations needed = 1
+    startingNumberConstraints = [(0, 8),(0, 7),(0, 6),(0, 4),(0, 0),(0, 3),(0, 1),(0, 2)]
+    estimated #iterations needed = 3
     size of Sudoku grid = 9x9
     Trying search with 1 iterations
-    Trying search with 2 iterations
     Got sudoku solution: [5]
     Got valid sudoku solution: [5]
     solved puzzle 
@@ -316,6 +316,64 @@ To run the sample, use the `dotnet run` command from your terminal.
     | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
     -------------------------------------
     quantum result verified correct
+
+
+    Press any key to continue...
+
+
+    Solving 9x9 with 2 missing numbers using Quantum Computing
+    Quantum solving puzzle 
+    -------------------------------------
+    |   | 7 | 3 | 8 | 9 | 4 | 5 | 1 | 2 |
+    -------------------------------------
+    | 9 |   | 2 | 7 | 3 | 5 | 4 | 8 | 6 |
+    -------------------------------------
+    | 8 | 4 | 5 | 6 | 1 | 2 | 9 | 7 | 3 |
+    -------------------------------------
+    | 7 | 9 | 8 | 2 | 6 | 1 | 3 | 5 | 4 |
+    -------------------------------------
+    | 5 | 2 | 6 | 4 | 7 | 3 | 8 | 9 | 1 |
+    -------------------------------------
+    | 1 | 3 | 4 | 5 | 8 | 9 | 2 | 6 | 7 |
+    -------------------------------------
+    | 4 | 6 | 9 | 1 | 2 | 8 | 7 | 3 | 5 |
+    -------------------------------------
+    | 2 | 8 | 7 | 3 | 5 | 6 | 1 | 4 | 9 |
+    -------------------------------------
+    | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
+    -------------------------------------
+    Running Quantum test with #Vertex = 2
+    Bits Per Color = 4
+    emptySquareEdges = [(1, 0)]
+    startingNumberConstraints = [(0, 8),(0, 7),(0, 6),(0, 4),(0, 0),(0, 3),(0, 1),(0, 2),(1, 6),(1, 3),(1, 8),(1, 1),(1, 2),(1, 5),(1, 7),(1, 4)]
+    estimated #iterations needed = 12
+    size of Sudoku grid = 9x9
+    Trying search with 1 iterations
+    Trying search with 2 iterations
+    Got sudoku solution: [5,0]
+    Got valid sudoku solution: [5,0]
+    solved puzzle 
+    -------------------------------------
+    | 6 | 7 | 3 | 8 | 9 | 4 | 5 | 1 | 2 |
+    -------------------------------------
+    | 9 | 1 | 2 | 7 | 3 | 5 | 4 | 8 | 6 |
+    -------------------------------------
+    | 8 | 4 | 5 | 6 | 1 | 2 | 9 | 7 | 3 |
+    -------------------------------------
+    | 7 | 9 | 8 | 2 | 6 | 1 | 3 | 5 | 4 |
+    -------------------------------------
+    | 5 | 2 | 6 | 4 | 7 | 3 | 8 | 9 | 1 |
+    -------------------------------------
+    | 1 | 3 | 4 | 5 | 8 | 9 | 2 | 6 | 7 |
+    -------------------------------------
+    | 4 | 6 | 9 | 1 | 2 | 8 | 7 | 3 | 5 |
+    -------------------------------------
+    | 2 | 8 | 7 | 3 | 5 | 6 | 1 | 4 | 9 |
+    -------------------------------------
+    | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
+    -------------------------------------
+    quantum result verified correct
+
 
     Press any key to continue...
 

@@ -60,6 +60,53 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         }
     }
 
+    // Oracle for verifying vertex coloring, including color constraints from non QuBit vertexes
+    // same as VertexColoringOracle, but hardcoded to 4 bits per color and restriction that colors are limited to 0 to 8.
+    operation VertexColoringOracle4Bit9Color (V : Int, edges : (Int, Int)[],  startingColorConstraints : (Int, Int)[], colorsRegister : Qubit[], target : Qubit) : Unit is Adj+Ctl {
+        let nEdges = Length(edges);
+        let K = 4; // 4 bits per color
+        let nStartingColorConstraints = Length(startingColorConstraints);
+        // we are looking for a solution that (a) has no edge with same color at both ends and (b) has no Vertex with a color that violates the starting color constraints
+        using (conflictQubits = Qubit[nEdges+nStartingColorConstraints+V]) {
+            within {
+                for (((start, end), conflictQubit) in Zip(edges, conflictQubits[0 .. nEdges-1])) {
+                    // Check that endpoints of the edge have different colors:
+                    // apply ColorEqualityOracle_Nbit oracle; if the colors are the same the result will be 1, indicating a conflict
+                    ColorEqualityOracle_Nbit(colorsRegister[start * K .. (start + 1) * K - 1], 
+                                                       colorsRegister[end * K .. (end + 1) * K - 1], conflictQubit);
+                }
+                for (((cell, value), conflictQubit) in Zip(startingColorConstraints, conflictQubits[nEdges .. nEdges + nStartingColorConstraints - 1])) {
+                    // Check that cell does not clash with starting colors
+                    (ControlledOnInt(value, X))(colorsRegister[cell * K .. (cell + 1) * K - 1], conflictQubit);
+                } 
+                let z = Zip(Partitioned(ConstantArray(V, K), colorsRegister),conflictQubits[nEdges + nStartingColorConstraints .. nEdges + nStartingColorConstraints + V-1]);
+                for ((color,conflictQubit) in z) {
+                    // Only allow colors from 0 to 8 i.e. if bit #3 = 1, then bits 2..0 must be 000.
+                    using (tempQubit = Qubit()) {
+                        within {
+                            Oracle_Or(color[0..2], tempQubit);
+                        } apply{
+                            // AND color's most significant bit with OR of least significant bits. This will set conflictQubit to 1 if color > 8
+                            CCNOT(color[3],tempQubit,conflictQubit);
+                        }
+                    }
+                }
+            } apply {
+                // If there are no conflicts (all qubits are in 0 state), the vertex coloring is valid
+                (ControlledOnInt(0, X))(conflictQubits, target);
+            }
+        }
+    }
+
+        // OR oracle for an arbitrary number of qubits in query register
+    operation Oracle_Or (queryRegister : Qubit[], target : Qubit) : Unit is Adj {        
+        // x₀ ∨ x₁ = ¬ (¬x₀ ∧ ¬x₁)
+        // First, flip target if both qubits are in |0⟩ state
+        (ControlledOnInt(0, X))(queryRegister, target);
+        // Then flip target again to get negation
+        X(target);
+    }
+    
     // Using Grover's search to find vertex coloring. K = #bits per color
     operation GroversAlgorithm (V : Int, K: Int, maxIterations: Int, oracle : ((Qubit[], Qubit) => Unit is Adj)) : Int[] {
         // This task is similar to task 2.2 from SolveSATWithGrover kata, but the percentage of correct solutions is potentially higher.

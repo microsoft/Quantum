@@ -109,6 +109,26 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 Console.WriteLine("quantum result verified correct");
             Pause();
 
+
+            int[,] puzzle9_2 = {
+                { 0,7,3, 8,9,4, 5,1,2 },
+                { 9,0,2, 7,3,5, 4,8,6 },
+                { 8,4,5, 6,1,2, 9,7,3 },
+                { 7,9,8, 2,6,1, 3,5,4 },
+                { 5,2,6, 4,7,3, 8,9,1 },
+                { 1,3,4, 5,8,9, 2,6,7 },
+                { 4,6,9, 1,2,8, 7,3,5 },
+                { 2,8,7, 3,5,6, 1,4,9 },
+                { 3,5,1, 9,4,7, 6,2,8} };
+            var puzzle9_2_copy = CopyArray(puzzle9_2, 9);
+            Console.WriteLine("Solving 9x9 with 2 missing numbers using Quantum Computing");
+            QuantumSolve(puzzle9_2_copy, 9, 3, sim);
+            good = puzzle9_2_copy.Cast<int>().SequenceEqual(answer9.Cast<int>());
+            if (good)
+                Console.WriteLine("quantum result verified correct");
+            Pause();
+
+
             int[,] puzzle9 = {
                 { 0,0,0, 0,0,0, 0,1,2 },
                 { 0,0,0, 0,3,5, 0,0,0 },
@@ -162,18 +182,11 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             HashSet<ValueTuple<long, long>> startingNumberConstraints;
             List<EmptySquare> emptySquares;
             FindEdgesAndInitialNumberConstraints(puzzle, size, subSize, out emptySquareEdges, out startingNumberConstraints, out emptySquares);
-            // if 4x4 puzzle, numbers 0-3 can be encoded with 2 bits. Otherwise, use 4 bits for encoding numbers 0-8 in a 9x9 puzzle
-            int bitsPerColor = size == 4 ? 2 : 4;
-            // add dissallowed numbers for each vertex. e.g. for size=9x9, no numbers above 8 are allowed 
-            for(int i = 0; i < emptySquares.Count; i++) {
-                for (int dissallowedColor = size; dissallowedColor< System.Math.Round(System.Math.Pow(2,bitsPerColor)); dissallowedColor++)
-                    startingNumberConstraints.Add(ValueTuple.Create(i,dissallowedColor));
-            }
             var emptySquareEdgesQArray = new QArray<ValueTuple<long, long>>(emptySquareEdges);
             var startingNumberConstraintsQArray = new QArray<ValueTuple<long, long>>(startingNumberConstraints);
             Console.WriteLine("Quantum solving puzzle ");
             ShowGrid(puzzle, size);
-            var task = SolvePuzzle.Run(sim, emptySquares.Count, bitsPerColor, size, emptySquareEdgesQArray, startingNumberConstraintsQArray);
+            var task = SolvePuzzle.Run(sim, emptySquares.Count, size, emptySquareEdgesQArray, startingNumberConstraintsQArray);
             if (!task.Result.Item1)
                 Console.WriteLine("no solution found ");
             else

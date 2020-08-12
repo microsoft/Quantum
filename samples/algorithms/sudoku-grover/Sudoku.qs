@@ -47,14 +47,27 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// emptySquareEdges = (0,1)         // cell#,cell# i.e. cell 0 can't have the same number as cell 1
     /// startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   // cell#,constraint  e.g. empty cell 0 can't have value 1 or 3, and empty call #1 can't have values 1 or 3
 
-    operation SolvePuzzle(V : Int, K : Int, size: Int, emptySquareEdges: (Int, Int)[], startingNumberConstraints: (Int, Int)[]) : (Bool, Int[]) {
-        let numIterations = NIterations(V);
-        Message($"Running Quantum test with #Vertex = {V}, Bits Per Color = {K}");
+    // V = number of blank squares, size = 4 for 4x4 grid or size = 9 for 9x9 grid
+    operation SolvePuzzle(V : Int, size: Int, emptySquareEdges: (Int, Int)[], startingNumberConstraints: (Int, Int)[]) : (Bool, Int[]) {
+        mutable bitsPerColor = 2; // if size == 4x4 grid
+        if (size == 9)
+        {
+            set bitsPerColor = 4; // if size == 9x9 grid
+        }
+        let numIterations = NIterations(bitsPerColor * V);
+        Message($"Running Quantum test with #Vertex = {V}");
+        Message($"   Bits Per Color = {bitsPerColor}");
         Message($"   emptySquareEdges = {emptySquareEdges}");
         Message($"   startingNumberConstraints = {startingNumberConstraints}");
         Message($"   estimated #iterations needed = {numIterations}");
         Message($"   size of Sudoku grid = {size}x{size}");
-        let coloring = GroversAlgorithm(V, K, numIterations*2, VertexColoringOracle(V, K, emptySquareEdges, startingNumberConstraints, _, _));
+        mutable coloring = new Int[0];
+        if (size == 4) {
+            set coloring = GroversAlgorithm(V, 2, numIterations*2, VertexColoringOracle(V, 2, emptySquareEdges, startingNumberConstraints, _, _));
+        }
+        elif (size == 9) {
+            set coloring = GroversAlgorithm(V, 4, numIterations*2, VertexColoringOracle4Bit9Color(V, emptySquareEdges, startingNumberConstraints, _, _));
+        }
 
         Message($"Got sudoku solution: {coloring}");
         if (IsSudokuSolutionValid(V, size, emptySquareEdges, startingNumberConstraints, coloring)) {
