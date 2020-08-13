@@ -12,6 +12,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         {
             var sim = new QuantumSimulator(throwOnReleasingQubitsNotInZeroState: true);
 
+            // Test solving a 4x4 Sudoku puzzle using classical computing
             // missing numbers are denoted by 0
             int[,] puzzle4 = {
                 { 0,2,0,4 },
@@ -33,6 +34,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             ShowGrid(puzzle4, size);
             Pause();
 
+            // Testing solving an easy 4x4 puzzle with only 1 missing number with Quantum
             Console.WriteLine("Quantum Solving 4x4 with 1 missing number");
             int[,] puzzle4_1 = {
                 { 0,2,3,4 },
@@ -45,6 +47,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 Console.WriteLine("quantum result verified correct");
             Pause();
 
+            // Test 4x4 puzzle with 3 missing numbers with Quantum
             Console.WriteLine("Quantum Solving 4x4 with 3 missing numbers");
             int[,] puzzle4_3 = {
                 { 0,2,3,4 },
@@ -57,6 +60,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 Console.WriteLine("quantum result verified correct");
             Pause();
 
+            // Test 4x4 puzzle with 4 missing numbers with Quantum
             Console.WriteLine("Quantum Solving 4x4 with 4 missing numbers");
             int[,] puzzle4_4 = {
                 { 0,0,3,4 },
@@ -69,6 +73,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 Console.WriteLine("quantum result verified correct");
             Pause();
 
+            // Test 9x9 puzzle with classical and quantum - 1 missing number
             int[,] puzzle9_1 = {
                 { 0,7,3, 8,9,4, 5,1,2 },
                 { 9,1,2, 7,3,5, 4,8,6 },
@@ -109,7 +114,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 Console.WriteLine("quantum result verified correct");
             Pause();
 
-
+            // Test 9x9 puzzle with quantum - 2 missing number
             int[,] puzzle9_2 = {
                 { 0,7,3, 8,9,4, 5,1,2 },
                 { 9,0,2, 7,3,5, 4,8,6 },
@@ -128,7 +133,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 Console.WriteLine("quantum result verified correct");
             Pause();
 
-
+            // Test hard 9x9 puzzle with classical and quantum 
             int[,] puzzle9 = {
                 { 0,0,0, 0,0,0, 0,1,2 },
                 { 0,0,0, 0,3,5, 0,0,0 },
@@ -154,8 +159,10 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             Pause();
 
             Console.WriteLine("Solving 9x9 with lots of missing number using Quantum Computing - uncomment to test this");
-            // this would be fun
             // QuantumSolve(puzzle9_copy, 9, 3, sim);
+            // good = puzzle9_copy.Cast<int>().SequenceEqual(answer9.Cast<int>());
+            // if (good)
+            //     Console.WriteLine("quantum result verified correct");
             Pause();
             Console.WriteLine("finished");
 
@@ -175,7 +182,9 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             return result;
         }
  
+        // QuantumSolve will call Q# code to solve the Sudoku puzzle and display the solution
         // size of the puzzle is either 4 (for 4x4) or 9 (for 9x9)
+        // subsize is 2 for 4x4 and 3 for 9x9
         public static void QuantumSolve(int[,] puzzle, int size, int subSize, QuantumSimulator sim)
         {
             List<ValueTuple<long, long>> emptySquareEdges;
@@ -201,6 +210,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             }
         }
 
+        // display puzzle
         public static void ShowGrid(int[,] puzzle, int size)
         {
             for (int i = 0; i < size; i++)
@@ -225,6 +235,9 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             Console.WriteLine("");
         }
 
+        // find the empty square edges, and starting number constraints for those empty squares
+        // Returns a list of empty squares with their i,j locations
+        // Note that the starting number constraints is a HashSet so we don't get duplicates
         public static void FindEdgesAndInitialNumberConstraints(int[,] puzzle, int size, int subSize,
             out List<ValueTuple<long, long>> emptySquareEdges, out HashSet<ValueTuple<long, long>> startingNumberConstraints,
             out List<EmptySquare> emptySquares)
@@ -287,6 +300,8 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             System.Console.WriteLine("\n\nPress any key to continue...\n\n");
             System.Console.ReadKey();
         }
+
+        // Recursive Depth First Search classical Sudoku solution
         static bool SolveSudukoClassic(int[,] puzzle, int size, int subSize)
         {
             // find empty cell will least possible options and try each
@@ -312,9 +327,10 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             public int j;
             public List<int> values = new List<int>();
         }
+        
+        // go thru entire puzzle and find all empty squares and, for each, number of possible numbers for that square
         static Candidate BestSquare(int[,] puzzle, int size, int subSize)
         {
-            // go thru entire puzzle and find all empty squares and, for each, number of possible numbers for that square
             List<Candidate> candidates = new List<Candidate>();
             for (int i = 0; i < size; i++)
             {

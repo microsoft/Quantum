@@ -7,9 +7,19 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     open Microsoft.Quantum.Samples.ColoringGroverWithConstraints;
 
     /// # Summary
-    /// This program demonstrates solving Sudoku puzzle using Grovers algorithm
-    /// To make it easier to understand, a 4x4 puzzle is solved with number 0 to 3,
-    /// instead of usual 9x9 grid with numbers 1 to 9
+    /// Solve a Sudoku puzzle using Grover's algorithm
+    /// # Description
+    /// Sudoku is a graph coloring problem where graph edges must connect nodes of different colors
+    /// In our case, Graph Nodes are puzzle squares and colors are the Sudoku numbers. 
+    /// Graph Edges are the constraints preventing squares from having the same values. 
+    /// To reduce the number of QuBits needed, we only use QuBits for empty squares
+    /// We define the puzzle using 2 data structures.
+    ///   - A list of edges connecting empty squares
+    ///   - A list of constraints on empty squares to the initial numbers in the puzzle (starting numbers)
+    /// The code works for both 9x9 Sudoku puzzles, and 4x4 Sudoku puzzles. 
+    /// This description will continue using a 4x4 puzzle to make it easier to understand
+    /// The 4x4 puzzle is solved with number 0 to 3 instead of 1 to 4. 
+    /// This is because we can encode 0-3 with 2 Qubits.
     /// However, the same rules apply
     ///    - The numbers 0 to 3 may only appear once per row, column and 2x2 sub squares
     /// As an example              has solution
@@ -23,10 +33,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// | 3 |   | 1 |   |          | 3 | 0 | 1 | 2 |  
     /// -----------------          -----------------
     ///
-    /// Sudoku is a graph coloring problem where graph edges must connect nodes of different colors
-    /// In our case, Graph Nodes are puzzle squares and colors are the Sudoku numbers. 
-    /// Graph Edges are the constraints preventing squares from having the same values. 
-    /// In the above example, the constraints for the top row are
+    /// In the above example, the edges/constraints for the top row are
     ///   _________
     ///  | ______   \                   _____   
     ///  || __   \   \                  | __  \                        __
@@ -34,20 +41,50 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// |   | 1 |   | 3 |         |   | 1 |   | 3 |         |   | 1 |   | 3 | 
     /// -----------------         -----------------         -----------------
     ///
-    /// To reduce the number of QuBits, we only use QuBits for empty squares.
-    /// Each empty square gets 2 QuBits to encode the numbers 0 to 3
-    /// We define the puzzle using 2 data structures.
-    ///   - A list of edges connecting empty squares
-    ///   - A list of constraints on empty squares to the initial numbers in the puzzle (starting numbers)
-    /// For example, for the row above the empty squares have indexes
+    /// For the row above, the empty squares have indexes
     /// _________________
     /// | 0 |   | 1 |   |
     /// -----------------
-    /// and 
-    /// emptySquareEdges = (0,1)         // cell#,cell# i.e. cell 0 can't have the same number as cell 1
-    /// startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   // cell#,constraint  e.g. empty cell 0 can't have value 1 or 3, and empty call #1 can't have values 1 or 3
-
-    // V = number of blank squares, size = 4 for 4x4 grid or size = 9 for 9x9 grid
+    /// For this row the list of emptySquareEdges has only 1 entry
+    /// emptySquareEdges = (0,1)         
+    /// i.e. empty square 0 can't have the same number as empty square 1
+    /// The constraints on these empty squares to the starting numbers are
+    /// startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   
+    /// This is a list of (empty square #, number it can't be)  
+    /// i.e. empty square 0 can't have value 1 or 3, and empty square #1 can't have values 1 or 3
+    /// # Input
+    /// ## V
+    /// number of blank squares
+    /// ## size
+    /// The size of the puzzle. 4 for 4x4 grid, 9 for 9x9 grid
+    /// ## emptySquareEdges
+    /// The traditional edges passed to the graph coloring algorithm which, in our case, are empty puzzle squares.
+    /// These edges define any "same row", "same column", "same sub-grid" relationships between empty cells
+    /// Look at the README.md sample output to see examples of what this is for different sample puzzles
+    /// ## startingNumberConstraints
+    /// The constraints on the empty squares due to numbers already in the puzzle when we start.
+    /// Look at the README.md sample output to see examples of what this is for different sample puzzles
+    /// # Output
+    /// A Tuple with Result and the array of numbers for each empty square
+    /// Look at the README.md sample output to see examples of what this is for different sample puzzles
+    /// # Remarks
+    /// The inputs and outputs for the following 4x4 puzzle are
+    ///    -----------------
+    ///    |   | 1 | 2 | 3 |         <--- empty square #0
+    ///    -----------------
+    ///    | 2 |   | 0 | 1 |         <--- empty square #1
+    ///    -----------------
+    ///    | 1 | 2 | 3 | 0 |
+    ///    -----------------
+    ///    | 3 |   | 1 | 2 |         <--- empty square #2
+    ///    -----------------
+    ///    emptySquareEdges = [(1, 0),(2, 1)]    
+    ///         empty square #0 can not have the same color/number as empty call #1 because they are diagonal
+    ///         empty square #1 and #2 can not have the same color/number because they are in the same column
+    ///    startingNumberConstraints = [(0, 2),(0, 1),(0, 3),(1, 1),(1, 2),(1, 0),(2, 1),(2, 2),(2, 3)]
+    ///         empty square #0 can not have values 2,1,3 because those are in the same row/column/2x2grid
+    ///         empty square #1 can not have values 1,2,0 because those are in the same row/column/2x2grid
+    ///    Results = [0,3,0] i.e. Empty Square #0 = 0, Empty Square #1 = 3, Empty Square #2 = 0
     operation SolvePuzzle(V : Int, size: Int, emptySquareEdges: (Int, Int)[], startingNumberConstraints: (Int, Int)[]) : (Bool, Int[]) {
         mutable bitsPerColor = 2; // if size == 4x4 grid
         if (size == 9)
@@ -79,6 +116,8 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         }
     }
 
+    /// # Summary
+    /// Estimate the number of interations required for solution
     function NIterations(nQubits : Int) : Int {
         let nItems = 1 <<< nQubits; // 2^numQubits
         // compute number of iterations:
@@ -87,7 +126,9 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         return nIterations;
     }
 
-    // verify solution is correct
+    /// # Summary
+    /// Check if the colors/numbers found for each empty square are in the correct range (e.g. <9 for a 9x9 puzzle) 
+    /// and satisfy all edge/starting number constraints
     function IsSudokuSolutionValid (V : Int, size: Int, edges: (Int, Int)[], startingNumberConstraints: (Int, Int)[], colors: Int[]) : Bool {
         for (color in colors) {
             if (color > size) {

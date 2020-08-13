@@ -11,19 +11,22 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Diagnostics;
 
-    // Read color from a register
+    /// # Summary
+    /// Read color from a register
     operation MeasureColor (register : Qubit[]) : Int {
         return ResultArrayAsInt(MultiM(register));
     }
 
-    // Read coloring from a register
+    /// # Summary
+    /// Read coloring from a register
     operation MeasureColoring (K : Int, register : Qubit[]) : Int[] {
         let V = Length(register) / K;
         let colorPartitions = Partitioned(ConstantArray(V-1, K), register);
         return ForEach(MeasureColor, colorPartitions);
     } 
 
-    // N-bit color equality oracle (no extra qubits)
+    /// # Summary
+    /// N-bit color equality oracle (no extra qubits)
     operation ColorEqualityOracle_Nbit (c0 : Qubit[], c1 : Qubit[], target : Qubit) : Unit is Adj+Ctl {
         within {
             for ((q0, q1) in Zip(c0, c1)) {
@@ -36,7 +39,17 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         }
     }
 
-    // Oracle for verifying vertex coloring, including color constraints from non QuBit vertexes
+    /// # Summary
+    /// Oracle for verifying vertex coloring, including color constraints from non QuBit vertexes
+    /// # Input
+    /// ## V
+    /// The number of vertices in the graph
+    /// ## K
+    /// The bits per color e.g. 2 bits per color allows for 4 colors
+    /// ## edges
+    /// The array of (Vertex#,Vertex#) specifying the Vertices that can not be the same color
+    /// ## startingColorConstraints
+    /// The array of (Vertex#,Color) specifying the dissallowed colors for vertices
     operation VertexColoringOracle (V : Int, K: Int, edges : (Int, Int)[],  startingColorConstraints : (Int, Int)[], colorsRegister : Qubit[], target : Qubit) : Unit is Adj+Ctl {
         let nEdges = Length(edges);
         let nStartingColorConstraints = Length(startingColorConstraints);
@@ -60,8 +73,16 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         }
     }
 
-    // Oracle for verifying vertex coloring, including color constraints from non QuBit vertexes
-    // same as VertexColoringOracle, but hardcoded to 4 bits per color and restriction that colors are limited to 0 to 8.
+    /// # Summary
+    /// Oracle for verifying vertex coloring, including color constraints from non QuBit vertexes
+    /// same as VertexColoringOracle, but hardcoded to 4 bits per color and restriction that colors are limited to 0 to 8.
+    /// # Input
+    /// ## V
+    /// The number of vertices in the graph
+    /// ## edges
+    /// The array of (Vertex#,Vertex#) specifying the Vertices that can not be the same color
+    /// ## startingColorConstraints
+    /// The array of (Vertex#,Color) specifying the dissallowed colors for vertices
     operation VertexColoringOracle4Bit9Color (V : Int, edges : (Int, Int)[],  startingColorConstraints : (Int, Int)[], colorsRegister : Qubit[], target : Qubit) : Unit is Adj+Ctl {
         let nEdges = Length(edges);
         let K = 4; // 4 bits per color
@@ -98,7 +119,8 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         }
     }
 
-        // OR oracle for an arbitrary number of qubits in query register
+    /// # Summary
+    /// OR oracle for an arbitrary number of qubits in query register
     operation Oracle_Or (queryRegister : Qubit[], target : Qubit) : Unit is Adj {        
         // x₀ ∨ x₁ = ¬ (¬x₀ ∧ ¬x₁)
         // First, flip target if both qubits are in |0⟩ state
@@ -107,7 +129,17 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         X(target);
     }
     
-    // Using Grover's search to find vertex coloring. K = #bits per color
+    /// # Summary
+    /// Using Grover's search to find vertex coloring.
+    /// # Input
+    /// ## V
+    /// The number of Vertices in the graph
+    /// ## K
+    /// The number of bits per color
+    /// ## maxIterations
+    /// An estimate of the maximum iterations needed
+    /// ## oracle
+    /// The Oracle used to find solution
     operation GroversAlgorithm (V : Int, K: Int, maxIterations: Int, oracle : ((Qubit[], Qubit) => Unit is Adj)) : Int[] {
         // This task is similar to task 2.2 from SolveSATWithGrover kata, but the percentage of correct solutions is potentially higher.
         mutable coloring = new Int[V];
@@ -139,7 +171,8 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         return coloring;
     }
 
-    // Grover loop implementation taken from SolveSATWithGrover kata.
+    /// # Summary
+    /// Grover loop implementation taken from SolveSATWithGrover kata.
     operation OracleConverterImpl (markingOracle : ((Qubit[], Qubit) => Unit is Adj), register : Qubit[]) : Unit is Adj {
 
         using (target = Qubit()) {
@@ -156,6 +189,8 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         }
     }
     
+    /// # Summary
+    /// Grover's Algorithm loop
     operation GroversAlgorithm_Loop (register : Qubit[], oracle : ((Qubit[], Qubit) => Unit is Adj), iterations : Int) : Unit {
         let phaseOracle = OracleConverterImpl(oracle, _);
         ApplyToEach(H, register);
