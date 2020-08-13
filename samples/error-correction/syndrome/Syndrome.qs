@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome
-{
+namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Preparation;
@@ -28,16 +27,17 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome
     }
 
     /// # Summary
-    /// Prepare qubit in a given basis. Optionally flip the qubit if the value is True (One).
+    /// Prepare qubit in a given basis. Optionally flip the qubit if the value 
+    /// is True (One).
     ///
     /// # Input
+    /// ## basis
+    /// Basis to prepare the qubit in
     /// ## qubit
     /// Qubit to prepare
     /// ## value
     /// Value to prepare the qubit in (True for One, False for Zero)
-    /// ## basis
-    /// Basis to prepare the qubit in
-    operation PrepareInBasis(qubit: Qubit, value: Bool, basis: Pauli): Unit {
+    operation PrepareInBasis(basis: Pauli, qubit: Qubit, value: Bool): Unit {
         if (value) {
             X(qubit);
         }
@@ -77,16 +77,14 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome
         // Check that input lists are of equal length
         if ((Length(inputValues) != Length(encodingBases)) 
             or (Length(inputValues) != Length(qubitIndices))) {
-            fail "Lengths of input values, encoding bases and qubitIndices must be 
-            equal. Found lengths: " 
-            + IntAsString(Length(inputValues)) + ", " 
-            + IntAsString(Length(encodingBases)) + ", " 
-            + IntAsString(Length(qubitIndices)) + ".";
+            fail $"Lengths of input values, encoding bases and qubitIndices must be 
+            equal. Found lengths: 
+            {Length(inputValues)}, {Length(encodingBases)}, {Length(qubitIndices)}";
         }
 
         using ((block, auxiliary) = (Qubit[Length(inputValues)], Qubit())) {
             for ((qubit, value, basis) in Zip3(block, inputValues, encodingBases)) {
-                PrepareInBasis(qubit, value, basis);
+                PrepareInBasis(basis, qubit, value);
             }
             H(auxiliary);
             // Apply Controlled Pauli's to data qubits, resulting in a phase kickback 
