@@ -25,7 +25,7 @@ We start by preparing an auxiliary qubit into the superposition state by applyin
 
 ## Running the Sample
 
-To run the sample, run `python syndrome.py --qubits <N>`", where `<N>` is replaced by the number of qubits. For more information, run `python syndrome.py --help`.
+To run the sample, run `python syndrome.py --qubits <N>`, where `<N>` is replaced by the number of qubits. For more information, run `python syndrome.py --help`.
 
 ## Manifest
 
