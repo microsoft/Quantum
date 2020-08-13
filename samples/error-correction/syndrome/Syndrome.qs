@@ -37,7 +37,7 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     /// Qubit to prepare
     /// ## value
     /// Value to prepare the qubit in (True for One, False for Zero)
-    operation PrepareInBasis(basis: Pauli, qubit: Qubit, value: Bool): Unit {
+    operation PrepareInBasis(basis : Pauli, qubit : Qubit, value : Bool): Unit {
         if (value) {
             X(qubit);
         }
@@ -70,9 +70,9 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     /// ## (auxiliaryResult, dataResult)
     /// Tuple of the measurement results of the auxiliary qubit and data qubits.
     operation SamplePseudoSyndrome (
-            inputValues: Bool[],
-            encodingBases: Pauli[], 
-            qubitIndices: Int[]
+            inputValues : Bool[],
+            encodingBases : Pauli[], 
+            qubitIndices : Int[]
     ): ( Result, Result[] ) {
         // Check that input lists are of equal length
         if ((Length(inputValues) != Length(encodingBases)) 
