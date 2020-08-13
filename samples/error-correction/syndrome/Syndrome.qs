@@ -21,7 +21,7 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     /// # Output
     /// ## result
     /// Measurement result
-    operation BasisMeasure(basis: Pauli, qubit: Qubit): Result {
+    operation BasisMeasure(basis : Pauli, qubit : Qubit): Result {
         let result = Measure([basis], [qubit]);
         return result;
     }
@@ -87,7 +87,7 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
                 PrepareInBasis(basis, qubit, value);
             }
             H(auxiliary);
-            // Apply Controlled Pauli's to data qubits, resulting in a phase kickback 
+            // Apply Controlled Pauli operations to data qubits, resulting in a phase kickback 
             /// on the auxiliary qubit
             for ((qubit, basis) in Zip(block, encodingBases)) {
                 Controlled ApplyPauli([auxiliary], ([basis], [qubit]));
