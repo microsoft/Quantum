@@ -17,7 +17,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///   - A list of edges connecting empty squares
     ///   - A list of constraints on empty squares to the initial numbers in the puzzle (starting numbers)
     /// The code works for both 9x9 Sudoku puzzles, and 4x4 Sudoku puzzles. 
-    /// This description will continue using a 4x4 puzzle to make it easier to understand
+    /// This description will use a 4x4 puzzle to make it easier to understand
     /// The 4x4 puzzle is solved with number 0 to 3 instead of 1 to 4. 
     /// This is because we can encode 0-3 with 2 Qubits.
     /// However, the same rules apply

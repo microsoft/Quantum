@@ -327,8 +327,8 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             public int j;
             public List<int> values = new List<int>();
         }
-        
-        // go thru entire puzzle and find all empty squares and, for each, number of possible numbers for that square
+
+        // go thru entire puzzle and find all empty squares and, for each, the possible numbers for that square
         static Candidate BestSquare(int[,] puzzle, int size, int subSize)
         {
             List<Candidate> candidates = new List<Candidate>();
