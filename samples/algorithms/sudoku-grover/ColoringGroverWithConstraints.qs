@@ -41,6 +41,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
 
     /// # Summary
     /// Oracle for verifying vertex coloring, including color constraints from non QuBit vertexes
+    ///
     /// # Input
     /// ## V
     /// The number of vertices in the graph
@@ -76,6 +77,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// # Summary
     /// Oracle for verifying vertex coloring, including color constraints from non QuBit vertexes
     /// same as VertexColoringOracle, but hardcoded to 4 bits per color and restriction that colors are limited to 0 to 8.
+    ///
     /// # Input
     /// ## V
     /// The number of vertices in the graph
@@ -131,6 +133,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     
     /// # Summary
     /// Using Grover's search to find vertex coloring.
+    ///
     /// # Input
     /// ## V
     /// The number of Vertices in the graph

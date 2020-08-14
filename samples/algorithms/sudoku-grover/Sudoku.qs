@@ -8,6 +8,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
 
     /// # Summary
     /// Solve a Sudoku puzzle using Grover's algorithm
+    ///
     /// # Description
     /// Sudoku is a graph coloring problem where graph edges must connect nodes of different colors
     /// In our case, Graph Nodes are puzzle squares and colors are the Sudoku numbers. 
@@ -52,6 +53,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   
     /// This is a list of (empty square #, number it can't be)  
     /// i.e. empty square 0 can't have value 1 or 3, and empty square #1 can't have values 1 or 3
+    ///
     /// # Input
     /// ## V
     /// number of blank squares
@@ -64,9 +66,11 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// ## startingNumberConstraints
     /// The constraints on the empty squares due to numbers already in the puzzle when we start.
     /// Look at the README.md sample output to see examples of what this is for different sample puzzles
+    ///
     /// # Output
     /// A Tuple with Result and the array of numbers for each empty square
     /// Look at the README.md sample output to see examples of what this is for different sample puzzles
+    ///
     /// # Remarks
     /// The inputs and outputs for the following 4x4 puzzle are
     ///    -----------------
@@ -131,7 +135,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// and satisfy all edge/starting number constraints
     function IsSudokuSolutionValid (V : Int, size: Int, edges: (Int, Int)[], startingNumberConstraints: (Int, Int)[], colors: Int[]) : Bool {
         for (color in colors) {
-            if (color > size) {
+            if (color >= size) {
                 return false;
             }
         }

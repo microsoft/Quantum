@@ -2,9 +2,10 @@
 page_type: sample
 languages:
 - qsharp
+- csharp
 products:
 - qdk
-description: "This sample uses Grover's search algorithm to solve Sudoku puzzles, an example of a quantum development technique known as amplitude amplification."
+description: "This sample uses Grover's search algorithm to solve Sudoku puzzles."
 
 ---
 
@@ -63,7 +64,11 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
 
 
 The graph coloring code is based on the [Graph Coloring Kata](https://github.com/microsoft/QuantumKatas/tree/master/GraphColoring) 
-with changes to allow for varying QuBits per color and constraints on Vertex colors based on initial colors when you start.
+with the following changes
+
+- allow for varying QuBits per color
+- constraints on Vertex colors based on initial colors when you start
+- for 9x9 puzzles, 4 bits per color are used but the colors in the solution can only be 0 to 8
 
 ## Prerequisites ##
 
