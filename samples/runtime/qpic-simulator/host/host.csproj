@@ -6,7 +6,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Quantum.Xunit" Version="0.12.20072031" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
-    <ProjectReference Include="..\rewrite\rewrite.csproj" IsQscReference="true" Priority="0" />
     <ProjectReference Include="..\simulator\simulator.csproj" />
   </ItemGroup>
 </Project>

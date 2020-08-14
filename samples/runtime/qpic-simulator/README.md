@@ -63,5 +63,3 @@ Visual Studio to run the sample.
 - [simulator/Simulator.Barrier.cs](simulator/Simulator.Barrier.cs): Simulator specific implementation of intrinsic `Barrier` operation.
 - [simulator/Simulator.SavePicture.cs](simulator/Simulator.SavePicture.cs): Simulator specific implementation of intrinsic `SavePicture` operation.
 - [simulator/simulator.csproj](simulator/simulator.csproj): C# library project for the simulator.
-- [rewrite/RewriteStep.cs](rewrite/RewriteStep.cs): Rewrite step to make classical control accessible in simulator.
-- [rewrite/rewrite.csproj](rewrite/RewriteStep.cs): C# library project for rewrite step.

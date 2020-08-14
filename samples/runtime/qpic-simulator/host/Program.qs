@@ -10,6 +10,7 @@ namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Logical;
     open Microsoft.Quantum.Measurement;
+    open Microsoft.Quantum.Simulation.QuantumProcessor.Extensions as Extensions;
 
     /// # Summary
     /// Implements the Toffoli operation (CCNOT) using Clifford+T gates
@@ -48,10 +49,12 @@ namespace Microsoft.Quantum.Samples {
         // has no effect in other simulators)
         Barrier();
         CNOT(b, a);
-        if (M(a) == One) {
-            S(b);
-            X(a);
-        }
+
+        // This applies `S` to `b` if and only if measuring `a` in
+        // the Z basis returns One.  (Since simulators only capture
+        // execution traces, we need to use this construct instead
+        // of an if-then-else expression.)
+        Extensions.ApplyIfOne(MResetZ(a), (S, b));
     }
 
     @Test("Microsoft.Quantum.Samples.QpicSimulator")
@@ -86,11 +89,13 @@ namespace Microsoft.Quantum.Samples {
             using ((a, b) = (Qubit(), Qubit())) {
                 H(a);
                 let result = M(a);
-                if (result == One) {
-                    X(b);
-                } else {
-                    Z(b);
-                }
+
+                // This applies `Z` to `b` if measuring `a` in the
+                // Z basis returns One, and `X` to `b` if the
+                // measurement result is Zero.  (Since simulators
+                // only capture execution traces, we need to use
+                // this construct instead of an if-then-else expression.)
+                Extensions.ApplyIfElseR(result, (X, b), (Z, b));
             }
         }
     }
