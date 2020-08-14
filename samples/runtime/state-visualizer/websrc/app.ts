@@ -4,8 +4,7 @@
 import "./css/main.css";
 import * as signalR from "@aspnet/signalr";
 import * as chart from "chart.js";
-import { executionPathToHtml } from "./ExecutionPathVisualizer";
-import { ExecutionPath } from "./ExecutionPathVisualizer/executionPath";
+import { executionPathToHtml, ExecutionPath } from "sqore";
 
 //#region Serialization contract
 
@@ -40,12 +39,14 @@ type Snapshot = {
 
 type History = {
     snapshots: Snapshot[],
-    position: number
+    position: number,
+    idMap: { [id: string]: number },
 };
 
 const history: History = {
     snapshots: [],
-    position: -1
+    position: -1,
+    idMap: {},
 };
 
 const stateChart = new chart.Chart(chartContext, {
@@ -115,6 +116,14 @@ function goToHistory(position: number): void {
     }
     history.position = position;
     updateChart(nextSnapshot.state);
+
+    // Colour gates
+    document.querySelectorAll('.gate').forEach(gate => {
+        const pos: number = history.idMap[gate.id];
+        if (pos === position) gate.setAttribute("data-type", "selected");
+        else if (pos < position) gate.setAttribute("data-type", "");
+        else gate.setAttribute("data-type", "pending");
+    });
 }
 
 function pushHistory(lastOperation: HTMLLIElement, nextOperation: HTMLLIElement, state: State): void {
@@ -202,7 +211,7 @@ connection.on("OperationStarted", onOperationStarted);
 connection.on("OperationEnded", onOperationEnded);
 connection.on("Log", onLog);
 
-function onOperationStarted(operationName: string, input: number[], state: State, executionPath: ExecutionPath): void {
+function onOperationStarted(operationName: string, input: number[], state: State, executionPathStr: string): void {
     console.log("Operation start:", operationName, input);
 
     clearIcon();
@@ -220,11 +229,37 @@ function onOperationStarted(operationName: string, input: number[], state: State
 
     pushHistory(null, operation, state);
 
+    const executionPath: ExecutionPath = JSON.parse(executionPathStr);
+    labelOperations(executionPath, history.position);
+
     // Render circuit visualization
     const html: string = executionPathToHtml(executionPath);
     const container: HTMLElement = document.getElementById("circuit-container");
     if (container == null) throw new Error("circuit-container div not found.");
     container.innerHTML = html;
+
+    addGateClickHandlers();
+}
+
+function labelOperations(executionPath: ExecutionPath, latestPos: number): void {
+    executionPath.operations.forEach((op, i) => {
+        op.id = i.toString();
+        if (!history.idMap.hasOwnProperty(op.id)) {
+            history.idMap[op.id] = latestPos;
+        }
+    });
+}
+
+function addGateClickHandlers(): void {
+    document.querySelectorAll('.gate').forEach(gate => {
+        gate.addEventListener('click', ev => onGateClick(gate));
+    });
+}
+
+function onGateClick(gate: Element): void {
+    if (!history.idMap.hasOwnProperty(gate.id)) throw new Error(`Invalid id ${gate.id}`);
+    const position = history.idMap[gate.id];
+    goToHistory(position);
 }
 
 function onOperationEnded(returnValue: string, state: State): void {

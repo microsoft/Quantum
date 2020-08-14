@@ -98,3 +98,15 @@ canvas {
 #circuit-container {
     margin: auto;
 }
+
+.gate {
+    cursor: pointer;
+}
+
+[data-type="selected"] {
+    outline: 3px solid gold;
+}
+
+[data-type="pending"] {
+    opacity: 0.3;
+}

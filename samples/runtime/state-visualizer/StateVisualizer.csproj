@@ -7,6 +7,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\algorithms\simple-grover\SimpleGroverSample.csproj" />
-    <ProjectReference Include="..\ExecutionPathTracer\ExecutionPathTracer.csproj" />
+    <!-- <ProjectReference Include="..\ExecutionPathTracer\ExecutionPathTracer.csproj" /> -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.IQSharp.ExecutionPathTracer" Version="0.11.20081301-beta" />
   </ItemGroup>
 </Project>

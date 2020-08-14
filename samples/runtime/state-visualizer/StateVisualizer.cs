@@ -14,7 +14,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
-using ExecutionPathTracer;
+using Microsoft.Quantum.IQSharp.ExecutionPathTracer;
 
 namespace Microsoft.Quantum.Samples.StateVisualizer
 {
@@ -27,7 +27,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         private readonly ManualResetEvent advanceEvent = new ManualResetEvent(true);
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly IList<(string method, object[] args)> history = new List<(string, object[])>();
-        private readonly ExecutionPathTracer.ExecutionPathTracer tracer;
+        private readonly ExecutionPathTracer tracer;
 
         public StateVisualizer(QuantumSimulator simulator)
         {
@@ -36,7 +36,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
                 throw new ArgumentNullException(nameof(simulator));
             }
             
-            this.tracer = new ExecutionPathTracer.ExecutionPathTracer(5);
+            this.tracer = new ExecutionPathTracer(5);
             this.simulator = simulator.WithExecutionPathTracer(this.tracer);
             simulator.OnOperationStart += OnOperationStartHandler;
             simulator.OnOperationEnd += OnOperationEndHandler;
@@ -107,7 +107,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         {
             var variant = operation.Variant == OperationFunctor.Body ? "" : operation.Variant.ToString();
             var qubits = arguments.Qubits?.Select(q => q.Id).ToArray() ?? Array.Empty<int>();
-            var tracedPath = this.tracer.GetExecutionPath();
+            var tracedPath = this.tracer.GetExecutionPath().ToJson();
             BroadcastAsync(
                 "OperationStarted",
                 $"{variant} {operation.Name}",
