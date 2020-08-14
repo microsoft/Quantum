@@ -176,7 +176,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// register state corresponds to the bit mask `bits`.
     ///
     /// # Example
-    /// Consider the following 4x4 Sudoku puzzle 
+    /// Consider the following 9x9 Sudoku puzzle 
     ///    -------------------------------------
     ///    |   | 6 | 2 | 7 | 8 | 3 | 4 | 0 | 1 |
     ///    -------------------------------------
@@ -210,7 +210,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// The graph is
     ///  0---1
     /// But we also require that 
-    ///    - vertex 0 can not have value 7,3,8,9,4,5,1,2 (row constraint)
+    ///    - vertex 0 can not have value 6,2,7,8,3,4,0,1 (row constraint)
     ///                         or value 8,7,6,4,0,3,1,2 (col constraint)
     ///    - vertex 1 can not value 8,1,6,2,4,3,7,5 (row constraint)
     ///                    or value 6,3,8,1,2,5,7,4 (col constraint)
