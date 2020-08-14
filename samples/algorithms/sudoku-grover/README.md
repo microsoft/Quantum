@@ -55,7 +55,7 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   
      
      Note that the puzzles are initially defined in C# using numbers from 1 to 4, or 1 to 9. 
-     However, when solving with Quantum QuBits, the numbers are changed to 0 to 3 and 0 to 8 and then converted back. 
+     However, when solving this quantumly and encoding these values into qubits, the numbers are changed to 0 to 3 and 0 to 8 and then converted back. 
      This allows a 4x4 puzzle to be solved using 2 QuBits per number.
 
      The code can also solve 9x9 sudoku puzzles using 4 qubits per number. 
