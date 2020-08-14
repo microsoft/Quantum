@@ -51,7 +51,7 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      -----------------
      and emptySquareEdges is the array of edges e.g. cell 0 can't have the same number as cell 1
      emptySquareEdges = (0,1)      
-     and startingNumberConstraints is the array of (Cell#,constraint) e.g. empty cell 0 can't have value 1 or 3
+     and `startingNumberConstraints` is the array of (Cell#, constraint) e.g. empty cell 0 can't have value 1 or 3:
      startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   
      
      Note that the puzzles are initially defined in C# using numbers from 1 to 4, or 1 to 9. 
