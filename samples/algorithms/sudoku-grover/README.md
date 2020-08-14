@@ -69,7 +69,7 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
 The graph coloring code is based on the [Graph Coloring Kata](https://github.com/microsoft/QuantumKatas/tree/master/GraphColoring) 
 with the following changes
 
-- allow for varying QuBits per color
+- allow for varying qubits per color
 - constraints on Vertex colors based on initial colors when you start
 - for 9x9 puzzles, 4 bits per color are used but the colors in the solution can only be 0 to 8
 
