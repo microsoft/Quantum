@@ -278,7 +278,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 Console.Write("|");
                 for (int j = 0; j < size; j++) 
                 {
-                    if (puzzle[i,j]==0)
+                    if (puzzle[i, j] == 0)
                         Console.Write("   |");
                     else
                         Console.Write(String.Format(" {0,1} |", puzzle[i, j]));

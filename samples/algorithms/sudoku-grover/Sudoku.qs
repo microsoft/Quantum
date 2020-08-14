@@ -101,7 +101,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///         empty square #0 can not have values 2,1,3 because same row/column/2x2grid
     ///         empty square #1 can not have values 1,2,0 because same row/column/2x2grid
     ///    Results = [0,3,0] i.e. Empty Square #0 = 0, Empty Square #1 = 3, Empty Square #2 = 0
-    operation SolvePuzzle(V : Int, size: Int, emptySquareEdges: (Int, Int)[], 
+    operation SolvePuzzle(V : Int, size : Int, emptySquareEdges : (Int, Int)[], 
         startingNumberConstraints: (Int, Int)[]) : (Bool, Int[]) {
         mutable bitsPerColor = 2; // if size == 4x4 grid
         if (size == 9)
@@ -117,11 +117,11 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         Message($"   size of Sudoku grid = {size}x{size}");
         mutable coloring = new Int[0];
         if (size == 4) {
-            set coloring = GroversAlgorithm(V, 2, numIterations*2, 
+            set coloring = GroversAlgorithm(V, 2, numIterations * 2, 
                 VertexColoringOracle(V, 2, emptySquareEdges, startingNumberConstraints, _, _));
         }
         elif (size == 9) {
-            set coloring = GroversAlgorithm(V, 4, numIterations*2, 
+            set coloring = GroversAlgorithm(V, 4, numIterations * 2, 
                 VertexColoringOracle4Bit9Color(V, emptySquareEdges, startingNumberConstraints, _, _));
         }
 
@@ -174,8 +174,8 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// 
     /// # Output
     /// A boolean value of true if the colors found satisfy all the solution requirements
-    function IsSudokuSolutionValid (V : Int, size: Int, edges: (Int, Int)[], 
-        startingNumberConstraints: (Int, Int)[], colors: Int[]) : Bool {
+    function IsSudokuSolutionValid (V : Int, size : Int, edges : (Int, Int)[], 
+        startingNumberConstraints : (Int, Int)[], colors : Int[]) : Bool {
         for (color in colors) {
             if (color >= size) {
                 return false;

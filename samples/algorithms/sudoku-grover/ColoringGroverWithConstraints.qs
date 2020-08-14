@@ -30,7 +30,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// register of qubits 
     operation MeasureColoring (K : Int, register : Qubit[]) : Int[] {
         let V = Length(register) / K;
-        let colorPartitions = Partitioned(ConstantArray(V-1, K), register);
+        let colorPartitions = Partitioned(ConstantArray(V - 1, K), register);
         return ForEach(MeasureColor, colorPartitions);
     } 
 
@@ -122,7 +122,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// and vertex 3 is not allowed to have values 2,0,1
     /// A valid graph coloring solution is: [0,1,2,3]
     /// i.e. vextex 0 has color 0, vertex 1 has color 1 etc.
-    operation VertexColoringOracle (V : Int, K: Int, edges : (Int, Int)[],  
+    operation VertexColoringOracle (V : Int, K : Int, edges : (Int, Int)[],  
         startingColorConstraints : (Int, Int)[], 
         colorsRegister : Qubit[], 
         target : Qubit) : Unit is Adj+Ctl {
@@ -131,7 +131,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         // we are looking for a solution that
         // (a) has no edge with same color at both ends and 
         // (b) has no Vertex with a color that violates the starting color constraints
-        using (conflictQubits = Qubit[nEdges+nStartingColorConstraints]) {
+        using (conflictQubits = Qubit[nEdges + nStartingColorConstraints]) {
             within {
                 for (((start, end), conflictQubit) in Zip(edges, conflictQubits[0 .. nEdges-1])) {
                     // Check that endpoints of the edge have different colors:
@@ -249,15 +249,15 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
                 } 
                 let z = Zip(Partitioned(ConstantArray(V, K), colorsRegister),
                             conflictQubits[nEdges + nStartingColorConstraints .. nEdges + nStartingColorConstraints + V-1]);
-                for ((color,conflictQubit) in z) {
+                for ((color, conflictQubit) in z) {
                     // Only allow colors from 0 to 8 i.e. if bit #3 = 1, then bits 2..0 must be 000.
                     using (tempQubit = Qubit()) {
                         within {
-                            Oracle_Or(color[0..2], tempQubit);
+                            Oracle_Or(color[0 .. 2], tempQubit);
                         } apply{
                             // AND color's most significant bit with OR of least significant bits. 
                             // This will set conflictQubit to 1 if color > 8
-                            CCNOT(color[3],tempQubit,conflictQubit);
+                            CCNOT(color[3], tempQubit, conflictQubit);
                         }
                     }
                 }
@@ -290,7 +290,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// An estimate of the maximum iterations needed
     /// ## oracle
     /// The Oracle used to find solution
-    operation GroversAlgorithm (V : Int, K: Int, maxIterations: Int, 
+    operation GroversAlgorithm (V : Int, K : Int, maxIterations : Int, 
         oracle : ((Qubit[], Qubit) => Unit is Adj)) : Int[] {
         // This task is similar to task 2.2 from SolveSATWithGrover kata, 
         // but the percentage of correct solutions is potentially higher.
