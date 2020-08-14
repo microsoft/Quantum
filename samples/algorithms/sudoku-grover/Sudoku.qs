@@ -69,6 +69,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// The constraints on the empty squares due to numbers already in the puzzle when we start.
     /// Look at the README.md sample output to see examples of what this is for different sample puzzles
     ///
+    ///
     /// # Output
     /// A Tuple with Result and the array of numbers for each empty square
     /// Look at the README.md sample output to see examples of what this is for different sample puzzles
