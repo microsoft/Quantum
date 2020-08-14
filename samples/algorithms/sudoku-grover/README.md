@@ -59,7 +59,7 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      This allows a 4x4 puzzle to be solved using 2 qubits per missing number.
 
      The code can also solve 9x9 sudoku puzzles using 4 qubits per number. 
-     However, trying to use more than 8 QuBits (2 empty squares) in a simulation becomes very slow, 
+     However, trying to use more than 8 qubits (2 empty squares) in a simulation becomes very slow, 
      so here we only run it for 1 or 2 missing squares in a 9x9 puzzle.
 
 
