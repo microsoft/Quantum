@@ -16,9 +16,9 @@ This sample demonstrates how to create a partially implemented Syndrome for dete
 
 The algorithm used is described in [Surface codes: Towards practical large-scale quantum computation](https://arxiv.org/abs/1208.0928) by Fowler et al. In particular, this example implements the circuit shown in Figure 1 c. in this paper.
 
-The circuit uses _N data qubits_, where _N_ is a number given as input to the script, plus one _auxiliary_ qubit. The principle of the circuit is as follows. First, we prepare our data qubits in random states of a set of random bases, in order to simulate a noisy process. The circuit then propagates these errors to the auxiliary qubit using the principle of _phase kickback_. Phase kickback works by encoding pieces of a quantum algorithm into the global phase of an extra auxiliary qubit.
+The circuit uses _N data qubits_, where _N_ is a number given as input to the script, plus one _auxiliary_ qubit. The principle of the circuit is as follows. First, we prepare our data qubits in random states of a set of random bases, in order to simulate a noisy process. The circuit then propagates these errors to the auxiliary qubit using the principle of _phase kickback_. Phase kickback works by encoding pieces of a quantum algorithm into the global phase of an extra (auxiliary) qubit.
 
-We start by preparing an auxiliary qubit into the superposition state by applying a `H` operation, to change to the _X_ computational basis. Subsequently, we apply controlled Pauli operators to each of the data qubits, using the auxiliary qubit as control. The goal is to create a global phase shift on the auxiliary qubit, that will depend on the state of the basis qubits. After the circuit runs, the auxiliary qubit is measured in the _X_-basis, which reveals its phase information.
+We start by preparing an auxiliary qubit into the superposition state by applying a `H` operation, to change to the _X_ computational basis. Subsequently, we apply controlled Pauli operators to each of the data qubits in random order, using the auxiliary qubit as control. The goal is to create a global phase shift on the auxiliary qubit, that will depend on the state of the data qubits. After the circuit runs, the auxiliary qubit is measured in the _X_-basis, which reveals its phase information.
 
 ## Prerequisites
 

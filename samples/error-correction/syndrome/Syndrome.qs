@@ -89,8 +89,8 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
             H(auxiliary);
             // Apply Controlled Pauli operations to data qubits, resulting in a phase kickback 
             /// on the auxiliary qubit
-            for ((qubit, basis) in Zip(block, encodingBases)) {
-                Controlled ApplyPauli([auxiliary], ([basis], [qubit]));
+            for ((index, basis) in Zip(qubitIndices, encodingBases)) {
+                Controlled ApplyPauli([auxiliary], ([basis], [block[index]]));
             }
             let auxiliaryResult = Measure([PauliX], [auxiliary]);
             let dataResult = ForEach(BasisMeasure, Zip(encodingBases, block));
