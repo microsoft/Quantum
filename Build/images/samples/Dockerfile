@@ -32,6 +32,9 @@ RUN dotnet tool install --global PowerShell
 # Install Jupytext to expose Markdown files as Jupyter Notebooks for use with
 # Binder.
 RUN pip install jupytext
+# Make the C# and PowerShell kernels available to Jupytext as well.
+RUN dotnet tool install -g --add-source "https://dotnet.myget.org/F/dotnet-try/api/v3/index.json" Microsoft.dotnet-interactive && \
+    dotnet interactive jupyter install
 
 # Install additional Python dependencies for the PythonInterop sample.
 # Note that QuTiP has as a hard requirement that its dependencies must be

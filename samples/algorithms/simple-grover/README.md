@@ -21,9 +21,24 @@ For examples of how to solve more general problems using amplitude amplification
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
 
-## Running the Sample ##
+## Running the Sample
 
-To run the sample, use the `dotnet run` command from your terminal.
+This sample can be run in a number of different ways, depending on your preferred environment.
+
+### Q# in Visual Studio Code or the Command Line
+
+At a terminal, run the following command:
+
+```powershell
+dotnet run
+```
+
+### Q# in Visual Studio 2019
+
+Open the folder containing this sample in Visual Studio ("Open a local folder"
+from the Getting Started screen or "File → Open → Folder..." from the menu bar)
+and set `SimpleGroverSample.csproj` as the startup project. 
+Press Start in Visual Studio to run the sample. 
 
 ## Manifest ##
 

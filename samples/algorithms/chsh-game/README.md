@@ -17,9 +17,9 @@ jupyter:
       format_version: '1.2'
       jupytext_version: 1.5.2
   kernelspec:
-    display_name: Bash
-    language: bash
-    name: bash
+    display_name: .NET (PowerShell)
+    language: PowerShell
+    name: .net-powershell
 ---
 
 # Validating Quantum Mechanics with the CHSH Game
@@ -44,7 +44,7 @@ This sample can be run in a number of different ways, depending on your preferre
 
 At a terminal, run the following command:
 
-```bash
+```powershell
 python host.py
 ```
 
@@ -52,7 +52,7 @@ python host.py
 
 At a terminal, run the following command:
 
-```dotnetcli
+```powershell
 dotnet run
 ```
 
