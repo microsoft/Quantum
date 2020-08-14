@@ -12,12 +12,22 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
 
     /// # Summary
     /// Read color from a register
+    ///
+    /// # Input
+    /// ## regster
+    /// The qubits to measure
     operation MeasureColor (register : Qubit[]) : Int {
         return ResultArrayAsInt(MultiM(register));
     }
 
     /// # Summary
     /// Read coloring from a register
+    ///
+    /// # Input
+    /// ## K
+    /// Number of bits per qubit
+    /// ## register
+    /// register of qubits 
     operation MeasureColoring (K : Int, register : Qubit[]) : Int[] {
         let V = Length(register) / K;
         let colorPartitions = Partitioned(ConstantArray(V-1, K), register);
@@ -26,6 +36,15 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
 
     /// # Summary
     /// N-bit color equality oracle (no extra qubits)
+    ///
+    /// # Input
+    /// ## c0
+    /// First color
+    /// ## c1
+    /// Second color
+    ///
+    /// # Output
+    /// target will be 1 if colors are the same
     operation ColorEqualityOracle_Nbit (c0 : Qubit[], c1 : Qubit[], 
         target : Qubit) : Unit is Adj+Ctl {
         within {
