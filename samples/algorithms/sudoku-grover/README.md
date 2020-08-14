@@ -41,7 +41,7 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      -----------------         -----------------         -----------------
     
      To reduce the number of qubits, we only use qubits for empty squares.
-     Each empty square gets 2 QuBits to encode the numbers 0 to 3
+     Each empty square gets 2 qubits to encode the numbers 0 to 3.
      We define the puzzle using 2 data structures.
        - A list of edges connecting empty squares
        - A list of constraints on empty squares to the initial numbers in the puzzle (starting numbers)
