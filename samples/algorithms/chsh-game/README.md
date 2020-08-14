@@ -8,6 +8,18 @@ products:
 - qdk
 description: "This sample uses the CHSH game to demonstrate how Q# programs can be used to prepare and work with entanglement."
 urlFragment: validating-quantum-mechanics
+jupyter:
+  jupytext:
+    cell_markers: region,endregion
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.2'
+      jupytext_version: 1.5.2
+  kernelspec:
+    display_name: Bash
+    language: bash
+    name: bash
 ---
 
 # Validating Quantum Mechanics with the CHSH Game

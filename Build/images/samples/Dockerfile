@@ -29,6 +29,10 @@ RUN apt-get -y update && \
 # dependencies.
 RUN dotnet tool install --global PowerShell
 
+# Install Jupytext to expose Markdown files as Jupyter Notebooks for use with
+# Binder.
+RUN pip install jupytext
+
 # Install additional Python dependencies for the PythonInterop sample.
 # Note that QuTiP has as a hard requirement that its dependencies must be
 # installed first, so we separate into two pip install steps.
