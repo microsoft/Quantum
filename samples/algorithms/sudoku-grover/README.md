@@ -40,7 +40,7 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      |   | 1 |   | 3 |         |   | 1 |   | 3 |         |   | 1 |   | 3 | 
      -----------------         -----------------         -----------------
     
-     To reduce the number of QuBits, we only use QuBits for empty squares.
+     To reduce the number of qubits, we only use qubits for empty squares.
      Each empty square gets 2 QuBits to encode the numbers 0 to 3
      We define the puzzle using 2 data structures.
        - A list of edges connecting empty squares
