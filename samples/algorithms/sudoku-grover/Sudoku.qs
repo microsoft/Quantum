@@ -9,6 +9,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// # Summary
     /// Solve a Sudoku puzzle using Grover's algorithm
     ///
+    ///
     /// # Description
     /// Sudoku is a graph coloring problem where graph edges must connect nodes of different colors
     /// In our case, Graph Nodes are puzzle squares and colors are the Sudoku numbers. 
