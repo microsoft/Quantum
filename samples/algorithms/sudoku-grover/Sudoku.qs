@@ -11,13 +11,15 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///
     ///
     /// # Description
-    /// Sudoku is a graph coloring problem where graph edges must connect nodes of different colors
+    /// Sudoku is a graph coloring problem where graph edges must connect nodes 
+    /// of different colors
     /// In our case, Graph Nodes are puzzle squares and colors are the Sudoku numbers. 
     /// Graph Edges are the constraints preventing squares from having the same values. 
     /// To reduce the number of QuBits needed, we only use QuBits for empty squares
     /// We define the puzzle using 2 data structures.
     ///   - A list of edges connecting empty squares
-    ///   - A list of constraints on empty squares to the initial numbers in the puzzle (starting numbers)
+    ///   - A list of constraints on empty squares to the initial numbers 
+    ///     in the puzzle (starting numbers)
     /// The code works for both 9x9 Sudoku puzzles, and 4x4 Sudoku puzzles. 
     /// This description will use a 4x4 puzzle to make it easier to understand
     /// The 4x4 puzzle is solved with number 0 to 3 instead of 1 to 4. 
@@ -53,7 +55,8 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// The constraints on these empty squares to the starting numbers are
     /// startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   
     /// This is a list of (empty square #, number it can't be)  
-    /// i.e. empty square 0 can't have value 1 or 3, and empty square #1 can't have values 1 or 3
+    /// i.e. empty square 0 can't have value 1 or 3, 
+    /// and empty square #1 can't have values 1 or 3
     ///
     ///
     /// # Input
@@ -62,17 +65,23 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// ## size
     /// The size of the puzzle. 4 for 4x4 grid, 9 for 9x9 grid
     /// ## emptySquareEdges
-    /// The traditional edges passed to the graph coloring algorithm which, in our case, are empty puzzle squares.
-    /// These edges define any "same row", "same column", "same sub-grid" relationships between empty cells
-    /// Look at the README.md sample output to see examples of what this is for different sample puzzles
+    /// The traditional edges passed to the graph coloring algorithm which, 
+    /// in our case, are empty puzzle squares.
+    /// These edges define any "same row", "same column", "same sub-grid" 
+    /// relationships between empty cells
+    /// Look at the README.md sample output to see examples of what this is 
+    /// for different sample puzzles
     /// ## startingNumberConstraints
-    /// The constraints on the empty squares due to numbers already in the puzzle when we start.
-    /// Look at the README.md sample output to see examples of what this is for different sample puzzles
+    /// The constraints on the empty squares due to numbers already in the 
+    /// puzzle when we start.
+    /// Look at the README.md sample output to see examples of what this is 
+    /// for different sample puzzles
     ///
     ///
     /// # Output
     /// A Tuple with Result and the array of numbers for each empty square
-    /// Look at the README.md sample output to see examples of what this is for different sample puzzles
+    /// Look at the README.md sample output to see examples of what this is 
+    /// for different sample puzzles
     ///
     /// # Remarks
     /// The inputs and outputs for the following 4x4 puzzle are
@@ -86,13 +95,14 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///    | 3 |   | 1 | 2 |         <--- empty square #2
     ///    -----------------
     ///    emptySquareEdges = [(1, 0),(2, 1)]    
-    ///         empty square #0 can not have the same color/number as empty call #1 because they are diagonal
-    ///         empty square #1 and #2 can not have the same color/number because they are in the same column
+    ///         empty square #0 can not have the same color/number as empty call #1 
+    ///         empty square #1 and #2 can not have the same color/number (same column)
     ///    startingNumberConstraints = [(0, 2),(0, 1),(0, 3),(1, 1),(1, 2),(1, 0),(2, 1),(2, 2),(2, 3)]
-    ///         empty square #0 can not have values 2,1,3 because those are in the same row/column/2x2grid
-    ///         empty square #1 can not have values 1,2,0 because those are in the same row/column/2x2grid
+    ///         empty square #0 can not have values 2,1,3 because same row/column/2x2grid
+    ///         empty square #1 can not have values 1,2,0 because same row/column/2x2grid
     ///    Results = [0,3,0] i.e. Empty Square #0 = 0, Empty Square #1 = 3, Empty Square #2 = 0
-    operation SolvePuzzle(V : Int, size: Int, emptySquareEdges: (Int, Int)[], startingNumberConstraints: (Int, Int)[]) : (Bool, Int[]) {
+    operation SolvePuzzle(V : Int, size: Int, emptySquareEdges: (Int, Int)[], 
+        startingNumberConstraints: (Int, Int)[]) : (Bool, Int[]) {
         mutable bitsPerColor = 2; // if size == 4x4 grid
         if (size == 9)
         {
@@ -107,10 +117,12 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         Message($"   size of Sudoku grid = {size}x{size}");
         mutable coloring = new Int[0];
         if (size == 4) {
-            set coloring = GroversAlgorithm(V, 2, numIterations*2, VertexColoringOracle(V, 2, emptySquareEdges, startingNumberConstraints, _, _));
+            set coloring = GroversAlgorithm(V, 2, numIterations*2, 
+                VertexColoringOracle(V, 2, emptySquareEdges, startingNumberConstraints, _, _));
         }
         elif (size == 9) {
-            set coloring = GroversAlgorithm(V, 4, numIterations*2, VertexColoringOracle4Bit9Color(V, emptySquareEdges, startingNumberConstraints, _, _));
+            set coloring = GroversAlgorithm(V, 4, numIterations*2, 
+                VertexColoringOracle4Bit9Color(V, emptySquareEdges, startingNumberConstraints, _, _));
         }
 
         Message($"Got sudoku solution: {coloring}");
@@ -125,6 +137,10 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
 
     /// # Summary
     /// Estimate the number of interations required for solution
+    ///
+    /// # Input
+    /// ## nQubits
+    /// The number of qubits being used
     function NIterations(nQubits : Int) : Int {
         let nItems = 1 <<< nQubits; // 2^numQubits
         // compute number of iterations:
@@ -134,9 +150,32 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     }
 
     /// # Summary
-    /// Check if the colors/numbers found for each empty square are in the correct range (e.g. <9 for a 9x9 puzzle) 
-    /// and satisfy all edge/starting number constraints
-    function IsSudokuSolutionValid (V : Int, size: Int, edges: (Int, Int)[], startingNumberConstraints: (Int, Int)[], colors: Int[]) : Bool {
+    /// Check if the colors/numbers found for each empty square are in the correct 
+    /// range (e.g. <9 for a 9x9 puzzle) and satisfy all edge/starting number constraints
+    /// 
+    /// # Input
+    /// ## V
+    /// Number of Vertexes in the Graph i.e. Number of Empty Sudoku squares
+    /// ## size
+    /// The size of the puzzle. 4 for 4x4 grid, 9 for 9x9 grid
+    /// ## edges
+    /// The traditional edges passed to the graph coloring algorithm which, 
+    /// in our case, are empty puzzle squares.
+    /// These edges define any "same row", "same column", "same sub-grid" 
+    /// relationships between empty cells
+    /// Look at the README.md sample output to see examples of what this is 
+    /// for different sample puzzles
+    /// ## startingNumberConstraints
+    /// The constraints on the empty squares due to numbers already in the 
+    /// puzzle when we start. Look at the README.md sample output to see 
+    /// examples of what this is for different sample puzzles
+    /// ## colors
+    /// an Int array of numbers for each empty square i.e. the puzzle solution
+    /// 
+    /// # Output
+    /// A boolean value of true if the colors found satisfy all the solution requirements
+    function IsSudokuSolutionValid (V : Int, size: Int, edges: (Int, Int)[], 
+        startingNumberConstraints: (Int, Int)[], colors: Int[]) : Bool {
         for (color in colors) {
             if (color >= size) {
                 return false;

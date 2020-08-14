@@ -49,13 +49,16 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      _________________
      | 0 |   | 1 |   |
      -----------------
-     and `emptySquareEdges` is the array of edges. For example, cell 0 can't have the same number (color) as cell 1:
+     and `emptySquareEdges` is the array of edges. 
+     For example, cell 0 can't have the same number (color) as cell 1:
      emptySquareEdges = (0,1)      
-     and `startingNumberConstraints` is the array of (Cell#, constraint) e.g. empty cell 0 can't have value 1 or 3:
+     and `startingNumberConstraints` is the array of (Cell#, constraint) 
+     For example, empty cell 0 can't have value 1 or 3:
      startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   
      
      Note that the puzzles are initially defined in C# using numbers from 1 to 4, or 1 to 9. 
-     However, when solving this quantumly and encoding these values into qubits, the numbers are changed to 0 to 3 and 0 to 8 and then converted back. 
+     However, when solving this quantumly and encoding these values into qubits, 
+     the numbers are changed to 0 to 3 and 0 to 8 and then converted back. 
      This allows a 4x4 puzzle to be solved using 2 qubits per missing number.
 
      The code can also solve 9x9 sudoku puzzles using 4 qubits per number. 
@@ -77,6 +80,21 @@ with the following changes
 ## Running the Sample ##
 
 To run the sample, use the `dotnet run` command from your terminal.
+This will run all the test puzzles. 
+You can also choose a specific puzzle to solve by adding the puzzle name as below
+    
+-   4x4-classic : test classic algorthm on a 4x4 puzzle
+-   4x4-1 : test Quantum solution of 4x4 puzzle missing 1 number
+-   4x4-3 : test Quantum solution of 4x4 puzzle missing 3 numbers
+-   4x4-4 : test Quantum solution of 4x4 puzzle missing 4 numbers
+-   9x9-1 : test classic algorithm and Quantum solution on a 
+            9x9 puzzle with 1 missing number
+-   9x9-2 : test Quantum solution on a 
+            9x9 puzzle with 2 missing numbers
+-   9x9-64   : test classic algorithm and Quantum solution on a 
+            9x9 puzzle with 64 missing numbers
+
+For example, `dotnet run 4x4-4` will run the Quantum solution for a 4x4 puzzle with 4 missing numbers
 
 ## Manifest ##
 
@@ -87,105 +105,8 @@ To run the sample, use the `dotnet run` command from your terminal.
 
 ## Sample Output ##
 
-    dotnet run
-    Solving 4x4 using classical computing
-    -----------------
-    |   | 2 |   | 4 |
-    -----------------
-    | 3 |   |   | 2 |
-    -----------------
-    |   |   | 4 | 1 |
-    -----------------
-    | 4 |   | 2 |   |
-    -----------------
-    result verified correct
-    -----------------
-    | 1 | 2 | 3 | 4 |
-    -----------------
-    | 3 | 4 | 1 | 2 |
-    -----------------
-    | 2 | 3 | 4 | 1 |
-    -----------------
-    | 4 | 1 | 2 | 3 |
-    -----------------
 
-
-    Press any key to continue...
-
-
-    Quantum Solving 4x4 with 1 missing number
-    Quantum solving puzzle 
-    -----------------
-    |   | 2 | 3 | 4 |
-    -----------------
-    | 3 | 4 | 1 | 2 |
-    -----------------
-    | 2 | 3 | 4 | 1 |
-    -----------------
-    | 4 | 1 | 2 | 3 |
-    -----------------
-    Running Quantum test with #Vertex = 1
-    Bits Per Color = 2
-    emptySquareEdges = []
-    startingNumberConstraints = [(0, 2),(0, 1),(0, 3)]
-    estimated #iterations needed = 1
-    size of Sudoku grid = 4x4
-    Trying search with 1 iterations
-    Got sudoku solution: [0]
-    Got valid sudoku solution: [0]
-    solved puzzle 
-    -----------------
-    | 1 | 2 | 3 | 4 |
-    -----------------
-    | 3 | 4 | 1 | 2 |
-    -----------------
-    | 2 | 3 | 4 | 1 |
-    -----------------
-    | 4 | 1 | 2 | 3 |
-    -----------------
-    quantum result verified correct
-
-
-    Press any key to continue...
-
-
-    Quantum Solving 4x4 with 3 missing numbers
-    Quantum solving puzzle 
-    -----------------
-    |   | 2 | 3 | 4 |
-    -----------------
-    | 3 |   | 1 | 2 |
-    -----------------
-    | 2 | 3 | 4 | 1 |
-    -----------------
-    | 4 |   | 2 | 3 |
-    -----------------
-    Running Quantum test with #Vertex = 3
-    Bits Per Color = 2
-    emptySquareEdges = [(1, 0),(2, 1)]
-    startingNumberConstraints = [(0, 2),(0, 1),(0, 3),(1, 1),(1, 2),(1, 0),(2, 1),(2, 2),(2, 3)]
-    estimated #iterations needed = 6
-    size of Sudoku grid = 4x4
-    Trying search with 1 iterations
-    Trying search with 2 iterations
-    Trying search with 3 iterations
-    Got sudoku solution: [0,3,0]
-    Got valid sudoku solution: [0,3,0]
-    solved puzzle 
-    -----------------
-    | 1 | 2 | 3 | 4 |
-    -----------------
-    | 3 | 4 | 1 | 2 |
-    -----------------
-    | 2 | 3 | 4 | 1 |
-    -----------------
-    | 4 | 1 | 2 | 3 |
-    -----------------
-    quantum result verified correct
-
-
-    Press any key to continue...
-
+    dotnet run 4x4-4
 
     Quantum Solving 4x4 with 4 missing numbers
     Quantum solving puzzle 
@@ -222,109 +143,8 @@ To run the sample, use the `dotnet run` command from your terminal.
     quantum result verified correct
 
 
-    Press any key to continue...
 
-
-    Solving 9x9 with 1 missing number using classical computing
-    -------------------------------------
-    |   | 7 | 3 | 8 | 9 | 4 | 5 | 1 | 2 |
-    -------------------------------------
-    | 9 | 1 | 2 | 7 | 3 | 5 | 4 | 8 | 6 |
-    -------------------------------------
-    | 8 | 4 | 5 | 6 | 1 | 2 | 9 | 7 | 3 |
-    -------------------------------------
-    | 7 | 9 | 8 | 2 | 6 | 1 | 3 | 5 | 4 |
-    -------------------------------------
-    | 5 | 2 | 6 | 4 | 7 | 3 | 8 | 9 | 1 |
-    -------------------------------------
-    | 1 | 3 | 4 | 5 | 8 | 9 | 2 | 6 | 7 |
-    -------------------------------------
-    | 4 | 6 | 9 | 1 | 2 | 8 | 7 | 3 | 5 |
-    -------------------------------------
-    | 2 | 8 | 7 | 3 | 5 | 6 | 1 | 4 | 9 |
-    -------------------------------------
-    | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
-    -------------------------------------
-    classical test passed
-    -------------------------------------
-    | 6 | 7 | 3 | 8 | 9 | 4 | 5 | 1 | 2 |
-    -------------------------------------
-    | 9 | 1 | 2 | 7 | 3 | 5 | 4 | 8 | 6 |
-    -------------------------------------
-    | 8 | 4 | 5 | 6 | 1 | 2 | 9 | 7 | 3 |
-    -------------------------------------
-    | 7 | 9 | 8 | 2 | 6 | 1 | 3 | 5 | 4 |
-    -------------------------------------
-    | 5 | 2 | 6 | 4 | 7 | 3 | 8 | 9 | 1 |
-    -------------------------------------
-    | 1 | 3 | 4 | 5 | 8 | 9 | 2 | 6 | 7 |
-    -------------------------------------
-    | 4 | 6 | 9 | 1 | 2 | 8 | 7 | 3 | 5 |
-    -------------------------------------
-    | 2 | 8 | 7 | 3 | 5 | 6 | 1 | 4 | 9 |
-    -------------------------------------
-    | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
-    -------------------------------------
-
-
-    Press any key to continue...
-
-
-    Solving 9x9 with 1 missing number using Quantum Computing
-    Quantum solving puzzle 
-    -------------------------------------
-    |   | 7 | 3 | 8 | 9 | 4 | 5 | 1 | 2 |
-    -------------------------------------
-    | 9 | 1 | 2 | 7 | 3 | 5 | 4 | 8 | 6 |
-    -------------------------------------
-    | 8 | 4 | 5 | 6 | 1 | 2 | 9 | 7 | 3 |
-    -------------------------------------
-    | 7 | 9 | 8 | 2 | 6 | 1 | 3 | 5 | 4 |
-    -------------------------------------
-    | 5 | 2 | 6 | 4 | 7 | 3 | 8 | 9 | 1 |
-    -------------------------------------
-    | 1 | 3 | 4 | 5 | 8 | 9 | 2 | 6 | 7 |
-    -------------------------------------
-    | 4 | 6 | 9 | 1 | 2 | 8 | 7 | 3 | 5 |
-    -------------------------------------
-    | 2 | 8 | 7 | 3 | 5 | 6 | 1 | 4 | 9 |
-    -------------------------------------
-    | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
-    -------------------------------------
-    Running Quantum test with #Vertex = 1
-    Bits Per Color = 4
-    emptySquareEdges = []
-    startingNumberConstraints = [(0, 8),(0, 7),(0, 6),(0, 4),(0, 0),(0, 3),(0, 1),(0, 2)]
-    estimated #iterations needed = 3
-    size of Sudoku grid = 9x9
-    Trying search with 1 iterations
-    Got sudoku solution: [5]
-    Got valid sudoku solution: [5]
-    solved puzzle 
-    -------------------------------------
-    | 6 | 7 | 3 | 8 | 9 | 4 | 5 | 1 | 2 |
-    -------------------------------------
-    | 9 | 1 | 2 | 7 | 3 | 5 | 4 | 8 | 6 |
-    -------------------------------------
-    | 8 | 4 | 5 | 6 | 1 | 2 | 9 | 7 | 3 |
-    -------------------------------------
-    | 7 | 9 | 8 | 2 | 6 | 1 | 3 | 5 | 4 |
-    -------------------------------------
-    | 5 | 2 | 6 | 4 | 7 | 3 | 8 | 9 | 1 |
-    -------------------------------------
-    | 1 | 3 | 4 | 5 | 8 | 9 | 2 | 6 | 7 |
-    -------------------------------------
-    | 4 | 6 | 9 | 1 | 2 | 8 | 7 | 3 | 5 |
-    -------------------------------------
-    | 2 | 8 | 7 | 3 | 5 | 6 | 1 | 4 | 9 |
-    -------------------------------------
-    | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
-    -------------------------------------
-    quantum result verified correct
-
-
-    Press any key to continue...
-
+    dotnet run 9x9-2
 
     Solving 9x9 with 2 missing numbers using Quantum Computing
     Quantum solving puzzle 
@@ -378,54 +198,3 @@ To run the sample, use the `dotnet run` command from your terminal.
     | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
     -------------------------------------
     quantum result verified correct
-
-
-    Press any key to continue...
-
-
-    Solving 9x9 with lots of missing number using classical computing
-    -------------------------------------
-    |   |   |   |   |   |   |   | 1 | 2 |
-    -------------------------------------
-    |   |   |   |   | 3 | 5 |   |   |   |
-    -------------------------------------
-    |   |   |   | 6 |   |   |   | 7 |   |
-    -------------------------------------
-    | 7 |   |   |   |   |   | 3 |   |   |
-    -------------------------------------
-    |   |   |   | 4 |   |   | 8 |   |   |
-    -------------------------------------
-    | 1 |   |   |   |   |   |   |   |   |
-    -------------------------------------
-    |   |   |   | 1 | 2 |   |   |   |   |
-    -------------------------------------
-    |   | 8 |   |   |   |   |   | 4 |   |
-    -------------------------------------
-    |   | 5 |   |   |   |   | 6 |   |   |
-    -------------------------------------
-    classical test passed
-    -------------------------------------
-    | 6 | 7 | 3 | 8 | 9 | 4 | 5 | 1 | 2 |
-    -------------------------------------
-    | 9 | 1 | 2 | 7 | 3 | 5 | 4 | 8 | 6 |
-    -------------------------------------
-    | 8 | 4 | 5 | 6 | 1 | 2 | 9 | 7 | 3 |
-    -------------------------------------
-    | 7 | 9 | 8 | 2 | 6 | 1 | 3 | 5 | 4 |
-    -------------------------------------
-    | 5 | 2 | 6 | 4 | 7 | 3 | 8 | 9 | 1 |
-    -------------------------------------
-    | 1 | 3 | 4 | 5 | 8 | 9 | 2 | 6 | 7 |
-    -------------------------------------
-    | 4 | 6 | 9 | 1 | 2 | 8 | 7 | 3 | 5 |
-    -------------------------------------
-    | 2 | 8 | 7 | 3 | 5 | 6 | 1 | 4 | 9 |
-    -------------------------------------
-    | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
-    -------------------------------------
-
-
-    Press any key to continue...
-
-
-    Solving 9x9 with lots of missing number using Quantum Computing - uncomment to test this
