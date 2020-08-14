@@ -12,7 +12,7 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
 # Solving Sudoku using Grover's Algorithm
 
 
-     This program demonstrates solving Sudoku puzzle using Grovers algorithm
+     This program demonstrates solving Sudoku puzzle using Grovers algorithm.
      
      The code supports both 4x4 and 9x9 Sudoku puzzles.
           
