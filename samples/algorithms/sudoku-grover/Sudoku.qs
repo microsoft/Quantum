@@ -15,7 +15,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// of different colors
     /// In our case, Graph Nodes are puzzle squares and colors are the Sudoku numbers. 
     /// Graph Edges are the constraints preventing squares from having the same values. 
-    /// To reduce the number of QuBits needed, we only use QuBits for empty squares
+    /// To reduce the number of qubits needed, we only use qubits for empty squares
     /// We define the puzzle using 2 data structures.
     ///   - A list of edges connecting empty squares
     ///   - A list of constraints on empty squares to the initial numbers 
@@ -23,7 +23,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// The code works for both 9x9 Sudoku puzzles, and 4x4 Sudoku puzzles. 
     /// This description will use a 4x4 puzzle to make it easier to understand
     /// The 4x4 puzzle is solved with number 0 to 3 instead of 1 to 4. 
-    /// This is because we can encode 0-3 with 2 Qubits.
+    /// This is because we can encode 0-3 with 2 qubits.
     /// However, the same rules apply
     ///    - The numbers 0 to 3 may only appear once per row, column and 2x2 sub squares
     /// As an example              has solution

@@ -60,7 +60,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
 
     /// # Summary
     /// Oracle for verifying vertex coloring, including color constraints from
-    /// non QuBit vertexes
+    /// non qubit vertexes
     ///
     /// # Input
     /// ## V
