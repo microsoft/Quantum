@@ -16,7 +16,7 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      
      The code supports both 4x4 and 9x9 Sudoku puzzles.
           
-     For 4x4 puzzles, the same rules apply
+     For 4x4 puzzles, the same rules apply:
         - The numbers 0 to 3 may only appear once per row, column and 2x2 sub squares
      As an example              has solution
      _________________          _________________
