@@ -54,6 +54,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// This is a list of (empty square #, number it can't be)  
     /// i.e. empty square 0 can't have value 1 or 3, and empty square #1 can't have values 1 or 3
     ///
+    ///
     /// # Input
     /// ## V
     /// number of blank squares
