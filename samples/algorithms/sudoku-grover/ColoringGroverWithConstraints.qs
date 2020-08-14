@@ -14,7 +14,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// Read color from a register
     ///
     /// # Input
-    /// ## regster
+    /// ## register
     /// The qubits to measure
     operation MeasureColor (register : Qubit[]) : Int {
         return ResultArrayAsInt(MultiM(register));
