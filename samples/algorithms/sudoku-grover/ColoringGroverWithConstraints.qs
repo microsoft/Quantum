@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
-
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Math;
