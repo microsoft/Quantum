@@ -15,78 +15,27 @@ html, body {
     overflow: hidden;
 }
 
-.toolbar {
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.toolbar button {
-    font-size: large;
-}
-
-.state {
+#container {
     display: flex;
     flex-flow: column;
     height: calc(100vh - 40px);
-    overflow: scroll;
 }
 
 #top-container {
-    flex-grow: 1;
+    display: flex;
+    height: 40%;
 }
 
 #bottom-container {
     display: flex;
-    height: 30%;
-}
-
-.operations-container {
-    font-family: "Segoe UI", "Tahoma", "Geneva", "Verdana", sans-serif;
+    flex-grow: 1;
     overflow: auto;
-    white-space: nowrap;
-    width: 25%;
-    height: 100%;
-    float: left;
-}
-.operations {
-    margin: 0 10px 10px 30px;
-    padding: 0;
-    display: inline-block;
-}
-.operations ol {
-    border-left: 1px solid #ccc;
-}
-.operations ol:empty {
-    display: none;
-}
-.operations li {
-    list-style-type: none;
-    position: relative;
-    cursor: pointer;
-}
-.operation-children {
-    padding-left: 30px;
-}
-.last:after, .next:after {
-    position: absolute;
-    right: calc(100% + 5px);
-}
-.last:after {
-    content: "✅";
-    bottom: 0;
-}
-.next:after {
-    content: "➡️";
-    top: 0;
 }
 
 .chart-container {
-    left: 1em;
-    bottom: 1em;
-    width: 75%;
-    height: 100%;
-    float: right;
+    margin: auto;
+    width: 90%;
+    height: 90%;
 }
 
 canvas {

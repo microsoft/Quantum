@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -34,7 +33,6 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
                     endpoints.MapControllers();
                     endpoints.MapHub<StateVisualizerHub>("/events");
                 });
-            lifetime.ApplicationStopping.Register(visualizer.Stop);
         }
     }
 }

@@ -4,50 +4,35 @@
 import "./css/main.css";
 import * as signalR from "@aspnet/signalr";
 import * as chart from "chart.js";
-import { circuitToSvg, Circuit } from "sqore";
+import { circuitToSvg, Circuit, Operation } from "sqore";
 
 //#region Serialization contract
 
 type State = {
-    real: number,
-    imaginary: number,
-    magnitude: number,
-    phase: number
+    Real: number,
+    Imaginary: number,
+    Magnitude: number,
+    Phase: number
 }[];
 
 //#endregion
 
 //#region HTML elements
 
-const divOperations: HTMLDivElement = document.querySelector("#divOperations");
-const olOperations: HTMLOListElement = document.querySelector("#olOperations");
-const btnStepIn: HTMLButtonElement = document.querySelector("#btnStepIn");
-const btnStepOver: HTMLButtonElement = document.querySelector("#btnStepOver");
-const btnPrevious: HTMLButtonElement = document.querySelector("#btnPrevious");
 const canvas: HTMLCanvasElement = document.querySelector("#chartCanvas");
 const chartContext = canvas.getContext("2d");
 
 //#endregion
 
-const operations: HTMLLIElement[] = [];
-
-type Snapshot = {
-    state: State,
-    lastOperation: HTMLLIElement,
-    nextOperation: HTMLLIElement
+type GateRegistry = {
+    [id: string]: {
+        operation: Operation,
+        state: State,
+    }
 };
 
-type History = {
-    snapshots: Snapshot[],
-    position: number,
-    opToPos: { [opIdx: string]: number },
-};
-
-const history: History = {
-    snapshots: [],
-    position: -1,
-    opToPos: {},
-};
+const gateRegistry: GateRegistry = {};
+let displayedCircuit: Circuit = null;
 
 const stateChart = new chart.Chart(chartContext, {
     type: "bar",
@@ -85,8 +70,8 @@ const stateChart = new chart.Chart(chartContext, {
 });
 
 function updateChart(state: State) {
-    let real = state.map(amplitude => amplitude.real);
-    let imag = state.map(amplitude => amplitude.imaginary);
+    let real = state.map(amplitude => amplitude.Real);
+    let imag = state.map(amplitude => amplitude.Imaginary);
     let newCount = real.length;
     let nQubits = Math.log2(newCount) >>> 0;
     stateChart.data.datasets[0].data = real;
@@ -98,24 +83,78 @@ function updateChart(state: State) {
     stateChart.update();
 }
 
-function goToHistory(position: number): void {
-    const lastSnapshot = history.snapshots[history.position];
-    if (lastSnapshot.lastOperation !== null) {
-        lastSnapshot.lastOperation.className = "";
-    }
-    if (lastSnapshot.nextOperation !== null) {
-        lastSnapshot.nextOperation.className = "";
-    }
+//#region SignalR hub connection
 
-    const nextSnapshot = history.snapshots[position];
-    if (nextSnapshot.lastOperation !== null) {
-        nextSnapshot.lastOperation.className = "last";
-    }
-    if (nextSnapshot.nextOperation !== null) {
-        nextSnapshot.nextOperation.className = "next";
-    }
-    history.position = position;
-    updateChart(nextSnapshot.state);
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/events")
+    .build();
+
+connection.start().catch(err => document.write(err));
+connection.on("ExecutionPath", onExecutionPath);
+
+function onExecutionPath(executionPathStr: string) {
+    const executionPath: Circuit = JSON.parse(executionPathStr);
+
+    // Initialize gate registry
+    fillGateRegistry(executionPath.operations[0], "0");
+
+    // Render circuit to DOM
+    renderCircuit(executionPath);
+}
+
+// Depth-first traversal to fill gate registry and assign unique ID to operation
+function fillGateRegistry(operation: Operation, id: string) {
+    if (operation.customMetadata == null) operation.customMetadata = {};
+    operation.customMetadata["id"] = id;
+    const { state } = operation.customMetadata as { state: State };
+    gateRegistry[id] = { operation, state };
+    // Can remove state from metadata now
+    delete operation.customMetadata.state;
+    operation.children?.forEach((childOp, i) => fillGateRegistry(childOp, `${id}-${i}`));
+}
+
+function renderCircuit(circuit: Circuit) {
+    // Add metadata
+    parseOperations(circuit);
+
+    // Render circuit visualization to DOM
+    const svg: string = circuitToSvg(circuit);
+    const container: HTMLElement = document.getElementById("circuit-container");
+    if (container == null) throw new Error("circuit-container div not found.");
+    container.innerHTML = svg;
+    displayedCircuit = circuit;
+
+    // Handle click events
+    addGateClickHandlers();
+}
+
+function parseOperations(circuit: Circuit) {
+    circuit.operations.forEach((op, i) => {
+        if (op.customMetadata == null) op.customMetadata = {};
+        // Add position in circuit
+        op.customMetadata.position = i;
+    });
+}
+
+function addGateClickHandlers(): void {
+    document.querySelectorAll('.gate').forEach((gate) => {
+        // Jump to clicked gate
+        gate.addEventListener('click', () => jumpToGate(gate));
+
+        // Zoom in on clicked gate
+        gate.addEventListener('dblclick', (ev: MouseEvent) => {
+            const { id }: { id: string } = JSON.parse(gate.getAttribute('data-metadata'));
+            if (ev.ctrlKey) collapseOperation(displayedCircuit, id);
+            else expandOperation(displayedCircuit, id);
+        });
+    });
+}
+
+function jumpToGate(gate: Element) {
+    // Get state from gate metadata
+    const { id, position }: { id: string, position: number } = JSON.parse(gate.getAttribute('data-metadata'));
+    const state: State = gateRegistry[id].state;
+    updateChart(state);
 
     // Colour gates
     document.querySelectorAll('.gate').forEach(gate => {
@@ -127,247 +166,35 @@ function goToHistory(position: number): void {
     });
 }
 
-function pushHistory(lastOperation: HTMLLIElement, nextOperation: HTMLLIElement, state: State): void {
-    if (state === null) {
-        state = history.snapshots.length === 0 ? [] : history.snapshots[history.snapshots.length - 1].state;
-    }
-    history.snapshots.push({ state, lastOperation, nextOperation });
-    history.position = history.snapshots.length - 1;
+function expandOperation(circuit: Circuit, id: string) {
+    let operations: Operation[] = circuit.operations;
+    operations = operations.map(op => {
+        if (op.customMetadata == null) return op;
+        const opId: string = op.customMetadata["id"] as string;
+        if (opId === id && op.children != null) return op.children;
+        return op;
+    }).flat();
+    circuit.operations = operations;
+
+    renderCircuit(circuit);
 }
 
-function clearIcon(): void {
-    const next = olOperations.querySelector(".next");
-    if (next !== null) {
-        next.className = "";
-    }
-    const last = olOperations.querySelector(".last");
-    if (last !== null) {
-        last.className = "";
-    }
-}
-
-function getCurrentOperation(): HTMLLIElement {
-    const snapshot = history.snapshots[history.position];
-    return snapshot.nextOperation !== null ? snapshot.nextOperation : snapshot.lastOperation;
-}
-
-function getLevel(operation: HTMLLIElement): number {
-    if (operation.parentElement === null) {
-        throw new Error("Operation is not in olOperations");
-    } else if (operation.parentElement === olOperations) {
-        return 0;
-    } else if (operation.parentElement.parentElement instanceof HTMLLIElement) {
-        return 1 + getLevel(operation.parentElement.parentElement);
-    }
-}
-
-function getOffsetTop(operation: HTMLElement): number {
-    if (!olOperations.contains(operation.offsetParent)) {
-        return 0;
-    } else {
-        return operation.offsetTop + getOffsetTop(operation.offsetParent as HTMLElement);
-    }
-}
-
-function scrollToCurrentOperation(): void {
-    const snapshot = history.snapshots[history.position];
-    const operationEnded = snapshot.lastOperation !== null;
-    const operation = operationEnded ? snapshot.lastOperation : snapshot.nextOperation;
-
-    let target: HTMLElement;
-    if (operationEnded) {
-        const children = operation.querySelectorAll(".operation-name");
-        target = children[children.length - 1] as HTMLElement;
-    } else {
-        target = operation.querySelector(".operation-name");
-    }
-
-    const offsetTop = getOffsetTop(target);
-    if (offsetTop < divOperations.scrollTop) {
-        target.scrollIntoView(true);
-    } else if (offsetTop + target.offsetHeight > divOperations.scrollTop + divOperations.offsetHeight) {
-        target.scrollIntoView(false);
-        divOperations.scrollTop += 5;
-    }
-}
-
-function appendOperation(operation: HTMLLIElement): void {
-    if (operations.length === 0) {
-        olOperations.appendChild(operation);
-    } else {
-        operations[operations.length - 1].querySelector(".operation-children").appendChild(operation);
-    }
-    olOperations.scrollTop = olOperations.scrollHeight;
-}
-
-//#region SignalR hub connection
-
-const connection = new signalR.HubConnectionBuilder()
-    .withUrl("/events")
-    .build();
-
-connection.start().catch(err => document.write(err));
-
-connection.on("OperationStarted", onOperationStarted);
-connection.on("OperationEnded", onOperationEnded);
-connection.on("Log", onLog);
-
-function onOperationStarted(operationName: string, input: number[], state: State, tracedPath: string): void {
-    console.log("Operation start:", operationName, input);
-
-    clearIcon();
-    const operation = document.createElement("li");
-    operation.className = "next";
-    operation.innerHTML =
-        '<span class="operation-name"></span>' +
-        '(<span class="operation-args"></span>)' +
-        '<ol class="operation-children"></ol>';
-    operation.querySelector(".operation-name").textContent = operationName;
-    operation.querySelector(".operation-args").textContent = input.join(", ");
-    appendOperation(operation);
-    operations.push(operation);
-    updateChart(state);
-
-    pushHistory(null, operation, state);
-
-    const circuit: Circuit = JSON.parse(tracedPath);
-    labelOperations(circuit, history.position);
-
-    // Render circuit visualization
-    const svg: string = circuitToSvg(circuit);
-    const container: HTMLElement = document.getElementById("circuit-container");
-    if (container == null) throw new Error("circuit-container div not found.");
-    container.innerHTML = svg;
-
-    addGateClickHandlers();
-}
-
-function labelOperations(circuit: Circuit, latestPos: number): void {
-    circuit.operations.forEach((op, i) => {
-        if (!history.opToPos.hasOwnProperty(i)) {
-            history.opToPos[i] = latestPos;
-        }
-        op.customMetadata = { position: history.opToPos[i] };
-    });
-}
-
-function addGateClickHandlers(): void {
-    document.querySelectorAll('.gate').forEach(gate => {
-        gate.addEventListener('click', ev => {
-            // Get position from gate metadata
-            const position: number = JSON.parse(gate.getAttribute('data-metadata')).position;
-            goToHistory(position);
-        });
-    });
-}
-
-function onOperationEnded(returnValue: string, state: State): void {
-    console.log("Operation end:", returnValue);
-
-    clearIcon();
-    const operation = operations.pop();
-    operation.className = "last";
-    if (returnValue !== "()") {
-        // Show only return values that aren't unit.
-        operation.appendChild(document.createTextNode(` = ${returnValue}`));
-    }
-
-    updateChart(state);
-    pushHistory(operation, null, state);
-    olOperations.scrollTop = olOperations.scrollHeight;
-}
-
-function onLog(message: string, state: State): void {
-    console.log("Log: ", message);
-
-    clearIcon();
-    const operation = document.createElement("li");
-    operation.className = "next";
-    operation.innerHTML = '<span class="operation-name"></span>';
-    operation.querySelector(".operation-name").textContent = message;
-    appendOperation(operation);
-    updateChart(state);
-
-    pushHistory(null, operation, state);
-}
-
-function nextEvent(): Promise<void> {
-    return new Promise((resolve, reject) => {
-        function finish(): void {
-            resolve();
-            connection.off("OperationStarted", finish);
-            connection.off("OperationEnded", finish);
-            connection.off("Log", finish);
-        }
-
-        if (operations.length === 0) {
-            reject("All operations have finished");
-        } else {
-            connection.on("OperationStarted", finish);
-            connection.on("OperationEnded", finish);
-            connection.on("Log", finish);
-        }
-    });
+function collapseOperation(circuit: Circuit, id: string) {
+    // Cannot collapse top-level operation
+    if (id === "0") return;
+    const parentId: string = id.match(/(.*)-\d/)[1];
+    circuit.operations = circuit.operations
+        .map(op => {
+            if (op.customMetadata == null) return op;
+            const opId: string = op.customMetadata["id"] as string;
+            // Replace with parent operation
+            if (opId === id) return gateRegistry[parentId].operation;
+            // If operation is a descendant, don't render
+            if (opId.startsWith(parentId)) return null;
+            return op;
+        })
+        .filter(op => op != null);
+    renderCircuit(circuit);
 }
 
 //#endregion
-
-async function next(): Promise<void> {
-    if (history.position == history.snapshots.length - 1) {
-        if (operations.length > 0) {
-            connection.invoke("Advance");
-            await nextEvent();
-        }
-    } else {
-        goToHistory(history.position + 1);
-    }
-}
-
-async function previous(): Promise<void> {
-    // This is only async for symmetry with next, which needs to be async.
-    if (history.position > 0) {
-        goToHistory(history.position - 1);
-    }
-}
-
-async function repeatUntil(step: () => Promise<void>, success: () => boolean): Promise<void> {
-    const before = history.position;  // Make sure we're making progress each step.
-    await step();
-    if (history.position !== before && !success()) {
-        await repeatUntil(step, success);
-    }
-}
-
-function jump(event: Event): void {
-    let operation: HTMLLIElement;
-    if (event.target instanceof HTMLLIElement) {
-        operation = event.target;
-    } else if (event.target instanceof HTMLSpanElement && event.target.parentElement instanceof HTMLLIElement) {
-        operation = event.target.parentElement;
-    } else {
-        return;
-    }
-    const position = history.snapshots.findIndex(snapshot => operation === snapshot.nextOperation);
-    if (position !== -1) {
-        goToHistory(position);
-    }
-}
-
-function isOperationStart(): boolean {
-    return history.snapshots[history.position].nextOperation !== null;
-}
-
-btnStepIn.addEventListener("click", async () => {
-    await repeatUntil(next, isOperationStart);
-    scrollToCurrentOperation();
-});
-btnStepOver.addEventListener("click", async () => {
-    const level = getLevel(getCurrentOperation());
-    await repeatUntil(next, () => isOperationStart() && getLevel(getCurrentOperation()) <= level);
-    scrollToCurrentOperation();
-});
-btnPrevious.addEventListener("click", async () => {
-    await repeatUntil(previous, isOperationStart);
-    scrollToCurrentOperation();
-});
-olOperations.addEventListener("click", jump);
