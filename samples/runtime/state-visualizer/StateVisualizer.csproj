@@ -11,6 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.IQSharp.ExecutionPathTracer" Version="0.11.20081301-beta" />
+    <PackageReference Include="Microsoft.Quantum.IQSharp.ExecutionPathTracer" Version="0.12.2008.1306-alpha" />
   </ItemGroup>
 </Project>
