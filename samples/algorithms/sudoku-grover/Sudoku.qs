@@ -60,7 +60,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///
     ///
     /// # Input
-    /// ## V
+    /// ## vertexCount
     /// number of blank squares
     /// ## size
     /// The size of the puzzle. 4 for 4x4 grid, 9 for 9x9 grid
@@ -101,15 +101,15 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///         empty square #0 can not have values 2,1,3 because same row/column/2x2grid
     ///         empty square #1 can not have values 1,2,0 because same row/column/2x2grid
     ///    Results = [0,3,0] i.e. Empty Square #0 = 0, Empty Square #1 = 3, Empty Square #2 = 0
-    operation SolvePuzzle(V : Int, size : Int, emptySquareEdges : (Int, Int)[], 
+    operation SolvePuzzle(vertexCount : Int, size : Int, emptySquareEdges : (Int, Int)[], 
         startingNumberConstraints: (Int, Int)[]) : (Bool, Int[]) {
         mutable bitsPerColor = 2; // if size == 4x4 grid
         if (size == 9)
         {
             set bitsPerColor = 4; // if size == 9x9 grid
         }
-        let numIterations = NIterations(bitsPerColor * V);
-        Message($"Running Quantum test with #Vertex = {V}");
+        let numIterations = NIterations(bitsPerColor * vertexCount);
+        Message($"Running Quantum test with #Vertex = {vertexCount}");
         Message($"   Bits Per Color = {bitsPerColor}");
         Message($"   emptySquareEdges = {emptySquareEdges}");
         Message($"   startingNumberConstraints = {startingNumberConstraints}");
@@ -117,16 +117,16 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         Message($"   size of Sudoku grid = {size}x{size}");
         mutable coloring = new Int[0];
         if (size == 4) {
-            set coloring = GroversAlgorithm(V, 2, numIterations * 2, 
-                VertexColoringOracle(V, 2, emptySquareEdges, startingNumberConstraints, _, _));
+            set coloring = FindColorsWithGrover(vertexCount, 2, numIterations * 2, 
+                VertexColoringOracle(vertexCount, 2, emptySquareEdges, startingNumberConstraints, _, _));
         }
         elif (size == 9) {
-            set coloring = GroversAlgorithm(V, 4, numIterations * 2, 
-                VertexColoringOracle4Bit9Color(V, emptySquareEdges, startingNumberConstraints, _, _));
+            set coloring = FindColorsWithGrover(vertexCount, 4, numIterations * 2, 
+                VertexColoringOracle4Bit9Color(vertexCount, emptySquareEdges, startingNumberConstraints, _, _));
         }
 
         Message($"Got sudoku solution: {coloring}");
-        if (IsSudokuSolutionValid(V, size, emptySquareEdges, startingNumberConstraints, coloring)) {
+        if (IsSudokuSolutionValid(size, emptySquareEdges, startingNumberConstraints, coloring)) {
            Message($"Got valid sudoku solution: {coloring}");
            return (true, coloring);
         } else {
@@ -154,8 +154,6 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// range (e.g. <9 for a 9x9 puzzle) and satisfy all edge/starting number constraints
     /// 
     /// # Input
-    /// ## V
-    /// Number of Vertexes in the Graph i.e. Number of Empty Sudoku squares
     /// ## size
     /// The size of the puzzle. 4 for 4x4 grid, 9 for 9x9 grid
     /// ## edges
@@ -174,7 +172,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// 
     /// # Output
     /// A boolean value of true if the colors found satisfy all the solution requirements
-    function IsSudokuSolutionValid (V : Int, size : Int, edges : (Int, Int)[], 
+    function IsSudokuSolutionValid (size : Int, edges : (Int, Int)[], 
         startingNumberConstraints : (Int, Int)[], colors : Int[]) : Bool {
         for (color in colors) {
             if (color >= size) {

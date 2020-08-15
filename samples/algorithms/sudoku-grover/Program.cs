@@ -271,24 +271,21 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         {
             for (int i = 0; i < size; i++)
             {
-                Console.Write("-");
                 for (int j = 0; j < size; j++)
                     Console.Write("----");
-                Console.WriteLine("");
-                Console.Write("|");
+                Console.WriteLine("-");
                 for (int j = 0; j < size; j++) 
                 {
                     if (puzzle[i, j] == 0)
-                        Console.Write("   |");
+                        Console.Write("|   ");
                     else
-                        Console.Write(String.Format(" {0,1} |", puzzle[i, j]));
+                        Console.Write(String.Format("| {0,1} ", puzzle[i, j]));
                 }
-                Console.WriteLine("");
+                Console.WriteLine("|");
             }
-            Console.Write("-");
             for (int j = 0; j < size; j++)
                     Console.Write("----");
-            Console.WriteLine("");
+            Console.WriteLine("-");
         }
 
         /// # Summary
@@ -327,22 +324,22 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                     {
                         int emptyIndex = emptySquares.Count;
                         emptyIndexes[i, j] = emptyIndex;
-                        EmptySquare es = new EmptySquare();
-                        es.i = i;
-                        es.j = j;
-                        emptySquares.Add(es);
+                        EmptySquare emptySquare = new EmptySquare();
+                        emptySquare.i = i;
+                        emptySquare.j = j;
+                        emptySquares.Add(emptySquare);
                         // add all existing number constraints in subSize x subSize to hashset of constraints for this cell
                         // Also, add edge to any previous empty cells in the subSize x subSize box
-                        int i3 = i / subSize * subSize;
-                        int j3 = j / subSize * subSize;
-                        for (int ii = i3; ii < i; ii++)
+                        int iSubGridStart = i / subSize * subSize;
+                        int jSubGridStart = j / subSize * subSize;
+                        for (int iSub = iSubGridStart; iSub < i; iSub++)
                         {
-                            for (int jj = j3; jj < j; jj++)
+                            for (int jSub = jSubGridStart; jSub < j; jSub++)
                             {
-                                if (puzzle[ii, jj] != 0)
-                                    startingNumberConstraints.Add(ValueTuple.Create(emptyIndex, puzzle[ii, jj] - 1));
-                                else if (ii < i && jj < j)
-                                    emptySquareEdges.Add(ValueTuple.Create(emptyIndex, emptyIndexes[ii, jj]));
+                                if (puzzle[iSub, jSub] != 0)
+                                    startingNumberConstraints.Add(ValueTuple.Create(emptyIndex, puzzle[iSub, jSub] - 1));
+                                else if (iSub < i && jSub < j)
+                                    emptySquareEdges.Add(ValueTuple.Create(emptyIndex, emptyIndexes[iSub, jSub]));
                             }
                         }
                         for (int ii = 0; ii < size; ii++)
@@ -374,23 +371,29 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
 
         /// # Summary
         /// Classical Sudoku solution using Recursive Depth First Search 
+        /// ## puzzle
+        /// The Sudoku puzzle
+        /// ## size
+        /// The size of the puzzle i.e. 4 or 9
+        /// ## subSize
+        /// The size of the subGrids i.e. if size = 9, subSize = 3
         static bool SolveSudukoClassic(int[,] puzzle, int size, int subSize)
         {
             // find empty cell will least possible options and try each
-            Candidate c = BestSquare(puzzle, size, subSize);
-            if (c == null)
+            Candidate emptyCell = BestSquare(puzzle, size, subSize);
+            if (emptyCell == null)
                 return true; // no more empty cells --- success!!
-            if (c.values.Count == 0)
+            if (emptyCell.possibleValues.Count == 0)
                 return false; // there's an empty cell, but no possible values -- dead end
-            foreach (int v in c.values)
+            foreach (int possibleValue in emptyCell.possibleValues)
             {
-                puzzle[c.i, c.j] = v;
+                puzzle[emptyCell.i, emptyCell.j] = possibleValue;
                 bool result = SolveSudukoClassic(puzzle, size, subSize);
                 if (result)
                     return true;
             }
             // we tried all values and none worked  -- dead end
-            puzzle[c.i, c.j] = 0;
+            puzzle[emptyCell.i, emptyCell.j] = 0;
             return false;
         }
 
@@ -400,11 +403,20 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         {
             public int i;
             public int j;
-            public List<int> values = new List<int>();
+            public List<int> possibleValues = new List<int>();
         }
 
         /// # Summary
-        /// For classical sudoku, go thru entire puzzle and find all empty squares and, for each, the possible numbers for that square
+        /// For classical sudoku, go thru entire puzzle and find all empty squares and, 
+        /// for each, the possible numbers for that square
+        /// 
+        /// # Input
+        /// ## puzzle
+        /// The Sudoku puzzle
+        /// ## size
+        /// The size of the puzzle i.e. 4 or 9
+        /// ## subSize
+        /// The size of the subGrids i.e. if size = 9, subSize = 3
         static Candidate BestSquare(int[,] puzzle, int size, int subSize)
         {
             List<Candidate> candidates = new List<Candidate>();
@@ -414,36 +426,37 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 {
                     if (puzzle[i, j] == 0)
                     {
-                        Candidate c = new Candidate();
-                        c.i = i;
-                        c.j = j;
-                        candidates.Add(c);
-                        HashSet<int> h = new HashSet<int>();
+                        Candidate candidate = new Candidate();
+                        candidate.i = i;
+                        candidate.j = j;
+                        candidates.Add(candidate);
+                        HashSet<int> dissallowedValues = new HashSet<int>();
                         // add all numbers in subSize x subSize to hashset
-                        int i3 = i / subSize * subSize;
-                        int j3 = j / subSize * subSize;
-                        for (int ii = 0; ii < subSize; ii++)
+                        int iSubGridStart = i / subSize * subSize;
+                        int jSubGridStart = j / subSize * subSize;
+                        for (int iSub = iSubGridStart; iSub < iSubGridStart + subSize; iSub++)
                         {
-                            for (int jj = 0; jj < subSize; jj++)
+                            for (int jSub = jSubGridStart; jSub < jSubGridStart + subSize; jSub++)
                             {
-                                if (puzzle[i3 + ii, j3 + jj] != 0)
-                                    h.Add(puzzle[i3 + ii, j3 + jj]);
+                                if (puzzle[iSub, jSub] != 0)
+                                    dissallowedValues.Add(
+                                        puzzle[iSub, jSub]);
                             }
                         }
                         // add all numbers in this row to hashset
                         for (int ii = 0; ii < size; ii++)
                             if (puzzle[ii, j] != 0)
-                                h.Add(puzzle[ii, j]);
+                                dissallowedValues.Add(puzzle[ii, j]);
                         // add all numbers in this col to hashset
                         for (int jj = 0; jj < size; jj++)
                             if (puzzle[i, jj] != 0)
-                                h.Add(puzzle[i, jj]);
+                                dissallowedValues.Add(puzzle[i, jj]);
                         // add any numbers not in hashset to candidate values
                         for (int ii = 1; ii <= size; ii++)
                         {
-                            if (!h.Contains(ii))
+                            if (!dissallowedValues.Contains(ii))
                             {
-                                c.values.Add(ii);
+                                candidate.possibleValues.Add(ii);
                             }
                         }
                     }
@@ -453,7 +466,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             if (candidates.Count == 0)
                 return null;
             else
-                return candidates.Aggregate((c1, c2) => c1.values.Count < c2.values.Count ? c1 : c2);
+                return candidates.Aggregate((c1, c2) => c1.possibleValues.Count < c2.possibleValues.Count ? c1 : c2);
         }
 
     }
