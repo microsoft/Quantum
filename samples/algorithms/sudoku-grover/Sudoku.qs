@@ -60,7 +60,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///
     ///
     /// # Input
-    /// ## vertexCount
+    /// ## numVertices
     /// number of blank squares
     /// ## size
     /// The size of the puzzle. 4 for 4x4 grid, 9 for 9x9 grid
@@ -101,15 +101,15 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///         empty square #0 can not have values 2,1,3 because same row/column/2x2grid
     ///         empty square #1 can not have values 1,2,0 because same row/column/2x2grid
     ///    Results = [0,3,0] i.e. Empty Square #0 = 0, Empty Square #1 = 3, Empty Square #2 = 0
-    operation SolvePuzzle(vertexCount : Int, size : Int, emptySquareEdges : (Int, Int)[], 
+    operation SolvePuzzle(numVertices : Int, size : Int, emptySquareEdges : (Int, Int)[], 
         startingNumberConstraints: (Int, Int)[]) : (Bool, Int[]) {
         mutable bitsPerColor = 2; // if size == 4x4 grid
         if (size == 9)
         {
             set bitsPerColor = 4; // if size == 9x9 grid
         }
-        let numIterations = NIterations(bitsPerColor * vertexCount);
-        Message($"Running Quantum test with #Vertex = {vertexCount}");
+        let numIterations = NIterations(bitsPerColor * numVertices);
+        Message($"Running Quantum test with #Vertex = {numVertices}");
         Message($"   Bits Per Color = {bitsPerColor}");
         Message($"   emptySquareEdges = {emptySquareEdges}");
         Message($"   startingNumberConstraints = {startingNumberConstraints}");
@@ -117,12 +117,12 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         Message($"   size of Sudoku grid = {size}x{size}");
         mutable coloring = new Int[0];
         if (size == 4) {
-            set coloring = FindColorsWithGrover(vertexCount, 2, numIterations * 2, 
-                VertexColoringOracle(vertexCount, 2, emptySquareEdges, startingNumberConstraints, _, _));
+            set coloring = FindColorsWithGrover(numVertices, 2, numIterations, 
+                VertexColoringOracle(numVertices, 2, emptySquareEdges, startingNumberConstraints, _, _));
         }
         elif (size == 9) {
-            set coloring = FindColorsWithGrover(vertexCount, 4, numIterations * 2, 
-                VertexColoringOracle4Bit9Color(vertexCount, emptySquareEdges, startingNumberConstraints, _, _));
+            set coloring = FindColorsWithGrover(numVertices, 4, numIterations, 
+                VertexColoringOracle4Bit9Color(numVertices, emptySquareEdges, startingNumberConstraints, _, _));
         }
 
         Message($"Got sudoku solution: {coloring}");

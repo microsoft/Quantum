@@ -299,7 +299,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         /// 
         /// # Output
         /// ## emptySquareEdges
-        /// The list of empty square edges specifying Vertexes in the same row/col/subgrid
+        /// The list of empty square edges specifying Vertices in the same row/col/subgrid
         /// ## startingNumberConstraints
         /// The set of numbers that this empty square can not have. 
         /// ## emptySquares

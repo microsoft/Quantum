@@ -29,8 +29,8 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// ## register
     /// register of qubits 
     operation MeasureColoring (bitsPerColor : Int, register : Qubit[]) : Int[] {
-        let vertexCount = Length(register) / bitsPerColor;
-        let colorPartitions = Partitioned(ConstantArray(vertexCount - 1, bitsPerColor), register);
+        let numVertices = Length(register) / bitsPerColor;
+        let colorPartitions = Partitioned(ConstantArray(numVertices - 1, bitsPerColor), register);
         return ForEach(MeasureColor, colorPartitions);
     } 
 
@@ -60,10 +60,10 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
 
     /// # Summary
     /// Oracle for verifying vertex coloring, including color constraints from
-    /// non qubit vertexes
+    /// non qubit vertices
     ///
     /// # Input
-    /// ## vertexCount
+    /// ## numVertices
     /// The number of vertices in the graph
     /// ## bitsPerColor
     /// The bits per color e.g. 2 bits per color allows for 4 colors
@@ -91,7 +91,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     ///  The challenge is to fill the empty squares with numbers 0 to 3
     ///  that are unique in row, column and the top left 2x2 square
     ///  This is a graph coloring problem where the colors are 0 to 3
-    ///  and the empty cells are the Vertexes. The Vertexes can be defined as   
+    ///  and the empty cells are the vertices. The vertices can be defined as   
     ///     -----------------
     ///     | 0 | 1 |   |   |
     ///     -----------------
@@ -107,11 +107,11 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     ///  1---2
     /// i.e. every vertex is connected to each other
     /// But we also require that 
-    ///    - vertexes 0 and 1 do not get colors 2 and 3
-    ///    - vertexes 2 and 3 do not get colors 3 and 0
-    ///    - vertexes 0 and 2 do not get colors 1 and 3
-    ///    - vertexes 1 and 3 do not get colors 2 and 0 
-    /// This results in edges (vertexes that can not be same color)
+    ///    - vertices 0 and 1 do not get colors 2 and 3
+    ///    - vertices 2 and 3 do not get colors 3 and 0
+    ///    - vertices 0 and 2 do not get colors 1 and 3
+    ///    - vertices 1 and 3 do not get colors 2 and 0 
+    /// This results in edges (vertices that can not be same color)
     /// edges = [(1, 0),(2, 0),(3, 0),(3, 1),(3, 2)]
     /// This is saying that vertex 1 can not have same color as vertex 0 etc.
     /// and startingColorConstraints = [(0, 1),(0, 3),(0, 2),(1, 2),(1, 0),
@@ -122,7 +122,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// and vertex 3 is not allowed to have values 2,0,1
     /// A valid graph coloring solution is: [0,1,2,3]
     /// i.e. vextex 0 has color 0, vertex 1 has color 1 etc.
-    operation VertexColoringOracle (vertexCount : Int, bitsPerColor : Int, edges : (Int, Int)[],  
+    operation VertexColoringOracle (numVertices : Int, bitsPerColor : Int, edges : (Int, Int)[],  
         startingColorConstraints : (Int, Int)[], 
         colorsRegister : Qubit[], 
         target : Qubit) : Unit is Adj+Ctl {
@@ -156,12 +156,12 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
 
     /// # Summary
     /// Oracle for verifying vertex coloring, including color constraints 
-    /// from non qubit vertexes. This is the same as VertexColoringOracle, 
+    /// from non qubit vertices. This is the same as VertexColoringOracle, 
     /// but hardcoded to 4 bits per color and restriction that colors are 
     /// limited to 0 to 8.
     ///
     /// # Input
-    /// ## vertexCount
+    /// ## numVertices
     /// The number of vertices in the graph
     /// ## edges
     /// The array of (Vertex#,Vertex#) specifying the Vertices that can not 
@@ -201,7 +201,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     ///  The challenge is to fill the empty squares with numbers 0 to 8
     ///  that are unique in row, column and the top left 3x3 square
     ///  This is a graph coloring problem where the colors are 0 to 8
-    ///  and the empty cells are the Vertexes. The Vertexes can be defined as   
+    ///  and the empty cells are the vertices. The vertices can be defined as   
     ///     -----------------
     ///     | 0 |   |   |   | ...
     ///     -----------------
@@ -216,7 +216,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     ///                         or value 8,7,6,4,0,3,1,2 (col constraint)
     ///    - vertex 1 can not value 8,1,6,2,4,3,7,5 (row constraint)
     ///                    or value 6,3,8,1,2,5,7,4 (col constraint)
-    /// This results in edges (vertexes that can not be same color)
+    /// This results in edges (vertices that can not be same color)
     /// edges = [(1, 0)]
     /// This is saying that vertex 1 can not have same color as vertex 0
     /// and startingColorConstraints = [(0, 8),(0, 7),(0, 6),(0, 4),(0, 0),(0, 3),
@@ -224,7 +224,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// The colors found must be from 0 to 8, which requires 4 bits per color
     /// A valid graph coloring solution is: [5,0]
     /// i.e. vextex 0 has color 5, vertex 1 has color 0
-    operation VertexColoringOracle4Bit9Color (vertexCount : Int, edges : (Int, Int)[],  
+    operation VertexColoringOracle4Bit9Color (numVertices : Int, edges : (Int, Int)[],  
         startingColorConstraints : (Int, Int)[], 
         colorsRegister : Qubit[], target : Qubit) : Unit is Adj+Ctl {
         let nEdges = Length(edges);
@@ -233,7 +233,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         // we are looking for a solution that 
         // (a) has no edge with same color at both ends and 
         // (b) has no Vertex with a color that violates the starting color constraints
-        using (conflictQubits = Qubit[nEdges + nStartingColorConstraints + vertexCount]) {
+        using (conflictQubits = Qubit[nEdges + nStartingColorConstraints + numVertices]) {
             within {
                 for (((start, end), conflictQubit) in Zip(edges, conflictQubits[0 .. nEdges-1])) {
                     // Check that endpoints of the edge have different colors:
@@ -250,9 +250,9 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
                     (ControlledOnInt(value, X))(colorsRegister[
                         cell * bitsPerColor .. (cell + 1) * bitsPerColor - 1], conflictQubit);
                 } 
-                let zippedColorAndConfictQubit = Zip(Partitioned(ConstantArray(vertexCount, bitsPerColor), colorsRegister),
+                let zippedColorAndConfictQubit = Zip(Partitioned(ConstantArray(numVertices, bitsPerColor), colorsRegister),
                             conflictQubits[
-                                nEdges + nStartingColorConstraints .. nEdges + nStartingColorConstraints + vertexCount - 1]);
+                                nEdges + nStartingColorConstraints .. nEdges + nStartingColorConstraints + numVertices - 1]);
                 for ((color, conflictQubit) in zippedColorAndConfictQubit) {
                     // Only allow colors from 0 to 8 i.e. if bit #3 = 1, then bits 2..0 must be 000.
                     using (tempQubit = Qubit()) {
@@ -286,7 +286,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// Using Grover's search to find vertex coloring.
     ///
     /// # Input
-    /// ## vertexCount
+    /// ## numVertices
     /// The number of Vertices in the graph
     /// ## bitsPerColor
     /// The number of bits per color
@@ -297,16 +297,16 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// 
     /// # Output
     /// Int Array giving the color of each vertex
-    operation FindColorsWithGrover (vertexCount : Int, bitsPerColor : Int, maxIterations : Int, 
+    operation FindColorsWithGrover (numVertices : Int, bitsPerColor : Int, maxIterations : Int, 
         oracle : ((Qubit[], Qubit) => Unit is Adj)) : Int[] {
         // This task is similar to task 2.2 from SolveSATWithGrover kata, 
         // (see https://github.com/microsoft/QuantumKatas/tree/master/SolveSATWithGrover)
         // but the percentage of correct solutions is potentially higher.
-        mutable coloring = new Int[vertexCount];
+        mutable coloring = new Int[numVertices];
 
         // Note that coloring register has the number of qubits that is 
         // twice the number of vertices (bitsPerColor qubits per vertex).
-        using ((register, output) = (Qubit[bitsPerColor * vertexCount], Qubit())) {
+        using ((register, output) = (Qubit[bitsPerColor * numVertices], Qubit())) {
             mutable correct = false;
             mutable iter = 1;
             repeat {
