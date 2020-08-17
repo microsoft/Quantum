@@ -22,6 +22,8 @@ To run the sample, use the `dotnet run` command from your terminal. Example: `do
 
 ## Manifest
 
-- [SimpleAlgorithms.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/simple-algorithms/SimpleAlgorithms.qs): Q# code implementing quantum operations for this sample.
-- [Program.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/simple-algorithms/Program.qs): Q# entry point to interact with and print out results of the Q# operations for this sample.
+- [BernsteinVazirani.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/simple-algorithms/BernsteinVazirani.qs): Q# code implementing Bernstein-Vazirani algorithm for this sample.
+- [DeutschJozsa.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/simple-algorithms/DeutschJozsa.qs): Q# code implementing Deutsch-Jozsa algorithm for this sample.
+- [HiddenShift.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/simple-algorithms/HiddenShift.qs): Q# code implementing hidden shift algorithm for this sample.
+- [Program.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/simple-algorithms/Program.qs): Q# entry point to interact with and print out results of the test cases for this sample.
 - [SimpleAlgorithms.csproj](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/simple-algorithms/SimpleAlgorithms.csproj): Main Q# project for the sample.
