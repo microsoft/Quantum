@@ -8,7 +8,7 @@ products:
 description: "This sample implements using the quantum machine learning library to train a sequential model on the half-moons dataset, parallelizing over target machines."
 ---
 
-# Training sequential models with Q\#, using multiple simulators in parallel
+# Training sequential models with Q#, using multiple simulators in parallel
 
 This sample uses Q# and the Microsoft.Quantum.MachineLearning library to train a simple sequential model.
 The model is trained on a half-moons dataset, loaded in C# using the System.Text.Json package, then preprocessed using Q#.
