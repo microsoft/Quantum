@@ -9,7 +9,7 @@ products:
 description: "This sample implements using the quantum machine learning library to train a sequential model on the half-moons dataset."
 ---
 
-# Training sequential models with Q\#, using data loaded from JSON
+# Training sequential models with Q#, using data loaded from JSON
 
 This sample uses Q# and the Microsoft.Quantum.MachineLearning library to train a simple sequential model.
 The model is trained on a half-moons dataset, loaded in C# using the System.Text.Json package or in Python using the `json` module, then preprocessed using Q#.
@@ -18,6 +18,7 @@ The model is trained on a half-moons dataset, loaded in C# using the System.Text
 ## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- To run the Python version you also will need to install the python libraries `numpy` and `matplotlib`. You can install them from the command line by typing `pip install <library name>`.
 
 ## Running the Sample
 
