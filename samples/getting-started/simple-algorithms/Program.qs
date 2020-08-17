@@ -1,11 +1,25 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
+//////////////////////////////////////////////////////////////////////////
+// Introduction //////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
+// This sample contains several simple quantum algorithms coded in Q#. The
+// intent is to highlight the expressive capabilities of the language that
+// enable it to express quantum algorithms that consist of a short quantum
+// part and classical post-processing that is simple, or in some cases,
+// trivial.
 
 namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
 
     open Microsoft.Quantum.Arrays as Array;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.DeutschJozsa;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani;
 
     @EntryPoint()
     operation RunProgram (nQubits : Int) : Unit {
@@ -93,7 +107,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
 
         for (shift in 0 .. (1 <<< nQubits) - 1)
         {
-            let measuredShift = HiddenShiftBentCorrelationTestCase(shift, nQubits / 2);
+            let measuredShift = HiddenShiftTestCase(shift, nQubits);
             if (measuredShift != shift) {
                 fail $"Measured shift {measuredShift}, but expected {shift}.";
             }
