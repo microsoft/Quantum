@@ -18,7 +18,7 @@ The model is trained on a half-moons dataset, loaded in C# using the System.Text
 ## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
-- To run the Python version you also will need to install the python libraries `numpy` and `matplotlib`. You can install them from the command line by typing `pip install <library name>`.
+- To run the Python version you also will need to install the Python libraries `numpy` and `matplotlib`. You can install them from the command line by typing `pip install <library name>`.
 
 ## Running the Sample
 
