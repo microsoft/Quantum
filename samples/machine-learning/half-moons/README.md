@@ -18,13 +18,20 @@ The model is trained on a half-moons dataset, loaded in C# using the System.Text
 ## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
-- To run the Python version you also will need to install the Python libraries `numpy` and `matplotlib`. You can install them from the command line by typing `pip install <library name>`.
 
 ## Running the Sample
 
 This sample can be run in a number of different ways, depending on your preferred environment.
 
 ### Python in Visual Studio Code or the Command Line ###
+
+This sample also uses a couple extra Python packages to help out, so you'll need to have those 
+ready as well. If you are using the Anaconda distribution of Python, this can be done automatically by using 
+the `environment.yml` file provided with this sample:
+
+cd samples/machine-learning/half-moons
+conda env create -f environment.yml
+conda activate qsharp-sample-classifier
 
 At a terminal, run the following command:
 
