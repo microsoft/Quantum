@@ -155,8 +155,10 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
     }
 
     /// # Summary
-    /// Create an array of site-to-site couplings
-    /// Here we use a chain with constant Ising coupling
+    /// Create an array of site-to-site couplings.
+    /// This supports either a chain, cycle or all-to-all coupled Ising lattice.
+    /// Here we use a constant Ising coupling J. Optionally the value can be 
+    /// set to -J, depending on the parity of the lattice index.
     ///
     /// # Input
     /// ## nSites
