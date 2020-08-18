@@ -3,9 +3,10 @@
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
-    open Microsoft.Quantum.Samples.SimpleAlgorithms;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.DeutschJozsa;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani;
     open Microsoft.Quantum.Diagnostics;
-
 
     //////////////////////////////////////////////////////////////////////////
     // Tests for the Bernstein-Vazirani quantum algorithm ////////////////////
@@ -52,7 +53,7 @@ namespace Microsoft.Quantum.Tests {
             // the corresponding quantum operation is constructed, which
             // has signature Qubit[] => (), and then it is passed to the
             // quantum algorithm to reconstruct the shift.
-            let result = HiddenShiftBentCorrelationTestCase(idxInstance, u);
+            let result = HiddenShiftTestCase(idxInstance, u);
 
             // Finally, using an assertion from the Asserts subdomain of the
             // canon, we check if the measured result is equal to pattern.
