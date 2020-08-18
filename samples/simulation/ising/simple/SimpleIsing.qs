@@ -183,17 +183,17 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
         allToAll: Bool
     ) : (Int, Double)[][] {
         mutable couplings = new (Int, Double)[][nSites];
-        mutable numCouplings = cycle == true or allToAll == true ? nSites - 2 | nSites - 1;
+        let numCouplings = cycle == true or allToAll == true ? nSites - 2 | nSites - 1;
         mutable sign = 1.0;
 
-        for ( i in 0 .. numCouplings ) {
-            if ( signByParity == true ) {
+        for (i in 0 .. numCouplings) {
+            if (signByParity) {
                 set sign = (i + 1) % nSites == 0 ? 1.0 | -1.0;
             }
             set couplings w/= i <- [( i+1, sign * J )];
 
-            if ( allToAll == true ) {
-                for ( j in i + 1 .. numCouplings) {
+            if (allToAll) {
+                for (j in i + 1 .. numCouplings) {
                     set couplings w/= i <- [( i+1, sign * J )];
                 }
             }
