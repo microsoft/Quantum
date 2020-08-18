@@ -4,7 +4,7 @@
 import "./css/main.css";
 import * as signalR from "@aspnet/signalr";
 import * as chart from "chart.js";
-import { circuitToSvg, Circuit, Operation } from "sqore";
+import { createSqore, Circuit, Operation } from "sqore";
 
 //#region Serialization contract
 
@@ -21,9 +21,32 @@ type State = {
 
 const canvas: HTMLCanvasElement = document.querySelector("#chartCanvas");
 const chartContext = canvas.getContext("2d");
+const circuitContainer: HTMLElement = document.getElementById("circuit-container");
+if (circuitContainer == null) throw new Error("circuit-container div not found.");
+
+// Event handlers to visually signal to user that the gate can be zoomed in/out on key-press
+document.addEventListener('keydown', (ev) => {
+    if (ev.ctrlKey) {
+        document.querySelectorAll('[data-zoom-in="true"]').forEach((el: HTMLElement) => {
+            el.style.cursor = 'zoom-in';
+        });
+    } else if (ev.shiftKey) {
+        document.querySelectorAll('[data-zoom-out="true"]').forEach((el: HTMLElement) => {
+            el.style.cursor = 'zoom-out';
+        });
+    }
+});
+document.addEventListener('keyup', () => {
+    document.querySelectorAll('.gate').forEach((el: HTMLElement) => {
+        el.style.cursor = 'pointer';
+    });
+});
 
 //#endregion
 
+/**
+ * Mapping from gate ID to operation and state (used in jumping to state).
+ */
 type GateRegistry = {
     [id: string]: {
         operation: Operation,
@@ -69,6 +92,10 @@ const stateChart = new chart.Chart(chartContext, {
     }
 });
 
+/**
+ * Updates chart with new state for display.
+ * @param state State to display.
+ */
 function updateChart(state: State) {
     let real = state.map(amplitude => amplitude.Real);
     let imag = state.map(amplitude => amplitude.Imaginary);
@@ -92,101 +119,139 @@ const connection = new signalR.HubConnectionBuilder()
 connection.start().catch(err => document.write(err));
 connection.on("ExecutionPath", onExecutionPath);
 
+/**
+ * Renders execution path as circuit in DOM.
+ * @param executionPathStr Execution path as a JSON string.
+ */
 function onExecutionPath(executionPathStr: string) {
     const executionPath: Circuit = JSON.parse(executionPathStr);
 
     // Initialize gate registry
     fillGateRegistry(executionPath.operations[0], "0");
 
+    // View operations 1 depth lower than outer operation
+    if (executionPath.operations.length === 1 && executionPath.operations[0].children != null) {
+        executionPath.operations = executionPath.operations[0].children;
+    }
+
     // Render circuit to DOM
     renderCircuit(executionPath);
 }
 
-// Depth-first traversal to fill gate registry and assign unique ID to operation
+/**
+ * Depth-first traversal to fill gate registry and assign unique ID to operation
+ * @param operation Operation to parse and add to gate registry.
+ * @param id ID to assign to operation.
+ */
 function fillGateRegistry(operation: Operation, id: string) {
-    if (operation.customMetadata == null) operation.customMetadata = {};
-    operation.customMetadata["id"] = id;
-    const { state } = operation.customMetadata as { state: State };
+    if (operation.dataAttributes == null) operation.dataAttributes = {};
+    operation.dataAttributes["id"] = id;
+    operation.dataAttributes['zoom-out'] = 'false';
+    const state: State = JSON.parse(operation.dataAttributes['state']);
     gateRegistry[id] = { operation, state };
-    // Can remove state from metadata now
-    delete operation.customMetadata.state;
-    operation.children?.forEach((childOp, i) => fillGateRegistry(childOp, `${id}-${i}`));
+    // Can remove state from attributes now
+    delete operation.dataAttributes.state;
+    operation.children?.forEach((childOp: Operation, i: number) => {
+        fillGateRegistry(childOp, `${id}-${i}`);
+        childOp.dataAttributes['zoom-out'] = 'true';
+    });
+    operation.dataAttributes['zoom-in'] = (operation.children != null).toString();
 }
 
-function renderCircuit(circuit: Circuit) {
-    // Add metadata
-    parseOperations(circuit);
+/**
+ * Handles interacting with Sqore to generate the circuit visualization and inject into the DOM.
+ * @param circuit Circuit for rendering to DOM.
+ */
+function renderCircuit(circuit: Circuit): void {
+    // Add data attributes
+    tagOperations(circuit);
 
+    // Inject custom JS only if this is the first time rendering
+    const injectScript: boolean = (displayedCircuit == null);
     // Render circuit visualization to DOM
-    const svg: string = circuitToSvg(circuit);
-    const container: HTMLElement = document.getElementById("circuit-container");
-    if (container == null) throw new Error("circuit-container div not found.");
-    container.innerHTML = svg;
+    const svg: string = createSqore().compose(circuit).asSvg(injectScript);
+    circuitContainer.innerHTML = svg;
     displayedCircuit = circuit;
 
     // Handle click events
     addGateClickHandlers();
 }
 
-function parseOperations(circuit: Circuit) {
-    circuit.operations.forEach((op, i) => {
-        if (op.customMetadata == null) op.customMetadata = {};
+/**
+ * Adds data attributes to circuit operations.
+ * @param circuit Circuit containing operations to tag.
+ */
+function tagOperations(circuit: Circuit): void {
+    circuit.operations.forEach((op: Operation, i: number) => {
+        if (op.dataAttributes == null) op.dataAttributes = {};
         // Add position in circuit
-        op.customMetadata.position = i;
+        op.dataAttributes.position = i.toString();
     });
 }
 
+/**
+ * Adds onClick handlers to gates in circuit visualization to handle jumping and zoom in/out.
+ */
 function addGateClickHandlers(): void {
     document.querySelectorAll('.gate').forEach((gate) => {
-        // Jump to clicked gate
-        gate.addEventListener('click', () => jumpToGate(gate));
-
-        // Zoom in on clicked gate
-        gate.addEventListener('dblclick', (ev: MouseEvent) => {
-            const { id }: { id: string } = JSON.parse(gate.getAttribute('data-metadata'));
-            if (ev.ctrlKey) collapseOperation(displayedCircuit, id);
-            else expandOperation(displayedCircuit, id);
+        gate.addEventListener('click', (ev: MouseEvent) => {
+            const id: string = gate.getAttribute('data-id');
+            if (ev.ctrlKey) expandOperation(id);
+            else if (ev.shiftKey) collapseOperation(id);
+            else jumpToGate(gate);
         });
     });
 }
 
-function jumpToGate(gate: Element) {
-    // Get state from gate metadata
-    const { id, position }: { id: string, position: number } = JSON.parse(gate.getAttribute('data-metadata'));
+/**
+ * Jumps to target gate and displays the state at that point.
+ * @param targetGate Target gate to jump to.
+ */
+function jumpToGate(targetGate: Element) {
+    // Get state from targetGate metadata
+    const id: string = targetGate.getAttribute('data-id');
+    const position: number = Number(targetGate.getAttribute('data-position'));
     const state: State = gateRegistry[id].state;
     updateChart(state);
 
     // Colour gates
     document.querySelectorAll('.gate').forEach(gate => {
-        const gateMetadata: { position: number } = JSON.parse(gate.getAttribute('data-metadata'));
-        const pos: number = gateMetadata.position;
+        const pos: number = Number(gate.getAttribute('data-position'));
         if (pos === position) gate.setAttribute("data-type", "selected");
         else if (pos < position) gate.setAttribute("data-type", "");
         else gate.setAttribute("data-type", "pending");
     });
 }
 
-function expandOperation(circuit: Circuit, id: string) {
-    let operations: Operation[] = circuit.operations;
+/**
+ * Handles expansion of operation with given ID.
+ * @param id ID of operation to expand.
+ */
+function expandOperation(id: string) {
+    let operations: Operation[] = displayedCircuit.operations;
     operations = operations.map(op => {
-        if (op.customMetadata == null) return op;
-        const opId: string = op.customMetadata["id"] as string;
+        if (op.dataAttributes == null) return op;
+        const opId: string = op.dataAttributes["id"];
         if (opId === id && op.children != null) return op.children;
         return op;
     }).flat();
-    circuit.operations = operations;
+    displayedCircuit.operations = operations;
 
-    renderCircuit(circuit);
+    renderCircuit(displayedCircuit);
 }
 
-function collapseOperation(circuit: Circuit, id: string) {
+/**
+ * Handles collapse of operation with given ID to parent operation.
+ * @param id ID of operation to collapse.
+ */
+function collapseOperation(id: string) {
     // Cannot collapse top-level operation
     if (id === "0") return;
     const parentId: string = id.match(/(.*)-\d/)[1];
-    circuit.operations = circuit.operations
+    displayedCircuit.operations = displayedCircuit.operations
         .map(op => {
-            if (op.customMetadata == null) return op;
-            const opId: string = op.customMetadata["id"] as string;
+            if (op.dataAttributes == null) return op;
+            const opId: string = op.dataAttributes["id"];
             // Replace with parent operation
             if (opId === id) return gateRegistry[parentId].operation;
             // If operation is a descendant, don't render
@@ -194,7 +259,7 @@ function collapseOperation(circuit: Circuit, id: string) {
             return op;
         })
         .filter(op => op != null);
-    renderCircuit(circuit);
+    renderCircuit(displayedCircuit);
 }
 
 //#endregion

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text.Json;
 using Microsoft.Quantum.IQSharp.ExecutionPathTracer;
 
 namespace Microsoft.Quantum.Samples.StateVisualizer
@@ -81,10 +82,10 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         {
             var currentOperation = this.tracer.operations.Peek();
             if (currentOperation == null) return;
-            if (currentOperation.CustomMetadata == null) currentOperation.CustomMetadata = new Dictionary<string, object>();
-            if (currentOperation.CustomMetadata.ContainsKey("state")) return;
+            if (currentOperation.DataAttributes == null) currentOperation.DataAttributes = new Dictionary<string, string>();
+            if (currentOperation.DataAttributes.ContainsKey("state")) return;
             // Add current register state as metadata to operation
-            currentOperation.CustomMetadata["state"] = stateDumper.DumpAndGetAmplitudes();
+            currentOperation.DataAttributes["state"] = JsonSerializer.Serialize(stateDumper.DumpAndGetAmplitudes());
         }
     }
 

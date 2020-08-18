@@ -152,9 +152,9 @@ namespace ExecutionPathTracer
         public IEnumerable<Register> Targets { get; set; } = new List<Register>();
 
         /// <summary>
-        /// Dictionary of custom metadata.
+        /// Dictionary of data attributes to add to rendered gate element.
         /// </summary>
-        [JsonProperty("customMetadata")]
-        public IDictionary<string, object> CustomMetadata = new Dictionary<string, object>();
+        [JsonProperty("dataAttributes")]
+        public IDictionary<string, string> DataAttributes = new Dictionary<string, string>();
     }
 }
