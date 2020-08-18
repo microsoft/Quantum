@@ -6,7 +6,7 @@
 # Licensed under the MIT License.
 ##
 
-name: qsharp-samples
+name: qsharp-sample-classifier
 channels:
     - conda-forge
     - quantum-engineering
