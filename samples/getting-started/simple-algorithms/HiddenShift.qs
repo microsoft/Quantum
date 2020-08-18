@@ -139,9 +139,10 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift {
     internal operation ApplyShiftedInnerProductBentFunction(shift : Bool[], u : Int, qs : Qubit[]) : Unit {
         let n = 2 * u;
 
-        if (Length(shift) != n or Length(qs) != n) {
-            fail "Length of shift and qs must be twice the value of u";
-        }
+        EqualityFactI(
+            Length(shift), n, "Length of shift must be twice the value of u");
+        EqualityFactI(
+            Length(qs), n, "Length of qs must be twice the value of u");
 
         within {
             // the following loop flips the bits in shift
