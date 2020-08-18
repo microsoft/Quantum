@@ -13,15 +13,5 @@ channels:
 dependencies:
     - python>=3.6
     - numpy
-    - scipy
-    - future
-    - qutip
     - matplotlib<=2.1.2
-    - ipyparallel
-    - py
-    - notebook
     - qsharp
-    - pip:
-        - qinfer
-        - duecredit
-        - mpltools
