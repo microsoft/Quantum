@@ -23,7 +23,7 @@ namespace Microsoft.Quantum.Tests {
 
         // now, we iterate through all the 2^n parity functions
         for (idxInstance in 0 .. 2 ^ nQubits - 1) {
-            let result = BernsteinVaziraniTestCase(nQubits, idxInstance);
+            let result = RunBernsteinVazirani(nQubits, idxInstance);
             EqualityFactI(result, idxInstance, $"was expecting {idxInstance} but measured {result}");
         }
     }
@@ -94,5 +94,4 @@ namespace Microsoft.Quantum.Tests {
             );
         }
     }
-
 }

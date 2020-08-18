@@ -7,6 +7,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift {
     open Microsoft.Quantum.Measurement;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Diagnostics;
 
     // We consider a particular family of problems known as hidden
     // shift problems, in which one is given two Boolean functions 𝑓 and 𝑔

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 
-// First, note that every Q# function must have a namespace. We define
-// a new one for this purpose.
+// First, note that every Q# function, operation and UDTs (newtypes) must have
+// a namespace. We define a new one for this purpose.
 namespace Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
@@ -16,7 +16,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani {
     //////////////////////////////////////////////////////////////////////////
 
     /// # Summary
-    /// ParityViaFourierSampling implements the Bernstein-Vazirani quantum algorithm.
+    /// LearnParityViaFourierSampling implements the Bernstein-Vazirani quantum algorithm.
     /// This algorithm computes for a given Boolean function that is promised to be
     /// a parity 𝑓(𝑥₀, …, 𝑥ₙ₋₁) = Σᵢ 𝑟ᵢ 𝑥ᵢ a result in form of
     /// a bit vector (𝑟₀, …, 𝑟ₙ₋₁) corresponding to the parity function.
@@ -38,7 +38,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani {
     /// # References
     /// - [ *Ethan Bernstein and Umesh Vazirani*,
     ///     SIAM J. Comput., 26(5), 1411–1473, 1997 ](https://doi.org/10.1137/S0097539796300921)
-    operation ParityViaFourierSampling(Uf : ((Qubit[], Qubit) => Unit), n : Int) : Bool[] {
+    operation LearnParityViaFourierSampling(Uf : ((Qubit[], Qubit) => Unit), n : Int) : Bool[] {
         // Now, we allocate n + 1 clean qubits. Note that the function Uf is defined
         // on inputs of the form (x, y), where x has n bits and y has 1 bit.
         using ((queryRegister, target) = (Qubit[n], Qubit())) {
@@ -128,9 +128,9 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani {
     // that's easy to call from C#. In particular, we define our new operation
     // to take an Int as input and to return an Int as output, where each
     // Int represents a bitstring using the little endian convention.
-    operation BernsteinVaziraniTestCase (nQubits : Int, patternInt : Int) : Int {
+    operation RunBernsteinVazirani (nQubits : Int, patternInt : Int) : Int {
         let pattern = IntAsBoolArray(patternInt, nQubits);
-        let result = ParityViaFourierSampling(ParityOperation(pattern), nQubits);
+        let result = LearnParityViaFourierSampling(ParityOperation(pattern), nQubits);
         return BoolArrayAsInt(result);
     }
 }

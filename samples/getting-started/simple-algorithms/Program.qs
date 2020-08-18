@@ -40,7 +40,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         //     |𝑥〉|𝑦〉 ↦ |𝑥〉|𝑦 ⊕ 𝑓(𝑥)〉.
         //
         // In SimpleAlgorithms.qs, we implement this algorithm as the
-        // operation BernsteinVaziraniTestCase. This operation takes an
+        // operation RunBernsteinVazirani. This operation takes an
         // integer whose bits describe 𝑟, then uses those bits to
         // construct an appropriate operation, and finally measures 𝑟.
 
@@ -49,7 +49,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
 
         for (parity in 0 .. (1 <<< nQubits) - 1)
         {
-            let measuredParity = BernsteinVaziraniTestCase(nQubits, parity);
+            let measuredParity = RunBernsteinVazirani(nQubits, parity);
             if (measuredParity != parity) {
                 fail $"Measured parity {measuredParity}, but expected {parity}.";
             }
