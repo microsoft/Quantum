@@ -162,7 +162,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift {
     }
     
     // Run the Hidden Shift algorithm on a given shift and number of qubits
-    operation RunHiddenShift(patternInt : Int, nQubits : Int) : Result[] {
+    operation RunHiddenShiftBentCorrelation(patternInt : Int, nQubits : Int) : Result[] {
         let registerSize = nQubits / 2;
 
         // The integer patternInt is converted to a bit pattern
@@ -178,9 +178,9 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift {
     }
 
     // We finish by providing a case that can be easily called from C# or Q#.
-    operation HiddenShiftTestCase (shift : Int, nQubits : Int) : Int {
+    operation RunHiddenShift (shift : Int, nQubits : Int) : Int {
         // Get the result array for a given shift and number of qubits.
-        let result = RunHiddenShift(shift, nQubits);
+        let result = RunHiddenShiftBentCorrelation(shift, nQubits);
 
         // We then convert back to an integer, so that the C# driver
         // doesn't need to worry with arrays.

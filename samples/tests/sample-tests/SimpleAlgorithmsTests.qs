@@ -53,7 +53,7 @@ namespace Microsoft.Quantum.Tests {
             // the corresponding quantum operation is constructed, which
             // has signature Qubit[] => (), and then it is passed to the
             // quantum algorithm to reconstruct the shift.
-            let result = HiddenShiftTestCase(idxInstance, u);
+            let result = RunHiddenShift(idxInstance, u);
 
             // Finally, using an assertion from the Asserts subdomain of the
             // canon, we check if the measured result is equal to pattern.
@@ -88,7 +88,7 @@ namespace Microsoft.Quantum.Tests {
             // Finally, using an assertion from the Asserts subdomain of the
             // canon, we check if the measured result is equal to bool value.
             EqualityFactB(
-                DeutschJozsaTestCase(n, markedElements),
+                RunDeutschJozsa(n, markedElements),
                 result,
                 $"Contradiction in Deutsch–Jozsa case with marked elements {markedElements}: was expecting {result}."
             );

@@ -74,18 +74,18 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         // these cases with a single application of 𝑈.
 
         // In SimpleAlgorithms.qs, we implement this algorithm as
-        // DeutschJozsaTestCase, following the pattern above.
+        // RunDeutschJozsa, following the pattern above.
         // This time, however, we will pass an array to Q# indicating
         // which elements of 𝑓 are marked; that is, should result in true.
-        // We check by ensuring that DeutschJozsaTestCase returns true
+        // We check by ensuring that RunDeutschJozsa returns true
         // for constant functions and false for balanced functions.
 
         let elements = nQubits > 0 ? Array.SequenceI(0, (1 <<< nQubits) - 1) | new Int[0];
-        if (DeutschJozsaTestCase(nQubits, elements[...2...])) {
+        if (RunDeutschJozsa(nQubits, elements[...2...])) {
             fail "Measured that test case {balancedTestCase} was constant!";
         }
 
-        if (not DeutschJozsaTestCase(nQubits, elements))
+        if (not RunDeutschJozsa(nQubits, elements))
         {
             fail "Measured that test case {constantTestCase} was balanced!";
         }
@@ -107,7 +107,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
 
         for (shift in 0 .. (1 <<< nQubits) - 1)
         {
-            let measuredShift = HiddenShiftTestCase(shift, nQubits);
+            let measuredShift = RunHiddenShift(shift, nQubits);
             if (measuredShift != shift) {
                 fail $"Measured shift {measuredShift}, but expected {shift}.";
             }

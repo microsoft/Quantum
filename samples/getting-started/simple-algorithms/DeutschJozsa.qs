@@ -122,7 +122,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.DeutschJozsa {
     }
 
 
-    operation DeutschJozsaTestCase(nQubits : Int, markedElements : Int[]) : Bool {
+    operation RunDeutschJozsa(nQubits : Int, markedElements : Int[]) : Bool {
         return IsConstantBooleanFunction(
             BooleanFunctionFromMarkedElements(nQubits, markedElements),
             nQubits
