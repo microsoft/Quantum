@@ -60,6 +60,10 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
     /// Overall evolution time to simulate.
     /// ## dt
     /// The length of time for each timestep in the simulation.
+    /// ## coupling
+    /// Ising coupling parameters in the form of an array of arrays of length 
+    /// 2, where the outer array index is the index of a site, and the inner 
+    /// array is the index of the coupling site and the coupling parameter value. 
     ///
     /// # Output
     /// The results of Z measurements on each qubit.
@@ -68,7 +72,12 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
     /// This operation allocates qubits internally to use in simulation,
     /// such that it is straightforward to call this operation from
     /// conventional .NET code.
-    operation SimulateIsingEvolution(nSites : Int, time : Double, dt : Double) : Result[] {
+    operation SimulateIsingEvolution(
+            nSites : Int, 
+            time : Double, 
+            dt : Double, 
+            coupling : (Int, Double)[][]
+        ) : Result[] {
         // Next, we use the using keyword to declare that the following
         // block needs freshly initialized qubits.
         using (qs = Qubit[nSites]) {
@@ -92,9 +101,6 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
 
             // Longitudinal field:
             let hz = 0.5;
-
-            // Ising coupling:
-            let J = 1.0;
 
             // Having defined everything that we need, we can now proceed
             // to perform the actual Trotter–Suzuki decomposition and evolve
@@ -123,7 +129,13 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
                     // If we aren't the last qubit, evolve under the Ising
                     // coupling for φJ ≔ s J dt.
                     if (idxSite < nSites - 2) {
-                        ApplyZZ((sweepParameter * J) * dt, qs[idxSite], qs[idxSite + 1]);
+                        for ((idxOther, J) in coupling[idxSite]) {
+                            ApplyZZ(
+                                (sweepParameter * J) * dt,
+                                qs[idxSite],
+                                qs[idxOther]
+                            );
+                        }
                     }
                 }
             }
@@ -140,5 +152,51 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
     /// by converting each Result into a floating point number.
     internal function AddMagnetization(current : Double, spinMeasurement : Result) : Double {
         return current + (spinMeasurement == One ? 0.5 | -0.5); 
+    }
+
+    /// # Summary
+    /// Create an array of site-to-site couplings
+    /// Here we use a chain with constant Ising coupling
+    ///
+    /// # Input
+    /// ## nSites
+    /// Number of sites in Ising lattice
+    /// ## J
+    /// Site-to-site coupling parameter
+    /// ## signByParity
+    /// Set sign of coupling parameter by the index parity
+    /// ## cycle
+    /// Couple the last lattice site in the chain to the first
+    /// ## allToAll
+    /// Couple all lattice sites to each other
+    ///
+    /// # Result
+    /// ## couplings
+    /// Array of arrays with coupling parameters
+    function GenerateCouplings(
+        nSites : Int,
+        J : Double,
+        signByParity: Bool,
+        cycle: Bool,
+        allToAll: Bool
+    ) : (Int, Double)[][] {
+        mutable couplings = new (Int, Double)[][nSites];
+        mutable numCouplings = cycle == true or allToAll == true ? nSites - 2 | nSites - 1;
+        mutable sign = 1.0;
+
+        for ( i in 0 .. numCouplings ) {
+            if ( signByParity == true ) {
+                set sign = (i + 1) % nSites == 0 ? 1.0 | -1.0;
+            }
+            set couplings w/= i <- [( i+1, sign * J )];
+
+            if ( allToAll == true ) {
+                for ( j in i + 1 .. numCouplings) {
+                    set couplings w/= i <- [( i+1, sign * J )];
+                }
+            }
+        }
+        
+        return couplings;
     }
 }
