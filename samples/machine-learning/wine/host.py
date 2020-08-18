@@ -2,8 +2,6 @@
 # Licensed under the MIT License.
 
 import qsharp
-qsharp.packages.add("Microsoft.Quantum.MachineLearning::0.11.2004.2825")
-qsharp.reload()
 
 from Microsoft.Quantum.Samples import TrainWineModel, ValidateWineModel
 
