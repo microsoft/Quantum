@@ -29,9 +29,11 @@ This sample also uses a couple extra Python packages to help out, so you'll need
 ready as well. If you are using the Anaconda distribution of Python, this can be done automatically by using 
 the `environment.yml` file provided with this sample:
 
+```bash
 cd samples/machine-learning/half-moons
 conda env create -f environment.yml
 conda activate qsharp-sample-classifier
+```
 
 At a terminal, run the following command:
 
