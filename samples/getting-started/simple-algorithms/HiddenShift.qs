@@ -111,16 +111,12 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift {
     // gates between the respective inputs.
     internal operation ApplyInnerProductBentFunction(u : Int, qs : Qubit[]) : Unit {
 
-        if (Length(qs) != 2 * u) {
-            fail "Length of qs must be twice the value of u";
-        }
+        EqualityFactI(Length(qs), 2 * u, "Length of qs must be twice the value of u");
 
         let xs = qs[0 .. u - 1];
         let ys = qs[u .. 2 * u - 1];
 
-        for (idx in 0 .. u - 1) {
-            Controlled Z([xs[idx]], ys[idx]);
-        }
+        ApplyToEach(CZ, Zip(xs, ys));
     }
 
 
@@ -148,11 +144,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift {
 
         within {
             // the following loop flips the bits in shift
-            for ((shiftBit, target) in Zip(shift, qs)) {
-                if (shiftBit) {
-                    X(target);
-                }
-            }
+            ApplyPauliFromBitString(PauliX, true, shift, qs);
         } apply {
             // now we compute the IP function into the phase
             (InnerProductBentFunction(u))(qs);
