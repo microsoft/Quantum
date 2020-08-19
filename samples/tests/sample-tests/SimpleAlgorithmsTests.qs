@@ -3,9 +3,10 @@
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
-    open Microsoft.Quantum.Samples.SimpleAlgorithms;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.DeutschJozsa;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani;
     open Microsoft.Quantum.Diagnostics;
-
 
     //////////////////////////////////////////////////////////////////////////
     // Tests for the Bernstein-Vazirani quantum algorithm ////////////////////
@@ -22,7 +23,7 @@ namespace Microsoft.Quantum.Tests {
 
         // now, we iterate through all the 2^n parity functions
         for (idxInstance in 0 .. 2 ^ nQubits - 1) {
-            let result = BernsteinVaziraniTestCase(nQubits, idxInstance);
+            let result = RunBernsteinVazirani(nQubits, idxInstance);
             EqualityFactI(result, idxInstance, $"was expecting {idxInstance} but measured {result}");
         }
     }
@@ -42,17 +43,17 @@ namespace Microsoft.Quantum.Tests {
     // same as the pattern we used to define the hidden shift instance.
     operation HiddenShiftTest () : Unit {
 
-        // total number of variables of the Boolean function is n = 2u. Note that n has
-        // to be even in order for bent functions to exist.
-        let u = 2;
+        // total number of variables of the Boolean function is n = 2u where u is the
+        // register size. Note that n has to be even in order for bent functions to exist.
+        let nQubits = 4;
 
         // now, we iterate through all the 2^n parity functions
-        for (idxInstance in 0 .. 2 ^ (2 * u) - 1) {
+        for (idxInstance in 0 .. 2 ^ nQubits - 1) {
 
             // the corresponding quantum operation is constructed, which
             // has signature Qubit[] => (), and then it is passed to the
             // quantum algorithm to reconstruct the shift.
-            let result = HiddenShiftBentCorrelationTestCase(idxInstance, u);
+            let result = RunHiddenShift(idxInstance, nQubits);
 
             // Finally, using an assertion from the Asserts subdomain of the
             // canon, we check if the measured result is equal to pattern.
@@ -87,11 +88,10 @@ namespace Microsoft.Quantum.Tests {
             // Finally, using an assertion from the Asserts subdomain of the
             // canon, we check if the measured result is equal to bool value.
             EqualityFactB(
-                DeutschJozsaTestCase(n, markedElements),
+                RunDeutschJozsa(n, markedElements),
                 result,
                 $"Contradiction in Deutsch–Jozsa case with marked elements {markedElements}: was expecting {result}."
             );
         }
     }
-
 }

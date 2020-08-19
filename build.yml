@@ -5,6 +5,10 @@ name: $(Build.Major).$(Build.Minor).$(BuildId)
 trigger:
 - master
 
+pr:
+- master
+- feature/*
+
 variables:
   Build.Major: 1
   Build.Minor: 0

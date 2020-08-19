@@ -1,11 +1,25 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+//////////////////////////////////////////////////////////////////////////
+// Introduction //////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
+// This sample contains several simple quantum algorithms coded in Q#. The
+// intent is to highlight the expressive capabilities of the language that
+// enable it to express quantum algorithms that consist of a short quantum
+// part and classical post-processing that is simple, or in some cases,
+// trivial.
 
 namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
 
     open Microsoft.Quantum.Arrays as Array;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.DeutschJozsa;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani;
 
     @EntryPoint()
     operation RunProgram (nQubits : Int) : Unit {
@@ -26,7 +40,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         //     |𝑥〉|𝑦〉 ↦ |𝑥〉|𝑦 ⊕ 𝑓(𝑥)〉.
         //
         // In SimpleAlgorithms.qs, we implement this algorithm as the
-        // operation BernsteinVaziraniTestCase. This operation takes an
+        // operation RunBernsteinVazirani. This operation takes an
         // integer whose bits describe 𝑟, then uses those bits to
         // construct an appropriate operation, and finally measures 𝑟.
 
@@ -35,7 +49,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
 
         for (parity in 0 .. (1 <<< nQubits) - 1)
         {
-            let measuredParity = BernsteinVaziraniTestCase(nQubits, parity);
+            let measuredParity = RunBernsteinVazirani(nQubits, parity);
             if (measuredParity != parity) {
                 fail $"Measured parity {measuredParity}, but expected {parity}.";
             }
@@ -60,18 +74,18 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         // these cases with a single application of 𝑈.
 
         // In SimpleAlgorithms.qs, we implement this algorithm as
-        // DeutschJozsaTestCase, following the pattern above.
+        // RunDeutschJozsa, following the pattern above.
         // This time, however, we will pass an array to Q# indicating
         // which elements of 𝑓 are marked; that is, should result in true.
-        // We check by ensuring that DeutschJozsaTestCase returns true
+        // We check by ensuring that RunDeutschJozsa returns true
         // for constant functions and false for balanced functions.
 
         let elements = nQubits > 0 ? Array.SequenceI(0, (1 <<< nQubits) - 1) | new Int[0];
-        if (DeutschJozsaTestCase(nQubits, elements[...2...])) {
+        if (RunDeutschJozsa(nQubits, elements[...2...])) {
             fail "Measured that test case {balancedTestCase} was constant!";
         }
 
-        if (not DeutschJozsaTestCase(nQubits, elements))
+        if (not RunDeutschJozsa(nQubits, elements))
         {
             fail "Measured that test case {constantTestCase} was balanced!";
         }
@@ -93,7 +107,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
 
         for (shift in 0 .. (1 <<< nQubits) - 1)
         {
-            let measuredShift = HiddenShiftBentCorrelationTestCase(shift, nQubits / 2);
+            let measuredShift = RunHiddenShift(shift, nQubits);
             if (measuredShift != shift) {
                 fail $"Measured shift {measuredShift}, but expected {shift}.";
             }

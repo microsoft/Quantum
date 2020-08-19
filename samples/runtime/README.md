@@ -8,6 +8,8 @@ These samples show how to work with the Q# simulation runtime.
   This sample demonstrates the basic use of the `IQuantumProcessor` interface to build a simple reversible simulator.
 - **[Reversible simulator (advanced)](./reversible-simulator-advanced)**:
   This sample extends the simple reversible simulator with advanced use cases.
+- **[Qpic simulator](./qpic-simulator)**:
+  This sample uses `IQuantumProcessor` to generate quantum circuit diagrams from execution traces.
 - **[Simulator with Overrides](./simulator-with-overrides)**:
   This sample shows how to create a quantum simulator which relies on a full state quantum simulator and redefines some of the built-in operations.
 - **[State Visualizer](./state-visualizer)**:
