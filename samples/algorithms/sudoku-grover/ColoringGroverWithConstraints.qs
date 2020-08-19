@@ -340,7 +340,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// # Input
     /// ## oracle
     /// The oracle which will mark the valid solutions
-    operation OracleConverterImpl (markingOracle : ((Qubit[], Qubit) => Unit is Adj), 
+    operation ApplyPhaseOracle (oracle : ((Qubit[], Qubit) => Unit is Adj), 
         register : Qubit[]) : Unit is Adj {
 
         using (target = Qubit()) {
