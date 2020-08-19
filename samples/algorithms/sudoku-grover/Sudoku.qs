@@ -124,15 +124,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         Message($"   startingNumberConstraints = {startingNumberConstraints}");
         Message($"   estimated #iterations needed = {numIterations}");
         Message($"   size of Sudoku grid = {size}x{size}");
-        mutable coloring = new Int[0];
-        if (size == 4) {
-            set coloring = FindColorsWithGrover(numVertices, 2, numIterations, 
-                VertexColoringOracle(numVertices, 2, emptySquareEdges, startingNumberConstraints, _, _));
-        }
-        elif (size == 9) {
-            set coloring = FindColorsWithGrover(numVertices, 4, numIterations, 
-                VertexColoringOracle4Bit9Color(numVertices, emptySquareEdges, startingNumberConstraints, _, _));
-        }
+        let coloring = FindColorsWithGrover(numVertices, bitsPerColor, numIterations, oracle);
 
         Message($"Got sudoku solution: {coloring}");
         if (IsSudokuSolutionValid(size, emptySquareEdges, startingNumberConstraints, coloring)) {
