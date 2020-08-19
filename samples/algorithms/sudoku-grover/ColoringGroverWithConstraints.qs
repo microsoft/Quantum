@@ -352,7 +352,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
                 // Apply the marking oracle; since the target is in the |-⟩ state,
                 // flipping the target if the register satisfies the oracle condition 
                 // will apply a -1 factor to the state
-                markingOracle(register, target);
+                oracle(register, target);
             }
             // We put the target back into |0⟩ so we can return it
         }
