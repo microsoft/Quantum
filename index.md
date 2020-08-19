@@ -25,7 +25,7 @@ A small number of the samples have additional installation requirements beyond t
 These are noted in the README.md files for each sample, along with complete installation instructions.
 
 
-<table>
+<table id="samples-list">
   <thead>
     <tr>
       <th colspan="2">Sample</th>
@@ -34,6 +34,46 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td><strong>Getting started:</strong></td>
+      <td><strong><a href="/notebooks/samples/getting-started/intro-to-iqsharp/README.md">Intro to IQ#</a></strong></td>
+      <td><a href="/notebooks/samples/getting-started/intro-to-iqsharp/Notebook.ipynb">Q# notebook</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="/notebooks/samples/getting-started/measurement/README.md">Measurement</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="/notebooks/samples/getting-started/qrng/README.md">Quantum random number generator</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="/notebooks/samples/getting-started/simple-algorithms/README.md">Simple quantum algorithms</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="/notebooks/samples/getting-started/teleportation/README.md">Teleportation</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
     <tr>
       <td><strong>Algorithms:</strong></td>
       <td><a href="/notebooks/samples/algorithms/chsh-game/README.md"><strong>CHSH Game</strong></a></td>
@@ -92,18 +132,98 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><a href="/notebooks/samples/algorithms/simple-grover/README.md"><strong>Reversible Logic Synthesis</strong></a></td>
-      <td></td>
-      <td><a href="/notebooks/samples/algorithms/simple-grover/host.py">Q# + Python</a></td>
-      <td>Q# standalone</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
       <td><a href="/notebooks/samples/algorithms/simple-grover/README.md"><strong>Simple Grover's Algorithm</strong></a></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Arithmetic:</strong></td>
+      <td><strong><a href="/notebooks/samples/arithmetic/README.md">Adder</a></strong></td>
+      <td><a href="/notebooks/samples/arithmetic/AdderExample.ipynb">Q# notebook</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Characterization:</strong></td>
+      <td><strong><a href="/notebooks/samples/characterization/phase-estimation/README.md">Bayesian Phase Estimation</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Chemistry:</strong></td>
+      <td>TODO</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>    
+    <tr>
+      <td><strong>Characterization:</strong></td>
+      <td><strong><a href="/notebooks/samples/characterization/phase-estimation/README.md">Bayesian Phase Estimation</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Diagnostics:</strong></td>
+      <td><strong><a href="/notebooks/samples/diagnostics/unit-testing/README.md">Unit testing</a></strong></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Q# + .NET</td>
+    </tr>
+    <tr>
+      <td><strong>Error correction:</strong></td>
+      <td><strong><a href="/notebooks/samples/error-correction/bit-flip-code/README.md">Bit flip code</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Interoperability:</strong></td>
+      <td>TODO</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Machine learning:</strong></td>
+      <td>TODO</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Numerics:</strong></td>
+      <td>TODO</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Runtime:</strong></td>
+      <td>TODO</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>Simulation:</strong></td>
+      <td>TODO</td>
+      <td></td>
+      <td></td>
+      <td></td>
       <td></td>
     </tr>
   </tbody>
