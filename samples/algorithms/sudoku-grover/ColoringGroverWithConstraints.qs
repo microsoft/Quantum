@@ -371,7 +371,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     ///
     /// # Output
     /// Unitary implementing Grover's search algorithm.
-    operation GroversAlgorithmLoop (register : Qubit[], 
+    operation ApplyGroversAlgorithmLoop (register : Qubit[], 
         oracle : ((Qubit[], Qubit) => Unit is Adj), iterations : Int) : Unit {
         let phaseOracle = OracleConverterImpl(oracle, _);
         ApplyToEach(H, register);
