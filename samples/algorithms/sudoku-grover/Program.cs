@@ -30,9 +30,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         ///              9x9 puzzle with 64 missing numbers
         static void Main(string[] args)
         {
-            string puzzleToRun = "all";
-            if (args.Length > 0)
-                puzzleToRun = args[0];
+            string puzzleToRun = args.Length > 0 ? args[0] : "all";
 
             var sim = new QuantumSimulator(throwOnReleasingQubitsNotInZeroState: true);
 
