@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license.
+
 namespace Microsoft.Quantum.Samples.SudokuGrover {
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Math;
