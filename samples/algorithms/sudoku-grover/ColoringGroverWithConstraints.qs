@@ -311,7 +311,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
             mutable iter = 1;
             repeat {
                 Message($"Trying search with {iter} iterations");
-                GroversAlgorithmLoop(register, oracle, iter);
+                ApplyGroversAlgorithmLoop(register, oracle, iter);
                 let res = MultiM(register);
                 // to check whether the result is correct, apply the oracle to the 
                 // register plus ancilla after measurement
