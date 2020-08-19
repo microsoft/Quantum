@@ -274,6 +274,12 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
 
     /// # Summary
     /// OR oracle for an arbitrary number of qubits in query register
+    ///
+    /// # Inputs
+    /// ## queryRegister
+    /// Qubit register to query
+    /// ## target
+    /// Target qubit for storing oracle result
     operation ApplyOrOracle (queryRegister : Qubit[], target : Qubit) : Unit is Adj {        
         // x₀ ∨ x₁ = ¬ (¬x₀ ∧ ¬x₁)
         // First, flip target if both qubits are in |0⟩ state
