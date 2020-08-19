@@ -338,7 +338,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// (see https://github.com/microsoft/QuantumKatas/tree/master/SolveSATWithGrover)
     ///
     /// # Input
-    /// ## markingOracle
+    /// ## oracle
     /// The oracle which will mark the valid solutions
     operation OracleConverterImpl (markingOracle : ((Qubit[], Qubit) => Unit is Adj), 
         register : Qubit[]) : Unit is Adj {
