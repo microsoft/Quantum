@@ -5,7 +5,6 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using System;
@@ -14,7 +13,7 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text.Json;
-using Microsoft.Quantum.IQSharp.ExecutionPathTracer;
+using ExecutionPathTracer;
 
 namespace Microsoft.Quantum.Samples.StateVisualizer
 {
@@ -27,7 +26,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         private readonly ManualResetEvent advanceEvent = new ManualResetEvent(true);
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly IList<(string method, object[] args)> history = new List<(string, object[])>();
-        private readonly ExecutionPathTracer tracer;
+        private readonly ExecutionPathTracer.ExecutionPathTracer tracer;
 
         public StateVisualizer(QuantumSimulator simulator)
         {
@@ -37,7 +36,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
             }
 
             simulator.OnOperationEnd += OnOperationEndHandler;
-            this.tracer = new ExecutionPathTracer();
+            this.tracer = new ExecutionPathTracer.ExecutionPathTracer();
             this.simulator = simulator.WithExecutionPathTracer(this.tracer);
             stateDumper = new StateDumper(simulator);
 
