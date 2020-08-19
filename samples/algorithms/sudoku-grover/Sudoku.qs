@@ -106,10 +106,16 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///    Results = [0,3,0] i.e. Empty Square #0 = 0, Empty Square #1 = 3, Empty Square #2 = 0
     operation SolvePuzzle(numVertices : Int, size : Int, emptySquareEdges : (Int, Int)[], 
         startingNumberConstraints: (Int, Int)[]) : (Bool, Int[]) {
-        mutable bitsPerColor = 2; // if size == 4x4 grid
-        if (size == 9)
-        {
-            set bitsPerColor = 4; // if size == 9x9 grid
+        if (size == 4) {
+            // if size == 4x4 grid
+            let bitsPerColor = 2;
+            let oracle = VertexColoringOracle(numVertices, bitsPerColor, emptySquareEdges, startingNumberConstraints, _, _);
+        } elif (size == 9) {
+            // if size == 9x9 grid
+            let bitsPerColor = 4;
+            let oracle = VertexColoringOracle4Bit9Color(numVertices, emptySquareEdges, startingNumberConstraints, _, _);
+        } else {
+            fail $"Cannot set size {size}: only a grid size of 4x4 or 9x9 is supported"
         }
         let numIterations = NIterations(bitsPerColor * numVertices);
         Message($"Running Quantum test with #Vertex = {numVertices}");
