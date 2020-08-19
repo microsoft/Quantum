@@ -377,7 +377,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         ApplyToEach(H, register);
             
         for (_ in 1 .. iterations) {
-            phaseOracle(register);
+            applyPhaseOracle(register);
             within {
                 ApplyToEachA(H, register);
                 ApplyToEachA(X, register);
