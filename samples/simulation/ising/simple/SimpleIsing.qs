@@ -7,6 +7,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Diagnostics;
 
     //////////////////////////////////////////////////////////////////////////
     // Introduction //////////////////////////////////////////////////////////
@@ -182,8 +183,8 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
         cycle: Bool,
         allToAll: Bool
     ) : (Int, Double)[][] {
-        mutable couplings = new (Int, Double)[][nSites];
         let numCouplings = cycle == true or allToAll == true ? nSites - 2 | nSites - 1;
+        mutable couplings = new (Int, Double)[][nSites];
         mutable sign = 1.0;
 
         for (i in 0 .. numCouplings) {
@@ -194,9 +195,15 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
 
             if (allToAll) {
                 for (j in i + 1 .. numCouplings) {
-                    set couplings w/= i <- [( i+1, sign * J )];
+                    set couplings w/= i <- couplings[i] + [( i+1, sign * J )];
                 }
             }
+        }
+        // Assert that couplings has the expected shape
+        if (allToAll) {
+            EqualityFactI(Length(couplings[0]), numCouplings + 1, "Inner array has wrong length");
+        } else {
+            EqualityFactI(Length(couplings[0]), 1, "Inner array should have length 1");
         }
         
         return couplings;
