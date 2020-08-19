@@ -115,7 +115,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift {
         EqualityFactI(Length(qs), 2 * u, "Length of qs must be twice the value of u");
 
         let xs = qs[0 .. u - 1];
-        let ys = qs[u .. 2 * u - 1];
+        let ys = qs[u...];
 
         ApplyToEach(CZ, Zip(xs, ys));
     }
