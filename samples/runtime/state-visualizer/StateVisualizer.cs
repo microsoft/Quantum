@@ -13,7 +13,7 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text.Json;
-using ExecutionPathTracer;
+using Microsoft.Quantum.IQSharp.ExecutionPathTracer;
 
 namespace Microsoft.Quantum.Samples.StateVisualizer
 {
@@ -26,7 +26,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         private readonly ManualResetEvent advanceEvent = new ManualResetEvent(true);
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly IList<(string method, object[] args)> history = new List<(string, object[])>();
-        private readonly ExecutionPathTracer.ExecutionPathTracer tracer;
+        private readonly ExecutionPathTracer tracer;
 
         public StateVisualizer(QuantumSimulator simulator)
         {
@@ -36,7 +36,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
             }
 
             simulator.OnOperationEnd += OnOperationEndHandler;
-            this.tracer = new ExecutionPathTracer.ExecutionPathTracer();
+            this.tracer = new ExecutionPathTracer();
             this.simulator = simulator.WithExecutionPathTracer(this.tracer);
             stateDumper = new StateDumper(simulator);
 
