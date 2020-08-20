@@ -7,6 +7,18 @@ languages:
 products:
 - qdk
 description: "This sample implements using the quantum machine learning library to train a sequential model on the half-moons dataset."
+jupyter:
+  jupytext:
+    cell_markers: region,endregion
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.2'
+      jupytext_version: 1.5.2
+  kernelspec:
+    display_name: .NET (PowerShell)
+    language: PowerShell
+    name: .net-powershell
 ---
 
 # Training sequential models with Q\#, using built-in datasets
@@ -27,7 +39,7 @@ This sample can be run in a number of different ways, depending on your preferre
 
 At a terminal, run the following command:
 
-```bash
+```powershell
 python host.py
 ```
 
@@ -35,7 +47,7 @@ python host.py
 
 At a terminal, run the following command:
 
-```dotnetcli
+```powershell
 dotnet run
 ```
 
