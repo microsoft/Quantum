@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Microsoft.Quantum.Samples.SudokuGrover
 {
-
     /// # Info
     /// Classical code to solve a Sudoku puzzle
     class SudokuClassic 
