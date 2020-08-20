@@ -12,12 +12,14 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
 # Solving Sudoku using Grover's Algorithm
 
 
-     This program demonstrates solving Sudoku puzzle using Grovers algorithm.
+This program demonstrates solving Sudoku puzzle using Grovers algorithm.
      
-     The code supports both 4x4 and 9x9 Sudoku puzzles.
+The code supports both 4x4 and 9x9 Sudoku puzzles.
           
-     For 4x4 puzzles, the same rules apply:
-        - The numbers 0 to 3 may only appear once per row, column and 2x2 sub squares
+For 4x4 puzzles, the same rules apply:
+
+- The numbers 0 to 3 may only appear once per row, column and 2x2 sub squares
+
      As an example              has solution
      _________________          _________________
      |   | 1 |   | 3 |          | 0 | 1 | 2 | 3 |  
@@ -29,10 +31,10 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      | 3 |   | 1 |   |          | 3 | 0 | 1 | 2 |  
      -----------------          -----------------
     
-     Sudoku is a graph coloring problem where graph edges must connect nodes of different colors
-     In our case, Graph Nodes are puzzle squares and colors are the Sudoku numbers. 
-     Graph Edges are the constraints preventing squares from having the same values. 
-     In the above example, the constraints for the top row are
+Sudoku is a graph coloring problem where graph edges must connect nodes of different colors
+In our case, graph nodes are puzzle squares and colors are the Sudoku numbers. 
+Graph edges are the constraints preventing squares from having the same values. 
+In the above example, the constraints for the top row are
        _________
       | ______   \                   _____   
       || __   \   \                  | __  \                        __
@@ -40,30 +42,32 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      |   | 1 |   | 3 |         |   | 1 |   | 3 |         |   | 1 |   | 3 | 
      -----------------         -----------------         -----------------
     
-     To reduce the number of qubits, we only use qubits for empty squares.
-     Each empty square gets 2 qubits to encode the numbers 0 to 3.
-     We define the puzzle using 2 data structures.
-       - A list of edges connecting empty squares
-       - A list of constraints on empty squares to the initial numbers in the puzzle (starting numbers)
-     For example, for the row above the empty squares have indexes
+To reduce the number of qubits, we only use qubits for empty squares.
+Each empty square gets 2 qubits to encode the numbers 0 to 3.
+We define the puzzle using 2 data structures.
+
+- A list of edges connecting empty squares
+- A list of constraints on empty squares to the initial numbers in the puzzle (starting numbers)
+
+For example, for the row above the empty squares have indexes
      _________________
      | 0 |   | 1 |   |
      -----------------
-     and `emptySquareEdges` is the array of edges. 
-     For example, cell 0 can't have the same number (color) as cell 1:
-     emptySquareEdges = (0,1)      
-     and `startingNumberConstraints` is the array of (Cell#, constraint) 
-     For example, empty cell 0 can't have value 1 or 3:
-     startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   
+and `emptySquareEdges` is the array of edges. 
+For example, cell 0 can't have the same number (color) as cell 1:
+emptySquareEdges = (0,1)      
+and `startingNumberConstraints` is the array of (Cell#, constraint) 
+For example, empty cell 0 can't have value 1 or 3:
+startingNumberConstraints = (0,1)  (0,3)  (1,1)  (1,3)   
      
-     Note that the puzzles are initially defined in C# using numbers from 1 to 4, or 1 to 9. 
-     However, when solving this quantumly and encoding these values into qubits, 
-     the numbers are changed to 0 to 3 and 0 to 8 and then converted back. 
-     This allows a 4x4 puzzle to be solved using 2 qubits per missing number.
+Note that the puzzles are initially defined in C# using numbers from 1 to 4, or 1 to 9. 
+However, when solving this quantumly and encoding these values into qubits, 
+the numbers are changed to 0 to 3 and 0 to 8 and then converted back. 
+This allows a 4x4 puzzle to be solved using 2 qubits per missing number.
 
-     The code can also solve 9x9 Sudoku puzzles using 4 qubits per number. 
-     However, trying to use more than 8 qubits (2 empty squares) in a simulation becomes very slow, 
-     so here we only run it for 1 or 2 missing squares in a 9x9 puzzle.
+The code can also solve 9x9 Sudoku puzzles using 4 qubits per number. 
+However, trying to use more than 8 qubits (2 empty squares) in a simulation becomes very slow, 
+so here we only run it for 1 or 2 missing squares in a 9x9 puzzle.
 
 
 The graph coloring code is based on the [Graph Coloring Kata](https://github.com/microsoft/QuantumKatas/tree/master/GraphColoring) 
@@ -103,7 +107,7 @@ For example, `dotnet run 4x4-4` will run the Quantum solution for a 4x4 puzzle w
 - [Sudoku.qs](Sudoku.qs): Q# code which accepts edges and constraints and calls Grovers algorthm with the coloring oracle. Also checks the result is correct.
 - [SudokuClassic.cs](SudokuClassic.cs): C# code to solve a Sudoku puzzle using classical code.
 - [SudokuQuantum.cs](SudokuQuantum.cs): C# code to solve a Sudoku puzzle by transforming it into a graph problem (edges and starting number constraints), and call the Quantum SolvePuzzle operation to solve it.
-- [SimpleGroverSample.csproj](sudoku-grover.csproj): Main project for the sample.
+- [SimpleGroverSample.csproj](SimpleGroverSample.csproj): Main project for the sample.
 
 ## Sample Output ##
 

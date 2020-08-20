@@ -17,8 +17,8 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// # Description
     /// Sudoku is a graph coloring problem where graph edges must connect nodes 
     /// of different colors.
-    /// In our case, Graph Nodes are puzzle squares and colors are the Sudoku numbers. 
-    /// Graph Edges are the constraints preventing squares from having the same values. 
+    /// In our case, graph nodes are puzzle squares and colors are the Sudoku numbers. 
+    /// Graph edges are the constraints preventing squares from having the same values. 
     /// To reduce the number of qubits needed, we only use qubits for empty squares.
     /// We define the puzzle using 2 data structures:
     ///   - A list of edges connecting empty squares

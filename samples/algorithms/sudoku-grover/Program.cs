@@ -30,7 +30,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         ///              9x9 puzzle with 64 missing numbers.
         static void Main(string[] args)
         {
-            string puzzleToRun = args.Length > 0 ? args[0] : "all";
+            var puzzleToRun = args.Length > 0 ? args[0] : "all";
 
             var sim = new QuantumSimulator(throwOnReleasingQubitsNotInZeroState: true);
 
@@ -233,12 +233,12 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                     if (puzzle[i, j] == 0)
                         Console.Write("|   ");
                     else
-                        Console.Write(String.Format("| {0,1} ", puzzle[i, j]));
+                        Console.Write($"| {0, 1} ", puzzle[i, j]);
                 }
                 Console.WriteLine("|");
             }
             for (int j = 0; j < size; j++)
-                    Console.Write("----");
+                Console.Write("----");
             Console.WriteLine("-");
         }
 
