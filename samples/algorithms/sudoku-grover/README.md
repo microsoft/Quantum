@@ -61,7 +61,7 @@ description: "This sample uses Grover's search algorithm to solve Sudoku puzzles
      the numbers are changed to 0 to 3 and 0 to 8 and then converted back. 
      This allows a 4x4 puzzle to be solved using 2 qubits per missing number.
 
-     The code can also solve 9x9 sudoku puzzles using 4 qubits per number. 
+     The code can also solve 9x9 Sudoku puzzles using 4 qubits per number. 
      However, trying to use more than 8 qubits (2 empty squares) in a simulation becomes very slow, 
      so here we only run it for 1 or 2 missing squares in a 9x9 puzzle.
 
@@ -99,8 +99,10 @@ For example, `dotnet run 4x4-4` will run the Quantum solution for a 4x4 puzzle w
 ## Manifest ##
 
 - [ColoringGroverWithConstraints.qs](ColoringGroverWithConstraints.qs): Q# code implementing graph coloring with flexible number of bits per color and ability to specify constraints on the colors found per Vertex.  A custom oracle for coloring with only 9 colors is also implemented.
-- [Program.cs](Program.cs): C# code with Sudoku problems that it converts to arrays of edges and starting number constraints. It then calls the Q# code to get the results, and verifies they are correct. It also implements the classical C# code to solve a Sudoku puzzle.
+- [Program.cs](Program.cs): C# code with Sudoku test problems to solve using classical or Quantum code. It then checks and displays the results.
 - [Sudoku.qs](Sudoku.qs): Q# code which accepts edges and constraints and calls Grovers algorthm with the coloring oracle. Also checks the result is correct.
+- [SudokuClassic.cs](SudokuClassic.cs): C# code to solve a Sudoku puzzle using classical code.
+- [SudokuQuantum.cs](SudokuQuantum.cs): C# code to solve a Sudoku puzzle by transforming it into a graph problem (edges and starting number constraints), and call the Quantum SolvePuzzle operation to solve it.
 - [SimpleGroverSample.csproj](sudoku-grover.csproj): Main project for the sample.
 
 ## Sample Output ##
@@ -108,8 +110,7 @@ For example, `dotnet run 4x4-4` will run the Quantum solution for a 4x4 puzzle w
 
     dotnet run 4x4-4
 
-    Quantum Solving 4x4 with 4 missing numbers
-    Quantum solving puzzle 
+    Quantum Solving 4x4 with 4 missing numbers.
     -----------------
     |   |   | 3 | 4 |
     -----------------
@@ -120,17 +121,18 @@ For example, `dotnet run 4x4-4` will run the Quantum solution for a 4x4 puzzle w
     | 4 | 1 | 2 | 3 |
     -----------------
     Running Quantum test with #Vertex = 4
-    Bits Per Color = 2
-    emptySquareEdges = [(1, 0),(2, 0),(3, 0),(3, 1),(3, 2)]
-    startingNumberConstraints = [(0, 1),(0, 3),(0, 2),(1, 2),(1, 0),(1, 3),(2, 1),(2, 3),(2, 0),(3, 2),(3, 0),(3, 1)]
-    estimated #iterations needed = 12
-    size of Sudoku grid = 4x4
-    Trying search with 1 iterations
-    Trying search with 2 iterations
-    Trying search with 3 iterations
-    Got sudoku solution: [0,1,2,3]
-    Got valid sudoku solution: [0,1,2,3]
-    solved puzzle 
+      Bits Per Color = 2
+      emptySquareEdges = [(1, 0),(2, 0),(3, 0),(3, 1),(3, 2)]
+      startingNumberConstraints = [(0, 1),(0, 3),(0, 2),(1, 2),(1, 0),(1, 3),(2, 1),(2, 3),(2, 0),(3, 2),(3, 0),(3, 1)]
+      Estimated #iterations needed = 12
+      Size of Sudoku grid = 4x4
+    Trying search with 1 iterations...
+    Trying search with 2 iterations...
+    Trying search with 3 iterations...
+    Got Sudoku solution: [0,1,2,3]
+    Got valid Sudoku solution: [0,1,2,3]
+    Solved puzzle.
+    Result verified correct.
     -----------------
     | 1 | 2 | 3 | 4 |
     -----------------
@@ -140,14 +142,11 @@ For example, `dotnet run 4x4-4` will run the Quantum solution for a 4x4 puzzle w
     -----------------
     | 4 | 1 | 2 | 3 |
     -----------------
-    quantum result verified correct
-
-
+    
 
     dotnet run 9x9-2
 
-    Solving 9x9 with 2 missing numbers using Quantum Computing
-    Quantum solving puzzle 
+    Solving 9x9 with 2 missing numbers using Quantum Computing.
     -------------------------------------
     |   | 7 | 3 | 8 | 9 | 4 | 5 | 1 | 2 |
     -------------------------------------
@@ -168,16 +167,17 @@ For example, `dotnet run 4x4-4` will run the Quantum solution for a 4x4 puzzle w
     | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
     -------------------------------------
     Running Quantum test with #Vertex = 2
-    Bits Per Color = 4
-    emptySquareEdges = [(1, 0)]
-    startingNumberConstraints = [(0, 8),(0, 7),(0, 6),(0, 4),(0, 0),(0, 3),(0, 1),(0, 2),(1, 6),(1, 3),(1, 8),(1, 1),(1, 2),(1, 5),(1, 7),(1, 4)]
-    estimated #iterations needed = 12
-    size of Sudoku grid = 9x9
-    Trying search with 1 iterations
-    Trying search with 2 iterations
-    Got sudoku solution: [5,0]
-    Got valid sudoku solution: [5,0]
-    solved puzzle 
+      Bits Per Color = 4
+      emptySquareEdges = [(1, 0)]
+      startingNumberConstraints = [(0, 8),(0, 7),(0, 6),(0, 4),(0, 0),(0, 3),(0, 1),(0, 2),(1, 6),(1, 3),(1, 8),(1, 1),(1, 2),(1, 5),(1, 7),(1, 4)]
+      Estimated #iterations needed = 12
+      Size of Sudoku grid = 9x9
+    Trying search with 1 iterations...
+    Trying search with 2 iterations...
+    Got Sudoku solution: [5,0]
+    Got valid Sudoku solution: [5,0]
+    Solved puzzle.
+    Result verified correct.
     -------------------------------------
     | 6 | 7 | 3 | 8 | 9 | 4 | 5 | 1 | 2 |
     -------------------------------------
@@ -197,4 +197,3 @@ For example, `dotnet run 4x4-4` will run the Quantum solution for a 4x4 puzzle w
     -------------------------------------
     | 3 | 5 | 1 | 9 | 4 | 7 | 6 | 2 | 8 |
     -------------------------------------
-    quantum result verified correct
