@@ -32,6 +32,20 @@ html, body {
     overflow: auto;
 }
 
+#instructions {
+    margin: auto;
+    font-size: 18px;
+}
+
+#instructions span {
+    margin-left: 25px;
+    font-weight: 600;
+}
+
+#instructions li {
+    margin-bottom: 5px;
+}
+
 .chart-container {
     margin: auto;
     width: 90%;

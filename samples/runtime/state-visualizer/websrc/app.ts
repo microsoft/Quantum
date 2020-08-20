@@ -136,6 +136,15 @@ function onExecutionPath(executionPathStr: string) {
 
     // Render circuit to DOM
     renderCircuit(executionPath);
+
+    // Set initial state to all 0's state
+    const initialState: State = [{
+        Real: 1,
+        Imaginary: 0,
+        Magnitude: 1,
+        Phase: 0,
+    }];
+    updateChart(initialState);
 }
 
 /**
