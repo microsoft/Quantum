@@ -36,15 +36,15 @@ These are noted in the README.md files for each sample, along with complete inst
   <tbody>
     <tr>
       <td><strong>Getting started:</strong></td>
-      <td><strong><a href="/notebooks/samples/getting-started/intro-to-iqsharp/README.md">Intro to IQ#</a></strong></td>
-      <td><a href="/notebooks/samples/getting-started/intro-to-iqsharp/Notebook.ipynb">Q# notebook</a></td>
+      <td><strong><a href="./samples/getting-started/intro-to-iqsharp/README.md">Intro to IQ#</a></strong></td>
+      <td><a href="./samples/getting-started/intro-to-iqsharp/Notebook.ipynb">Q# notebook</a></td>
       <td></td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/getting-started/measurement/README.md">Measurement</a></strong></td>
+      <td><strong><a href="./samples/getting-started/measurement/README.md">Measurement</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -52,7 +52,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/getting-started/qrng/README.md">Quantum random number generator</a></strong></td>
+      <td><strong><a href="./samples/getting-started/qrng/README.md">Quantum random number generator</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -60,7 +60,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/getting-started/simple-algorithms/README.md">Simple quantum algorithms</a></strong></td>
+      <td><strong><a href="./samples/getting-started/simple-algorithms/README.md">Simple quantum algorithms</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -68,7 +68,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/getting-started/teleportation/README.md">Teleportation</a></strong></td>
+      <td><strong><a href="./samples/getting-started/teleportation/README.md">Teleportation</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -76,31 +76,31 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Algorithms:</strong></td>
-      <td><a href="/notebooks/samples/algorithms/chsh-game/README.md"><strong>CHSH Game</strong></a></td>
+      <td><a href="./samples/algorithms/chsh-game/README.md"><strong>CHSH Game</strong></a></td>
       <td></td>
-      <td><a href="/notebooks/samples/algorithms/chsh-game/host.py">Q# + Python</a></td>
-      <td></td>
-      <td>Q# + .NET</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><a href="/notebooks/samples/algorithms/database-search/README.md"><strong>Database Search</strong></a></td>
-      <td><a href="/notebooks/samples/algorithms/database-search/Database%20Search.ipynb">Q# notebook</a></td>
-      <td><a href="/notebooks/samples/algorithms/database-search/host.py">Q# + Python</a></td>
+      <td><a href="./samples/algorithms/chsh-game/host.py">Q# + Python</a></td>
       <td></td>
       <td>Q# + .NET</td>
     </tr>
     <tr>
       <td></td>
-      <td><a href="/notebooks/samples/algorithms/integer-factorization/README.md"><strong>Integer factorization</strong></a></td>
-      <td></td>
-      <td><a href="/notebooks/samples/algorithms/integer-factorization/host.py">Q# + Python</a></td>
+      <td><a href="./samples/algorithms/database-search/README.md"><strong>Database Search</strong></a></td>
+      <td><a href="./samples/algorithms/database-search/Database%20Search.ipynb">Q# notebook</a></td>
+      <td><a href="./samples/algorithms/database-search/host.py">Q# + Python</a></td>
       <td></td>
       <td>Q# + .NET</td>
     </tr>
     <tr>
       <td></td>
-      <td><a href="/notebooks/samples/algorithms/oracle-synthesis/README.md"><strong>Oracle synthesis</strong></a></td>
+      <td><a href="./samples/algorithms/integer-factorization/README.md"><strong>Integer factorization</strong></a></td>
+      <td></td>
+      <td><a href="./samples/algorithms/integer-factorization/host.py">Q# + Python</a></td>
+      <td></td>
+      <td>Q# + .NET</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><a href="./samples/algorithms/oracle-synthesis/README.md"><strong>Oracle synthesis</strong></a></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -108,7 +108,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><a href="/notebooks/samples/algorithms/order-finding/README.md"><strong>Order finding</strong></a></td>
+      <td><a href="./samples/algorithms/order-finding/README.md"><strong>Order finding</strong></a></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -116,7 +116,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><a href="/notebooks/samples/algorithms/repeat-until-success/README.md"><strong>Repeat-Until-Success (RUS)</strong></a></td>
+      <td><a href="./samples/algorithms/repeat-until-success/README.md"><strong>Repeat-Until-Success (RUS)</strong></a></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -124,15 +124,15 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><a href="/notebooks/samples/algorithms/reversible-logic-synthesis/README.md"><strong>Reversible Logic Synthesis</strong></a></td>
+      <td><a href="./samples/algorithms/reversible-logic-synthesis/README.md"><strong>Reversible Logic Synthesis</strong></a></td>
       <td></td>
-      <td><a href="/notebooks/samples/algorithms/reversible-logic-synthesis/host.py">Q# + Python</a></td>
+      <td><a href="./samples/algorithms/reversible-logic-synthesis/host.py">Q# + Python</a></td>
       <td>Q# standalone</td>
       <td></td>
     </tr>
     <tr>
       <td></td>
-      <td><a href="/notebooks/samples/algorithms/simple-grover/README.md"><strong>Simple Grover's Algorithm</strong></a></td>
+      <td><a href="./samples/algorithms/simple-grover/README.md"><strong>Simple Grover's Algorithm</strong></a></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -140,15 +140,15 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Arithmetic:</strong></td>
-      <td><strong><a href="/notebooks/samples/arithmetic/README.md">Adder</a></strong></td>
-      <td><a href="/notebooks/samples/arithmetic/AdderExample.ipynb">Q# notebook</a></td>
+      <td><strong><a href="./samples/arithmetic/README.md">Adder</a></strong></td>
+      <td><a href="./samples/arithmetic/AdderExample.ipynb">Q# notebook</a></td>
       <td></td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td><strong>Characterization:</strong></td>
-      <td><strong><a href="/notebooks/samples/characterization/phase-estimation/README.md">Bayesian Phase Estimation</a></strong></td>
+      <td><strong><a href="./samples/characterization/phase-estimation/README.md">Bayesian Phase Estimation</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -158,7 +158,7 @@ These are noted in the README.md files for each sample, along with complete inst
       <td><strong>Chemistry:</strong></td>
       <td><strong><a href="/tree/samples/chemistry/AnalyzeHamiltonian">Hamiltonian analysis</a></strong></td>
       <td></td>
-      <td><a href="/notebooks/samples/chemistry/AnalyzeHamiltonian/host.py">Q# + Python</a></td>
+      <td><a href="./samples/chemistry/AnalyzeHamiltonian/host.py">Q# + Python</a></td>
       <td></td>
       <td>Q# + .NET</td>
     </tr>
@@ -220,15 +220,15 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/chemistry/PythonIntegration/README.md">Python interoperability</a></strong></td>
+      <td><strong><a href="./samples/chemistry/PythonIntegration/README.md">Python interoperability</a></strong></td>
       <td></td>
-      <td><a href="/notebooks/samples/chemistry/PythonIntegration/chemistry_sample.py">Q# + Python</a></td>
+      <td><a href="./samples/chemistry/PythonIntegration/chemistry_sample.py">Q# + Python</a></td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td><strong>Characterization:</strong></td>
-      <td><strong><a href="/notebooks/samples/characterization/phase-estimation/README.md">Bayesian Phase Estimation</a></strong></td>
+      <td><strong><a href="./samples/characterization/phase-estimation/README.md">Bayesian Phase Estimation</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -236,7 +236,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Diagnostics:</strong></td>
-      <td><strong><a href="/notebooks/samples/diagnostics/unit-testing/README.md">Unit testing</a></strong></td>
+      <td><strong><a href="./samples/diagnostics/unit-testing/README.md">Unit testing</a></strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -244,7 +244,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Error correction:</strong></td>
-      <td><strong><a href="/notebooks/samples/error-correction/bit-flip-code/README.md">Bit flip code</a></strong></td>
+      <td><strong><a href="./samples/error-correction/bit-flip-code/README.md">Bit flip code</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -252,15 +252,15 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Interoperability:</strong></td>
-      <td><strong><a href="/notebooks/samples/interoperability/python/README.md">Python</a></strong></td>
+      <td><strong><a href="./samples/interoperability/python/README.md">Python</a></strong></td>
       <td></td>
-      <td><a href="/notebooks/samples/interoperability/python/tomography-sample.ipynb">Q# + Python</a></td>
+      <td><a href="./samples/interoperability/python/tomography-sample.ipynb">Q# + Python</a></td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/interoperability/dotnet/README.md">.NET</a></strong></td>
+      <td><strong><a href="./samples/interoperability/dotnet/README.md">.NET</a></strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -268,25 +268,25 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Machine learning:</strong></td>
-      <td><strong><a href="/notebooks/samples/machine-learning/half-moons/README.md">Half moons</a></strong> (serial)</td>
+      <td><strong><a href="./samples/machine-learning/half-moons/README.md">Half moons</a></strong> (serial)</td>
       <td></td>
-      <td><a href="/notebooks/samples/machine-learning/half-moons/HalfMoons.ipynb">Q# + Python</a></td>
-      <td></td>
-      <td>Q# + .NET</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="/notebooks/samples/machine-learning/parallel-half-moons/README.md">Half moons</a></strong> (parallel)</td>
-      <td></td>
-      <td></td>
+      <td><a href="./samples/machine-learning/half-moons/HalfMoons.ipynb">Q# + Python</a></td>
       <td></td>
       <td>Q# + .NET</td>
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/machine-learning/wine/README.md">Half moons</a></strong> (parallel)</td>
+      <td><strong><a href="./samples/machine-learning/parallel-half-moons/README.md">Half moons</a></strong> (parallel)</td>
       <td></td>
-      <td><a href="/notebooks/samples/machine-learning/wine/host.py">Q# + Python</a></td>
+      <td></td>
+      <td></td>
+      <td>Q# + .NET</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/machine-learning/wine/README.md">Half moons</a></strong> (parallel)</td>
+      <td></td>
+      <td><a href="./samples/machine-learning/wine/host.py">Q# + Python</a></td>
       <td></td>
       <td>Q# + .NET</td>
     </tr>
@@ -309,14 +309,14 @@ These are noted in the README.md files for each sample, along with complete inst
     <tr>
       <td></td>
       <td><strong><a href="/tree/samples/numerics/ResourceCounting">Resource counting</a></strong></td>
-      <td><a href="/notebooks/samples/numerics/ResourceCounting/ResourceEstimation.ipynb">Q# notebook</a></td>
+      <td><a href="./samples/numerics/ResourceCounting/ResourceEstimation.ipynb">Q# notebook</a></td>
       <td></td>
       <td>Q# standalone</td>
       <td></td>
     </tr>
     <tr>
       <td><strong>Runtime:</strong></td>
-      <td><strong><a href="/notebooks/samples/runtime/oracle-emulation/README.md">Oracle emulation</a></strong></td>
+      <td><strong><a href="./samples/runtime/oracle-emulation/README.md">Oracle emulation</a></strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -324,7 +324,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/runtime/qpic-simulator/README.md">⟨q|pic⟩ simulator</a></strong></td>
+      <td><strong><a href="./samples/runtime/qpic-simulator/README.md">⟨q|pic⟩ simulator</a></strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -332,7 +332,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/runtime/reversible-simulator-simple/README.md">Reversible simulator</a></strong> (simple)</td>
+      <td><strong><a href="./samples/runtime/reversible-simulator-simple/README.md">Reversible simulator</a></strong> (simple)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -340,7 +340,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/runtime/reversible-simulator-advanced/README.md">Reversible simulator</a></strong> (advanced)</td>
+      <td><strong><a href="./samples/runtime/reversible-simulator-advanced/README.md">Reversible simulator</a></strong> (advanced)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -348,7 +348,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/runtime/simulator-with-overrides/README.md">Simulator w/ overrides</a></strong></td>
+      <td><strong><a href="./samples/runtime/simulator-with-overrides/README.md">Simulator w/ overrides</a></strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -356,7 +356,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/runtime/state-visualizer/README.md">State visualizer</a></strong></td>
+      <td><strong><a href="./samples/runtime/state-visualizer/README.md">State visualizer</a></strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -364,15 +364,15 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Quantum simulation:</strong></td>
-      <td><strong><a href="/notebooks/samples/simulation/h2/command-line/README.md">H₂</a></strong> (command-line)</td>
+      <td><strong><a href="./samples/simulation/h2/command-line/README.md">H₂</a></strong> (command-line)</td>
       <td></td>
-      <td><a href="/notebooks/samples/simulation/h2/command-line/host.py">Q# + Python</a></td>
+      <td><a href="./samples/simulation/h2/command-line/host.py">Q# + Python</a></td>
       <td></td>
       <td>Q# + .NET</td>
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/simulation/h2/gui/README.md">H₂</a></strong> (GUI)</td>
+      <td><strong><a href="./samples/simulation/h2/gui/README.md">H₂</a></strong> (GUI)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -380,7 +380,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/simulation/hubbard/README.md">Hubbard model</a></strong></td>
+      <td><strong><a href="./samples/simulation/hubbard/README.md">Hubbard model</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -388,7 +388,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/simulation/ising/simple/README.md">Ising model</a></strong> (simple)</td>
+      <td><strong><a href="./samples/simulation/ising/simple/README.md">Ising model</a></strong> (simple)</td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -396,7 +396,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/simulation/ising/generators/README.md">Ising model</a></strong> (generators)</td>
+      <td><strong><a href="./samples/simulation/ising/generators/README.md">Ising model</a></strong> (generators)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -404,7 +404,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/simulation/ising/adiabatic/README.md">Ising model</a></strong> (adiabatic)</td>
+      <td><strong><a href="./samples/simulation/ising/adiabatic/README.md">Ising model</a></strong> (adiabatic)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -412,7 +412,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/simulation/ising/phase-estimation/README.md">Ising model</a></strong> (phase estimation)</td>
+      <td><strong><a href="./samples/simulation/ising/phase-estimation/README.md">Ising model</a></strong> (phase estimation)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -420,7 +420,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/notebooks/samples/simulation/ising/trotter-evolution/README.md">Ising model</a></strong> (Trotter–Suzuki)</td>
+      <td><strong><a href="./samples/simulation/ising/trotter-evolution/README.md">Ising model</a></strong> (Trotter–Suzuki)</td>
       <td></td>
       <td></td>
       <td></td>
