@@ -6,72 +6,69 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Quantum.Simulation.Common;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
 namespace Microsoft.Quantum.Samples.SudokuGrover
 {
-    /// # Info
+    /// <summary>
     /// Code to solve a Sudoku puzzle by transforming it into a graph problem 
     /// and calling the Quantum SolvePuzzle operation to solve it
+    /// </summary>
     class SudokuQuantum 
     {
-        /// # Summary
+        /// <summary>
         /// QuantumSolve will call Q# code to solve the Sudoku puzzle and display the solution.
-        /// # Input
-        /// ## puzzle
-        /// The Sudoku puzzle to solve.
-        /// ## sim
-        /// The quantum simulator.
-        public static bool QuantumSolve(int[,] puzzle, QuantumSimulator sim)
+        /// </summary>
+        /// <param name="puzzle">The puzzle to solve</param>
+        /// <param name="sim">The QuantumSimulator to use</param>
+        /// <returns>Returns true if a solution was found</returns>
+        public async Task<bool> QuantumSolve(int[,] puzzle, SimulatorBase sim)
         {
             int size = puzzle.GetLength(0); 
-            List<ValueTuple<long, long>> emptySquareEdges;
-            HashSet<ValueTuple<long, long>> startingNumberConstraints;
-            List<EmptySquare> emptySquares;
-            FindEdgesAndInitialNumberConstraints(puzzle, size, out emptySquareEdges, out startingNumberConstraints, out emptySquares);
-            var emptySquareEdgesQArray = new QArray<ValueTuple<long, long>>(emptySquareEdges);
-            var startingNumberConstraintsQArray = new QArray<ValueTuple<long, long>>(startingNumberConstraints);
-            var task = SolvePuzzle.Run(sim, emptySquares.Count, size, emptySquareEdgesQArray, startingNumberConstraintsQArray);
-            if (!task.Result.Item1)
-                return false;
-            else
+            FindEdgesAndInitialNumberConstraints(
+                puzzle, 
+                size, 
+                out var emptySquareEdges, 
+                out var startingNumberConstraints, 
+                out var emptySquares
+            );
+            var emptySquareEdgesQArray = new QArray<(long, long)>(emptySquareEdges);
+            var startingNumberConstraintsQArray = new QArray<(long, long)>(startingNumberConstraints);
+            var (foundSolution, solution) = await SolvePuzzle.Run(sim, emptySquares.Count, size, emptySquareEdgesQArray, startingNumberConstraintsQArray);
+            if (foundSolution)
             {
-                var solution = task.Result.Item2.ToArray();
-                for (int i = 0; i < solution.Length; i++)
+                foreach (var (emptySquare, completion) in Enumerable.Zip(emptySquares, solution))
                 {
-                    puzzle[emptySquares[i].i, emptySquares[i].j] = (int)solution[i] + 1;
+                    puzzle[emptySquare.Row, emptySquare.Column] = (int)completion + 1;
                 }
                 Console.WriteLine("Solved puzzle.");
-                return true;
             }
+            return foundSolution;
         }
 
-        // An Empty square with its row and column.
-        public class EmptySquare
+        /// <summary>
+        /// An Empty square with its row and column. 
+        /// </summary>
+        struct EmptySquare
         {
-            public int i, j;
+            public int Row;
+            public int Column;
         }
 
-        /// # Summary
+        /// <summary>
         /// Find the puzzle empty square edges, and starting number constraints 
         /// for those empty squares.
-        ///
-        /// # Input
-        /// ## puzzle
-        /// The Sudoku puzzle.
-        /// ## size
-        /// The size of the puzzle. For example, 9 for a 9x9 puzzle.
-        /// 
-        /// # Output
-        /// ## emptySquareEdges
-        /// The list of empty square edges specifying Vertices in the same row/col/subgrid.
-        /// ## startingNumberConstraints
-        /// The set of numbers that this empty square can not have. 
-        /// ## emptySquares
-        /// list of empty squares with their i,j locations.
-        static void FindEdgesAndInitialNumberConstraints(int[,] puzzle, int size, 
-            out List<ValueTuple<long, long>> emptySquareEdges, out HashSet<ValueTuple<long, long>> startingNumberConstraints,
+        /// </summary>
+        /// <param name="puzzle">The Sudoku puzzle</param>
+        /// <param name="size">The size of the puzzle. For example, 9 for a 9x9 puzzle</param>
+        /// <param name="emptySquareEdges">The list of empty square edges specifying Vertices in the same row/col/subgrid</param>
+        /// <param name="startingNumberConstraints">The set of numbers that this empty square can not have</param>
+        /// <param name="emptySquares">List of empty squares with their i,j locations</param>
+        void FindEdgesAndInitialNumberConstraints(int[,] puzzle, int size, 
+            out List<(long, long)> emptySquareEdges, out HashSet<(long, long)> startingNumberConstraints,
             out List<EmptySquare> emptySquares)
         {
             // find color edges ... i.e. edges between horizontal, vertical 
@@ -79,11 +76,11 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
             // Note that for size=4, we will subtract 1 from all puzzle
             // numbers so that they fit in 2 bits i.e. 1 to 4 becomes 0 to 3.
             int subSize = size == 9 ? 3 : 2; // subsize is 2 for size=4 and 3 for size=9
-            int[,] emptyIndexes = new int[size, size];
+            var emptyIndexes = new int[size, size];
             emptySquares = new List<EmptySquare>();
-            emptySquareEdges = new List<ValueTuple<long, long>>();
+            emptySquareEdges = new List<(long, long)>();
             // Starting Number constraints on blank squares.
-            startingNumberConstraints = new HashSet<ValueTuple<long, long>>();
+            startingNumberConstraints = new HashSet<(long, long)>();
 
             for (int i = 0; i < size; i++)
             {
@@ -91,12 +88,13 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 {
                     if (puzzle[i, j] == 0)
                     {
-                        int emptyIndex = emptySquares.Count;
+                        var emptyIndex = emptySquares.Count;
                         emptyIndexes[i, j] = emptyIndex;
-                        EmptySquare emptySquare = new EmptySquare();
-                        emptySquare.i = i;
-                        emptySquare.j = j;
-                        emptySquares.Add(emptySquare);
+                        emptySquares.Add(new EmptySquare
+                        {
+                            Row = i,
+                            Column = j
+                        });
                         // Add all existing number constraints in 
                         // subSize x subSize to hashset of constraints for this cell.
                         // Also, add edge to any previous empty cells in the 
@@ -109,29 +107,29 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                             {
                                 if (puzzle[iSub, jSub] != 0)
                                     startingNumberConstraints.Add(
-                                        ValueTuple.Create(emptyIndex, puzzle[iSub, jSub] - 1));
+                                        (emptyIndex, puzzle[iSub, jSub] - 1));
                                 else if (iSub < i && jSub < j)
                                     emptySquareEdges.Add(
-                                        ValueTuple.Create(emptyIndex, emptyIndexes[iSub, jSub]));
+                                        (emptyIndex, emptyIndexes[iSub, jSub]));
                             }
                         }
                         for (int ii = 0; ii < size; ii++)
                         {
                             if (puzzle[ii, j] != 0)
                                 startingNumberConstraints.Add(
-                                    ValueTuple.Create(emptyIndex, puzzle[ii, j] - 1));
+                                    (emptyIndex, puzzle[ii, j] - 1));
                             else if (ii < i)
                                 emptySquareEdges.Add(
-                                    ValueTuple.Create(emptyIndex, emptyIndexes[ii, j]));
+                                    (emptyIndex, emptyIndexes[ii, j]));
                         }
                         for (int jj = 0; jj < size; jj++)
                         {
                             if (puzzle[i, jj] != 0)
                                 startingNumberConstraints.Add(
-                                    ValueTuple.Create(emptyIndex, puzzle[i, jj] - 1));
+                                    (emptyIndex, puzzle[i, jj] - 1));
                             else if (jj < j)
                                 emptySquareEdges.Add(
-                                    ValueTuple.Create(emptyIndex, emptyIndexes[i, jj]));
+                                    (emptyIndex, emptyIndexes[i, jj]));
                         }
                     }
                 }

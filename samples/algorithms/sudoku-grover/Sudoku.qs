@@ -13,7 +13,6 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// # Summary
     /// Solve a Sudoku puzzle using Grover's algorithm.
     ///
-    ///
     /// # Description
     /// Sudoku is a graph coloring problem where graph edges must connect nodes 
     /// of different colors.
@@ -21,6 +20,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// Graph edges are the constraints preventing squares from having the same values. 
     /// To reduce the number of qubits needed, we only use qubits for empty squares.
     /// We define the puzzle using 2 data structures:
+    ///
     ///   - A list of edges connecting empty squares
     ///   - A list of constraints on empty squares to the initial numbers 
     ///     in the puzzle (starting numbers)
@@ -62,7 +62,6 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// i.e. empty square 0 can't have value 1 or 3, 
     /// and empty square #1 can't have values 1 or 3.
     ///
-    ///
     /// # Input
     /// ## numVertices
     /// number of blank squares.
@@ -81,9 +80,8 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// Look at the README.md sample output to see examples of what this is 
     /// for different sample puzzles.
     ///
-    ///
     /// # Output
-    /// A Tuple with Result and the array of numbers for each empty square.
+    /// A tuple with Result and the array of numbers for each empty square.
     /// Look at the README.md sample output to see examples of what this is 
     /// for different sample puzzles.
     ///
@@ -109,16 +107,16 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         startingNumberConstraints: (Int, Int)[]) : (Bool, Int[]) {
         // for size = 4x4 grid
         let bitsPerColor = size == 9 ? 4 | 2;
-        mutable oracle = VertexColoringOracle(numVertices, bitsPerColor, emptySquareEdges, startingNumberConstraints, _, _);
+        mutable oracle = ApplyVertexColoringOracle(numVertices, bitsPerColor, emptySquareEdges, startingNumberConstraints, _, _);
         if (size == 9) {
-            // Although we could use VertexColoringOracle for 9x9, we would
+            // Although we could use ApplyVertexColoringOracle for 9x9, we would
             // have to add restrictions on each color to not allow colors 8 
             // thru 15. This could be achieved by adding these to 
             // startNumberConstraints. However, this did not scale well with 
             // the simulator, and so instead we use 
-            // VertexColoringOracle4Bit9Color which has the 9 color 
+            // ApplyVertexColoringOracle4Bit9Color which has the 9 color 
             // restriction built in.
-            set oracle = VertexColoringOracle4Bit9Color(numVertices, emptySquareEdges, startingNumberConstraints, _, _);
+            set oracle = ApplyVertexColoringOracle4Bit9Color(numVertices, emptySquareEdges, startingNumberConstraints, _, _);
         } elif (size != 4) {
             fail $"Cannot set size {size}: only a grid size of 4x4 or 9x9 is supported";
         }
