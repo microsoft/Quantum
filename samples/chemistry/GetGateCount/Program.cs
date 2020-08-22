@@ -67,7 +67,7 @@ namespace Microsoft.Quantum.Chemistry.Samples
             {
                 Logging.LogPath = LogPath;
             }
-            var logger = Logging.LoggerFactory.CreateLogger<Program>();
+            var logger = new LoggerFactory().CreateLogger<Program>();
 
             // Here, we specify the Hamiltonian simulation configurations we wish to run.
             var configurations = Configure(
