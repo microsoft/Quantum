@@ -11,7 +11,7 @@ description: "This sample shows advanced techniques when using `IQuantumProcesso
 # An advanced reversible simulator
 
 This samples illustrates some advanced techniques to extend the functionality of
-the simple reversible simulator.  
+the simple reversible simulator.
 
 ## Prerequisites
 

@@ -2,7 +2,7 @@
 # https://github.com/microsoft/iqsharp/blob/master/images/iqsharp-base/Dockerfile.
 # As per Binder documentation, we choose to use an SHA sum here instead of a
 # tag.
-FROM mcr.microsoft.com/quantum/iqsharp-base:0.11.2004.2825
+FROM mcr.microsoft.com/quantum/iqsharp-base:0.12.2007.2031
 
 # Mark that this Dockerfile is used with the samples repository.
 ENV IQSHARP_HOSTING_ENV=SAMPLES_DOCKERFILE
@@ -28,6 +28,13 @@ RUN apt-get -y update && \
 # to use the Debian package manager, due to issues with syncing libicu
 # dependencies.
 RUN dotnet tool install --global PowerShell
+
+# Install Jupytext to expose Markdown files as Jupyter Notebooks for use with
+# Binder.
+RUN pip install jupytext
+# Make the C# and PowerShell kernels available to Jupytext as well.
+RUN dotnet tool install -g --add-source "https://dotnet.myget.org/F/dotnet-try/api/v3/index.json" Microsoft.dotnet-interactive && \
+    dotnet interactive jupyter install
 
 # Install additional Python dependencies for the PythonInterop sample.
 # Note that QuTiP has as a hard requirement that its dependencies must be

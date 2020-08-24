@@ -1,6 +1,12 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+# # Reversible Logic Synthesis
+#
+# This sample demonstrates:
+# - How to use Q# to decompose permutations into quantum operations.
+# - How to apply decomposed permutations in algorithms such as hidden shift.
+
 import qsharp
 from Microsoft.Quantum.Samples.ReversibleLogicSynthesis import SimulatePermutation, FindHiddenShift
 
