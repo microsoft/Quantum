@@ -35,7 +35,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation
 
                 // To call a Q# operation that takes unit `()` as its input, we need to grab
                 // the QVoid.Instance value.
-                var bondLengths = H2BondLengths.Body.Invoke(QVoid.Instance);
+                var bondLengths = H2BondLengths.__Body__.Invoke(QVoid.Instance);
 
                 // In Q#, we defined the operation that performs the actual estimation;
                 // we can call it here, giving a structure tuple that corresponds to the
@@ -49,7 +49,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation
                 // state instead of the ground state of interest.
                 Func<int, Double> estAtBondLength = (idx) => Enumerable.Min(
                     from idxRep in Enumerable.Range(0, 3)
-                    select H2EstimateEnergyRPE.Body.Invoke((idx, 6, 1.0))
+                    select H2EstimateEnergyRPE.__Body__.Invoke((idx, 6, 1.0))
                 );
 
                 // We are now equipped to run the Q# simulation at each bond length
