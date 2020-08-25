@@ -18,8 +18,8 @@ The code supports both 4x4 and 9x9 Sudoku puzzles.
           
 For 4x4 puzzles, the same rules apply:
 
-- The numbers 0 to 3 may only appear once per row, column and 2x2 sub squares
-
+- The numbers 0 to 3 may only appear once per row, column and 2x2 sub squares 
+```
      As an example              has solution
      _________________          _________________
      |   | 1 |   | 3 |          | 0 | 1 | 2 | 3 |  
@@ -30,18 +30,19 @@ For 4x4 puzzles, the same rules apply:
      -----------------          -----------------
      | 3 |   | 1 |   |          | 3 | 0 | 1 | 2 |  
      -----------------          -----------------
-    
+```
 Sudoku is a graph coloring problem where graph edges must connect nodes of different colors
 In our case, graph nodes are puzzle squares and colors are the Sudoku numbers. 
 Graph edges are the constraints preventing squares from having the same values. 
 In the above example, the constraints for the top row are
+```
        _________
       | ______   \                   _____   
       || __   \   \                  | __  \                        __
      _|||__\___\_ _\__         ______||__\___\__          _________|___\__ 
      |   | 1 |   | 3 |         |   | 1 |   | 3 |         |   | 1 |   | 3 | 
      -----------------         -----------------         -----------------
-    
+```
 To reduce the number of qubits, we only use qubits for empty squares.
 Each empty square gets 2 qubits to encode the numbers 0 to 3.
 We define the puzzle using 2 data structures.
@@ -49,10 +50,12 @@ We define the puzzle using 2 data structures.
 - A list of edges connecting empty squares
 - A list of constraints on empty squares to the initial numbers in the puzzle (starting numbers)
 
-For example, for the row above the empty squares have indexes
+For example, for the row above the empty squares have indexes 
+```
      _________________
      | 0 |   | 1 |   |
      -----------------
+```
 and `emptySquareEdges` is the array of edges. 
 For example, cell 0 can't have the same number (color) as cell 1:
 emptySquareEdges = (0,1)      
@@ -107,7 +110,7 @@ For example, `dotnet run 4x4-4` will run the Quantum solution for a 4x4 puzzle w
 - [Sudoku.qs](Sudoku.qs): Q# code which accepts edges and constraints and calls Grovers algorthm with the coloring oracle. Also checks the result is correct.
 - [SudokuClassic.cs](SudokuClassic.cs): C# code to solve a Sudoku puzzle using classical code.
 - [SudokuQuantum.cs](SudokuQuantum.cs): C# code to solve a Sudoku puzzle by transforming it into a graph problem (edges and starting number constraints), and call the Quantum SolvePuzzle operation to solve it.
-- [SimpleGroverSample.csproj](SimpleGroverSample.csproj): Main project for the sample.
+- [SudokuGroverSample.csproj](SudokuGroverSample.csproj): Main project for the sample.
 
 ## Sample Output ##
 
