@@ -79,7 +79,8 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// register state corresponds to the bit mask `bits`.
     ///
     /// # Example
-    /// Consider the following 4x4 Sudoku puzzle``` 
+    /// Consider the following 4x4 Sudoku puzzle
+    /// ``` 
     ///     -----------------
     ///     |   |   | 2 | 3 |
     ///     -----------------
@@ -88,11 +89,13 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     ///     | 1 | 2 | 3 | 0 |
     ///     -----------------
     ///     | 3 | 0 | 1 | 2 |
-    ///     -----------------```
+    ///     -----------------
+    /// ```
     ///  The challenge is to fill the empty squares with numbers 0 to 3
     ///  that are unique in row, column and the top left 2x2 square.
     ///  This is a graph coloring problem where the colors are 0 to 3
-    ///  and the empty cells are the vertices. The vertices can be defined as:```
+    ///  and the empty cells are the vertices. The vertices can be defined as:
+    /// ```
     ///     -----------------
     ///     | 0 | 1 |   |   |
     ///     -----------------
@@ -101,11 +104,14 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     ///     |   |   |   |   |
     ///     -----------------
     ///     |   |   |   |   |
-    ///     -----------------```
-    /// The graph is```
+    ///     -----------------
+    /// ```
+    /// The graph is
+    /// ```
     ///  0---1
     ///  | X |
-    ///  1---2```
+    ///  1---2
+    /// ```
     /// i.e. every vertex is connected to each other.
     /// Additionally, we require that:
     ///
@@ -187,7 +193,8 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// register state corresponds to the bit mask `bits`.
     ///
     /// # Example
-    /// Consider the following 9x9 Sudoku puzzle:```
+    /// Consider the following 9x9 Sudoku puzzle:
+    /// ```
     ///    -------------------------------------
     ///    |   | 6 | 2 | 7 | 8 | 3 | 4 | 0 | 1 |
     ///    -------------------------------------
@@ -206,20 +213,25 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     ///    | 1 | 7 | 6 | 2 | 4 | 5 | 0 | 3 | 8 |
     ///    -------------------------------------
     ///    | 2 | 4 | 0 | 8 | 3 | 6 | 5 | 1 | 7 |
-    ///    -------------------------------------```
+    ///    -------------------------------------
+    /// ```
     ///  The challenge is to fill the empty squares with numbers 0 to 8
     ///  that are unique in row, column and the top left 3x3 square
     ///  This is a graph coloring problem where the colors are 0 to 8
-    ///  and the empty cells are the vertices. The vertices can be defined as````  
+    ///  and the empty cells are the vertices. The vertices can be defined as
+    /// ```  
     ///     -----------------
     ///     | 0 |   |   |   | ...
     ///     -----------------
     ///     |   | 1 |   |   | ...
     ///     -----------------
     ///     |   |   |   |   | ...
-    ///     ...```
+    ///     ...
+    /// ```
     /// The graph is
-    /// ``` 0---1 ```
+    /// ```
+    ///     0---1 
+    /// ```
     /// Additionally, we also require that 
     ///    - vertex 0 can not have value 6,2,7,8,3,4,0,1 (row constraint)
     ///                         or value 8,7,6,4,0,3,1,2 (col constraint)
