@@ -3,39 +3,23 @@
 
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
 namespace Microsoft.Quantum.Samples.H2Simulation
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-
             // We begin by making an instance of the simulator that we will use to run our Q# code.
             using (var qsim = new QuantumSimulator()) {
 
-                #region Basic Definitions
-
-                // Next, we give C# names to each operation defined in Q#.
-                // In doing so, we ask the simulator to give us each operation
-                // so that it has an opportunity to override operation definitions.
-                var H2EstimateEnergyRPE = qsim.Get<H2EstimateEnergyRPE, H2EstimateEnergyRPE>();
-                var H2BondLengths = qsim.Get<H2BondLengths, H2BondLengths>();
-
-                #endregion
-
-                #region Calling into Q#
-
-                // To call a Q# operation that takes unit `()` as its input, we need to grab
-                // the QVoid.Instance value.
-                var bondLengths = H2BondLengths.Body.Invoke(QVoid.Instance);
+                // We call the Q# function H2BondLengths to get the bond lengths at which we want to
+                // estimate the energy.
+                var bondLengths = await H2BondLengths.Run(qsim);
 
                 // In Q#, we defined the operation that performs the actual estimation;
                 // we can call it here, giving a structure tuple that corresponds to the
@@ -49,7 +33,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation
                 // state instead of the ground state of interest.
                 Func<int, Double> estAtBondLength = (idx) => Enumerable.Min(
                     from idxRep in Enumerable.Range(0, 3)
-                    select H2EstimateEnergyRPE.Body.Invoke((idx, 6, 1.0))
+                    select H2EstimateEnergyRPE.Run(qsim, idx, 6, 1.0).Result
                 );
 
                 // We are now equipped to run the Q# simulation at each bond length
@@ -60,8 +44,6 @@ namespace Microsoft.Quantum.Samples.H2Simulation
                     var est = estAtBondLength(idxBond);
                     System.Console.WriteLine($"\tEst: {est}\n");
                 }
-
-                #endregion
 
             }
 
