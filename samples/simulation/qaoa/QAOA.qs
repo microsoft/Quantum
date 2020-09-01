@@ -47,6 +47,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// ## target
     /// Qubit register that encodes the Spin values in the Ising Hamiltonian.
     operation ApplyInstanceHamiltonian(
+        numSegments: Int,
         time: Double, 
         weights: Double[], 
         coupling: Double[],
@@ -65,7 +66,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
                         CNOT(target[i], auxiliary);
                         CNOT(target[j], auxiliary);
                     } apply {
-                        Rz(2.0 * time * coupling[6 * i + j], auxiliary);
+                        Rz(2.0 * time * coupling[numSegments * i + j], auxiliary);
                     }
                 }
             }
@@ -159,7 +160,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
             ApplyToEach(H, x); // prepare the uniform distribution
             for ((tz, tx) in Zip(timeZ, timeX))
             {
-                ApplyInstanceHamiltonian(tz, weights, couplings, x); // do Exp(-i H_C tz)
+                ApplyInstanceHamiltonian(numSegments, tz, weights, couplings, x); // do Exp(-i H_C tz)
                 ApplyDriverHamiltonian(tx, x); // do Exp(-i H_0 tx)
             }
             set result = ResultArrayAsBoolArray(MultiM(x)); // measure in the computational basis
