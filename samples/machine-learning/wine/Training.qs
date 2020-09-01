@@ -60,7 +60,7 @@ namespace Microsoft.Quantum.Samples {
             DefaultSchedule(samples),
             DefaultSchedule(samples)
         );
-        Message($"Training complete, found optimal parameters: {optimizedModel::Parameters}");
+        Message($"Training complete, found optimal parameters and bias: {optimizedModel::Parameters}, {optimizedModel::Bias}");
         return (optimizedModel::Parameters, optimizedModel::Bias);
     }
 

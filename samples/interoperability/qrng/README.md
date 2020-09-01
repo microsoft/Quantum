@@ -38,7 +38,7 @@ python host.py
 
 At a terminal, run the following command:
 
-```dotnetcli
+```bash
 dotnet run
 ```
 

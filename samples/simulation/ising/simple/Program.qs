@@ -18,6 +18,23 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
         // where the units are implicitly fixed by the units of the Hamiltonian itself.
         let sweepTime = 10.0;
 
+        // Ising coupling
+        let J = 1.0;
+
+        // Set the sign by parity of lattice site index
+        let signByParity = false;
+
+        // Order the lattice sites in a cycle instead of an open-ended chain
+        let cycle = true;
+
+        // All-to-all coupling
+        let allToAll = false;
+
+        // Create an array of site-to-site couplings
+        // Here we use a chain with constant Ising coupling
+        let couplings = GenerateCouplings(
+            nSites, J, signByParity, cycle, allToAll);
+
         // Finally, we'll then decompose the time evolution down into small steps.
         // During each step, we'll perform each term in the Hamiltonian individually.
         // By the Trotter–Suzuki decomposition (also implemented in the canon), this
@@ -42,7 +59,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
 
         for (idxAttempt in 1 .. 100)
         {
-            let data = SimulateIsingEvolution(nSites, sweepTime, timeStep);
+            let data = SimulateIsingEvolution(nSites, sweepTime, timeStep, couplings);
             // We convert each Result into a floating point number 
             // representing the observed spin and compute the magnetization.
             let magnetization = Array.Fold(AddMagnetization, 0.0, data); 

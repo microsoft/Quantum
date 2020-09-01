@@ -1,4 +1,4 @@
-﻿# Microsoft Quantum Development Kit Samples #
+﻿# Microsoft Quantum Development Kit Samples
 
  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Microsoft/Quantum/⭐binder)
 
@@ -9,7 +9,7 @@ Each sample is self-contained in a folder, and demonstrates how to use Q# to dev
 A small number of the samples have additional installation requirements beyond those for the rest of the Quantum Development Kit.
 These are noted in the README.md files for each sample, along with complete installation instructions.
 
-## Getting started ##
+## Getting started
 
 You can find instructions on how to install the Quantum Development Kit in [our online documentation](https://docs.microsoft.com/quantum/install-guide/), which also includes
 an introduction to [quantum programming concepts](https://docs.microsoft.com/en-us/quantum/concepts/).
@@ -18,7 +18,7 @@ For a quick guide on how to set up a development environment from scratch using 
 
 A [Docker](https://docs.docker.com/install/) image definition is also provided for your convenience, see [here](#running-a-jupyter-notebook-with-docker) for instructions on how to build and use it.
 
-### First samples ###
+### First samples
 
 If you're new to quantum or to the Quantum Development Kit, we recommend starting with the [Getting Started samples](./samples/getting-started/).
 
@@ -44,7 +44,7 @@ Teleportation successful!
 
 Congratulations, you can now start quantum programming!
 
-## Going further ##
+## Going further
 
 As you go further with quantum development, we provide several different categories of samples for you to explore:
 
@@ -70,11 +70,11 @@ As you go further with quantum development, we provide several different categor
 
 We also encourage taking a look at the [unit tests](./samples/tests) used to check the correctness of the Quantum Development Kit samples.
 
-## Setting up your development environment ##
+## Setting up your development environment
 
 This repo contains several configuration files that will make it easy to get started with coding. Below we lay out some instructions for getting started with [VSCode](#visual-studio-code) or [Visual Studio Codespaces](#visual-studio-codespaces). The latter will use the Docker image that has all dependencies pre-installed for you using the configuration file in the `.devcontainer` directory. If you prefer working with Jupyter notebooks, we also provide instructions for how to set that up [below](#running-a-jupyter-notebook-with-docker).
 
-### Visual Studio Codespaces ###
+### Visual Studio Codespaces
 
 For minimal set-up time, we recommend using [Visual Studio Codespaces](https://online.visualstudio.com/login) in the browser. To get started, perform the following steps:
 
@@ -88,7 +88,7 @@ When you click "Create", a new Codespace instance is created with a development 
 
 3. Done! You can now start developing using Q# in your browser. Open a terminal to start running your first samples (see [here](#first-samples)).
 
-### Visual Studio Code ###
+### Visual Studio Code
 
 If you prefer to develop code locally, we recommend to install an editor such as [Visual Studio Code](https://code.visualstudio.com/download). Make sure to install the [.NET Core SDK 3.1 or later](https://www.microsoft.com/net/download) on your local machine. For more detailed instructions on how to set up VS Code for development with the QDK, go to our docs [here](https://docs.microsoft.com/en-us/quantum/quickstarts/install-command-line?tabs=tabid-vscode).
 
