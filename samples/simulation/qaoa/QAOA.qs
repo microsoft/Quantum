@@ -20,7 +20,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// Target qubit register
     /// ## time
     /// Time passed in evolution of X rotation
-    operation ApplyDriverHamiltonian(time: Double, target: Qubit[]) : Unit {
+    operation ApplyDriverHamiltonian(time: Double, target: Qubit[]) : Unit is Adj + Ctl {
         ApplyToEachCA(Rx(-2.0 * time, _), target);
     }
 
