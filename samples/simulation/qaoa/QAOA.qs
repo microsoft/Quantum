@@ -70,7 +70,6 @@ namespace Microsoft.Quantum.Samples.QAOA {
                     }
                 }
             }
-            Reset(auxiliary);
         }
     }
 
@@ -163,10 +162,8 @@ namespace Microsoft.Quantum.Samples.QAOA {
                 ApplyInstanceHamiltonian(numSegments, tz, weights, couplings, x); // do Exp(-i H_C tz)
                 ApplyDriverHamiltonian(tx, x); // do Exp(-i H_0 tx)
             }
-            set result = ResultArrayAsBoolArray(MultiM(x)); // measure in the computational basis
-            ResetAll(x);
+            return ResultArrayAsBoolArray(MultiM(x)); // measure in the computational basis
         }
-        return result;
     }
 
     /// # Summary
