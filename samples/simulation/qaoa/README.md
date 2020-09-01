@@ -31,7 +31,7 @@ H_0 = - \sum_i X_i
 
 In this sample, the time evolutions are pre-determined, however, these could also be found variationally as part of a hybrid classical-quantum algorithm, by using e.g. gradient descent.
 
-In this sample, we use QAOA to solve the Traveling Santa problem. The constraints are expressed as penalties in the instance Hamiltonian weights and coupling terms. For a more detailed explanation of this sample, please visit Stephan Jordan's Quantum Algorithm Zoo post, [Traveling Santa Problem](http://quantumalgorithmzoo.org/traveling_santa/).
+In this sample, we use QAOA to solve the Traveling Santa problem. The constraints are expressed as penalties in the instance Hamiltonian weights and coupling terms. For a more detailed explanation of this sample, please visit Stephen Jordan's Quantum Algorithm Zoo post, [Traveling Santa Problem](http://quantumalgorithmzoo.org/traveling_santa/).
 
 ## Running the Sample
 
@@ -50,7 +50,7 @@ Options:
 ## Manifest
 
 - **qaoa/**
-  - [QAOA.csproj](./QAOA.csproj): Main C# project for the example.
+  - [QAOA.csproj](./QAOA.csproj): Main Q# project for the example.
   - [QAOA.qs](./QAOA.qs): The Q# implementation of the QAOA program.
 
 ## Example run

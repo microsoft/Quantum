@@ -17,10 +17,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// ## time
     /// Time passed in evolution of X rotation
     operation DriverHamiltonian(target: Qubit[], time: Double) : Unit {
-        for(qubit in target)
-        {
-            Rx(-2.0 * time, qubit);
-        }
+        ApplyToEachCA(Rx(-2.0 * time, _), target);
     }
 
     /// # Summary
@@ -45,8 +42,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
         weights: Double[], 
         coupling: Double[]
     ) : Unit {
-        using (auxiliary = Qubit())
-        {
+        using (auxiliary = Qubit()) {
             for((h, qubit) in Zip(weights, target))
             {
                 Rz(2.0 * time * h, qubit);
@@ -55,11 +51,12 @@ namespace Microsoft.Quantum.Samples.QAOA {
             {
                 for (j in i+1..5)
                 {
-                    CNOT(target[i], auxiliary);
-                    CNOT(target[j], auxiliary);
-                    Rz(2.0 * time * coupling[6 * i + j], auxiliary);
-                    CNOT(target[i], auxiliary);
-                    CNOT(target[j], auxiliary);
+                    within {
+                        CNOT(target[i], auxiliary);
+                        CNOT(target[j], auxiliary);
+                    } apply {
+                        Rz(2.0 * time * coupling[6 * i + j], auxiliary);
+                    }
                 }
             }
             Reset(auxiliary);
@@ -100,19 +97,12 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// to a parameter J_ij between qubit states i and j.
     function createHamiltonianCouplings(penalty: Double) : Double[] {
         // Calculate Hamiltonian coupling parameters based on the given costs and penalty
-        mutable coupling = new Double[36];
-
         // Most elements of J_ij equal 2*penalty, so set all elements to this value, 
         // then overwrite the exceptions
-        for (i in 0..35)
-        {
-            set coupling w/= i <- 2.0 * penalty;
-        }
-        set coupling w/= 2 <- penalty;
-        set coupling w/= 9 <- penalty;
-        set coupling w/= 29 <- penalty;
-
-        return coupling;
+        return ConstantArray(36, 2.0 * penalty)
+            w/ 2 <- penalty
+            w/ 2 <- penalty
+            w/ 29 <- penalty;
     }
     
     /// # Summary
@@ -163,7 +153,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     function calculateCost(segmentCosts : Double[], usedSegments : Bool[]) : Double {
         mutable finalCost = 0.0;
         for ((cost, segment) in Zip(segmentCosts, usedSegments)) {
-            set finalCost = segment ? finalCost + cost | finalCost;
+            set finalCost += segment ? cost | 0.0;
         }
         return finalCost;
     }
@@ -191,7 +181,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     }
 
     /// # Summary
-    /// Run QAOA for a given number of trails. Based on the Traveling Santa
+    /// Run QAOA for a given number of trials. Based on the Traveling Santa
     /// Problem outlined here: http://quantumalgorithmzoo.org/traveling_santa/.
     /// Reports on the best itinerary for the Traveling Santa Problem and how 
     /// many of the runs resulted in the answer. This should typically return 
@@ -232,7 +222,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
                 }
             }
         }
-        let runPercentage = IntAsDouble(successNumber) * 100.0 / 20.0;
+        let runPercentage = IntAsDouble(successNumber) * 100.0 / numTrials;
         Message("Simulation is complete\n");
         Message($"Best itinerary found: {bestItinerary}, cost = {bestCost}");
         Message($"{runPercentage}% of runs found the best itinerary\n");
