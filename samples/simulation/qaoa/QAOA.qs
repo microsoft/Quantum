@@ -37,7 +37,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     ///
     /// # Input
     /// ## time
-    /// Time point in evolution
+    /// Time point in evolution.
     /// ## weights
     /// Ising magnetic field or "weights" encoding the constraints of our
     /// traveling Santa problem.
@@ -45,7 +45,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// Ising coupling term or "penalty" encoding the constraints of our
     /// traveling Santa problem.
     /// ## target
-    /// Qubit register that encodes the Spin values in the Ising Hamiltonian
+    /// Qubit register that encodes the Spin values in the Ising Hamiltonian.
     operation ApplyInstanceHamiltonian(
         time: Double, 
         weights: Double[], 
@@ -59,7 +59,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
             }
             for(i in 0..5)
             {
-                for (j in i+1..5)
+                for (j in i + 1..5)
                 {
                     within {
                         CNOT(target[i], auxiliary);
@@ -74,44 +74,56 @@ namespace Microsoft.Quantum.Samples.QAOA {
     }
 
     /// # Summary
-    /// Calculate Hamiltonian parameters based on the given costs and penalty
+    /// Calculate Hamiltonian parameters based on the given costs and penalty.
     ///
     /// # Input
     /// ## segmentCosts
-    /// Cost values of each segment
+    /// Cost values of each segment.
     /// ## penalty
-    /// Penalty for cases that don't meet constraints
+    /// Penalty for cases that don't meet constraints.
     ///
     /// # Output
     /// ## weights
     /// Hamiltonian parameters or "weights" as an array where each element corresponds 
     /// to a parameter h_j for qubit state j.
-    function HamiltonianWeights(segmentCosts : Double[], penalty: Double) : Double[] {
-        mutable weights = new Double[6];
-        for (i in 0..5) {
+    /// ## numSegments
+    /// Number of segments in the graph that describes possible paths.
+    function HamiltonianWeights(
+        segmentCosts : Double[], 
+        penalty: Double, 
+        numSegments: Int
+    ) : Double[] {
+        mutable weights = new Double[numSegments];
+        for (i in 0..numSegments - 1) {
             set weights w/= i <- 4.0 * penalty - 0.5 * segmentCosts[i];
         }
         return weights;
     }
 
     /// # Summary
-    /// Calculate Hamiltonian coupling parameters based on the given penalty
+    /// Calculate Hamiltonian coupling parameters based on the given penalty.
     ///
     /// # Input
     /// ## penalty
-    /// Penalty for cases that don't meet constraints
+    /// Penalty for cases that don't meet constraints.
+    /// ## numSegments
+    /// Number of segments in the graph that describes possible paths.
     ///
     /// # Output
     /// ## coupling
     /// Hamiltonian coupling parameters as an array, where each element corresponds
     /// to a parameter J_ij between qubit states i and j.
-    function HamiltonianCouplings(penalty: Double) : Double[] {
+    function HamiltonianCouplings(penalty: Double, numSegments: Int) : Double[] {
         // Calculate Hamiltonian coupling parameters based on the given costs and penalty
         // Most elements of J_ij equal 2*penalty, so set all elements to this value, 
-        // then overwrite the exceptions
-        return ConstantArray(36, 2.0 * penalty)
+        // then overwrite the exceptions. This is currently implemented for the
+        // example with 6 segments.
+        EqualityFactI(numSegments, 6, 
+            "Currently, HamiltonianCouplings only supports given constraints for 6 segments."
+        );
+        return ConstantArray(numSegments * numSegments, 2.0 * penalty)
             w/ 2 <- penalty
-            w/ 2 <- penalty
+            w/ 9 <- penalty
             w/ 29 <- penalty;
     }
     
@@ -119,22 +131,30 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// Perform the QAOA algorithm for this Ising Hamiltonian
     ///
     /// # Input
+    /// ## numSegments
+    /// Number of segments in graph
     /// ## weights
-    /// Instance Hamiltonian parameters or "weights" as an array where each element corresponds to a 
-    /// parameter h_j for qubit state j.
+    /// Instance Hamiltonian parameters or "weights" as an array where each 
+    /// element corresponds to a parameter h_j for qubit state j.
     /// ## couplings
-    /// Instance Hamiltonian coupling parameters as an array, where each element corresponds
-    /// to a parameter J_ij between qubit states i and j.
+    /// Instance Hamiltonian coupling parameters as an array, where each 
+    /// element corresponds to a parameter J_ij between qubit states i and j.
     /// ## timeX
     /// Time evolution for PauliX operations
     /// ## timeZ
     /// Time evolution for PauliX operations
-    operation PerformQAOA(weights : Double[], couplings : Double[], timeX : Double[], timeZ : Double[]) : Bool[] {
+    operation PerformQAOA(
+            numSegments: Int, 
+            weights : Double[], 
+            couplings : Double[], 
+            timeX : Double[], 
+            timeZ : Double[]
+        ) : Bool[] {
         EqualityFactI(Length(timeX), Length(timeZ), "timeZ and timeX are not the same length");
 
         // Run the QAOA circuit
-        mutable result = new Bool[6];
-        using (x = Qubit[6])
+        mutable result = new Bool[numSegments];
+        using (x = Qubit[numSegments])
         {
             ApplyToEach(H, x); // prepare the uniform distribution
             for ((tz, tx) in Zip(timeZ, timeX))
@@ -169,20 +189,27 @@ namespace Microsoft.Quantum.Samples.QAOA {
     }
 
     /// # Summary
-    /// Final check to determine if the used segments satisfy our known constraints.
+    /// Final check to determine if the used segments satisfy our known 
+    /// constraints. This function is implemented to consider a graph with 6 
+    /// segments and three valid connected paths.
     ///
     /// # Input
+    /// ## numSegments
+    /// Number of segments in the graph
     /// ## usedSegments
     /// Array of which segments were used
     ///
     /// # Output
     /// ## output
     /// Boolean value whether the conditions are satisfied.
-    function IsSatisfactory(usedSegments : Bool[]) : Bool {
+    function IsSatisfactory(numSegments: Int, usedSegments : Bool[]) : Bool {
+        EqualityFactI(numSegments, 6, 
+            "Currently, IsSatisfactory only supports constraints for 6 segments."
+        );
         mutable hammingWeight = 0;
         for (segment in usedSegments)
         {
-            set hammingWeight = segment ? hammingWeight + 1 | hammingWeight;
+            set hammingWeight += segment ? 1 | 0;
         }
         if (hammingWeight != 4 
             or usedSegments[0] != usedSegments[2] 
@@ -194,8 +221,9 @@ namespace Microsoft.Quantum.Samples.QAOA {
     }
 
     /// # Summary
-    /// Run QAOA for a given number of trials. Based on the Traveling Santa
-    /// Problem outlined here: http://quantumalgorithmzoo.org/traveling_santa/.
+    /// Run QAOA for a given number of trials on 6 qubits. This sample is based 
+    /// on the Traveling Santa Problem outlined here: 
+    ///     http://quantumalgorithmzoo.org/traveling_santa/.
     /// Reports on the best itinerary for the Traveling Santa Problem and how 
     /// many of the runs resulted in the answer. This should typically return 
     /// the optimal solution roughly 71% of the time.
@@ -210,19 +238,26 @@ namespace Microsoft.Quantum.Samples.QAOA {
         let timeX = [0.619193, 0.742566, 0.060035, -1.568955, 0.045490];
         let timeZ = [3.182203, -1.139045, 0.221082, 0.537753, -0.417222];
         let limit = 1E-6;
+        let numSegments = 6;
 
         mutable bestCost = 100.0 * penalty;
         mutable bestItinerary = [false, false, false, false, false];
         mutable successNumber = 0;
 
-        let weights = HamiltonianWeights(segmentCosts, penalty);
-        let couplings = HamiltonianCouplings(penalty);
+        let weights = HamiltonianWeights(segmentCosts, penalty, numSegments);
+        let couplings = HamiltonianCouplings(penalty, numSegments);
 
         for (trial in 0..numTrials)
         {
-            let result = PerformQAOA(weights, couplings, timeX, timeZ);
+            let result = PerformQAOA(
+                numSegments, 
+                weights, 
+                couplings, 
+                timeX, 
+                timeZ
+            );
             let cost = CalculatedCost(segmentCosts, result);
-            let sat = IsSatisfactory(result);
+            let sat = IsSatisfactory(numSegments, result);
             Message($"result = {result}, cost = {cost}, satisfactory = {sat}");
             if (sat) {
                 if (cost < bestCost - limit) {
