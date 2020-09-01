@@ -16,10 +16,10 @@ namespace Microsoft.Quantum.Samples.QAOA {
     ///    H = - \sum_i X_i for time t.
     ///
     /// # Input
-    /// ## target
-    /// Target qubit register
     /// ## time
     /// Time passed in evolution of X rotation
+    /// ## target
+    /// Target qubit register
     operation ApplyDriverHamiltonian(time: Double, target: Qubit[]) : Unit is Adj + Ctl {
         ApplyToEachCA(Rx(-2.0 * time, _), target);
     }
@@ -36,8 +36,6 @@ namespace Microsoft.Quantum.Samples.QAOA {
     ///     $\sum_ij J_ij Z_i Z_j + \sum_i h_i Z_i$.
     ///
     /// # Input
-    /// ## target
-    /// Qubit register that encodes the Spin values in the Ising Hamiltonian
     /// ## time
     /// Time point in evolution
     /// ## weights
@@ -46,11 +44,13 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// ## coupling
     /// Ising coupling term or "penalty" encoding the constraints of our
     /// traveling Santa problem.
+    /// ## target
+    /// Qubit register that encodes the Spin values in the Ising Hamiltonian
     operation ApplyInstanceHamiltonian(
-        target: Qubit[], 
         time: Double, 
         weights: Double[], 
-        coupling: Double[]
+        coupling: Double[],
+        target: Qubit[]
     ) : Unit {
         using (auxiliary = Qubit()) {
             for((h, qubit) in Zip(weights, target))
@@ -139,7 +139,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
             ApplyToEach(H, x); // prepare the uniform distribution
             for ((tz, tx) in Zip(timeZ, timeX))
             {
-                ApplyInstanceHamiltonian(x, tz, weights, couplings); // do Exp(-i H_C tz)
+                ApplyInstanceHamiltonian(tz, weights, couplings, x); // do Exp(-i H_C tz)
                 ApplyDriverHamiltonian(tx, x); // do Exp(-i H_0 tx)
             }
             set result = ResultArrayAsBoolArray(MultiM(x)); // measure in the computational basis
