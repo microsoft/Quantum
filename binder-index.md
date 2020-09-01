@@ -236,6 +236,22 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Diagnostics:</strong></td>
+      <td><strong><a href="./samples/diagnostics/dumping/README.md">Dumping states and operations</a></strong></td>
+      <td><a href="./samples/diagnostics/dumping/Dumping%20States%20and%20Operations.ipynb">Q# notebook</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/diagnostics/facts-and-assertions/README.md">Facts and assertions</a></strong></td>
+      <td><a href="./samples/diagnostics/facts-and-assertions/Facts%20and%20Assertions.ipynb">Q# notebook</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
       <td><strong><a href="./samples/diagnostics/unit-testing/README.md">Unit testing</a></strong></td>
       <td></td>
       <td></td>
@@ -428,3 +444,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
   </tbody>
 </table>
+
+```qsharp
+
+```
