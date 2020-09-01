@@ -44,7 +44,7 @@ jupyter notebook
 
 ## Manifest
 
-- [Game.qs](https://github.com/microsoft/Quantum/blob/master/samples/diagnostics/dumping/Dumping%20States%20and%20Operations.ipynb): Main Q# notebook for this sample.
+- [Dumping States and Operations.ipynb](https://github.com/microsoft/Quantum/blob/master/samples/diagnostics/dumping/Dumping%20States%20and%20Operations.ipynb): Main Q# notebook for this sample.
 
 ## Further resources
 
