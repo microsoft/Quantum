@@ -9,14 +9,18 @@ namespace Microsoft.Quantum.Samples.QAOA {
 
     /// # Summary
     /// This operation applies the X-rotation to each qubit. We can think of it as time 
-    /// evolution induced by applying H = - \sum_i X_i for time t.
+    /// evolution induced by applying a Hamiltonian that sums over all X rotations.
+    ///
+    /// # Description
+    /// The driver Hamiltonian is defined as:
+    ///    H = - \sum_i X_i for time t.
     ///
     /// # Input
     /// ## target
     /// Target qubit register
     /// ## time
     /// Time passed in evolution of X rotation
-    operation DriverHamiltonian(target: Qubit[], time: Double) : Unit {
+    operation ApplyDriverHamiltonian(time: Double, target: Qubit[]) : Unit {
         ApplyToEachCA(Rx(-2.0 * time, _), target);
     }
 
@@ -36,7 +40,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// ## coupling
     /// Ising coupling term or "penalty" encoding the constraints of our
     /// traveling Santa problem.
-    operation InstanceHamiltonian(
+    operation ApplyInstanceHamiltonian(
         target: Qubit[], 
         time: Double, 
         weights: Double[], 
@@ -76,7 +80,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// ## weights
     /// Hamiltonian parameters or "weights" as an array where each element corresponds 
     /// to a parameter h_j for qubit state j.
-    function createHamiltonianWeights(segmentCosts : Double[], penalty: Double) : Double[] {
+    function HamiltonianWeights(segmentCosts : Double[], penalty: Double) : Double[] {
         mutable weights = new Double[6];
         for (i in 0..5) {
             set weights w/= i <- 4.0 * penalty - 0.5 * segmentCosts[i];
@@ -95,7 +99,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// ## coupling
     /// Hamiltonian coupling parameters as an array, where each element corresponds
     /// to a parameter J_ij between qubit states i and j.
-    function createHamiltonianCouplings(penalty: Double) : Double[] {
+    function HamiltonianCouplings(penalty: Double) : Double[] {
         // Calculate Hamiltonian coupling parameters based on the given costs and penalty
         // Most elements of J_ij equal 2*penalty, so set all elements to this value, 
         // then overwrite the exceptions
@@ -129,8 +133,8 @@ namespace Microsoft.Quantum.Samples.QAOA {
             ApplyToEach(H, x); // prepare the uniform distribution
             for ((tz, tx) in Zip(timeZ, timeX))
             {
-                InstanceHamiltonian(x, tz, weights, couplings); // do Exp(-i H_C tz)
-                DriverHamiltonian(x, tx); // do Exp(-i H_0 tx)
+                ApplyInstanceHamiltonian(x, tz, weights, couplings); // do Exp(-i H_C tz)
+                ApplyDriverHamiltonian(tx, x); // do Exp(-i H_0 tx)
             }
             set result = ResultArrayAsBoolArray(MultiM(x)); // measure in the computational basis
             ResetAll(x);
@@ -150,7 +154,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// # Output
     /// ## finalCost
     /// Calculated cost of given path
-    function calculateCost(segmentCosts : Double[], usedSegments : Bool[]) : Double {
+    function CalculatedCost(segmentCosts : Double[], usedSegments : Bool[]) : Double {
         mutable finalCost = 0.0;
         for ((cost, segment) in Zip(segmentCosts, usedSegments)) {
             set finalCost += segment ? cost | 0.0;
@@ -160,18 +164,21 @@ namespace Microsoft.Quantum.Samples.QAOA {
 
     /// # Summary
     /// Final check to determine if the used segments satisfy our known constraints.
-    /// Returns true or false.
     ///
     /// # Input
     /// ## usedSegments
     /// Array of which segments were used
-    function determineSatisfactory(usedSegments : Bool[]) : Bool {
-        mutable HammingWeight = 0;
+    ///
+    /// # Output
+    /// ## output
+    /// Boolean value whether the conditions are satisfied.
+    function IsSatisfactory(usedSegments : Bool[]) : Bool {
+        mutable hammingWeight = 0;
         for (segment in usedSegments)
         {
-            set HammingWeight = segment ? HammingWeight + 1 | HammingWeight;
+            set hammingWeight = segment ? hammingWeight + 1 | hammingWeight;
         }
-        if (HammingWeight != 4 
+        if (hammingWeight != 4 
             or usedSegments[0] != usedSegments[2] 
             or usedSegments[1] != usedSegments[3] 
             or usedSegments[4] != usedSegments[5]) {
@@ -202,14 +209,14 @@ namespace Microsoft.Quantum.Samples.QAOA {
         mutable bestItinerary = [false, false, false, false, false];
         mutable successNumber = 0;
 
-        let weights = createHamiltonianWeights(segmentCosts, penalty);
-        let couplings = createHamiltonianCouplings(penalty);
+        let weights = HamiltonianWeights(segmentCosts, penalty);
+        let couplings = HamiltonianCouplings(penalty);
 
         for (trial in 0..numTrials)
         {
             let result = PerformQAOA(weights, couplings, timeX, timeZ);
-            let cost = calculateCost(segmentCosts, result);
-            let sat = determineSatisfactory(result);
+            let cost = CalculatedCost(segmentCosts, result);
+            let sat = IsSatisfactory(result);
             Message($"result = {result}, cost = {cost}, satisfactory = {sat}");
             if (sat) {
                 if (cost < bestCost - limit) {
@@ -222,7 +229,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
                 }
             }
         }
-        let runPercentage = IntAsDouble(successNumber) * 100.0 / numTrials;
+        let runPercentage = IntAsDouble(successNumber) * 100.0 / IntAsDouble(numTrials);
         Message("Simulation is complete\n");
         Message($"Best itinerary found: {bestItinerary}, cost = {bestCost}");
         Message($"{runPercentage}% of runs found the best itinerary\n");
