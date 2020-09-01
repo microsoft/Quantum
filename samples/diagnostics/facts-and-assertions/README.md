@@ -36,11 +36,15 @@ In this sample, you can use Q# to check the correctness of quantum programs with
 ## Running the Sample
 
 This sample is designed to be run from Jupyter Notebook.
-From the terminal, run the following command:
+To set up your development environment to run Jupyter Notebooks, follow the steps explained in the [Q# Quickstart: Jupyter guide](https://docs.microsoft.com/en-us/quantum/quickstarts/install-jupyter?tabs=tabid-conda).
+
+Once this is set up, from the terminal, you can run the following command:
 
 ```Command Line
 jupyter notebook
 ```
+
+Alternatively, these notebooks can be started and run in the VSCode editor. To get set up with VSCode, please follow the steps laid out in the [Q# Quickstart: VSCode guide](https://docs.microsoft.com/en-us/quantum/quickstarts/install-command-line?tabs=tabid-vscode).
 
 ## Manifest
 
