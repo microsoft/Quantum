@@ -27,7 +27,13 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// # Summary
     /// This applies the Z-rotation according to the instance Hamiltonian. 
     /// We can think of it as Hamiltonian time evolution for time t induced
-    /// by the Ising Hamiltonian $\sum_ij J_ij Z_i Z_j + \sum_i h_i Z_i$.
+    /// by an Ising Hamiltonian. The Ising Hamiltonian sums over all connected
+    /// pairs of Pauli-Z operations Z_i and Z_j scaled by a factor J_ij, plus 
+    /// the sum over all Z_i scaled by a factor h_i.
+    ///
+    /// # Description
+    /// The Ising Hamiltonian is defined as:
+    ///     $\sum_ij J_ij Z_i Z_j + \sum_i h_i Z_i$.
     ///
     /// # Input
     /// ## target
