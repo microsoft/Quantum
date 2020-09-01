@@ -44,7 +44,7 @@ jupyter notebook
 
 ## Manifest
 
-- [Game.qs](https://github.com/microsoft/Quantum/blob/master/samples/diagnostics/facts-and-assertions/Facts%20and%20Assertions.ipynb): Main Q# notebook for this sample.
+- [Facts and Assertions.ipynb](https://github.com/microsoft/Quantum/blob/master/samples/diagnostics/facts-and-assertions/Facts%20and%20Assertions.ipynb): Main Q# notebook for this sample.
 
 ## Further resources
 
