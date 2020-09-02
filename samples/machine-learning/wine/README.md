@@ -21,7 +21,7 @@ jupyter:
     name: .net-powershell
 ---
 
-# Training sequential models with Q\#, using built-in datasets
+# Training sequential models with Q#, using built-in datasets
 
 This sample uses Q# and the Microsoft.Quantum.MachineLearning library to train a simple sequential model.
 The model is trained on the [wine dataset](https://archive.ics.uci.edu/ml/datasets/wine) from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/), using a classifier structure defined in Q#.
