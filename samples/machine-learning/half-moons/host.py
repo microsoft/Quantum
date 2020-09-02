@@ -10,8 +10,6 @@ import matplotlib.cm as cmx
 plt.style.use('ggplot')
 
 import qsharp
-qsharp.packages.add("Microsoft.Quantum.MachineLearning::0.12.20082515-beta")
-qsharp.reload()
 
 from Microsoft.Quantum.Samples import (
     TrainHalfMoonModel, ValidateHalfMoonModel, ClassifyHalfMoonModel
