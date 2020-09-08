@@ -28,14 +28,16 @@ namespace Microsoft.Quantum.Samples.Chemistry.VariationalQuantumEigensolver.Test
         let inputState = (
             3,
             [
-                ((-1.97094587e-06, 0.0), [2, 0]),
-                ((1.52745368e-07, 0.0), [3, 1]),
-                ((-0.113070239, 0.0), [2, 3, 1, 0]),
+                ((0.001, 0.0), [2, 0]),
+                ((-0.001, 0.0), [3, 1]),
+                ((-0.001, 0.0), [2, 3, 1, 0]),
                 ((1.0, 0.0), [0, 1])
             ]
         );
+        let parameters = [0.001, -0.001, -0.001];
         let energyOffset = -0.098834446;
-        let nSamples = 100;
+        let nSamples = 1000000000000000000;
+        let fci_value = -1.1372704220924401;
         let result = EstimateEnergy(
             nQubits,
             hamiltonianTermList,
@@ -43,5 +45,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.VariationalQuantumEigensolver.Test
             energyOffset,
             nSamples
         );
+        Message($"Energy evaluated at {parameters} : {result}");
+        Message($"Difference with FCI value: {result - fci_value}");
     }
 }
