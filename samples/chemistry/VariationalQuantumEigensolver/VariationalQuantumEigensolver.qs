@@ -3,6 +3,12 @@ namespace Microsoft.Quantum.Samples.Chemistry.VariationalQuantumEigensolver {
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Core;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Preparation;
+    open Microsoft.Quantum.Arithmetic;
+    open Microsoft.Quantum.Chemistry.JordanWigner;
 
     function ExpandedCoefficients(coeff : Double[], termType : Int) : Double[]{
     
@@ -101,27 +107,30 @@ namespace Microsoft.Quantum.Samples.Chemistry.VariationalQuantumEigensolver {
         return ops;
     }
 
-    operation PrepareTrialState(
-        terms: ((Double, Double), Int[])[],
-        target: Qubit[]
-    ) : Unit {
-        let nTerms = Length(terms);
-        let trotterStepSize = 1.0;
-
-        // The last term is the reference state.
-        let referenceState = PrepareTrialState((2, [terms[nTerms-1]]), _);
-        
-        PrepareUnitaryCoupledClusterState(referenceState, terms[0..nTerms-2], trotterStepSize, target);
-    }
-
     operation TermExpectation(
+        stateType: Int, 
         terms: ((Double, Double), Int[])[],
         measOp: Pauli[],
-        nQubits: Int
+        nQubits: Int,
+        nSamples: Int
     ) : Double {
-        using (register = Qubit[nQubits]) {
-            PrepareTrialState(terms, register);
+        mutable inputState = new JordanWignerInputState[Length(terms)];
+        for ((i, term) in Enumerated(terms)) {
+            set inputState w/= i <- JordanWignerInputState(term);
         }
+        let stateData = (stateType, inputState);
+        mutable nUp = 0;
+        for (idxMeasurement in 0 .. nSamples - 1) {
+            using (register = Qubit[nQubits]) {
+                PrepareTrialState(stateData, register);
+                let result = Measure(measOp, register);
+                if (result == Zero) {
+                    set nUp += 1;
+                }
+                ApplyToEach(Reset, register);
+            }
+        }
+        return IntAsDouble(nUp) / IntAsDouble(nSamples);
     }
 
     operation EstimateEnergy(
@@ -132,11 +141,12 @@ namespace Microsoft.Quantum.Samples.Chemistry.VariationalQuantumEigensolver {
                 (Int[], Double[])[], 
                 (Int[], Double[])[]
             ),
-        inputState : ((Double, Double), Int[])[],
+        inputState : (Int, ((Double, Double), Int[])[]),
         energyOffset : Double,
         nSamples: Int
     ) : Double {
-        mutable energy = 0;
+        mutable energy = 0.0;
+        let (inputStateType, inputStateTerms) = inputState;
         let (ZData, ZZData, PQandPQQRData, h0123Data) = hamiltonianTermList;
         let hamiltonianTermArray = [ZData, ZZData, PQandPQQRData, h0123Data];
         let nTerms = Length(ZData) + Length(ZZData) + Length(PQandPQQRData) + Length(h0123Data);
@@ -148,17 +158,18 @@ namespace Microsoft.Quantum.Samples.Chemistry.VariationalQuantumEigensolver {
                 let measOps = VQEMeasurementOperators(nQubits, qubitIndices, termType);
                 let coefficients = ExpandedCoefficients(coefficient, termType);
 
-                mutable termEnergy = 0.;
+
+                mutable termEnergy = 0.0;
                 for ((coeff, op) in Zip(coefficients, measOps)) {
                     if (AbsD(coeff) >= 1e-10) {
-                        set energy = TermExpectation(inputState, op, nQubits);
+                        let termExpectation = TermExpectation(inputStateType, inputStateTerms, op, nQubits, nSamples);
                         set termEnergy += (2. * termExpectation - 1.) * coeff;
                     }
                 }
             }
         }
 
-        return 1.0;
+        return energy;
     }
 
     @EntryPoint()
