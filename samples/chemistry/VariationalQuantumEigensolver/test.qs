@@ -36,8 +36,9 @@ namespace Microsoft.Quantum.Samples.Chemistry.VariationalQuantumEigensolver.Test
         );
         let parameters = [0.001, -0.001, -0.001];
         let energyOffset = -0.098834446;
+        // Large number of samples is slow because of simulation settings
         // let nSamples = 1000000000000000000;
-        let nSamples = 1000;
+        let nSamples = 10;
         let fci_value = -1.1372704220924401;
         let result = EstimateEnergy(
             nQubits,
