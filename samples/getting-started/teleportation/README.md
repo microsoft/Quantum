@@ -22,7 +22,7 @@ To run the sample, use the `dotnet run` command from your terminal.
 
 ## Manifest ##
 
-- [TeleportationSample.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/teleportation/TeleportationSample.qs): Q# code defining how to teleport qubit states.
-- [Utils.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/teleportation/Utils.qs): Q# code with some utility operations used to prepare and read |+> and |-> states.
-- [Program.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/teleportation/Program.qs): Q# entry point to interact with and print out results of the Q# operations for this sample.
-- [TeleportationSample.csproj](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/teleportation/TeleportationSample.csproj): Main Q# project for the example.
+- [TeleportationSample.qs](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/teleportation/TeleportationSample.qs): Q# code defining how to teleport qubit states.
+- [Utils.qs](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/teleportation/Utils.qs): Q# code with some utility operations used to prepare and read |+> and |-> states.
+- [Program.qs](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/teleportation/Program.qs): Q# entry point to interact with and print out results of the Q# operations for this sample.
+- [TeleportationSample.csproj](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/teleportation/TeleportationSample.csproj): Main Q# project for the example.

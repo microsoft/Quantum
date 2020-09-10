@@ -30,9 +30,9 @@ To run the sample, run `python syndrome.py --qubits <N>`, where `<N>` is replace
 
 ## Manifest
 
-- [Syndrome.qs](https://github.com/microsoft/Quantum/blob/master/samples/error-correction/syndrome/Syndrome.qs): Q# code implementing quantum operations for this sample.
-- [syndrome.py](https://github.com/microsoft/Quantum/blob/master/samples/error-correction/syndrome/syndrome.py): Python script to interact with and print out results of the Q# operations for this sample for a given number of data qubits. Example usage: `python syndrome.py --qubits 5`.
-- [Syndrome.csproj](https://github.com/microsoft/Quantum/blob/master/samples/error-correction/syndrome/Syndrome.csproj): Main Q# project for the sample.
+- [Syndrome.qs](https://github.com/microsoft/Quantum/blob/main/samples/error-correction/syndrome/Syndrome.qs): Q# code implementing quantum operations for this sample.
+- [syndrome.py](https://github.com/microsoft/Quantum/blob/main/samples/error-correction/syndrome/syndrome.py): Python script to interact with and print out results of the Q# operations for this sample for a given number of data qubits. Example usage: `python syndrome.py --qubits 5`.
+- [Syndrome.csproj](https://github.com/microsoft/Quantum/blob/main/samples/error-correction/syndrome/Syndrome.csproj): Main Q# project for the sample.
 
 ## Further resources
 

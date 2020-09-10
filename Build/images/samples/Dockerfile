@@ -1,5 +1,5 @@
 # Start from the IQ# base image. The definition for this image can be found at
-# https://github.com/microsoft/iqsharp/blob/master/images/iqsharp-base/Dockerfile.
+# https://github.com/microsoft/iqsharp/blob/main/images/iqsharp-base/Dockerfile.
 # As per Binder documentation, we choose to use an SHA sum here instead of a
 # tag.
 FROM mcr.microsoft.com/quantum/iqsharp-base:0.12.20082515-beta

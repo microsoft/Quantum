@@ -314,7 +314,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// Int Array giving the color of each vertex.
     ///
     /// # Remarks
-    /// See https://github.com/microsoft/QuantumKatas/tree/master/SolveSATWithGrover
+    /// See https://github.com/microsoft/QuantumKatas/tree/main/SolveSATWithGrover
     /// for original implementation in SolveSATWithGrover Kata.
     operation FindColorsWithGrover (numVertices : Int, bitsPerColor : Int, maxIterations : Int, 
         oracle : ((Qubit[], Qubit) => Unit is Adj)) : Int[] {
@@ -360,7 +360,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// The oracle which will mark the valid solutions.
     ///
     /// # Remarks
-    /// See https://github.com/microsoft/QuantumKatas/tree/master/SolveSATWithGrover
+    /// See https://github.com/microsoft/QuantumKatas/tree/main/SolveSATWithGrover
     /// for the original implementation from the SolveSATWithGrover kata.
         operation ApplyPhaseOracle (oracle : ((Qubit[], Qubit) => Unit is Adj), 
         register : Qubit[]) : Unit is Adj {
