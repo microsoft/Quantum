@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-06/schema#",
-    "$id": "https://raw.githubusercontent.com/Microsoft/Quantum/master/Chemistry/Schema/broombridge-0.1.schema.json",
+    "$id": "https://raw.githubusercontent.com/microsoft/Quantum/main/Chemistry/Schema/broombridge-0.1.schema.json",
     "title": "Broombridge Schema",
 
     "definitions": {
@@ -70,7 +70,7 @@
         "$schema": {
             "type": "string",
             "enum": [
-                "https://raw.githubusercontent.com/Microsoft/Quantum/master/Chemistry/Schema/broombridge-0.1.schema.json"
+                "https://raw.githubusercontent.com/microsoft/Quantum/main/Chemistry/Schema/broombridge-0.1.schema.json"
             ]
         },
 

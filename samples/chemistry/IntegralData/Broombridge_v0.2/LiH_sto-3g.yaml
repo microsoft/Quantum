@@ -1,4 +1,4 @@
-"$schema": https://raw.githubusercontent.com/Microsoft/Quantum/master/Chemistry/Schema/broombridge-0.2.schema.json
+"$schema": https://raw.githubusercontent.com/microsoft/Quantum/main/Chemistry/Schema/broombridge-0.2.schema.json
 
 bibliography:
 - {url: 'https://www.nwchem-sw.org'}

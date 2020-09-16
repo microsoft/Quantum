@@ -2,11 +2,12 @@
 # Build configuration file to run build on azure-pipelines
 #
 name: $(Build.Major).$(Build.Minor).$(BuildId)
+
 trigger:
-- master
+- main
 
 pr:
-- master
+- main
 - feature/*
 
 variables:

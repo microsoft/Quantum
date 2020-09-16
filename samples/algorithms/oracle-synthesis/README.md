@@ -19,7 +19,7 @@ ancillas](http://iopscience.iop.org/article/10.1088/1367-2630/16/3/033040/meta),
 *New J. of Phys.* **16**, 033040, 2014].
 
 This sample describes in detail the underlying concepts that were used to implement
-the following operations from the [Q# Standard library](https://github.com/microsoft/QuantumLibraries/tree/master/Standard):
+the following operations from the [Q# Standard library](https://github.com/microsoft/QuantumLibraries/tree/main/Standard):
 
 - [Microsoft.Quantum.Canon.ApplyAnd](https://docs.microsoft.com/qsharp/api/qsharp/microsoft.quantum.canon.applyand)
 - [Microsoft.Quantum.Synthesis.ApplyXControlledOnTruthTable](https://docs.microsoft.com/qsharp/api/qsharp/microsoft.quantum.synthesis.applyxcontrolledontruthtable)

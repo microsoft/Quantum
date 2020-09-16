@@ -73,7 +73,7 @@ However, trying to use more than 8 qubits (2 empty squares) in a simulation beco
 so here we only run it for 1 or 2 missing squares in a 9x9 puzzle.
 
 
-The graph coloring code is based on the [Graph Coloring Kata](https://github.com/microsoft/QuantumKatas/tree/master/GraphColoring) 
+The graph coloring code is based on the [Graph Coloring Kata](https://github.com/microsoft/QuantumKatas/tree/main/GraphColoring) 
 with the following changes
 
 - allow for varying qubits per color

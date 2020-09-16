@@ -3,7 +3,7 @@ name: Prebuild Docker image
 on:
   push:
     branches:
-    - master
+    - main
 
 jobs:
   build:

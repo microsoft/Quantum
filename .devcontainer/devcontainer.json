@@ -1,5 +1,5 @@
 {
-    // Use the latest Docker image built from the master branch of this repo.
+    // Use the latest Docker image built from the main branch of this repo.
     // You may also prefer to use the Dockerfile for that image directly if you
     // would like to make and test local changes to that image. To do so,
     // the "image" property with:

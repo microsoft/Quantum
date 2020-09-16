@@ -24,7 +24,7 @@ The steps are as follows:
 
 ## Q# Code in the Sample
 
-This example uses the last problem from [this quantum kata](https://github.com/Microsoft/QuantumKatas/tree/master/DeutschJozsaAlgorithm), 
+This example uses the last problem from [this quantum kata](https://github.com/microsoft/QuantumKatas/tree/main/DeutschJozsaAlgorithm), 
 which solves a task similar to the Bernstein–Vazirani algorithm, but has a slightly more interesting classical answer verification code. 
 
 The problem is stated as follows: You are given a black box quantum oracle which implements a classical function 𝐹 which takes 𝑛 digits of binary input and produces a binary output.
