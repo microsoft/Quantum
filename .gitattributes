@@ -12,4 +12,4 @@
 ###############################################################################
 # GitHub Linguist settings for repository language stats
 ###############################################################################
-samples/* -linguist-documentation
+samples/** -linguist-documentation
