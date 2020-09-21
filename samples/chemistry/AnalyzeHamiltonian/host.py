@@ -7,9 +7,10 @@ from qsharp.chemistry import load_broombridge, load_fermion_hamiltonian, IndexCo
 
 
 LiH = '../IntegralData/YAML/lih_sto-3g_0.800_int.yaml'
+H2 = 'test.yaml'
 
-print(f"Processing the following file: {LiH}")
-broombridge = load_broombridge(LiH)
+print(f"Processing the following file: {H2}")
+broombridge = load_broombridge(H2)
 general_hamiltonian = broombridge.problem_description[0].load_fermion_hamiltonian(
     index_convention=IndexConvention.UpDown)
 print("End of file. Computing One-norms:")
