@@ -6,6 +6,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Preparation;
     open Microsoft.Quantum.Diagnostics;
+    open Microsoft.Quantum.Measurement;
 
     /// # Summary
     /// Example of a Repeat-until-success algorithm implementing a circuit 
@@ -70,6 +71,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     )
     : (Bool, Int) {
         // Initialize results to One by default.
+        mutable done = false;
         mutable success = false;
         mutable numIter = 0;
         // Prepare target qubit in |0⟩ or |1⟩ state, depending on input value
@@ -83,29 +85,25 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
             AssertMeasurement([PauliZ], [register[0]], Zero,
              "Auxiliary qubit is not in |0⟩ state.");
             AssertQubitIsInState(register[1], inputBasis, inputValue);
-            
-            if (ApplyAndMeasureSimpleRUSCircuit(register) == Zero) { //|0⟩
-                set success = true;
-            }
-
-            set success = success or (numIter >= limit);
+            ApplySimpleRUSCircuit(register);
+            set success = MResetZ(register[0]) == Zero;
+            set done = success or (numIter >= limit);
             set numIter = numIter + 1;
-            Reset(register[0]);
         }
-        until (success);
+        until (done);
         return (success, numIter);
     }
 
     /// # Summary
-    /// Apply RUS circuit and measure auxiliary qubit in Pauli Z basis 
+    /// Apply RUS circuit on qubit register
     ///
     /// # Input
     /// ## register
     /// Qubit register including auxiliary and target qubits
-    operation ApplyAndMeasureSimpleRUSCircuit(
+    operation ApplySimpleRUSCircuit(
         register : Qubit[]
     )
-     : Result {
+     : Unit {
         H(register[0]);
         T(register[0]);
         CNOT(register[0], register[1]);
@@ -113,7 +111,5 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         CNOT(register[0], register[1]);
         T(register[0]);
         H(register[0]);
-
-        return Measure([PauliZ], [register[0]]);
     }
 }
