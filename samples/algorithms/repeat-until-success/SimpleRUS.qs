@@ -15,7 +15,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// - [ *Adam Paetznick, Krysta M. Svore*,
     ///     Quantum Information & Computation 14(15 & 16): 1277-1301 (2014)
     ///   ](https://arxiv.org/abs/1311.1074)
-    /// For circuit diagram, see file RUS2.png.
+    /// For circuit diagram, see file SimpleRUS.png.
     ///
     /// # Input
     /// ## inputBasis
@@ -86,7 +86,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
              "Auxiliary qubit is not in |0⟩ state.");
             AssertQubitIsInState(register[1], inputBasis, inputValue);
             
-            if (ApplyAndMeasureRUSCircuit(register) == Zero) { //|0⟩
+            if (ApplyAndMeasureSimpleRUSCircuit(register) == Zero) { //|0⟩
                 set success = true;
             }
 
@@ -104,7 +104,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// # Input
     /// ## register
     /// Qubit register including auxiliary and target qubits
-    operation ApplyAndMeasureRUSCircuit(
+    operation ApplyAndMeasureSimpleRUSCircuit(
         register : Qubit[]
     )
      : Result {
@@ -117,27 +117,5 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         H(register[0]);
 
         return Measure([PauliZ], [register[0]]);
-    }
-
-    /// # Summary
-    /// Assert target qubit state is the desired input value in the desired 
-    /// input basis.
-    ///
-    /// ## target
-    /// Target qubit
-    /// ## inputBasis
-    /// Pauli basis in which to prepare input qubit
-    /// ## inputValue
-    /// Boolean value for input qubit (true maps to One, false maps to Zero)
-    operation AssertQubitIsInState(
-        target : Qubit,
-        inputBasis : Pauli,
-        inputValue : Bool
-    )
-     : Unit {
-        AssertMeasurement(
-            [inputBasis], [target], inputValue ? One | Zero,
-            $"Qubit is not in {inputValue ? One | Zero} state for given input basis."
-        );
     }
 }
