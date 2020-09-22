@@ -16,12 +16,16 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     ///   ](https://arxiv.org/abs/1311.1074)
     ///
     /// # Input
+    /// ## gate
+    /// Gate circuit to run ("simple" or "V")
     /// ## inputBasis
     /// Pauli basis in which to prepare input qubit
     /// ## inputValue
     /// Boolean value for input qubit (true maps to One, false maps to Zero)
     /// ## limit
     /// Integer limit to number of repeats of circuit
+    /// ## numRuns
+    /// Number of times to run the circuit
     ///
     /// # Remarks
     /// The program executes a circuit on a "target" qubit using an "auxiliary"
