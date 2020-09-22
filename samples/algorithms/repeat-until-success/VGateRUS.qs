@@ -33,7 +33,6 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// If this succeeds, the program will have effectively applied an 
     /// Rz(arctan(2)) gate (also known as V_3 gate) on the target qubit.
     /// If this fails, the program reruns the circuit up to <limit> times.
-    // @EntryPoint()
     operation CreateQubitsAndApplyRzArcTan2(
         inputValue : Bool,
         inputBasis : Pauli,
