@@ -72,13 +72,11 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         // Initialize results to One by default.
         mutable success = false;
         mutable numIter = 0;
+        // Prepare target qubit in |0⟩ or |1⟩ state, depending on input value
         if (inputValue) {
-            // Prepare target qubit in |0⟩ or |1⟩ state, depending on input value
-            if (inputValue) {
-                X(register[1]);
-            }
-            PrepareQubit(inputBasis, register[1]);
+            X(register[1]);
         }
+        PrepareQubit(inputBasis, register[1]);
 
         repeat {
             // Assert valid starting states for all qubits
