@@ -17,11 +17,11 @@ The algorithm has been described in [Adam Paetznick, Krysta M. Svore, Quantum In
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
 ## Description
 
-### $V_3$ gate RUS circuit
+### 𝑉₃ gate RUS circuit
 
 The idea for the RUS algorithm originates from the goal of decomposing a single-qubit unitary operation into a sequence of gates from a given universal basis set. In general, the goal of a RUS algorithm is to reduce the number of Clifford gates needed to execute said unitary operation by using one or more auxiliary qubits that are measured during the execution of the algorithm to indicate whether the desired output state has been achieved. This specific RUS algorithm consists of a circuit that uses two auxiliary qubits, which we label `auxiliary` and `resource`, and one `target` qubit.
 
-In this example, the RUS algorithm aims to apply exp(i⋅ArcTan(2)⋅Z) or a 𝑉₃-gate on the `target` qubit. The algorithm is based on the logic mapped out in the below circuit diagram (Fig. 1(c) from [source](https://arxiv.org/abs/1311.1074)). The qubits on the left hand side are labeled from top to bottom: `auxiliary`, `resource` and `target`. As described in the whitepaper, the desired operation will have been achieved when the measurements on both `auxiliary` and `resource` qubits returns `Zero`. When that happens we can exit the program and return the result. In all other cases, we would have to re-run the circuit. Important to note is that if the auxiliary qubit returns `Zero` but the `resource` qubit returns `One`, the resulting operation will have been an effective `Z` rotation which we will then need to correct for.
+In this example, the RUS algorithm aims to apply exp(i⋅ArcTan(2)⋅Z) or a 𝑉₃ gate on the `target` qubit. The algorithm is based on the logic mapped out in the below circuit diagram (Fig. 1(c) from [source](https://arxiv.org/abs/1311.1074)). The qubits on the left hand side are labeled from top to bottom: `auxiliary`, `resource` and `target`. As described in the whitepaper, the desired operation will have been achieved when the measurements on both `auxiliary` and `resource` qubits returns `Zero`. When that happens we can exit the program and return the result. In all other cases, we would have to re-run the circuit. Important to note is that if the auxiliary qubit returns `Zero` but the `resource` qubit returns `One`, the resulting operation will have been an effective `Z` rotation which we will then need to correct for.
 
 ![RUS circuit diagram](RUS.png)
 
