@@ -50,6 +50,7 @@ Options:
   --input-value (REQUIRED)                                  Boolean value for input qubit (true maps to One, false maps to Zero)
   --input-basis <PauliI|PauliX|PauliY|PauliZ> (REQUIRED)    Pauli basis to prepare input qubit in
   --limit <limit> (REQUIRED)                                Integer limit to number of repeats of circuit
+  --num-runs <num-runs> (REQUIRED)                          Number of times to run the algorithm
 ```
 
 ## Manifest
