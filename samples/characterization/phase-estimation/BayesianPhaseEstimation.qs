@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.PhaseEstimation {
+    open Microsoft.Quantum.Random;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Measurement;
     open Microsoft.Quantum.Intrinsic;
@@ -112,7 +113,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     /// $$
     /// - For the circuit diagram see FIG. 5 on
     ///   [ Page 12 of arXiv:1304.0741 ](https://arxiv.org/pdf/1304.0741.pdf#page=12)
-    operation IterativePhaseEstimationStep (time : Double, inversionAngle : Double, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Result {
+    operation ApplyIterativePhaseEstimationStep(time : Double, inversionAngle : Double, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Result {
 
         // Allocate a mutable variable to hold the result of the final
         // measurement, since we cannot return from within a using block.
@@ -143,12 +144,12 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     // estimation iteration follows the likelihood function that we expect.
     // To make it simpler to call this check from C#, we write a small
     // operation that partially applies Exp as an oracle.
-    operation ExpOracle(eigenphase : Double, time : Double, register : Qubit[]) : Unit is Adj + Ctl {
+    operation EvolveForTime(eigenphase : Double, time : Double, register : Qubit[]) : Unit is Adj + Ctl {
         Rz((2.0 * eigenphase) * time, Head(register));
     }
 
 
-    operation PhaseEstimationIterationCheck() : Unit {
+    operation CheckPhaseEstimationLikelihood() : Unit {
 
         let dt = 0.1;
         let nTimes = 101;
@@ -171,7 +172,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
                     mutable nOnesObserved = 0;
 
                     for (idxSample in 0 .. nSamples - 1) {
-                        let sample = IterativePhaseEstimationStep(time, inversionAngle, ExpOracle(eigenphase, _, _), [eigenstate]);
+                        let sample = ApplyIterativePhaseEstimationStep(time, inversionAngle, EvolveForTime(eigenphase, _, _), [eigenstate]);
 
                         if (sample == One) {
                             set nOnesObserved += 1;
@@ -281,7 +282,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     /// An estimate ̂φ of the unknown phase φ.
     /// - For the theoretical and algorithmic background see
     ///   [ Page 1 of arXiv:1508.00869 ](https://arxiv.org/pdf/1508.00869.pdf#page=1)
-    operation BayesianPhaseEstimation(nGridPoints : Int, nMeasurements : Int, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Double {
+    operation EstimatePhase(nGridPoints : Int, nMeasurements : Int, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Double {
 
         // Initialize a grid for the prior and posterior discretization.
         // We'll choose the grid to be uniform.
@@ -311,10 +312,10 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
             let time = PowD(9.0 / 8.0, IntAsDouble(idxMeasurement));
 
             // Similarly, we pick a perturbation angle to invert by.
-            let inversionAngle = RandomReal(16) * 0.02;
+            let inversionAngle = DrawRandomDouble(0.0, 0.02);
 
             // Now we actually perform the measurement.
-            let sample = IterativePhaseEstimationStep(time, inversionAngle, oracle, eigenstate);
+            let sample = ApplyIterativePhaseEstimationStep(time, inversionAngle, oracle, eigenstate);
 
             // Next, we calculate the likelihood
 
@@ -382,21 +383,6 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
         // Note that we still use the variable `prior`, since that would
         // be the prior heading into the next iteration if we kept going.
         return Integrated(phases, PointwiseProduct(phases, prior));
-    }
-
-
-    // To make it easier to run our new operation from C#, we provide an
-    // operation that defines all of the relevant oracles for a given "true"
-    // phase, and then returns the estimated phase.
-    operation BayesianPhaseEstimationSample (eigenphase : Double) : Double {
-        let oracle = ExpOracle(eigenphase, _, _);
-
-        using (eigenstate = Qubit()) {
-            X(eigenstate);
-            let est = BayesianPhaseEstimation(20001, 60, oracle, [eigenstate]);
-            Reset(eigenstate);
-            return est;
-        }
     }
 
 }

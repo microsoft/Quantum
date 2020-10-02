@@ -109,8 +109,8 @@ namespace Microsoft.Quantum.Samples.Teleportation {
             Teleport(msg, target);
 
             // Report message received:
-            if (IsPlus(target))  { Message("Received |+>"); }
-            if (IsMinus(target)) { Message("Received |->"); }
+            if (MeasureIsPlus(target))  { Message("Received |+>"); }
+            if (MeasureIsMinus(target)) { Message("Received |->"); }
 
             // Reset all of the qubits that we used before releasing
             // them.

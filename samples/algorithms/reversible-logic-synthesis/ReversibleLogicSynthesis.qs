@@ -64,7 +64,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// the first half of the array with the second half of the array.
     operation ComputeInnerProduct(qubits : Qubit[]) : Unit {
         let m = Length(qubits) / 2;
-        ApplyToEach(CZ, Zip(qubits[0..m - 1], qubits[m..Length(qubits) - 1]));
+        ApplyToEach(CZ, Zipped(qubits[0..m - 1], qubits[m..Length(qubits) - 1]));
     }
 
 

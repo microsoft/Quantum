@@ -7,7 +7,7 @@ namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Math;
 
     @Test("QuantumSimulator")
-    operation RepeatUntilSuccessInitializeTest() : Unit {
+    operation TestRepeatUntilSuccessInitialize() : Unit {
         let inputBasis = PauliX;
         let inputValue = true;
         using ((auxiliary, resource, target) = (Qubit(), Qubit(), Qubit())) {
@@ -18,16 +18,11 @@ namespace Microsoft.Quantum.Tests {
             AssertMeasurement([PauliX], [auxiliary], Zero, "Auxiliary qubit is not in |+⟩ state.");
             AssertMeasurement([PauliX], [resource], Zero, "Resource qubit is not in |+⟩ state.");
             AssertQubitIsInState(target, inputBasis, inputValue);
-
-            // Reset qubits (should no longer be necessary in v0.12)
-            Reset(auxiliary);
-            Reset(resource);
-            Reset(target);
         }
     }
 
     @Test("QuantumSimulator")
-    operation RepeatUntilSuccessRzArcTan2Test() : Unit {
+    operation TestRepeatUntilSuccessRzArcTan2() : Unit {
         let inputBasis = PauliX;
         let inputValue = true;
         let limit = 50; // typically executes succesfully in n < 10 so 50 is playing it safe 
@@ -43,12 +38,6 @@ namespace Microsoft.Quantum.Tests {
                 AssertMeasurement([PauliX], [resource], Zero, "Resource qubit is not in |-⟩ state.");
                 AssertMeasurement([inputBasis], [target], One, "Target qubit is not in 1 state for the given basis.");
             }
-
-            // Reset qubits (should no longer be necessary in v0.12)
-            Reset(auxiliary);
-            Reset(resource);
-            Reset(target);
-
         }
     }
 }

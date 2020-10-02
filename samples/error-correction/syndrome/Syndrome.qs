@@ -21,9 +21,8 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     /// # Output
     /// ## result
     /// Measurement result
-    operation BasisMeasure(basis : Pauli, qubit : Qubit): Result {
-        let result = Measure([basis], [qubit]);
-        return result;
+    operation MeasureInBasis(basis : Pauli, qubit : Qubit) : Result {
+        return Measure([basis], [qubit]);
     }
 
     /// # Summary
@@ -37,7 +36,7 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     /// Qubit to prepare
     /// ## value
     /// Value to prepare the qubit in (True for One, False for Zero)
-    operation PrepareInBasis(basis : Pauli, qubit : Qubit, value : Bool): Unit {
+    operation PrepareInBasis(basis : Pauli, qubit : Qubit, value : Bool) : Unit {
         if (value) {
             X(qubit);
         }
@@ -70,10 +69,10 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     /// ## (auxiliaryResult, dataResult)
     /// Tuple of the measurement results of the auxiliary qubit and data qubits.
     operation SamplePseudoSyndrome (
-            inputValues : Bool[],
-            encodingBases : Pauli[], 
-            qubitIndices : Int[]
-    ): ( Result, Result[] ) {
+        inputValues : Bool[],
+        encodingBases : Pauli[], 
+        qubitIndices : Int[]
+    ) : (Result, Result[]) {
         // Check that input lists are of equal length
         if ((Length(inputValues) != Length(encodingBases)) 
             or (Length(inputValues) != Length(qubitIndices))) {
@@ -83,21 +82,20 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
         }
 
         using ((block, auxiliary) = (Qubit[Length(inputValues)], Qubit())) {
-            for ((qubit, value, basis) in Zip3(block, inputValues, encodingBases)) {
+            for ((qubit, value, basis) in Zipped3(block, inputValues, encodingBases)) {
                 PrepareInBasis(basis, qubit, value);
             }
+
             H(auxiliary);
             // Apply Controlled Pauli operations to data qubits, resulting in a phase kickback 
             /// on the auxiliary qubit
-            for ((index, basis) in Zip(qubitIndices, encodingBases)) {
+            for ((index, basis) in Zipped(qubitIndices, encodingBases)) {
                 Controlled ApplyPauli([auxiliary], ([basis], [block[index]]));
             }
             let auxiliaryResult = Measure([PauliX], [auxiliary]);
-            let dataResult = ForEach(BasisMeasure, Zip(encodingBases, block));
-            // Reset qubits - optional, only for QDK version < 0.12
-            ResetAll(block);
-            Reset(auxiliary);
-            return ( auxiliaryResult, dataResult );
+            let dataResult = ForEach(MeasureInBasis, Zipped(encodingBases, block));
+
+            return (auxiliaryResult, dataResult);
         }
     }
 }

@@ -23,9 +23,7 @@ parser.add_argument("-q", "--qubits", type=int, default=1)
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    # To be refactored to qsharp.Pauli
-    # (See IQSharp ticket https://github.com/microsoft/iqsharp/issues/256)
-    paulis = ["PauliX", "PauliY", "PauliZ"]
+    paulis = [qsharp.Pauli.X, qsharp.Pauli.Y, qsharp.Pauli.Z]
     qubit_indices = list(range(args.qubits))
     np.random.shuffle(qubit_indices)
     input_values = [np.random.rand() > .5 for n in range(args.qubits)]

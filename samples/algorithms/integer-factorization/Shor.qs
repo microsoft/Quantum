@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.IntegerFactorization {
+    open Microsoft.Quantum.Random;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Convert;
@@ -48,7 +49,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         repeat {
             // Next try to guess a number co-prime to `number`
             // Get a random integer in the interval [1,number-1]
-            let generator = RandomInt(number - 2) + 1;
+            let generator = DrawRandomInt(1, number - 1);
 
             // Check if the random integer indeed co-prime using
             // Microsoft.Quantum.Math.IsCoprimeI.
