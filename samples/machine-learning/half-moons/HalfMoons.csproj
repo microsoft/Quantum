@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.Quantum.Sdk/0.12.20082515-beta">
+<Project Sdk="Microsoft.Quantum.Sdk/0.12.20100301">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.MachineLearning" Version="0.12.20082515-beta" />
+    <PackageReference Include="Microsoft.Quantum.MachineLearning" Version="0.12.20100301" />
     <PackageReference Include="System.Text.Json" Version="4.6.0" />
   </ItemGroup>
 </Project>
