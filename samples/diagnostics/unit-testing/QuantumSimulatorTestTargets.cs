@@ -45,27 +45,30 @@ namespace Microsoft.Quantum.Samples.UnitTesting
                 byte[] hash = hashMethod.ComputeHash(bytes);
                 uint seed = BitConverter.ToUInt32(hash, 0);
 
-                using (var sim = new QuantumSimulator(randomNumberGeneratorSeed:seed))
-                {
-                    // Frequently tests include measurement and randomness. 
-                    // To reproduce the failed test it is useful to record seed that has been used 
-                    // for the random number generator inside the simulator.
-                    output.WriteLine($"The seed used for this test is {sim.Seed}");
-                    Debug.WriteLine($"The seed used for this test is {sim.Seed}");
+                using var sim = new QuantumSimulator(randomNumberGeneratorSeed:seed);
+                // Frequently tests include measurement and randomness. 
+                // To reproduce the failed test it is useful to record seed that has been used 
+                // for the random number generator inside the simulator.
+                output.WriteLine($"The seed used for this test is {sim.Seed}");
+                Debug.WriteLine($"The seed used for this test is {sim.Seed}");
 
-                    // This ensures that when the test is run in Debug mode, all message logged in 
-                    // Q# by calling Microsoft.Quantum.Primitives.Message show-up 
-                    // in Debug output 
-                    sim.OnLog += (string message) => { Debug.WriteLine(message); };
+                // This ensures that when the test is run in Debug mode, all message logged in 
+                // Q# by calling Microsoft.Quantum.Primitives.Message show-up 
+                // in Debug output.
+                // Note that since this method only exists when DEBUG is
+                // enabled, we need to guard with an #if block wrap the call
+                // in an explicit lambda function.
+                #if DEBUG
+                    sim.OnLog += msg => Debug.WriteLine(msg);
+                #endif
 
-                    // this ensures that all message logged in Q# by calling
-                    // Microsoft.Quantum.Primitives.Message show-up 
-                    // in test output 
-                    sim.OnLog += (string message) => { output.WriteLine(message); };
+                // this ensures that all message logged in Q# by calling
+                // Microsoft.Quantum.Primitives.Message show-up 
+                // in test output 
+                sim.OnLog += output.WriteLine;
 
-                    // Executes operation described by operationDescription on a QuantumSimulator
-                    operationDescription.TestOperationRunner(sim);
-                }
+                // Executes operation described by operationDescription on a QuantumSimulator
+                operationDescription.TestOperationRunner(sim);
             }
             catch (System.BadImageFormatException e)
             {

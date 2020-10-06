@@ -17,8 +17,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// Any operation that maps |000⟩ to |000⟩
     /// # See Also
     /// - CircuitMetrics.cs
-    operation CollectMetrics (op : ((Qubit, Qubit, Qubit) => Unit is Adj)) : Unit {
-        
+    operation CollectMetrics(op : ((Qubit, Qubit, Qubit) => Unit is Adj)) : Unit {
         using (qubits = Qubit[3]) {
             op(qubits[0], qubits[1], qubits[2]);
         }
@@ -31,7 +30,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     operation ControlledSWAPTest () : Unit {
         
         // Now proceed to test the equality of operations
-        let equalTestList = [(ControlledSWAPUsingCCNOT(TDepthOneCCNOT, _, _, _), ControlledSWAP0), (ControlledSWAPUsingCCNOT(CCNOT, _, _, _), ControlledSWAP0), (ControlledSWAP1, ControlledSWAP0)];
+        let equalTestList = [(ApplyControlledSWAPUsingCCNOT(TDepthOneCCNOT, _, _, _), ApplyBuiltInControlledSWAP), (ApplyControlledSWAPUsingCCNOT(CCNOT, _, _, _), ApplyBuiltInControlledSWAP), (ApplyControlledSWAPUsingExplicitDecomposition, ApplyBuiltInControlledSWAP)];
         
         for (i in 0 .. Length(equalTestList) - 1) {
             let (actual, expected) = equalTestList[i];
