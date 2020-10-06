@@ -18,6 +18,10 @@ namespace Microsoft.Quantum.Tests {
             AssertMeasurement([PauliX], [auxiliary], Zero, "Auxiliary qubit is not in |+⟩ state.");
             AssertMeasurement([PauliX], [resource], Zero, "Resource qubit is not in |+⟩ state.");
             AssertQubitIsInState(target, inputBasis, inputValue);
+
+            // Since the qubits used in this test aren't measured but
+            // rather are asserted, we need to reset them manually.
+            ResetAll([auxiliary, resource, target]);
         }
     }
 
@@ -38,6 +42,10 @@ namespace Microsoft.Quantum.Tests {
                 AssertMeasurement([PauliX], [resource], Zero, "Resource qubit is not in |-⟩ state.");
                 AssertMeasurement([inputBasis], [target], One, "Target qubit is not in 1 state for the given basis.");
             }
+
+            // Since the qubits used in this test aren't measured but
+            // rather are asserted, we need to reset them manually.
+            ResetAll([auxiliary, resource, target]);
         }
     }
 }
