@@ -19,32 +19,37 @@ namespace Microsoft.Quantum.Tests {
     }
 
 
-    function AllTest() : Unit {
+    @Test("QuantumSimulator")
+    function AllIsCorrect() : Unit {
         Fact(All(IsSingleDigit, [3, 4, 7, 8]), "the elements [3, 4, 7, 8] were not found to be single digit numbers.");
-        Fact(not All(IsSingleDigit, [3, 4, 7, 18]), "the elements [3, 4, 7, 18] were found to be single digit numbers.");
+        Contradiction(All(IsSingleDigit, [3, 4, 7, 18]), "the elements [3, 4, 7, 18] were found to be single digit numbers.");
     }
 
 
-    function AnyTest() : Unit {
+    @Test("QuantumSimulator")
+    function AnyIsCorrect() : Unit {
         Fact(Any(IsEven, [3, 7, 99, -4]), "the elements [3, 7, 99, -4] were not found to contain at least one even number.");
-        Fact(not Any(IsEven, [3, 7, 99, -41]), "the elements [3, 7, 99, -41] were erroneously found to contain at least one even number.");
+        Contradiction(Any(IsEven, [3, 7, 99, -41]), "the elements [3, 7, 99, -41] were erroneously found to contain at least one even number.");
     }
 
 
-    function FoldTest() : Unit {
+    @Test("QuantumSimulator")
+    function FoldIsCorrect() : Unit {
         let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         EqualityFactI(Fold(PlusI, 0, array), 55, "folding the summation over [1..10] did not yield 55.");
     }
 
 
-    function MapTest() : Unit {
+    @Test("QuantumSimulator")
+    function MappedIsCorrect() : Unit {
         let array = [1, 2, 3, 4];
         let squaredArray = Mapped(Squared, array);
         EqualityFactI(Fold(PlusI, 0, squaredArray), 30, "the sum of the squares of [1, 2, 3, 4] was not found to be 30.");
     }
 
 
-    function ExtremaTest () : Unit {
+    @Test("QuantumSimulator")
+    function MinAndMaxAreCorrect() : Unit {
         let array = [-10, 10, 7, 0];
         EqualityFactI(-10, Min(array), "Min failed.");
         EqualityFactI(10, Max(array), "Max failed.");
