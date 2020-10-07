@@ -151,10 +151,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 // Implementations of multiply controlled not gates not illustrated here
 // /////////////////////////////////////////////////////////////////////////////////////////////
 
-// ● The implementations that use all dirty or all clean auxilary qubits are two extreme cases
+// ● The implementations that use all dirty or all clean auxiliary qubits are two extreme cases
 // It is possible to interpolate between them and explore gate count / number of extra
 // auxilary qubit trade-offs
 
 // /////////////////////////////////////////////////////////////////////////////////////////////
-
 
