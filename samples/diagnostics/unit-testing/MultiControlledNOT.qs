@@ -153,7 +153,6 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
 // ● The implementations that use all dirty or all clean auxiliary qubits are two extreme cases
 // It is possible to interpolate between them and explore gate count / number of extra
-// auxilary qubit trade-offs
+// auxiliary qubit trade-offs
 
 // /////////////////////////////////////////////////////////////////////////////////////////////
-
