@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.Measurement {
+    open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Measurement;
@@ -20,7 +21,7 @@ namespace Microsoft.Quantum.Samples.Measurement {
             // a Zero outcome with 50% probability.
             // This assertion works fine in a simulator, and is safely skipped
             // if the target machine doesn't support it.
-            AssertProb([PauliZ], [qubit], Zero, 0.5, "Error: Outcomes of the measurement must be equally likely", 1E-05);
+            AssertMeasurementProbability([PauliZ], [qubit], Zero, 0.5, "Error: Outcomes of the measurement must be equally likely", 1E-05);
 
             // If the assertion above passes or is skipped, we can go on and
             // measure our qubit to get back a classical bit.
@@ -56,11 +57,11 @@ namespace Microsoft.Quantum.Samples.Measurement {
             // first qubit in the |0〉 state is 50%. Note that this assertion
             // does not actually apply the measurement operation itself, i.e., it
             // has no side effect on the state of the qubits.
-            AssertProb([PauliZ], [left], Zero, 0.5, "Error: Outcomes of the measurement must be equally likely", 1E-05);
+            AssertMeasurementProbability([PauliZ], [left], Zero, 0.5, "Error: Outcomes of the measurement must be equally likely", 1E-05);
 
-            // Similarly, we can use AssertProb to check that the second qubit
+            // Similarly, we can use AssertMeasurementProbability to check that the second qubit
             // also gives us a Zero outcome with 50% probability.
-            AssertProb([PauliZ], [right], Zero, 0.5, "Error: Outcomes of the measurement must be equally likely", 1E-05);
+            AssertMeasurementProbability([PauliZ], [right], Zero, 0.5, "Error: Outcomes of the measurement must be equally likely", 1E-05);
 
             // Now, we measure each qubit in Z-basis and immediately reset the qubits
             // to zero, using the standard library operation MResetZ.
@@ -84,9 +85,9 @@ namespace Microsoft.Quantum.Samples.Measurement {
             // The following two assertions ascertain that the created state is indeed
             // invariant under both, the XX and the ZZ operations, i.e., it projects
             // into the +1 eigenstate of these two Pauli operators.
-            Assert([PauliZ, PauliZ], [left, right], Zero, "Error: Bell state must be eigenstate of ZZ");
-            Assert([PauliX, PauliX], [left, right], Zero, "Error: Bell state must be eigenstate of XX");
-            AssertProb([PauliZ, PauliZ], [left, right], One, 0.0, "Error: 01 or 10 should never occur as an outcome", 1E-05);
+            AssertMeasurement([PauliZ, PauliZ], [left, right], Zero, "Error: Bell state must be eigenstate of ZZ");
+            AssertMeasurement([PauliX, PauliX], [left, right], Zero, "Error: Bell state must be eigenstate of XX");
+            AssertMeasurementProbability([PauliZ, PauliZ], [left, right], One, 0.0, "Error: 01 or 10 should never occur as an outcome", 1E-05);
 
             // Finally, we measure each qubit in the Z-basis and return the
             // results.
@@ -99,7 +100,6 @@ namespace Microsoft.Quantum.Samples.Measurement {
     /// can be used as an entry point from a classical host program.
     @EntryPoint()
     operation RunProgram() : Unit {
-        
         Message("## SampleQrng() ##");
         mutable count = 0;
 
@@ -120,7 +120,6 @@ namespace Microsoft.Quantum.Samples.Measurement {
             let (left, right) = MeasureInBellBasis();
             Message($"Measured CNOT · H |00⟩ and observed ({left}, {right})");
         }
-
     }
 
 }

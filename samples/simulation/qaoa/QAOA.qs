@@ -47,21 +47,18 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// ## target
     /// Qubit register that encodes the Spin values in the Ising Hamiltonian.
     operation ApplyInstanceHamiltonian(
-        numSegments: Int,
-        time: Double, 
-        weights: Double[], 
-        coupling: Double[],
-        target: Qubit[]
+        numSegments : Int,
+        time : Double, 
+        weights : Double[], 
+        coupling : Double[],
+        target : Qubit[]
     ) : Unit {
         using (auxiliary = Qubit()) {
-            for((h, qubit) in Zip(weights, target))
-            {
+            for ((h, qubit) in Zipped(weights, target)) {
                 Rz(2.0 * time * h, qubit);
             }
-            for(i in 0..5)
-            {
-                for (j in i + 1..5)
-                {
+            for (i in 0..5) {
+                for (j in i + 1..5) {
                     within {
                         CNOT(target[i], auxiliary);
                         CNOT(target[j], auxiliary);
@@ -90,8 +87,8 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// Number of segments in the graph that describes possible paths.
     function HamiltonianWeights(
         segmentCosts : Double[], 
-        penalty: Double, 
-        numSegments: Int
+        penalty : Double, 
+        numSegments : Int
     ) : Double[] {
         mutable weights = new Double[numSegments];
         for (i in 0..numSegments - 1) {
@@ -113,7 +110,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// ## coupling
     /// Hamiltonian coupling parameters as an array, where each element corresponds
     /// to a parameter J_ij between qubit states i and j.
-    function HamiltonianCouplings(penalty: Double, numSegments: Int) : Double[] {
+    function HamiltonianCouplings(penalty : Double, numSegments : Int) : Double[] {
         // Calculate Hamiltonian coupling parameters based on the given costs and penalty
         // Most elements of J_ij equal 2*penalty, so set all elements to this value, 
         // then overwrite the exceptions. This is currently implemented for the
@@ -144,21 +141,19 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// ## timeZ
     /// Time evolution for PauliX operations
     operation PerformQAOA(
-            numSegments: Int, 
+            numSegments : Int, 
             weights : Double[], 
             couplings : Double[], 
             timeX : Double[], 
             timeZ : Double[]
-        ) : Bool[] {
+    ) : Bool[] {
         EqualityFactI(Length(timeX), Length(timeZ), "timeZ and timeX are not the same length");
 
         // Run the QAOA circuit
         mutable result = new Bool[numSegments];
-        using (x = Qubit[numSegments])
-        {
+        using (x = Qubit[numSegments]) {
             ApplyToEach(H, x); // prepare the uniform distribution
-            for ((tz, tx) in Zip(timeZ, timeX))
-            {
+            for ((tz, tx) in Zipped(timeZ, timeX)) {
                 ApplyInstanceHamiltonian(numSegments, tz, weights, couplings, x); // do Exp(-i H_C tz)
                 ApplyDriverHamiltonian(tx, x); // do Exp(-i H_0 tx)
             }
@@ -180,7 +175,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// Calculated cost of given path
     function CalculatedCost(segmentCosts : Double[], usedSegments : Bool[]) : Double {
         mutable finalCost = 0.0;
-        for ((cost, segment) in Zip(segmentCosts, usedSegments)) {
+        for ((cost, segment) in Zipped(segmentCosts, usedSegments)) {
             set finalCost += segment ? cost | 0.0;
         }
         return finalCost;
@@ -205,8 +200,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
             "Currently, IsSatisfactory only supports constraints for 6 segments."
         );
         mutable hammingWeight = 0;
-        for (segment in usedSegments)
-        {
+        for (segment in usedSegments) {
             set hammingWeight += segment ? 1 | 0;
         }
         if (hammingWeight != 4 
@@ -245,8 +239,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
         let weights = HamiltonianWeights(segmentCosts, penalty, numSegments);
         let couplings = HamiltonianCouplings(penalty, numSegments);
 
-        for (trial in 0..numTrials)
-        {
+        for (trial in 0..numTrials) {
             let result = PerformQAOA(
                 numSegments, 
                 weights, 

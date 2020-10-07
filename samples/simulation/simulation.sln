@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleIsingSample", "ising\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsingTrotterSample", "ising\trotter-evolution\IsingTrotterSample.csproj", "{ED24B673-1FD0-4989-B124-519E701FD1C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAOA", "qaoa\QAOA.csproj", "{98F1CAC8-06C7-41D7-B179-73DA83576784}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +134,18 @@ Global
 		{ED24B673-1FD0-4989-B124-519E701FD1C4}.Release|x64.Build.0 = Release|Any CPU
 		{ED24B673-1FD0-4989-B124-519E701FD1C4}.Release|x86.ActiveCfg = Release|Any CPU
 		{ED24B673-1FD0-4989-B124-519E701FD1C4}.Release|x86.Build.0 = Release|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Debug|x64.Build.0 = Debug|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Debug|x86.Build.0 = Debug|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Release|x64.ActiveCfg = Release|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Release|x64.Build.0 = Release|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Release|x86.ActiveCfg = Release|Any CPU
+		{98F1CAC8-06C7-41D7-B179-73DA83576784}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{07A8060E-8FEF-4430-A079-D27B43111C7F} = {91B87B6D-7178-4C76-9577-CB6E7BDE82C3}

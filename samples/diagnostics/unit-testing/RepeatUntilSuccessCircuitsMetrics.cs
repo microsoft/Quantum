@@ -34,20 +34,20 @@ namespace Microsoft.Quantum.Samples.UnitTesting
         public void RepeatUntilSuccessCircuitsMetricsTest()
         {
             // Get an instance of the appropriately configured QCTraceSimulator
-            QCTraceSimulator sim = MetricCalculationUtils.GetSimulatorForMetricsCalculation();
+            var sim = MetricCalculationUtils.GetSimulatorForMetricsCalculation();
 
             // Run tests against trace simulator to collect metrics
-            var result = RepeatUntilSuccessCircuitsTest.Run(sim).Result;
+            var result = CheckRepeatUntilSuccessRotatesByCorrectAngle.Run(sim).Result;
 
-            string TCount = PrimitiveOperationsGroupsNames.T;
-            string extraQubits = MetricsNames.WidthCounter.ExtraWidth;
-            string min = StatisticsNames.Min;
-            string max = StatisticsNames.Max;
-            string avg = StatisticsNames.Average;
+            var TCount = PrimitiveOperationsGroupsNames.T;
+            var extraQubits = MetricsNames.WidthCounter.ExtraWidth;
+            var min = StatisticsNames.Min;
+            var max = StatisticsNames.Max;
+            var avg = StatisticsNames.Average;
 
-            // Let us check how many ancillas we used
+            // Let us check how many auxiliary qubits we used
             // 4 for Nielsen & Chuang
-            // version because we used CCNOT3 which itself required 2 ancillas
+            // version because we used CCNOT3 which itself required 2 auxiliary
             Assert.Equal(4, sim.GetMetric<ExpIZArcTan2NC, caller>(extraQubits));
             // 2 for Paetznick & Svore version 
             Assert.Equal(2, sim.GetMetric<ExpIZArcTan2PS, caller>(extraQubits));
