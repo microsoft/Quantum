@@ -15,70 +15,61 @@ html, body {
     overflow: hidden;
 }
 
-.toolbar {
-    height: 40px;
+#container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.toolbar button {
-    font-size: large;
-}
-
-.state {
+    flex-flow: column;
     height: calc(100vh - 40px);
 }
 
-.operations-container {
-    font-family: "Segoe UI", "Tahoma", "Geneva", "Verdana", sans-serif;
+#top-container {
+    display: flex;
+    height: 40%;
+}
+
+#bottom-container {
+    display: flex;
+    flex-grow: 1;
     overflow: auto;
-    white-space: nowrap;
-    width: 25%;
-    height: 100%;
-    float: left;
 }
-.operations {
-    margin: 0 10px 10px 30px;
-    padding: 0;
-    display: inline-block;
+
+#instructions {
+    margin: auto;
+    font-size: 18px;
 }
-.operations ol {
-    border-left: 1px solid #ccc;
+
+#instructions span {
+    margin-left: 25px;
+    font-weight: 600;
 }
-.operations ol:empty {
-    display: none;
-}
-.operations li {
-    list-style-type: none;
-    position: relative;
-    cursor: pointer;
-}
-.operation-children {
-    padding-left: 30px;
-}
-.last:after, .next:after {
-    position: absolute;
-    right: calc(100% + 5px);
-}
-.last:after {
-    content: "✅";
-    bottom: 0;
-}
-.next:after {
-    content: "➡️";
-    top: 0;
+
+#instructions li {
+    margin-bottom: 5px;
 }
 
 .chart-container {
-    left: 1em;
-    bottom: 1em;
-    width: 75%;
-    height: 100%;
-    float: right;
+    margin: auto;
+    width: 90%;
+    height: 90%;
 }
 
 canvas {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+}
+
+#circuit-container {
+    margin: auto;
+}
+
+.gate {
+    cursor: pointer;
+}
+
+[data-type="selected"] {
+    outline: 3px solid gold;
+}
+
+[data-type="pending"] {
+    opacity: 0.3;
 }

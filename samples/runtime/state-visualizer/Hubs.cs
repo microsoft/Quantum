@@ -21,10 +21,8 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
 
         public override async Task OnConnectedAsync()
         {
-            await visualizer.ReplayHistory(Clients.Caller);
+            visualizer.GetExecutionPath();
             await base.OnConnectedAsync();
         }
-
-        public bool Advance() => visualizer.Advance();
     }
 }

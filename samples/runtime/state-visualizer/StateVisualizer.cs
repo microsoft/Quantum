@@ -5,15 +5,15 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text.Json;
+using Microsoft.Quantum.IQSharp.ExecutionPathTracer;
 
 namespace Microsoft.Quantum.Samples.StateVisualizer
 {
@@ -26,6 +26,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         private readonly ManualResetEvent advanceEvent = new ManualResetEvent(true);
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly IList<(string method, object[] args)> history = new List<(string, object[])>();
+        private readonly ExecutionPathTracer tracer;
 
         public StateVisualizer(QuantumSimulator simulator)
         {
@@ -33,14 +34,10 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
             {
                 throw new ArgumentNullException(nameof(simulator));
             }
-            
-            this.simulator = simulator;
-            simulator.OnOperationStart += OnOperationStartHandler;
+
             simulator.OnOperationEnd += OnOperationEndHandler;
-            simulator.OnAllocateQubits += OnAllocateQubitsHandler;
-            simulator.OnBorrowQubits += OnBorrowQubitsHandler;
-            simulator.OnReleaseQubits += OnReleaseQubitsHandler;
-            simulator.OnReturnQubits += OnReturnQubitsHandler;
+            this.tracer = new ExecutionPathTracer();
+            this.simulator = simulator.WithExecutionPathTracer(this.tracer);
             stateDumper = new StateDumper(simulator);
 
             host = WebHost
@@ -59,33 +56,20 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
             context = GetService<IHubContext<StateVisualizerHub>>();
         }
 
-        public async Task Run(Func<IOperationFactory, Task<QVoid>> operation)
-        {
+        public async Task Run(Func<IOperationFactory, Task<QVoid>> operation) =>
             await operation(simulator);
-        }
 
         public async Task<O> Run<I, O>(Func<IOperationFactory, I, Task<O>> operation, I args) =>
             await operation(simulator, args);
-        
 
-        public bool Advance() => advanceEvent.Set();
-
-        public void Stop()
+        public void GetExecutionPath()
         {
-            cancellationTokenSource.Cancel();
-            advanceEvent.Set();
-        }
-
-        public async Task ReplayHistory(IClientProxy client)
-        {
-            foreach (var (method, args) in history)
-            {
-                await client.SendCoreAsync(method, args);
-            }
+            var executionPath = this.tracer.GetExecutionPath().ToJson();
+            BroadcastAsync("ExecutionPath", executionPath).Wait();
         }
 
         private T GetService<T>() =>
-            (T) host.Services.GetService(typeof(T));
+            (T)host.Services.GetService(typeof(T));
 
         private async Task BroadcastAsync(string method, params object[] args)
         {
@@ -93,62 +77,14 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
             await context.Clients.All.SendCoreAsync(method, args);
         }
 
-        private async Task WaitForAdvance() =>
-            await Task.Run(() =>
-            {
-                advanceEvent.Reset();
-                advanceEvent.WaitOne();
-            }, cancellationTokenSource.Token);
-
-        private void OnOperationStartHandler(ICallable operation, IApplyData arguments)
-        {
-            var variant = operation.Variant == OperationFunctor.Body ? "" : operation.Variant.ToString();
-            var qubits = arguments.Qubits?.Select(q => q.Id).ToArray() ?? Array.Empty<int>();
-            BroadcastAsync(
-                "OperationStarted",
-                $"{variant} {operation.Name}",
-                qubits,
-                stateDumper.DumpAndGetAmplitudes()
-            ).Wait();
-            WaitForAdvance().Wait();
-        }
-
         private void OnOperationEndHandler(ICallable operation, IApplyData result)
         {
-            BroadcastAsync("OperationEnded", result?.Value?.ToString(), stateDumper.DumpAndGetAmplitudes()).Wait();
-            WaitForAdvance().Wait();
-        }
-
-        private void OnAllocateQubitsHandler(long count)
-        {
-            BroadcastAsync("Log", $"Allocate {count} qubit(s)", stateDumper.DumpAndGetAmplitudes()).Wait();
-            WaitForAdvance().Wait();
-        }
-
-        private void OnBorrowQubitsHandler(long count)
-        {
-            BroadcastAsync("Log", $"Borrow {count} qubit(s)", stateDumper.DumpAndGetAmplitudes()).Wait();
-            WaitForAdvance().Wait();
-        }
-
-        private void OnReleaseQubitsHandler(IQArray<Qubit> qubits)
-        {
-            BroadcastAsync(
-                "Log",
-                $"Release qubit(s) {string.Join(", ", qubits.Select(q => q.Id))}",
-                stateDumper.DumpAndGetAmplitudes()
-            ).Wait();
-            WaitForAdvance().Wait();
-        }
-
-        private void OnReturnQubitsHandler(IQArray<Qubit> qubits)
-        {
-            BroadcastAsync(
-                "Log",
-                $"Return qubit(s) {string.Join(", ", qubits.Select(q => q.Id))}",
-                stateDumper.DumpAndGetAmplitudes()
-            ).Wait();
-            WaitForAdvance().Wait();
+            var currentOperation = this.tracer.operations.Peek();
+            if (currentOperation == null) return;
+            if (currentOperation.DataAttributes == null) currentOperation.DataAttributes = new Dictionary<string, string>();
+            if (currentOperation.DataAttributes.ContainsKey("state")) return;
+            // Add current register state as metadata to operation
+            currentOperation.DataAttributes["state"] = JsonSerializer.Serialize(stateDumper.DumpAndGetAmplitudes());
         }
     }
 

@@ -8,4 +8,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\algorithms\simple-grover\SimpleGroverSample.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.IQSharp.ExecutionPathTracer" Version="0.12.20081940-beta" />
+  </ItemGroup>
 </Project>
