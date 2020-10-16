@@ -1,0 +1,17 @@
+##
+# environment.yml: Specification of a conda environment for use with
+#      Q# interoperability samples.
+##
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+##
+
+name: qsharp-sample-classifier
+channels:
+    - conda-forge
+    - quantum-engineering
+dependencies:
+    - python>=3.6
+    - numpy
+    - matplotlib<=2.1.2
+    - qsharp

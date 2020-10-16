@@ -28,8 +28,8 @@ To run the sample, use the `dotnet run` command from your terminal.
 
 ## Manifest
 
-- [Measurement.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/measurement/Measurement.qs): Q# code preparing and measuring a few qubits.
-- [Measurement.csproj](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/measurement/Measurement.csproj): Main Q# project for the sample.
+- [Measurement.qs](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/measurement/Measurement.qs): Q# code preparing and measuring a few qubits.
+- [Measurement.csproj](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/measurement/Measurement.csproj): Main Q# project for the sample.
 
 ## Further resources
 

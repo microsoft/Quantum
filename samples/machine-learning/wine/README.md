@@ -21,7 +21,7 @@ jupyter:
     name: .net-powershell
 ---
 
-# Training sequential models with Q\#, using built-in datasets
+# Training sequential models with Q#, using built-in datasets
 
 This sample uses Q# and the Microsoft.Quantum.MachineLearning library to train a simple sequential model.
 The model is trained on the [wine dataset](https://archive.ics.uci.edu/ml/datasets/wine) from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/), using a classifier structure defined in Q#.
@@ -58,7 +58,7 @@ Press Start in Visual Studio to run the sample.
 
 ## Manifest
 
-- [Training.qs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/wine/Training.qs): Q# code implementing quantum operations for this sample.
-- [host.py](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/wine/host.py): Python code to interact with and print out results of the Q# operations for this sample.
-- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/wine/Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
-- [Wine.csproj](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/wine/Wine.csproj): Main C# project for the sample.
+- [Training.qs](https://github.com/microsoft/Quantum/blob/main/samples/machine-learning/wine/Training.qs): Q# code implementing quantum operations for this sample.
+- [host.py](https://github.com/microsoft/Quantum/blob/main/samples/machine-learning/wine/host.py): Python code to interact with and print out results of the Q# operations for this sample.
+- [Host.cs](https://github.com/microsoft/Quantum/blob/main/samples/machine-learning/wine/Host.cs): C# code to interact with and print out results of the Q# operations for this sample.
+- [Wine.csproj](https://github.com/microsoft/Quantum/blob/main/samples/machine-learning/wine/Wine.csproj): Main C# project for the sample.

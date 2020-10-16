@@ -66,3 +66,4 @@ jupyter notebook
 - [Program.cs](./Program.cs): C# code to interact with and print out results of the Q# operations for this sample.
 - [DatabaseSearchSample.csproj](./DatabaseSearchSample.csproj): Main C# project for the sample.
 - [Database Search.ipynb](./Database%20Search.ipynb): The sample as a Jupyter Notebook.
+

@@ -54,20 +54,13 @@ namespace Microsoft.Quantum.Chemistry.Samples
         public bool SkipOptimizedQubitization { get; } = false;
         public bool RunOptimizedQubitization => !SkipOptimizedQubitization;
 
-        [Option("-l|--log", Description = "Controls where log messages will be written to.")]
-        public string LogPath { get; } = null;
-
         [Option("-o|--output", Description = "Specifies the folder into which gate count estimates should be written as CSVs.")]
         public string OutputPath { get; } = null;
         
 
         void OnExecute()
         {
-            if (LogPath != null)
-            {
-                Logging.LogPath = LogPath;
-            }
-            var logger = Logging.LoggerFactory.CreateLogger<Program>();
+            var logger = new LoggerFactory().CreateLogger<Program>();
 
             // Here, we specify the Hamiltonian simulation configurations we wish to run.
             var configurations = Configure(

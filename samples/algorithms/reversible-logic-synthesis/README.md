@@ -60,6 +60,6 @@ Press Start in Visual Studio to run the sample.
 
 ## Manifest
 
-- [ReversibleLogicSynthesis.qs](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/reversible-logic-synthesis/ReversibleLogicSynthesis.qs): Main Q# code for this sample.
-- [host.py](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/reversible-logic-synthesis/host.py): Python host program to call into the Q# sample.
-- [ReversibleLogicSynthesis.csproj](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/reversible-logic-synthesis/CHSHGame.csproj): Main Q# project for the sample.
+- [ReversibleLogicSynthesis.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/reversible-logic-synthesis/ReversibleLogicSynthesis.qs): Main Q# code for this sample.
+- [host.py](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/reversible-logic-synthesis/host.py): Python host program to call into the Q# sample.
+- [ReversibleLogicSynthesis.csproj](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/reversible-logic-synthesis/CHSHGame.csproj): Main Q# project for the sample.

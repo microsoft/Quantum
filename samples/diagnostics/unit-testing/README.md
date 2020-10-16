@@ -23,10 +23,9 @@ the circuits. The list of the test files is below:
 * [Tests for Multiply controlled Not gates](./MultiControlledNOTTests.qs)
 * [Tests for Super-dense coding](./SuperdenseCodingTests.qs)
 
-## Functions from Microsoft.Quantum.Canon used for testing ##
+## Operations and functions from the Q# standard library used for testing ##
 
-The correctness of all the circuits in this sample is tested using the following
-function from Microsoft.Quantum.Canon:
+The correctness of all the programs in this sample is tested using functionality from the Q# standard library:
 
 * AssertOperationsEqualReferenced
 * AssertOperationsEqualInPlace

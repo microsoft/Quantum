@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Samples.UnitTesting {
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Intrinsic;
@@ -20,31 +21,32 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
     /// # Summary
     /// A simple implementation of target Controlled Not gate using CNOT gates
-    operation MultiTargetNot (controls : Qubit[], target : Qubit[]) : Unit is Adj {
+    operation ApplyMultiTargetNot(controls : Qubit[], target : Qubit[]) : Unit is Adj {
         EqualityFactI(Length(controls), 1, "control register must have length 1");
         ApplyToEachA(CNOT(Head(controls), _), target);
     }
 
-
     /// # Summary
     /// Multi target multi controlled Not implementation using
     /// ApplyMultiControlledCA
+    ///
     /// # See Also
     /// - Microsoft.Quantum.Canon.ApplyMultiControlledCA
-    operation MultiTargetMultiNot (controls : Qubit[], targets : Qubit[]) : Unit is Adj {
+    operation ApplyMultiTargetMultiNot(controls : Qubit[], targets : Qubit[]) : Unit is Adj {
 
         body (...) {
-            let singlyControlledOp = ApplyToPartitionA(MultiTargetNot, 1, _);
+            let singlyControlledOp = ApplyToPartitionA(ApplyMultiTargetNot, 1, _);
             ApplyMultiControlledCA(singlyControlledOp, CCNOTop(CCNOT), controls, targets);
         }
 
         controlled (extraControls, ...) {
-            MultiTargetMultiNot(extraControls + controls, targets);
+            ApplyMultiTargetMultiNot(extraControls + controls, targets);
         }
 
     }
 
 }
+
 // /////////////////////////////////////////////////////////////////////////////////////////////
 // Implementations of Multi target Controlled Not gates not considered here
 // /////////////////////////////////////////////////////////////////////////////////////////////

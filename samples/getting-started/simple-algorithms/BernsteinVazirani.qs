@@ -98,7 +98,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani {
             fail "Length of input register must be equal to the pattern length.";
         }
 
-        for ((patternBit, controlQubit) in Zip(pattern, queryRegister)) {
+        for ((patternBit, controlQubit) in Zipped(pattern, queryRegister)) {
             if (patternBit) {
                 Controlled X([controlQubit], target);
             }

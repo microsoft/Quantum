@@ -25,5 +25,5 @@ To run the sample, use the `dotnet run` command from your terminal.
 
 ## Manifest ##
 
-- [Qrng.qs](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/qrng/Qrng.qs): Q# code implementing quantum operations for this sample.
-- [Qrng.csproj](https://github.com/microsoft/Quantum/blob/master/samples/getting-started/qrng/Qrng.csproj): Main Q# project for the sample.
+- [Qrng.qs](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/qrng/Qrng.qs): Q# code implementing quantum operations for this sample.
+- [Qrng.csproj](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/qrng/Qrng.csproj): Main Q# project for the sample.

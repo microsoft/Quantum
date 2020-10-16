@@ -1,23 +1,22 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Tests {
-
     open Microsoft.Quantum.Samples.BitFlipCode;
+    open Microsoft.Quantum.Diagnostics;
 
-    operation BitFlipSampleParityTest () : Unit {
+    @Test("QuantumSimulator")
+    operation TestBitFlipSampleParity() : Unit {
         CheckBitFlipCodeStateParity();
     }
 
-
-    operation BitFlipSampleWt1CorrectionTest () : Unit {
+    @Test("QuantumSimulator")
+    operation TestBitFlipSampleWt1Correction() : Unit {
         CheckBitFlipCodeCorrectsBitFlipErrors();
     }
 
-
-    operation BitFlipSampleWCanonTest () : Unit {
+    @Test("QuantumSimulator")
+    operation TestBitFlipSampleWCanon() : Unit {
         CheckCanonBitFlipCodeCorrectsBitFlipErrors();
     }
 
 }
-
-

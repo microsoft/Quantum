@@ -8,7 +8,7 @@ products:
 description: "This sample implements using the quantum machine learning library to train a sequential model on the half-moons dataset, parallelizing over target machines."
 ---
 
-# Training sequential models with Q\#, using multiple simulators in parallel
+# Training sequential models with Q#, using multiple simulators in parallel
 
 This sample uses Q# and the Microsoft.Quantum.MachineLearning library to train a simple sequential model.
 The model is trained on a half-moons dataset, loaded in C# using the System.Text.Json package, then preprocessed using Q#.
@@ -40,7 +40,7 @@ Press Start in Visual Studio to run the sample.
 
 ## Manifest
 
-- [Training.qs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/Training.qs): Q# code implementing quantum operations for this sample.
-- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/Host.cs): C# code to load data, and to interact with and print out results of the Q# operations for this sample.
-- [ParallelHalfMoons.csproj](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/HalfMoons.csproj): Main C# project for the sample.
-- [data.json](https://github.com/microsoft/Quantum/blob/master/samples/machine-learning/half-moons/data.json): JSON-serialized training and validation data used by this sample.
+- [Training.qs](https://github.com/microsoft/Quantum/blob/main/samples/machine-learning/half-moons/Training.qs): Q# code implementing quantum operations for this sample.
+- [Host.cs](https://github.com/microsoft/Quantum/blob/main/samples/machine-learning/half-moons/Host.cs): C# code to load data, and to interact with and print out results of the Q# operations for this sample.
+- [ParallelHalfMoons.csproj](https://github.com/microsoft/Quantum/blob/main/samples/machine-learning/half-moons/HalfMoons.csproj): Main C# project for the sample.
+- [data.json](https://github.com/microsoft/Quantum/blob/main/samples/machine-learning/half-moons/data.json): JSON-serialized training and validation data used by this sample.

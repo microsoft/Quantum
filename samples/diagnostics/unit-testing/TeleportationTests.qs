@@ -7,8 +7,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
     /// # Summary
     /// If the Teleportation circuit is correct this operation must be an identity
-    operation TeleportationIdentityTestHelper (arg : Qubit[]) : Unit {
-
+    operation ApplyIdentityWithTeleport(arg : Qubit[]) : Unit {
         EqualityFactI(Length(arg), 1, "Helper is defined only on single qubit input");
 
         using (auxiliary = Qubit()) {
@@ -19,17 +18,15 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
     /// # Summary
     /// Tests the correctness of the teleportation circuit from Teleportation.qs
-    operation TeleportationTest () : Unit {
-
+    @Test("QuantumSimulator")
+    operation CheckTeleportIdentityIsNoOp() : Unit {
         // given that there is randomness involved in the Teleportation,
         // repeat the tests several times.
         for (idxIteration in 1 .. 8) {
             for (assertion in [AssertOperationsEqualInPlace, AssertOperationsEqualReferenced]) {
-                assertion(1, TeleportationIdentityTestHelper, NoOp<Qubit[]>);
+                assertion(1, ApplyIdentityWithTeleport, NoOp<Qubit[]>);
             }
         }
     }
 
 }
-
-

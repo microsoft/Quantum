@@ -65,10 +65,10 @@ Press Start in Visual Studio to run the sample.
 
 ## Manifest
 
-- [Game.qs](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/chsh-game/Game.qs): Q# code implementing the game.
-- [host.py](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/chsh-game/host.py): Python host program to call into the Q# sample.
-- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/chsh-game/Host.cs): C# code to call the operations defined in Q#.
-- [CHSHGame.csproj](https://github.com/microsoft/Quantum/blob/master/samples/algorithms/chsh-game/CHSHGame.csproj): Main C# project for the sample.
+- [Game.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/Game.qs): Q# code implementing the game.
+- [host.py](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/host.py): Python host program to call into the Q# sample.
+- [Host.cs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/Host.cs): C# code to call the operations defined in Q#.
+- [CHSHGame.csproj](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/CHSHGame.csproj): Main C# project for the sample.
 
 ## Further resources
 

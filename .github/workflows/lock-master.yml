@@ -1,0 +1,12 @@
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  fail:
+    runs-on: ubuntu-latest
+    steps:
+    - run: exit 1
+      name: "Fail when updating master."
+

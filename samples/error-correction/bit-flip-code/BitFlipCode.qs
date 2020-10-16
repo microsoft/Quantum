@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 namespace Microsoft.Quantum.Samples.BitFlipCode {
+    open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.ErrorCorrection;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
@@ -125,8 +126,8 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
             // disturbed. If our target machine is an actual quantum
             // processor, then the assertion will be skipped with no
             // further effect.
-            Assert([PauliZ, PauliZ, PauliI], register, Zero, "Z₀Z₁ was One!");
-            Assert([PauliI, PauliZ, PauliZ], register, Zero, "Z₁Z₂ was One!");
+            AssertMeasurement([PauliZ, PauliZ, PauliI], register, Zero, "Z₀Z₁ was One!");
+            AssertMeasurement([PauliI, PauliZ, PauliZ], register, Zero, "Z₁Z₂ was One!");
 
             // The second step then actually performs the measurement,
             // showing that we can make parity measurements without
@@ -138,7 +139,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
             // rotate back, and assert once more.
             Adjoint EncodeIntoBitFlipCode(data, auxiliaryQubits);
             Adjoint Rx(PI() / 3.0, data);
-            Assert([PauliZ], [data], Zero, "Didn't return to |0〉!");
+            AssertMeasurement([PauliZ], [data], Zero, "Didn't return to |0〉!");
         }
     }
 
@@ -215,7 +216,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
             // rotate back, and assert once more.
             Adjoint EncodeIntoBitFlipCode(data, auxiliaryQubits);
             Adjoint Rx(PI() / 3.0, data);
-            Assert([PauliZ], [data], Zero, "Didn't return to |0〉!");
+            AssertMeasurement([PauliZ], [data], Zero, "Didn't return to |0〉!");
         }
     }
 
@@ -341,7 +342,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
 
             // Finally, we test that our test state was protected.
             Adjoint Rx(PI() / 3.0, data);
-            Assert([PauliZ], [data], Zero, "Didn't return to |0〉!");
+            AssertMeasurement([PauliZ], [data], Zero, "Didn't return to |0〉!");
         }
     }
 

@@ -23,7 +23,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// Details on reversible logic synthesis and the operation
     /// that applies a permutation to the quantum state can be found
     /// in the Q# Standard library:
-    /// https://github.com/microsoft/QuantumLibraries/blob/master/Standard/src/Synthesis/TransformationBased.qs
+    /// https://github.com/microsoft/QuantumLibraries/blob/main/Standard/src/Synthesis/TransformationBased.qs
     ///
     /// # Input
     /// ## perm
@@ -64,7 +64,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     /// the first half of the array with the second half of the array.
     operation ComputeInnerProduct(qubits : Qubit[]) : Unit {
         let m = Length(qubits) / 2;
-        ApplyToEach(CZ, Zip(qubits[0..m - 1], qubits[m..Length(qubits) - 1]));
+        ApplyToEach(CZ, Zipped(qubits[0..m - 1], qubits[m..Length(qubits) - 1]));
     }
 
 

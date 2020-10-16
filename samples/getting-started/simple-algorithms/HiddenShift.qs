@@ -111,13 +111,12 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift {
     // the IP function can then be accomplished by applying several Controlled-Z
     // gates between the respective inputs.
     internal operation ApplyInnerProductBentFunction(u : Int, qs : Qubit[]) : Unit {
-
         EqualityFactI(Length(qs), 2 * u, "Length of qs must be twice the value of u");
 
         let xs = qs[0 .. u - 1];
         let ys = qs[u...];
 
-        ApplyToEach(CZ, Zip(xs, ys));
+        ApplyToEach(CZ, Zipped(xs, ys));
     }
 
 

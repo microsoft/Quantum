@@ -35,13 +35,13 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides
             /// <summary>
             /// The actual definition of what the new operation does.
             /// </summary>
-            public override Func<Qubit, Result> Body {
+            public override Func<Qubit, Result> __Body__ {
                 get {
                     // Get the original M operation to call it and process the results
-                    Func<Qubit, Result> originalMeasurementOperation = base.Body;
+                    Func<Qubit, Result> originalMeasurementOperation = base.__Body__;
 
                     // Get the X gate operation (used to introduce the error)
-                    IUnitary<Qubit> gateX = this.Factory.Get<IUnitary<Qubit>>(typeof(X));
+                    IUnitary<Qubit> gateX = this.__Factory__.Get<IUnitary<Qubit>>(typeof(X));
 
                     // The body of the operation is a lambda
                     return (qubit =>

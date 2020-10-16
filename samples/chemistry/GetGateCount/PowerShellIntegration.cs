@@ -77,9 +77,6 @@ namespace Microsoft.Quantum.Chemistry.Samples
         public SwitchParameter RunMinTCountQubitizationStep { get; set; } = true;
 
         [Parameter(Position = 5)]
-        public string LogPath { get; set; } = null;
-
-        [Parameter(Position = 6)]
         public string OutputPath { get; set; } = null;
         
         public List<HamiltonianSimulationConfig> config =>
@@ -113,11 +110,6 @@ namespace Microsoft.Quantum.Chemistry.Samples
                 )
             }
             );
-
-        protected override void BeginProcessing()
-        {
-            Logging.LogPath = LogPath;
-        }
 
         // The actual logic of the PowerShell command is implemented by overriding the
         // ProcessRecord method.
