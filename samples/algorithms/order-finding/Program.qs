@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 namespace Microsoft.Quantum.Samples.OrderFinding {
+    open Microsoft.Quantum.Random;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Convert;
@@ -72,12 +73,12 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     /// returns 1 or 3 with probability 50% each, otherwise, it
     /// returns 2 or 4 with probability 50% each.
     internal operation GuessOrderClassical(index : Int, perm : Int[]) : Int {
-        let rnd = RandomInt(2);
+        let rnd = DrawRandomBool(0.5);
         if (perm[perm[perm[index]]] == index) {
-            return rnd == 0 ? 1 | 3;
+            return rnd ? 1 | 3;
         }
         else {
-            return rnd == 0 ? 2 | 4;
+            return rnd ? 2 | 4;
         }
     }
 
@@ -89,7 +90,7 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
         let result = FindOrder(perm, index);
 
         if (result == 0) {
-            let guess = RandomReal(4);
+            let guess = DrawRandomDouble(0.0, 1.0);
             // the probability distribution is extracted from the second
             // column (m = 0) in Fig. 2's table on the right-hand side,
             // in the original and referenced paper.

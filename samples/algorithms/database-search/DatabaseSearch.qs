@@ -245,7 +245,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// # Output
     /// Measurement outcome of marked Qubit and measurement outcomes of
     /// the database register.
-    operation ApplyQuantumSearch (nIterations : Int, nDatabaseQubits : Int) : (Result, Result[]) {
+    operation ApplyQuantumSearch(nIterations : Int, nDatabaseQubits : Int) : (Result, Result[]) {
         // Allocate nDatabaseQubits + 1 qubits. These are all in the |0〉
         // state.
         using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
@@ -272,7 +272,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// Checks whether state preparation marks the right fraction of elements
     /// against theoretical predictions.
     operation StatePreparationOracleTest() : Unit {
-        for (nDatabaseQubits in 0 .. 5) {
+        for (nDatabaseQubits in 0..5) {
             using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
                 ApplyStatePreparationOracle(markedQubit, databaseRegister);
 
@@ -282,7 +282,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
                 // `AssertProb` below.
                 let successAmplitude = 1.0 / Sqrt(IntAsDouble(2 ^ nDatabaseQubits));
                 let successProbability = successAmplitude * successAmplitude;
-                AssertProb([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
+                AssertMeasurementProbability([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
 
                 // This operation automatically resets all qubits to |0〉
                 // for safe deallocation.
@@ -303,9 +303,8 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// the success probability matches theoretical predictions. Then checks
     /// whether the correct index is found, post-selected on success.
     operation GroverHardCodedTest () : Unit {
-
-        for (nDatabaseQubits in 0 .. 4) {
-            for (nIterations in 0 .. 5) {
+        for (nDatabaseQubits in 0..4) {
+            for (nIterations in 0..5) {
                 using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
                     SearchForMarkedState(nIterations, markedQubit, databaseRegister);
                     let dimension = IntAsDouble(2 ^ nDatabaseQubits);
@@ -314,7 +313,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
                         ArcSin(1.0 / Sqrt(dimension))
                     );
                     let successProbability = PowD(successAmplitude, 2.0);
-                    AssertProb([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
+                    AssertMeasurementProbability([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
 
                     // If this result is One, we have found the marked
                     // element.

@@ -13,7 +13,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # Summary
     /// This operation tests correctness of the implementation of Doubly Controlled X gates
     /// also known as Toffoli gates.
-    operation CCNOTCircuitsTest () : Unit {
+    operation CCNOTCircuitsTest() : Unit {
 
         //  List of pairs of operations (expected,actual) to be tested up to a phase
         let upToPhaseTestList = [(UpToPhaseCCNOT1, CCNOT), (UpToPhaseCCNOT2, CCNOT), (UpToPhaseCCNOT3, CCNOT)];
@@ -26,7 +26,10 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
             // this checks that gates in the list act the same on all the
             // computational basis states ( up to a global phase )
-            AssertOperationsEqualInPlaceCompBasis(3, ApplyToFirstThreeQubits(actual, _), ApplyToFirstThreeQubitsA(expected, _));
+            AssertOperationsEqualInPlaceCompBasis(3,
+                ApplyToFirstThreeQubits(actual, _),
+                ApplyToFirstThreeQubitsA(expected, _)
+            );
 
             // We used partial application and ApplyToFirstThreeQubits to convert operation with
             // signature (Qubit,Qubit,Qubit) => () to operation with signature Qubit[] => ()

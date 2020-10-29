@@ -1,9 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Diagnostics;
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,9 +50,10 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     // succeeding.
                     Message("Trying ...");
 
-                    // we expect to start with both ancillas being in |+⟩ state
-                    AssertProb([PauliX], [aux0], Zero, 1.0, "", 1E-10);
-                    AssertProb([PauliX], [aux1], Zero, 1.0, "", 1E-10);
+                    // We expect to start with both auxillary qubits to start
+                    // in the |+⟩ state.
+                    AssertMeasurement([PauliX], [aux0], Zero, "");
+                    AssertMeasurement([PauliX], [aux1], Zero, "");
 
                     // use CCNOT with 4 T gates
                     CCNOT3(aux0, aux1, target);
@@ -63,8 +65,8 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
                     // Before the measurements probability of measuring |+⟩ state on both
                     // ancillas is 3/4
-                    AssertProb([PauliX], [aux0], Zero, 0.75, "Error: the probability to measure |+⟩ in the first ancilla must be 3/4", 1E-10);
-                    AssertProb([PauliX], [aux1], Zero, 0.75, "Error: the probability to measure |+⟩ in the second ancilla must be 3/4", 1E-10);
+                    AssertMeasurementProbability([PauliX], [aux0], Zero, 0.75, "Error: the probability to measure |+⟩ in the first ancilla must be 3/4", 1E-10);
+                    AssertMeasurementProbability([PauliX], [aux1], Zero, 0.75, "Error: the probability to measure |+⟩ in the second ancilla must be 3/4", 1E-10);
                     let outcome0 = Measure([PauliX], [aux0]);
 
                     // After the first auxiliary qubit has been measured the probability is conditional
@@ -75,7 +77,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     // measuring |+⟩ on the second ancilla is 1/2
                     let prob = outcome0 == One ? 0.5 | 5.0 / 6.0;
 
-                    AssertProb([PauliX], [aux1], Zero, prob, $"Error:the probability to measure |+⟩ in the first ancilla must be {prob}", 1E-10);
+                    AssertMeasurementProbability([PauliX], [aux1], Zero, prob, $"Error:the probability to measure |+⟩ in the first ancilla must be {prob}", 1E-10);
                     let outcome1 = Measure([PauliX], [aux1]);
                 }
                 until (outcome0 == Zero and outcome1 == Zero)
@@ -109,9 +111,11 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
         adjoint (...) {
             // We can use the following equation to implement the Adjoint:
             // X exp(i⋅ArcTan(2)⋅Z) X = exp(i⋅ArcTan(2)⋅XZX) = exp(- i⋅ArcTan(2)⋅Z)
-            X(target);
-            ExpIZArcTan2NC(target);
-            X(target);
+            within {
+                X(target);
+            } apply {
+                ExpIZArcTan2NC(target);
+            }
         }
     }
 
@@ -145,7 +149,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     Message("Trying ...");
 
                     // we expect to start with auxiliaryQubit being in |+⟩ state
-                    AssertProb([PauliX], [auxiliaryQubit], Zero, 1.0, "auxiliaryQubit must be in |+⟩ state", 1E-10);
+                    AssertMeasurementProbability([PauliX], [auxiliaryQubit], Zero, 1.0, "auxiliaryQubit must be in |+⟩ state", 1E-10);
                     RepeatUntilSuccessStatePreparation(auxiliaryQubit);
                     CNOT(target, auxiliaryQubit);
                     T(auxiliaryQubit);
@@ -154,7 +158,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                     set TGatesToApplyInTheEnd += 5;
 
                     // The probability to measure |+⟩ on auxiliaryQubit is 5/6
-                    AssertProb([PauliX], [auxiliaryQubit], Zero, 5.0 / 6.0, "The probability to measure |+⟩ on auxiliaryQubit must be 5/6", 1E-10);
+                    AssertMeasurementProbability([PauliX], [auxiliaryQubit], Zero, 5.0 / 6.0, "The probability to measure |+⟩ on auxiliaryQubit must be 5/6", 1E-10);
                     let outcome = Measure([PauliX], [auxiliaryQubit]);
                 }
                 until (outcome == Zero)
@@ -201,21 +205,20 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # Sea also
     /// - Used in @"Microsoft.Quantum.Samples.UnitTesting.ExpIZArcTan2PS"
     operation RepeatUntilSuccessStatePreparation (target : Qubit) : Unit {
-
         using (auxiliaryQubit = Qubit()) {
             H(auxiliaryQubit);
 
             repeat {
 
                 // we expect the target and auxiliary qubits to each be in the |+⟩ state.
-                AssertProb([PauliX], [target], Zero, 1.0, "target qubit should be in |+⟩ state", 1E-10);
-                AssertProb([PauliX], [auxiliaryQubit], Zero, 1.0, "auxiliaryQubit qubit should be in |+⟩ state", 1E-10);
+                AssertMeasurementProbability([PauliX], [target], Zero, 1.0, "target qubit should be in |+⟩ state", 1E-10);
+                AssertMeasurementProbability([PauliX], [auxiliaryQubit], Zero, 1.0, "auxiliaryQubit qubit should be in |+⟩ state", 1E-10);
                 Adjoint T(auxiliaryQubit);
                 CNOT(target, auxiliaryQubit);
                 T(auxiliaryQubit);
 
                 // Probability of measuring |+⟩ state on auxiliaryQubit is 3/4
-                AssertProb([PauliX], [auxiliaryQubit], Zero, 3.0 / 4.0, "Error: the probability to measure |+⟩ in the first auxiliaryQubit must be 3/4", 1E-10);
+                AssertMeasurementProbability([PauliX], [auxiliaryQubit], Zero, 3.0 / 4.0, "Error: the probability to measure |+⟩ in the first auxiliaryQubit must be 3/4", 1E-10);
 
                 // if measurement outcome zero we prepared required state
                 let outcome = Measure([PauliX], [auxiliaryQubit]);

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.Ising {
+    open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Convert;
     
@@ -26,11 +27,11 @@ namespace Microsoft.Quantum.Samples.Ising {
             (IsingAdiabaticEvolutionManual(nSites, hXamplitude, hXfinal, jCamplitude, adiabaticTime, trotterStepSize, trotterOrder))(qubits);
             
             for (idxQubit in 0 .. 4) {
-                AssertProb([PauliX], [qubits[idxQubit]], One, probX[idxQubit], "IsingUniformAdiabaticEvolution Qubit X expectation incorrect", 0.001);
+                AssertMeasurementProbability([PauliX], [qubits[idxQubit]], One, probX[idxQubit], "IsingUniformAdiabaticEvolution Qubit X expectation incorrect", 0.001);
             }
             
             for (idxQubit in 0 .. 3) {
-                AssertProb([PauliZ, PauliZ], qubits[idxQubit .. idxQubit + 1], Zero, probZZ[idxQubit], "IsingUniformAdiabaticEvolution Qubit ZZ expectation incorrect", 1E-09);
+                AssertMeasurementProbability([PauliZ, PauliZ], qubits[idxQubit .. idxQubit + 1], Zero, probZZ[idxQubit], "IsingUniformAdiabaticEvolution Qubit ZZ expectation incorrect", 1E-09);
             }
             
             ResetAll(qubits);
@@ -38,11 +39,11 @@ namespace Microsoft.Quantum.Samples.Ising {
             (IsingAdiabaticEvolutionManual(nSites, hXamplitude, hXfinal, jCamplitude, adiabaticTime, trotterStepSize, trotterOrder))(qubits);
             
             for (idxQubit in 0 .. 4) {
-                AssertProb([PauliX], [qubits[idxQubit]], One, probX[idxQubit], "IsingAdiabaticEvolution_2 Qubit X expectation incorrect", 0.001);
+                AssertMeasurementProbability([PauliX], [qubits[idxQubit]], One, probX[idxQubit], "IsingAdiabaticEvolution_2 Qubit X expectation incorrect", 0.001);
             }
             
             for (idxQubit in 0 .. 3) {
-                AssertProb([PauliZ, PauliZ], qubits[idxQubit .. idxQubit + 1], Zero, probZZ[idxQubit], "IsingAdiabaticEvolution_2 Qubit ZZ expectation incorrect", 1E-09);
+                AssertMeasurementProbability([PauliZ, PauliZ], qubits[idxQubit .. idxQubit + 1], Zero, probZZ[idxQubit], "IsingAdiabaticEvolution_2 Qubit ZZ expectation incorrect", 1E-09);
             }
             
             ResetAll(qubits);

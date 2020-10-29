@@ -34,7 +34,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting
         public void MultiControlledNOTMetricsTest( long numberOfControlQubits )
         {
             // Get an instance of the appropriately configured QCTraceSimulator
-            QCTraceSimulator sim = MetricCalculationUtils.GetSimulatorForMetricsCalculation();
+            var sim = MetricCalculationUtils.GetSimulatorForMetricsCalculation();
 
             // Run tests against trace simulator to collect metrics
             var result = 
@@ -43,28 +43,28 @@ namespace Microsoft.Quantum.Samples.UnitTesting
             string borrowedQubits = MetricsNames.WidthCounter.BorrowedWith;
             string allocatedQubits = MetricsNames.WidthCounter.ExtraWidth;
 
-            // Get the number of qubits borrowed by the MultiControlledXBorrow
-            double numBorrowed1 = 
-                sim.GetMetric<MultiControlledXBorrow, MultiControlledNotWithDirtyQubitsMetrics>(
+            // Get the number of qubits borrowed by the ApplyMultiControlledXByBorrowing
+            var numBorrowed1 = 
+                sim.GetMetric<ApplyMultiControlledXByBorrowing, MultiControlledNotWithDirtyQubitsMetrics>(
                     borrowedQubits);
 
-            // Get the number of qubits allocated by the MultiControlledXBorrow
-                double numAllocated1 =
-                sim.GetMetric<MultiControlledXBorrow, MultiControlledNotWithDirtyQubitsMetrics>(
+            // Get the number of qubits allocated by the ApplyMultiControlledXByBorrowing
+            var numAllocated1 =
+                sim.GetMetric<ApplyMultiControlledXByBorrowing, MultiControlledNotWithDirtyQubitsMetrics>(
                     allocatedQubits);
 
             Assert.Equal(numberOfControlQubits - 2, numBorrowed1);
             Assert.Equal(0, numAllocated1);
 
-            // Get the number of qubits borrowed by the MultiControlledXClean
-            double numBorrowed2 =
-                sim.GetMetric<MultiControlledXClean, MultiControlledNotWithDirtyQubitsMetrics>(
+            // Get the number of qubits borrowed by the ApplyMultiControlledXByUsing
+            var numBorrowed2 =
+                sim.GetMetric<ApplyMultiControlledXByUsing, MultiControlledNotWithDirtyQubitsMetrics>(
                     borrowedQubits);
 
-            // Get the number of qubits allocated by the MultiControlledXClean
-            double numAllocated2 =
-            sim.GetMetric<MultiControlledXClean, MultiControlledNotWithDirtyQubitsMetrics>(
-                allocatedQubits);
+            // Get the number of qubits allocated by the ApplyMultiControlledXByUsing
+            var numAllocated2 =
+                sim.GetMetric<ApplyMultiControlledXByUsing, MultiControlledNotWithDirtyQubitsMetrics>(
+                    allocatedQubits);
 
             Assert.Equal(numberOfControlQubits - 2, numAllocated2);
             Assert.Equal(0, numBorrowed2);
