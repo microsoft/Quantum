@@ -5,7 +5,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
 
-    @EntryPoint()
+    //@EntryPoint()
     operation RunProgram() : Unit {
         
         // We pick an arbitrary value for the eigenphase to be
