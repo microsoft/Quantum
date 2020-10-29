@@ -34,7 +34,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// If this succeeds, the program will have effectively applied an 
     /// (I + i√2X)/√3 gate on the target qubit.
     /// If this fails, the program reruns the circuit up to <limit> times.
-    @EntryPoint()
+    //@EntryPoint()
     operation RunProgram(
         gate: String,
         inputValue : Bool,
