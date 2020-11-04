@@ -7,7 +7,6 @@ namespace BitFlipCode {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
 
-    //@EntryPoint()
     operation Program () : Unit {
      
         // We call the CheckBitFlipCodeStateParity
