@@ -4,55 +4,46 @@
 using System;
 using Microsoft.Quantum.Simulation.Simulators;
 using Microsoft.Quantum.Simulation.Core;
+using CommandLine;
 
 namespace Microsoft.Quantum.Samples.IntegerFactorization
 {
+    /// <summary>
+    /// Command line options for the application
+    /// </summary>
+    ///
+    /// You can call `dotnet run -- --help` to see a help description for the application
+    class Options
+    {
+        [Option('n', "number", Required = false, Default = 15, HelpText = "Number to be factoried")]
+        public long NumberToFactor { get; set; }
+
+        [Option('t', "trials", Required = false, Default = 100, HelpText = "Number of trials to perform")]
+        public long NumberOfTrials { get; set; }
+
+        [Option('m', "method", Required = false, Default = "rpe", HelpText = "Use rpe for Robust Phase Estimation, and qpe for Quantum Phase Estimation")]
+        public string Method { get; set; }
+
+        public bool UseRobustPhaseEstimation => Method == "rpe";
+    }
+
     /// <summary>
     /// This is a Console program that runs Shor's algorithm 
     /// on a Quantum Simulator.
     /// </summary>
     class Program
     {
-        // The console application takes up to three arguments
-        // 1. numberToFactor -- number to be factored 
-        // 2. nTrials -- number of trial to perform 
-        // 3. useRobustPhaseEstimation -- if true uses Robust Phase Estimation, 
-        //                                uses Quantum Phase Estimation otherwise.
-        // If you build the Debug configuration, the executable will be located in 
-        // Libraries\Samples\IntegerFactorization\bin\Debug\ folder;
-        // for the Release configuration the folder is 
-        // Libraries\Samples\IntegerFactorization\bin\Release.
-        // The name of the executable is IntegerFactorization.exe.
-        static void Main(string[] args)
+        static int Main(string[] args) =>
+            Parser.Default.ParseArguments<Options>(args).MapResult(
+                options => Simulate(options),
+                _ => 1
+            );
+
+        static int Simulate(Options options)
         {
-            // Default values used if no arguments are provided
-            long numberToFactor = 15;
-            long nTrials = 100;
-            bool useRobustPhaseEstimation = true;
-
-            // Parse the arguments provided in command line
-            if( args.Length >= 1 )
-            {
-                // The first argument is the number to factor
-                Int64.TryParse(args[0], out numberToFactor);
-            }
-
-            if (args.Length >= 2 )
-            {
-                // The second is the number of trials 
-                Int64.TryParse(args[1], out nTrials);
-            }
-
-            if (args.Length >= 3)
-            {
-                // The third argument indicates if Robust or Quantum Phase Estimation 
-                // should be used
-                bool.TryParse(args[2], out useRobustPhaseEstimation);
-            }
-
             // Repeat Shor's algorithm multiple times as the algorithm is 
             // probabilistic and there are several ways that it can fail.
-            for (int i = 0; i < nTrials; ++i)
+            for (int i = 0; i < options.NumberOfTrials; ++i)
             {
                 try
                 {
@@ -63,13 +54,16 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                     {
                         // Report the number being factored to the standard output
                         Console.WriteLine($"==========================================");
-                        Console.WriteLine($"Factoring {numberToFactor}");
+                        Console.WriteLine($"Factoring {options.NumberToFactor}");
 
                         // Compute the factors
                         (long factor1, long factor2) = 
-                            FactorSemiprimeInteger.Run(sim, numberToFactor, useRobustPhaseEstimation).Result;
+                            FactorSemiprimeInteger.Run(sim, options.NumberToFactor, options.UseRobustPhaseEstimation).Result;
 
                         Console.WriteLine($"Factors are {factor1} and {factor2}");
+
+                        // Stop once the factorization has been found
+                        break;
                     }
                 }
                 // Shor's algorithm is a probabilistic algorithm and can fail with certain 
@@ -84,7 +78,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
 
                     // Unwrap AggregateException to get the message from Q# fail statement.
                     // Go through all inner exceptions.
-                    foreach ( Exception eInner in e.InnerExceptions )
+                    foreach (Exception eInner in e.InnerExceptions)
                     {
                         // If the exception of type ExecutionFailException
                         if (eInner is ExecutionFailException failException)
@@ -95,6 +89,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                     }
                 }
             }
+
+            return 0;
         }
     }
 }
