@@ -9,22 +9,36 @@ using CommandLine;
 namespace Microsoft.Quantum.Samples.IntegerFactorization
 {
     /// <summary>
-    /// Command line options for the application
+    /// Common command line options for the application
     /// </summary>
     ///
     /// You can call `dotnet run -- --help` to see a help description for the application
-    class Options
+    class CommonOptions
     {
         [Option('n', "number", Required = false, Default = 15, HelpText = "Number to be factoried")]
         public long NumberToFactor { get; set; }
 
-        [Option('t', "trials", Required = false, Default = 100, HelpText = "Number of trials to perform")]
-        public long NumberOfTrials { get; set; }
-
         [Option('m', "method", Required = false, Default = "rpe", HelpText = "Use rpe for Robust Phase Estimation, and qpe for Quantum Phase Estimation")]
         public string Method { get; set; }
 
+        /// <summary>
+        /// Helper method to check whether robust phase estimation should be used
+        /// </summary>
         public bool UseRobustPhaseEstimation => Method == "rpe";
+    }
+
+    [Verb("simulate", isDefault: true, HelpText = "Simulate Shor's algorithm using QDK's full state simulator")]
+    class SimulateOptions : CommonOptions
+    {
+        [Option('t', "trials", Required = false, Default = 100, HelpText = "Number of trials to perform")]
+        public long NumberOfTrials { get; set; }
+    }
+
+    [Verb("estimate", HelpText = "Estimate the resources to perform one round of period finding in Shor's algorithm")]
+    class EstimateOptions : CommonOptions
+    {
+        [Option('g', "generator", Required = true, HelpText = "A coprime to `number` of which the period is estimated")]
+        public long Generator { get; set; }
     }
 
     /// <summary>
@@ -34,12 +48,13 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
     class Program
     {
         static int Main(string[] args) =>
-            Parser.Default.ParseArguments<Options>(args).MapResult(
-                options => Simulate(options),
+            Parser.Default.ParseArguments<SimulateOptions, EstimateOptions>(args).MapResult(
+                (SimulateOptions options) => Simulate(options),
+                (EstimateOptions options) => Estimate(options),
                 _ => 1
             );
 
-        static int Simulate(Options options)
+        static int Simulate(SimulateOptions options)
         {
             // Repeat Shor's algorithm multiple times as the algorithm is 
             // probabilistic and there are several ways that it can fail.
@@ -89,6 +104,25 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                     }
                 }
             }
+
+            return 0;
+        }
+
+        static int Estimate(EstimateOptions options)
+        {
+            var config = ResourcesEstimator.RecommendedConfig();
+            config.CallStackDepthLimit = 3;
+
+            var estimator = new ResourcesEstimator(config);
+
+            var bitsize = (long)System.Math.Ceiling(System.Math.Log2(options.NumberToFactor + 1));
+            EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
+
+            Console.WriteLine(estimator.ToTSV());
+
+            Console.WriteLine();
+
+            Console.WriteLine(estimator.ToCSV()["PrimitiveOperationsCounter"]);
 
             return 0;
         }
