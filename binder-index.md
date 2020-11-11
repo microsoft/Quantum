@@ -259,6 +259,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td>Q# + .NET</td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/diagnostics/visualization/README.md">Visualizing quantum programs</a></strong></td>
+      <td><a href="./samples/diagnostics/visualization/Visualizing%20Quantum%20Programs.ipynb">Q# notebook</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Error correction:</strong></td>
       <td><strong><a href="./samples/error-correction/bit-flip-code/README.md">Bit flip code</a></strong></td>
       <td></td>
