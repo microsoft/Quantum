@@ -16,48 +16,40 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides
     public class FaultyMeasurementsSimulator : QuantumSimulator
     {
         /// <summary>
-        /// The overriding definition for operation M
+        /// The probability with which the error will be introduced before measurement.
         /// </summary>
-        public class M : QSimM
-        {
-            /// <summary>
-            /// The probability with which the error will be introduced before measurement.
-            /// </summary>
-            const double flipProbability = 0.1;
+        const double flipProbability = 0.1;
 
-            /// <summary>
-            /// Random number generator used to decide when to introduce the error.
-            /// </summary>
-            private static readonly System.Random rnd = new System.Random();
+        /// <summary>
+        /// Random number generator used to decide when to introduce the error.
+        /// </summary>
+        private static readonly System.Random rnd = new System.Random();
 
-            public M(FaultyMeasurementsSimulator m) : base(m) { }
+        /// <summary>
+        /// The actual definition of what the new operation does.
+        /// </summary>
+        public override Func<(IQArray<Pauli>, IQArray<Qubit>), Result> Measure_Body() {
+            // Get the original M operation to call it and process the results
+            Func<(IQArray<Pauli>, IQArray<Qubit>), Result> originalMeasurementOperation = base.Measure_Body();
 
-            /// <summary>
-            /// The actual definition of what the new operation does.
-            /// </summary>
-            public override Func<Qubit, Result> __Body__ {
-                get {
-                    // Get the original M operation to call it and process the results
-                    Func<Qubit, Result> originalMeasurementOperation = base.__Body__;
+            // Get the X gate operation (used to introduce the error)
+            IUnitary<Qubit> gateX = this.Get<IUnitary<Qubit>>(typeof(X));
 
-                    // Get the X gate operation (used to introduce the error)
-                    IUnitary<Qubit> gateX = this.__Factory__.Get<IUnitary<Qubit>>(typeof(X));
+            // The body of the operation is a lambda
+            return (args =>
+            {
+                var (paulis, qubits) = args;
 
-                    // The body of the operation is a lambda
-                    return (qubit =>
-                    {
-                        // Introduce the X error with certain probability
-                        if (rnd.NextDouble() < flipProbability)
-                        {
-                            gateX.Apply(qubit);
-                        }
-
-                        // Call the original (perfect) M operation to get final measurement results.
-                        // Q# type Result which denotes measurement results maps to C# type with the same name
-                        return originalMeasurementOperation(qubit);
-                    });
+                // Introduce the X error with certain probability
+                if (rnd.NextDouble() < flipProbability)
+                {
+                    gateX.Apply(qubits[0]);
                 }
-            }
+
+                // Call the original (perfect) M operation to get final measurement results.
+                // Q# type Result which denotes measurement results maps to C# type with the same name
+                return originalMeasurementOperation.Invoke((paulis, qubits));
+            });
         }
     }
 }
