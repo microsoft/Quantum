@@ -148,7 +148,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift {
             ApplyPauliFromBitString(PauliX, true, shift, qs);
         } apply {
             // now we compute the IP function into the phase
-            (InnerProductBentFunction(u))(qs);
+            InnerProductBentFunction(u)(qs);
         }
     }
 

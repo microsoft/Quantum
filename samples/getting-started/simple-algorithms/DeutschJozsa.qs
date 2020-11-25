@@ -99,7 +99,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.DeutschJozsa {
             // Note: As X accepts a Qubit, and ControlledOnInt only
             // accepts Qubit[], we use ApplyToEachCA(X, _) which accepts
             // Qubit[] even though the target is only 1 Qubit.
-            (ControlledOnInt(markedElement, ApplyToEachCA(X, _)))(query, [target]);
+            ControlledOnInt(markedElement, ApplyToEachCA(X, _))(query, [target]);
         }
     }
 

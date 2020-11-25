@@ -383,7 +383,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     : Unit
     is Adj + Ctl {
         for (markedElement in markedElements) {
-            (ControlledOnInt(markedElement, X))(databaseRegister, markedQubit);
+            ControlledOnInt(markedElement, X)(databaseRegister, markedQubit);
         }
     }
 
@@ -487,7 +487,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         // state.
         using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
             // Implement the quantum search algorithm.
-            (GroverSearch(markedElements, nIterations, 0))([markedQubit] + databaseRegister);
+            GroverSearch(markedElements, nIterations, 0)([markedQubit] + databaseRegister);
 
             // Measure the marked qubit. On success, this should be One.
             let resultSuccess = MResetZ(markedQubit);
