@@ -24,7 +24,7 @@ namespace Microsoft.Quantum.Samples.Ising {
         
         using (qubits = Qubit[nSites]) {
             Prepare1DIsingState(qubits);
-            (IsingAdiabaticEvolutionManual(nSites, hXamplitude, hXfinal, jCamplitude, adiabaticTime, trotterStepSize, trotterOrder))(qubits);
+            IsingAdiabaticEvolutionManual(nSites, hXamplitude, hXfinal, jCamplitude, adiabaticTime, trotterStepSize, trotterOrder)(qubits);
             
             for (idxQubit in 0 .. 4) {
                 AssertMeasurementProbability([PauliX], [qubits[idxQubit]], One, probX[idxQubit], "IsingUniformAdiabaticEvolution Qubit X expectation incorrect", 0.001);
@@ -36,7 +36,7 @@ namespace Microsoft.Quantum.Samples.Ising {
             
             ResetAll(qubits);
             Prepare1DIsingState(qubits);
-            (IsingAdiabaticEvolutionManual(nSites, hXamplitude, hXfinal, jCamplitude, adiabaticTime, trotterStepSize, trotterOrder))(qubits);
+            IsingAdiabaticEvolutionManual(nSites, hXamplitude, hXfinal, jCamplitude, adiabaticTime, trotterStepSize, trotterOrder)(qubits);
             
             for (idxQubit in 0 .. 4) {
                 AssertMeasurementProbability([PauliX], [qubits[idxQubit]], One, probX[idxQubit], "IsingAdiabaticEvolution_2 Qubit X expectation incorrect", 0.001);

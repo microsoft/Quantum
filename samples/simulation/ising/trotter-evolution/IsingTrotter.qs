@@ -141,7 +141,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     function Ising1DTrotterEvolution(nSites : Int, hXCoupling : Double, hZCoupling : Double, jCoupling : Double, trotterOrder : Int, trotterStepSize : Double)
     : (Qubit[] => Unit is Adj + Ctl) {
         let op = Ising1DTrotterUnitaries(nSites, hXCoupling, hZCoupling, jCoupling);
-        return (DecomposedIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
+        return DecomposedIntoTimeStepsCA(op, trotterOrder)(trotterStepSize, _);
     }
 
 
@@ -188,7 +188,7 @@ namespace Microsoft.Quantum.Samples.Ising {
 
             // We then evolve for some time
             for (idxStep in 0 .. steps - 1) {
-                (Ising1DTrotterEvolution(nSites, hXCoupling, hZCoupling, jCoupling, trotterOrder, trotterStepSizeResized))(qubits);
+                Ising1DTrotterEvolution(nSites, hXCoupling, hZCoupling, jCoupling, trotterOrder, trotterStepSizeResized)(qubits);
             }
 
             // We now measure each site and return the results

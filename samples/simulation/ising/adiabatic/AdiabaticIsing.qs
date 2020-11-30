@@ -233,7 +233,7 @@ namespace Microsoft.Quantum.Samples.Ising {
         using (qubits = Qubit[nSites]) {
             // This creates the ground state of the initial Hamiltonian.
             Prepare1DIsingState(qubits);
-            (IsingAdiabaticEvolutionManual(nSites, hXInitial, hXFinal, jFinal, adiabaticTime, trotterStepSize, trotterOrder))(qubits);
+            IsingAdiabaticEvolutionManual(nSites, hXInitial, hXFinal, jFinal, adiabaticTime, trotterStepSize, trotterOrder)(qubits);
             return ForEach(MResetZ, qubits);
         }
     }
@@ -351,9 +351,9 @@ namespace Microsoft.Quantum.Samples.Ising {
 
         using (qubits = Qubit[nSites]) {
             Prepare1DIsingState(qubits);
-            (IsingAdiabaticEvolutionBuiltIn(
+            IsingAdiabaticEvolutionBuiltIn(
                 nSites, adiabaticTime, trotterStepSize, trotterOrder, hXCoupling, jCoupling
-            ))(qubits);
+            )(qubits);
             return ForEach(MResetZ, qubits);
         }
     }

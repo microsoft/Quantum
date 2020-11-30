@@ -21,7 +21,7 @@ namespace Microsoft.Quantum.Samples {
     operation ApplyProductWithNegationFunction (vector : Bool[], controls : Qubit[], target : Qubit)
     : Unit is Adj {
         for ((bit, control) in Zip(vector, controls)) {
-            (ControlledOnInt(bit ? 1 | 0, X))([control], target);
+            ControlledOnInt(bit ? 1 | 0, X)([control], target);
         }
     }
 

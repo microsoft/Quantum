@@ -131,7 +131,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
 
         // We use library functions from the canon to restrict the action
         // of Exp to the given qubits.
-        (RestrictedToSubregisterCA(Exp(IntsToPaulis(idxPauliString), stepSize * coeff, _), idxQubits))(qubits);
+        RestrictedToSubregisterCA(Exp(IntsToPaulis(idxPauliString), stepSize * coeff, _), idxQubits)(qubits);
     }
 
 
@@ -155,7 +155,7 @@ namespace Microsoft.Quantum.Samples.H2Simulation {
     /// act on a particular register.
     function H2TrotterStepManual(idxBondLength : Int, trotterOrder : Int, trotterStepSize : Double) : (Qubit[] => Unit is Adj + Ctl) {
         let op = H2TrotterUnitaries(idxBondLength);
-        return (DecomposedIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
+        return DecomposedIntoTimeStepsCA(op, trotterOrder)(trotterStepSize, _);
     }
 
 

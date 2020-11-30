@@ -25,7 +25,7 @@ namespace Microsoft.Quantum.Tests {
                     // Choose marked elements to be 1, 4, and 9.
                     let markedElements = [1, 4, 9];
                     let nMarkedElements = Length(markedElements);
-                    (GroverSearch(markedElements, nIterations, 0))([markedQubit] + databaseRegister);
+                    GroverSearch(markedElements, nIterations, 0)([markedQubit] + databaseRegister);
 
                     // Theoretical success probability.
                     let successAmplitude = Sin(IntAsDouble(2 * nIterations + 1) * ArcSin(Sqrt(IntAsDouble(nMarkedElements) / IntAsDouble(2 ^ nDatabaseQubits))));

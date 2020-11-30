@@ -255,7 +255,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     : (Qubit[] => Unit is Adj + Ctl) {
         let nTerms = nSites * 3;
         let op = (nTerms, _ApplyHubbardTerm(nSites, tCoefficient, uCoefficient, _, _, _));
-        return (DecomposedIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
+        return DecomposedIntoTimeStepsCA(op, trotterOrder)(trotterStepSize, _);
     }
 
     // We now define an operation that prepares the anti-Ferromagnetic initial
