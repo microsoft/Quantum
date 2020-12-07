@@ -55,7 +55,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
             }
         } apply {
             // if all XORs are 0, the bit strings are equal.
-            (ControlledOnInt(0, X))(color1, target);
+            ControlledOnInt(0, X)(color1, target);
         }
     }
 
@@ -145,7 +145,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
                     edgeConflictQubits, startingColorConflictQubits, bitsPerColor);
             } apply {
                 // If there are no conflicts (all qubits are in 0 state), the vertex coloring is valid.
-                (ControlledOnInt(0, X))(edgeConflictQubits + startingColorConflictQubits, target);
+                ControlledOnInt(0, X)(edgeConflictQubits + startingColorConflictQubits, target);
             }
         }
     }
@@ -163,7 +163,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         for (((cell, value), conflictQubit) in 
             Zip(startingColorConstraints, startingColorConflictQubits)) {
             // Check that cell does not clash with starting colors.
-            (ControlledOnInt(value, X))(colorsRegister[
+            ControlledOnInt(value, X)(colorsRegister[
                 cell * bitsPerColor .. (cell + 1) * bitsPerColor - 1], conflictQubit);
         }
 
@@ -276,7 +276,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
                 }
             } apply {
                 // If there are no conflicts (all qubits are in 0 state), the vertex coloring is valid.
-                (ControlledOnInt(0, X))(edgeConflictQubits + startingColorConflictQubits + vertexColorConflictQubits, target);
+                ControlledOnInt(0, X)(edgeConflictQubits + startingColorConflictQubits + vertexColorConflictQubits, target);
             }
         }
     }
@@ -292,7 +292,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     operation ApplyOrOracle (queryRegister : Qubit[], target : Qubit) : Unit is Adj {        
         // x₀ ∨ x₁ = ¬ (¬x₀ ∧ ¬x₁)
         // First, flip target if both qubits are in |0⟩ state.
-        (ControlledOnInt(0, X))(queryRegister, target);
+        ControlledOnInt(0, X)(queryRegister, target);
         // Then flip target again to get negation.
         X(target);
     }

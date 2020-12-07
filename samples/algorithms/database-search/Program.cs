@@ -5,10 +5,7 @@
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static System.Math;
 
 namespace Microsoft.Quantum.Samples.DatabaseSearch
@@ -18,8 +15,8 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
     {
         public static void Pause()
         {
-            System.Console.WriteLine("\n\nPress any key to continue...\n\n");
-            System.Console.ReadKey();
+            Console.WriteLine("\n\nPress any key to continue...\n\n");
+            Console.ReadKey();
         }
 
         static void Main(string[] args)
