@@ -27,7 +27,8 @@ RUN apt-get -y update && \
 # installed. It tends to be more stable to use the .NET Core SDK to do so than
 # to use the Debian package manager, due to issues with syncing libicu
 # dependencies.
-RUN dotnet tool install --global PowerShell
+# Install version 7.0.3, which is the latest version based on .NET Core SDK 3.1.
+RUN dotnet tool install --global PowerShell --version 7.0.3
 
 # Install Jupytext to expose Markdown files as Jupyter Notebooks for use with
 # Binder.
