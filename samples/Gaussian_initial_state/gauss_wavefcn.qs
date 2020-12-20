@@ -77,17 +77,17 @@ namespace Gaussian_initial_state {
     operation gauss_wavefcn (sigma: Double, mu_: Double, num_qubits: Int) : Unit {
         using (register = Qubit[num_qubits]) {
             mutable theta = angle(sigma, mu_, 10^3);
-            Ry(theta, register[0]);
+            Ry(2.*theta, register[0]);
             for (n in 1..num_qubits-1) {
                 let list_level_angles = level_angles(sigma, mu_, n);
                 for (i in 0..2^n - 1){
                     let bitstring = IntAsBoolArray(i,n);
                     set theta = list_level_angles[i];
-                    mutable rotation = Ry(theta, _);
+                    mutable rotation = Ry(2.*theta, _);
                     ApplyControlledOnBitString(bitstring, rotation, register[0..n-1], register[n]);                    
                 }
             }
-            DumpRegister("wavefcn.txt", Reversed(register));
+            DumpRegister("wavefcn.txt", register);
             ///DumpMachine("wavefcn.txt");
             ResetAll(register);
         }
