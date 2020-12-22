@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using Microsoft.Quantum.Simulation.Simulators;
 using Microsoft.Quantum.Simulation.Core;
 using CommandLine;
@@ -41,6 +42,17 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
         public long Generator { get; set; }
     }
 
+    [Verb("visualize", HelpText = "Visualize the estimation of the resources to perform one round of period finding in Shor's algorithm")]
+    class VisualizeOptions : CommonOptions
+    {
+        [Option('g', "generator", Required = true, HelpText = "A coprime to `number` of which the period is estimated")]
+        public long Generator { get; set; }
+
+        [Option('r', "resource", Required = false, Default = 0, HelpText = "The resource - CNOT:0; Measure:1; QubitClifford:2; R:3; T:4")]
+        public int Resource { get; set; }
+    }
+
+
     /// <summary>
     /// This is a Console program that runs Shor's algorithm 
     /// on a Quantum Simulator.
@@ -48,9 +60,10 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
     class Program
     {
         static int Main(string[] args) =>
-            Parser.Default.ParseArguments<SimulateOptions, EstimateOptions>(args).MapResult(
+            Parser.Default.ParseArguments<SimulateOptions, EstimateOptions, VisualizeOptions>(args).MapResult(
                 (SimulateOptions options) => Simulate(options),
                 (EstimateOptions options) => Estimate(options),
+                (VisualizeOptions options) => Visualize(options),
                 _ => 1
             );
 
@@ -123,6 +136,21 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
             Console.WriteLine();
 
             Console.WriteLine(estimator.ToCSV()["PrimitiveOperationsCounter"]);
+
+            return 0;
+        }
+
+        static int Visualize(VisualizeOptions options) {
+            var config = FGResourcesEstimator.RecommendedConfig();
+
+            var estimator = new FGResourcesEstimator(config, options.Resource);
+
+            var bitsize = (long)System.Math.Ceiling(System.Math.Log2(options.NumberToFactor + 1));
+            EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
+
+            foreach (KeyValuePair<string, double> entry in estimator.GetFlameGraphData()) {
+                Console.WriteLine(entry.Key + " " + entry.Value);
+            }
 
             return 0;
         }
