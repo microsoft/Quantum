@@ -92,4 +92,36 @@ namespace Gaussian_initial_state {
             ResetAll(register);
         }
     }    
+
+    // recursive implementation
+    operation gauss_wavefcn_recursive (sigma: Double, mu: Double, num_qubits: Int, bitstring: Bool[], 
+    register: Qubit[]) : Unit {
+        if (num_qubits == 1) {
+            let alpha = angle(sigma, mu, 10^3);
+		    Ry(2.*alpha, register[0]);
+            DumpRegister("wavefcn_recursive.txt", register);
+            ResetAll(register);
+        }    
+        elif (num_qubits > 1) {
+            if (IsEmpty(bitstring)) {
+                let alpha = angle(sigma, mu, 10^3);
+                Ry(2.*alpha, register[0]);
+                let bitstring0 = Flattened([bitstring, [false]]);
+			    gauss_wavefcn_recursive(sigma/2., mu/2., num_qubits, bitstring0, register);
+			    let bitstring1 = Flattened([bitstring, [true]]);
+			    gauss_wavefcn_recursive(sigma/2., (mu-1.)/2., num_qubits, bitstring1, register); 
+            }
+            elif (Length(bitstring) < num_qubits) {
+                let alpha = angle(sigma, mu, 10^3);
+                mutable rotation = Ry(2.*alpha, _);
+                let n = Length(bitstring);
+                ApplyControlledOnBitString(bitstring, rotation, register[0..n-1], register[n]);
+                let bitstring0 = Flattened([bitstring, [false]]);
+                gauss_wavefcn_recursive(sigma/2., mu/2., num_qubits, bitstring0, register);
+                let bitstring1 = Flattened([bitstring, [true]]);
+                gauss_wavefcn_recursive(sigma/2., (mu-1.)/2., num_qubits, bitstring1, register); 
+            }	    
+        } 
+    }
+	
 }
