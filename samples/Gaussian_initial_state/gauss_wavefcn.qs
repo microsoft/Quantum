@@ -113,7 +113,7 @@ namespace Gaussian_initial_state {
             }
             elif (Length(bitstring) < num_qubits) {
                 let alpha = angle(sigma, mu, 10^3);
-                mutable rotation = Ry(2.*alpha, _);
+                let rotation = Ry(2.*alpha, _);
                 let n = Length(bitstring);
                 ApplyControlledOnBitString(bitstring, rotation, register[0..n-1], register[n]);
                 let bitstring0 = Flattened([bitstring, [false]]);
