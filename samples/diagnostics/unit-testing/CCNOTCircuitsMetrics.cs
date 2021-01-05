@@ -31,11 +31,6 @@ namespace Microsoft.Quantum.Samples.UnitTesting
         [Fact(DisplayName = "CCNOTCircuitsMetrics")]
         public void CCNOTCircuitsMetricsTest()
         {
-            // ToDo: Find out why:
-            //  - CCNOT4 Tcount is 0 instead of 7
-            //  - UpToPhaseCCNOT1 Tcount is 0 instead of 4
-            //  - CCNOT4 tDepth is 0 instead of 5
-
             // Get an instance of the appropriately configured QCTraceSimulator
             QCTraceSimulator sim = MetricCalculationUtils.GetSimulatorForMetricsCalculation();
 
@@ -49,11 +44,11 @@ namespace Microsoft.Quantum.Samples.UnitTesting
             Assert.Equal(7, sim.GetMetric<TDepthOneCCNOT,CollectMetrics>(Tcount));
             Assert.Equal(7, sim.GetMetric<CCNOT1, CollectMetrics>(Tcount));
             Assert.Equal(7, sim.GetMetric<CCNOT2, CollectMetrics>(Tcount));
-            //Assert.Equal(7, sim.GetMetric<CCNOT4, CollectMetrics>(Tcount));
+            Assert.Equal(7, sim.GetMetric<CCNOT4, CollectMetrics>(Tcount));
 
             // group of circuits with 4 T gates
             Assert.Equal(4, sim.GetMetric<CCNOT3, CollectMetrics>(Tcount));
-            //Assert.Equal(4, sim.GetMetric<UpToPhaseCCNOT1, CollectMetrics>(Tcount));
+            Assert.Equal(4, sim.GetMetric<UpToPhaseCCNOT1, CollectMetrics>(Tcount));
             Assert.Equal(4, sim.GetMetric<UpToPhaseCCNOT2, CollectMetrics>(Tcount));
 
             // For UpToPhaseCCNOT3 the number of T gates in it is the number of T
@@ -100,7 +95,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting
             Assert.Equal(1, sim.GetMetric<CCNOT3, CollectMetrics>(tDepth));
             Assert.Equal(1, sim.GetMetric<UpToPhaseCCNOT2, CollectMetrics>(tDepth));
             Assert.Equal(4, sim.GetMetric<CCNOT2, CollectMetrics>(tDepth));
-            //Assert.Equal(5, sim.GetMetric<CCNOT4, CollectMetrics>(tDepth));
+            Assert.Equal(5, sim.GetMetric<CCNOT4, CollectMetrics>(tDepth));
             Assert.Equal(5, sim.GetMetric<CCNOT1, CollectMetrics>(tDepth));
 
             // Finally we write all the collected statistics into CSV files 
