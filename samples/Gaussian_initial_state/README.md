@@ -26,5 +26,5 @@ You can specify to either use the basic for-loop implementation or the recursive
 
 - [Gauss_wavefcn.qs](https://github.com/microsoft/Quantum/blob/main/samples/Gaussian_initial_state/Gauss_wavefcn.qs): Q# code defining how to prepare Gaussian state.
 - [Program.qs](https://github.com/microsoft/Quantum/blob/main/samples/gaussian_initial_state/Program.qs): Q# entry point to interact with and print out results of the Q# operations for this sample.
-- [Gaussian_initial_state.csproj](https://github.com/microsoft/Quantum/blob/main/samples/gaussian_initial_state/Gaussian_initial_state.csproj): Main Q# project for the example.
 - [read_state.py](https://github.com/microsoft/Quantum/blob/main/samples/gaussian_inital_state/read_state.py): Python code to plot the result quantum state of the Q# operations for this sample.
+- [Gaussian_initial_state.csproj](https://github.com/microsoft/Quantum/blob/main/samples/gaussian_initial_state/Gaussian_initial_state.csproj): Main Q# project for the example.
