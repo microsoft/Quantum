@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+# read the probability amplitudes of result state into list
 list = []
 with open('wavefcn_recursive.txt', 'r', encoding="utf8") as file:
     for line in file:
@@ -10,7 +11,9 @@ with open('wavefcn_recursive.txt', 'r', encoding="utf8") as file:
 file.close()
 print(list)
 
+# plot list
 plt.plot(list)
-#plt.savefig('wavefunction.png')
+# save the plot to file
+# plt.savefig('wavefunction.png')
 plt.savefig('wavefunction_recursive.png')
 plt.show()
