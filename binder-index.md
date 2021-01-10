@@ -18,7 +18,7 @@ jupyter:
 
 These samples demonstrate the use of Q# and the Quantum Development Kit for a variety of different quantum computing tasks.
 
-Many samples can be used directly in your browser using either Q# on its own, or Q# togther with Python.
+Many samples can be used directly in your browser using either Q# on its own, or Q# together with Python.
 Alternatively, you can [create a new command line terminal](http://127.0.0.1:8888/terminals/new) to run most Q# standalone samples, as well as samples that demonstrate how to use Q# together with Python or .NET.
 
 A small number of the samples have additional installation requirements beyond those for the rest of the Quantum Development Kit.
