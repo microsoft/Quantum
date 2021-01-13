@@ -14,9 +14,19 @@ This sample demonstrates the use of the Quantum Development Kit for preparing th
 
 The goal of the algorithm is to prepare a quantum state that encodes the Gaussian wavefunction using probability amplitudes. The Gaussian state can be defined via a recursive definition, as described in this Medium post: https://medium.com/@sohaib.alam/quantum-computing-a-gaussian-wavefunction-2d0be23d77b2.
 
-![Image of Gaussian state definition] (gaussian_definition.JPG)
+![Image of Gaussian state definition] (https://github.com/andysun-1997/Quantum/blob/andys/gaussian/samples/Gaussian_initial_state/gaussian_definition.JPG)
 
-We implemented this algorithm in two ways in Q#. The first is using a for-loop implementation. This approach is outlined in Guen Prawiroatmodjo's blog post: https://guenp.medium.com/preparing-a-gaussian-wave-function-in-q-695c3941f6dc. The second is a recursive implementation. It basically follows the recursive definition and recursively rotates every qubits controlled by every possible bitstrings. Both approaches use the ApplyControlledOnBitString operation in Q#. You can specify which implementation to use in the sample.
+We implemented this algorithm in two ways in Q#. The first is using a for-loop implementation. This approach is outlined in Guen Prawiroatmodjo's blog post: https://guenp.medium.com/preparing-a-gaussian-wave-function-in-q-695c3941f6dc. The second is a recursive implementation. 
+
+The algorithm recursively calls the following subroutine, using the input data (sigma0, mu0) = (sigma, mu).
+1. (a) Calculate alpha from sigma and mu
+   (b) Apply the rotation operator R(alpha) to the 0th qubit
+2. Compute (sigma1, mu1), where sigma1 = sigma0/2 and mu1 = mu0/2 if the previously rotated qubit is |0> and mu1 = (mu0 - 1)/2 if it is |1>
+3. On the remaining N-1 qubits prepare state |psy(sigma1, mu1, N-1)>
+
+Note that after the last ((N-1)th) qubit, we proceed only through step 1 (b), as after this qubit is rotated we do not need another pair of parameters.
+
+Both approaches use the ApplyControlledOnBitString operation in Q#. You can specify which implementation to use in the sample.
 
 ## Prerequisites ##
 
