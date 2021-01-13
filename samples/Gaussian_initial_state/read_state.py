@@ -4,8 +4,13 @@ import matplotlib.pyplot as plt
 list = []
 with open('wavefcn_recursive.txt', 'r', encoding="utf8") as file:
     for line in file:
-        ampl = line[59:67]
-        if ampl[0] == '0':
+        # cut out probability amplitudes
+        ampl = None
+        for i in range(len(line)):
+            if line[i] == '[':
+                ampl = line[(i+2):(i+10)]
+                break
+        if ampl:
             print(ampl)
             list.append(float(ampl))
 file.close()

@@ -28,7 +28,7 @@ namespace Gaussian_initial_state {
     /// Mean.
     /// ## N
     /// The term in the normalization factor.
-    operation Norm_term (sigma: Double, mu: Double, N: Int) : Double {
+    operation NormTerm (sigma: Double, mu: Double, N: Int) : Double {
         let n = IntAsDouble(N);
         return ExpD(-((n-mu)^2.)/sigma^2.);
     }
@@ -68,7 +68,7 @@ namespace Gaussian_initial_state {
     /// # Input
     /// ## n
     /// The number of bits.
-    operation Qubit_strings (n: Int) : Bool[][] {
+    operation QubitStrings (n: Int) : Bool[][] {
         mutable array = ConstantArray(2^n, IntAsBoolArray(0,n));
         for (i in 0..2^n - 1) {
             let bitstring = IntAsBoolArray(i,n);
@@ -86,7 +86,7 @@ namespace Gaussian_initial_state {
     /// The n-bit string.
     /// ## mu
     /// Mean.
-    operation Mean_qubit_combo (qub: Bool[], mu: Double) : Double {
+    operation MeanQubitCombo (qub: Bool[], mu: Double) : Double {
         mutable mu_out = mu;
         for (bit in qub) {
             mutable i = 0.0;
@@ -105,11 +105,11 @@ namespace Gaussian_initial_state {
     /// Mean.
     /// ## n
     /// Recursion level.
-    operation Level_means (mu: Double, n: Int) : Double[] {
+    operation LevelMeans (mu: Double, n: Int) : Double[] {
         mutable list_mu_out = ConstantArray(2^n, 0.);
         let qb_strings = Qubit_strings(n);
         for (i in 0..2^n-1) {
-            let mu_out = Mean_qubit_combo(ElementAt(i, qb_strings), mu);
+            let mu_out = MeanQubitCombo(ElementAt(i, qb_strings), mu);
             set list_mu_out w/= i <- mu_out;
         }
         return list_mu_out;
@@ -125,7 +125,7 @@ namespace Gaussian_initial_state {
     /// Mean.
     /// ## n
     /// Recursion level.
-    operation Level_angles(sigma: Double, mu: Double, n: Int) : Double[] {
+    operation LevelAngles(sigma: Double, mu: Double, n: Int) : Double[] {
         let sigma_out = sigma/(2.^IntAsDouble(n));
         let list_mu = Level_means(mu, n);
         mutable angles_out = ConstantArray(2^n, 0.);
@@ -145,13 +145,13 @@ namespace Gaussian_initial_state {
     /// Mean.
     /// ## num_qubits
     /// The number of qubits.
-    operation Gauss_wavefcn (sigma: Double, mu_: Double, num_qubits: Int) : Unit {
-        using (register = Qubit[num_qubits]) {
+    operation GaussWavefcn (sigma: Double, mu_: Double, numQubits: Int) : Unit {
+        using (register = Qubit[numQubits]) {
             // Compute angle.
             mutable theta = Angle(sigma, mu_, 10^3);
             // Rotate the 1st qubit by angle theta.
             Ry(2.*theta, register[0]);
-            for (n in 1..num_qubits-1) {
+            for (n in 1..numQubits-1) {
                 // Compute a list of all the rotation angles at level n.
                 let list_level_angles = Level_angles(sigma, mu_, n);
                 // For each bitstring at current level, apply a controlled rotation to the 
@@ -183,17 +183,17 @@ namespace Gaussian_initial_state {
     /// An empty bitstring.
     /// ## register
     /// The qubit register.
-    operation Gauss_wavefcn_recursive (sigma: Double, mu: Double, num_qubits: Int, bitstring: Bool[], 
+    operation GaussWavefcnRecursive (sigma: Double, mu: Double, numQubits: Int, bitstring: Bool[], 
     register: Qubit[]) : Unit {
         // If the number of qubits is 1, then simply do a rotation to the qubit.
-        if (num_qubits == 1) {
+        if (numQubits == 1) {
             let alpha = Angle(sigma, mu, 10^3);
 		    Ry(2.*alpha, register[0]);
             DumpRegister("wavefcn_recursive.txt", register);
             ResetAll(register);
         }    
         // If there are more than 1 qubit, contruct the state recursively.
-        elif (num_qubits > 1) {
+        elif (numQubits > 1) {
             // If the bitstring is empty, or it's the 1st qubit.
             if (IsEmpty(bitstring)) {
                 // Rotate the 1st qubit.
@@ -201,14 +201,14 @@ namespace Gaussian_initial_state {
                 Ry(2.*alpha, register[0]);
                 // Add a 0 to the bitstring and call the function recursively.
                 let bitstring0 = Flattened([bitstring, [false]]);
-			    Gauss_wavefcn_recursive(sigma/2., mu/2., num_qubits, bitstring0, register);
+			    GaussWavefcnRecursive(sigma/2., mu/2., numQubits, bitstring0, register);
 			    // Add a 1 to the bitstring and call the function recursively.
                 let bitstring1 = Flattened([bitstring, [true]]);
-			    Gauss_wavefcn_recursive(sigma/2., (mu-1.)/2., num_qubits, bitstring1, register); 
+			    GaussWavefcnRecursive(sigma/2., (mu-1.)/2., numQubits, bitstring1, register); 
             }
             // If the bitstring is not empty but not longer than the number of qubits, or
             // it's not the 1st qubit but not after the last qubit.
-            elif (Length(bitstring) < num_qubits) {
+            elif (Length(bitstring) < numQubits) {
                 // Apply the controlled rotation with the bitstring to the next qubit.
                 let alpha = Angle(sigma, mu, 10^3);
                 let rotation = Ry(2.*alpha, _);
@@ -216,10 +216,10 @@ namespace Gaussian_initial_state {
                 ApplyControlledOnBitString(bitstring, rotation, register[0..n-1], register[n]);
                 // Add a 0 to the bitstring and call the function recursively.
                 let bitstring0 = Flattened([bitstring, [false]]);
-                Gauss_wavefcn_recursive(sigma/2., mu/2., num_qubits, bitstring0, register);
+                GaussWavefcnRecursive(sigma/2., mu/2., numQubits, bitstring0, register);
                 // Add a 1 to the bitstring and call the function recursively.
                 let bitstring1 = Flattened([bitstring, [true]]);
-                Gauss_wavefcn_recursive(sigma/2., (mu-1.)/2., num_qubits, bitstring1, register); 
+                GaussWavefcnRecursive(sigma/2., (mu-1.)/2., numQubits, bitstring1, register); 
             }	    
         } 
     }
