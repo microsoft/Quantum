@@ -16,7 +16,7 @@ The goal of the algorithm is to prepare a quantum state that encodes the Gaussia
 
 ![Image of Gaussian state definition](https://github.com/andysun-1997/Quantum/blob/andys/gaussian/samples/Gaussian_initial_state/gaussian_definition.JPG)
 
-We implemented this algorithm in two ways in Q#. The first is using a for-loop implementation. This approach is outlined in Guen Prawiroatmodjo's blog post: https://guenp.medium.com/preparing-a-gaussian-wave-function-in-q-695c3941f6dc. The second is a recursive implementation. 
+We implemented this algorithm in two ways in Q#. The first is using a for-loop implementation. This approach is outlined in Guen Prawiroatmodjo's blog post: https://guenp.medium.com/preparing-a-gaussian-wave-function-in-q-695c3941f6dc. The second is by recursion. 
 
 The algorithm recursively calls the following subroutine, using the input data (sigma0, mu0) = (sigma, mu).
 1. (a) Calculate alpha from sigma and mu
