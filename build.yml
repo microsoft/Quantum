@@ -10,6 +10,14 @@ pr:
 - main
 - feature/*
 
+schedules:
+- cron: "0 9 * * Sat"
+  displayName: 'Build for Component Governance'
+  branches:
+    include:
+    - main
+  always: true
+
 variables:
   Build.Major: 1
   Build.Minor: 0
