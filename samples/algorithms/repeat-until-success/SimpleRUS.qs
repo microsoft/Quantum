@@ -39,12 +39,11 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         limit : Int
     )
     : ( Bool, Result, Int ) {
-        using (register = Qubit[2]) {
-            let (success, numIter) = ApplySimpleGate(
-                inputBasis, inputValue, limit, register);
-            let result = Measure([inputBasis], [register[1]]);
-            return (success, result, numIter);
-        }
+        use register = Qubit[2];
+        let (success, numIter) = ApplySimpleGate(
+            inputBasis, inputValue, limit, register);
+        let result = Measure([inputBasis], [register[1]]);
+        return (success, result, numIter);
     }
 
     /// # Summary
@@ -78,7 +77,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         if (inputValue) {
             X(register[1]);
         }
-        PrepareQubit(inputBasis, register[1]);
+        PreparePauliEigenstate(inputBasis, register[1]);
 
         repeat {
             // Assert valid starting states for all qubits

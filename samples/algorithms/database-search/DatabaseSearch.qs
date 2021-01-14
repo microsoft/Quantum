@@ -248,20 +248,21 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     operation ApplyQuantumSearch(nIterations : Int, nDatabaseQubits : Int) : (Result, Result[]) {
         // Allocate nDatabaseQubits + 1 qubits. These are all in the |0〉
         // state.
-        using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
-            // Implement the quantum search algorithm.
-            SearchForMarkedState(nIterations, markedQubit, databaseRegister);
+        use markedQubit = Qubit();
+        use databaseRegister = Qubit[nDatabaseQubits];
 
-            // Measure the marked qubit. On success, this should be One.
-            let resultSuccess = MResetZ(markedQubit);
+        // Implement the quantum search algorithm.
+        SearchForMarkedState(nIterations, markedQubit, databaseRegister);
 
-            // Measure the state of the database register post-selected on
-            // the state of the marked qubit.
-            let resultElement = ForEach(MResetZ, databaseRegister);
+        // Measure the marked qubit. On success, this should be One.
+        let resultSuccess = MResetZ(markedQubit);
 
-            // Returns the measurement results of the algorithm.
-            return (resultSuccess, resultElement);
-        }
+        // Measure the state of the database register post-selected on
+        // the state of the marked qubit.
+        let resultElement = ForEach(MResetZ, databaseRegister);
+
+        // Returns the measurement results of the algorithm.
+        return (resultSuccess, resultElement);
     }
 
 

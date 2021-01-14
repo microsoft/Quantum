@@ -11,7 +11,7 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
         let res = SimulatePermutation(perm);
         Message($"Does circuit realize permutation: {res}");
 
-        for (shift in IndexRange(perm)) {
+        for shift in IndexRange(perm) {
             let measuredShift = FindHiddenShift(perm, shift);
             Message($"Applied shift = {shift}   Measured shift: {measuredShift}");
         }

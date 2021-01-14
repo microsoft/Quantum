@@ -33,7 +33,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         let numVertices = Length(register) / bitsPerColor;
         let colorPartitions = Partitioned(ConstantArray(numVertices - 1, bitsPerColor), register);
         return ForEach(MeasureColor, colorPartitions);
-    } 
+    }
 
     /// # Summary
     /// N-bit color equality oracle (no extra qubits.)
@@ -43,16 +43,16 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// First color.
     /// ## color1
     /// Second color.
-    ///
-    /// # Output
-    /// Target will be 1 if colors are the same.
-    operation ApplyColorEqualityOracle (color0 : Qubit[], color1 : Qubit[], 
-        target : Qubit) : Unit is Adj+Ctl {
+    /// ## target
+    /// Will be flipped if colors are the same.
+    operation ApplyColorEqualityOracle(
+        color0 : Qubit[], color1 : Qubit[],
+        target : Qubit
+    )
+    : Unit is Adj + Ctl {
         within {
-            for ((q0, q1) in Zip(color0, color1)) {
-                // compute XOR of q0 and q1 in place (storing it in q1).
-                CNOT(q0, q1);
-            }
+            // compute XOR of q0 and q1 in place (storing it in q1).
+            ApplyToEachCA(CNOT, Zipped(color0, color1));
         } apply {
             // if all XORs are 0, the bit strings are equal.
             ControlledOnInt(0, X)(color1, target);
@@ -75,12 +75,12 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// The array of (Vertex#,Color) specifying the dissallowed colors for vertices.
     ///
     /// # Output
-    /// A unitary operation that applies `oracle` on the target register if the control 
+    /// A unitary operation that applies `oracle` on the target register if the control
     /// register state corresponds to the bit mask `bits`.
     ///
     /// # Example
     /// Consider the following 4x4 Sudoku puzzle
-    /// ``` 
+    /// ```
     ///     -----------------
     ///     |   |   | 2 | 3 |
     ///     -----------------
@@ -130,56 +130,68 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// and vertex 3 is not allowed to have values 2,0,1
     /// A valid graph coloring solution is: [0,1,2,3]
     /// i.e. vextex 0 has color 0, vertex 1 has color 1 etc.
-    operation ApplyVertexColoringOracle (numVertices : Int, bitsPerColor : Int, edges : (Int, Int)[],  
-        startingColorConstraints : (Int, Int)[], 
-        colorsRegister : Qubit[], 
-        target : Qubit) : Unit is Adj+Ctl {
+    operation ApplyVertexColoringOracle (
+        numVertices : Int, bitsPerColor : Int, edges : (Int, Int)[],
+        startingColorConstraints : (Int, Int)[],
+        colorsRegister : Qubit[],
+        target : Qubit
+    )
+    : Unit is Adj + Ctl {
         let nEdges = Length(edges);
         let nStartingColorConstraints = Length(startingColorConstraints);
         // we are looking for a solution that:
-        // (a) has no edge with same color at both ends and 
+        // (a) has no edge with same color at both ends and
         // (b) has no Vertex with a color that violates the starting color constraints.
-        using ((edgeConflictQubits, startingColorConflictQubits) = (Qubit[nEdges], Qubit[nStartingColorConstraints])) {
-            within {
-                ConstrainByEdgeAndStartingColors(colorsRegister, edges, startingColorConstraints, 
-                    edgeConflictQubits, startingColorConflictQubits, bitsPerColor);
-            } apply {
-                // If there are no conflicts (all qubits are in 0 state), the vertex coloring is valid.
-                ControlledOnInt(0, X)(edgeConflictQubits + startingColorConflictQubits, target);
-            }
+        use edgeConflictQubits = Qubit[nEdges];
+        use startingColorConflictQubits = Qubit[nStartingColorConstraints];
+        within {
+            ConstrainByEdgeAndStartingColors(
+                colorsRegister, edges, startingColorConstraints,
+                edgeConflictQubits, startingColorConflictQubits, bitsPerColor
+            );
+        } apply {
+            // If there are no conflicts (all qubits are in 0 state), the vertex coloring is valid.
+            ControlledOnInt(0, X)(edgeConflictQubits + startingColorConflictQubits, target);
         }
     }
 
-    operation ConstrainByEdgeAndStartingColors (colorsRegister : Qubit[], edges : (Int, Int)[], startingColorConstraints : (Int, Int)[],
-        edgeConflictQubits : Qubit[], startingColorConflictQubits : Qubit[], bitsPerColor: Int): Unit is Adj+Ctl {
-        for (((start, end), conflictQubit) in Zip(edges, edgeConflictQubits)) {
+    operation ConstrainByEdgeAndStartingColors(
+        colorsRegister : Qubit[], edges : (Int, Int)[],
+        startingColorConstraints : (Int, Int)[],
+        edgeConflictQubits : Qubit[], startingColorConflictQubits : Qubit[], bitsPerColor: Int
+    )
+    : Unit is Adj + Ctl {
+        for ((start, end), conflictQubit) in Zipped(edges, edgeConflictQubits) {
             // Check that endpoints of the edge have different colors:
-            // apply ColorEqualityOracle_Nbit oracle; 
+            // apply ColorEqualityOracle_Nbit oracle;
             // if the colors are the same the result will be 1, indicating a conflict
             ApplyColorEqualityOracle(
-                colorsRegister[start * bitsPerColor .. (start + 1) * bitsPerColor - 1], 
-                colorsRegister[end * bitsPerColor .. (end + 1) * bitsPerColor - 1], conflictQubit);
+                colorsRegister[start * bitsPerColor .. (start + 1) * bitsPerColor - 1],
+                colorsRegister[end * bitsPerColor .. (end + 1) * bitsPerColor - 1],
+                conflictQubit
+            );
         }
-        for (((cell, value), conflictQubit) in 
-            Zip(startingColorConstraints, startingColorConflictQubits)) {
+        for ((cell, value), conflictQubit) in Zipped(startingColorConstraints, startingColorConflictQubits) {
             // Check that cell does not clash with starting colors.
-            ControlledOnInt(value, X)(colorsRegister[
-                cell * bitsPerColor .. (cell + 1) * bitsPerColor - 1], conflictQubit);
+            ControlledOnInt(value, X)(
+                colorsRegister[cell * bitsPerColor .. (cell + 1) * bitsPerColor - 1],
+                conflictQubit
+            );
         }
 
     }
 
     /// # Summary
-    /// Oracle for verifying vertex coloring, including color constraints 
-    /// from non qubit vertices. This is the same as ApplyVertexColoringOracle, 
-    /// but hardcoded to 4 bits per color and restriction that colors are 
+    /// Oracle for verifying vertex coloring, including color constraints
+    /// from non qubit vertices. This is the same as ApplyVertexColoringOracle,
+    /// but hardcoded to 4 bits per color and restriction that colors are
     /// limited to 0 to 8.
     ///
     /// # Input
     /// ## numVertices
     /// The number of vertices in the graph.
     /// ## edges
-    /// The array of (Vertex#,Vertex#) specifying the Vertices that can not 
+    /// The array of (Vertex#,Vertex#) specifying the Vertices that can not
     /// be the same color.
     /// ## startingColorConstraints
     /// The array of (Vertex#,Color) specifying the dissallowed colors for vertices.
@@ -189,7 +201,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// The target of the operation.
     ///
     /// # Output
-    /// A unitary operation that applies `oracle` on the target register if the control 
+    /// A unitary operation that applies `oracle` on the target register if the control
     /// register state corresponds to the bit mask `bits`.
     ///
     /// # Example
@@ -219,7 +231,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     ///  that are unique in row, column and the top left 3x3 square
     ///  This is a graph coloring problem where the colors are 0 to 8
     ///  and the empty cells are the vertices. The vertices can be defined as
-    /// ```  
+    /// ```
     ///     -----------------
     ///     | 0 |   |   |   | ...
     ///     -----------------
@@ -230,9 +242,9 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// ```
     /// The graph is
     /// ```
-    ///     0---1 
+    ///     0---1
     /// ```
-    /// Additionally, we also require that 
+    /// Additionally, we also require that
     ///    - vertex 0 can not have value 6,2,7,8,3,4,0,1 (row constraint)
     ///                         or value 8,7,6,4,0,3,1,2 (col constraint)
     ///    - vertex 1 can not value 8,1,6,2,4,3,7,5 (row constraint)
@@ -245,39 +257,41 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// The colors found must be from 0 to 8, which requires 4 bits per color.
     /// A valid graph coloring solution is: [5,0]
     /// i.e. vextex 0 has color 5, vertex 1 has color 0.
-    operation ApplyVertexColoringOracle4Bit9Color (numVertices : Int, edges : (Int, Int)[],  
-        startingColorConstraints : (Int, Int)[], 
+    operation ApplyVertexColoringOracle4Bit9Color (numVertices : Int, edges : (Int, Int)[],
+        startingColorConstraints : (Int, Int)[],
         colorsRegister : Qubit[], target : Qubit) : Unit is Adj+Ctl {
         let nEdges = Length(edges);
         let bitsPerColor = 4; // 4 bits per color
         let nStartingColorConstraints = Length(startingColorConstraints);
         // we are looking for a solution that:
-        // (a) has no edge with same color at both ends and 
+        // (a) has no edge with same color at both ends and
         // (b) has no Vertex with a color that violates the starting color constraints.
-        using ((edgeConflictQubits, startingColorConflictQubits, vertexColorConflictQubits) = 
-          (Qubit[nEdges], Qubit[nStartingColorConstraints], Qubit[numVertices])) {
-            within {
-                ConstrainByEdgeAndStartingColors(colorsRegister, edges, startingColorConstraints, 
-                    edgeConflictQubits, startingColorConflictQubits, bitsPerColor);
-                let zippedColorAndConfictQubit = Zip(
-                    Partitioned(ConstantArray(numVertices, bitsPerColor), colorsRegister),
-                    vertexColorConflictQubits);
-                for ((color, conflictQubit) in zippedColorAndConfictQubit) {
-                    // Only allow colors from 0 to 8 i.e. if bit #3 = 1, then bits 2..0 must be 000.
-                    using (tempQubit = Qubit()) {
-                        within {
-                            ApplyOrOracle(color[0 .. 2], tempQubit);
-                        } apply{
-                            // AND color's most significant bit with OR of least significant bits. 
-                            // This will set conflictQubit to 1 if color > 8.
-                            CCNOT(color[3], tempQubit, conflictQubit);
-                        }
-                    }
+        use edgeConflictQubits = Qubit[nEdges];
+        use startingColorConflictQubits = Qubit[nStartingColorConstraints];
+        use vertexColorConflictQubits = Qubit[numVertices];
+        within {
+            ConstrainByEdgeAndStartingColors(
+                colorsRegister, edges, startingColorConstraints,
+                edgeConflictQubits, startingColorConflictQubits, bitsPerColor
+            );
+            let zippedColorAndConfictQubit = Zipped(
+                Partitioned(ConstantArray(numVertices, bitsPerColor), colorsRegister),
+                vertexColorConflictQubits
+            );
+            for (color, conflictQubit) in zippedColorAndConfictQubit {
+                // Only allow colors from 0 to 8 i.e. if bit #3 = 1, then bits 2..0 must be 000.
+                use tempQubit = Qubit();
+                within {
+                    ApplyOrOracle(color[0 .. 2], tempQubit);
+                } apply{
+                    // AND color's most significant bit with OR of least significant bits.
+                    // This will set conflictQubit to 1 if color > 8.
+                    CCNOT(color[3], tempQubit, conflictQubit);
                 }
-            } apply {
-                // If there are no conflicts (all qubits are in 0 state), the vertex coloring is valid.
-                ControlledOnInt(0, X)(edgeConflictQubits + startingColorConflictQubits + vertexColorConflictQubits, target);
             }
+        } apply {
+            // If there are no conflicts (all qubits are in 0 state), the vertex coloring is valid.
+            ControlledOnInt(0, X)(edgeConflictQubits + startingColorConflictQubits + vertexColorConflictQubits, target);
         }
     }
 
@@ -289,14 +303,14 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// Qubit register to query.
     /// ## target
     /// Target qubit for storing oracle result.
-    operation ApplyOrOracle (queryRegister : Qubit[], target : Qubit) : Unit is Adj {        
+    operation ApplyOrOracle (queryRegister : Qubit[], target : Qubit) : Unit is Adj {
         // x₀ ∨ x₁ = ¬ (¬x₀ ∧ ¬x₁)
         // First, flip target if both qubits are in |0⟩ state.
         ControlledOnInt(0, X)(queryRegister, target);
         // Then flip target again to get negation.
         X(target);
     }
-    
+
     /// # Summary
     /// Using Grover's search to find vertex coloring.
     ///
@@ -309,46 +323,48 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// An estimate of the maximum iterations needed.
     /// ## oracle
     /// The Oracle used to find solution.
-    /// 
+    ///
     /// # Output
     /// Int Array giving the color of each vertex.
     ///
     /// # Remarks
     /// See https://github.com/microsoft/QuantumKatas/tree/main/SolveSATWithGrover
     /// for original implementation in SolveSATWithGrover Kata.
-    operation FindColorsWithGrover (numVertices : Int, bitsPerColor : Int, maxIterations : Int, 
+    operation FindColorsWithGrover (numVertices : Int, bitsPerColor : Int, maxIterations : Int,
         oracle : ((Qubit[], Qubit) => Unit is Adj)) : Int[] {
-        // This task is similar to task 2.2 from SolveSATWithGrover kata, 
+        // This task is similar to task 2.2 from SolveSATWithGrover kata,
         // but the percentage of correct solutions is potentially higher.
         mutable coloring = new Int[numVertices];
 
-        // Note that coloring register has the number of qubits that is 
+        // Note that coloring register has the number of qubits that is
         // twice the number of vertices (bitsPerColor qubits per vertex).
-        using ((register, output) = (Qubit[bitsPerColor * numVertices], Qubit())) {
-            mutable correct = false;
-            mutable iter = 1;
-            // Try for one iteration, if it fails, try again for one more iteration and repeat until maxIterations is reached.
-            repeat {
-                Message($"Trying search with {iter} iterations...");
-                ApplyGroversAlgorithmLoop(register, oracle, iter);
-                let res = MultiM(register);
-                // to check whether the result is correct, apply the oracle to the 
-                // register plus auxiliary after measurement.
-                oracle(register, output);
-                if (MResetZ(output) == One) {
-                    set correct = true;
-                    // Read off coloring.
-                    set coloring = MeasureColoring(bitsPerColor, register);
-                }
-                ResetAll(register);
-            } until (correct or iter > maxIterations)  
-            fixup {
-                set iter += 1;
+        use register = Qubit[bitsPerColor * numVertices];
+        use output = Qubit();
+
+        mutable correct = false;
+        mutable iter = 1;
+        // Try for one iteration, if it fails, try again for one more iteration and repeat until maxIterations is reached.
+        repeat {
+            Message($"Trying search with {iter} iterations...");
+            ApplyGroversAlgorithmLoop(register, oracle, iter);
+            let res = MultiM(register);
+            // to check whether the result is correct, apply the oracle to the
+            // register plus auxiliary after measurement.
+            oracle(register, output);
+            if (MResetZ(output) == One) {
+                set correct = true;
+                // Read off coloring.
+                set coloring = MeasureColoring(bitsPerColor, register);
             }
-            if (not correct) {
-                fail "Failed to find a coloring.";
-            }
+            ResetAll(register);
+        } until (correct or iter > maxIterations)
+        fixup {
+            set iter += 1;
         }
+        if (not correct) {
+            fail "Failed to find a coloring.";
+        }
+
         return coloring;
     }
 
@@ -362,24 +378,24 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// # Remarks
     /// See https://github.com/microsoft/QuantumKatas/tree/main/SolveSATWithGrover
     /// for the original implementation from the SolveSATWithGrover kata.
-        operation ApplyPhaseOracle (oracle : ((Qubit[], Qubit) => Unit is Adj), 
-        register : Qubit[]) : Unit is Adj {
-
-        using (target = Qubit()) {
-            within {
-                // Put the target into the |-⟩ state.
-                X(target);
-                H(target);
-            } apply {
-                // Apply the marking oracle; since the target is in the |-⟩ state,
-                // flipping the target if the register satisfies the oracle condition 
-                // will apply a -1 factor to the state.
-                oracle(register, target);
-            }
-            // We put the target back into |0⟩ so we can return it.
+    operation ApplyPhaseOracle (oracle : ((Qubit[], Qubit) => Unit is Adj),
+        register : Qubit[]
+    )
+    : Unit is Adj {
+        use target = Qubit();
+        within {
+            // Put the target into the |-⟩ state.
+            X(target);
+            H(target);
+        } apply {
+            // Apply the marking oracle; since the target is in the |-⟩ state,
+            // flipping the target if the register satisfies the oracle condition
+            // will apply a -1 factor to the state.
+            oracle(register, target);
         }
+        // We put the target back into |0⟩ so we can return it.
     }
-    
+
     /// # Summary
     /// Grover's Algorithm loop.
     ///
@@ -393,12 +409,16 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     ///
     /// # Output
     /// Unitary implementing Grover's search algorithm.
-    operation ApplyGroversAlgorithmLoop (register : Qubit[], 
-        oracle : ((Qubit[], Qubit) => Unit is Adj), iterations : Int) : Unit {
+    operation ApplyGroversAlgorithmLoop(
+        register : Qubit[],
+        oracle : ((Qubit[], Qubit) => Unit is Adj),
+        iterations : Int
+    )
+    : Unit {
         let applyPhaseOracle = ApplyPhaseOracle(oracle, _);
         ApplyToEach(H, register);
-            
-        for (_ in 1 .. iterations) {
+
+        for _ in 1 .. iterations {
             applyPhaseOracle(register);
             within {
                 ApplyToEachA(H, register);
