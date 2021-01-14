@@ -11,7 +11,7 @@
         "electron": "^7.2.4"
     },
     "dependencies": {
-        "chart.js": "^2.7.2",
+        "chart.js": "^2.9.4",
         "node-ipc": "^9.1.1"
     }
 }
