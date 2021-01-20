@@ -4,7 +4,7 @@ languages:
 - qsharp
 products:
 - qdk
-urlFragment: gaussian_initial_state
+urlFragment: gaussian-initial-state
 description: "This sample demonstrates using Quantum Development Kit to prepare the Gaussian initial state."
 ---
 
