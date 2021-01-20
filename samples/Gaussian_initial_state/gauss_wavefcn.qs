@@ -69,12 +69,7 @@ namespace Gaussian_initial_state {
     /// ## n
     /// The number of bits.
     operation QubitStrings (n: Int) : Bool[][] {
-        mutable array = ConstantArray(2^n, IntAsBoolArray(0,n));
-        for (i in 0..2^n - 1) {
-            let bitstring = IntAsBoolArray(i,n);
-            set array w/= i <- bitstring;
-        }
-        return array;
+        return MappedOverRange(0..PowI(2, n) - 1, IntAsBoolArray(_, n));
     }
 
     
