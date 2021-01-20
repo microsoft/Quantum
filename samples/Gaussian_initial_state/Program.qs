@@ -1,4 +1,4 @@
-namespace Gaussian_initial_state {
+namespace Microsoft.Quantum.Samples.GaussianPreparation {
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Canon;
