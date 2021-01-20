@@ -12,7 +12,7 @@ description: "This sample demonstrates using Quantum Development Kit to prepare 
 
 This sample demonstrates the use of the Quantum Development Kit for preparing the Gaussian initial state.
 
-The goal of the algorithm is to prepare a quantum state that encodes the Gaussian wavefunction using probability amplitudes. The Gaussian state can be defined via a recursive definition, as described in this Medium post: https://medium.com/@sohaib.alam/quantum-computing-a-gaussian-wavefunction-2d0be23d77b2.
+The goal of the algorithm is to prepare a quantum state that encodes the Gaussian wavefunction using probability amplitudes. The Gaussian state can be defined via a recursive definition, as described in this paper: https://arxiv.org/abs/0801.0342.
 
 ![Image of Gaussian state definition](https://github.com/microsoft/Quantum/blob/main/samples/Gaussian_initial_state/gaussian_definition.JPG)
 
