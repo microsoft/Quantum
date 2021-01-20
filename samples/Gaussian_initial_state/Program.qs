@@ -8,7 +8,7 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
     @EntryPoint()
     operation RunProgram() : Unit {
         let N = 7;
-        let std_dev = IntAsDouble((2^N))/6.;
+        let stdDev = IntAsDouble((2 ^ N)) / 6.;
         let mean = IntAsDouble(2^(N-1)) - 0.5;
         let bitstring = EmptyArray<Bool>();
         // Call the for loop implementation.
