@@ -27,7 +27,7 @@ The algorithm recursively calls the following subroutine, using the input data (
 
 Note that after the last ((N-1)th) qubit, we proceed only through step 1 (b), as after this qubit is rotated we do not need another pair of parameters.
 
-Both approaches use the ApplyControlledOnBitString operation in Q#. You can specify which implementation to use in the sample.
+Both approaches use the [`ApplyControlledOnBitString` operation](https://docs.microsoft.com/qsharp/api/qsharp/microsoft.quantum.canon.applycontrolledonbitstring) in Q#. You can specify which implementation to use in the sample.
 
 ## Prerequisites ##
 
