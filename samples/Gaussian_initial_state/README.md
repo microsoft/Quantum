@@ -35,7 +35,7 @@ Both approaches use the ApplyControlledOnBitString operation in Q#. You can spec
 ## Running the Sample
 
 To run the sample, use the `dotnet run` command from your terminal.
-And then use the `python read_state.py` command from your terminal to read and plot the result state.
+To read and plot the result state, use the `python read_state.py` command from your terminal.
 You can specify to either use the basic for-loop implementation or the recursive implementation in the Program.qs file. 
 
 ## Manifest ##
