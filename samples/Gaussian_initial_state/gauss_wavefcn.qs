@@ -30,7 +30,7 @@ namespace Gaussian_initial_state {
     /// The term in the normalization factor.
     operation NormTerm (sigma: Double, mu: Double, N: Int) : Double {
         let n = IntAsDouble(N);
-        return ExpD(-((n-mu)^2.)/sigma^2.);
+        return ExpD(-((n - mu) ^ 2.) /sigma ^ 2.);
     }
 
     /// # Summary
