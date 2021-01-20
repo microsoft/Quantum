@@ -195,7 +195,7 @@ namespace Gaussian_initial_state {
                 let alpha = Angle(sigma, mu, 10^3);
                 Ry(2.*alpha, register[0]);
                 // Add a 0 to the bitstring and call the function recursively.
-                let bitstring0 = Flattened([bitstring, [false]]);
+                let bitstring0 = bitstring + [false];
 			    GaussWavefcnRecursive(sigma/2., mu/2., numQubits, bitstring0, register);
 			    // Add a 1 to the bitstring and call the function recursively.
                 let bitstring1 = Flattened([bitstring, [true]]);
