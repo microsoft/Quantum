@@ -7,17 +7,17 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
 
     @EntryPoint()
     operation RunProgram() : Unit {
-        let N = 7;
-        let stdDev = IntAsDouble((2 ^ N)) / 6.;
-        let mean = IntAsDouble(2^(N-1)) - 0.5;
+        let nQubits = 7;
+        let stdDev = IntAsDouble((2 ^ nQubits)) / 6.;
+        let mean = IntAsDouble(2 ^ (nQubits - 1)) - 0.5;
         let bitstring = EmptyArray<Bool>();
         // Call the for loop implementation.
         // Gauss_wavefcn(std_dev, mean, N);
         // Call the recursive implementation.
-        using (register = Qubit[N]) {
-            GaussWavefcnRecursive(std_dev, mean, N, bitstring, register);
+        using (register = Qubit[nQubits]) {
+            PrepareGaussWavefcnRecursive(stdDev, mean, nQubits, bitstring, register);
             // Output result quantum state the file.
-            DumpRegister("wavefcn_recursive.txt", register);
+            DumpRegister("gaussian_wavefcn.txt", register);
             ResetAll(register);
         }
     }
