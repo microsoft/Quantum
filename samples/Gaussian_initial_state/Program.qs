@@ -15,7 +15,7 @@ namespace Gaussian_initial_state {
         // Gauss_wavefcn(std_dev, mean, N);
         // Call the recursive implementation.
         using (register = Qubit[N]) {
-            Gauss_wavefcn_recursive(std_dev, mean, N, bitstring, register);
+            GaussWavefcnRecursive(std_dev, mean, N, bitstring, register);
             // Output result quantum state the file.
             DumpRegister("wavefcn_recursive.txt", register);
             ResetAll(register);
