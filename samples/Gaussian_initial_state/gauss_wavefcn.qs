@@ -66,9 +66,9 @@ namespace Gaussian_initial_state {
     /// # Summary
     /// Return a list of n-bit strings.
     /// # Input
-    /// ## n
+    /// ## nQubits
     /// The number of bits.
-    operation QubitStrings (n: Int) : Bool[][] {
+    operation QubitStrings (nQubits: Int) : Bool[][] {
         return MappedOverRange(0..PowI(2, n) - 1, IntAsBoolArray(_, n));
     }
 
