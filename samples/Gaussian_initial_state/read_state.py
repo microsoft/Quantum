@@ -13,7 +13,6 @@ with open('wavefcn_recursive.txt', 'r', encoding="utf8") as file:
         if ampl:
             print(ampl)
             list.append(float(ampl))
-file.close()
 print(list)
 
 # plot list
