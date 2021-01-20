@@ -145,7 +145,7 @@ namespace Gaussian_initial_state {
             // Compute angle.
             mutable theta = Angle(sigma, mu_, 10^3);
             // Rotate the 1st qubit by angle theta.
-            Ry(2.*theta, register[0]);
+            Ry(2. * theta, register[0]);
             for (n in 1..numQubits-1) {
                 // Compute a list of all the rotation angles at level n.
                 let list_level_angles = Level_angles(sigma, mu_, n);
