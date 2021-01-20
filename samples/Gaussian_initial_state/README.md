@@ -20,6 +20,7 @@ We implemented this algorithm in two ways in Q#. The first is using a for-loop i
 
 The algorithm recursively calls the following subroutine, using the input data (sigma0, mu0) = (sigma, mu).
 1. (a) Calculate alpha from sigma and mu
+
    (b) Apply the rotation operator R(alpha) to the 0th qubit
 2. Compute (sigma1, mu1), where sigma1 = sigma0/2 and mu1 = mu0/2 if the previously rotated qubit is |0> and mu1 = (mu0 - 1)/2 if it is |1>
 3. On the remaining N-1 qubits prepare state |psy(sigma1, mu1, N-1)>
