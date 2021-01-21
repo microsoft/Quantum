@@ -84,11 +84,7 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
     operation MeanQubitCombo (qub: Bool[], mu: Double) : Double {
         mutable mu_out = mu;
         for (bit in qub) {
-            mutable i = 0.0;
-            if (bit == true) {
-                set i = 1.;
-            }
-            set mu_out = mu_out/2. - i/2.;
+            set mu_out += mu_out/2. - bit ? 0.5 | -0.5;
         }
         return mu_out;
     }
