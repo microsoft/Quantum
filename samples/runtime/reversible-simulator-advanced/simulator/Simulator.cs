@@ -19,7 +19,8 @@ namespace Microsoft.Quantum.Samples
     // `QuantumProcessorDispatcher`, which is constructed using a specialization
     // `QuantumProcessorBase`.  The specialization overrides methods to specify
     // actions on intrinsic operations in the Q# code.
-    class ReversibleSimulatorProcessor : QuantumProcessorBase {
+    class ReversibleSimulatorProcessor : QuantumProcessorBase
+    {
         // This property controls whether to throw an exception when a qubit is
         // released that is not in the zero state.
         public bool ThrowOnReleasingQubitsNotInZeroState { get; set; } = true;
@@ -37,19 +38,22 @@ namespace Microsoft.Quantum.Samples
             simulationValues[qubit.Id];
 
         // SetValue sets the simulation value at the corresponding index.
-        private void SetValue(Qubit qubit, bool value) {
+        private void SetValue(Qubit qubit, bool value)
+        {
             simulationValues[qubit.Id] = value;
         }
 
         // InvertValue inverts the simulation value at the corresponding index.
-        private void InvertValue(Qubit qubit) {
+        private void InvertValue(Qubit qubit)
+        {
             simulationValues[qubit.Id] = !simulationValues[qubit.Id];
         }
 
         // When allocating a qubit whose index equals or exceeds the current
         // number of simulation values stored in the bit array, the bit array
         // is resized to twice its current size.
-        public override void OnAllocateQubits(IQArray<Qubit> qubits) {
+        public override void OnAllocateQubits(IQArray<Qubit> qubits)
+        {
             var maxId = qubits.Max(q => q.Id);
             while (maxId >= simulationValues.Length) {
                 simulationValues.Length *= 2;
@@ -59,10 +63,13 @@ namespace Microsoft.Quantum.Samples
         // When releasing qubits that are not in the zero state, their value
         // is reset to false.  If the ThrowOnReleasingQubitsNotInZeroState property
         // is assigned true, an exception is thrown.
-        public override void OnReleaseQubits(IQArray<Qubit> qubits) {
-            foreach (var qubit in qubits) {
+        public override void OnReleaseQubits(IQArray<Qubit> qubits)
+        {
+            foreach (var qubit in qubits)
+            {
                 if (GetValue(qubit)) {
-                    if (ThrowOnReleasingQubitsNotInZeroState) {
+                    if (ThrowOnReleasingQubitsNotInZeroState)
+                    {
                         throw new ReleasedQubitsAreNotInZeroState();
                     }
                     SetValue(qubit, false);
@@ -72,21 +79,25 @@ namespace Microsoft.Quantum.Samples
 
         // An X operation inverts the bit in the `simulationValues` variable at
         // the position of the qubit's index.
-        public override void X(Qubit qubit) {
+        public override void X(Qubit qubit)
+        {
             InvertValue(qubit);
         }
 
         // If the simulation values of all control qubits are assigned true,
         // the simulation value of the target qubit is inverted.
-        public override void ControlledX(IQArray<Qubit> controls, Qubit qubit) {
-            if (controls.All(control => GetValue(control))) {
+        public override void ControlledX(IQArray<Qubit> controls, Qubit qubit)
+        {
+            if (controls.All(control => GetValue(control)))
+            {
                 InvertValue(qubit);
             }
         }
 
         // If the simulation value of qubit is true, when it's being reset, we
         // restore it to false.
-        public override void Reset(Qubit qubit) {
+        public override void Reset(Qubit qubit)
+        {
             SetValue(qubit, false);
         }
 
@@ -97,9 +108,11 @@ namespace Microsoft.Quantum.Samples
 
         // Overriding the Assert methods enables the use of statements such as
         // `AssertQubit(Zero, q)` inside a Q# program.
-        public override void Assert(IQArray<Pauli> bases, IQArray<Qubit> qubits, Result expected, string msg) {
+        public override void Assert(IQArray<Pauli> bases, IQArray<Qubit> qubits, Result expected, string msg)
+        {
             Qubit? filter(Pauli p, Qubit q) =>
-                p switch {
+                p switch
+                {
                     Pauli.PauliI => null,
                     Pauli.PauliZ => q,
                     _ => throw new InvalidOperationException("Assert on bases other than PauliZ not supported")
@@ -116,7 +129,8 @@ namespace Microsoft.Quantum.Samples
             // We use Aggregate to successively XOR a qubit's simulation value
             // to an accumulator value `accu` that is initialized to `false`.
             var actual = qubitsToMeasure.Aggregate(false, (accu, qubit) => accu ^ GetValue(qubit));
-            if (actual.ToResult() != expected) {
+            if (actual.ToResult() != expected)
+            {
                 // If the expected value does not correspond to the actual measurement
                 // value, we throw a Q# specific Exception together with the user
                 // defined message `msg`.
@@ -125,13 +139,14 @@ namespace Microsoft.Quantum.Samples
         }
     }
 
-    public class ReversibleSimulator : QuantumProcessorDispatcher {
+    public class ReversibleSimulator : QuantumProcessorDispatcher
+    {
         // Whether an exception is thrown when releasing qubits that are in a
         // non-zero state is configured as an argument to the constructor of
         // ReversibleSimulator, defaulted to `true`.
         public ReversibleSimulator(bool throwOnReleasingQubitsNotInZeroState = true)
-            : base(new ReversibleSimulatorProcessor { ThrowOnReleasingQubitsNotInZeroState = throwOnReleasingQubitsNotInZeroState }) {
-
+            : base(new ReversibleSimulatorProcessor { ThrowOnReleasingQubitsNotInZeroState = throwOnReleasingQubitsNotInZeroState })
+        {
             // We register the ApplyAnd and the ApplyLowDepthAnd operation as
             // CCNOT operations.  These are both standard library operations
             // in the Microsoft.Quantum.Canon namespace. By doing this, Q#

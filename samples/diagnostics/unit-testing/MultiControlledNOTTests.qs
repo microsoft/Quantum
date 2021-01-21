@@ -26,8 +26,8 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     operation MultiControlledNotTest () : Unit {
 
         //  list of the operations to test in format (actual,expected)
-        for ((actual, expected) in [(ApplyMultiControlledXByUsing, Controlled X), (ApplyMultiControlledXByBorrowing, Controlled X)]) {
-            for (totalNumberOfQubits in 1 .. 8) {
+        for (actual, expected) in [(ApplyMultiControlledXByUsing, Controlled X), (ApplyMultiControlledXByBorrowing, Controlled X)] {
+            for totalNumberOfQubits in 1 .. 8 {
                 Message($"Testing {actual} against {expected} on {totalNumberOfQubits} qubits.");
 
                 // We use AssertOperationsEqualReferenced as it requires only
@@ -41,18 +41,16 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # Summary
     /// Lets us collect metrics related to borrowing
     operation MultiControlledNotWithDirtyQubitsMetrics (numberOfControlQubits : Int) : Unit {
-        using (extraQubits = Qubit[numberOfControlQubits - 2]) {
-            within {
-                ApplyToEachCA(H, extraQubits);
-            } apply {
-                using (qubits = Qubit[numberOfControlQubits + 1]) {
-                    // first use multiply controlled not with borrowing qubits
-                    ApplyMultiControlledXByBorrowing(MostAndTail(qubits));
+        use extraQubits = Qubit[numberOfControlQubits - 2];
+        within {
+            ApplyToEachCA(H, extraQubits);
+        } apply {
+            use qubits = Qubit[numberOfControlQubits + 1];
+            // first use multiply controlled not with borrowing qubits
+            ApplyMultiControlledXByBorrowing(MostAndTail(qubits));
 
-                    // second use multiply controlled not with clean qubits allocation
-                    ApplyMultiControlledXByUsing(MostAndTail(qubits));
-                }
-            }
+            // second use multiply controlled not with clean qubits allocation
+            ApplyMultiControlledXByUsing(MostAndTail(qubits));
         }
     }
 
@@ -64,14 +62,13 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
         // Now let us test MultiControlledXBorrow with dirty qubits.
         // The non-trivial circuit is used starting 3 controls
-        for (numberOfControlQubits in 3 .. 7) {
+        for numberOfControlQubits in 3 .. 7 {
             // MultiControlledXBorrow uses numberOfControlQubits - 2 dirty qubits
-            using (extraQubits = Qubit[numberOfControlQubits - 2]) {
-                within {
-                    ApplyToEachCA(H, extraQubits);
-                } apply {
-                    AssertOperationsEqualReferenced(numberOfControlQubits + 1, ControlledTestHelper(ApplyMultiControlledXByBorrowing, _), ControlledTestHelper(Controlled X, _));
-                }
+            use extraQubits = Qubit[numberOfControlQubits - 2];
+            within {
+                ApplyToEachCA(H, extraQubits);
+            } apply {
+                AssertOperationsEqualReferenced(numberOfControlQubits + 1, ControlledTestHelper(ApplyMultiControlledXByBorrowing, _), ControlledTestHelper(Controlled X, _));
             }
         }
     }

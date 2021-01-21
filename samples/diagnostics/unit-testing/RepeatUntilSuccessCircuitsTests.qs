@@ -30,9 +30,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
         ];
 
         // As the circuits are probabilistic we repeat tests multiple times
-        for (i in 0 .. 400) {
+        for i in 0 .. 400 {
             // next go over everything in testList
-            for ((actual, expected) in testList) {
+            for (actual, expected) in testList {
                 // This will log the names and parameters of operations being tested
                 Message($"Testing {actual} against {expected}. Attempt: {i}");
 
@@ -49,22 +49,21 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// defined in RepeatUntilSuccessCircuits.qs.
     @Test("QuantumSimulator")
     operation CheckRepeatUntilSuccessPreparesCorrectState() : Unit {
-        for (i in 0 .. 100) {
-            using (target = Qubit()) {
-                // Prepare input in |+⟩ state
-                H(target);
+        for i in 0 .. 100 {
+            use target = Qubit();
+            // Prepare input in |+⟩ state
+            H(target);
 
-                // Apply function being tested
-                RepeatUntilSuccessStatePreparation(target);
+            // Apply function being tested
+            RepeatUntilSuccessStatePreparation(target);
 
-                // Assert that prepared state is (√2/√3,1/√3)
-                let zeroAmp = Complex(Sqrt(2.0) / Sqrt(3.0), 0.0);
-                let oneAmp = Complex(1.0 / Sqrt(3.0), 0.0);
-                AssertQubitIsInStateWithinTolerance((zeroAmp, oneAmp), target, 1E-10);
+            // Assert that prepared state is (√2/√3,1/√3)
+            let zeroAmp = Complex(Sqrt(2.0) / Sqrt(3.0), 0.0);
+            let oneAmp = Complex(1.0 / Sqrt(3.0), 0.0);
+            AssertQubitIsInStateWithinTolerance((zeroAmp, oneAmp), target, 1E-10);
 
-                // Reset target back to |0⟩
-                Reset(target);
-            }
+            // Reset target back to |0⟩
+            Reset(target);
         }
     }
 

@@ -107,32 +107,31 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
             else {
                 let numberOfDirtyQubits = numberOfControls - 2;
 
-                borrowing (dirtyQubits = Qubit[numberOfDirtyQubits]) {
-                    within {
-                        ApplyToEachCA(
-                            CCNOT,
-                            Zipped3(
-                                controls[0..Length(controls) - 2],
-                                dirtyQubits,
-                                [target] + Most(dirtyQubits)
-                            )
-                        );
-                    } apply {
-                        CCNOT(controls[Length(controls) - 1], controls[Length(controls) - 2], Tail(dirtyQubits));
-                    }
+                borrow dirtyQubits = Qubit[numberOfDirtyQubits];
+                within {
+                    ApplyToEachCA(
+                        CCNOT,
+                        Zipped3(
+                            controls[0..Length(controls) - 2],
+                            dirtyQubits,
+                            [target] + Most(dirtyQubits)
+                        )
+                    );
+                } apply {
+                    CCNOT(controls[Length(controls) - 1], controls[Length(controls) - 2], Tail(dirtyQubits));
+                }
 
-                    within {
-                        ApplyToEachCA(
-                            CCNOT,
-                            Zipped3(
-                                Rest(controls),
-                                Rest(dirtyQubits),
-                                Most(dirtyQubits)
-                            )
-                        );
-                    } apply {
-                        CCNOT(controls[Length(controls) - 1], controls[Length(controls) - 2], Tail(dirtyQubits));
-                    }
+                within {
+                    ApplyToEachCA(
+                        CCNOT,
+                        Zipped3(
+                            Rest(controls),
+                            Rest(dirtyQubits),
+                            Most(dirtyQubits)
+                        )
+                    );
+                } apply {
+                    CCNOT(controls[Length(controls) - 1], controls[Length(controls) - 2], Tail(dirtyQubits));
                 }
             }
         }

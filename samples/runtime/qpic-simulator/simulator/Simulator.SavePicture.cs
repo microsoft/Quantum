@@ -12,24 +12,27 @@ namespace Microsoft.Quantum.Samples
         public class SavePictureImpl : SavePicture {
             private QpicProcessor processor;
 
-            public SavePictureImpl(QpicSimulator m) : base(m) {
+            public SavePictureImpl(QpicSimulator m) : base(m)
+            {
                 processor = (QpicProcessor)m.QuantumProcessor;
             }
 
             // The body operation adds a new empty scope to the processor
             // indexed by the filename.
-            public override Func<String, QVoid> Body => filename => {
-                processor.Pictures.Add(filename, new StringBuilder());
-                return QVoid.Instance;
-            };
+            public override Func<String, QVoid> __Body__ => filename =>
+                {
+                    processor.Pictures.Add(filename, new StringBuilder());
+                    return QVoid.Instance;
+                };
 
             // The adjoint operation saves the picture and removes the scope
             // from the processor.
-            public override Func<String, QVoid> AdjointBody => filename => {
-                System.IO.File.WriteAllText(filename, processor.Pictures[filename].ToString());
-                processor.Pictures.Remove(filename);
-                return QVoid.Instance;
-            };
+            public override Func<String, QVoid> __AdjointBody__ => filename =>
+                {
+                    System.IO.File.WriteAllText(filename, processor.Pictures[filename].ToString());
+                    processor.Pictures.Remove(filename);
+                    return QVoid.Instance;
+                };
         }
     }
 }

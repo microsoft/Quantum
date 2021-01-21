@@ -12,20 +12,20 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides {
     operation DoCorrelatedMeasurements () : Unit {
         let nRuns = 100;
         mutable nSame = 0;
-        for (i in 1 .. nRuns) {
-            using ((q1, q2) = (Qubit(), Qubit())) {
-                // Prepare a Bell pair (in this state the measurement results on two qubits should be the same)
-                H(q1);
-                CNOT(q1, q2);
-            
-                // Measure both qubits; if there is an error introduced during one of the measurements (but not both), the results will diverge
-                if (M(q1) == M(q2)) {
-                    set nSame += 1;
-                }
-
-                // Make sure to return the qubits to 0 state
-                ResetAll([q1, q2]);
+        for _ in 1 .. nRuns {
+            use q1 = Qubit();
+            use q2 = Qubit();
+            // Prepare a Bell pair (in this state the measurement results on two qubits should be the same)
+            H(q1);
+            CNOT(q1, q2);
+        
+            // Measure both qubits; if there is an error introduced during one of the measurements (but not both), the results will diverge
+            if (M(q1) == M(q2)) {
+                set nSame += 1;
             }
+
+            // Make sure to return the qubits to 0 state
+            ResetAll([q1, q2]);
         }
         Message($"{nSame} runs out of {nRuns} produced the same results.");
     }

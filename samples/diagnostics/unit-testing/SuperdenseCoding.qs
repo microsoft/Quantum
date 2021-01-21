@@ -41,23 +41,24 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
         let (bit1, bit2) = (bitsAsInt[0] == 0, bitsAsInt[1] == 0);
 
         // Get a temporary register for the protocol run.
-        using ((qubit1, qubit2) = (Qubit(), Qubit())) {
-            // Create an EPR pair shared between A and B.
-            CreateEPRPair(qubit1, qubit2);
+        use qubit1 = Qubit();
+        use qubit2 = Qubit();
 
-            // A encodes 2 bits in the first qubit.
-            SuperdenseEncode(bit1, bit2, qubit1);
+        // Create an EPR pair shared between A and B.
+        CreateEPRPair(qubit1, qubit2);
 
-            // "Send" qubit to B and let B decode two bits.
-            let (decodedBit1, decodedBit2) = SuperdenseDecode(qubit1, qubit2);
+        // A encodes 2 bits in the first qubit.
+        SuperdenseEncode(bit1, bit2, qubit1);
 
-            // Now test if the bits were transferred correctly.
-            EqualityFactB(bit1, decodedBit1, "bit1 should be transferred correctly");
-            EqualityFactB(bit2, decodedBit2, "bit2 should be transferred correctly");
+        // "Send" qubit to B and let B decode two bits.
+        let (decodedBit1, decodedBit2) = SuperdenseDecode(qubit1, qubit2);
 
-            // Make sure that we return qubits back in 0 state.
-            ResetAll([qubit1, qubit2]);
-        }
+        // Now test if the bits were transferred correctly.
+        EqualityFactB(bit1, decodedBit1, "bit1 should be transferred correctly");
+        EqualityFactB(bit2, decodedBit2, "bit2 should be transferred correctly");
+
+        // Make sure that we return qubits back in 0 state.
+        ResetAll([qubit1, qubit2]);
     }
 
 
