@@ -136,28 +136,22 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
     /// Mean.
     /// ## num_qubits
     /// The number of qubits.
-    operation PrepareGaussWavefcn (sigma: Double, mu_: Double, numQubits: Int) : Unit {
-        using (register = Qubit[numQubits]) {
-            // Compute angle.
-            mutable theta = Angle(sigma, mu_, 10^3);
-            // Rotate the 1st qubit by angle theta.
-            Ry(2. * theta, register[0]);
-            for (n in 1..numQubits-1) {
-                // Compute a list of all the rotation angles at level n.
-                let list_level_angles = LevelAngles(sigma, mu_, n);
-                // For each bitstring at current level, apply a controlled rotation to the 
-                // next qubit.
-                for (i in 0..2^n - 1){
-                    let bitstring = IntAsBoolArray(i,n);
-                    set theta = list_level_angles[i];
-                    mutable rotation = Ry(2.*theta, _);
-                    ApplyControlledOnBitString(bitstring, rotation, register[0..n-1], register[n]);                    
-                }
+    operation PrepareGaussWavefcn (sigma: Double, mu_: Double, numQubits: Int, register: Qubit[]) : Unit is Adj {
+        // Compute angle.
+        mutable theta = Angle(sigma, mu_, 10^3);
+        // Rotate the 1st qubit by angle theta.
+        Ry(2. * theta, register[0]);
+        for (n in 1..numQubits-1) {
+            // Compute a list of all the rotation angles at level n.
+            let list_level_angles = LevelAngles(sigma, mu_, n);
+            // For each bitstring at current level, apply a controlled rotation to the 
+            // next qubit.
+            for (i in 0..2^n - 1){
+                let bitstring = IntAsBoolArray(i,n);
+                set theta = list_level_angles[i];
+                mutable rotation = Ry(2.*theta, _);
+                ApplyControlledOnBitString(bitstring, rotation, register[0..n-1], register[n]);                    
             }
-            // Output the result quantum state to file.
-            DumpRegister("wavefcn.txt", register);
-            // Reset all of the qubits in the register before releasing them.
-            ResetAll(register);
         }
     }    
 
@@ -175,7 +169,7 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
     /// ## register
     /// The qubit register.
     operation PrepareGaussWavefcnRecursive (sigma: Double, mu: Double, numQubits: Int, bitstring: Bool[], 
-    register: Qubit[]) : Unit {
+    register: Qubit[]) : Unit is Adj {
         // If the number of qubits is 1, then simply do a rotation to the qubit.
         if (numQubits == 1) {
             let alpha = Angle(sigma, mu, 10^3);
