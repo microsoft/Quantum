@@ -18,7 +18,7 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides
         /// <summary>
         /// The overriding definition for operation M
         /// </summary>
-        public class M : QSimM
+        public class M : Microsoft.Quantum.Intrinsic.M
         {
             /// <summary>
             /// The probability with which the error will be introduced before measurement.
