@@ -147,6 +147,46 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td><strong>Azure Quantum service:</strong></td>
+      <td><strong><a href="./samples/azure-quantum/parallel-qrng/README.md">Grover's search</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/azure-quantum/hidden-shift/README.md">Hidden shift</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/azure-quantum/parallel-qrng/README.md">Parallel QRNG</a></strong></td>
+      <td><a href="./samples/azure-quantum/parallel-qrng/ParallelQrng.ipynb">Q# notebook</a></td>
+      <td><a href="./samples/azure-quantum/parallel-qrng/parallel_qrng.py">Q# + Python</a></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/azure-quantum/ising-model/README.md">Ising model simulation</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/azure-quantum/teleport/README.md">Teleportation</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Characterization:</strong></td>
       <td><strong><a href="./samples/characterization/phase-estimation/README.md">Bayesian Phase Estimation</a></strong></td>
       <td></td>
