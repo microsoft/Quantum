@@ -30,22 +30,21 @@ namespace Microsoft.Quantum.Numerics.Samples {
         mutable results = new Double[Length(evaluationPoints)];
         for (i in IndexRange(evaluationPoints)) {
             let point = evaluationPoints[i];
-            using ((xQubits, yQubits) = (Qubit[numBits], Qubit[numBits])) {
-                let x = FixedPoint(pointPos, xQubits);
-                let y = FixedPoint(pointPos, yQubits);
-                PrepareFxP(point, x);
-                if (odd) {
-                    EvaluateOddPolynomialFxP(coefficients, x, y);
-                }
-                elif (even) {
-                    EvaluateEvenPolynomialFxP(coefficients, x, y);
-                }
-                else {
-                    EvaluatePolynomialFxP(coefficients, x, y);
-                }
-                set results w/= i <- MeasureFxP(y);
-                ResetAll(xQubits + yQubits);
+            use (xQubits, yQubits) = (Qubit[numBits], Qubit[numBits]);
+            let x = FixedPoint(pointPos, xQubits);
+            let y = FixedPoint(pointPos, yQubits);
+            PrepareFxP(point, x);
+            if (odd) {
+                EvaluateOddPolynomialFxP(coefficients, x, y);
             }
+            elif (even) {
+                EvaluateEvenPolynomialFxP(coefficients, x, y);
+            }
+            else {
+                EvaluatePolynomialFxP(coefficients, x, y);
+            }
+            set results w/= i <- MeasureFxP(y);
+            ResetAll(xQubits + yQubits);
         }
         return results;
     }

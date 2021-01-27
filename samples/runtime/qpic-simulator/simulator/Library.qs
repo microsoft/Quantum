@@ -13,10 +13,9 @@ namespace Microsoft.Quantum.Samples {
     /// ```Q#
     /// within { SavePicture("filename.qpic"); }
     /// apply {
-    ///   using ((a, b) = (Qubit(), Qubit())) {
-    ///     H(a);
-    ///     CNOT(a, b);
-    ///   }
+    ///   use ((a, b) = (Qubit(), Qubit());
+    ///   H(a);
+    ///   CNOT(a, b);
     /// }
     /// ```
     operation SavePicture(filename : String) : Unit is Adj {
