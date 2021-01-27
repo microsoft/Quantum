@@ -1,5 +1,4 @@
-﻿
-<Project Sdk="Microsoft.Quantum.Sdk/0.14.2011120240">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -13,6 +12,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.7" />
     <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.14.2011120240" />
     <PackageReference Include="Microsoft.Quantum.Research" Version="0.14.2011120240" />
+    <ProjectReference Include="..\RunSimulationOperation\2-RunSimulationOperation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

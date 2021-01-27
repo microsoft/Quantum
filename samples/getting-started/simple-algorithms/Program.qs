@@ -21,7 +21,6 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
     open Microsoft.Quantum.Samples.SimpleAlgorithms.DeutschJozsa;
     open Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani;
 
-    @EntryPoint()
     operation RunProgram (nQubits : Int) : Unit {
         
         // Parity Sampling with the Bernstein–Vazirani Algorithm:

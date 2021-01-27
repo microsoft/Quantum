@@ -98,7 +98,6 @@ namespace Microsoft.Quantum.Samples.Measurement {
     /// # Summary
     /// Runs the various operations defined in this sample. This operation
     /// can be used as an entry point from a classical host program.
-    @EntryPoint()
     operation RunProgram() : Unit {
         Message("## SampleQrng() ##");
         mutable count = 0;
