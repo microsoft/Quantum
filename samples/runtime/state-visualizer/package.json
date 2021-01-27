@@ -26,6 +26,6 @@
   "dependencies": {
     "@aspnet/signalr": "^1.1.4",
     "@types/node": "^12.6.3",
-    "chart.js": "2.8.0"
+    "chart.js": "2.9.4"
   }
 }
