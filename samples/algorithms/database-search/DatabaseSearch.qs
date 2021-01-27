@@ -221,7 +221,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         ApplyStatePreparationOracle(markedQubit, databaseRegister);
 
         // Loop over Grover iterates.
-        for (idx in 0 .. nIterations - 1) {
+        for idx in 0 .. nIterations - 1 {
             ReflectAboutMarkedState(markedQubit);
             ReflectAboutInitialState(markedQubit, databaseRegister);
         }
@@ -273,7 +273,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// Checks whether state preparation marks the right fraction of elements
     /// against theoretical predictions.
     operation StatePreparationOracleTest() : Unit {
-        for (nDatabaseQubits in 0..5) {
+        for nDatabaseQubits in 0..5 {
             use (markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits]);
             ApplyStatePreparationOracle(markedQubit, databaseRegister);
 
@@ -303,8 +303,8 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// the success probability matches theoretical predictions. Then checks
     /// whether the correct index is found, post-selected on success.
     operation GroverHardCodedTest () : Unit {
-        for (nDatabaseQubits in 0..4) {
-            for (nIterations in 0..5) {
+        for nDatabaseQubits in 0..4 {
+            for nIterations in 0..5 {
                 use (markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits]);
                 SearchForMarkedState(nIterations, markedQubit, databaseRegister);
                 let dimension = IntAsDouble(2 ^ nDatabaseQubits);
@@ -324,7 +324,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
 
                     // Post-selected on success, verify that 
                     // database qubits are all |1〉.
-                    for (result in results) {
+                    for result in results {
                         EqualityFactR(result, One, "Found state should be 1..1 string.");
                     }
                 }
@@ -381,7 +381,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     operation ApplyDatabaseOracleFromInts(markedElements : Int[], markedQubit : Qubit, databaseRegister : Qubit[])
     : Unit
     is Adj + Ctl {
-        for (markedElement in markedElements) {
+        for markedElement in markedElements {
             ControlledOnInt(markedElement, X)(databaseRegister, markedQubit);
         }
     }

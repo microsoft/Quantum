@@ -152,7 +152,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
         mutable result = new Bool[numSegments];
         use x = Qubit[numSegments];
         ApplyToEach(H, x); // prepare the uniform distribution
-        for ((tz, tx) in Zipped(timeZ, timeX)) {
+        for (tz, tx) in Zipped(timeZ, timeX) {
             ApplyInstanceHamiltonian(numSegments, tz, weights, couplings, x); // do Exp(-i H_C tz)
             ApplyDriverHamiltonian(tx, x); // do Exp(-i H_0 tx)
         }
