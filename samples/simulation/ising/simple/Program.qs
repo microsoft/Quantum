@@ -57,8 +57,7 @@ namespace Microsoft.Quantum.Samples.SimpleIsing {
         // preparing the ground state, we will call it several times, 
         // reporting the magnetization after each attempt.
 
-        for (idxAttempt in 1 .. 100)
-        {
+        for idxAttempt in 1 .. 100 {
             let data = SimulateIsingEvolution(nSites, sweepTime, timeStep, couplings);
             // We convert each Result into a floating point number 
             // representing the observed spin and compute the magnetization.

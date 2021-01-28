@@ -41,38 +41,39 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani {
     operation LearnParityViaFourierSampling(Uf : ((Qubit[], Qubit) => Unit), n : Int) : Bool[] {
         // Now, we allocate n + 1 clean qubits. Note that the function Uf is defined
         // on inputs of the form (x, y), where x has n bits and y has 1 bit.
-        using ((queryRegister, target) = (Qubit[n], Qubit())) {
-            // The last qubit needs to be flipped so that the function will
-            // actually be computed into the phase when Uf is applied.
-            X(target);
+        use queryRegister = Qubit[n];
+        use target = Qubit();
 
-            within {
-                // Now, a Hadamard transform is applied to each of the qubits.
-                // As the last step before the measurement, a Hadamard transform is
-                // applied to all qubits except last one. We could apply the transform to
-                // the last qubit also, but this would not affect the final outcome.
-                // We use a within-apply block to ensure that the Hadmard transform is
-                // correctly inverted.
-                ApplyToEachA(H, queryRegister);
-            } apply {
-                H(target);
-                // We now apply Uf to the n+1 qubits, computing |x, y〉 ↦ |x, y ⊕ f(x)〉.
-                Uf(queryRegister, target);
-            }
+        // The last qubit needs to be flipped so that the function will
+        // actually be computed into the phase when Uf is applied.
+        X(target);
 
-            // The following for-loop measures all qubits and resets them to
-            // zero so that they can be safely returned at the end of the
-            // using-block.
-            let resultArray = ForEach(MResetZ, queryRegister);
-
-            // The result is already contained in resultArray so no further
-            // post-processing is necessary.
-            Message($"measured: {resultArray}");
-
-            // Finally, the last qubit, which held the y-register, is reset.
-            Reset(target);
-            return ResultArrayAsBoolArray(resultArray);
+        within {
+            // Now, a Hadamard transform is applied to each of the qubits.
+            // As the last step before the measurement, a Hadamard transform is
+            // applied to all qubits except last one. We could apply the transform to
+            // the last qubit also, but this would not affect the final outcome.
+            // We use a within-apply block to ensure that the Hadmard transform is
+            // correctly inverted.
+            ApplyToEachA(H, queryRegister);
+        } apply {
+            H(target);
+            // We now apply Uf to the n+1 qubits, computing |x, y〉 ↦ |x, y ⊕ f(x)〉.
+            Uf(queryRegister, target);
         }
+
+        // The following for-loop measures all qubits and resets them to
+        // zero so that they can be safely returned at the end of the
+        // using-block.
+        let resultArray = ForEach(MResetZ, queryRegister);
+
+        // The result is already contained in resultArray so no further
+        // post-processing is necessary.
+        Message($"measured: {resultArray}");
+
+        // Finally, the last qubit, which held the y-register, is reset.
+        Reset(target);
+        return ResultArrayAsBoolArray(resultArray);
     }
 
 
@@ -98,7 +99,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani {
             fail "Length of input register must be equal to the pattern length.";
         }
 
-        for ((patternBit, controlQubit) in Zipped(pattern, queryRegister)) {
+        for (patternBit, controlQubit) in Zipped(pattern, queryRegister) {
             if (patternBit) {
                 Controlled X([controlQubit], target);
             }

@@ -103,8 +103,12 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///         empty square #0 can not have values 2,1,3 because same row/column/2x2grid.
     ///         empty square #1 can not have values 1,2,0 because same row/column/2x2grid.
     ///    Results = [0,3,0] i.e. Empty Square #0 = 0, Empty Square #1 = 3, Empty Square #2 = 0.
-    operation SolvePuzzle(numVertices : Int, size : Int, emptySquareEdges : (Int, Int)[], 
-        startingNumberConstraints: (Int, Int)[]) : (Bool, Int[]) {
+    operation SolvePuzzle(
+        numVertices : Int, size : Int,
+        emptySquareEdges : (Int, Int)[],
+        startingNumberConstraints: (Int, Int)[]
+    )
+    : (Bool, Int[]) {
         // for size = 4x4 grid
         let bitsPerColor = size == 9 ? 4 | 2;
         mutable oracle = ApplyVertexColoringOracle(numVertices, bitsPerColor, emptySquareEdges, startingNumberConstraints, _, _);
@@ -181,11 +185,16 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// 
     /// # Output
     /// A boolean value of true if the colors found satisfy all the solution requirements.
-    function IsSudokuSolutionValid (size : Int, edges : (Int, Int)[], 
-        startingNumberConstraints : (Int, Int)[], colors : Int[]) : Bool {
+    function IsSudokuSolutionValid (
+        size : Int,
+        edges : (Int, Int)[],
+        startingNumberConstraints : (Int, Int)[],
+        colors : Int[]
+    )
+    : Bool {
         if (Any(GreaterThanOrEqualI(_, size), colors)) { return false; }
         if (Any(EqualI, edges)) { return false; }
-        for ((index, startingNumber) in startingNumberConstraints) {
+        for (index, startingNumber) in startingNumberConstraints {
             if (colors[index] == startingNumber) {
                 return false;
             }

@@ -123,23 +123,22 @@ namespace Microsoft.Quantum.Samples.Ising {
         let adiabaticEvolution = IsingAdiabaticEvolutionManual(nSites, hXInitial, hXFinal, jFinal, adiabaticTime, trotterStepSize, trotterOrder);
 
         // Allocate clean qubits for the computation.
-        using (qubits = Qubit[nSites]) {
+        use qubits = Qubit[nSites];
 
-            // Prepare the ground state of the initial Hamiltonian.
-            Prepare1DIsingState(qubits);
+        // Prepare the ground state of the initial Hamiltonian.
+        Prepare1DIsingState(qubits);
 
-            // Prepare the ground state of the target Hamiltonian.
-            adiabaticEvolution(qubits);
+        // Prepare the ground state of the target Hamiltonian.
+        adiabaticEvolution(qubits);
 
-            // Estimate the energy of the ground state.
-            let phaseEst = qpeAlgorithm(qpeOracle, qubits) / qpeStepSize;
+        // Estimate the energy of the ground state.
+        let phaseEst = qpeAlgorithm(qpeOracle, qubits) / qpeStepSize;
 
-            // Measurement the spin of the ground state.
-            let results = ForEach(MResetZ, qubits);
+        // Measurement the spin of the ground state.
+        let results = ForEach(MResetZ, qubits);
 
-            // Return the results.
-            return (phaseEst, results);
-        }
+        // Return the results.
+        return (phaseEst, results);
     }
     
     

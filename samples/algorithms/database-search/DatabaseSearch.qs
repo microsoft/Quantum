@@ -221,7 +221,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         ApplyStatePreparationOracle(markedQubit, databaseRegister);
 
         // Loop over Grover iterates.
-        for (idx in 0 .. nIterations - 1) {
+        for idx in 0 .. nIterations - 1 {
             ReflectAboutMarkedState(markedQubit);
             ReflectAboutInitialState(markedQubit, databaseRegister);
         }
@@ -248,20 +248,21 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     operation ApplyQuantumSearch(nIterations : Int, nDatabaseQubits : Int) : (Result, Result[]) {
         // Allocate nDatabaseQubits + 1 qubits. These are all in the |0〉
         // state.
-        using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
-            // Implement the quantum search algorithm.
-            SearchForMarkedState(nIterations, markedQubit, databaseRegister);
+        use markedQubit = Qubit();
+        use databaseRegister = Qubit[nDatabaseQubits];
 
-            // Measure the marked qubit. On success, this should be One.
-            let resultSuccess = MResetZ(markedQubit);
+        // Implement the quantum search algorithm.
+        SearchForMarkedState(nIterations, markedQubit, databaseRegister);
 
-            // Measure the state of the database register post-selected on
-            // the state of the marked qubit.
-            let resultElement = ForEach(MResetZ, databaseRegister);
+        // Measure the marked qubit. On success, this should be One.
+        let resultSuccess = MResetZ(markedQubit);
 
-            // Returns the measurement results of the algorithm.
-            return (resultSuccess, resultElement);
-        }
+        // Measure the state of the database register post-selected on
+        // the state of the marked qubit.
+        let resultElement = ForEach(MResetZ, databaseRegister);
+
+        // Returns the measurement results of the algorithm.
+        return (resultSuccess, resultElement);
     }
 
 
@@ -272,23 +273,22 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// Checks whether state preparation marks the right fraction of elements
     /// against theoretical predictions.
     operation StatePreparationOracleTest() : Unit {
-        for (nDatabaseQubits in 0..5) {
-            using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
-                ApplyStatePreparationOracle(markedQubit, databaseRegister);
+        for nDatabaseQubits in 0..5 {
+            use (markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits]);
+            ApplyStatePreparationOracle(markedQubit, databaseRegister);
 
-                // This is the success probability as predicted by theory.
-                // Note that this is computed only to verify that we have
-                // implemented Grover's algorithm correctly in the
-                // `AssertProb` below.
-                let successAmplitude = 1.0 / Sqrt(IntAsDouble(2 ^ nDatabaseQubits));
-                let successProbability = successAmplitude * successAmplitude;
-                AssertMeasurementProbability([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
+            // This is the success probability as predicted by theory.
+            // Note that this is computed only to verify that we have
+            // implemented Grover's algorithm correctly in the
+            // `AssertProb` below.
+            let successAmplitude = 1.0 / Sqrt(IntAsDouble(2 ^ nDatabaseQubits));
+            let successProbability = successAmplitude * successAmplitude;
+            AssertMeasurementProbability([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
 
-                // This operation automatically resets all qubits to |0〉
-                // for safe deallocation.
-                Reset(markedQubit);
-                ResetAll(databaseRegister);
-            }
+            // This operation automatically resets all qubits to |0〉
+            // for safe deallocation.
+            Reset(markedQubit);
+            ResetAll(databaseRegister);
         }
     }
 
@@ -303,30 +303,29 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// the success probability matches theoretical predictions. Then checks
     /// whether the correct index is found, post-selected on success.
     operation GroverHardCodedTest () : Unit {
-        for (nDatabaseQubits in 0..4) {
-            for (nIterations in 0..5) {
-                using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
-                    SearchForMarkedState(nIterations, markedQubit, databaseRegister);
-                    let dimension = IntAsDouble(2 ^ nDatabaseQubits);
-                    let successAmplitude = Sin(
-                        IntAsDouble(2 * nIterations + 1) *
-                        ArcSin(1.0 / Sqrt(dimension))
-                    );
-                    let successProbability = PowD(successAmplitude, 2.0);
-                    AssertMeasurementProbability([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
+        for nDatabaseQubits in 0..4 {
+            for nIterations in 0..5 {
+                use (markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits]);
+                SearchForMarkedState(nIterations, markedQubit, databaseRegister);
+                let dimension = IntAsDouble(2 ^ nDatabaseQubits);
+                let successAmplitude = Sin(
+                    IntAsDouble(2 * nIterations + 1) *
+                    ArcSin(1.0 / Sqrt(dimension))
+                );
+                let successProbability = PowD(successAmplitude, 2.0);
+                AssertMeasurementProbability([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
 
-                    // If this result is One, we have found the marked
-                    // element.
-                    let isMarked = MResetZ(markedQubit) == One;
+                // If this result is One, we have found the marked
+                // element.
+                let isMarked = MResetZ(markedQubit) == One;
 
-                    if (isMarked) {
-                        let results = ForEach(MResetZ, databaseRegister);
+                if (isMarked) {
+                    let results = ForEach(MResetZ, databaseRegister);
 
-                        // Post-selected on success, verify that 
-                        // database qubits are all |1〉.
-                        for (result in results) {
-                            EqualityFactR(result, One, "Found state should be 1..1 string.");
-                        }
+                    // Post-selected on success, verify that 
+                    // database qubits are all |1〉.
+                    for result in results {
+                        EqualityFactR(result, One, "Found state should be 1..1 string.");
                     }
                 }
             }
@@ -382,7 +381,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     operation ApplyDatabaseOracleFromInts(markedElements : Int[], markedQubit : Qubit, databaseRegister : Qubit[])
     : Unit
     is Adj + Ctl {
-        for (markedElement in markedElements) {
+        for markedElement in markedElements {
             ControlledOnInt(markedElement, X)(databaseRegister, markedQubit);
         }
     }
@@ -485,18 +484,17 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     operation ApplyGroverSearch(markedElements : Int[], nIterations : Int, nDatabaseQubits : Int) : (Result, Int) {
         // Allocate nDatabaseQubits + 1 qubits. These are all in the |0〉
         // state.
-        using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
-            // Implement the quantum search algorithm.
-            GroverSearch(markedElements, nIterations, 0)([markedQubit] + databaseRegister);
+        use (markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits]);
+        // Implement the quantum search algorithm.
+        GroverSearch(markedElements, nIterations, 0)([markedQubit] + databaseRegister);
 
-            // Measure the marked qubit. On success, this should be One.
-            let resultSuccess = MResetZ(markedQubit);
+        // Measure the marked qubit. On success, this should be One.
+        let resultSuccess = MResetZ(markedQubit);
 
-            // Measure the state of the database register post-selected on
-            // the state of the marked qubit and return the measurement results
-            // of the algorithm.
-            return (resultSuccess, ResultArrayAsInt(ForEach(MResetZ, databaseRegister)));
-        }
+        // Measure the state of the database register post-selected on
+        // the state of the marked qubit and return the measurement results
+        // of the algorithm.
+        return (resultSuccess, ResultArrayAsInt(ForEach(MResetZ, databaseRegister)));
     }
 
 }

@@ -53,18 +53,17 @@ namespace Microsoft.Quantum.Samples.QAOA {
         coupling : Double[],
         target : Qubit[]
     ) : Unit {
-        using (auxiliary = Qubit()) {
-            for ((h, qubit) in Zipped(weights, target)) {
-                Rz(2.0 * time * h, qubit);
-            }
-            for (i in 0..5) {
-                for (j in i + 1..5) {
-                    within {
-                        CNOT(target[i], auxiliary);
-                        CNOT(target[j], auxiliary);
-                    } apply {
-                        Rz(2.0 * time * coupling[numSegments * i + j], auxiliary);
-                    }
+        use auxiliary = Qubit();
+        for (h, qubit) in Zipped(weights, target) {
+            Rz(2.0 * time * h, qubit);
+        }
+        for i in 0..5 {
+            for j in i + 1..5 {
+                within {
+                    CNOT(target[i], auxiliary);
+                    CNOT(target[j], auxiliary);
+                } apply {
+                    Rz(2.0 * time * coupling[numSegments * i + j], auxiliary);
                 }
             }
         }
@@ -91,7 +90,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
         numSegments : Int
     ) : Double[] {
         mutable weights = new Double[numSegments];
-        for (i in 0..numSegments - 1) {
+        for i in 0..numSegments - 1 {
             set weights w/= i <- 4.0 * penalty - 0.5 * segmentCosts[i];
         }
         return weights;
@@ -151,14 +150,13 @@ namespace Microsoft.Quantum.Samples.QAOA {
 
         // Run the QAOA circuit
         mutable result = new Bool[numSegments];
-        using (x = Qubit[numSegments]) {
-            ApplyToEach(H, x); // prepare the uniform distribution
-            for ((tz, tx) in Zipped(timeZ, timeX)) {
-                ApplyInstanceHamiltonian(numSegments, tz, weights, couplings, x); // do Exp(-i H_C tz)
-                ApplyDriverHamiltonian(tx, x); // do Exp(-i H_0 tx)
-            }
-            return ResultArrayAsBoolArray(MultiM(x)); // measure in the computational basis
+        use x = Qubit[numSegments];
+        ApplyToEach(H, x); // prepare the uniform distribution
+        for (tz, tx) in Zipped(timeZ, timeX) {
+            ApplyInstanceHamiltonian(numSegments, tz, weights, couplings, x); // do Exp(-i H_C tz)
+            ApplyDriverHamiltonian(tx, x); // do Exp(-i H_0 tx)
         }
+        return ResultArrayAsBoolArray(MultiM(x)); // measure in the computational basis
     }
 
     /// # Summary
@@ -175,7 +173,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
     /// Calculated cost of given path
     function CalculatedCost(segmentCosts : Double[], usedSegments : Bool[]) : Double {
         mutable finalCost = 0.0;
-        for ((cost, segment) in Zipped(segmentCosts, usedSegments)) {
+        for (cost, segment) in Zipped(segmentCosts, usedSegments) {
             set finalCost += segment ? cost | 0.0;
         }
         return finalCost;
@@ -200,7 +198,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
             "Currently, IsSatisfactory only supports constraints for 6 segments."
         );
         mutable hammingWeight = 0;
-        for (segment in usedSegments) {
+        for segment in usedSegments {
             set hammingWeight += segment ? 1 | 0;
         }
         if (hammingWeight != 4 
@@ -239,7 +237,7 @@ namespace Microsoft.Quantum.Samples.QAOA {
         let weights = HamiltonianWeights(segmentCosts, penalty, numSegments);
         let couplings = HamiltonianCouplings(penalty, numSegments);
 
-        for (trial in 0..numTrials) {
+        for trial in 0..numTrials {
             let result = PerformQAOA(
                 numSegments, 
                 weights, 

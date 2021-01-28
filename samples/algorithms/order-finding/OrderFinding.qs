@@ -52,22 +52,23 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
         let n = BitSizeI(Length(perm) - 1);
         mutable accumulatedPermutation = perm;
 
-        using ((topQubits, bottomQubits) = (Qubit[n + 1], Qubit[n])) {
-            ApplyToEach(H, topQubits);
+        use topQubits = Qubit[n + 1];
+        ApplyToEach(H, topQubits);
 
-            for (i in 0..n) {
-                Controlled (ApplyPermutationUsingTransformation(accumulatedPermutation, _))([topQubits[n - i]], LittleEndian(bottomQubits));
-                set accumulatedPermutation = Squared(accumulatedPermutation);
-            }
+        use bottomQubits = Qubit[n];
 
-            let register = BigEndianAsLittleEndian(BigEndian(topQubits));
-            ApplyQuantumFourierTransform(register);
-
-            let result = MeasureInteger(register);
-
-            ResetAll(topQubits + bottomQubits);
-
-            return result;
+        for i in 0..n {
+            Controlled (ApplyPermutationUsingTransformation(accumulatedPermutation, _))([topQubits[n - i]], LittleEndian(bottomQubits));
+            set accumulatedPermutation = Squared(accumulatedPermutation);
         }
+
+        let register = BigEndianAsLittleEndian(BigEndian(topQubits));
+        ApplyQuantumFourierTransform(register);
+
+        let result = MeasureInteger(register);
+
+        ResetAll(topQubits + bottomQubits);
+
+        return result;
     }
 }

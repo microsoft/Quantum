@@ -23,7 +23,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
 
     @EntryPoint()
     operation RunProgram (nQubits : Int) : Unit {
-        
+
         // Parity Sampling with the Bernstein–Vazirani Algorithm:
 
         // Consider a function 𝑓(𝑥⃗) on bitstrings 𝑥⃗ = (𝑥₀, …, 𝑥ₙ₋₁) of the
@@ -47,8 +47,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         // We call that operation here, ensuring that we always get the
         // same value for 𝑟 that we provided as input.
 
-        for (parity in 0 .. (1 <<< nQubits) - 1)
-        {
+        for parity in 0 .. (1 <<< nQubits) - 1 {
             let measuredParity = RunBernsteinVazirani(nQubits, parity);
             if (measuredParity != parity) {
                 fail $"Measured parity {measuredParity}, but expected {parity}.";
@@ -85,8 +84,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
             fail "Measured that test case {balancedTestCase} was constant!";
         }
 
-        if (not RunDeutschJozsa(nQubits, elements))
-        {
+        if (not RunDeutschJozsa(nQubits, elements)) {
             fail "Measured that test case {constantTestCase} was balanced!";
         }
 
@@ -105,8 +103,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms {
         // correctly finds each hidden shift for a family of bent
         // functions defined by the inner product.
 
-        for (shift in 0 .. (1 <<< nQubits) - 1)
-        {
+        for shift in 0 .. (1 <<< nQubits) - 1 {
             let measuredShift = RunHiddenShift(shift, nQubits);
             if (measuredShift != shift) {
                 fail $"Measured shift {measuredShift}, but expected {shift}.";

@@ -20,13 +20,13 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
             (ApplyMultiTargetMultiNot, Controlled (ApplyToEachCA(X, _)))
         ];
 
-        for ((actual, expected) in testList) {
-            for (totalNumberOfQubits in 1 .. 8) {
+        for (actual, expected) in testList {
+            for totalNumberOfQubits in 1 .. 8 {
                 // We use AssertOperationsEqualReferenced as it requires only
                 // one call to the operation being tested
                 // when the number of controls is one
                 // the test will cover MultiTargetNot function
-                for (numberOfControls in 1 .. totalNumberOfQubits - 1) {
+                for numberOfControls in 1 .. totalNumberOfQubits - 1 {
                     Message(
                         $"Testing {actual} against {expected} " +
                         $"on {totalNumberOfQubits} with {numberOfControls} controls."

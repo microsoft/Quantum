@@ -54,12 +54,12 @@ namespace Microsoft.Quantum.Samples.OrderFinding {
     internal operation GuessOrder(index: Int, perm: Int[], shots : Int, guessMode: ((Int, Int[]) => Int)) : Unit {
         mutable counts = [0, 0, 0, 0];
 
-        for (_ in 0 .. shots - 1) {
+        for _ in 0 .. shots - 1 {
             let guess = guessMode(index, perm);
             set counts w/= (guess - 1) <- counts[guess - 1] + 1;
         }
 
-        for ((i, count) in Enumerated(counts)) {
+        for (i, count) in Enumerated(counts) {
             if (count > 0) {
                 Message($"{i+1}: {IntAsDouble(count) / IntAsDouble(shots) * 100.}%");
             }

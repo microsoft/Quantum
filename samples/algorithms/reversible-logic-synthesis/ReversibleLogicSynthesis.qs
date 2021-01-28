@@ -34,15 +34,14 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     operation SimulatePermutation(perm : Int[]) : Bool {
         mutable result = true;
         let nbits = BitSizeI(Length(perm) - 1);
-        for (i in IndexRange(perm)) {
-            using (qubits = Qubit[nbits]) {
-                ApplyXorInPlace(i, LittleEndian(qubits));
-                ApplyPermutationUsingTransformation(perm, LittleEndian(qubits));
-                let simres = MeasureInteger(LittleEndian(qubits));
+        for i in IndexRange(perm) {
+            use qubits = Qubit[nbits];
+            ApplyXorInPlace(i, LittleEndian(qubits));
+            ApplyPermutationUsingTransformation(perm, LittleEndian(qubits));
+            let simres = MeasureInteger(LittleEndian(qubits));
 
-                if (simres != perm[i]) {
-                    set result = false;
-                }
+            if (simres != perm[i]) {
+                set result = false;
             }
         }
 
@@ -107,27 +106,25 @@ namespace Microsoft.Quantum.Samples.ReversibleLogicSynthesis {
     ///    Proc. SODA 2010, ACM, pp. 448-457,
     ///    2010](https://doi.org/10.1137/1.9781611973075.37)
     operation FindHiddenShift (perm : Int[], shift : Int) : Int {
-
         let n = BitSizeI(Length(perm) - 1);
-        using (qubits = Qubit[2 * n]) {
-            within {
-                ApplyToEachA(H, qubits);
-                ApplyShift(shift, qubits);
-                ApplyPermutationUsingTransformation(perm, LittleEndian(qubits[n...]));
-            } apply {
-                ComputeInnerProduct(qubits);
-            }
-
-            within {
-                Adjoint ApplyPermutationUsingTransformation(perm, LittleEndian(qubits[...n - 1]));
-            } apply {
-                ComputeInnerProduct(qubits);
-            }
-
+        use qubits = Qubit[2 * n];
+        within {
             ApplyToEachA(H, qubits);
-
-            return MeasureInteger(LittleEndian(qubits));
+            ApplyShift(shift, qubits);
+            ApplyPermutationUsingTransformation(perm, LittleEndian(qubits[n...]));
+        } apply {
+            ComputeInnerProduct(qubits);
         }
+
+        within {
+            Adjoint ApplyPermutationUsingTransformation(perm, LittleEndian(qubits[...n - 1]));
+        } apply {
+            ComputeInnerProduct(qubits);
+        }
+
+        ApplyToEachA(H, qubits);
+
+        return MeasureInteger(LittleEndian(qubits));
     }
 
 }
