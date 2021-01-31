@@ -12,7 +12,7 @@ products:
 - azure-quantum
 ---
 
-# Hidden shift
+# Finding hidden shift of bent functions using the Azure Quantum service
 
 This sample demonstrates how to use Q# and Azure Quantum together to learn the hidden shift of bent functions.
 

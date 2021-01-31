@@ -11,7 +11,7 @@ products:
 - azure-quantum
 ---
 
-# Quantum teleportation
+# Quantum teleportation sample
 
 This sample demonstrates how to use Q# and the Azure Quantum service together to teleport quantum data within a device.
 

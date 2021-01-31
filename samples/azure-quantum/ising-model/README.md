@@ -11,7 +11,7 @@ products:
 - azure-quantum
 ---
 
-# Simulating the Ising model on hardware with the Trotter–Suzuki decomposition
+# Simulating the Ising model on quantum hardware with the Trotter–Suzuki decomposition
 
 This sample demonstrates how to use Q# and the Azure Quantum service together to simulate evolution under the [transverse Ising model](https://en.wikipedia.org/wiki/Transverse-field_Ising_model) by using the Trotter–Suzuki decomposition.
 

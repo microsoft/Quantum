@@ -13,7 +13,7 @@ products:
 - azure-quantum
 ---
 
-# Parallel quantum random number generator (QRNG)
+# Parallel quantum random number generator (QRNG) sample
 
 This sample demonstrates how to use Q# and the Azure Quantum service together to build a quantum random number generator (QRNG).
 In particular, this sample uses a register of qubits rather than a single qubit to draw random numbers several bits at a time, avoiding the need for intermediate measurement.

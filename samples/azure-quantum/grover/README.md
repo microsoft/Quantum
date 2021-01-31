@@ -11,7 +11,7 @@ products:
 - azure-quantum
 ---
 
-# Simple Grover's search
+# Simple Grover's search with the Azure Quantum service
 
 This sample demonstrates how to use Q# and the Azure Quantum service together to search for data with Grover's algorithm, also known as amplitude amplification.
 By applying a sequence of reflections, this state prepares a register of qubits in a state marked by a given quantum operation known as an _oracle_.
