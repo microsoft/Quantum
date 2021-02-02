@@ -8,7 +8,7 @@ namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Measurement;
 
     /// # Summary
-    /// A quantum oracle which implements the following function: 
+    /// A quantum oracle which implements the following function:
     /// f(x₀, …, xₙ₋₁) = Σᵢ (rᵢ xᵢ + (1 - rᵢ)(1 - xᵢ)) modulo 2 for a given bit vector r = (r₀, …, rₙ₋₁).
     ///
     /// # Input
@@ -20,7 +20,7 @@ namespace Microsoft.Quantum.Samples {
     /// A qubit in arbitrary state |y⟩ (output qubit)
     operation ApplyProductWithNegationFunction (vector : Bool[], controls : Qubit[], target : Qubit)
     : Unit is Adj {
-        for ((bit, control) in Zip(vector, controls)) {
+        for (bit, control) in Zipped(vector, controls) {
             ControlledOnInt(bit ? 1 | 0, X)([control], target);
         }
     }
@@ -41,27 +41,28 @@ namespace Microsoft.Quantum.Samples {
     /// A bit vector r which generates the same oracle as the given one
     /// Note that this doesn't have to be the same bit vector as the one used to initialize the oracle!
     operation ReconstructOracleParameters(N : Int, oracle : ((Qubit[], Qubit) => Unit)) : Bool[] {
-        using ((x, y) = (Qubit[N], Qubit())) {
-            // apply oracle to qubits in all 0 state
-            oracle(x, y);
-            
-            // f(x) = Σᵢ (rᵢ xᵢ + (1 - rᵢ)(1 - xᵢ)) = 2 Σᵢ rᵢ xᵢ + Σᵢ rᵢ + Σᵢ xᵢ + N = Σᵢ rᵢ + N
-            // remove the N from the expression
-            if (N % 2 == 1) {
-                X(y);
-            }
-            
-            // now y = Σᵢ rᵢ
-            
-            // measure the output register
-            let m = MResetZ(y);
+        use x = Qubit[N];
+        use y = Qubit();
 
-            // before releasing the qubits make sure they are all in |0⟩ state
-            ResetAll(x);
-            return m == One
-                   ? ConstantArray(N, false) w/ 0 <- true
-                   | ConstantArray(N, false);
+        // apply oracle to qubits in all 0 state
+        oracle(x, y);
+
+        // f(x) = Σᵢ (rᵢ xᵢ + (1 - rᵢ)(1 - xᵢ)) = 2 Σᵢ rᵢ xᵢ + Σᵢ rᵢ + Σᵢ xᵢ + N = Σᵢ rᵢ + N
+        // remove the N from the expression
+        if (N % 2 == 1) {
+            X(y);
         }
+
+        // now y = Σᵢ rᵢ
+
+        // measure the output register
+        let m = MResetZ(y);
+
+        // before releasing the qubits make sure they are all in |0⟩ state
+        ResetAll(x);
+        return m == One
+                ? ConstantArray(N, false) w/ 0 <- true
+                | ConstantArray(N, false);
     }
 
     /// # Summary

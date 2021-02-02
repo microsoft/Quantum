@@ -19,7 +19,7 @@ namespace Microsoft.Quantum.Numerics.Samples {
         if (odd) {
             set msg += "*x";
         }
-        for (d in 1 .. Length(polynomialCoefficients) - 1) {
+        for d in 1 .. Length(polynomialCoefficients) - 1 {
             set msg += " + {polynomialCoefficients[d]}*x^{d + (odd ? d+1 | 0) + (even ? d | 0)}";
         }
         Message(msg + ".");
@@ -30,7 +30,7 @@ namespace Microsoft.Quantum.Numerics.Samples {
             polynomialCoefficients,
             evaluationPoints, numBits, pointPos,
             odd, even);
-        for (i in IndexRange(res)) {
+        for i in IndexRange(res) {
             Message($"P({evaluationPoints[i]}) = {res[i]}. [sin(x) = {Sin(evaluationPoints[i])}]");
         }
 

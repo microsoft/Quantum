@@ -227,57 +227,55 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         
         // Allocate qubits for the superposition of eigenstates of
         // the oracle that is used in period finding.
-        using (eigenstateRegister = Qubit[bitsize]) {
+        use eigenstateRegister = Qubit[bitsize];
 
-            // Initialize eigenstateRegister to 1, which is a superposition of
-            // the eigenstates we are estimating the phases of.
-            // We first interpret the register as encoding an unsigned integer
-            // in little endian encoding.
-            let eigenstateRegisterLE = LittleEndian(eigenstateRegister);
-            ApplyXorInPlace(1, eigenstateRegisterLE);
+        // Initialize eigenstateRegister to 1, which is a superposition of
+        // the eigenstates we are estimating the phases of.
+        // We first interpret the register as encoding an unsigned integer
+        // in little endian encoding.
+        let eigenstateRegisterLE = LittleEndian(eigenstateRegister);
+        ApplyXorInPlace(1, eigenstateRegisterLE);
 
-            // An oracle of type Microsoft.Quantum.Oracles.DiscreteOracle
-            // that we are going to use with phase estimation methods below.
-            let oracle = DiscreteOracle(ApplyOrderFindingOracle(generator, modulus, _, _));
+        // An oracle of type Microsoft.Quantum.Oracles.DiscreteOracle
+        // that we are going to use with phase estimation methods below.
+        let oracle = DiscreteOracle(ApplyOrderFindingOracle(generator, modulus, _, _));
 
-            if (useRobustPhaseEstimation) {
+        if (useRobustPhaseEstimation) {
 
-                // Use Microsoft.Quantum.Characterization.RobustPhaseEstimation to estimate s/r.
-                // RobustPhaseEstimation needs only one extra qubit, but requires
-                // several calls to the oracle.
-                let phase = RobustPhaseEstimation(bitsPrecision, oracle, eigenstateRegisterLE!);
-                
-                // Compute the numerator k of dyadic fraction k/2^bitsPrecision
-                // approximating s/r. Note that phase estimation projects on the eigenstate
-                // corresponding to random s.
-                set frequencyEstimate = Round(((phase * IntAsDouble(2 ^ bitsPrecision)) / 2.0) / PI());
-            }
-            else {
-                // Use Microsoft.Quantum.Characterization.QuantumPhaseEstimation to estimate s/r.
-                // When using QuantumPhaseEstimation we will need extra `bitsPrecision`
-                // qubits
-                using (register = Qubit[bitsPrecision]) {
-                    let frequencyEstimateNumerator = LittleEndian(register);  
-
-                    // The register that will contain the numerator k of
-                    // dyadic fraction k/2^bitsPrecision. The numerator is an unsigned
-                    // integer encoded in big-endian format. This is indicated by
-                    // use of Microsoft.Quantum.Arithmetic.BigEndian type.
-                    QuantumPhaseEstimation(
-                        oracle, eigenstateRegisterLE!, LittleEndianAsBigEndian(frequencyEstimateNumerator)
-                    ); 
-                    
-                    // Directly measure the numerator k of dyadic fraction k/2^bitsPrecision
-                    // approximating s/r. Note that phase estimation project on
-                    // the eigenstate corresponding to random s.
-                    set frequencyEstimate = MeasureInteger(frequencyEstimateNumerator);
-                }
-            }
+            // Use Microsoft.Quantum.Characterization.RobustPhaseEstimation to estimate s/r.
+            // RobustPhaseEstimation needs only one extra qubit, but requires
+            // several calls to the oracle.
+            let phase = RobustPhaseEstimation(bitsPrecision, oracle, eigenstateRegisterLE!);
             
-            // Return all the qubits used for oracle's eigenstate back to 0 state
-            // using Microsoft.Quantum.Intrinsic.ResetAll.
-            ResetAll(eigenstateRegister);
+            // Compute the numerator k of dyadic fraction k/2^bitsPrecision
+            // approximating s/r. Note that phase estimation projects on the eigenstate
+            // corresponding to random s.
+            set frequencyEstimate = Round(((phase * IntAsDouble(2 ^ bitsPrecision)) / 2.0) / PI());
         }
+        else {
+            // Use Microsoft.Quantum.Characterization.QuantumPhaseEstimation to estimate s/r.
+            // When using QuantumPhaseEstimation we will need extra `bitsPrecision`
+            // qubits
+            use register = Qubit[bitsPrecision];
+            let frequencyEstimateNumerator = LittleEndian(register);  
+
+            // The register that will contain the numerator k of
+            // dyadic fraction k/2^bitsPrecision. The numerator is an unsigned
+            // integer encoded in big-endian format. This is indicated by
+            // use of Microsoft.Quantum.Arithmetic.BigEndian type.
+            QuantumPhaseEstimation(
+                oracle, eigenstateRegisterLE!, LittleEndianAsBigEndian(frequencyEstimateNumerator)
+            ); 
+            
+            // Directly measure the numerator k of dyadic fraction k/2^bitsPrecision
+            // approximating s/r. Note that phase estimation project on
+            // the eigenstate corresponding to random s.
+            set frequencyEstimate = MeasureInteger(frequencyEstimateNumerator);
+        }
+        
+        // Return all the qubits used for oracle's eigenstate back to 0 state
+        // using Microsoft.Quantum.Intrinsic.ResetAll.
+        ResetAll(eigenstateRegister);
 
         return frequencyEstimate;
     }

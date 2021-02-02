@@ -39,19 +39,22 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         limit : Int
     )
     : (Bool, Result, Int) {
-        using ((auxiliary, resource, target) = (Qubit(), Qubit(), Qubit())) {
-            // Initialize qubits to starting values (|+⟩, |+⟩, |0⟩/|1⟩)
-            InitializeQubits(
-                inputBasis, inputValue, auxiliary, resource, target
-                );
-            let (success, numIter) = ApplyRzArcTan2(
-                inputBasis, inputValue, limit, auxiliary, resource, target);
-            let result = Measure([inputBasis], [target]);
-            // From version 0.12 it is no longer necessary to release qubits 
-            /// in zero state.
-            ResetAll([target, resource, auxiliary]);
-            return (success, result, numIter);
-        }
+        use auxiliary = Qubit();
+        use resource = Qubit();
+        use target = Qubit();
+
+        // Initialize qubits to starting values (|+⟩, |+⟩, |0⟩/|1⟩)
+        InitializeQubits(
+            inputBasis, inputValue, auxiliary, resource, target
+        );
+        let (success, numIter) = ApplyRzArcTan2(
+            inputBasis, inputValue, limit, auxiliary, resource, target);
+        let result = Measure([inputBasis], [target]);
+
+        // From version 0.12 it is no longer necessary to release qubits 
+        /// in zero state.
+        ResetAll([target, resource, auxiliary]);
+        return (success, result, numIter);
     }
 
     /// # Summary
@@ -153,7 +156,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         if (inputValue) {
             X(target);
         }
-        PrepareQubit(inputBasis, target);
+        PreparePauliEigenstate(inputBasis, target);
     }
 
     /// # Summary

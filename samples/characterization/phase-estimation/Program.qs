@@ -28,11 +28,10 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
         
         let oracle = EvolveForTime(eigenphase, _, _);
 
-        using (eigenstate = Qubit()) {
-            X(eigenstate);
-            let est = EstimatePhase(20001, 60, oracle, [eigenstate]);
-            Message($"Expected {eigenphase}, estimated {est}.");
-            Reset(eigenstate);
-        }
+        use eigenstate = Qubit();
+        X(eigenstate);
+        let est = EstimatePhase(20001, 60, oracle, [eigenstate]);
+        Message($"Expected {eigenphase}, estimated {est}.");
+        Reset(eigenstate);
     }
 }

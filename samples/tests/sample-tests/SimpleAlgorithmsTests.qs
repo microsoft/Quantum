@@ -22,7 +22,7 @@ namespace Microsoft.Quantum.Tests {
         let nQubits = 4;
 
         // now, we iterate through all the 2^n parity functions
-        for (idxInstance in 0 .. 2 ^ nQubits - 1) {
+        for idxInstance in 0 .. 2 ^ nQubits - 1 {
             let result = RunBernsteinVazirani(nQubits, idxInstance);
             EqualityFactI(result, idxInstance, $"was expecting {idxInstance} but measured {result}");
         }
@@ -47,7 +47,7 @@ namespace Microsoft.Quantum.Tests {
         let nQubits = 4;
 
         // now, we iterate through all the 2^n parity functions
-        for (idxInstance in 0 .. 2 ^ nQubits - 1) {
+        for idxInstance in 0 .. 2 ^ nQubits - 1 {
 
             // the corresponding quantum operation is constructed, which
             // has signature Qubit[] => (), and then it is passed to the
@@ -83,7 +83,7 @@ namespace Microsoft.Quantum.Tests {
         ];
 
         // iterating through the array of test instances
-        for ((n, markedElements, result) in testList) {
+        for (n, markedElements, result) in testList {
             // Finally, using an assertion from the Asserts subdomain of the
             // canon, we check if the measured result is equal to bool value.
             EqualityFactB(

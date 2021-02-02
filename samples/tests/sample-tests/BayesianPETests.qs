@@ -12,13 +12,12 @@ namespace Microsoft.Quantum.Tests {
         let expected = 0.571;
         let oracle = EvolveForTime(expected, _, _);
 
-        using (eigenstate = Qubit()) {
-            X(eigenstate);
-            let actual = EstimatePhase(20001, 60, oracle, [eigenstate]);
-            // Give a very generous tolerance to reduce false positive rate.
-            EqualityWithinToleranceFact(expected, actual, 0.05);
-            Reset(eigenstate);
-        }
+        use eigenstate = Qubit();
+        X(eigenstate);
+        let actual = EstimatePhase(20001, 60, oracle, [eigenstate]);
+        // Give a very generous tolerance to reduce false positive rate.
+        EqualityWithinToleranceFact(expected, actual, 0.05);
+        Reset(eigenstate);
     }
 
 }

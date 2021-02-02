@@ -59,28 +59,28 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift {
     : Result[] {
         // now, we allocate n clean qubits. Note that the function Ufstar and Ug are
         // unitary operations on n qubits defined via phase encoding.
-        using (qubits = Qubit[n]) {
-            // first, a Hadamard transform is applied to each of the qubits.
-            ApplyToEach(H, qubits);
+        use qubits = Qubit[n];
 
-            // we now apply the shifted function Ug to the n qubits, computing
-            // |x〉 -> (-1)^{g(x)} |x〉.
-            Ug(qubits);
+        // first, a Hadamard transform is applied to each of the qubits.
+        ApplyToEach(H, qubits);
 
-            within {
-                // now, a Hadamard transform is applied to each of the n qubits.
-                ApplyToEachA(H, qubits);
-            } apply {
-                // we now apply the dual function of the unshifted function, i.e., Ufstar,
-                // to the n qubits, computing |x〉 -> (-1)^{fstar(x)} |x〉.
-                Ufstar(qubits);
-            }
+        // we now apply the shifted function Ug to the n qubits, computing
+        // |x〉 -> (-1)^{g(x)} |x〉.
+        Ug(qubits);
 
-            // the following for-loop measures the n qubits and resets them to
-            // zero so that they can be safely returned at the end of the
-            // using-block.
-            return ForEach(MResetZ, qubits);
+        within {
+            // now, a Hadamard transform is applied to each of the n qubits.
+            ApplyToEachA(H, qubits);
+        } apply {
+            // we now apply the dual function of the unshifted function, i.e., Ufstar,
+            // to the n qubits, computing |x〉 -> (-1)^{fstar(x)} |x〉.
+            Ufstar(qubits);
         }
+
+        // the following for-loop measures the n qubits and resets them to
+        // zero so that they can be safely returned at the end of the
+        // using-block.
+        return ForEach(MResetZ, qubits);
     }
 
 

@@ -30,13 +30,16 @@ namespace Microsoft.Quantum.Samples {
     // output.
     @EntryPoint()
     operation RunMajority(a : Bool, b : Bool, c : Bool) : Bool {
-        using ((qa, qb, qc, f) = (Qubit(), Qubit(), Qubit(), Qubit())) {
-            within {   
-                ApplyPauliFromBitString(PauliX, true, [a, b, c], [qa, qb, qc]);
-            } apply {
-                ApplyMajority(qa, qb, qc, f);
-            }
-            return IsResultOne(MResetZ(f));
+        use qa = Qubit();
+        use qb = Qubit();
+        use qc = Qubit();
+        use f  = Qubit();
+
+        within {   
+            ApplyPauliFromBitString(PauliX, true, [a, b, c], [qa, qb, qc]);
+        } apply {
+            ApplyMajority(qa, qb, qc, f);
         }
+        return IsResultOne(MResetZ(f));
     }
 }

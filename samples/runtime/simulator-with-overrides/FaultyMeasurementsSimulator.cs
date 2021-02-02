@@ -35,8 +35,10 @@ namespace Microsoft.Quantum.Samples.SimulatorWithOverrides
             /// <summary>
             /// The actual definition of what the new operation does.
             /// </summary>
-            public override Func<Qubit, Result> __Body__ {
-                get {
+            public override Func<Qubit, Result> __Body__
+            {
+                get
+                {
                     // Get the original M operation to call it and process the results
                     Func<Qubit, Result> originalMeasurementOperation = base.__Body__;
 

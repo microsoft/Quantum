@@ -18,9 +18,8 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # See Also
     /// - CircuitMetrics.cs
     operation CollectMetrics(op : ((Qubit, Qubit, Qubit) => Unit is Adj)) : Unit {
-        using (qubits = Qubit[3]) {
-            op(qubits[0], qubits[1], qubits[2]);
-        }
+        use qubits = Qubit[3];
+        op(qubits[0], qubits[1], qubits[2]);
     }
     
     
@@ -32,8 +31,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
         // Now proceed to test the equality of operations
         let equalTestList = [(ApplyControlledSWAPUsingCCNOT(TDepthOneCCNOT, _, _, _), ApplyBuiltInControlledSWAP), (ApplyControlledSWAPUsingCCNOT(CCNOT, _, _, _), ApplyBuiltInControlledSWAP), (ApplyControlledSWAPUsingExplicitDecomposition, ApplyBuiltInControlledSWAP)];
         
-        for (i in 0 .. Length(equalTestList) - 1) {
-            let (actual, expected) = equalTestList[i];
+        for (actual, expected) in equalTestList {
             
             // This ensures that we have a list of tested circuits in the output
             // If the test fails the circuit that is wrong will be the last one in the list
