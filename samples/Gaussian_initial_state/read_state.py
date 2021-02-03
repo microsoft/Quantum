@@ -1,8 +1,10 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
 import matplotlib.pyplot as plt
 
 # read the probability amplitudes of result state into list
 list = []
-with open('wavefcn_recursive.txt', 'r', encoding="utf8") as file:
+with open('gaussian_wavefcn.txt', 'r', encoding="utf8") as file:
     for line in file:
         # cut out probability amplitudes
         ampl = None

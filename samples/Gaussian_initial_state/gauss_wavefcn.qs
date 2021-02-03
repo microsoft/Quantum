@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.GaussianPreparation {
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Intrinsic;
@@ -59,7 +61,7 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
     /// Mean.
     /// ## N
     /// The limit of the sum in the normalization factor.
-    operation Angle (sigma: Double, mu: Double, N : Int) : Double {
+    function Angle (sigma: Double, mu: Double, N : Int) : Double {
         return ArcCos(Sqrt(Norm(sigma/2., mu/2., N)/Norm(sigma, mu, N)));
     }
 
@@ -68,8 +70,8 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
     /// # Input
     /// ## nQubits
     /// The number of bits.
-    operation QubitStrings (nQubits: Int) : Bool[][] {
-        return MappedOverRange(0..PowI(2, n) - 1, IntAsBoolArray(_, n));
+    function QubitStrings (nQubits: Int) : Bool[][] {
+        return MappedOverRange(IntAsBoolArray(_, nQubits), 0..PowI(2, nQubits) - 1);
     }
 
     
@@ -81,10 +83,10 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
     /// The n-bit string.
     /// ## mu
     /// Mean.
-    operation MeanQubitCombo (qub: Bool[], mu: Double) : Double {
+    function MeanQubitCombo (qub: Bool[], mu: Double) : Double {
         mutable mu_out = mu;
         for (bit in qub) {
-            set mu_out += mu_out/2. - bit ? 0.5 | -0.5;
+            set mu_out += mu_out/2. - (bit ? 0. | -0.5);
         }
         return mu_out;
     }
@@ -96,7 +98,7 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
     /// Mean.
     /// ## n
     /// Recursion level.
-    operation LevelMeans (mu: Double, n: Int) : Double[] {
+    function LevelMeans (mu: Double, n: Int) : Double[] {
         mutable list_mu_out = ConstantArray(2^n, 0.);
         let qb_strings = QubitStrings(n);
         for (i in 0..2^n-1) {
@@ -116,7 +118,7 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
     /// Mean.
     /// ## n
     /// Recursion level.
-    operation LevelAngles(sigma: Double, mu: Double, n: Int) : Double[] {
+    function LevelAngles(sigma: Double, mu: Double, n: Int) : Double[] {
         let sigma_out = sigma/(2.^IntAsDouble(n));
         let list_mu = LevelMeans(mu, n);
         mutable angles_out = ConstantArray(2^n, 0.);
@@ -143,13 +145,12 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
         Ry(2. * theta, register[0]);
         for (n in 1..numQubits-1) {
             // Compute a list of all the rotation angles at level n.
-            let list_level_angles = LevelAngles(sigma, mu_, n);
+            let ListLevelAngles = LevelAngles(sigma, mu_, n);
             // For each bitstring at current level, apply a controlled rotation to the 
             // next qubit.
             for (i in 0..2^n - 1){
                 let bitstring = IntAsBoolArray(i,n);
-                set theta = list_level_angles[i];
-                mutable rotation = Ry(2.*theta, _);
+                mutable rotation = Ry(2.*ListLevelAngles[i], _);
                 ApplyControlledOnBitString(bitstring, rotation, register[0..n-1], register[n]);                    
             }
         }
@@ -174,38 +175,31 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
         if (numQubits == 1) {
             let alpha = Angle(sigma, mu, 10^3);
 		    Ry(2.*alpha, register[0]);
-            DumpRegister("wavefcn_recursive.txt", register);
-            ResetAll(register);
         }    
         // If there are more than 1 qubit, contruct the state recursively.
         elif (numQubits > 1) {
+            let alpha = Angle(sigma, mu, 10^3);
             // If the bitstring is empty, or it's the 1st qubit.
             if (IsEmpty(bitstring)) {
                 // Rotate the 1st qubit.
-                let alpha = Angle(sigma, mu, 10^3);
                 Ry(2.*alpha, register[0]);
-                // Add a 0 to the bitstring and call the function recursively.
-                let bitstring0 = bitstring + [false];
-			    PrepareGaussWavefcnRecursive(sigma/2., mu/2., numQubits, bitstring0, register);
-			    // Add a 1 to the bitstring and call the function recursively.
-                let bitstring1 = Flattened([bitstring, [true]]);
-			    PrepareGaussWavefcnRecursive(sigma/2., (mu-1.)/2., numQubits, bitstring1, register); 
             }
             // If the bitstring is not empty but not longer than the number of qubits, or
             // it's not the 1st qubit but not after the last qubit.
             elif (Length(bitstring) < numQubits) {
                 // Apply the controlled rotation with the bitstring to the next qubit.
-                let alpha = Angle(sigma, mu, 10^3);
                 let rotation = Ry(2.*alpha, _);
                 let n = Length(bitstring);
                 ApplyControlledOnBitString(bitstring, rotation, register[0..n-1], register[n]);
+            }	 
+            if (Length(bitstring) != numQubits) {
                 // Add a 0 to the bitstring and call the function recursively.
-                let bitstring0 = Flattened([bitstring, [false]]);
+                let bitstring0 = bitstring + [false];
                 PrepareGaussWavefcnRecursive(sigma/2., mu/2., numQubits, bitstring0, register);
                 // Add a 1 to the bitstring and call the function recursively.
                 let bitstring1 = Flattened([bitstring, [true]]);
-                PrepareGaussWavefcnRecursive(sigma/2., (mu-1.)/2., numQubits, bitstring1, register); 
-            }	    
+                PrepareGaussWavefcnRecursive(sigma/2., (mu-1.)/2., numQubits, bitstring1, register);    
+            } 
         } 
     }
 	
