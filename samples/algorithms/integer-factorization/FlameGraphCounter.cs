@@ -52,14 +52,14 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
         }
 
         // returns the resulting call stack after adding the given function call
-        private static string pushString(string s, string add) {
+        private static string PushString(string s, string add) {
             Debug.Assert(s != null);
             Debug.Assert(add != null);
             return s.Length == 0 ? add : s + ";" + add;
         }
 
         // returns the remaining string after popping a function call from the stack
-        private static string popString(string s) {
+        private static string PopString(string s) {
             int index = s.LastIndexOf(';');
             return index > 0 ? s.Substring(0, index) : "";
         }
@@ -74,7 +74,7 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
                     FunctorSpecialization = functorSpecialization
                 });
             globalCounters.CopyTo(operationCallStack.Peek().GlobalCountersAtOperationStart, 0);
-            callStack = pushString(callStack, operationName);
+            callStack = PushString(callStack, operationName);
         }
 
         #region ITracingSimulatorListener implementation
@@ -143,16 +143,13 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
                 flameGraphData[callStack] += difference[this.resourceToVisualize];
             else
                 flameGraphData.Add(callStack, difference[this.resourceToVisualize]);
-            callStack = popString(callStack);
+            callStack = PopString(callStack);
         }
 
         /// <summary>
         /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.
         /// </summary>
-        public object NewTracingData(long qubitId)
-        {
-            return null;
-        }
+        public object NewTracingData(long qubitId) => null;
 
         /// <summary>
         /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.

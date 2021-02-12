@@ -143,12 +143,12 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
         static int Visualize(VisualizeOptions options) {
             var config = FGResourcesEstimator.RecommendedConfig();
 
-            var estimator = new FGResourcesEstimator(config, options.Resource);
+            var estimator = new FlameGraphResourcesEstimator(config, options.Resource);
 
             var bitsize = (long)System.Math.Ceiling(System.Math.Log2(options.NumberToFactor + 1));
             EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
 
-            foreach (KeyValuePair<string, double> entry in estimator.GetFlameGraphData()) {
+            foreach (var entry in estimator.GetFlameGraphData()) {
                 Console.WriteLine(entry.Key + " " + entry.Value);
             }
 

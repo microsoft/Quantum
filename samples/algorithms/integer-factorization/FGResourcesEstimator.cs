@@ -6,7 +6,7 @@ using Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime;
 using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
 namespace Microsoft.Quantum.Simulation.Simulators {
-    public class FGResourcesEstimator : ResourcesEstimator {
+    public class FlameGraphResourcesEstimator : ResourcesEstimator {
         private FlameGraphCounter operationsCounter;
         public static new QCTraceSimulatorConfiguration RecommendedConfig() =>
             new QCTraceSimulatorConfiguration
@@ -22,8 +22,8 @@ namespace Microsoft.Quantum.Simulation.Simulators {
                 UseWidthCounter = true
             };
 
-        public FGResourcesEstimator() : this(RecommendedConfig(), (int) PrimitiveOperationsGroups.CNOT) {}
-        public FGResourcesEstimator(QCTraceSimulatorConfiguration config, int resourceToVisualize) : base(WithoutPrimitiveOperationsCounter(config)) {
+        public FlameGraphResourcesEstimator() : this(RecommendedConfig(), (int) PrimitiveOperationsGroups.CNOT) {}
+        public FlameGraphResourcesEstimator(QCTraceSimulatorConfiguration config, int resourceToVisualize) : base(WithoutPrimitiveOperationsCounter(config)) {
             Console.WriteLine(resourceToVisualize);
             this.operationsCounter.resourceToVisualize = resourceToVisualize;
         }
@@ -32,6 +32,7 @@ namespace Microsoft.Quantum.Simulation.Simulators {
             config.UsePrimitiveOperationsCounter = false;
             return config;
         }
+ 
         protected override void InitializeQCTracerCoreListeners(IList<IQCTraceSimulatorListener> listeners) {
             base.InitializeQCTracerCoreListeners(listeners);
             var primitiveOperationsIdToNames = new Dictionary<int, string>();
@@ -43,8 +44,8 @@ namespace Microsoft.Quantum.Simulation.Simulators {
             this.tCoreConfig.Listeners.Add(operationsCounter);
         }
 
-        public Dictionary<string, double> GetFlameGraphData() {
-            return operationsCounter.GetFlameGraphData();
-        }
+        public Dictionary<string, double> GetFlameGraphData() =>
+            operationsCounter.GetFlameGraphData();
+        
     }
 }
