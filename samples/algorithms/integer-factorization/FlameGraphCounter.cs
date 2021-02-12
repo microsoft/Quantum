@@ -58,7 +58,7 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
             return s.Length == 0 ? add : s + ";" + add;
         }
 
-        // returns the remaining string after popping a function call from the stack
+        // returns the remaining call stack after removing a function call from the top of the stack
         private static string PopString(string s) {
             int index = s.LastIndexOf(';');
             return index > 0 ? s.Substring(0, index) : "";

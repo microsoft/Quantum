@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using Microsoft.Quantum.Simulation.Simulators;
 using Microsoft.Quantum.Simulation.Core;
 using CommandLine;
@@ -141,7 +140,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
         }
 
         static int Visualize(VisualizeOptions options) {
-            var config = FGResourcesEstimator.RecommendedConfig();
+            var config = FlameGraphResourcesEstimator.RecommendedConfig();
 
             var estimator = new FlameGraphResourcesEstimator(config, options.Resource);
 

@@ -24,7 +24,6 @@ namespace Microsoft.Quantum.Simulation.Simulators {
 
         public FlameGraphResourcesEstimator() : this(RecommendedConfig(), (int) PrimitiveOperationsGroups.CNOT) {}
         public FlameGraphResourcesEstimator(QCTraceSimulatorConfiguration config, int resourceToVisualize) : base(WithoutPrimitiveOperationsCounter(config)) {
-            Console.WriteLine(resourceToVisualize);
             this.operationsCounter.resourceToVisualize = resourceToVisualize;
         }
 
