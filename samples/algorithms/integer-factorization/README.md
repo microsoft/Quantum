@@ -19,8 +19,8 @@ This sample also contains an adapter for the [ResourcesEstimator](https://github
 To generate a flame graph, follow these steps:
 
 1. Clone the [flamegraph repository](https://github.com/brendangregg/FlameGraph)
-2. Install perl (it is not pre-installed on Windows)
-3. Run Program.cs with the visualize option by specifying the generator and the resource (more information in the help text) to be visualized. Save the output in a file.
+2. Install perl
+3. Run program with the `visualize` command by specifying the generator and the resource (more information in the help text) to be visualized. Save the output in a file.
 4. Use flamegraph.pl with the above file to generate an svg of the flame graph.
 
 Example usage:
@@ -34,4 +34,4 @@ perl flamegraph.pl output.txt > output.svg
 ## Manifest ##
 
 - [FlameGraphCounter.cs](./FlameGraphCounter.cs): Counter for the adapted resources estimator.
-- [FlameGraphResourcesEstimator](./FlameGraphResourcesEstimator.cs): The adapted resources estimator.
+- [FlameGraphResourcesEstimator.cs](./FlameGraphResourcesEstimator.cs): The adapted resources estimator.
