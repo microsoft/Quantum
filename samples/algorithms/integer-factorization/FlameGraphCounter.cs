@@ -24,7 +24,7 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
         /// </summary>
         private readonly double[] globalCounters;
 
-        private readonly Stack<double[]> operationCallStack;
+        private readonly Stack<double[]> operationCallStack = new Stack<double[]>();
 
         private string callStack = string.Empty;
 
@@ -32,8 +32,7 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
         {
             configuration = Utils.DeepClone(config);
             globalCounters = new double[configuration.primitiveOperationsNames.Length];
-            operationCallStack = new Stack<double[]>();
-            AddToCallStack(CallGraphEdge.CallGraphRootHashed,OperationFunctor.Body);
+            AddToCallStack(CallGraphEdge.CallGraphRootHashed, OperationFunctor.Body);
         }
 
         // returns the resulting call stack after adding the given function call
@@ -59,53 +58,17 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
         }
 
         #region ITracingSimulatorListener implementation
-        /// <summary>
-        /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.
-        /// </summary>
-        public void OnAllocate(object[] qubitsTraceData)
-        {
-        }
-
-        /// <summary>
-        /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.
-        /// </summary>
-        public void OnRelease(object[] qubitsTraceData)
-        {
-        }
-
-        /// <summary>
-        /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.
-        /// </summary>
-        public void OnBorrow(object[] qubitsTraceData, long newQubitsAllocated)
-        {
-        }
-
-        /// <summary>
-        /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.
-        /// </summary>
-        public void OnReturn(object[] qubitsTraceData, long newQubitsAllocated)
-        {
-        }
-
-        /// <summary>
-        /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.
-        /// </summary>
         public void OnPrimitiveOperation(int id, object[] qubitsTraceData, double PrimitiveOperationDuration)
         {
             Debug.Assert(id < globalCounters.Length);
             globalCounters[id] += 1.0;
         }
 
-        /// <summary>
-        /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.
-        /// </summary>
         public void OnOperationStart(HashedString name, OperationFunctor variant, object[] qubitsTraceData)
         {
             AddToCallStack(name, variant);
         }
-        /// <summary>
-        /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.
-        /// </summary>
+        
         public void OnOperationEnd(object[] returnedQubitsTraceData)
         {
             var globalCountersAtOperationStart = operationCallStack.Pop();
@@ -119,14 +82,16 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
             callStack = PopString(callStack);
         }
 
-        /// <summary>
-        /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.
-        /// </summary>
+        public void OnAllocate(object[] qubitsTraceData) {}
+
+        public void OnRelease(object[] qubitsTraceData) {}
+
+        public void OnBorrow(object[] qubitsTraceData, long newQubitsAllocated) {}
+
+        public void OnReturn(object[] qubitsTraceData, long newQubitsAllocated) {}
+
         public object NewTracingData(long qubitId) => null;
 
-        /// <summary>
-        /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.
-        /// </summary>
         public bool NeedsTracingDataInQubits => false;
         #endregion
     }
