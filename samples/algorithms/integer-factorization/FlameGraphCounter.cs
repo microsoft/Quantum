@@ -26,12 +26,8 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
 
         private readonly Stack<double[]> operationCallStack;
 
-        private string callStack = "";
+        private string callStack = string.Empty;
 
-        /// <param name="statisticsToCollect">
-        /// Statistics to be collected. If set to null, the
-        /// statistics returned by <see cref="StatisticsCollector.DefaultStatistics"/>
-        /// are used. </param>
         public FlameGraphCounter(PrimitiveOperationsCounterConfiguration config)
         {
             configuration = Utils.DeepClone(config);
