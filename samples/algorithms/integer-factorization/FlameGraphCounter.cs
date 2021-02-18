@@ -32,7 +32,7 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
         /// Statistics to be collected. If set to null, the
         /// statistics returned by <see cref="StatisticsCollector.DefaultStatistics"/>
         /// are used. </param>
-        public FlameGraphCounter(PrimitiveOperationsCounterConfiguration config, IDoubleStatistic[]  statisticsToCollect = null )
+        public FlameGraphCounter(PrimitiveOperationsCounterConfiguration config)
         {
             configuration = Utils.DeepClone(config);
             globalCounters = new double[configuration.primitiveOperationsNames.Length];
