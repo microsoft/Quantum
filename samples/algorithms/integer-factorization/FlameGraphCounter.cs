@@ -5,29 +5,28 @@ using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
 namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
-    public class FlameGraphCounter : IQCTraceSimulatorListener, ICallGraphStatistics {
-        class OperationCallRecord
-        {
-            public HashedString OperationName;
-            public OperationFunctor FunctorSpecialization;
-            public double[] GlobalCountersAtOperationStart;
-        }
-
+    public class FlameGraphCounter : IQCTraceSimulatorListener {
         private readonly PrimitiveOperationsCounterConfiguration configuration;
+        
+        /// <summary>
+        /// Contains all fully specified calls including resource count for the operation excluding all children.
+        /// </summary>
+        public Dictionary<string, double> FlameGraphData { get; } = new Dictionary<string, double>();
+
+        /// <summary>
+        /// Sets which resource to track (e.g., CNOT)
+        /// </summary>
+        public PrimitiveOperationsGroups ResourceToVisualize { get; set; } = PrimitiveOperationsGroups.CNOT;
 
         /// <summary>
         /// Number of Primitive operations performed since the beginning of the execution.
         /// Double type is used because all the collected statistics are of type double.
         /// </summary>
         private readonly double[] globalCounters;
-        private readonly Stack<OperationCallRecord> operationCallStack;
-        private Dictionary<string, double> flameGraphData;
+
+        private readonly Stack<double[]> operationCallStack;
+
         private string callStack = "";
-        public int resourceToVisualize {get; set;} = (int) PrimitiveOperationsGroups.CNOT;
-        private readonly int PrimitiveOperationsCount;
-        private readonly StatisticsCollector<CallGraphEdge> stats;
-        public PrimitiveOperationsCounterConfiguration GetConfigurationCopy() { return Utils.DeepClone(configuration); }
-        public IStatisticCollectorResults<CallGraphEdge> Results { get => stats as IStatisticCollectorResults<CallGraphEdge>; }
 
         /// <param name="statisticsToCollect">
         /// Statistics to be collected. If set to null, the
@@ -36,44 +35,30 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
         public FlameGraphCounter(PrimitiveOperationsCounterConfiguration config, IDoubleStatistic[]  statisticsToCollect = null )
         {
             configuration = Utils.DeepClone(config);
-            PrimitiveOperationsCount = configuration.primitiveOperationsNames.Length;
-            globalCounters = new double[PrimitiveOperationsCount];
-            operationCallStack = new Stack<OperationCallRecord>();
+            globalCounters = new double[configuration.primitiveOperationsNames.Length];
+            operationCallStack = new Stack<double[]>();
             AddToCallStack(CallGraphEdge.CallGraphRootHashed,OperationFunctor.Body);
-            stats = new StatisticsCollector<CallGraphEdge>(
-                config.primitiveOperationsNames,
-                statisticsToCollect ?? StatisticsCollector<CallGraphEdge>.DefaultStatistics()
-                );
-            this.flameGraphData = new Dictionary<string, double>();
-        }
-
-        public Dictionary<string, double> GetFlameGraphData() {
-            return new Dictionary<string, double>(this.flameGraphData);
         }
 
         // returns the resulting call stack after adding the given function call
-        private static string PushString(string s, string add) {
+        private static string PushString(string s, string add)
+        {
             Debug.Assert(s != null);
             Debug.Assert(add != null);
             return s.Length == 0 ? add : s + ";" + add;
         }
 
         // returns the remaining call stack after removing a function call from the top of the stack
-        private static string PopString(string s) {
+        private static string PopString(string s)
+        {
             int index = s.LastIndexOf(';');
             return index > 0 ? s.Substring(0, index) : "";
         }
 
         private void AddToCallStack( HashedString operationName, OperationFunctor functorSpecialization)
         {
-            operationCallStack.Push(
-                new OperationCallRecord()
-                {
-                    GlobalCountersAtOperationStart = new double[PrimitiveOperationsCount],
-                    OperationName = operationName,
-                    FunctorSpecialization = functorSpecialization
-                });
-            globalCounters.CopyTo(operationCallStack.Peek().GlobalCountersAtOperationStart, 0);
+            operationCallStack.Push(new double[globalCounters.Length]);
+            globalCounters.CopyTo(operationCallStack.Peek(), 0);
             callStack = PushString(callStack, operationName);
         }
 
@@ -111,7 +96,7 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
         /// </summary>
         public void OnPrimitiveOperation(int id, object[] qubitsTraceData, double PrimitiveOperationDuration)
         {
-            Debug.Assert(id < PrimitiveOperationsCount);
+            Debug.Assert(id < globalCounters.Length);
             globalCounters[id] += 1.0;
         }
 
@@ -120,29 +105,21 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
         /// </summary>
         public void OnOperationStart(HashedString name, OperationFunctor variant, object[] qubitsTraceData)
         {
-            AddToCallStack(name,variant);
+            AddToCallStack(name, variant);
         }
         /// <summary>
         /// Part of implementation of <see cref="IQCTraceSimulatorListener"/> interface. See the interface documentation for more details.
         /// </summary>
         public void OnOperationEnd(object[] returnedQubitsTraceData)
         {
-            OperationCallRecord record = operationCallStack.Pop();
+            var globalCountersAtOperationStart = operationCallStack.Pop();
             Debug.Assert(operationCallStack.Count != 0, "Operation call stack must never get empty");
-            double[] difference = Utils.ArrayDifference(globalCounters, record.GlobalCountersAtOperationStart);
-            stats.AddSample(
-                new CallGraphEdge(
-                    record.OperationName,
-                    operationCallStack.Peek().OperationName,
-                    record.FunctorSpecialization,
-                    operationCallStack.Peek().FunctorSpecialization),
-                difference
-                );
-            record.GlobalCountersAtOperationStart.CopyTo(globalCounters, 0);
-            if (flameGraphData.ContainsKey(callStack))
-                flameGraphData[callStack] += difference[this.resourceToVisualize];
+            double[] difference = Utils.ArrayDifference(globalCounters, globalCountersAtOperationStart);
+            globalCountersAtOperationStart.CopyTo(globalCounters, 0);
+            if (FlameGraphData.ContainsKey(callStack))
+                FlameGraphData[callStack] += difference[(int)ResourceToVisualize];
             else
-                flameGraphData.Add(callStack, difference[this.resourceToVisualize]);
+                FlameGraphData.Add(callStack, difference[(int)ResourceToVisualize]);
             callStack = PopString(callStack);
         }
 

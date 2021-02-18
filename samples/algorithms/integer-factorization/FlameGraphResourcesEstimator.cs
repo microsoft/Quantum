@@ -22,9 +22,9 @@ namespace Microsoft.Quantum.Simulation.Simulators {
                 UseWidthCounter = true
             };
 
-        public FlameGraphResourcesEstimator() : this(RecommendedConfig(), (int) PrimitiveOperationsGroups.CNOT) {}
-        public FlameGraphResourcesEstimator(QCTraceSimulatorConfiguration config, int resourceToVisualize) : base(WithoutPrimitiveOperationsCounter(config)) {
-            this.operationsCounter.resourceToVisualize = resourceToVisualize;
+        public FlameGraphResourcesEstimator() : this(RecommendedConfig()) {}
+        public FlameGraphResourcesEstimator(QCTraceSimulatorConfiguration config, PrimitiveOperationsGroups resourceToVisualize = PrimitiveOperationsGroups.CNOT) : base(WithoutPrimitiveOperationsCounter(config)) {
+            operationsCounter.ResourceToVisualize = resourceToVisualize;
         }
 
         private static QCTraceSimulatorConfiguration WithoutPrimitiveOperationsCounter(QCTraceSimulatorConfiguration config) {
@@ -43,8 +43,6 @@ namespace Microsoft.Quantum.Simulation.Simulators {
             this.tCoreConfig.Listeners.Add(operationsCounter);
         }
 
-        public Dictionary<string, double> GetFlameGraphData() =>
-            operationsCounter.GetFlameGraphData();
-        
+        public Dictionary<string, double> FlameGraphData => operationsCounter.FlameGraphData;
     }
 }
