@@ -11,6 +11,20 @@ using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
 namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
 {
+    /// <summary>
+    /// Creates flame graph data for estimate counting in the call stack
+    /// </summary>
+    /// <remarks>
+    /// This listener creates lines such as
+    /// <code>
+    /// Parent 0
+    /// Parent;Child 4
+    /// Parent;Child;Grandchild 6
+    /// </code>
+    /// which means that <c>Parent</c> calls <c>Child</c>, and <c>Child</c> calls <c>Grandchild</c>.
+    /// Also, <c>Grandchild</c> uses 6 resources (e.g., T gates) and <c>Child</c> uses 4, excluding
+    /// the 6 from <c>Grandchild</c>.
+    /// </remarks>
     public class FlameGraphCounter : IQCTraceSimulatorListener
     {
         private readonly PrimitiveOperationsCounterConfiguration configuration;
@@ -45,15 +59,13 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
         // returns the resulting call stack after adding the given function call
         private static string PushString(string s, string add)
         {
-            Debug.Assert(s != null);
-            Debug.Assert(add != null);
             return string.IsNullOrEmpty(s) ? add : s + ";" + add;
         }
 
         // returns the remaining call stack after removing a function call from the top of the stack
         private static string PopString(string s)
         {
-            int index = s.LastIndexOf(';');
+            var index = s.LastIndexOf(';');
             return index > 0 ? s.Substring(0, index) : "";
         }
 
@@ -101,7 +113,7 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
 
         public void OnReturn(object[] qubitsTraceData, long newQubitsAllocated) {}
 
-        public object NewTracingData(long qubitId) => null;
+        public object? NewTracingData(long qubitId) => null;
 
         public bool NeedsTracingDataInQubits => false;
         #endregion
