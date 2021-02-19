@@ -41,7 +41,7 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
         {
             Debug.Assert(s != null);
             Debug.Assert(add != null);
-            return s.Length == 0 ? add : s + ";" + add;
+            return string.IsNullOrEmpty(s) ? add : s + ";" + add;
         }
 
         // returns the remaining call stack after removing a function call from the top of the stack
