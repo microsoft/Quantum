@@ -14,37 +14,11 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
     operation RunProgram(eigenphase : Double, nGridPoints : Int, nMeasurements : Int) : Double {
         let oracle = EvolveForTime(eigenphase, _, _);
 
-        use eigenstate = Qubit();
-        X(eigenstate);
-        let est = EstimatePhase(nGridPoints, nMeasurements, oracle, [eigenstate]);
-        Reset(eigenstate);
-        return est;
+        let (phases, prior, priorEst) = SetUpEstimation(nGridPoints);
+        let (outPhases, outPrior) = EstimatePhase(nGridPoints, nMeasurements, oracle, phases, prior, priorEst);
+        return Integrated(outPhases, PointwiseProduct(outPhases, outPrior));
     }
 
-    /// # Summary
-    /// Performs a single step of iterative phase estimation for a
-    /// given oracle.
-    ///
-    /// # Input
-    /// ## time
-    /// Time to evolve under the oracle for during this iteration.
-    /// ## inversionAngle
-    /// An angle to rotate the control register by before applying
-    /// the controlled oracle.
-    /// ## oracle
-    /// Operation representing the unknown $U(t)$ whose phase is to be
-    /// estimated.
-    /// ## eigenstate
-    /// A register initially in a state |φ〉 such that U(t)|φ〉 = e^{i φ time}|φ〉.
-    ///
-    /// # Output
-    /// A measurement result with probability
-    /// $$
-    ///     \Pr(\texttt{Zero} | \phi; \texttt{time}, \texttt{inversionAngle}) =
-    ///         \cos^2([\phi - \texttt{inversionAngle}] \texttt{time} / 2).
-    /// $$
-    /// - For the circuit diagram see FIG. 5 on
-    ///   [ Page 12 of arXiv:1304.0741 ](https://arxiv.org/pdf/1304.0741.pdf#page=12)
     operation ApplyIterativePhaseEstimationStep(time : Double, inversionAngle : Double, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Result {
 
         // Allocate a mutable variable to hold the result of the final
@@ -70,27 +44,10 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
         return MResetX(controlQubit);
     }
 
-    // Equipped with this operation, we can now confirm that each phase
-    // estimation iteration follows the likelihood function that we expect.
-    // To make it simpler to call this check from C#, we write a small
-    // operation that partially applies Exp as an oracle.
     operation EvolveForTime(eigenphase : Double, time : Double, register : Qubit[]) : Unit is Adj + Ctl {
         Rz((2.0 * eigenphase) * time, Head(register));
     }
 
-    /// # Summary
-    /// Integrates a function f using the trapezoidal rule, given samples from
-    /// that function.
-    ///
-    /// # Input
-    /// ## xs
-    /// An array of the arguments to the function at each sample.
-    /// ## ys
-    /// An array of the function's value at each sample.
-    ///
-    /// # Output
-    /// An approximation of ∫_I f(x) dx, where I is the interval [x₀, xₘ],
-    /// and where m is the length of `xs`.
     function Integrated(xs : Double[], ys : Double[]) : Double {
         mutable sum = 0.0;
 
@@ -103,9 +60,6 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
         return sum;
     }
 
-    /// # Summary
-    /// Given two arrays, returns a new array that is the pointwise product
-    /// of each of the given arrays.
     function PointwiseProduct(left : Double[], right : Double[]) : Double[] {
         mutable product = new Double[Length(left)];
 
@@ -116,30 +70,7 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
         return product;
     }
 
-    /// # Summary
-    /// Performs Bayesian phase estimation on a given oracle, using an
-    /// explicit grid to estimate the posterior distribution at each step.
-    ///
-    /// # Input
-    /// ## nGridPoints
-    /// The number of points at which the posterior should be discretized.
-    /// ## nMeasurements
-    /// The number of measurements that should be performed.
-    /// ## oracle
-    /// A family of unitaries parameterized by time {U(t) | t > 0}, such that
-    /// the phase of the dynamical generator for {U(t)} is to be estimated.
-    /// ## eigenstate
-    /// A register initialized to a state |φ〉 such that U(t) = e^{i φ t} |φ〉
-    /// for some φ to be estimated.
-    ///
-    /// # Output
-    /// An estimate ̂φ of the unknown phase φ.
-    /// - For the theoretical and algorithmic background see
-    ///   [ Page 1 of arXiv:1508.00869 ](https://arxiv.org/pdf/1508.00869.pdf#page=1)
-    operation EstimatePhase(nGridPoints : Int, nMeasurements : Int, oracle : ((Double, Qubit[]) => Unit is Ctl), eigenstate : Qubit[]) : Double {
-
-        // Initialize a grid for the prior and posterior discretization.
-        // We'll choose the grid to be uniform.
+    function SetUpEstimation(nGridPoints : Int) : (Double[], Double[], Double) {
         let dPhase = 1.0 / IntAsDouble(nGridPoints - 1);
         mutable phases = new Double[nGridPoints];
         mutable prior = new Double[nGridPoints];
@@ -152,6 +83,19 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
         // We can now check that we get a prior estimate of about 0.5
         // by integrating φ over the prior defined above.
         let priorEst = Integrated(phases, PointwiseProduct(phases, prior));
+
+        return (phases, prior, priorEst);
+    }
+
+    operation EstimatePhase(nGridPoints : Int, nMeasurements : Int, oracle : ((Double, Qubit[]) => Unit is Ctl), inPhases : Double[], inPrior : Double[], priorEst : Double) : (Double[], Double[]) {
+
+        // Initialize a grid for the prior and posterior discretization.
+        // We'll choose the grid to be uniform.
+        mutable phases = inPhases;
+        mutable prior = inPrior;
+
+        use eigenstate = Qubit[1];
+        X(eigenstate[0]);
 
         // Having assured ourselves that the prior is a reasonable
         // approximation to the true prior, we can now proceed to take
@@ -225,10 +169,12 @@ namespace Microsoft.Quantum.Samples.PhaseEstimation {
             }
         }
 
+        ResetAll(eigenstate);
+
         // Now that we're done measuring, we report the final estimate.
         // Note that we still use the variable `prior`, since that would
         // be the prior heading into the next iteration if we kept going.
-        return Integrated(phases, PointwiseProduct(phases, prior));
+        return (phases, prior);
     }
 
 }

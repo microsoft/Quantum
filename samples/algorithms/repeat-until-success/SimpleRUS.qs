@@ -23,8 +23,6 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// Pauli basis in which to prepare input qubit
     /// ## inputValue
     /// Boolean value for input qubit (true maps to One, false maps to Zero)
-    /// ## limit
-    /// Integer limit to number of repeats of circuit
     ///
     /// # Remarks
     /// The program executes a circuit on a "target" qubit using an "auxiliary"
@@ -32,16 +30,16 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// The goal is to measure Zero for the auxiliary qubit.
     /// If this succeeds, the program will have effectively applied an 
     /// (I + i√2X)/√3 gate on the target qubit.
-    /// If this fails, the program reruns the circuit up to <limit> times.
+    /// If this fails, the program reruns the circuit.
+    @EntryPoint()
     operation CreateQubitsAndApplySimpleGate(
         inputValue : Bool,
-        inputBasis : Pauli,
-        limit : Int
+        inputBasis : Pauli
     )
     : ( Bool, Result, Int ) {
         use register = Qubit[2];
         let (success, numIter) = ApplySimpleGate(
-            inputBasis, inputValue, limit, register);
+            inputBasis, inputValue, register);
         let result = Measure([inputBasis], [register[1]]);
         return (success, result, numIter);
     }
@@ -54,8 +52,6 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     /// Pauli basis in which to prepare input qubit
     /// ## inputValue
     /// Boolean value for input qubit (true maps to One, false maps to Zero)
-    /// ## limit
-    /// Integer limit to number of repeats of circuit
     /// ## register
     /// Qubit register including auxiliary and target qubits
     ///
@@ -65,12 +61,10 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     operation ApplySimpleGate(
         inputBasis : Pauli,
         inputValue : Bool,
-        limit : Int,
         register : Qubit[]
     )
     : (Bool, Int) {
         // Initialize results to One by default.
-        mutable done = false;
         mutable success = false;
         mutable numIter = 0;
         // Prepare target qubit in |0⟩ or |1⟩ state, depending on input value
@@ -80,16 +74,11 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         PreparePauliEigenstate(inputBasis, register[1]);
 
         repeat {
-            // Assert valid starting states for all qubits
-            AssertMeasurement([PauliZ], [register[0]], Zero,
-             "Auxiliary qubit is not in |0⟩ state.");
-            AssertQubitIsInState(register[1], inputBasis, inputValue);
             ApplySimpleRUSCircuit(register);
             set success = MResetZ(register[0]) == Zero;
-            set done = success or (numIter >= limit);
             set numIter = numIter + 1;
         }
-        until (done);
+        until (success);
         return (success, numIter);
     }
 
