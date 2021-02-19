@@ -19,7 +19,7 @@ This sample also contains an adapter for the [ResourcesEstimator](https://github
 To generate a flame graph, follow these steps:
 
 1. Clone the [flamegraph repository](https://github.com/brendangregg/FlameGraph)
-2. Install perl
+2. Install Perl
 3. Run program with the `visualize` command by specifying the generator and the resource (more information in the help text) to be visualized. Save the output in a file.
 4. Use flamegraph.pl with the above file to generate an svg of the flame graph.
 

@@ -4,7 +4,8 @@ using System.Diagnostics;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
-namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
+namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
+{
     public class FlameGraphCounter : IQCTraceSimulatorListener {
         private readonly PrimitiveOperationsCounterConfiguration configuration;
         
@@ -50,7 +51,7 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
             return index > 0 ? s.Substring(0, index) : "";
         }
 
-        private void AddToCallStack( HashedString operationName, OperationFunctor functorSpecialization)
+        private void AddToCallStack(HashedString operationName, OperationFunctor functorSpecialization)
         {
             operationCallStack.Push(new double[globalCounters.Length]);
             globalCounters.CopyTo(operationCallStack.Peek(), 0);
@@ -76,9 +77,13 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime {
             double[] difference = Utils.ArrayDifference(globalCounters, globalCountersAtOperationStart);
             globalCountersAtOperationStart.CopyTo(globalCounters, 0);
             if (FlameGraphData.ContainsKey(callStack))
+            {
                 FlameGraphData[callStack] += difference[(int)ResourceToVisualize];
+            }
             else
+            {
                 FlameGraphData.Add(callStack, difference[(int)ResourceToVisualize]);
+            }
             callStack = PopString(callStack);
         }
 
