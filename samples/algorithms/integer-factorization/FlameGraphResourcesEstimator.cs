@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #nullable enable
 
 using System;
@@ -7,8 +10,10 @@ using System.Collections.Generic;
 using Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime;
 using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
-namespace Microsoft.Quantum.Simulation.Simulators {
-    public class FlameGraphResourcesEstimator : ResourcesEstimator {
+namespace Microsoft.Quantum.Simulation.Simulators
+{
+    public class FlameGraphResourcesEstimator : ResourcesEstimator
+    {
         private FlameGraphCounter operationsCounter;
         public static new QCTraceSimulatorConfiguration RecommendedConfig() =>
             new QCTraceSimulatorConfiguration
@@ -25,16 +30,19 @@ namespace Microsoft.Quantum.Simulation.Simulators {
             };
 
         public FlameGraphResourcesEstimator() : this(RecommendedConfig()) {}
-        public FlameGraphResourcesEstimator(QCTraceSimulatorConfiguration config, PrimitiveOperationsGroups resourceToVisualize = PrimitiveOperationsGroups.CNOT) : base(WithoutPrimitiveOperationsCounter(config)) {
+        public FlameGraphResourcesEstimator(QCTraceSimulatorConfiguration config, PrimitiveOperationsGroups resourceToVisualize = PrimitiveOperationsGroups.CNOT) : base(WithoutPrimitiveOperationsCounter(config))
+        {
             operationsCounter.ResourceToVisualize = resourceToVisualize;
         }
 
-        private static QCTraceSimulatorConfiguration WithoutPrimitiveOperationsCounter(QCTraceSimulatorConfiguration config) {
+        private static QCTraceSimulatorConfiguration WithoutPrimitiveOperationsCounter(QCTraceSimulatorConfiguration config)
+        {
             config.UsePrimitiveOperationsCounter = false;
             return config;
         }
  
-        protected override void InitializeQCTracerCoreListeners(IList<IQCTraceSimulatorListener> listeners) {
+        protected override void InitializeQCTracerCoreListeners(IList<IQCTraceSimulatorListener> listeners)
+        {
             base.InitializeQCTracerCoreListeners(listeners);
             var primitiveOperationsIdToNames = new Dictionary<int, string>();
             Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime.Utils.FillDictionaryForEnumNames<PrimitiveOperationsGroups, int>(primitiveOperationsIdToNames);

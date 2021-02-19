@@ -1,3 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+#nullable enable
+
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -6,7 +11,8 @@ using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
 namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
 {
-    public class FlameGraphCounter : IQCTraceSimulatorListener {
+    public class FlameGraphCounter : IQCTraceSimulatorListener
+    {
         private readonly PrimitiveOperationsCounterConfiguration configuration;
         
         /// <summary>
