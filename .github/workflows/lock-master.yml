@@ -1,4 +1,4 @@
-on:
+name: on:
   pull_request:
     branches:
     - master
