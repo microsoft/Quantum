@@ -1,6 +1,13 @@
 ﻿# Microsoft Quantum Development Kit Samples #
 
  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Microsoft/Quantum/master)
+ 
+ [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/transdigiware/Quantum/HEAD)
+ 
+ .. image:: https://mybinder.org/badge_logo.svg
+ :target: https://mybinder.org/v2/gh/transdigiware/Quantum/HEAD
+
+[Copy the URL below and share your Binder with others:](https://mybinder.org/v2/gh/transdigiware/Quantum/HEAD)
 
 These samples demonstrate the use of the Quantum Development Kit for a variety of different quantum computing tasks.
 
