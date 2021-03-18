@@ -3,9 +3,10 @@
 namespace Microsoft.Quantum.Tests {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
-    open Microsoft.Quantum.Samples.SimpleAlgorithms;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.HiddenShift;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.DeutschJozsa;
+    open Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani;
     open Microsoft.Quantum.Diagnostics;
-
 
     //////////////////////////////////////////////////////////////////////////
     // Tests for the Bernstein-Vazirani quantum algorithm ////////////////////
@@ -15,14 +16,14 @@ namespace Microsoft.Quantum.Tests {
     // a fixed bit size, here n=4 bit, create all 2^n parity functions, invoke
     // `ParityOperationImpl` to pick up a Bool[] and check if that array is the
     // same as the pattern we used to define the parity function from.
-    operation BernsteinVaziraniTest () : Unit {
-
+    @Test("QuantumSimulator")
+    operation TestBernsteinVazirani() : Unit {
         // setting the bit size of the problem
         let nQubits = 4;
 
         // now, we iterate through all the 2^n parity functions
-        for (idxInstance in 0 .. 2 ^ nQubits - 1) {
-            let result = BernsteinVaziraniTestCase(nQubits, idxInstance);
+        for idxInstance in 0 .. 2 ^ nQubits - 1 {
+            let result = RunBernsteinVazirani(nQubits, idxInstance);
             EqualityFactI(result, idxInstance, $"was expecting {idxInstance} but measured {result}");
         }
     }
@@ -32,27 +33,26 @@ namespace Microsoft.Quantum.Tests {
     // Tests for the Hidden Shift quantum algorithm for bent functions ///////
     //////////////////////////////////////////////////////////////////////////
 
-
-
     // For the tests of the hidden shift quantum algorithm for bent functions,
     // we create instances on a fixed bit size, here n=4 bits, and for a fixed
     // bent function, here the IP function. We create all 2^n instances corresponding
     // to the possible shifts with respect to different Boolean patterns on n bits,
     // `HiddenShiftBentCorrelation` to pick up a Bool[] and check if that array is the
     // same as the pattern we used to define the hidden shift instance.
-    operation HiddenShiftTest () : Unit {
+    @Test("QuantumSimulator")
+    operation TestHiddenShift() : Unit {
 
-        // total number of variables of the Boolean function is n = 2u. Note that n has
-        // to be even in order for bent functions to exist.
-        let u = 2;
+        // total number of variables of the Boolean function is n = 2u where u is the
+        // register size. Note that n has to be even in order for bent functions to exist.
+        let nQubits = 4;
 
         // now, we iterate through all the 2^n parity functions
-        for (idxInstance in 0 .. 2 ^ (2 * u) - 1) {
+        for idxInstance in 0 .. 2 ^ nQubits - 1 {
 
             // the corresponding quantum operation is constructed, which
             // has signature Qubit[] => (), and then it is passed to the
             // quantum algorithm to reconstruct the shift.
-            let result = HiddenShiftBentCorrelationTestCase(idxInstance, u);
+            let result = RunHiddenShift(idxInstance, nQubits);
 
             // Finally, using an assertion from the Asserts subdomain of the
             // canon, we check if the measured result is equal to pattern.
@@ -70,7 +70,8 @@ namespace Microsoft.Quantum.Tests {
     // (#variables, market elements, isConstant?). We construct the corresponding
     // Boolean functions and send them to `IsConstantBooleanFunction` to determine
     // if the Boolean function is constant or balanced.
-    operation DeutschJozsaTest () : Unit {
+    @Test("QuantumSimulator")
+    operation TestDeutschJozsa() : Unit {
 
         // setting up a few test cases of both, constant and balanced functions.
         let testList = [
@@ -82,16 +83,14 @@ namespace Microsoft.Quantum.Tests {
         ];
 
         // iterating through the array of test instances
-        for ((n, markedElements, result) in testList) {
-
+        for (n, markedElements, result) in testList {
             // Finally, using an assertion from the Asserts subdomain of the
             // canon, we check if the measured result is equal to bool value.
             EqualityFactB(
-                DeutschJozsaTestCase(n, markedElements),
+                RunDeutschJozsa(n, markedElements),
                 result,
                 $"Contradiction in Deutsch–Jozsa case with marked elements {markedElements}: was expecting {result}."
             );
         }
     }
-
 }

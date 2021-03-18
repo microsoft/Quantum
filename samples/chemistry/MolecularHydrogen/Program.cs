@@ -49,17 +49,13 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
             //////////////////////////////////////////////////////////////////////////
 
             // In this example, we will create a spin-orbital representation of the molecular
-            // Hydrogen Hamiltonian `H`, given ovelap coefficients for its one- and 
+            // Hydrogen Hamiltonian `H`, given overlap coefficients for its one- and 
             // two - electron integrals.
 
             // We when perform quantum phase estimation to obtain an estimate of
             // the molecular Hydrogen ground state energy.
 
             #region Building the Hydrogen Hamiltonian through orbital integrals
-
-            // One of the simplest representations of Hydrogen uses only two 
-            // molecular orbitals indexed by `0` and `1`.
-            var nOrbitals = 2;
 
             // This representation also has two occupied spin-orbitals.
             var nElectrons = 2;
@@ -80,7 +76,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
             // of electrons means that the following integrals are equal.
             //   <PQ|H|RS> = <PR|H|QS> = <SQ|H|RP> = <SR|H|QP>
             // = <QP|H|SR> = <RP|H|SQ> = <QS|H|PR> = <RS|H|PQ>
-            // Thus it sufficies to specify just any one of these terms from each symmetry
+            // Thus it suffices to specify just any one of these terms from each symmetry
             // group.
 
             // These orbital integrals are represented using the OrbitalIntegral
@@ -159,7 +155,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
                 for (int i = 0; i < 5; i++)
                 {
                     // EstimateEnergyByTrotterization
-                    // Name shold make clear that it does it by trotterized
+                    // Name should make clear that it does it by trotterized
                     var (phaseEst, energyEst) = GetEnergyByTrotterization.Run(qsim, qSharpData, bits, trotterStep, trotterOrder).Result;
 
                     Console.WriteLine($"Rep #{i+1}/5: Energy estimate: {energyEst}; Phase estimate: {phaseEst}");
@@ -170,7 +166,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
                 for (int i = 0; i < 1; i++)
                 {
                     // EstimateEnergyByTrotterization
-                    // Name shold make clear that it does it by trotterized
+                    // Name should make clear that it does it by trotterized
                     var (phaseEst, energyEst) = GetEnergyByQubitization.Run(qsim, qSharpData, bits).Result;
 
                     Console.WriteLine($"Rep #{i+1}/1: Energy estimate: {energyEst}; Phase estimate: {phaseEst}");

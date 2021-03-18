@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 namespace Microsoft.Quantum.Samples {
+    open Microsoft.Quantum.Random;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Arrays;
@@ -25,7 +26,7 @@ namespace Microsoft.Quantum.Samples {
     }
 
     operation SampleSingleParameter() : Double {
-        return PI() * (RandomReal(16) - 1.0);
+        return PI() * (DrawRandomDouble(0.0, 1.0) - 1.0);
     }
 
     operation SampleParametersForSequence(structure : ControlledRotation[]) : Double[] {
@@ -60,7 +61,7 @@ namespace Microsoft.Quantum.Samples {
             DefaultSchedule(samples),
             DefaultSchedule(samples)
         );
-        Message($"Training complete, found optimal parameters: {optimizedModel::Parameters}");
+        Message($"Training complete, found optimal parameters and bias: {optimizedModel::Parameters}, {optimizedModel::Bias}");
         return (optimizedModel::Parameters, optimizedModel::Bias);
     }
 

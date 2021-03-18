@@ -1,10 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Samples.UnitTesting {
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Circuits for Doubly Controlled X gate and Doubly Controlled X up to a phase
@@ -59,10 +59,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// - For the circuit diagram see Equation 9 on
     ///   [ Page 2 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
     operation UpToPhaseCCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
-        using (auxillary = Qubit()) {
-            // apply UVU† where U is outer circuit and V is inner circuit
-            ApplyWithCA(UpToPhaseCCNOT2OuterCircuit, UpToPhaseCCNOT2InnerCircuit, [auxillary, target, control1, control2]);
-        }
+        use auxillary = Qubit();
+        // apply UVU† where U is outer circuit and V is inner circuit
+        ApplyWithCA(UpToPhaseCCNOT2OuterCircuit, UpToPhaseCCNOT2InnerCircuit, [auxillary, target, control1, control2]);
     }
 
 
@@ -167,7 +166,6 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
         adjoint self;
     }
 
-
     /// # Summary
     /// CCNOT gate over the Clifford+T gate set, in T-depth 1, according to Selinger
     /// # Remarks
@@ -179,11 +177,10 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// - For the circuit diagram see Figure 1 on
     ///   [ Page 3 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
     operation TDepthOneCCNOT (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
-        using (auxillaryRegister = Qubit[4]) {
+        use auxillaryRegister = Qubit[4];
 
-            // apply UVU† where U is outer circuit and V is inner circuit
-            ApplyWithCA(TDepthOneCCNOTOuterCircuit, TDepthOneCCNOTInnerCircuit, auxillaryRegister + [target, control1, control2]);
-        }
+        // apply UVU† where U is outer circuit and V is inner circuit
+        ApplyWithCA(TDepthOneCCNOTOuterCircuit, TDepthOneCCNOTInnerCircuit, auxillaryRegister + [target, control1, control2]);
     }
 
 
@@ -228,19 +225,17 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// - For the circuit diagram see Figure 1 (b)
     ///   [on Page 2 of arXiv:1212.5069v1](https://arxiv.org/pdf/1212.5069v1.pdf#page=2)
     operation CCNOT3 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit {
-
         body (...) {
-            using (auxillaryQubit = Qubit()) {
-                UpToPhaseCCNOT2(control1, control2, auxillaryQubit);
-                S(auxillaryQubit);
-                CNOT(auxillaryQubit, target);
-                H(auxillaryQubit);
-                AssertProb([PauliZ], [auxillaryQubit], One, 0.5, "", 1E-10);
+            use auxillaryQubit = Qubit();
+            UpToPhaseCCNOT2(control1, control2, auxillaryQubit);
+            S(auxillaryQubit);
+            CNOT(auxillaryQubit, target);
+            H(auxillaryQubit);
+            AssertMeasurementProbability([PauliZ], [auxillaryQubit], One, 0.5, "", 1E-10);
 
-                if (M(auxillaryQubit) == One) {
-                    Controlled Z([control2], control1);
-                    X(auxillaryQubit);
-                }
+            if (M(auxillaryQubit) == One) {
+                Controlled Z([control2], control1);
+                X(auxillaryQubit);
             }
         }
 

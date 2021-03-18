@@ -7,6 +7,7 @@ a part of Microsoft.Quantum.Canon library.
 ## Manifest ##
 
 - [Shor.qs](./Shor.qs): Q# implementation of Shor's algorithm.
+- [Shor.ipynb](./Shor.ipynb): Jupyter notebook host for Shor's algorithm.
 - [Program.cs](./Program.cs): C# console application running Shor's algorithm
   on Quantum simulator
 - [IntegerFactorization.csproj](./IntegerFactorization.csproj): Main C# project for the sample.

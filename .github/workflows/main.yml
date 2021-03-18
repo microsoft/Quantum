@@ -3,7 +3,7 @@ name: Prebuild Docker image
 on:
   push:
     branches:
-    - master
+    - main
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
       with:
         creds: ${{ secrets.ACR_CREDENTIALS }}
     - name: Docker Login
-      run: az acr login -n msquantum
+      run: az acr login -n qdkimages
     - name: Build and push Docker image
       run: |
         $Now = [DateTime]::Now;

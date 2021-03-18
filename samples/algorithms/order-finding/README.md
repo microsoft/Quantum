@@ -1,4 +1,4 @@
-﻿# Order Finding #
+﻿# Order Finding
 
 This sample uses a quantum algorithm to find the order of a cycle in a permutation.
 It succeeds with a higher probability than the classical best possible strategy.
@@ -11,21 +11,21 @@ and I.L. Chuang in [Experimental realization of an order-finding algorithm with 
 The quantum algorithm in the Q# file is implemented for permutations over 2ⁿ elements, however, the classical post-processing
 in the C# file is restricted to permutations over 4 elements.
 
-## Running the Sample ##
+## Running the Sample
 
-Open the `QsharpSamples.sln` solution in Visual Studio and set *Samples / 1. Algorithms / OrderFinding* as the startup project.
-Press Start in Visual Studio to run the sample.
+To run the sample, use the `dotnet run --index VALUE` command from your terminal.
+The value `VALUE` passed to the index argument must be between 0 and 3 inclusive.
 
-## Manifest ##
+## Manifest
 
 - **OrderFinding/**
   - [OrderFinding.csproj](./OrderFinding.csproj): Main C# project for the example.
   - [Program.cs](./Program.cs): C# code to call the operations defined in Q# and perform classical post-processing.
   - [OrderFinding.qs](./OrderFinding.qs): The Q# implementation of the order finding algorithm.
 
-## Example run ##
+## Example run
 
-```
+```text
 Permutation: [1 2 3 0]
 Find cycle length at index 0
 

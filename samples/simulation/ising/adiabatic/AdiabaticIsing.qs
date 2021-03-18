@@ -230,12 +230,11 @@ namespace Microsoft.Quantum.Samples.Ising {
     /// of the Ising model.
     operation Ising1DAdiabaticAndMeasureManual (nSites : Int, hXInitial : Double, jFinal : Double, adiabaticTime : Double, trotterStepSize : Double, trotterOrder : Int) : Result[] {
         let hXFinal = 0.0;
-        using (qubits = Qubit[nSites]) {
-            // This creates the ground state of the initial Hamiltonian.
-            Prepare1DIsingState(qubits);
-            (IsingAdiabaticEvolutionManual(nSites, hXInitial, hXFinal, jFinal, adiabaticTime, trotterStepSize, trotterOrder))(qubits);
-            return ForEach(MResetZ, qubits);
-        }
+        use qubits = Qubit[nSites];
+        // This creates the ground state of the initial Hamiltonian.
+        Prepare1DIsingState(qubits);
+        IsingAdiabaticEvolutionManual(nSites, hXInitial, hXFinal, jFinal, adiabaticTime, trotterStepSize, trotterOrder)(qubits);
+        return ForEach(MResetZ, qubits);
     }
 
 
@@ -349,13 +348,12 @@ namespace Microsoft.Quantum.Samples.Ising {
         // For antiferromagnetic coupling, choose jFinal to be negative.
         let jCoupling = Uniform1DJCoupling(nSites, jFinal, _);
 
-        using (qubits = Qubit[nSites]) {
-            Prepare1DIsingState(qubits);
-            (IsingAdiabaticEvolutionBuiltIn(
-                nSites, adiabaticTime, trotterStepSize, trotterOrder, hXCoupling, jCoupling
-            ))(qubits);
-            return ForEach(MResetZ, qubits);
-        }
+        use qubits = Qubit[nSites];
+        Prepare1DIsingState(qubits);
+        IsingAdiabaticEvolutionBuiltIn(
+            nSites, adiabaticTime, trotterStepSize, trotterOrder, hXCoupling, jCoupling
+        )(qubits);
+        return ForEach(MResetZ, qubits);
     }
 
 }

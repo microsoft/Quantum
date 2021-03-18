@@ -8,3 +8,8 @@
 # diff behavior for some non-binary formats
 ###############################################################################
 *.md diff=text
+
+###############################################################################
+# GitHub Linguist settings for repository language stats
+###############################################################################
+samples/** -linguist-documentation

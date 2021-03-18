@@ -31,10 +31,9 @@ namespace Microsoft.Quantum.Extensions.Oracles
     /// Input register x.
     /// ## ybits
     /// Output register y.
-    operation PermutationOracle(oracle : ((Int, Int) -> Int), xbits : Qubit[], ybits : Qubit[]) : Unit
-    {
-        body (...)
-        {
+    operation PermutationOracle(oracle : ((Int, Int) -> Int), xbits : Qubit[], ybits : Qubit[])
+    : Unit {
+        body (...) {
             fail "not implemented for general target machines yet";
         }
         adjoint auto;

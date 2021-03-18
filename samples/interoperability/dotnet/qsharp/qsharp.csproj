@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.Quantum.Sdk/0.15.2101125897">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+</Project>

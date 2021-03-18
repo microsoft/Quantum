@@ -54,10 +54,10 @@ namespace Microsoft.Quantum.Samples.UnitTesting
             // For UpToPhaseCCNOT3 the number of T gates in it is the number of T
             // gates used in CCNOT plus the number of T gates in Controlled-S
             double expectedTcount =
-                sim.GetMetric<Primitive.S, UpToPhaseCCNOT3>(
+                sim.GetMetric<Intrinsic.S, UpToPhaseCCNOT3>(
                     Tcount,
                     functor: Simulation.Core.OperationFunctor.ControlledAdjoint)
-                + sim.GetMetric<Primitive.CCNOT, UpToPhaseCCNOT3>(Tcount);
+                + sim.GetMetric<Intrinsic.CCNOT, UpToPhaseCCNOT3>(Tcount);
 
             Assert.Equal(
                 expectedTcount, 

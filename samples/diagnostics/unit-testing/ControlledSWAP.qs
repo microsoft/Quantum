@@ -1,7 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-namespace Microsoft.Quantum.Samples.UnitTesting {
 
+namespace Microsoft.Quantum.Samples.UnitTesting {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
 
@@ -24,27 +24,42 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
 
     /// # Summary
     /// Implementation of ControlledSWAP using standard Microsoft.Quantum.Intrinsic.SWAP
-    operation ControlledSWAP0 (control : Qubit, target1 : Qubit, target2 : Qubit)
+    operation ApplyBuiltInControlledSWAP(control : Qubit, target1 : Qubit, target2 : Qubit)
     : Unit is Adj + Ctl {
         Controlled SWAP([control], (target1, target2));
     }
 
 
     /// # Summary
-    /// Implementation of the Controlled SWAP gate in terms of CCNOT gate
+    /// Applies the Controlled SWAP operation (aka Fredkin), using a given
+    /// CCNOT implementation.
+    ///
+    /// # Input
+    /// ## ccnotOp
+    /// An implementation of a doubly-controlled NOT operation (aka Toffoli).
+    /// ## control
+    /// The qubit on which the SWAP operation should be controlled.
+    /// ## target1
+    /// The first of two targets to be swapped, conditioned on `control`.
+    /// ## target2
+    /// The second of two targets to be swapped, conditioned on `control`.
+    ///
     /// # Remarks
     /// Number of gates used for this implementation is 2 CNOTs + number of gates used for the
     /// implementation of CCNOTOp
-    operation ControlledSWAPUsingCCNOT (CCNOTOp : ((Qubit, Qubit, Qubit) => Unit is Adj + Ctl), control : Qubit, target1 : Qubit, target2 : Qubit)
-    : Unit is Adj + Ctl {
+    operation ApplyControlledSWAPUsingCCNOT(
+        ccnotOp : ((Qubit, Qubit, Qubit) => Unit is Adj + Ctl),
+        control : Qubit, target1 : Qubit, target2 : Qubit
+    ) : Unit is Adj + Ctl {
         // Note that SWAP(a,b) = CNOT(b,a) CNOT(a,b) CNOT(b,a)
         // Since CNOT(b,a) is self-adjoint: CNOT(b,a)CNOT(b,a)=I,
         // Controlled SWAP(a,b) = CNOT(b,a) CCNOT(c,a,b) CNOT(b,a)
-        CNOT(target2, target1);
-        CCNOTOp(control, target1, target2);
-        CNOT(target2, target1);
+        within {
+            CNOT(target2, target1);
+        } apply {
+            ccnotOp(control, target1, target2);
+        }
     }
-
 
     /// # Summary
     /// Implementation of the 3 qubit Fredkin gate over the Clifford+T gate set,
@@ -57,7 +72,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # See Also
     /// - For the circuit diagram see Figure 7 (e) on
     ///   [Page 15 of arXiv:1206.0758v3](https://arxiv.org/pdf/1206.0758v3.pdf#page=15)
-    operation ControlledSWAP1 (control : Qubit, target1 : Qubit, target2 : Qubit) : Unit is Adj + Ctl {
+    operation ApplyControlledSWAPUsingExplicitDecomposition(
+        control : Qubit, target1 : Qubit, target2 : Qubit
+    ) : Unit is Adj + Ctl {
         CNOT(target1, target2);
 
         // layer 0
@@ -96,5 +113,3 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     }
 
 }
-
-

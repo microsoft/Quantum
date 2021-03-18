@@ -19,6 +19,7 @@ using Mono.Options;
 
 namespace Microsoft.Quantum.Chemistry.Samples.LiH
 {
+    using Microsoft.Quantum.Chemistry.Broombridge;
     using Microsoft.Quantum.Chemistry.Samples.Hydrogen;
     internal static class LiHSimulation
     {
@@ -33,12 +34,17 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
         "3.200","3.500","4.000","5.000"
         };
 
-        internal static string[] filenames = bondLengths.Select(o => $@"..\IntegralData\YAML\LiHData\integrals_lih_sto-3g_{o}.nw.out.yaml").ToArray();
+        internal static string[] filenames = bondLengths.Select(o => Path.Combine("..","IntegralData","YAML","LiHData",$@"integrals_lih_sto-3g_{o}.nw.out.yaml")).ToArray();
 
-        internal static Broombridge.ProblemDescription[] problemData =
-            filenames.Select(o => 
-                Broombridge.Deserializers.DeserializeBroombridge(o)
-                .ProblemDescriptions.Single()).ToArray();
+        internal static List<ElectronicStructureProblem> problemData =
+            filenames.Select(filename => 
+            {
+                using var reader = File.OpenText(filename);
+                return BroombridgeSerializer
+                    .Deserialize(reader)
+                    .Single();
+            })
+            .ToList();
 
         // Order of Trotter-Suzuki integrator.
         public static Int64 IntegratorOrder = 1;
@@ -64,7 +70,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
                 .OrbitalIntegralHamiltonian
                 .ToFermionHamiltonian(IndexConvention.UpDown);
 
-            // Crete Pauli reprsentation of Hamiltonian using
+            // Crete Pauli representation of Hamiltonian using
             // the Jordan–Wigner encoding.
             var pauliHamiltonian = fermionHamiltonian
                 .ToPauliHamiltonian(Paulis.QubitEncoding.JordanWigner);
@@ -72,7 +78,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
             // Create input wavefunction.
             var wavefunction = inputState == "Greedy" ?
                 fermionHamiltonian.CreateHartreeFockState(problem.NElectrons) :
-                problem.Wavefunctions[inputState].ToIndexing(IndexConvention.UpDown);
+                problem.InitialStates[inputState].ToIndexing(IndexConvention.UpDown);
 
 
             // Package Hamiltonian and wavefunction data into a format
@@ -113,12 +119,12 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
         private static void SendPlotPoints(NetworkStream stream)
         {
             // Plot theory data points first
-            foreach (var idxBond in Enumerable.Range(0, LiHSimulation.problemData.Length))
+            foreach (var idxBond in Enumerable.Range(0, LiHSimulation.problemData.Count))
             {
                 var tst = LiHSimulation.problemData;
                 var bondLength = Double.Parse(LiHSimulation.bondLengths[idxBond]);
                 var hamData = LiHSimulation.problemData[idxBond];
-                var energies = hamData.Wavefunctions.ToDictionary(o => o.Key, o => o.Value.Energy);
+                var energies = hamData.InitialStates.ToDictionary(o => o.Key, o => o.Value.Energy);
                 var offset = hamData.EnergyOffset;
                 foreach (var (k, v) in energies)
                 {
@@ -128,7 +134,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
                             {
                                 { "source", k },
                                 { "bondLength", bondLength },
-                                { "theoreticalEnergy", v},
+                                { "theoreticalEnergy", v },
                             }
                         );
                     stream.Write(response, 0, response.Length);
@@ -139,7 +145,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
             string[] states = new string[] { "|G>", "|E1>", "|E2>", "|E3>", "|E4>", "|E5>" };
             foreach (var state in states)
             {
-                foreach (var idxBond in Enumerable.Range(0, LiHSimulation.problemData.Length))
+                foreach (var idxBond in Enumerable.Range(0, LiHSimulation.problemData.Count))
                 {
                     var (bondLength, energyEst) = LiHSimulation.GetSimulationResult(idxBond, state);
 
@@ -239,7 +245,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
             var options = new OptionSet {
                 { "o|integrator-order=", "Order of Trotter-Suzuki integrator", (Int64 o) => integratorOrder = o},
                 { "s|step-size=", "Step size of Trotter-Suzuki integrator", (Double s) => stepSize = s},
-                { "b|bits-precision=", "Bits of preicison in quantum phase estimation algorithm", (Int64 b) => bitsOfPrecision = b},
+                { "b|bits-precision=", "Bits of precision in quantum phase estimation algorithm", (Int64 b) => bitsOfPrecision = b},
             };
 
             LiHSimulation.IntegratorOrder = integratorOrder;

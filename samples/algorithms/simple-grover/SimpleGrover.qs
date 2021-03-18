@@ -10,20 +10,20 @@ namespace Microsoft.Quantum.Samples.SimpleGrover {
     /// # Summary
     /// This operation applies Grover's algorithm to search all possible inputs
     /// to an operation to find a particular marked state.
+    @EntryPoint()
     operation SearchForMarkedInput(nQubits : Int) : Result[] {
-        using (qubits = Qubit[nQubits]) {
-            // Initialize a uniform superposition over all possible inputs.
-            PrepareUniform(qubits);
-            // The search itself consists of repeatedly reflecting about the
-            // marked state and our start state, which we can write out in Q#
-            // as a for loop.
-            for (idxIteration in 0..NIterations(nQubits) - 1) {
-                ReflectAboutMarked(qubits);
-                ReflectAboutUniform(qubits);
-            }
-            // Measure and return the answer.
-            return ForEach(MResetZ, qubits);
+        use qubits = Qubit[nQubits];
+        // Initialize a uniform superposition over all possible inputs.
+        PrepareUniform(qubits);
+        // The search itself consists of repeatedly reflecting about the
+        // marked state and our start state, which we can write out in Q#
+        // as a for loop.
+        for idxIteration in 0..NIterations(nQubits) - 1 {
+            ReflectAboutMarked(qubits);
+            ReflectAboutUniform(qubits);
         }
+        // Measure and return the answer.
+        return ForEach(MResetZ, qubits);
     }
 
     /// # Summary
