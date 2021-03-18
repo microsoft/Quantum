@@ -1,5 +1,12 @@
 {
-    "dockerFile": "../Dockerfile",
+    // Use the latest Docker image built from the main branch of this repo.
+    // You may also prefer to use the Dockerfile for that image directly if you
+    // would like to make and test local changes to that image. To do so,
+    // the "image" property with:
+    //
+    //     "dockerFile": "../Build/images/samples/Dockerfile",
+    
+    "image": "mcr.microsoft.com/quantum/samples:latest",
     "extensions": [
         "quantum.quantum-devkit-vscode",
         "ms-vscode.csharp",

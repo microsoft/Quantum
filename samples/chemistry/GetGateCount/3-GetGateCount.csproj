@@ -1,0 +1,24 @@
+﻿
+<Project Sdk="Microsoft.Quantum.Sdk/0.15.2101125897">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>get-gatecount</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="OptimizedQubitizationGateCountEstimates.PrimitiveOperationsCounter.csv" />
+    <None Remove="Out-Plot.ps1" />
+    <None Remove="QubitizationGateCountEstimates.PrimitiveOperationsCounter.csv" />
+    <None Remove="TrotterGateCountEstimates.PrimitiveOperationsCounter.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.7" />
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.15.2101125897" />
+  </ItemGroup>
+
+</Project>

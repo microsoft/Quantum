@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.Quantum.Sdk/0.15.2101125897">
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <IsPackable>false</IsPackable>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWarn>1701;1702;1705;0162;0219</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\simulation\ising\adiabatic\AdiabaticIsingSample.csproj" />
+    <ProjectReference Include="..\..\error-correction\bit-flip-code\BitFlipCode.csproj" />
+    <ProjectReference Include="..\..\algorithms\database-search\DatabaseSearchSample.csproj" />
+    <ProjectReference Include="..\..\simulation\ising\phase-estimation\IsingPhaseEstimationSample.csproj" />
+    <ProjectReference Include="..\..\getting-started\measurement\Measurement.csproj" />
+    <ProjectReference Include="..\..\characterization\phase-estimation\PhaseEstimationSample.csproj" />
+    <ProjectReference Include="..\..\algorithms\reversible-logic-synthesis\ReversibleLogicSynthesis.csproj" />
+    <ProjectReference Include="..\..\getting-started\simple-algorithms\SimpleAlgorithms.csproj" />
+    <ProjectReference Include="..\..\algorithms\repeat-until-success\RepeatUntilSuccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.Xunit" Version="0.15.2101125897" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+</Project>

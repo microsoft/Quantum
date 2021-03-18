@@ -19,6 +19,7 @@ Microsoft.Quantum.Standard;
 Microsoft.Quantum.Xunit;
 Microsoft.Quantum.Chemistry;
 Microsoft.Quantum.Chemistry.Jupyter;
+Microsoft.Quantum.MachineLearning;
 Microsoft.Quantum.Research"}
 
 for pkg in `echo $pkgs | tr ";" "\n"`; do 

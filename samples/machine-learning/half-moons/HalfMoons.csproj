@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.Quantum.Sdk/0.15.2101125897">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <IQSharpLoadAutomatically>true</IQSharpLoadAutomatically>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.MachineLearning" Version="0.15.2101125897" />
+    <PackageReference Include="System.Text.Json" Version="4.6.0" />
+  </ItemGroup>
+</Project>

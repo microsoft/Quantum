@@ -1,89 +1,104 @@
-﻿# Microsoft Quantum Development Kit Samples #
- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Microsoft/Quantum/master)
+﻿# Microsoft Quantum Development Kit Samples
+
+ [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Microsoft/Quantum/⭐binder)
 
 These samples demonstrate the use of the Quantum Development Kit for a variety of different quantum computing tasks.
-Most samples are provided as a Visual Studio 2017 C# or F# project under the [`QsharpSamples.sln`](./Samples/QsharpSamples.sln) solution.
 
-Each sample is self-contained in a folder. Most of the samples consist of a Q# source file with detailed comments explaining the sample and a short classical program (either `Program.cs` (C#), `Program.fs` (F#), or `host.py` (Python)) that calls into the Q# operations and functions. 
-There are some samples that are written as an interactive Jupyter notebook thus require no classical host.
+Each sample is self-contained in a folder, and demonstrates how to use Q# to develop quantum applications.
 
 A small number of the samples have additional installation requirements beyond those for the rest of the Quantum Development Kit.
 These are noted in the README.md files for each sample, along with complete installation instructions.
 
-You can find instructions on how to install the Quantum Development Kit in [our online documentation](https://docs.microsoft.com/en-us/quantum/install-guide/), which also includes
-an introduction to [quantum programming concepts](https://docs.microsoft.com/en-us/quantum/concepts/). A [Docker](https://docs.docker.com/install/) image definition is also provided for your convenience, see below
-for instructions on how to build and use it.
+## Getting started
 
-The samples are broken down into four broad categories, each of which is described below.
+You can find instructions on how to install the Quantum Development Kit in [our online documentation](https://docs.microsoft.com/quantum/install-guide/), which also includes
+an introduction to [quantum programming concepts](https://docs.microsoft.com/en-us/quantum/concepts/).
 
-## 0. Introductory Samples ##
+For a quick guide on how to set up a development environment from scratch using [Visual Studio Code](https://code.visualstudio.com) or [Visual Studio Codespaces](https://online.visualstudio.com/login), see [here](#setting-up-your-development-environment).
 
-- **[TeleportationSample](./Samples/src/Teleportation/)**:
-  This sample documents how to write quantum programs with Q#, C#, and Visual Studio, using the [development techniques](https://docs.microsoft.com/quantum/quantum-devguide-1-intro) covered in the main documentation.
-  It also shows how to simulate the same algorithms from Python and Jupyter.
-- **[Measurement](./Samples/src/Measurement)**:
-  This sample goes into more detail about how single- and multiple-qubit measurements are represented in Q#, and how to measure in interesting bases such as the Bell basis.
-- **[SimpleAlgorithms](./Samples/src/SimpleAlgorithms)**:
-  This sample covers several different basic quantum algorithms, and how each can be written in Q#.
-- **[IntroToIQSharp](./Samples/src/IntroToIQSharp)**:
-  This samples explains how to create interactive notebooks using Jupyter and IQ#.
+A [Docker](https://docs.docker.com/install/) image definition is also provided for your convenience, see [here](#running-a-jupyter-notebook-with-docker) for instructions on how to build and use it.
 
-## 1. Algorithm Samples ##
+### First samples
 
-- **[DatabaseSearch](./Samples/src/DatabaseSearch)**:
-  This sample demonstrates how to use Grover's algorithm to efficiently search a database represented as a quantum register.
-- **[IntegerFactorization](./Samples/src/IntegerFactorization)**:
-  This sample demonstrates how to use Shor's algorithm to efficiently factor integers.
-- **[ReversibleLogicSynthesis](./Samples/src/ReversibleLogicSynthesis)**:
-  This sample demonstrates how to use reversible logic synthesis to solve the hidden shift problem.
-- **[CHSHGame](./Samples/src/CHSHGame)**:
-  This sample demonstrates a famous nonlocal game which proves that no theory of local hidden variables can ever reproduce all the predictions of quantum mechanics.
+If you're new to quantum or to the Quantum Development Kit, we recommend starting with the [Getting Started samples](./samples/getting-started/).
 
-## 2. Characterization and Testing Samples ##
+After setting up your development environment using one of the options above, try to browse to `samples/getting-started/teleportation` via the terminal and run `dotnet run`. You should see something like the following:
+```
+Round 1: Sent False, got False.
+Teleportation successful!
+Round 2: Sent True, got True.
+Teleportation successful!
+Round 3: Sent False, got False.
+Teleportation successful!
+Round 4: Sent False, got False.
+Teleportation successful!
+Round 5: Sent False, got False.
+Teleportation successful!
+Round 6: Sent False, got False.
+Teleportation successful!
+Round 7: Sent True, got True.
+Teleportation successful!
+Round 8: Sent False, got False.
+Teleportation successful!
+```
 
-- **[UnitTesting](./Samples/src/UnitTesting)**:
-  This sample demonstrates how to use the Quantum Development Kit together with the [xUnit](https://xunit.github.io/) framework to check the correctness of quantum programs by testing the correctness and computing the metrics of various small quantum circuits.
-- **[BitFlipCode](./Samples/src/BitFlipCode)**:
-  This sample shows how to use a simple quantum error correcting code to protect against errors in a quantum device.
-- **[PhaseEstimation](./Samples/src/PhaseEstimation)**:
-  This sample introduces iterative phase estimation, an important statistical problem in analyzing the output of quantum programs.
+Congratulations, you can now start quantum programming!
 
-## 3. Hamiltonian Simulation Samples ##
+## Going further
 
-- *H₂ Simulation*
-  - **[H2SimulationCmdLine](./Samples/src/H2SimulationCmdLine)**:
-      This sample walks through the simulation of molecular hydrogen using the Trotter–Suzuki decomposition.
-  - **[H2SimulationGUI](./Samples/src/H2SimulationGUI)**:
-      This sample builds on *H2SimulationCmdLine* by using the [Electron](https://electronjs.org/) framework and the [chart.js](http://www.chartjs.org/) package to plot results asynchronously in a cross-platform application.
-- *Ising Model Simulation*
-  - **[SimpleIsing](./Samples/src/SimpleIsing)**: This sample walks through constructing the time-evolution operator for the Ising model.
-  - **[IsingGenerators](./Samples/src/IsingGenerators)**: This sample describes how Hamiltonians may be represented using Microsoft.Quantum.Canon functions.
-  - **[AdiabaticIsing](./Samples/src/AdiabaticIsing)**: This sample converts a representation of a Hamiltonian using library data types into unitary time-evolution by the Hamiltonian on qubits.
-  - **[IsingPhaseEstimation](./Samples/src/IsingPhaseEstimation)**: This sample adiabatically prepares the ground state of the Ising model Hamiltonian, and then perform phase estimation to obtain an estimate of the ground state energy. 
-  - **[IsingTrotterEvolution](./Samples/src/IsingTrotterEvolution)**: This sample walks through constructing the time-evolution operator for the Ising model using the Trotterization library feature.
-- **[HubbardSimulation](./Samples/src/HubbardSimulation)**: This sample walks through constructing the time-evolution operator for the 1D Hubbard Simulation model.
+As you go further with quantum development, we provide several different categories of samples for you to explore:
 
-## 4. Interoperability ##
+- **[Algorithms](./samples/algorithms)**:
+  These samples demonstrate various quantum algorithms, such as database search and integer factorization.
+- **[Arithmetic](./samples/arithmetic)**:
+  These samples show how to coherently transform arithmetic data.
+- **[Characterization](./samples/characterization)**:
+  These samples demonstrate how to learn properties of quantum systems from classical data.
+- **[Chemistry](./samples/chemistry)**:
+- **[Diagnostics](./samples/diagnostics)**:
+  These samples show how to diagnose and test Q# applications.
+- **[Error Correction](./samples/error-correction)**:
+  These samples show how to work with quantum error correcting codes in Q# programs.
+- **[Interoperability](./samples/interoperability)**:
+  These samples show how to use Q# with different host languages.
+- **[Numerics](./samples/numerics)**:
+  The samples in this folder show how to use the numerics library.
+- **[Runtime](./samples/runtime)**:
+  These samples show how to work with the Q# simulation runtime.
+- **[Simulation](./samples/simulation)**:
+  These samples show how to simulate evolution under different Hamiltonians.
 
-- **[PythonInterop](./Samples/src/PythonInterop)** (Windows-only preview):
-  This sample walks through using Python to perform quantum process tomography on an operation written in Q#.
-- **[FSharpWithQSharp](./Samples/src/FSharpWithQSharp)**:
-  This sample shows how to use Q# operations with an F# driver.
- 
-## 5. Qasm (Quantum Assembler Language) ##
+We also encourage taking a look at the [unit tests](./samples/tests) used to check the correctness of the Quantum Development Kit samples.
 
-- **[OpenQasm](./Samples/src/OpenQasm)**:
-  This sample shows that one can output a subset of the quantum operations of a Q# application in OpenQASM.
-- **[Qiskit](./Samples/src/Qiskit)**:
-  This sample shows that one can run the quantum operations of a Q# application by using the OpenQASM output on the IBMQuantumExperience by changing the driver.
-- **[OpenQasmReader](./Samples/src/OpenQasmReader)**:
-  This sample shows that one can convert OpenQasm 2.0 specifications to Q# methods. This allows one to import algorithms written in OpenQasm 2.0 to be used on the Microsoft Q# Simulator. Apart of the barrier gate (which has no meaning in Q#) all gates are converted to Q# constructions.
+## Setting up your development environment
 
-## Docker image
+This repo contains several configuration files that will make it easy to get started with coding. Below we lay out some instructions for getting started with [VSCode](#visual-studio-code) or [Visual Studio Codespaces](#visual-studio-codespaces). The latter will use the Docker image that has all dependencies pre-installed for you using the configuration file in the `.devcontainer` directory. If you prefer working with Jupyter notebooks, we also provide instructions for how to set that up [below](#running-a-jupyter-notebook-with-docker).
 
-You can use the included [Dockerfile](./Dockerfile) to create a docker image 
-with all the necessary libraries to use the Quantum Development Kit to build
-quantum applications in C#, Python or Jupyter.
+### Visual Studio Codespaces
+
+For minimal set-up time, we recommend using [Visual Studio Codespaces](https://online.visualstudio.com/login) in the browser. To get started, perform the following steps:
+
+1. Create an Azure account [here](https://azure.microsoft.com/en-us/free/), if you don't already have one. You'll have to set up payment information - note that you get $200 of free credit and you won't be charged unless you upgrade.
+2. Create a Codespaces environment. Please follow the quickstart guide [here](https://docs.microsoft.com/visualstudio/online/quickstarts/browser).
+When creating the Codespace, make sure to enter `microsoft/Quantum` in the "Git Repository" field, see below screenshot.
+
+![Codespaces settings](./docs/images/Codespaces_settings.png)
+
+When you click "Create", a new Codespace instance is created with a development environment based on the Docker container that is defined in this repo's Dockerfile. Recommended extensions are also automatically installed for you.
+
+3. Done! You can now start developing using Q# in your browser. Open a terminal to start running your first samples (see [here](#first-samples)).
+
+### Visual Studio Code
+
+If you prefer to develop code locally, we recommend to install an editor such as [Visual Studio Code](https://code.visualstudio.com/download). Make sure to install the [.NET Core SDK 3.1 or later](https://www.microsoft.com/net/download) on your local machine. For more detailed instructions on how to set up VS Code for development with the QDK, go to our docs [here](https://docs.microsoft.com/en-us/quantum/quickstarts/install-command-line?tabs=tabid-vscode).
+
+Once you have installed VS Code and the .NET Core SDK, download this repository to your computer and open the folder in VS Code. The editor will automatically recognize the files in the `.vscode` folder and request you to install the recommended extension. This includes the [Microsoft Quantum Development Kit for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=quantum.quantum-devkit-vscode) extension, which is the fastest way to get started with the QDK.
+
+Open a terminal to start running your first samples (see [here](#first-samples)).
+
+### Running a Jupyter Notebook with Docker
+
+Another way to quickly start developing in Q# is to use Docker and launch a Jupyter notebook on your local machine. You can use the included [Dockerfile](./Dockerfile) to create a docker image with all the necessary libraries to use the Quantum Development Kit to build quantum applications in C#, Python or Jupyter.
 
 Once you have installed [Docker](https://docs.docker.com/install/), you can
 use the following commands to get you started:
@@ -101,17 +116,17 @@ docker run -it --name iqsharp-container -p 8888:8888 iqsharp /bin/bash
 
 From the corresponding container command line, you can run the C# version of the Teleportation sample using: 
 ```sh
-cd ~/Samples/src/Teleportation && dotnet run
+cd ~/samples/getting-started/teleportation && dotnet run
 ```
 
 Similarly, you can run the Python version of the Teleportation sample using: 
 ```sh
-cd ~/Samples/src/Teleportation && python host.py
+cd ~/samples/getting-started/teleportation && python host.py
 ```
 
 Finally, to start jupyter notebook within the image for the Teleportation sample, use:
 ```sh
-cd ~/Samples/src/Teleportation && jupyter notebook --ip=0.0.0.0 --no-browser 
+cd ~/samples/getting-started/teleportation && jupyter notebook --ip=0.0.0.0 --no-browser 
 ```
 
 Once Jupyter has started, you can open in your browser the Teleportation notebook (you

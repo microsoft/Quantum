@@ -17,11 +17,17 @@ function Build-One {
         -v $Env:BUILD_VERBOSITY `
         /property:DefineConstants=$Env:ASSEMBLY_CONSTANTS `
         /property:Version=$Env:ASSEMBLY_VERSION `
-        /property:QsharpDocsOutDir=$Env:DOCS_OUTDIR
+        /property:QsharpDocsOutputPath=$Env:DOCS_OUTDIR
 
     if  ($LastExitCode -ne 0) {
         Write-Host "##vso[task.logissue type=error;]Failed to build $project."
         $script:all_ok = $False
+    }
+
+    if ($env:FORCE_CLEANUP -eq "true") {
+        # Force cleanup of generated bin and obj folders for this project.
+        Write-Host "##[info]Cleaning up bin/obj from $(Split-Path $project -Parent)..."
+        Get-ChildItem -Path (Split-Path $project -Parent) -Recurse | Where-Object { ($_.name -eq "bin" -or $_.name -eq "obj") -and $_.attributes -eq "Directory" } | Remove-Item -recurse -force
     }
 }
 

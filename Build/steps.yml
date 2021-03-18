@@ -3,6 +3,17 @@ steps:
 ##
 # Pre-reqs
 ##
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 5.2.0'
+  inputs:
+    versionSpec: '5.2.0'
+
+- task: UseDotNet@2
+  displayName: 'Use .NET Core SDK 3.1.100'
+  inputs:
+    packageType: sdk
+    version: '3.1.100'
+
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.6'

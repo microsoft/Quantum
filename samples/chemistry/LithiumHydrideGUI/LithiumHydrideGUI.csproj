@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="LiHData\**" />
+    <Compile Remove="node_modules\**" />
+    <EmbeddedResource Remove="LiHData\**" />
+    <EmbeddedResource Remove="node_modules\**" />
+    <None Remove="LiHData\**" />
+    <None Remove="node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="index.html" />
+    <None Remove="main.js" />
+    <None Remove="package-lock.json" />
+    <None Remove="package.json" />
+    <None Remove="renderer.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.15.2101125897" />
+    <PackageReference Include="Microsoft.Quantum.Simulators" Version="0.15.2101125897" />
+    <PackageReference Include="Mono.Options" Version="5.3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MolecularHydrogen\MolecularHydrogen.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+</Project>
