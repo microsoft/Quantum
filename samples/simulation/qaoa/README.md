@@ -15,7 +15,7 @@ This sample is based on the "Traveling Santa" problem described by Stephen Jorda
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Description
 

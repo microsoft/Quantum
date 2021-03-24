@@ -34,7 +34,7 @@ This game helps us understand entanglement, and has even been used experimentall
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 
@@ -72,4 +72,4 @@ Press Start in Visual Studio to run the sample.
 
 ## Further resources
 
-- [Measurement concepts](https://docs.microsoft.com/quantum/concepts/pauli-measurements)
+- [Measurement concepts](https://docs.microsoft.com/azure/quantum/concepts-pauli-measurements)
