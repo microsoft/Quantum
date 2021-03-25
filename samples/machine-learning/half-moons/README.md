@@ -17,7 +17,7 @@ The model is trained on a half-moons dataset, loaded in C# using the System.Text
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 

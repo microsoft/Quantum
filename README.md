@@ -11,8 +11,8 @@ These are noted in the README.md files for each sample, along with complete inst
 
 ## Getting started
 
-You can find instructions on how to install the Quantum Development Kit in [our online documentation](https://docs.microsoft.com/quantum/install-guide/), which also includes
-an introduction to [quantum programming concepts](https://docs.microsoft.com/en-us/quantum/concepts/).
+You can find instructions on how to install the Quantum Development Kit in [our online documentation](https://docs.microsoft.com/azure/quantum/install-overview-qdk/), which also includes
+an introduction to [quantum programming concepts](https://docs.microsoft.com/azure/quantum/concepts-overview/).
 
 For a quick guide on how to set up a development environment from scratch using [Visual Studio Code](https://code.visualstudio.com) or [Visual Studio Codespaces](https://online.visualstudio.com/login), see [here](#setting-up-your-development-environment).
 
@@ -90,7 +90,7 @@ When you click "Create", a new Codespace instance is created with a development 
 
 ### Visual Studio Code
 
-If you prefer to develop code locally, we recommend to install an editor such as [Visual Studio Code](https://code.visualstudio.com/download). Make sure to install the [.NET Core SDK 3.1 or later](https://www.microsoft.com/net/download) on your local machine. For more detailed instructions on how to set up VS Code for development with the QDK, go to our docs [here](https://docs.microsoft.com/en-us/quantum/quickstarts/install-command-line?tabs=tabid-vscode).
+If you prefer to develop code locally, we recommend to install an editor such as [Visual Studio Code](https://code.visualstudio.com/download). Make sure to install the [.NET Core SDK 3.1 or later](https://www.microsoft.com/net/download) on your local machine. For more detailed instructions on how to set up VS Code for development with the QDK, go to our docs [here](https://docs.microsoft.com/azure/quantum/install-command-line-qdk).
 
 Once you have installed VS Code and the .NET Core SDK, download this repository to your computer and open the folder in VS Code. The editor will automatically recognize the files in the `.vscode` folder and request you to install the recommended extension. This includes the [Microsoft Quantum Development Kit for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=quantum.quantum-devkit-vscode) extension, which is the fastest way to get started with the QDK.
 

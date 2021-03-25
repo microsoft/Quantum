@@ -31,7 +31,7 @@ In this sample, you can use Q# to dump useful diagnostics from the quantum simul
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 
@@ -48,4 +48,4 @@ jupyter notebook
 
 ## Further resources
 
-- [Use Q#: Test and debug](https://docs.microsoft.com/quantum/user-guide/using-qsharp/testing-debugging#dump-functions)
+- [Use Q#: Test and debug](https://docs.microsoft.com/azure/quantum/user-guide/testing-debugging#dump-functions)

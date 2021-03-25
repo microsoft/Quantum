@@ -29,7 +29,7 @@ The model is trained on the [wine dataset](https://archive.ics.uci.edu/ml/datase
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 

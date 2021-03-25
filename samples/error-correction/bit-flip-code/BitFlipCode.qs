@@ -17,7 +17,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     // In this sample, we build on the discussion in the quantum error
     // correction section of the developers' guide:
 
-    //     https://docs.microsoft.com/quantum/user-guide/libraries/standard/error-correction
+    //     https://docs.microsoft.com/azure/quantum/user-guide/libraries/standard/error-correction
 
     // In particular, we start by manually encoding into the bit-flip code.
     // We then show how operations and functions provided in the Q# canon
@@ -192,7 +192,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
         let parity12 = Measure([PauliI, PauliZ, PauliZ], register);
 
         // To use the syndrome obtained above, we recall the table
-        // from <https://docs.microsoft.com/en-us/quantum/libraries/error-correction>:
+        // from <https://docs.microsoft.com/azure/quantum/user-guide/libraries/standard/error-correction>:
 
         //     Error | Z₀Z₁ | Z₁Z₂
         //     ===================

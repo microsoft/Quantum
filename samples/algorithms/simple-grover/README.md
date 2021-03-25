@@ -19,7 +19,7 @@ For examples of how to solve more general problems using amplitude amplification
 
 ## Prerequisites ##
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 

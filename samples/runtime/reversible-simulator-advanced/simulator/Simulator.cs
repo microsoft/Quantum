@@ -125,7 +125,7 @@ namespace Microsoft.Quantum.Samples
 
             // A multi-qubit measurement in the PauliZ basis corresponds to
             // computing the parity of all involved qubits' measurement values.
-            // (see also https://docs.microsoft.com/quantum/concepts/pauli-measurements#multiple-qubit-measurements)
+            // (see also https://docs.microsoft.com/azure/quantum/concepts-pauli-measurements#multiple-qubit-measurements)
             // We use Aggregate to successively XOR a qubit's simulation value
             // to an accumulator value `accu` that is initialized to `false`.
             var actual = qubitsToMeasure.Aggregate(false, (accu, qubit) => accu ^ GetValue(qubit));

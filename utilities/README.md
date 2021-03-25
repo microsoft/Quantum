@@ -33,7 +33,7 @@ For example, the following command updates all C# projects in the current direct
 > Windows PowerShell comes pre-installed with Windows 10.
 > Download PowerShell Core for Windows, macOS, or Linux at https://github.com/PowerShell/PowerShell.
 
-This PowerShell module provides functionality for invoking [NWChem](http://nwchem-sw.org) using [Docker](https://docker.com/), and for using NWChem to produce [Broombridge](https://docs.microsoft.com/en-us/quantum/libraries/chemistry/schema/broombridge) documents.
+This PowerShell module provides functionality for invoking [NWChem](http://nwchem-sw.org) using [Docker](https://docker.com/), and for using NWChem to produce [Broombridge](https://docs.microsoft.com/azure/quantum/user-guide/libraries/chemistry/schema/broombridge) documents.
 To use this PowerShell module, first import it using the [`Import-Module`](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/import-module) command:
 
 ```powershell
@@ -50,5 +50,5 @@ Get-Help Convert-NWChemToBroombridge
 
 For more details about how to install prerequisites and use this module with the quantum chemistry library, please see the following pages:
 
-- [Chemistry Library Installation and Validation](https://docs.microsoft.com/en-us/quantum/libraries/chemistry/installation)
-- [End-to-end with NWChem](https://docs.microsoft.com/en-us/quantum/libraries/chemistry/samples/end-to-end)
+- [Chemistry Library Installation and Validation](https://docs.microsoft.com/azure/quantum/user-guide/libraries/chemistry/installation)
+- [End-to-end with NWChem](https://docs.microsoft.com/azure/quantum/user-guide/libraries/chemistry/samples/end-to-end)

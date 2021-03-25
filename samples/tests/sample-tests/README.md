@@ -8,4 +8,4 @@ Open the `QsharpLibraries.sln` solution in Visual Studio and select *Tests → R
 This should open up the Visual Studio Test Explorer with a list of all tests provided with the Q# standard libraries and samples.
 As tests are successfully completed, they should turn green.
 
-For more details, see the [Testing and debugging](https://docs.microsoft.com/quantum/quantum-techniques-testinganddebugging) section of the [developer's guide](https://docs.microsoft.com/quantum).
+For more details, see the [Testing and debugging](https://docs.microsoft.com/azure/quantum/user-guide/testing-debugging) section of the [developer's guide](https://docs.microsoft.com/azure/quantum).

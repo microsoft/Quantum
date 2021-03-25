@@ -20,7 +20,7 @@ In this sample, we show how `M` can be used to sample random numbers, and to mea
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 
@@ -33,5 +33,5 @@ To run the sample, use the `dotnet run` command from your terminal.
 
 ## Further resources
 
-- [Measurement concepts](https://docs.microsoft.com/quantum/concepts/pauli-measurements)
-- [Logging and assertion techniques](https://docs.microsoft.com/quantum/techniques/testing-and-debugging#logging-and-assertions)
+- [Measurement concepts](https://docs.microsoft.com/azure/quantum/concepts-pauli-measurements)
+- [Facts and assertion techniques](https://docs.microsoft.com/azure/quantum/user-guide/testing-debugging#facts-and-assertions)

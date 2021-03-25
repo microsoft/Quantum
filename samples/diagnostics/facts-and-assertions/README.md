@@ -31,12 +31,12 @@ In this sample, you can use Q# to check the correctness of quantum programs with
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 
 This sample is designed to be run from Jupyter Notebook.
-To set up your development environment to run Jupyter Notebooks, follow the steps explained in the [Q# Quickstart: Jupyter guide](https://docs.microsoft.com/quantum/quickstarts/install-jupyter).
+To set up your development environment to run Jupyter Notebooks, follow the steps explained in the [Q# Quickstart: Jupyter guide](https://docs.microsoft.com/azure/quantum/install-jupyter-qkd).
 
 Once this is set up, from the terminal, you can run the following command:
 
@@ -44,7 +44,7 @@ Once this is set up, from the terminal, you can run the following command:
 jupyter notebook
 ```
 
-Alternatively, these notebooks can be started and run in the VSCode editor. To get set up with VSCode, please follow the steps laid out in the [Q# Quickstart: VSCode guide](https://docs.microsoft.com/quantum/quickstarts/install-command-line).
+Alternatively, these notebooks can be started and run in the VSCode editor. To get set up with VSCode, please follow the steps laid out in the [Q# Quickstart: VSCode guide](https://docs.microsoft.com/azure/quantum/install-command-line-qdk).
 
 ## Manifest
 
@@ -52,4 +52,4 @@ Alternatively, these notebooks can be started and run in the VSCode editor. To g
 
 ## Further resources
 
-- [Use Q#: Test and debug](https://docs.microsoft.com/quantum/user-guide/using-qsharp/testing-debugging#facts-and-assertions)
+- [Use Q#: Test and debug](https://docs.microsoft.com/azure/quantum/user-guide/testing-debugging#facts-and-assertions)

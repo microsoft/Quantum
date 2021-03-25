@@ -32,6 +32,6 @@ You are guaranteed that the function f can be represented as
 𝐹(𝑥₀, ..., 𝑥ₙ₋₁) = Σᵢ (𝑟ᵢ 𝑥ᵢ + (1 - 𝑟ᵢ)(1 - 𝑥ᵢ)) mod 2 for some bit vector 𝑟 = (𝑟₀, …, 𝑟ₙ₋₁).
 Your goal is to find a bit vector which can produce the given oracle. Note that (unlike in the Bernstein–Vazirani algorithm), it doesn't have to be the same bit vector as the one used to create the oracle; if there are several bit vectors that produce the given oracle, you can return any of them.
 
-You can read more about quantum oracles [in the documentation](https://docs.microsoft.com/quantum/concepts/oracles).
+You can read more about quantum oracles [in the documentation](https://docs.microsoft.com/azure/quantum/concepts-oracles).
 
 The solution is actually easier than the Bernstein–Vazirani algorithm, and is more classical than quantum. Indeed, the expression for the function 𝐹 can be simplified as follows: 𝐹(𝑥₀, ..., 𝑥ₙ₋₁) = 2 Σᵢ 𝑟ᵢ 𝑥ᵢ + Σᵢ 𝑟ᵢ + Σᵢ 𝑥ᵢ + 𝑛 (mod 2) = Σᵢ 𝑟ᵢ + Σᵢ 𝑥ᵢ + 𝑛 (mod 2). You can see that the value of the function depends not on the individual values of 𝑥ᵢ, but only on the parity of their sum - that's not that much information to extract. If you apply the oracle to a qubit state |0...0⟩|0⟩, you'll get a state |0⋯0⟩|𝐹(0, ..., 0)⟩ = |0⋯0⟩|Σᵢ 𝑟ᵢ + 𝑛 (mod 2)⟩. If you measure the target qubit now, you'll get Σᵢ 𝑟ᵢ mod 2 if n is even, and Σᵢ 𝑟ᵢ + 1 mod 2 if 𝑛 is odd.
