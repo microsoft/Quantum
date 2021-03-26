@@ -33,7 +33,7 @@ The correctness of all the programs in this sample is tested using functionality
 
 ## Test harness ##
 
-This sample uses Microsoft.Quantum.Xunit extension to [xUnit.net](http://xunit.github.io/) framework to
+This sample uses Microsoft.Quantum.Xunit extension to [xUnit.net](https://xunit.net/) framework to
 automatically discover Q# tests. The tests are all the operations with signature "() => ()"
 with suffix "Test". The test harness located in
 [QuantumSimulatorTestTargets.cs](./QuantumSimulatorTestTargets.cs).
@@ -58,4 +58,4 @@ This samples uses Microsoft.Quantum.Canon library and depends on the following N
 
 * Microsoft.Quantum.Development.Kit: Q# runtime framework
 * Microsoft.Quantum.Xunit: xUnit.net extension for discovering Q# tests
-* [xunit](http://xunit.github.io/): xUnit.net testing framework for .NET
+* [xunit](https://xunit.net/): xUnit.net testing framework for .NET

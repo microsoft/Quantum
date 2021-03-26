@@ -50,4 +50,4 @@ Visual Studio to run the sample.
 - [Operation.qs](Operation.qs): Q# code implementing quantum operations for this sample.
 - [Simulator.cs](Simulator.cs): C# implementation of a reversible simulator using the `IQuantumProcessor` interface.
 - [Driver.cs](Driver.cs): C# code running the quantum operations with the reversible simulator.
-- [reversible-simulator.csproj](reversible-simulator.csproj): C# project for the sample.
+- [ReversibleSimulator.csproj](./ReversibleSimulator.csproj): C# project for the sample.

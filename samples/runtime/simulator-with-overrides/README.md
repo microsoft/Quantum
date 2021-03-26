@@ -39,4 +39,4 @@ Press Start in Visual Studio to run the sample.
 - [FaultyMeasurementsSimulator.cs](https://github.com/microsoft/Quantum/blob/main/samples/runtime/simulator-with-overrides/FaultyMeasurementsSimulator.cs): C# code that defines the simulator and the operation overrides in it.
 - [Operations.qs](https://github.com/microsoft/Quantum/blob/main/samples/runtime/simulator-with-overrides/Operations.qs): Q# code used to demonstrate the simulator behavior.
 - [Host.cs](https://github.com/microsoft/Quantum/blob/main/samples/runtime/simulator-with-overrides/Host.cs): C# code to call the operations defined in Q#.
-- [SimulatorWithOverrides.csproj](https://github.com/microsoft/Quantum/blob/main/samples/simulationruntime/simulator-with-overrides/SimulatorWithOverrides.csproj): Main C# project for the example.
+- [SimulatorWithOverrides.csproj](./SimulatorWithOverrides.csproj): Main C# project for the example.

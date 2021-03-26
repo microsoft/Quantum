@@ -37,4 +37,4 @@ To run the sample, run `python syndrome.py --qubits <N>`, where `<N>` is replace
 ## Further resources
 
 - [Error correction library concepts](https://docs.microsoft.com/azure/quantum/user-guide/libraries/standard/error-correction)
-- [Pauli measurements](https://docs.microsoft.com/azure/quantum/concepts-pauli-measurementss)
+- [Pauli measurements](https://docs.microsoft.com/azure/quantum/concepts-pauli-measurements)
