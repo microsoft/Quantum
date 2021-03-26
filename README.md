@@ -72,21 +72,7 @@ We also encourage taking a look at the [unit tests](./samples/tests) used to che
 
 ## Setting up your development environment
 
-This repo contains several configuration files that will make it easy to get started with coding. Below we lay out some instructions for getting started with [VSCode](#visual-studio-code) or [Visual Studio Codespaces](#visual-studio-codespaces). The latter will use the Docker image that has all dependencies pre-installed for you using the configuration file in the `.devcontainer` directory. If you prefer working with Jupyter notebooks, we also provide instructions for how to set that up [below](#running-a-jupyter-notebook-with-docker).
-
-### Visual Studio Codespaces
-
-For minimal set-up time, we recommend using [Visual Studio Codespaces](https://online.visualstudio.com/login) in the browser. To get started, perform the following steps:
-
-1. Create an Azure account [here](https://azure.microsoft.com/en-us/free/), if you don't already have one. You'll have to set up payment information - note that you get $200 of free credit and you won't be charged unless you upgrade.
-2. Create a Codespaces environment. Please follow the quickstart guide [here](https://docs.microsoft.com/visualstudio/online/quickstarts/browser).
-When creating the Codespace, make sure to enter `microsoft/Quantum` in the "Git Repository" field, see below screenshot.
-
-![Codespaces settings](./docs/images/Codespaces_settings.png)
-
-When you click "Create", a new Codespace instance is created with a development environment based on the Docker container that is defined in this repo's Dockerfile. Recommended extensions are also automatically installed for you.
-
-3. Done! You can now start developing using Q# in your browser. Open a terminal to start running your first samples (see [here](#first-samples)).
+This repo contains several configuration files that will make it easy to get started with coding. Below we lay out some instructions for getting started with [VSCode](#visual-studio-code) or with [Jupyter notebooks](#running-a-jupyter-notebook-with-docker).
 
 ### Visual Studio Code
 
