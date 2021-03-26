@@ -20,7 +20,7 @@ The value `VALUE` passed to the index argument must be between 0 and 3 inclusive
 
 - **OrderFinding/**
   - [OrderFinding.csproj](./OrderFinding.csproj): Main C# project for the example.
-  - [Program.qs](./Program.qs): Q# code to call the operations defined in OrderFinding.qs and perform classical post-processing.
+  - [Program.qs](./Program.qs): Q# operations and functions making up the quantum application for order finding.
   - [OrderFinding.qs](./OrderFinding.qs): The Q# implementation of the order finding algorithm.
 
 ## Example run
