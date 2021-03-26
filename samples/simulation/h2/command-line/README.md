@@ -48,4 +48,4 @@ Press Start in Visual Studio to run the sample.
 - [Operations.qs](https://github.com/microsoft/Quantum/blob/main/samples/simulation/h2/command-line/Operations.qs): Q# code defining how estimate H₂ energy levels.
 - [Host.cs](https://github.com/microsoft/Quantum/blob/main/samples/simulation/h2/command-line/Host.cs): C# code to call the operations defined in Q#.
 - [H2SimulationSampleCmdLine.csproj](https://github.com/microsoft/Quantum/blob/main/samples/simulation/h2/command-line/H2SimulationSampleCmdLine.csproj): Main C# project for the example.
-- [host.py](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/teleportation/host.py): a sample Python program to call the Q# simulation operation.
+- [host.py](./host.py): a sample Python program to call the Q# simulation operation.
