@@ -58,4 +58,4 @@ This samples uses Microsoft.Quantum.Canon library and depends on the following N
 
 * Microsoft.Quantum.Development.Kit: Q# runtime framework
 * Microsoft.Quantum.Xunit: xUnit.net extension for discovering Q# tests
-* [xunit](http://xunit.github.io/): xUnit.net testing framework for .NET
+* [xunit](https://xunit.net/): xUnit.net testing framework for .NET
