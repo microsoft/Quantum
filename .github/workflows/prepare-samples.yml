@@ -16,12 +16,14 @@ jobs:
     - name: Restore .NET tools
       run: dotnet tool restore
       shell: pwsh
+      working-directory: ".github/workflows"
     - name: Filter frontmatter
       run: |
         Get-ChildItem -Recurse ../../README.md | ForEach-Object {
             dotnet script ./filter_sample_frontmatter.csx $_.FullName $_.FullName
         }
       shell: pwsh
+      working-directory: ".github/workflows"
     - name: Update Binder configuration
       run: |
         git config --local user.email "action@github.com"
