@@ -48,8 +48,9 @@ var command = new RootCommand
 };
 
 command.Handler = CommandHandler.Create<string, string>(
-    async (path, outPath) =>
+    async (path, @out) =>
     {
+        WriteLine($"Filtering metadata: {path} → {@out}");
         // Read all contents of the given path.
         var contents = await File.ReadAllTextAsync(path);
         var document = Markdown.Parse(contents, pipeline: Pipeline);
@@ -85,7 +86,7 @@ command.Handler = CommandHandler.Create<string, string>(
         using var outStream = new StringWriter();
         var newMarkdown = new RoundtripRenderer(outStream).Render(document);
 
-        await File.WriteAllTextAsync(outPath, $"---\n{newFrontMatter}---\n{newMarkdown}");
+        await File.WriteAllTextAsync(@out, $"---\n{newFrontMatter}---\n{newMarkdown}");
     }
 );
 
