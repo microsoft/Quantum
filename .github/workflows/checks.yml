@@ -27,6 +27,12 @@ jobs:
           | ForEach-Object {
               Write-Host "::error file=$_::Project file $_ should be in a solution."
             }
+
+        Write-Host "Found $($projectsInSolutions.Count) project files in solutions, and $($projectsNotInSolutions.Count) not correctly added to solutions.";
+        if ($projectsNotInSolutions.Count -gt 0) {
+          exit 1;
+        }
       name: "Ensure that all projects belong to a solution."
       shell: pwsh
+      continue-on-error: false
 
