@@ -331,3 +331,6 @@ __pycache__/
 
 # Common VS Code extensions
 .ionide/symbolCache.db
+
+# Generated QIR .ll files
+**/[Qq]ir/*.ll

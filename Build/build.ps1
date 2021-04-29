@@ -33,8 +33,8 @@ function Build-One {
     }
 }
 
-Get-ChildItem (Join-Path $PSScriptRoot '..') -Recurse -Include '*.sln' `
-    | ForEach-Object { Build-One $_.FullName }
+# Get-ChildItem (Join-Path $PSScriptRoot '..') -Recurse -Include '*.sln' `
+#     | ForEach-Object { Build-One $_.FullName }
 
 # The commented out lines are projects that are not yet compatible for QIR generation.
 $QirProjects = @(
@@ -89,8 +89,16 @@ $QirProjects = @(
     (Join-Path $PSScriptRoot .. samples simulation qaoa QAOA.csproj)
 )
 
+$qirSln = (Join-Path $PSScriptRoot .. QIR.sln)
+dotnet new sln -n QIR -o (Join-Path $PSScriptRoot ..)
+
 $QirProjects `
-    | ForEach-Object { Build-One $_ -generateQir }
+    | ForEach-Object { 
+        dotnet sln $qirSln add $_
+        # Build-One $_ -generateQir
+    }
+Build-One QIR.sln -generateQir
+Remove-Item QIR.sln
 
 if (-not $all_ok) {
     throw "At least one test failed execution. Check the logs."
