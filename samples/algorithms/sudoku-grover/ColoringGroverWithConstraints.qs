@@ -161,7 +161,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         edgeConflictQubits : Qubit[], startingColorConflictQubits : Qubit[], bitsPerColor: Int
     )
     : Unit is Adj + Ctl {
-        for (start, end), conflictQubit) in Zipped(edges, edgeConflictQubits {
+        for ((start, end), conflictQubit) in Zipped(edges, edgeConflictQubits) {
             // Check that endpoints of the edge have different colors:
             // apply ColorEqualityOracle_Nbit oracle;
             // if the colors are the same the result will be 1, indicating a conflict
@@ -171,7 +171,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
                 conflictQubit
             );
         }
-        for (cell, value), conflictQubit) in Zipped(startingColorConstraints, startingColorConflictQubits {
+        for ((cell, value), conflictQubit) in Zipped(startingColorConstraints, startingColorConflictQubits) {
             // Check that cell does not clash with starting colors.
             ControlledOnInt(value, X)(
                 colorsRegister[cell * bitsPerColor .. (cell + 1) * bitsPerColor - 1],
@@ -278,7 +278,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
                 Partitioned(ConstantArray(numVertices, bitsPerColor), colorsRegister),
                 vertexColorConflictQubits
             );
-            for color, conflictQubit) in zippedColorAndConfictQubi {
+            for (color, conflictQubit) in zippedColorAndConfictQubit {
                 // Only allow colors from 0 to 8 i.e. if bit #3 = 1, then bits 2..0 must be 000.
                 use tempQubit = Qubit();
                 within {
