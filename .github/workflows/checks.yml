@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: "Check solution and project files"
     steps:
+    - uses: actions/checkout@v2
     - run: |
         $solutions = Get-ChildItem -Recurse *.sln;
         $projectsInSolutions = $solutions `
@@ -35,6 +36,5 @@ jobs:
         }
       name: "Ensure that all projects belong to a solution."
       shell: pwsh
-      working-directory: .
       continue-on-error: false
 
