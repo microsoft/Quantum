@@ -9,7 +9,8 @@ $all_ok = $True
 function Build-One {
     param(
         $project,
-        $qirGenerationFlag
+        [switch]
+        $generateQir
     );
 
     Write-Host "##[info]Building $project..."
@@ -18,7 +19,7 @@ function Build-One {
         -v $Env:BUILD_VERBOSITY `
         /property:DefineConstants=$Env:ASSEMBLY_CONSTANTS `
         /property:Version=$Env:ASSEMBLY_VERSION `
-        /property:QirGeneration=$qirGenerationFlag
+        /property:QirGeneration=($GenerateQir ? "true" : "false")
 
     if  ($LastExitCode -ne 0) {
         Write-Host "##vso[task.logissue type=error;]Failed to build $project."
@@ -35,6 +36,7 @@ function Build-One {
 Get-ChildItem (Join-Path $PSScriptRoot '..') -Recurse -Include '*.sln' `
     | ForEach-Object { Build-One $_.FullName $False }
 
+# The commented out lines are projects that are not yet compatible for QIR generation.
 $QirProjects = @(
     #(Join-Path $PSScriptRoot .. samples algorithms chsh-game CHSHGame.csproj),
     #(Join-Path $PSScriptRoot .. samples algorithms database-search DatabaseSearchSample.csproj),
@@ -88,7 +90,7 @@ $QirProjects = @(
 )
 
 $QirProjects `
-    | ForEach-Object { Build-One $_ $True }
+    | ForEach-Object { Build-One $_ -generateQir }
 
 if (-not $all_ok) {
     throw "At least one test failed execution. Check the logs."
