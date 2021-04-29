@@ -9,7 +9,8 @@ jobs:
     name: "Check solution and project files"
     steps:
     - run: |
-        $projectsInSolutions = Get-ChildItem -Recurse *.sln `
+        $solutions = Get-ChildItem -Recurse *.sln;
+        $projectsInSolutions = $solutions `
           | ForEach-Object {
             $sln = $_;
             $slnRoot = [IO.Path]::GetDirectoryName($sln);
@@ -28,11 +29,12 @@ jobs:
               Write-Host "::error file=$_::Project file $_ should be in a solution."
             }
 
-        Write-Host "Found $($projectsInSolutions.Count) project files in solutions, and $($projectsNotInSolutions.Count) not correctly added to solutions.";
+        Write-Host "Found $($projectsInSolutions.Count) project files in $($solutions.Count) solutions, and $($projectsNotInSolutions.Count) not correctly added to solutions.";
         if ($projectsNotInSolutions.Count -gt 0) {
           exit 1;
         }
       name: "Ensure that all projects belong to a solution."
       shell: pwsh
+      working-directory: .
       continue-on-error: false
 
