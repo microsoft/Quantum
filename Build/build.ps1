@@ -13,13 +13,18 @@ function Build-One {
         $generateQir
     );
 
+    $qirOptions = @()
+    if ($generateQir) {
+        $qirOptions = "--no-dependencies","/property:QirGeneration=`"true`""
+    }
+
     Write-Host "##[info]Building $project..."
     dotnet build $project `
         -c $Env:BUILD_CONFIGURATION `
         -v $Env:BUILD_VERBOSITY `
+        @qirOptions `
         /property:DefineConstants=$Env:ASSEMBLY_CONSTANTS `
-        /property:Version=$Env:ASSEMBLY_VERSION `
-        /property:QirGeneration=$($generateQir ? "true" : "false")
+        /property:Version=$Env:ASSEMBLY_VERSION
 
     if  ($LastExitCode -ne 0) {
         Write-Host "##vso[task.logissue type=error;]Failed to build $project."
@@ -90,7 +95,9 @@ $QirProjects = @(
 )
 
 $QirProjects `
-    | ForEach-Object { Build-One $_ -generateQir }
+    | ForEach-Object { 
+        Build-One $_ -generateQir
+    }
 
 if (-not $all_ok) {
     throw "At least one test failed execution. Check the logs."
