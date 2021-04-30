@@ -38,8 +38,8 @@ function Build-One {
     }
 }
 
-# Get-ChildItem (Join-Path $PSScriptRoot '..') -Recurse -Include '*.sln' `
-#     | ForEach-Object { Build-One $_.FullName }
+Get-ChildItem (Join-Path $PSScriptRoot '..') -Recurse -Include '*.sln' `
+    | ForEach-Object { Build-One $_.FullName }
 
 # The commented out lines are projects that are not yet compatible for QIR generation.
 $QirProjects = @(
