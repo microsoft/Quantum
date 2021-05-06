@@ -1,4 +1,4 @@
-namespace Microsoft.Quantum.Samples.Chemistry.SimpleVQE.Utils {
+namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
     open Microsoft.Quantum.Intrinsic;
 
 
@@ -49,7 +49,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.SimpleVQE.Utils {
     ///
     /// # Output
     /// An array of measurement operators (each being an array of Pauli).
-    function VQEMeasurementOperators(
+    function JordanWignerMeasurementOperators(
             nQubits : Int, 
             indices : Int[], 
             termType : Int
