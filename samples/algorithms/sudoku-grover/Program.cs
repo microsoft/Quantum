@@ -196,7 +196,6 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                     Console.WriteLine("Result verified correct.");
                 ShowGrid(puzzle);
             }
-            Pause();
         }
 
         /// <summary>
@@ -233,15 +232,6 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 Console.WriteLine("|");
             }
             Console.WriteLine(new String('-', 4 * size + 1));
-        }
-
-        /// <summary>
-        /// Pause execution with a message and wait for a key to be pressed to continue.
-        /// </summary>
-        static void Pause()
-        {
-            System.Console.WriteLine("\n\nPress any key to continue...\n\n");
-            System.Console.ReadKey();
         }
 
     }
