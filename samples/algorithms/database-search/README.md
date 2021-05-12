@@ -52,7 +52,7 @@ dotnet run
 ### Running the Sample in Jupyter Notebook
 
 This sample can also be viewed using Jupyter Notebook.
-To do so, ensure that you have the IQ# kernel installed using the instructions in the [getting started guide](https://docs.microsoft.com/azure/quantum/install-jupyter-qkd).
+To do so, ensure that you have the IQ# kernel installed using the instructions in the [getting started guide](https://docs.microsoft.com/azure/quantum/install-jupyter-qdk).
 Then, start a new Jupyter Notebook session from this directory:
 
 ```powershell

@@ -36,7 +36,7 @@ In this sample, you can use the `%trace` and `%debug` magic commands provided in
 ## Running the Sample
 
 This sample is designed to be run from Jupyter Notebook.
-To set up your development environment to run Jupyter Notebooks, follow the steps explained in the [Q# Quickstart: Jupyter guide](https://docs.microsoft.com/azure/quantum/install-jupyter-qkd).
+To set up your development environment to run Jupyter Notebooks, follow the steps explained in the [Q# Quickstart: Jupyter guide](https://docs.microsoft.com/azure/quantum/install-jupyter-qdk).
 
 Once this is set up, from the terminal, you can run the following command:
 
