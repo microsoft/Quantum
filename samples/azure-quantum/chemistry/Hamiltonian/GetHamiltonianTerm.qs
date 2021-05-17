@@ -41,7 +41,7 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
         use register = Qubit[nQubits];
         let op = measOps[nOp];
         PrepareState(register);
-        let result = MeasureWithScratch(op, register);
+        let result = Measure(op, register);
         ResetAll(register);
         return result;
     }

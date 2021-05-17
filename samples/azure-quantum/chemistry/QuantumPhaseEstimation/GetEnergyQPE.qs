@@ -1,4 +1,4 @@
-namespace Microsoft.Quantum.Chemistry.Trotterization {
+namespace Microsoft.Quantum.Chemistry.QPE {
     open Microsoft.Quantum.Core;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
@@ -9,7 +9,7 @@ namespace Microsoft.Quantum.Chemistry.Trotterization {
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Math;
 
-    operation GetEnergyByTrotterization (
+    operation GetEnergyQPE (
         JWEncodedData: JordanWignerEncodingData,
         nBitsPrecision : Int, 
         trotterStepSize : Double, 
