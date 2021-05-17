@@ -22,7 +22,7 @@ You will also find a Q# operation that creates a random integer from 0 to a maxi
 
 ## Running the Sample ##
 
-To run the sample, use the `dotnet run` command from your terminal. To run the sample via the python host program, run `python host.py` from your terminal.
+To run the sample, use the `dotnet run` command from your terminal. To run the sample via the Python host program, run `python host.py` from your terminal.
 
 ## Manifest ##
 
