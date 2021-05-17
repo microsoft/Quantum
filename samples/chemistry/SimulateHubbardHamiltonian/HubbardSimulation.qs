@@ -1,33 +1,33 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-namespace Microsoft.Quantum.Chemistry.Samples.Hubbard {    
+
+namespace Microsoft.Quantum.Chemistry.Samples.Hubbard {
     open Microsoft.Quantum.Intrinsic;
-	open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Characterization;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Chemistry.JordanWigner;
-	open Microsoft.Quantum.Simulation;
-    
-    
+    open Microsoft.Quantum.Simulation;
+
+
     //////////////////////////////////////////////////////////////////////////
     // Using Trotterization //////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
-    
+
     /// # Summary
     /// We define an initial state of the Hamiltonian here.
     operation HubbardHalfFillingStatePrep (nFilling : Int, qubits : Qubit[]) : Unit {
         ApplyToEachCA(X, qubits[0..(nFilling / 2 - 1)]);
     }
-    
-    
+
+
     /// # Summary
     /// We can now use Canon's phase estimation algorithms to
     /// learn the ground state energy using the above simulation.
     operation GetEnergy (qSharpData : JordanWignerEncodingData, nBitsPrecision : Int, trotterStepSize : Double) : (Double, Double) {
-        
         let (nSpinOrbitals, data, notUsedInThisSample, energyShift) = qSharpData!;
-        
+
         // We use a Product formula, also known as `Trotterization` to
         // simulate the Hamiltonian.
         let trotterOrder = 1;
@@ -38,7 +38,5 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard {
         let estEnergy = estPhase / trotterStepSize + energyShift;
         return (estPhase, estEnergy);
     }
-    
+
 }
-
-

@@ -3,7 +3,7 @@
 Welcome, and thank you for your interest in contributing to the Quantum Development Kit!
 
 There are many ways in which you can contribute, beyond writing code. The goal of this document is to provide a high-level overview of how you can get involved.
-For more details on how to contribute to the samples or to the rest of the Quantum Development Kit, please see the [contribution guide](https://docs.microsoft.com/quantum/contributing/).
+For more details on how to contribute to the samples or to the rest of the Quantum Development Kit, please see the [contribution guide](https://docs.microsoft.com/azure/quantum/contributing-overview/).
 
 ## Asking Questions
 
@@ -21,7 +21,7 @@ Here's how you can make reporting your issue as effective as possible.
 ### Identify Where to Report
 
 The Quantum Development Kit is distributed across multiple repositories. Try to file the issue against the correct repository.
-Check the list [in the contribution guide](https://docs.microsoft.com/quantum/contributing/#where-do-contributions-go) if you aren't sure which repo is correct.
+Check the list [in the contribution guide](https://docs.microsoft.com/azure/quantum/contributing-overview#where-do-contributions-go) if you aren't sure which repo is correct.
 
 ### Writing Good Bug Reports and Feature Requests
 
@@ -50,11 +50,11 @@ Please include the following with each issue:
 ## Contributing Documentation
 
 If you are interested in contributing to conceptual documentation about the Quantum Development Kit, please see the [MicrosoftDocs/quantum-docs-pr](https://github.com/MicrosoftDocs/quantum-docs-pr) repository.
-If you are interested in contributing to API references, please see [Contributing to the API References](https://docs.microsoft.com/quantum/contributing/docs#contributing-to-the-api-references) in the contribution guide.
+If you are interested in contributing to API references, please see [Contributing to the API References](https://docs.microsoft.com/azure/quantum/contributing-docs#contributing-to-the-api-references) in the contribution guide.
 
 ## Contributing Fixes and New Features
 
-If you are interested in writing code to fix issues, to implement new features in existing samples, or even to contribute entirely new samples, please see [Contributing Code](https://docs.microsoft.com/quantum/contributing/code) in the contribution guide.
+If you are interested in writing code to fix issues, to implement new features in existing samples, or even to contribute entirely new samples, please see [Contributing Code](https://docs.microsoft.com/azure/quantum/contributing-code) in the contribution guide.
 
 # Thank You!
 

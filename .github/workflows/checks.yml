@@ -1,0 +1,40 @@
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  check-solutions:
+    runs-on: ubuntu-latest
+    name: "Check solution and project files"
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        $solutions = Get-ChildItem -Recurse *.sln;
+        $projectsInSolutions = $solutions `
+          | ForEach-Object {
+            $sln = $_;
+            $slnRoot = [IO.Path]::GetDirectoryName($sln);
+            dotnet sln $sln list `
+              | Where-Object {
+                  $_.EndsWith(".csproj") -or $_.EndsWith(".fsproj")
+                } `
+              | ForEach-Object { Join-Path $slnRoot $_ | Get-Item }
+          } `
+          | ForEach-Object { $_.FullName }
+        $projectsNotInSolutions = Get-ChildItem -Recurse *.csproj, *.fsproj `
+          | Where-Object { $_.FullName -notin $projectsInSolutions };
+
+        $projectsNotInSolutions `
+          | ForEach-Object {
+              Write-Host "::error file=$_::Project file $_ should be in a solution."
+            }
+
+        Write-Host "Found $($projectsInSolutions.Count) project files in $($solutions.Count) solutions, and $($projectsNotInSolutions.Count) not correctly added to solutions.";
+        if ($projectsNotInSolutions.Count -gt 0) {
+          exit 1;
+        }
+      name: "Ensure that all projects belong to a solution."
+      shell: pwsh
+      continue-on-error: false
+

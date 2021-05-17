@@ -18,7 +18,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
         //  List of pairs of operations (expected,actual) to be tested up to a phase
         let upToPhaseTestList = [(UpToPhaseCCNOT1, CCNOT), (UpToPhaseCCNOT2, CCNOT), (UpToPhaseCCNOT3, CCNOT)];
 
-        for ((actual, expected) in upToPhaseTestList) {
+        for (actual, expected) in upToPhaseTestList {
 
             // This ensures that we have a list of tested circuits in the output
             // If the test fails the circuit that is wrong will be the last one in the list
@@ -42,7 +42,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
         // Now proceed to test the equality of operations
         let equalTestList = [(UpToPhaseCCNOT2, UpToPhaseCCNOT3), (CCNOT1, CCNOT), (CCNOT2, CCNOT), (CCNOT3, CCNOT), (CCNOT4, CCNOT), (TDepthOneCCNOT, CCNOT)];
 
-        for ((actual, expected) in equalTestList) {
+        for (actual, expected) in equalTestList {
 
             // This ensures that we have a list of tested circuits in the output
             // If the test fails the circuit that is wrong will be the last one in the list

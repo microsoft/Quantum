@@ -17,7 +17,7 @@ operations and classical control transformations.
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/)
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/)
 - [⟨q|pic⟩](https://github.com/qpic/qpic)
 
 ## Running the Sample

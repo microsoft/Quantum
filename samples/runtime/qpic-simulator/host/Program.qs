@@ -66,9 +66,8 @@ namespace Microsoft.Quantum.Samples {
         // simulators.
         within { SavePicture("toffoli.qpic"); }
         apply {
-            using ((a, b, c) = (Qubit(), Qubit(), Qubit())) {
-                Toffoli(a, b, c);
-            }
+            use input = (Qubit(), Qubit(), Qubit());
+            Toffoli(input);
         }
     }
 
@@ -76,9 +75,8 @@ namespace Microsoft.Quantum.Samples {
     operation PrintInjectT() : Unit {
         within { SavePicture("t-injection.qpic"); }
         apply {
-            using ((a, b) = (Qubit(), Qubit())) {
-                InjectT(a, b);
-            }
+            use input = (Qubit(), Qubit());
+            InjectT(input);
         }
     }
 
@@ -86,17 +84,17 @@ namespace Microsoft.Quantum.Samples {
     operation PrintIfThenElse() : Unit {
         within { SavePicture("if-then-else.qpic"); }
         apply {
-            using ((a, b) = (Qubit(), Qubit())) {
-                H(a);
-                let result = M(a);
+            use a = Qubit();
+            use b = Qubit();
+            H(a);
+            let result = M(a);
 
-                // This applies `Z` to `b` if measuring `a` in the
-                // Z basis returns One, and `X` to `b` if the
-                // measurement result is Zero.  (Since simulators
-                // only capture execution traces, we need to use
-                // this construct instead of an if-then-else expression.)
-                Extensions.ApplyIfElseR(result, (X, b), (Z, b));
-            }
+            // This applies `Z` to `b` if measuring `a` in the
+            // Z basis returns One, and `X` to `b` if the
+            // measurement result is Zero.  (Since simulators
+            // only capture execution traces, we need to use
+            // this construct instead of an if-then-else expression.)
+            Extensions.ApplyIfElseR(result, (X, b), (Z, b));
         }
     }
 }

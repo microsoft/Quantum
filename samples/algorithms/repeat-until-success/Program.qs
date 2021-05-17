@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
@@ -46,7 +47,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         if (gate != "simple" and gate != "V") {
             Message($"Gate '{gate}' is invalid. Please specify a valid gate. Options are: 'simple' or 'V'.");
         } else {
-            for (n in 0 .. numRuns - 1) {
+            for n in 0 .. numRuns - 1 {
                 if (gate == "simple") {
                     let (success, result, numIter) = CreateQubitsAndApplySimpleGate(
                         inputValue, inputBasis, limit

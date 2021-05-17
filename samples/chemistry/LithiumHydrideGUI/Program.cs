@@ -34,7 +34,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
         "3.200","3.500","4.000","5.000"
         };
 
-        internal static string[] filenames = bondLengths.Select(o => $@"..\IntegralData\YAML\LiHData\integrals_lih_sto-3g_{o}.nw.out.yaml").ToArray();
+        internal static string[] filenames = bondLengths.Select(o => Path.Combine("..","IntegralData","YAML","LiHData",$@"integrals_lih_sto-3g_{o}.nw.out.yaml")).ToArray();
 
         internal static List<ElectronicStructureProblem> problemData =
             filenames.Select(filename => 

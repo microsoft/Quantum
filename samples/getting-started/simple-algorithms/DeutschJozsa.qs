@@ -43,41 +43,41 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.DeutschJozsa {
     operation IsConstantBooleanFunction (Uf : ((Qubit[], Qubit) => Unit), n : Int) : Bool {
         // Now, we allocate n + 1 clean qubits. Note that the function Uf is defined
         // on inputs of the form (x, y), where x has n bits and y has 1 bit.
-        using ((queryRegister, target) = (Qubit[n], Qubit())) {
-            // The last qubit needs to be flipped so that the function will
-            // actually be computed into the phase when Uf is applied.
-            X(target);
-            H(target);
+        use queryRegister = Qubit[n];
+        use target = Qubit();
+        // The last qubit needs to be flipped so that the function will
+        // actually be computed into the phase when Uf is applied.
+        X(target);
+        H(target);
 
-            within {
-                // Now, a Hadamard transform is applied to each of the qubits.
-                // As the last step before the measurement, a Hadamard transform is
-                // but the very last one. We could apply the Hadamard transform to
-                // the last qubit also, but this would not affect the final outcome.
-                // We use a within-apply block to ensure that the Hadamard transform is
-                // correctly inverted.
-                ApplyToEachA(H, queryRegister);
-            } apply {
-                // We now apply Uf to the n + 1 qubits, computing |𝑥, 𝑦〉 ↦ |𝑥, 𝑦 ⊕ 𝑓(𝑥)〉.
-                Uf(queryRegister, target);
-            }
-
-            // The following for-loop measures all qubits and resets them to
-            // zero so that they can be safely returned at the end of the
-            // using-block.
-            let resultArray = ForEach(MResetZ, queryRegister);
-
-            // Finally, the last qubit, which held the 𝑦-register, is reset.
-            Reset(target);
-
-            // We use the predicate `IsResultZero` from Microsoft.Quantum.Canon
-            // and compose it with the All function from
-            // Microsoft.Quantum.Arrays. This will return
-            // `true` if the all zero string has been measured, i.e., if the function
-            // was a constant function and `false` if not, which according to the
-            // promise on 𝑓 means that it must have been balanced.
-            return All(IsResultZero, resultArray);
+        within {
+            // Now, a Hadamard transform is applied to each of the qubits.
+            // As the last step before the measurement, a Hadamard transform is
+            // but the very last one. We could apply the Hadamard transform to
+            // the last qubit also, but this would not affect the final outcome.
+            // We use a within-apply block to ensure that the Hadamard transform is
+            // correctly inverted.
+            ApplyToEachA(H, queryRegister);
+        } apply {
+            // We now apply Uf to the n + 1 qubits, computing |𝑥, 𝑦〉 ↦ |𝑥, 𝑦 ⊕ 𝑓(𝑥)〉.
+            Uf(queryRegister, target);
         }
+
+        // The following for-loop measures all qubits and resets them to
+        // zero so that they can be safely returned at the end of the
+        // using-block.
+        let resultArray = ForEach(MResetZ, queryRegister);
+
+        // Finally, the last qubit, which held the 𝑦-register, is reset.
+        Reset(target);
+
+        // We use the predicate `IsResultZero` from Microsoft.Quantum.Canon
+        // and compose it with the All function from
+        // Microsoft.Quantum.Arrays. This will return
+        // `true` if the all zero string has been measured, i.e., if the function
+        // was a constant function and `false` if not, which according to the
+        // promise on 𝑓 means that it must have been balanced.
+        return All(IsResultZero, resultArray);
     }
 
 
@@ -95,7 +95,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.DeutschJozsa {
         // which some subset of items are marked.
         // We will revisit this construction later, in the DatabaseSearch
         // sample.
-        for (markedElement in markedElements) {
+        for markedElement in markedElements {
             // Note: As X accepts a Qubit, and ControlledOnInt only
             // accepts Qubit[], we use ApplyToEachCA(X, _) which accepts
             // Qubit[] even though the target is only 1 Qubit.

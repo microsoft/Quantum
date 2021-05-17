@@ -19,7 +19,7 @@ namespace Microsoft.Quantum.Numerics.Samples {
         if (odd) {
             set msg += "*x";
         }
-        for (d in 1 .. Length(polynomialCoefficients) - 1) {
+        for d in 1 .. Length(polynomialCoefficients) - 1 {
             set msg += " + {polynomialCoefficients[d]}*x^{d + (odd ? d+1 | 0) + (even ? d | 0)}";
         }
         Message(msg + ".");

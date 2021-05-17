@@ -31,12 +31,12 @@ In this sample, you can use the `%trace` and `%debug` magic commands provided in
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 
 This sample is designed to be run from Jupyter Notebook.
-To set up your development environment to run Jupyter Notebooks, follow the steps explained in the [Q# Quickstart: Jupyter guide](https://docs.microsoft.com/quantum/quickstarts/install-jupyter).
+To set up your development environment to run Jupyter Notebooks, follow the steps explained in the [Q# Quickstart: Jupyter guide](https://docs.microsoft.com/azure/quantum/install-jupyter-qdk).
 
 Once this is set up, from the terminal, you can run the following command:
 

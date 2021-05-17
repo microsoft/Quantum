@@ -22,8 +22,7 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
         // provide a native Q# implementation. In general, providing a Q#
         // implementation is encouraged because it allows for resource counting
         // and running on target machines without emulation capabilities.
-        body (...)
-        {
+        body (...) {
             fail "not implemented";
         }
         adjoint auto;
@@ -60,35 +59,35 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
         // Prepare a one-qubit register `flag` and an eight-qubit register
         // `result`. Since all the oracles here ignore the flag, its length and
         // state do not matter.
-        using ((flag, result) = (Qubit(), Qubit[8])) {
-            H(flag);
+        use flag = Qubit();
+        use result = Qubit[8];
+        H(flag);
 
-            // Apply an oracle that was passed explicitly by the C# driver.
+        // Apply an oracle that was passed explicitly by the C# driver.
+        oracle([flag], result);
+        MeasureAndDisplay("The answer is ", result);
+
+        // Apply an oracle that was declared above and implemented in the C#
+        // driver.
+        HalfAnswer([flag], result);
+        MeasureAndDisplay("Half the answer is ", result);
+
+        // Apply an oracle defined in terms of a Q# permutation function.
+        PermutationOracle(DoubleAnswerFunc, [flag], result);
+        MeasureAndDisplay("Twice the answer is ", result);
+
+        // Apply an oracle to a superposition in result.
+        for _ in 1..5 {
+            H(result[7]);
+            // Before the oracle is queried, the state of the result register is
+            //      $\ket{y} = \ket{0} + \ket{128}$.
+            // The oracle will map this to
+            //      $\ket{y'} = \ket{42 \oplus 0} + \ket{42 \oplus 128} = \ket{42} + \ket{170}$.
             oracle([flag], result);
-            MeasureAndDisplay("The answer is ", result);
-
-            // Apply an oracle that was declared above and implemented in the C#
-            // driver.
-            HalfAnswer([flag], result);
-            MeasureAndDisplay("Half the answer is ", result);
-
-            // Apply an oracle defined in terms of a Q# permutation function.
-            PermutationOracle(DoubleAnswerFunc, [flag], result);
-            MeasureAndDisplay("Twice the answer is ", result);
-
-            // Apply an oracle to a superposition in result.
-            for(i in 1..5) {
-                H(result[7]);
-                // Before the oracle is queried, the state of the result register is
-                //      $\ket{y} = \ket{0} + \ket{128}$.
-                // The oracle will map this to
-                //      $\ket{y'} = \ket{42 \oplus 0} + \ket{42 \oplus 128} = \ket{42} + \ket{170}$.
-                oracle([flag], result);
-                MeasureAndDisplay("The answer might be ", result);
-            }
-
-            Reset(flag);
+            MeasureAndDisplay("The answer might be ", result);
         }
+
+        Reset(flag);
     }
 
 
@@ -137,7 +136,7 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
         let numbers = (123, 234);
 
         // Write the numbers into registers and add them.
-        using (registers = (Qubit[width], Qubit[width])) {
+        use registers = (Qubit[width], Qubit[width]) {
             // Prepare two `LittleEndian` registers, initialized to the values
             // in `numbers`.
             let (x, y) = PrepareSummands(numbers, registers);
@@ -152,22 +151,21 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
             let (mx, my) = MeasureAndCheckAddResult(Snd(numbers), x, y);
             EqualityFactI(mx, Fst(numbers), "x changed!");
         }
-        
+
         // Now do two additions in superposition.
-        for(i in 1..5) {
-            using (registers = (Qubit[width], Qubit[width])) {
-                // Prepare x in the superposition $\ket{x} = \ket{123} + \ket{251}$.
-                let (x, y) = PrepareSummands(numbers, registers);
-                H(x![7]);
+        for _ in 1..5 {
+            use registers = (Qubit[width], Qubit[width]);
+            // Prepare x in the superposition $\ket{x} = \ket{123} + \ket{251}$.
+            let (x, y) = PrepareSummands(numbers, registers);
+            H(x![7]);
 
-                // Apply the add oracle.
-                adder(x!, y!);
+            // Apply the add oracle.
+            adder(x!, y!);
 
-                // Measure the registers. Check that the addition was performed and
-                // the input register `x` has collapsed into either 123 or 251.
-                let (mx, my) = MeasureAndCheckAddResult(Snd(numbers), x, y);
-                Fact(mx == Fst(numbers) or mx == (Fst(numbers) + 2^7) % 2^width, "x changed!");
-            }
+            // Measure the registers. Check that the addition was performed and
+            // the input register `x` has collapsed into either 123 or 251.
+            let (mx, my) = MeasureAndCheckAddResult(Snd(numbers), x, y);
+            Fact(mx == Fst(numbers) or mx == (Fst(numbers) + 2^7) % 2^width, "x changed!");
         }
     }
 }

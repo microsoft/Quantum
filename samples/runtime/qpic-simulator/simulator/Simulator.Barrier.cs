@@ -19,7 +19,7 @@ namespace Microsoft.Quantum.Samples
             }
 
             // Adds a BARRIER qpic command to all open scopes.
-            public override Func<QVoid, QVoid> Body => _ => {
+            public override Func<QVoid, QVoid> __Body__ => _ => {
                 processor.AddCommand("BARRIER");
                 return QVoid.Instance;
             };

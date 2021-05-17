@@ -40,7 +40,7 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
         if (value) {
             X(qubit);
         }
-        PrepareQubit(basis, qubit);
+        PreparePauliEigenstate(basis, qubit);
     }
 
     /// # Summary
@@ -81,21 +81,21 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
             {Length(inputValues)}, {Length(encodingBases)}, {Length(qubitIndices)}";
         }
 
-        using ((block, auxiliary) = (Qubit[Length(inputValues)], Qubit())) {
-            for ((qubit, value, basis) in Zipped3(block, inputValues, encodingBases)) {
-                PrepareInBasis(basis, qubit, value);
-            }
-
-            H(auxiliary);
-            // Apply Controlled Pauli operations to data qubits, resulting in a phase kickback 
-            /// on the auxiliary qubit
-            for ((index, basis) in Zipped(qubitIndices, encodingBases)) {
-                Controlled ApplyPauli([auxiliary], ([basis], [block[index]]));
-            }
-            let auxiliaryResult = Measure([PauliX], [auxiliary]);
-            let dataResult = ForEach(MeasureInBasis, Zipped(encodingBases, block));
-
-            return (auxiliaryResult, dataResult);
+        use block = Qubit[Length(inputValues)];
+        use auxiliary = Qubit();
+        for (qubit, value, basis) in Zipped3(block, inputValues, encodingBases) {
+            PrepareInBasis(basis, qubit, value);
         }
+
+        H(auxiliary);
+        // Apply Controlled Pauli operations to data qubits, resulting in a phase kickback 
+        /// on the auxiliary qubit
+        for (index, basis) in Zipped(qubitIndices, encodingBases) {
+            Controlled ApplyPauli([auxiliary], ([basis], [block[index]]));
+        }
+        let auxiliaryResult = Measure([PauliX], [auxiliary]);
+        let dataResult = ForEach(MeasureInBasis, Zipped(encodingBases, block));
+
+        return (auxiliaryResult, dataResult);
     }
 }

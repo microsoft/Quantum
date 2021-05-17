@@ -16,7 +16,7 @@ namespace Microsoft.Quantum.Numerics.Samples {
         let numBits = 4;
 
         let res = CustomModAdd(inputs1, inputs2, modulus, numBits);
-        for (i in IndexRange(res)) {
+        for i in IndexRange(res) {
             Message($"{inputs1[i]} + {inputs2[i]} mod {modulus} = {res[i]}.");        
         }
     }

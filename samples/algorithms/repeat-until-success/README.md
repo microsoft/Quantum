@@ -14,7 +14,7 @@ The algorithm has been described in [Adam Paetznick, Krysta M. Svore, Quantum In
 
 ## Prerequisites ##
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 ## Description
 
 ### 𝑉₃ gate RUS circuit
@@ -57,7 +57,7 @@ Options:
 
 - **repeat-until-success/**
   - [RepeatUntilSuccess.csproj](./RepeatUntilSuccess.csproj): Main C# project for the example.
-  - [RepeatUntilSuccess.qs](./RepeatUntilSuccess.qs): The Q# implementation of the RUS algorithm.
+  - [SimpleRUS.qs](./SimpleRUS.qs): The Q# implementation of the RUS algorithm.
 
 ## Example run
 

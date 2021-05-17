@@ -21,17 +21,20 @@ namespace Microsoft.Quantum.Samples {
     // This applies the Majority operation to three qubits who are initialized
     // based on the Boolean input arguments.
     operation RunMajority(a : Bool, b : Bool, c : Bool) : Bool {
-        using ((qa, qb, qc, f) = (Qubit(), Qubit(), Qubit(), Qubit())) {
-            within {   
-                ApplyPauliFromBitString(PauliX, true, [a, b, c], [qa, qb, qc]);
-            } apply {
-                ApplyMajority(qa, qb, qc, f);
-            }
+        use qa = Qubit();
+        use qb = Qubit();
+        use qc = Qubit();
+        use f  = Qubit();
 
-            // The target qubit `f` is measured and reset afterwards.  The
-            // operation returns `true`, if and only if the measurement outcome
-            // is One.
-            return MResetZ(f) == One;
+        within {   
+            ApplyPauliFromBitString(PauliX, true, [a, b, c], [qa, qb, qc]);
+        } apply {
+            ApplyMajority(qa, qb, qc, f);
         }
+
+        // The target qubit `f` is measured and reset afterwards.  The
+        // operation returns `true`, if and only if the measurement outcome
+        // is One.
+        return MResetZ(f) == One;
     }
 }

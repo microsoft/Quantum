@@ -48,7 +48,7 @@ namespace Microsoft.Quantum.Samples {
     ) : (Double[], Double) {
         let samples = Mapped(
             LabeledSample,
-            Zip(Preprocessed(trainingVectors), trainingLabels)
+            Zipped(Preprocessed(trainingVectors), trainingLabels)
         );
         Message("Ready to train.");
         let (optimizedModel, nMisses) = TrainSequentialClassifier(
@@ -79,7 +79,7 @@ namespace Microsoft.Quantum.Samples {
     ) : Double {
         let samples = Mapped(
             LabeledSample,
-            Zip(Preprocessed(validationVectors), validationLabels)
+            Zipped(Preprocessed(validationVectors), validationLabels)
         );
         let tolerance = 0.005;
         let nMeasurements = 10000;

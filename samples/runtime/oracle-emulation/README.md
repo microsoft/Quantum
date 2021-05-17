@@ -13,7 +13,7 @@ Press Start in Visual Studio to run the sample.
 
 - [Operations.qs](./Operations.qs): The main Q# example code implementing quantum operations for this sample.
 - [Driver.cs](./Driver.cs): C# code to interact with and print out results of the Q# operations for this sample. Also contains two examples for creating an oracle from a C# function.
-- [Emulator.cs](./Emulator.cs): An extension of the QDK's quantum simulator with convenience functions to create and apply emulated oracles.
-- [Emulator.qs](./Emulator.qs): The Q# interface for permutation oracles that can be emulated.
+- [PermutationOracle.cs](./PermutationOracle.cs): An extension of the QDK's quantum simulator with convenience functions to create and apply emulated oracles.
+- [PermutationOracle.qs](./PermutationOracle.qs): The Q# interface for permutation oracles that can be emulated.
 - [OracleEmulation.csproj](./OracleEmulation.csproj): Main C# project for the sample.
 

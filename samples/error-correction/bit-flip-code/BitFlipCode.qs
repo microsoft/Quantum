@@ -17,7 +17,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     // In this sample, we build on the discussion in the quantum error
     // correction section of the developers' guide:
 
-    //     https://docs.microsoft.com/quantum/user-guide/libraries/standard/error-correction
+    //     https://docs.microsoft.com/azure/quantum/user-guide/libraries/standard/error-correction
 
     // In particular, we start by manually encoding into the bit-flip code.
     // We then show how operations and functions provided in the Q# canon
@@ -102,45 +102,45 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
         // We start by preparing R_x(π / 3) |0〉 as our
         // test state, along with two auxiliary qubits in the |00〉
         // state that we can use to encode.
-        using ((data, auxiliaryQubits) = (Qubit(), Qubit[2])) {
-            let register = [data] + auxiliaryQubits;
-            Rx(PI() / 3.0, data);
+        use data = Qubit();
+        use auxiliaryQubits = Qubit[2];
+        let register = [data] + auxiliaryQubits;
+        Rx(PI() / 3.0, data);
 
-            // Next, we encode our test state.
-            EncodeIntoBitFlipCode(data, auxiliaryQubits);
+        // Next, we encode our test state.
+        EncodeIntoBitFlipCode(data, auxiliaryQubits);
 
-            // At this point, register represents a code block
-            // that protects the state R_x(π / 3) |0〉.
-            // We should thus be able to measure Z₀Z₁ and Z₁Z₂
-            // without disturbing the code state.
-            // To check this, we proceed in two steps:
+        // At this point, register represents a code block
+        // that protects the state R_x(π / 3) |0〉.
+        // We should thus be able to measure Z₀Z₁ and Z₁Z₂
+        // without disturbing the code state.
+        // To check this, we proceed in two steps:
 
-            //     • Use Assert to ensure that the measurement
-            //       will return Zero.
-            //     • Use M to actually perform the measurement.
+        //     • Use Assert to ensure that the measurement
+        //       will return Zero.
+        //     • Use M to actually perform the measurement.
 
-            // If our target machine is a simulator, the first step
-            // will cause our quantum program to crash if the assertion
-            // fails. Since an assertion is not a physical operation,
-            // the state of the qubits that we pass to Assert are not
-            // disturbed. If our target machine is an actual quantum
-            // processor, then the assertion will be skipped with no
-            // further effect.
-            AssertMeasurement([PauliZ, PauliZ, PauliI], register, Zero, "Z₀Z₁ was One!");
-            AssertMeasurement([PauliI, PauliZ, PauliZ], register, Zero, "Z₁Z₂ was One!");
+        // If our target machine is a simulator, the first step
+        // will cause our quantum program to crash if the assertion
+        // fails. Since an assertion is not a physical operation,
+        // the state of the qubits that we pass to Assert are not
+        // disturbed. If our target machine is an actual quantum
+        // processor, then the assertion will be skipped with no
+        // further effect.
+        AssertMeasurement([PauliZ, PauliZ, PauliI], register, Zero, "Z₀Z₁ was One!");
+        AssertMeasurement([PauliI, PauliZ, PauliZ], register, Zero, "Z₁Z₂ was One!");
 
-            // The second step then actually performs the measurement,
-            // showing that we can make parity measurements without
-            // disturbing the state that we care about.
-            let parity01 = Measure([PauliZ, PauliZ, PauliI], register);
-            let parity12 = Measure([PauliI, PauliZ, PauliZ], register);
+        // The second step then actually performs the measurement,
+        // showing that we can make parity measurements without
+        // disturbing the state that we care about.
+        let parity01 = Measure([PauliZ, PauliZ, PauliI], register);
+        let parity12 = Measure([PauliI, PauliZ, PauliZ], register);
 
-            // To check that we have not disturbed the state, we decode,
-            // rotate back, and assert once more.
-            Adjoint EncodeIntoBitFlipCode(data, auxiliaryQubits);
-            Adjoint Rx(PI() / 3.0, data);
-            AssertMeasurement([PauliZ], [data], Zero, "Didn't return to |0〉!");
-        }
+        // To check that we have not disturbed the state, we decode,
+        // rotate back, and assert once more.
+        Adjoint EncodeIntoBitFlipCode(data, auxiliaryQubits);
+        Adjoint Rx(PI() / 3.0, data);
+        AssertMeasurement([PauliZ], [data], Zero, "Didn't return to |0〉!");
     }
 
 
@@ -173,51 +173,51 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
     /// if run on a target machine which supports assertions, and thus
     /// can be used as a unit test of error-correction functionality.
     operation CheckBitFlipCodeCorrectsError(error : (Qubit[] => Unit)) : Unit {
-        using ((data, auxiliaryQubits) = (Qubit(), Qubit[2])) {
-            let register = [data] + auxiliaryQubits;
+        use data = Qubit();
+        use auxiliaryQubits = Qubit[2];
+        let register = [data] + auxiliaryQubits;
 
-            // We start by proceeding the same way as above
-            // in order to obtain the code block state |̅ψ〉.
-            Rx(PI() / 3.0, data);
-            EncodeIntoBitFlipCode(data, auxiliaryQubits);
+        // We start by proceeding the same way as above
+        // in order to obtain the code block state |̅ψ〉.
+        Rx(PI() / 3.0, data);
+        EncodeIntoBitFlipCode(data, auxiliaryQubits);
 
-            // Next, we apply the error that we've been given to the
-            // entire register.
-            error(register);
+        // Next, we apply the error that we've been given to the
+        // entire register.
+        error(register);
 
-            // We measure the two parities Z₀Z₁ and Z₁z₂ as before
-            // to obtain our syndrome.
-            let parity01 = Measure([PauliZ, PauliZ, PauliI], register);
-            let parity12 = Measure([PauliI, PauliZ, PauliZ], register);
+        // We measure the two parities Z₀Z₁ and Z₁z₂ as before
+        // to obtain our syndrome.
+        let parity01 = Measure([PauliZ, PauliZ, PauliI], register);
+        let parity12 = Measure([PauliI, PauliZ, PauliZ], register);
 
-            // To use the syndrome obtained above, we recall the table
-            // from <https://docs.microsoft.com/en-us/quantum/libraries/error-correction>:
+        // To use the syndrome obtained above, we recall the table
+        // from <https://docs.microsoft.com/azure/quantum/user-guide/libraries/standard/error-correction>:
 
-            //     Error | Z₀Z₁ | Z₁Z₂
-            //     ===================
-            //       1   | Zero | Zero
-            //       X₀  |  One | Zero
-            //       X₁  |  One |  One
-            //       X₂  | Zero |  One
+        //     Error | Z₀Z₁ | Z₁Z₂
+        //     ===================
+        //       1   | Zero | Zero
+        //       X₀  |  One | Zero
+        //       X₁  |  One |  One
+        //       X₂  | Zero |  One
 
-            // Since the recovery is a classical inference procedure, we
-            // can represent it here by using if/elif statements:
-            if (parity01 == One and parity12 == Zero) {
-                X(register[0]);
-            }
-            elif (parity01 == One and parity12 == One) {
-                X(register[1]);
-            }
-            elif (parity01 == Zero and parity12 == One) {
-                X(register[2]);
-            }
-
-            // To check that we have not disturbed the state, we decode,
-            // rotate back, and assert once more.
-            Adjoint EncodeIntoBitFlipCode(data, auxiliaryQubits);
-            Adjoint Rx(PI() / 3.0, data);
-            AssertMeasurement([PauliZ], [data], Zero, "Didn't return to |0〉!");
+        // Since the recovery is a classical inference procedure, we
+        // can represent it here by using if/elif statements:
+        if (parity01 == One and parity12 == Zero) {
+            X(register[0]);
         }
+        elif (parity01 == One and parity12 == One) {
+            X(register[1]);
+        }
+        elif (parity01 == Zero and parity12 == One) {
+            X(register[2]);
+        }
+
+        // To check that we have not disturbed the state, we decode,
+        // rotate back, and assert once more.
+        Adjoint EncodeIntoBitFlipCode(data, auxiliaryQubits);
+        Adjoint Rx(PI() / 3.0, data);
+        AssertMeasurement([PauliZ], [data], Zero, "Didn't return to |0〉!");
     }
 
 
@@ -304,46 +304,46 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
         // We once again begin by allocating some qubits to use as data
         // and auxiliary qubits, and by preparing a test state on the
         // data qubit.
-        using ((data, auxiliaryQubits) = (Qubit(), Qubit[nScratch])) {
-            // We start by proceeding the same way as above
-            // in order to obtain the code block state |̅ψ〉.
-            let register = [data] + auxiliaryQubits;
+        use data = Qubit();
+        use auxiliaryQubits = Qubit[nScratch];
+        // We start by proceeding the same way as above
+        // in order to obtain the code block state |̅ψ〉.
+        let register = [data] + auxiliaryQubits;
 
-            Rx(PI() / 3.0, data);
+        Rx(PI() / 3.0, data);
 
-            // We differ this time, however, in how we perform the
-            // encoding. The code input provided to this operation
-            // specifies an encoder, a decoder, and a syndrome
-            // measurement. Deconstructing that tuple will give us access
-            // to all three operations.
-            let (encode, decode, syndMeas) = code!;
+        // We differ this time, however, in how we perform the
+        // encoding. The code input provided to this operation
+        // specifies an encoder, a decoder, and a syndrome
+        // measurement. Deconstructing that tuple will give us access
+        // to all three operations.
+        let (encode, decode, syndMeas) = code!;
 
-            // We can now encode as usual, with the slight exception
-            // that the encoder returns a value of a new user-defined type
-            // that marks the register as encoding a state.
-            // This is simply another "view" on the same qubits, but
-            // allows us to write operations which only act on code
-            // blocks.
-            // Note that we also pass data as an array of qubits, to
-            // allow for codes which protect multiple qubits in one block.
-            let codeBlock = encode!([data], auxiliaryQubits);
+        // We can now encode as usual, with the slight exception
+        // that the encoder returns a value of a new user-defined type
+        // that marks the register as encoding a state.
+        // This is simply another "view" on the same qubits, but
+        // allows us to write operations which only act on code
+        // blocks.
+        // Note that we also pass data as an array of qubits, to
+        // allow for codes which protect multiple qubits in one block.
+        let codeBlock = encode!([data], auxiliaryQubits);
 
-            // Next, we cause an error as usual.
-            error(codeBlock!);
+        // Next, we cause an error as usual.
+        error(codeBlock!);
 
-            // We can then ask the canon to perform the recovery, using
-            // our classical recovery procedure along with the code of
-            // interest.
-            Recover(code, fn, codeBlock);
+        // We can then ask the canon to perform the recovery, using
+        // our classical recovery procedure along with the code of
+        // interest.
+        Recover(code, fn, codeBlock);
 
-            // Having recovered, we can decode to obtain new qubit arrays
-            // pointing to the decoded data and auxiliary qubits.
-            let (decodedData, decodedAuxiliary) = decode!(codeBlock);
+        // Having recovered, we can decode to obtain new qubit arrays
+        // pointing to the decoded data and auxiliary qubits.
+        let (decodedData, decodedAuxiliary) = decode!(codeBlock);
 
-            // Finally, we test that our test state was protected.
-            Adjoint Rx(PI() / 3.0, data);
-            AssertMeasurement([PauliZ], [data], Zero, "Didn't return to |0〉!");
-        }
+        // Finally, we test that our test state was protected.
+        Adjoint Rx(PI() / 3.0, data);
+        AssertMeasurement([PauliZ], [data], Zero, "Didn't return to |0〉!");
     }
 
 
@@ -370,7 +370,7 @@ namespace Microsoft.Quantum.Samples.BitFlipCode {
 
         // For each of these errors, we can then check
         // that the bit flip code corrects them appropriately.
-        for (error in [X0, X1, X2]) {
+        for error in [X0, X1, X2] {
             CheckCodeCorrectsError(code, 2, recoveryFn, error);
         }
     }

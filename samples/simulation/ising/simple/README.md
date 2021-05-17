@@ -11,5 +11,5 @@ To run the sample, use the `dotnet run` command from your terminal.
 ## Manifest ##
 
 - [SimpleIsing.qs](./SimpleIsing.qs) : Q# code implementing quantum operations for this sample.
-- [Program.qs](./Program.cs): Q# entry point to interact with and print out results of the Q# operations for this sample.
+- [Program.qs](./Program.qs): Q# entry point to interact with and print out results of the Q# operations for this sample.
 - [SimpleIsingSample.csproj](./SimpleIsingSample.csproj) : Main Q# project for the sample.
