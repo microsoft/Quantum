@@ -7,19 +7,18 @@ languages:
 products:
 - qdk
 description: "This sample shows how to use Q# to search for a marked item with Grover's algorithm."
-extensions:
-  jupyter:
-    jupytext:
-      cell_markers: region,endregion
-      text_representation:
-        extension: .md
-        format_name: markdown
-        format_version: '1.2'
-        jupytext_version: 1.5.2
-    kernelspec:
-      display_name: .NET (PowerShell)
-      language: PowerShell
-      name: .net-powershell
+jupyter:
+  jupytext:
+    cell_markers: region,endregion
+    text_representation:
+      extension: .md
+      format_name: markdown
+      format_version: '1.2'
+      jupytext_version: 1.5.2
+  kernelspec:
+    display_name: .NET (PowerShell)
+    language: PowerShell
+    name: .net-powershell
 ---
 
 # Database Search Sample
