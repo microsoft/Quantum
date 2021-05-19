@@ -14,9 +14,7 @@ products:
 
 # Simple molecular energy estimation with the Azure Quantum service
 
-This sample demonstrates how to use Q#, Python and the Azure Quantum service together to estimate the ground state of a molecule.
-
-This sample is implemented as a set of Jupyter notebooks with inline markdown comments.
+This sample demonstrates how to use Q#, Python and the Azure Quantum service together to estimate the ground state of a molecule, implemented as two Jupyter notebooks.
 
 ## Running the sample
 
