@@ -9,6 +9,21 @@ namespace Microsoft.Quantum.Chemistry.QPE {
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Math;
 
+    /// # Summary
+    /// Get the molecule energy using Quantum Phase Estimation.
+    ///
+    /// # Input
+    /// ## JWEncodedData
+    /// Jordan-Wigner encoded data.
+    /// ## nBitsPrecision
+    /// Number of bits of precision.
+    /// ## trotterStepSize
+    /// Trotter step size.
+    /// ## trotterOrder
+    /// The Trotter order to use.
+    ///
+    /// # Output
+    /// Tuple of estimated phase and energy.
     operation GetEnergyQPE (
         JWEncodedData: JordanWignerEncodingData,
         nBitsPrecision : Int, 

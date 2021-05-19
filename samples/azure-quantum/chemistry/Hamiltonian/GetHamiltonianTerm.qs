@@ -3,8 +3,16 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Measurement;
     
+    /// # Summary
+    /// Prepare a simple trial state for H2 that is close to
+    // the ground state.
+    ///
+    /// # Input
+    /// ## register
+    /// The register in which to prepare the state.
     operation PrepareState (register: Qubit[]) : Unit is Adj {
         body (...) {
+            // Prepare a state that is close to the ground state of H2
             X(register[0]);
             X(register[1]);
         }
@@ -15,7 +23,21 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
         }
     }
 
+    /// # Summary
+    /// Get the energy for a given measurement operator that corresponds
+    /// to a single term in the Hamiltonian.
+    ///
+    /// # Input
+    /// ## nOp
+    /// The operator to apply.
     operation GetHamiltonianTermH2 (nOp : Int) : Result {
+        // These measurement operators were generated using
+        // the JordanWignerMeasurementOperators function but
+        // hard-coded here for simplicity.
+        //
+        // To generate this list, use the 
+        // JordanWignerMeasurementOperators function specified
+        // in ChemUtils.qs.
         let measOps = [
             [PauliZ,PauliI,PauliI,PauliI],
             [PauliI,PauliZ,PauliI,PauliI],

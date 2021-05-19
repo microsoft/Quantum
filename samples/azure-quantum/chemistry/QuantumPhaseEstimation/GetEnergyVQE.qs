@@ -1,11 +1,28 @@
 namespace Microsoft.Quantum.Chemistry.VQE {
 
-open Microsoft.Quantum.Core;
-open Microsoft.Quantum.Chemistry;
-open Microsoft.Quantum.Chemistry.JordanWigner;
-open Microsoft.Quantum.Chemistry.JordanWigner.VQE;
-open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Core;
+    open Microsoft.Quantum.Chemistry;
+    open Microsoft.Quantum.Chemistry.JordanWigner;
+    open Microsoft.Quantum.Chemistry.JordanWigner.VQE;
+    open Microsoft.Quantum.Intrinsic;
 
+    /// # Summary
+    /// Get the molecule energy using Variational Quantum Eigensolver.
+    ///
+    /// # Input
+    /// ## JWEncodedData
+    /// Jordan-Wigner encoded data.
+    /// ## theta1
+    /// Input state coefficient to use for first singly-excited state
+    /// ## theta2
+    /// Input state coefficient to use for second singly-excited state
+    /// ## theta3
+    /// Input state coefficient to use for doubly-excited state
+    /// ## nSamples
+    /// Number of samples
+    ///
+    /// # Output
+    /// Estimated energy.
     operation GetEnergyVQE (JWEncodedData: JordanWignerEncodingData, theta1: Double, theta2: Double, theta3: Double, nSamples: Int) : Double {
         let (nSpinOrbitals, fermionTermData, inputState, energyOffset) = JWEncodedData!;
         let (stateType, JWInputStates) = inputState;
