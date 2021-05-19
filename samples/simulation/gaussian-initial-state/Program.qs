@@ -12,11 +12,10 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
     operation RunProgram(recursive : Bool, nQubits : Int) : Unit {
         let stdDev = IntAsDouble(2 ^ nQubits) / 6.;
         let mean = IntAsDouble(2 ^ (nQubits - 1)) - 0.5;
-        let bitstring = EmptyArray<Bool>();
         use register = Qubit[nQubits];
         // Call the recursive implementation.
         if recursive {
-            PrepareGaussianWavefunctionRecursive(stdDev, mean, nQubits, bitstring, register);
+            PrepareGaussianWavefunctionRecursive(stdDev, mean, nQubits, [], register);
         } else {
             PrepareGaussianWavefunction(stdDev, mean, register);
         }
