@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsingModel", "ising-model\I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teleport", "teleport\Teleport.csproj", "{4BF14B78-CD02-44EA-852E-256BCDCF7603}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "chemistry", "chemistry", "{06F0C404-51B4-4200-B490-6EF58EF77DFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Molecule", "chemistry\QuantumPhaseEstimation\Molecule.csproj", "{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hamiltonian", "chemistry\Hamiltonian\Hamiltonian.csproj", "{4EA18DAC-1370-4F65-961E-2473B6790216}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,5 +92,33 @@ Global
 		{4BF14B78-CD02-44EA-852E-256BCDCF7603}.Release|x64.Build.0 = Release|Any CPU
 		{4BF14B78-CD02-44EA-852E-256BCDCF7603}.Release|x86.ActiveCfg = Release|Any CPU
 		{4BF14B78-CD02-44EA-852E-256BCDCF7603}.Release|x86.Build.0 = Release|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Debug|x64.Build.0 = Debug|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Debug|x86.Build.0 = Debug|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Release|x64.ActiveCfg = Release|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Release|x64.Build.0 = Release|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Release|x86.ActiveCfg = Release|Any CPU
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}.Release|x86.Build.0 = Release|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Debug|x64.Build.0 = Debug|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Debug|x86.Build.0 = Debug|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Release|x64.ActiveCfg = Release|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Release|x64.Build.0 = Release|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Release|x86.ActiveCfg = Release|Any CPU
+		{4EA18DAC-1370-4F65-961E-2473B6790216}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A} = {06F0C404-51B4-4200-B490-6EF58EF77DFC}
+		{4EA18DAC-1370-4F65-961E-2473B6790216} = {06F0C404-51B4-4200-B490-6EF58EF77DFC}
 	EndGlobalSection
 EndGlobal
