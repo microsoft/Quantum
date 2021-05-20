@@ -26,13 +26,13 @@ namespace Microsoft.Quantum.Chemistry.QPE {
     /// The Trotter order to use.
     ///
     /// # Output
-    /// Tuple of estimated phase and energy.
+    /// Returns estimated energy.
     operation GetEnergyQPE (
         JWEncodedData: JordanWignerEncodingData,
         nBitsPrecision : Int, 
         trotterStepSize : Double, 
         trotterOrder : Int
-    ) : (Double, Double) {
+    ) : Double {
 
         let (_, _, inputState, energyOffset) = JWEncodedData!;
         let (nQubits, (rescaleFactor, oracle)) = TrotterStepOracle(JWEncodedData, trotterStepSize, trotterOrder);
@@ -41,6 +41,6 @@ namespace Microsoft.Quantum.Chemistry.QPE {
         let estPhase = EstimateEnergy(nQubits, statePrep, oracle, phaseEstAlgorithm);
         let estEnergy = estPhase * rescaleFactor + energyOffset;
 
-        return (estPhase, estEnergy);
+        return estEnergy;
     }
 }
