@@ -14,3 +14,4 @@ These samples show how to simulate evolution under different Hamiltonians.
   - **[IsingPhaseEstimation](./ising/phase-estimation)**: This sample adiabatically prepares the ground state of the Ising model Hamiltonian, and then perform phase estimation to obtain an estimate of the ground state energy. 
   - **[IsingTrotterEvolution](./ising/trotter-evolution)**: This sample walks through constructing the time-evolution operator for the Ising model using the Trotterization library feature.
 - **[HubbardSimulation](./hubbard)**: This sample walks through constructing the time-evolution operator for the 1D Hubbard Simulation model.
+- **[GaussianInitialState](./gaussian-initial-state)**: This sample walks through how to use Q# to prepare a register of qubits into a Gaussian wavefunction.
