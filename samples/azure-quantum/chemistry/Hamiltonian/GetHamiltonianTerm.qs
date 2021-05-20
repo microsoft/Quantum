@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Chemistry.Hamiltonian {
     open Microsoft.Quantum.Core;
     open Microsoft.Quantum.Intrinsic;

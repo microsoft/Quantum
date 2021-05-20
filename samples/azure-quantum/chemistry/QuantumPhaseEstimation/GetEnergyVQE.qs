@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Chemistry.VQE {
 
     open Microsoft.Quantum.Core;
