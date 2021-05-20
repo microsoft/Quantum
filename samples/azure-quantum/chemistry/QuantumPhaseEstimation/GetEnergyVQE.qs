@@ -10,7 +10,7 @@ namespace Microsoft.Quantum.Chemistry.VQE {
     open Microsoft.Quantum.Intrinsic;
 
     /// # Summary
-    /// Get the molecule energy using Variational Quantum Eigensolver.
+    /// Get the molecular energy using the Variational Quantum Eigensolver.
     ///
     /// # Input
     /// ## JWEncodedData

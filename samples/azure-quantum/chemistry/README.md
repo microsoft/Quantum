@@ -18,7 +18,7 @@ This sample demonstrates how to use Q#, Python and the Azure Quantum service tog
 
 ## Running the sample
 
-To run the sample, first make sure to install all [prerequisites](https://docs.microsoft.com/en-us/azure/quantum/install-python-qdk?tabs=tabid-conda) and start a Jupyter notebook with the following command:
+To run the sample, first make sure to install all [prerequisites](https://docs.microsoft.com/azure/quantum/install-python-qdk) and start a Jupyter notebook with the following command:
 
 ```cmd
 jupyter notebook

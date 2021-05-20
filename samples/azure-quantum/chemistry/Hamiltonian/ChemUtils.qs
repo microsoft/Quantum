@@ -17,9 +17,9 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
     ///
     /// # Output
     /// Expanded arrays of coefficients, one per Pauli term.
-    function ExpandedCoefficients(coeff : Double[], termType : Int) : Double[]{
+    function ExpandedCoefficients(coeff : Double[], termType : Int) : Double[] {
     
-        // Compute the numbers of coefficients to return
+        // Compute the numbers of coefficients to return.
         mutable nCoeffs = 0;
         if (termType == 2) {set nCoeffs = 2;}
         elif (termType == 3) {set nCoeffs = 8;}
@@ -28,7 +28,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
         mutable coeffs = new Double[nCoeffs];
 
         // Return the expanded array of coefficients
-        if ((termType == 0) or (termType == 1)) {
+        if (termType == 0) or (termType == 1) {
             set coeffs w/= 0 <- coeff[0];
         }
         elif ((termType == 2) or (termType == 3)) {
@@ -56,7 +56,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
             nQubits : Int, 
             indices : Int[], 
             termType : Int
-        ) : Pauli[][] {
+    ) : Pauli[][] {
     
         // Compute the size and initialize the array of operators to be returned
         mutable nOps = 0;
@@ -76,7 +76,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
         }
 
         // PQRS terms set operators between indices P and Q (resp R and S) to PauliZ
-        elif (termType == 3) {
+        elif termType == 3 {
             let compactOps = [[PauliX, PauliX, PauliX, PauliX], [PauliY, PauliY, PauliY, PauliY],
                               [PauliX, PauliX, PauliY, PauliY], [PauliY, PauliY, PauliX, PauliX],
                               [PauliX, PauliY, PauliX, PauliY], [PauliY, PauliX, PauliY, PauliX],
@@ -97,7 +97,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
                 for i in indices[2]+1..indices[3]-1 {
                     set op w/= i <- PauliZ;
                 }
-		        set ops w/= iOp <- op; 
+                set ops w/= iOp <- op; 
             }
 	    }
 
@@ -118,7 +118,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
                 }
 
                 // Case of PQQR term
-                if (nIndices == 4) {
+                if nIndices == 4 {
                      set op w/= indices[1] <- ((indices[0] < indices[1]) and (indices[1] < indices[3])) ? PauliI | PauliZ;
                 }
                 set ops w/= iOp <- op;
