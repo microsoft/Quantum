@@ -26,6 +26,8 @@ jupyter notebook
 
 Open the notebooks ([QuantumPhaseEstimation/Molecule.ipynb](QuantumPhaseEstimation/Molecule.ipynb) or [Hamiltonian/Molecule.ipynb](Hamiltonian/Molecule.ipynb)) and execute the cells (shift + enter) to run the sample.
 
+To run the second notebook, make sure to first create an Azure subscription and Azure Quantum workspace. Learn more about this here: [Introduction to Azure Quantum (preview)](https://docs.microsoft.com/en-us/azure/quantum/overview-azure-quantum).
+
 ## Manifest
 
 - [QuantumPhaseEstimation/GetEnergyQPE.qs](QuantumPhaseEstimation/GetEnergyQPE.qs): Quantum Phase Estimation program.
