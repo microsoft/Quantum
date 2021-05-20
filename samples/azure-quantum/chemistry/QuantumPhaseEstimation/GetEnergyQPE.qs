@@ -24,7 +24,6 @@ namespace Microsoft.Quantum.Chemistry.QPE {
     ///
     /// # Output
     /// Tuple of estimated phase and energy.
-    @EntryPoint()
     operation GetEnergyQPE (
         JWEncodedData: JordanWignerEncodingData,
         nBitsPrecision : Int, 

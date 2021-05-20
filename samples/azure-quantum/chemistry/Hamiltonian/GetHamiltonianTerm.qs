@@ -30,7 +30,6 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
     /// # Input
     /// ## nOp
     /// The operator to apply.
-    @EntryPoint()
     operation GetHamiltonianTermH2 (nOp : Int) : Result {
         // These measurement operators were generated using
         // the JordanWignerMeasurementOperators function but
