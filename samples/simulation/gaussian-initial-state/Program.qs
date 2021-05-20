@@ -19,8 +19,14 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
         } else {
             PrepareGaussianWavefunction(stdDev, mean, register);
         }
-        // Output the resulting quantum state.
+
+        // Output the resulting quantum state. Note that we use `()` here to
+        // indicate that the simulator should dump to its default location
+        // (typically, the console). This will allow the Python host program
+        // to intercept the dump and provide a richer plot.
         DumpRegister((), register);
+
+        // Reset all qubits before releasing them.
         ResetAll(register);
     }
 }
