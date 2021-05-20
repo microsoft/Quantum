@@ -68,11 +68,10 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
 
         // Z and ZZ terms
         if ((termType == 0) or (termType == 1)) {
-            mutable op = new Pauli[nQubits];
+            mutable op = ConstantArray(nQubits, PauliI) w/ 0 <- op;
             for idx in indices {
                 set op w/= idx <- PauliZ;
             }
-            set ops w/= 0 <- op;
         }
 
         // PQRS terms set operators between indices P and Q (resp R and S) to PauliZ
@@ -82,13 +81,10 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
                               [PauliX, PauliY, PauliX, PauliY], [PauliY, PauliX, PauliY, PauliX],
                               [PauliY, PauliX, PauliX, PauliY], [PauliX, PauliY, PauliY, PauliX]];
 			      
-            for iOp in 0..7 {
-                mutable compactOp = compactOps[iOp];
+            for (idxOp, compactOp) in Enumerated(compactOps) {
 
                 mutable op = new Pauli[nQubits];
-                for i in 0..Length(indices)-1 {
-                    let idx = indices[i];
-                    let pauli = compactOp[i];
+                for (idx, pauli) in Zipped(indices, compactOp {
                     set op w/= idx <- pauli;
                 }
                 for i in indices[0]+1..indices[1]-1 {
@@ -105,14 +101,13 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
         elif (termType == 2) {
             let compactOps = [[PauliX, PauliX], [PauliY, PauliY]];
 
-            for iOp in 0..1 {
-                mutable compactOp = compactOps[iOp];
+            for (idxOp, compactOp) in Enumerated(compactOps) {
 
                 mutable op = new Pauli[nQubits];
 
                 let nIndices = Length(indices);
-                set op w/= indices[0] <- compactOp[0];
-                set op w/= indices[nIndices-1] <- compactOp[1];
+                set op = op w/ indices[0] <- compactOp[0]
+                            w/ indices[nIndices-1] <- compactOp[1];
                 for i in indices[0]+1..indices[nIndices-1]-1 {
                     set op w/= i <- PauliZ;
                 }
