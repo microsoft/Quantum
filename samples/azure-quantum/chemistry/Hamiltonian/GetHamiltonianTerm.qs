@@ -22,12 +22,16 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
     }
 
     /// # Summary
-    /// Get the energy for a given measurement operator that corresponds
-    /// to a single term in the Hamiltonian.
+    /// Measure qubit register that is prepared in a state close to the ground
+    /// state for a given measurement operator that corresponds to a single term
+    /// in the Hamiltonian.
     ///
     /// # Input
     /// ## nOp
     /// The operator to apply.
+    ///
+    /// # Output
+    /// The result measured on the qubit register.
     operation GetHamiltonianTermH2 (nOp : Int) : Result {
         // These measurement operators were generated using
         // the JordanWignerMeasurementOperators function but
