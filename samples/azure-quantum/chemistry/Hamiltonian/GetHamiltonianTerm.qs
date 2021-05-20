@@ -19,11 +19,6 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
             X(register[0]);
             X(register[1]);
         }
-
-        // Define a non-matching adjoint body for compliance with EstimateFrequencyA
-        adjoint (...) {
-            ResetAll(register);
-        }
     }
 
     /// # Summary
