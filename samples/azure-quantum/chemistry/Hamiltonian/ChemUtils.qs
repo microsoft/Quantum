@@ -72,6 +72,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
             for idx in indices {
                 set op w/= idx <- PauliZ;
             }
+            set ops w/= 0 <- op;
         }
 
         // PQRS terms set operators between indices P and Q (resp R and S) to PauliZ
