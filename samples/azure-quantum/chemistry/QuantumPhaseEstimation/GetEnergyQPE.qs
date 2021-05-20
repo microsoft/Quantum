@@ -34,7 +34,7 @@ namespace Microsoft.Quantum.Chemistry.QPE {
         trotterOrder : Int
     ) : (Double, Double) {
 
-        let (nSpinOrbitals, fermionTermData, inputState, energyOffset) = JWEncodedData!;
+        let (_, _, inputState, energyOffset) = JWEncodedData!;
         let (nQubits, (rescaleFactor, oracle)) = TrotterStepOracle(JWEncodedData, trotterStepSize, trotterOrder);
         let statePrep = PrepareTrialState(inputState, _);
         let phaseEstAlgorithm = RobustPhaseEstimation(nBitsPrecision, _, _);
