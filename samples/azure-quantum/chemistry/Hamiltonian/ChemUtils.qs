@@ -3,6 +3,8 @@
 
 namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
     open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Arrays;
+
 
 
     /// # Summary
@@ -68,7 +70,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
 
         // Z and ZZ terms
         if ((termType == 0) or (termType == 1)) {
-            mutable op = ConstantArray(nQubits, PauliI) w/ 0 <- op;
+            mutable op = new Pauli[nQubits];
             for idx in indices {
                 set op w/= idx <- PauliZ;
             }
@@ -85,7 +87,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
             for (idxOp, compactOp) in Enumerated(compactOps) {
 
                 mutable op = new Pauli[nQubits];
-                for (idx, pauli) in Zipped(indices, compactOp {
+                for (idx, pauli) in Zipped(indices, compactOp) {
                     set op w/= idx <- pauli;
                 }
                 for i in indices[0]+1..indices[1]-1 {
@@ -94,7 +96,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
                 for i in indices[2]+1..indices[3]-1 {
                     set op w/= i <- PauliZ;
                 }
-                set ops w/= iOp <- op; 
+                set ops w/= idxOp <- op; 
             }
 	    }
 
@@ -117,7 +119,7 @@ namespace Microsoft.Quantum.Samples.Chemistry.JordanWigner.Utils {
                 if nIndices == 4 {
                      set op w/= indices[1] <- ((indices[0] < indices[1]) and (indices[1] < indices[3])) ? PauliI | PauliZ;
                 }
-                set ops w/= iOp <- op;
+                set ops w/= idxOp <- op;
             }
         }
 
