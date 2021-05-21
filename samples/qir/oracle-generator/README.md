@@ -39,9 +39,9 @@ implementation for `Majority3` based on a QIR representation of the program.
 You need an installation of LLVM 11, the clang compiler in a version that
 supports C++ 17, and .NET 5.0.
 
-## Repository overview
+## Sample overview
 
-* [qsharp](./qsparh): This folder contains the Q# project that will be compiled
+* [qsharp](./qsharp): This folder contains the Q# project that will be compiled
   into QIR; it contains an empty operation for which the implementation will be
   automatically generated
 * [host](./host): C++ host program that calls into the QIR code.

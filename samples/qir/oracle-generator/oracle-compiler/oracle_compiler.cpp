@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 #include <fstream>
 #include <iostream>
 #include <unordered_map>
