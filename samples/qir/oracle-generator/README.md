@@ -2,7 +2,7 @@
 page_type: sample
 languages:
 - qsharp
-- c++
+- cpp
 products:
 - qdk
 description: "This sample shows how to automatically generate oracles from Boolean function specifications leveraging QIR"
