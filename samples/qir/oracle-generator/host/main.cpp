@@ -5,6 +5,16 @@
 #include <QirContext.hpp>
 #include <SimFactory.hpp>
 
+// This is the function corresponding to the QIR entry-point.
+//
+// The entry point function in the Q# program is
+// `operation RunProgram() : Unit { ... }` and lives
+// in the namespace `OracleCompiler`.
+//
+// This gets mapped into an LLVM function with the name
+// `OracleCompiler__RunProgram` (periods in the fully-qualified
+// name are translated into two underscores).  The Q# Unit
+// type corresponds to the `void` type in C++.
 extern "C"
 {
     void OracleCompiler__RunProgram();
