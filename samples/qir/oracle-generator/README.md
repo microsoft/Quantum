@@ -46,8 +46,8 @@ implementation for `Majority3` based on a QIR representation of the program.
 
 ## Prerequisites
 
-You need an installation of LLVM 11, the clang compiler in a version that
-supports C++ 17, and .NET 5.0.
+You need an installation of LLVM 11, CMake, and the clang compiler in a version
+that supports C++ 17.
 
 ## Sample overview
 
