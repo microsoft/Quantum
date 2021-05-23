@@ -42,7 +42,10 @@ operation Majority3(inputs : (Qubit, Qubit, Qubit), output : Qubit) : Unit {
 ```
 
 The oracle compiler implemented in this sample automatically finds an optimized
-implementation for `Majority3` based on a QIR representation of the program.
+implementation for `Majority3` based on a QIR representation of the program. The
+sample uses the [LLVM compiler infrastructure project](https://llvm.org/) and
+the [EPFL logic synthesis libraries](https://github.com/lsils/lstools-showcase)
+to optimize the quantum operation implementation generated for the functions.
 
 ## Prerequisites
 
