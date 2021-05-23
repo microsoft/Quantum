@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <unordered_set>
 
 #include <fmt/format.h>
 
@@ -29,7 +30,9 @@ using namespace mockturtle;
 
 namespace detail
 {
-
+    // Reading LLVM functions into a logic network is generically implemented
+    // for arbitrary logic network types (Ntk) present in the mockturtle
+    // library, even though we only use it on XAGs.
     template <typename Ntk> struct read_qir_impl
     {
         read_qir_impl(llvm::Module& module, llvm::Function& function)
@@ -70,7 +73,7 @@ namespace detail
             if (!analyze_function_signature(function))
             {
                 fmt::print("[e] function signature not supported: inputs must be Bool and return type must be Bool or "
-                           "TupleHeader*\n");
+                           "Bool tuple\n");
                 std::abort();
             }
 
@@ -97,9 +100,8 @@ namespace detail
         typename std::vector<typename Ntk::signal> const& get_signal(Ntk& ntk, llvm::Value const* value)
         {
             llvm::ConstantInt const* constant = nullptr;
-            const auto it = value_signals.find(value);
 
-            if (it != value_signals.end())
+            if (const auto it = value_signals.find(value); it != value_signals.end())
             {
                 return it->second;
             }
@@ -107,6 +109,10 @@ namespace detail
             {
                 value_signals[value] = constant_word(ntk, constant->getValue().getZExtValue(), 64u);
                 return value_signals[value];
+            }
+            else if (const auto it = tuple_headers.find(value); it != tuple_headers.end())
+            {
+                return value_signals[it->second];
             }
             else
             {
@@ -230,7 +236,7 @@ namespace detail
                 break;
 
                 case llvm::Instruction::Ret:
-                    value_signals[&inst] = value_signals[inst.getOperand(0u)];
+                    value_signals[&inst] = get_signal(ntk, inst.getOperand(0u));
                     break;
 
                 case llvm::Instruction::Call:
@@ -240,21 +246,25 @@ namespace detail
                     const auto name = callFunc->getName().str();
                     if (name == "__quantum__rt__tuple_create")
                     {
-                        // need to get the tuple header structure
-                        auto const* arg0 = llvm::dyn_cast<llvm::PtrToIntOperator const>(callInst->getArgOperand(0u));
-                        auto const* tupleHeader = arg0->getPointerOperandType()->getPointerElementType();
+                        auto const* argExpr = llvm::dyn_cast<llvm::ConstantExpr const>(callInst->getArgOperand(0u));
 
-                        // number of potential Bool elements
-                        const auto tupleSize = tupleHeader->getStructNumElements() - 1;
-                        for (auto i = 1u; i <= tupleSize; ++i)
+                        if (!argExpr)
                         {
-                            if (!tupleHeader->getStructElementType(i)->isIntegerTy(1u))
-                            {
-                                fmt::print("[e] only Boolean tuples are currently supported");
-                                std::abort();
-                            }
+                            fmt::print("[e] unexpected expression to __quantum__rt__tuple_create call: ");
+                            print(callInst->getArgOperand(0u));
+                            std::abort();
                         }
 
+                        auto const* argInst = argExpr->getAsInstruction();
+                        llvm::ConstantInt const* tupleSizeValue = nullptr;
+                        if (argInst->getNumOperands() != 2u || (tupleSizeValue = llvm::dyn_cast<llvm::ConstantInt const>(argInst->getOperand(1u))) == nullptr)
+                        {
+                            fmt::print("[e] unexpected expression to __quantum__rt__tuple_create call: ");
+                            print(callInst->getArgOperand(0u));
+                            std::abort();
+                        }
+
+                        const auto tupleSize = tupleSizeValue->getSExtValue();
                         value_signals[&inst] = std::vector<typename Ntk::signal>(tupleSize);
                     }
                     else if (analyze_function_signature(*callFunc))
@@ -376,7 +386,38 @@ namespace detail
                 }
             }
 
-            return value_signals[block.getTerminator()];
+            return get_signal(ntk, block.getTerminator());
+        }
+
+        /*! \brief Checks whether the type is a pointer to a tuple of Booleans or 64-bit integers.
+         *
+         * This checks whether a type corresponds to a Q# tuple in which all
+         * types are either `Bool` or `Int`.
+         */
+        bool is_valid_tuple_pointer_type(llvm::Type const* ty) const
+        {
+            if (!ty->isPointerTy())
+            {
+                return false;
+            }
+
+            auto const* elemTy = ty->getPointerElementType();
+            if (!elemTy->isAggregateType() || !elemTy->isStructTy())
+            {
+                return false;
+            }
+
+            auto const* aggrTy = llvm::dyn_cast<llvm::StructType const>(elemTy);
+
+            for (auto c = 0u; c < aggrTy->getNumContainedTypes(); ++c)
+            {
+                if (!aggrTy->getContainedType(c)->isIntegerTy(1u))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /*! \brief Checks whether the function signature is supported. */
@@ -389,34 +430,13 @@ namespace detail
                 {
                     continue;
                 }
-                else if (arg.getType()->isIntegerTy(64u))
-                {
-                    continue;
-                }
                 return false;
             }
 
             /* output type */
             auto const* retTy = f.getReturnType();
-            if (retTy->isIntegerTy(1u))
-            {
-                return true;
-            }
-            else if (retTy->isIntegerTy(64u))
-            {
-                return true;
-            }
-            else if (
-                retTy->isPointerTy() && retTy->getPointerElementType()->isStructTy() &&
-                retTy->getPointerElementType()->getStructName().equals("TupleHeader"))
-            {
-                /* TODO we cannot verify which kind of tuple the return type is at this point */
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+
+            return retTy->isIntegerTy(1u) || is_valid_tuple_pointer_type(retTy);
         }
 
       private:
