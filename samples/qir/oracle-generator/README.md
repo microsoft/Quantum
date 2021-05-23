@@ -73,7 +73,7 @@ cmake -DCMAKE_CXX_COMPILER=clang++ ..
 make
 ```
 
-This step may fail in case the file `LLVMCOnfig.cmake` cannot be found, which
+This step may fail in case the file `LLVMConfig.cmake` cannot be found, which
 should be installed alongside LLVM.  In this case, try to find that folder,
 let's call it $LLVM_DIR, and explicitly set it as follows in the script above:
 
