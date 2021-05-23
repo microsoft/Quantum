@@ -9,7 +9,7 @@
 //
 // The entry point function in the Q# program is
 // `operation RunProgram() : Unit { ... }` and lives
-// in the namespace `OracleCompiler`.
+// in the namespace `Microsoft.Quantum.OracleCompiler`.
 //
 // This gets mapped into an LLVM function with the name
 // `OracleCompiler__RunProgram` (periods in the fully-qualified
@@ -17,7 +17,7 @@
 // type corresponds to the `void` type in C++.
 extern "C"
 {
-    void OracleCompiler__RunProgram();
+    void Microsoft__Quantum__OracleCompiler__RunProgram();
 }
 
 int main()
@@ -26,6 +26,6 @@ int main()
     auto sim = CreateToffoliSimulator();
     QirExecutionContext::Scoped ctx(sim.get(), false);
 
-    OracleCompiler__RunProgram();
+    Microsoft__Quantum__OracleCompiler__RunProgram();
     return 0;
 }

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-namespace OracleCompiler {
+namespace Microsoft.Quantum.OracleCompiler {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Intrinsic;
@@ -14,7 +14,7 @@ namespace OracleCompiler {
 
     @EntryPoint()
     operation RunProgram() : Unit {
-        InitOracleCompilerFor(OracleCompiler.Classical.Majority3);
+        InitOracleCompilerFor(Microsoft.Quantum.OracleCompiler.Classical.Majority3);
 
         use (a, b, c) = (Qubit(), Qubit(), Qubit());
         use f = Qubit();
@@ -45,7 +45,7 @@ namespace OracleCompiler {
     }
 }
 
-namespace OracleCompiler.Classical {
+namespace Microsoft.Quantum.OracleCompiler.Classical {
     internal function Majority3(a : Bool, b : Bool, c : Bool) : Bool {
         return (a or b) and (a or c) and (b or c);
     }
