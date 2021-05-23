@@ -1,3 +1,13 @@
+---
+page_type: sample
+languages:
+- qsharp
+- c++
+products:
+- qdk
+description: "This sample shows how to automatically generate oracles from Boolean function specifications leveraging QIR"
+---
+
 # Compile quantum oracles from Q# functions using QIR
 
 Implementing quantum oracles is difficult. Classical oracles are described as
