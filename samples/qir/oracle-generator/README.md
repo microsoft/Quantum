@@ -85,3 +85,15 @@ Call from within the `build` directory:
 ```
 ./host/host_program
 ```
+
+## Manifest
+
+- [CMakeLists.txt](CMakeLists.txt) Main CMake build file that builds the Q# project, the oracle generation executable, and calls it on the generated QIR code before linking it with the host program.
+- [qsharp/project.csproj](qsharp/project.csproj) Q# project file for the sample (building this project is triggered via CMake).
+- [qsharp/Program.qs](qsharp/Program.qs) Q# program containing the oracle specification and the empty oracle operation to be generated.
+- [host/CMakeLists.txt](host/CMakeLists.txt) C++ host program project file (will be called from the main CMake build).
+- [host/main.cpp](host/main.cpp) Host program to link with the generated QIR code from the Q# project.
+- [oracle-compiler/CMakeLists.txt](oracle-compiler/CMakeLists.txt) Oracle generator project file (can be used stand-alone, but is called from the main CMake file in this project).
+- [oracle-compiler/oracle_compiler.cpp](oracle-compiler/oracle_compiler.cpp) Main entry point for the oracle generator.
+- [oracle-compiler/read_qir.hpp](oracle-compiler/read_qir.hpp) Helper functions to create a logic network from an LLVM function, representing the input Q# function.
+- [oracle-compiler/write_qir.hpp](oracle-compiler/write_qir.hpp) Helper functions to write a logic network into an LLVM function, representing the implementation for the empty Q# operation.
