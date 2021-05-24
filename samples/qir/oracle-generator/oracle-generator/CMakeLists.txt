@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11)
-project(sample.qir.oracle-compiler)
+project(sample.qir.oracle-generator)
 include(FetchContent)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -17,12 +17,12 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(mockturtle)
 
-add_executable(oracle_compiler oracle_compiler.cpp)
-target_compile_definitions(oracle_compiler PUBLIC
+add_executable(oracle_generator oracle_generator.cpp)
+target_compile_definitions(oracle_generator PUBLIC
     DISABLE_NAUTY
     FMT_HEADER_ONLY
 )
-target_include_directories(oracle_compiler SYSTEM PUBLIC
+target_include_directories(oracle_generator SYSTEM PUBLIC
     ${LLVM_INCLUDE_DIRS}
     ${mockturtle_SOURCE_DIR}/include/
     ${mockturtle_SOURCE_DIR}/lib/abcsat/
@@ -32,4 +32,4 @@ target_include_directories(oracle_compiler SYSTEM PUBLIC
     ${mockturtle_SOURCE_DIR}/lib/parallel_hashmap/
     ${mockturtle_SOURCE_DIR}/lib/percy/
 )
-target_link_libraries(oracle_compiler PUBLIC ${LLVM_LIBS})
+target_link_libraries(oracle_generator PUBLIC ${LLVM_LIBS})

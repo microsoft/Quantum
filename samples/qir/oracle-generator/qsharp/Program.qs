@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-namespace Microsoft.Quantum.OracleCompiler {
+namespace Microsoft.Quantum.OracleGenerator {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Intrinsic;
@@ -9,12 +9,12 @@ namespace Microsoft.Quantum.OracleCompiler {
     operation Majority3(inputs : (Qubit, Qubit, Qubit), output : Qubit) : Unit {
         // The implementation of this operation will be
         // automatically derived from the description in
-        // OracleCompiler.Classical.Majority3
+        // OracleGenerator.Classical.Majority3
     }
 
     @EntryPoint()
     operation RunProgram() : Unit {
-        InitOracleCompilerFor(Microsoft.Quantum.OracleCompiler.Classical.Majority3);
+        InitOracleGeneratorFor(Microsoft.Quantum.OracleGenerator.Classical.Majority3);
 
         use (a, b, c) = (Qubit(), Qubit(), Qubit());
         use f = Qubit();
@@ -42,7 +42,7 @@ namespace Microsoft.Quantum.OracleCompiler {
     // for which the operation should be generated and (ii) intrinsic operations
     // used to implement the generated operation (X, CNOT, CCNOT) are present in
     // the QIR file emitted by the Q# compiler.
-    internal function InitOracleCompilerFor<'In, 'Out>(func : 'In -> 'Out) : Unit {
+    internal function InitOracleGeneratorFor<'In, 'Out>(func : 'In -> 'Out) : Unit {
         let _ = Microsoft.Quantum.Intrinsic.X;
         let _ = Microsoft.Quantum.Intrinsic.CNOT;
         let _ = Microsoft.Quantum.Intrinsic.CCNOT;
@@ -50,7 +50,7 @@ namespace Microsoft.Quantum.OracleCompiler {
     }
 }
 
-namespace Microsoft.Quantum.OracleCompiler.Classical {
+namespace Microsoft.Quantum.OracleGenerator.Classical {
     // This is the classical implementation that serves as blueprint to generate
     // the empty Majority3 operation automatically.  Note that the input type
     // tuple and the output type correspond to the two inputs to the operation,

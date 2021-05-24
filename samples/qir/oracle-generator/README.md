@@ -8,7 +8,7 @@ products:
 description: "This sample shows how to automatically generate oracles from Boolean function specifications leveraging QIR"
 ---
 
-# Compile quantum oracles from Q# functions using QIR
+# Generate quantum oracles from Q# functions using QIR
 
 Implementing quantum oracles is difficult. Classical oracles are described as
 black boxes in description of algorithms (see, e.g., Hamiltonian simulation,
@@ -25,7 +25,7 @@ the majority-of-three function, which evaluates to true if two ore three of the
 input variables are assigned true.
 
 ```qsharp
-namespace OracleCompiler.Classical {
+namespace Microsoft.Quantum.OracleGenerator.Classical {
     function Majority3(a : Bool, b : Bool, c : Bool) : Bool {
         return (a or b) and (a or c) and (b or c);
     }
@@ -36,12 +36,14 @@ A corresponding empty Q# operation (parent namespace, same name) is defined as
 follows:
 
 ```qsharp
-operation Majority3(inputs : (Qubit, Qubit, Qubit), output : Qubit) : Unit {
-    // implementation will be derived automatically
+namespace Microsoft.Quantum.OracleGenerator {
+    operation Majority3(inputs : (Qubit, Qubit, Qubit), output : Qubit) : Unit {
+        // implementation will be derived automatically
+    }
 }
 ```
 
-The oracle compiler implemented in this sample automatically finds an optimized
+The oracle generator implemented in this sample automatically finds an optimized
 implementation for `Majority3` based on a QIR representation of the program. The
 sample uses the [LLVM compiler infrastructure project](https://llvm.org/) and
 the [EPFL logic synthesis libraries](https://github.com/lsils/lstools-showcase)
@@ -58,7 +60,7 @@ that supports C++ 17.
   into QIR; it contains an empty operation for which the implementation will be
   automatically generated
 * [host](./host): C++ host program that calls into the QIR code.
-* [oracle-compiler](./oracle-compiler): A C++ program that takes QIR generated
+* [oracle-generator](./oracle-generator): A C++ program that takes QIR generated
   from the Q# compiler and adds implementation details to empty operations based
   on Q# functions in the original code.
 
@@ -96,7 +98,7 @@ Call from within the `build` directory:
 - [qsharp/Program.qs](qsharp/Program.qs) Q# program containing the oracle specification and the empty oracle operation to be generated.
 - [host/CMakeLists.txt](host/CMakeLists.txt) C++ host program project file (will be called from the main CMake build).
 - [host/main.cpp](host/main.cpp) Host program to link with the generated QIR code from the Q# project.
-- [oracle-compiler/CMakeLists.txt](oracle-compiler/CMakeLists.txt) Oracle generator project file (can be used stand-alone, but is called from the main CMake file in this project).
-- [oracle-compiler/oracle_compiler.cpp](oracle-compiler/oracle_compiler.cpp) Main entry point for the oracle generator.
-- [oracle-compiler/read_qir.hpp](oracle-compiler/read_qir.hpp) Helper functions to create a logic network from an LLVM function, representing the input Q# function.
-- [oracle-compiler/write_qir.hpp](oracle-compiler/write_qir.hpp) Helper functions to write a logic network into an LLVM function, representing the implementation for the empty Q# operation.
+- [oracle-generator/CMakeLists.txt](oracle-generator/CMakeLists.txt) Oracle generator project file (can be used stand-alone, but is called from the main CMake file in this project).
+- [oracle-generator/oracle_generator.cpp](oracle-generator/oracle_generator.cpp) Main entry point for the oracle generator.
+- [oracle-generator/read_qir.hpp](oracle-generator/read_qir.hpp) Helper functions to create a logic network from an LLVM function, representing the input Q# function.
+- [oracle-generator/write_qir.hpp](oracle-generator/write_qir.hpp) Helper functions to write a logic network into an LLVM function, representing the implementation for the empty Q# operation.

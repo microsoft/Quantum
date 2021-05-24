@@ -9,18 +9,18 @@ add_custom_target(compile-qsharp
     BYPRODUCTS ${QIR_FILE}
 )
 
-add_custom_target(compile-qir-oracle
-    COMMAND oracle_compiler ${QIR_FILE} ${QIR_OUT_FILE}
-    DEPENDS oracle_compiler compile-qsharp
+add_custom_target(generate-qir-oracle
+    COMMAND oracle_generator ${QIR_FILE} ${QIR_OUT_FILE}
+    DEPENDS oracle_generator compile-qsharp
     BYPRODUCTS ${QIR_OUT_FILE}
-    COMMENT invoking oracle compiler on generated QIR   
+    COMMENT invoking oracle generator on generated QIR   
     VERBATIM
 )
 
 set_source_files_properties(${QIR_OUT_FILE} PROPERTIES LANGUAGE CXX)
 add_library(qir-obj OBJECT ${QIR_OUT_FILE})
 set_target_properties(qir-obj PROPERTIES LINKER_LANGUAGE CXX)
-add_dependencies(qir-obj compile-qir-oracle)
+add_dependencies(qir-obj generate-qir-oracle)
 
 add_executable(host_program main.cpp)
 target_include_directories(host_program SYSTEM PUBLIC ${QSHARP_DIR}/bin/Debug/netcoreapp3.1/runtimes/any/native/include)

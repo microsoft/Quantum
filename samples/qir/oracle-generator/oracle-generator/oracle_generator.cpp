@@ -60,9 +60,9 @@ std::unordered_map<llvm::Function*, llvm::Function*> find_function_pairs(llvm::M
 
     // Q# operations are also LLVM functions.  This second loop checks whether a
     // function name has a corresponding classical Q# function implementation,
-    // in our sample the operation `Microsoft.Quantum.OracleCompiler.Majority3`
+    // in our sample the operation `Microsoft.Quantum.OracleGenerator.Majority3`
     // corresponds to the fuction
-    // `Microsoft.Quantum.OracleCompiler.Classical.Majority3`.  If we find such
+    // `Microsoft.Quantum.OracleGenerator.Classical.Majority3`.  If we find such
     // a match, we save this in the map `function_to_operation`, using the
     // function as the key, and the operation as the value.
     for (auto& f : module.functions())
