@@ -41,6 +41,9 @@ namespace detail
         {
         }
 
+        // initiates logic network generation from the calling function; this
+        // function also initializes signals for primary inputs based on the
+        // function's arguments.
         Ntk run()
         {
             Ntk ntk;
@@ -69,7 +72,9 @@ namespace detail
                 }
             }
 
-            // TODO analyze return value
+            // for now, the sample only supports Boolean functions (i.e., all
+            // input and output types are either of type `Bool` or a tuple of
+            // type `Bool`)
             if (!analyze_function_signature(function))
             {
                 fmt::print("[e] function signature not supported: inputs must be Bool and return type must be Bool or "
@@ -86,6 +91,8 @@ namespace detail
         }
 
       private:
+        // process one function (this function can be called recursively if the
+        // calling function calls other functions)
         typename std::vector<typename Ntk::signal> process_function(Ntk& ntk, llvm::Function& function)
         {
             llvm::legacy::FunctionPassManager mgr(function.getParent());
@@ -97,6 +104,9 @@ namespace detail
             return process_block(ntk, function.getEntryBlock());
         }
 
+        // During logic network generation, each instruction (llvm::Value) is
+        // assigned logic network signals, which can be retrieved from this
+        // function.
         typename std::vector<typename Ntk::signal> const& get_signal(Ntk& ntk, llvm::Value const* value)
         {
             llvm::ConstantInt const* constant = nullptr;
@@ -122,31 +132,59 @@ namespace detail
             }
         }
 
+        // Process one basic block in an LLVM function.
         typename std::vector<typename Ntk::signal> process_block(Ntk& ntk, llvm::BasicBlock const& block)
         {
+            // Iterate through each instruction in the block.
             for (auto const& inst : block)
             {
+                // Generate logic network nodes based on different LLVM
+                // instruction types.
+                //
+                // The case statements are not exhaustive to illustrate this
+                // sample, but in a real world application all possible LLVM
+                // instructions should be handled.
                 switch (inst.getOpcode())
                 {
                 default:
                     fmt::print("[e] unsupported op code {}\n", inst.getOpcodeName());
+                    print(&inst);
+                    std::abort();
                     break;
 
                 case llvm::Instruction::And:
-                    value_signals[&inst] = {ntk.create_and(
-                        value_signals[inst.getOperand(0u)].front(), value_signals[inst.getOperand(1u)].front())};
-                    break;
-
+                {
+                    auto const& lhs = get_signal(ntk, inst.getOperand(0u));
+                    auto const& rhs = get_signal(ntk, inst.getOperand(1u));
+                    std::vector<typename Ntk::signal> ands;
+                    std::transform(
+                        lhs.begin(), lhs.end(), rhs.begin(), std::back_inserter(ands),
+                        [&](auto const& a, auto const& b) { return ntk.create_and(a, b); });
+                    value_signals[&inst] = ands;
+                }
+                break;
                 case llvm::Instruction::Or:
-                    value_signals[&inst] = {ntk.create_or(
-                        value_signals[inst.getOperand(0u)].front(), value_signals[inst.getOperand(1u)].front())};
-                    break;
-
+                {
+                    auto const& lhs = get_signal(ntk, inst.getOperand(0u));
+                    auto const& rhs = get_signal(ntk, inst.getOperand(1u));
+                    std::vector<typename Ntk::signal> ors;
+                    std::transform(
+                        lhs.begin(), lhs.end(), rhs.begin(), std::back_inserter(ors),
+                        [&](auto const& a, auto const& b) { return ntk.create_or(a, b); });
+                    value_signals[&inst] = ors;
+                }
+                break;
                 case llvm::Instruction::Xor:
-                    value_signals[&inst] = {ntk.create_xor(
-                        value_signals[inst.getOperand(0u)].front(), value_signals[inst.getOperand(1u)].front())};
-                    break;
-
+                {
+                    auto const& lhs = get_signal(ntk, inst.getOperand(0u));
+                    auto const& rhs = get_signal(ntk, inst.getOperand(1u));
+                    std::vector<typename Ntk::signal> xors;
+                    std::transform(
+                        lhs.begin(), lhs.end(), rhs.begin(), std::back_inserter(xors),
+                        [&](auto const& a, auto const& b) { return ntk.create_xor(a, b); });
+                    value_signals[&inst] = xors;
+                }
+                break;
                 case llvm::Instruction::ICmp:
                 {
                     auto const* cmpInst = llvm::dyn_cast<llvm::ICmpInst const>(&inst);
@@ -158,15 +196,27 @@ namespace detail
                             llvm::ICmpInst::getPredicateName(cmpInst->getPredicate()).str());
                         break;
                     case llvm::ICmpInst::Predicate::ICMP_EQ:
-                        // TODO multi-bit comparison
-                        value_signals[&inst] = {ntk.create_xnor(
-                            value_signals[inst.getOperand(0u)].front(), value_signals[inst.getOperand(1u)].front())};
-                        break;
+                    {
+                        auto const& lhs = get_signal(ntk, inst.getOperand(0u));
+                        auto const& rhs = get_signal(ntk, inst.getOperand(1u));
+                        std::vector<typename Ntk::signal> xnors;
+                        std::transform(
+                            lhs.begin(), lhs.end(), rhs.begin(), std::back_inserter(xnors),
+                            [&](auto const& a, auto const& b) { return ntk.create_xnor(a, b); });
+                        value_signals[&inst] = {ntk.create_nary_and(xnors)};
+                    }
+                    break;
                     case llvm::ICmpInst::Predicate::ICMP_NE:
-                        // TODO multi-bit comparison
-                        value_signals[&inst] = {ntk.create_xor(
-                            value_signals[inst.getOperand(0u)].front(), value_signals[inst.getOperand(1u)].front())};
-                        break;
+                    {
+                        auto const& lhs = get_signal(ntk, inst.getOperand(0u));
+                        auto const& rhs = get_signal(ntk, inst.getOperand(1u));
+                        std::vector<typename Ntk::signal> xors;
+                        std::transform(
+                            lhs.begin(), lhs.end(), rhs.begin(), std::back_inserter(xors),
+                            [&](auto const& a, auto const& b) { return ntk.create_xor(a, b); });
+                        value_signals[&inst] = {ntk.create_nary_or(xors)};
+                    }
+                    break;
                     case llvm::ICmpInst::Predicate::ICMP_SGT:
                     {
                         auto carry = ntk.get_constant(true);
@@ -373,13 +423,11 @@ namespace detail
                     if (const auto it = tuple_header_elements.find(inst.getOperand(1u));
                         it != tuple_header_elements.end())
                     {
-                        *(it->second) = value_signals[inst.getOperand(0u)].front();
+                        *(it->second) = get_signal(ntk, inst.getOperand(0u)).front();
                     }
                     else
                     {
-                        // TODO: check if value exists
-                        auto const* storeInst = llvm::dyn_cast<llvm::StoreInst const>(&inst);
-                        value_signals[inst.getOperand(1u)] = value_signals[inst.getOperand(0u)];
+                        value_signals[inst.getOperand(1u)] = get_signal(ntk, inst.getOperand(0u));
                     }
                 }
                 break;
