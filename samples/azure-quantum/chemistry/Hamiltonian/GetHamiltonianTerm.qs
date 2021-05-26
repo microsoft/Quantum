@@ -5,10 +5,29 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
     open Microsoft.Quantum.Core;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Measurement;
+    open Microsoft.Quantum.Chemistry.JordanWigner.VQE;
+
+
+    /// # Summary
+    /// Wrapper for Q# library function that expands the compact representation of
+    /// the Jordan-Wigner coefficients in order to obtain a one-to-one mapping between
+    /// these and Pauli terms.
+    ///
+    /// # Input
+    /// ## coeff
+    /// An array of coefficients, as read from the Jordan-Wigner Hamiltonian data structure.
+    /// ## termType
+    /// The type of the Jordan-Wigner term.
+    ///
+    /// # Output
+    /// Expanded arrays of coefficients, one per Pauli term.
+    function ExpandedCoefficients_(coeff : Double[], termType : Int) : Double[] {
+        return ExpandedCoefficients(coeff, termType);
+    }
     
     /// # Summary
     /// Prepare a simple trial state for H2 that is close to
-    // the ground state.
+    /// the ground state.
     ///
     /// # Input
     /// ## register
