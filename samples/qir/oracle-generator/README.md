@@ -49,6 +49,12 @@ sample uses the [LLVM compiler infrastructure project](https://llvm.org/) and
 the [EPFL logic synthesis libraries](https://github.com/lsils/lstools-showcase)
 to optimize the quantum operation implementation generated for the functions.
 
+> **Note:** This QIR-based oracle generation sample is still in preview and
+> depends on an alpha version of the QDK.  Also, the main purpose of this sample
+> is to illustrate a capability offered by the QIR infrastructure, and *not*
+> providing a general purpose oracle generator that supports arbitrary Q#
+> functions.
+
 ## Prerequisites
 
 You need an installation of LLVM 11, CMake, and the clang compiler in a version
