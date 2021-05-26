@@ -25,6 +25,9 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
     /// Measure qubit register that is prepared in a state close to the ground
     /// state for a given measurement operator that corresponds to a single term
     /// in the Hamiltonian.
+    /// This operation will be the entry point for an Azure Quantum service
+    /// submission, and that the target will run it many times reporting the
+    /// histogram over those shots
     ///
     /// # Input
     /// ## nOp
