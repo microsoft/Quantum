@@ -22,7 +22,7 @@ The program takes one command-line option, `--n-qubits`, to control the number o
 ## Running the sample on a local simulator
 
 ```dotnetcli
-dotnet run -- --simulator QuantumSimulator --pattern-int 6 --register-size 4
+dotnet run -- --simulator QuantumSimulator --pattern-int 6 --register-size 3
 ```
 
 ## Running the sample on Azure Quantum

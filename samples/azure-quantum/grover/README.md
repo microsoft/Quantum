@@ -31,7 +31,7 @@ dotnet run -- --simulator QuantumSimulator --n-qubits=3 --idx-marked=6
 Make sure that you have [created and selected a quantum workspace](https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal), and then run the following at the command line, substituting `TARGET` with the target that you would like to run against (e.g.: `ionq.qpu` or `honeywell.hqs-lt-1.0`):
 
 ```azcli
-az quantum execute --target-id TARGET -- --n-qubits=4 --idx-marked=6
+az quantum execute --target-id TARGET -- --n-qubits=3 --idx-marked=6
 ```
 
 For a full list of available QIO and quantum computing targets, run:
