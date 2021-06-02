@@ -33,11 +33,9 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
     /// ## register
     /// The register in which to prepare the state.
     operation PrepareState (register: Qubit[]) : Unit is Adj {
-        body (...) {
-            // Prepare a state that is close to the ground state of H2
-            X(register[0]);
-            X(register[1]);
-        }
+        // Prepare a state that is close to the ground state of H2
+        X(register[0]);
+        X(register[1]);
     }
 
     /// # Summary
