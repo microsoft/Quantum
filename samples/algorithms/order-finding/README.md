@@ -3,7 +3,7 @@
 This sample uses a quantum algorithm to find the order of a cycle in a permutation.
 It succeeds with a higher probability than the classical best possible strategy.
 A challenge in the algorithm is to find a quantum circuit to realize the input permutation.
-We utilize [reversible logic synthesis](../ReversibleLogicSynthesis) for this task.
+We utilize [reversible logic synthesis](../reversible-logic-synthesis) for this task.
 
 The algorithm has been presented by L.M.K. Vandersypen, M. Steffen, G. Breyta, C.S. Yannoni, R. Cleve,
 and I.L. Chuang in [Experimental realization of an order-finding algorithm with an NMR quantum computer](https://doi.org/10.1103/PhysRevLett.85.5452),
@@ -20,7 +20,7 @@ The value `VALUE` passed to the index argument must be between 0 and 3 inclusive
 
 - **OrderFinding/**
   - [OrderFinding.csproj](./OrderFinding.csproj): Main C# project for the example.
-  - [Program.cs](./Program.cs): C# code to call the operations defined in Q# and perform classical post-processing.
+  - [Program.qs](./Program.qs): Q# operations and functions making up the quantum application for order finding.
   - [OrderFinding.qs](./OrderFinding.qs): The Q# implementation of the order finding algorithm.
 
 ## Example run

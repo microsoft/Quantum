@@ -18,7 +18,7 @@ jupyter:
 
 These samples demonstrate the use of Q# and the Quantum Development Kit for a variety of different quantum computing tasks.
 
-Many samples can be used directly in your browser using either Q# on its own, or Q# togther with Python.
+Many samples can be used directly in your browser using either Q# on its own, or Q# together with Python.
 Alternatively, you can [create a new command line terminal](http://127.0.0.1:8888/terminals/new) to run most Q# standalone samples, as well as samples that demonstrate how to use Q# together with Python or .NET.
 
 A small number of the samples have additional installation requirements beyond those for the rest of the Quantum Development Kit.
@@ -196,7 +196,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Chemistry:</strong></td>
-      <td><strong><a href="/tree/samples/chemistry/AnalyzeHamiltonian">Hamiltonian analysis</a></strong></td>
+      <td><strong><a href="./samples/chemistry/AnalyzeHamiltonian">Hamiltonian analysis</a></strong></td>
       <td></td>
       <td><a href="./samples/chemistry/AnalyzeHamiltonian/host.py">Q# + Python</a></td>
       <td></td>
@@ -204,7 +204,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/tree/samples/chemistry/CreateHubbardHamiltonian">Hubbard model</a></strong> (data model)</td>
+      <td><strong><a href="./samples/chemistry/CreateHubbardHamiltonian">Hubbard model</a></strong> (data model)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -212,7 +212,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/tree/samples/chemistry/SimulateHubbardHamiltonian">Hubbard model</a></strong> (simulation)</td>
+      <td><strong><a href="./samples/chemistry/SimulateHubbardHamiltonian">Hubbard model</a></strong> (simulation)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -220,7 +220,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/tree/samples/chemistry/GetGateCount">Gate counting</a></strong></td>
+      <td><strong><a href="./samples/chemistry/GetGateCount">Gate counting</a></strong></td>
       <td></td>
       <td></td>
       <td></td>
@@ -228,7 +228,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/tree/samples/chemistry/LithiumHydrideGUI">LiH</a></strong> (GUI)</td>
+      <td><strong><a href="./samples/chemistry/LithiumHydrideGUI">LiH</a></strong> (GUI)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -236,7 +236,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/tree/samples/chemistry/MolecularHydrogen">Molecular hydrogen</a></strong> (command-line)</td>
+      <td><strong><a href="./samples/chemistry/MolecularHydrogen">Molecular hydrogen</a></strong> (command-line)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -244,7 +244,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/tree/samples/chemistry/MolecularHydrogenGUI">Molecular hydrogen</a></strong> (GUI)</td>
+      <td><strong><a href="./samples/chemistry/MolecularHydrogenGUI">Molecular hydrogen</a></strong> (GUI)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -252,7 +252,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/tree/samples/chemistry/RunSimulation">Simulation</a></strong> (GUI)</td>
+      <td><strong><a href="./samples/chemistry/RunSimulation">Simulation</a></strong> (GUI)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -356,7 +356,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Numerics:</strong></td>
-      <td><strong><a href="/tree/samples/numerics/CustomModAdd">Custom modular addition</a></strong></td>
+      <td><strong><a href="./samples/numerics/CustomModAdd">Custom modular addition</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -364,7 +364,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/tree/samples/numerics/EvaluatingFunctions">Evaluating functions</a></strong></td>
+      <td><strong><a href="./samples/numerics/EvaluatingFunctions">Evaluating functions</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -372,7 +372,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="/tree/samples/numerics/ResourceCounting">Resource counting</a></strong></td>
+      <td><strong><a href="./samples/numerics/ResourceCounting">Resource counting</a></strong></td>
       <td><a href="./samples/numerics/ResourceCounting/ResourceEstimation.ipynb">Q# notebook</a></td>
       <td></td>
       <td>Q# standalone</td>

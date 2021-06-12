@@ -6,7 +6,7 @@
 # the file qrng.qs.
 
 # For instructions on how to install the qsharp package,
-# see: https://docs.microsoft.com/quantum/install-guide/python
+# see: https://docs.microsoft.com/azure/quantum/install-python-qdk
 
 import qsharp
 from Qrng import SampleQuantumRandomNumberGenerator # We import the 

@@ -1,0 +1,44 @@
+name: Prepare samples for onboarding to docs.ms/samples.
+
+on:
+  push:
+    branches:
+    - main
+    - cgranade/prep-frontmatter # For testing only.
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Restore .NET tools
+      run: dotnet tool restore
+      shell: pwsh
+      working-directory: ".github/workflows"
+    - name: Filter frontmatter
+      run: |
+        Get-ChildItem -Recurse ../../README.md | ForEach-Object {
+            dotnet script ./filter_sample_frontmatter.csx $_.FullName $_.FullName
+        }
+      shell: pwsh
+      working-directory: ".github/workflows"
+    - name: Update Binder configuration
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        # Make a new commit that we'll use on the ⭐samples branch.
+        git add .
+        git commit -m "Prepare samples for publication to docs.microsoft.com/samples"
+        $ThisCommit = git rev-parse HEAD;
+        git checkout ⭐samples
+        git reset --hard $ThisCommit
+      shell: pwsh
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        force: true
+        branch: ⭐samples

@@ -29,7 +29,7 @@ This sample demonstrates:
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 
@@ -62,4 +62,4 @@ Press Start in Visual Studio to run the sample.
 
 - [ReversibleLogicSynthesis.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/reversible-logic-synthesis/ReversibleLogicSynthesis.qs): Main Q# code for this sample.
 - [host.py](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/reversible-logic-synthesis/host.py): Python host program to call into the Q# sample.
-- [ReversibleLogicSynthesis.csproj](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/reversible-logic-synthesis/CHSHGame.csproj): Main Q# project for the sample.
+- [ReversibleLogicSynthesis.csproj](./ReversibleLogicSynthesis.csproj): Main Q# project for the sample.

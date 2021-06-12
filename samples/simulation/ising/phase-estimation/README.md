@@ -16,6 +16,6 @@ Press Start in Visual Studio to run the sample.
 
 ## Related Samples ##
 
-This sample builds on results in [AdiabaticIsingSample](./../AdiabaticIsingSample)
-and uses techniques introduced in [PhaseEstimationSample](./../PhaseEstimationSample).
+This sample builds on results in [AdiabaticIsingSample](../adiabatic)
+and uses techniques introduced in [PhaseEstimationSample](../phase-estimation).
 We suggest reading those samples before continuing.

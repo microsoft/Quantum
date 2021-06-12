@@ -12,5 +12,5 @@
   This sample demonstrates a famous nonlocal game which proves that no theory of local hidden variables can ever reproduce all the predictions of quantum mechanics.
 - **[Oracle Synthesis](./oracle-synthesis)**:
   This sample demonstrates how to build quantum oracles from reversible classical logic.
-- **[Order Finding](./oracle-finding)**:
+- **[Order Finding](./order-finding)**:
   This sample uses a quantum algorithm to find the order of a cycle in a permutation.

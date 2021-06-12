@@ -22,7 +22,7 @@ We start by preparing an auxiliary qubit into the superposition state by applyin
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 
@@ -36,5 +36,5 @@ To run the sample, run `python syndrome.py --qubits <N>`, where `<N>` is replace
 
 ## Further resources
 
-- [Error correction library concepts](https://docs.microsoft.com/quantum/libraries/standard/error-correction)
-- [Pauli measurements](https://docs.microsoft.com/en-us/quantum/concepts/pauli-measurements)
+- [Error correction library concepts](https://docs.microsoft.com/azure/quantum/user-guide/libraries/standard/error-correction)
+- [Pauli measurements](https://docs.microsoft.com/azure/quantum/concepts-pauli-measurements)
