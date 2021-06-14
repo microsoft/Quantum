@@ -1,0 +1,37 @@
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+---
+Language: Cpp
+BasedOnStyle: Microsoft
+
+# page width
+ColumnLimit: 120
+ReflowComments: true
+
+# tabs and indents
+UseTab: Never
+IndentWidth: 4
+TabWidth: 4
+AccessModifierOffset: -2
+NamespaceIndentation: Inner
+
+# line and statements layout
+BreakBeforeBraces: Allman
+BinPackParameters: false
+AlignAfterOpenBracket: AlwaysBreak
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortFunctionsOnASingleLine: Empty
+AllowAllConstructorInitializersOnNextLine: false
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: false
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: BeforeComma
+
+# misc
+Cpp11BracedListStyle: true
+FixNamespaceComments: true
+IncludeBlocks: Preserve
+SpaceBeforeInheritanceColon : true
+SpaceBeforeParens: ControlStatements
+DerivePointerAlignment: false
+PointerAlignment: Left
