@@ -20,7 +20,7 @@
 #include <mockturtle/networks/xag.hpp>
 #include <mockturtle/utils/cost_functions.hpp>
 
-// W modify LLVM through the object model provided by the LLVM C++ API.
+// We modify LLVM through the object model provided by the LLVM C++ API.
 #include <llvm/ADT/StringExtras.h>
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/IRBuilder.h>
