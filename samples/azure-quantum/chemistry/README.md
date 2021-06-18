@@ -37,7 +37,7 @@ To run the second notebook, make sure to first create an Azure subscription and 
 - [Hamiltonian/GetHamiltonianTerm.qs](Hamiltonian/GetHamiltonianTerm.qs): Program that estimates the energy for a single Hamiltonian term.
 - [Hamiltonian/Hamiltonian.csproj](Hamiltonian/Hamiltonian.csproj): Q# project file for this sample.
 - [Hamiltonian/Approximate Energy using Jordan-Wigner transformation.ipynb
-.ipynb](Hamiltonian/Approximate Energy using Jordan-Wigner transformation.ipynb
+.ipynb](Hamiltonian/Approximate%20Energy%20using%20Jordan-Wigner%20transformation.ipynb
 .ipynb): Jupyter notebook that runs program on Azure Quantum via IonQ simulator and QPU.
 - [data/broombridge/caffeine.yaml](data/broombridge/caffeine.yaml): Broombridge file for caffeine molecule
 - [data/broombridge/HHO.yaml](data/broombridge/HHO.yaml): Broombridge file for HHO molecule
