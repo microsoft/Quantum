@@ -17,3 +17,4 @@ RUN chown -R ${USER}:${USER} /home/${USER}/.azure
 
 # Finish by dropping back to the notebook user.
 USER ${USER}
+
