@@ -8,16 +8,16 @@ $all_ok = $True
 
 function Build-One {
     param(
-        $project
+        $Project
     );
 
-    $project_directory = $(Split-Path $project -Parent)
-    $project_name = $(Split-Path $project -LeafBase)
+    $projectDirectory = $(Split-Path $Project -Parent)
+    $projectName = $(Split-Path $Project -LeafBase)
 
-    pushd $project_directory
+    Push-Location $projectDirectory
 
-    Write-Host "##[info]Building $project..."
-    dotnet build $project `
+    Write-Host "##[info]Building $Project..."
+    dotnet build $Project `
         -c $Env:BUILD_CONFIGURATION `
         -v $Env:BUILD_VERBOSITY `
         --no-dependencies `
@@ -26,20 +26,20 @@ function Build-One {
         /property:QirGeneration="true"
 
     if  ($LastExitCode -ne 0) {
-        Write-Host "##vso[task.logissue type=error;]Failed to build $project."
+        Write-Host "##vso[task.logissue type=error;]Failed to build $Project."
         $script:all_ok = $False
     } else {
         qir-cli `
-            --dll (Join-Path bin $Env:BUILD_CONFIGURATION netcoreapp3.1 "${project_name}.dll") `
+            --dll (Join-Path bin $Env:BUILD_CONFIGURATION netcoreapp3.1 "${projectName}.dll") `
             --exe qir
         if  ($LastExitCode -ne 0) {
-            Write-Host "##vso[task.logissue type=error;]Failed to build $project."
+            Write-Host "##vso[task.logissue type=error;]Failed to build $Project."
             $script:all_ok = $False
         } else {
             Get-ChildItem (Join-Path qir *__Interop.exe) `
                 | ForEach-Object { & $_ }
             if  ($LastExitCode -ne 0) {
-                Write-Host "##vso[task.logissue type=error;]$project encountered an error or failed during execution."
+                Write-Host "##vso[task.logissue type=error;]$Project encountered an error or failed during execution."
                 $script:all_ok = $False
             }
         }
@@ -47,11 +47,11 @@ function Build-One {
 
     if ($env:FORCE_CLEANUP -eq "true") {
         # Force cleanup of generated bin, obj, and qir folders for this project.
-        Write-Host "##[info]Cleaning up bin/obj from $project_directory..."
-        Get-ChildItem -Path $project_directory -Recurse | Where-Object { ($_.name -eq "bin" -or $_.name -eq "obj" -or $_.name -eq "qir") -and $_.attributes -eq "Directory" } | Remove-Item -recurse -force
+        Write-Host "##[info]Cleaning up bin/obj from $projectDirectory..."
+        Get-ChildItem -Path $projectDirectory -Recurse | Where-Object { ($_.name -eq "bin" -or $_.name -eq "obj" -or $_.name -eq "qir") -and $_.attributes -eq "Directory" } | Remove-Item -recurse -force
     }
 
-    popd
+    Pop-Location
 }
 
 # The commented out lines are sample projects that are not yet compatible for QIR generation/execution. 
