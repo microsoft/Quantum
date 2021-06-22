@@ -110,8 +110,13 @@ $QirProjects = @(
     # needs argument(s) #(Join-Path $PSScriptRoot .. samples simulation qaoa QAOA.csproj)
 )
 
-$QirProjects `
-    | ForEach-Object { Build-One $_ }
+if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
+    Write-Host "##[error]The qir-cli command is missing; you can install it by running `dotnet tool install Microsoft.Quantum.Qir.CommandLineTool -g`.";
+    $script:allOk = $False
+} else {
+    $QirProjects `
+        | ForEach-Object { Build-One $_ }
+}
 
 if (-not $allOk) {
     throw "At least one sample failed build. Check the logs."
