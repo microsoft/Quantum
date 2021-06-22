@@ -4,7 +4,7 @@
 $ErrorActionPreference = 'Stop'
 
 & "$PSScriptRoot/set-env.ps1"
-$all_ok = $True
+$allOk = $True
 
 function Build-One {
     param(
@@ -27,20 +27,20 @@ function Build-One {
 
     if  ($LastExitCode -ne 0) {
         Write-Host "##vso[task.logissue type=error;]Failed to build $Project."
-        $script:all_ok = $False
+        $script:allOk = $False
     } else {
         qir-cli `
             --dll (Join-Path bin $Env:BUILD_CONFIGURATION netcoreapp3.1 "${projectName}.dll") `
             --exe qir
         if  ($LastExitCode -ne 0) {
             Write-Host "##vso[task.logissue type=error;]Failed to build $Project."
-            $script:all_ok = $False
+            $script:allOk = $False
         } else {
             Get-ChildItem (Join-Path qir *__Interop.exe) `
                 | ForEach-Object { & $_ }
             if  ($LastExitCode -ne 0) {
                 Write-Host "##vso[task.logissue type=error;]$Project encountered an error or failed during execution."
-                $script:all_ok = $False
+                $script:allOk = $False
             }
         }
     }
@@ -113,6 +113,6 @@ $QirProjects = @(
 $QirProjects `
     | ForEach-Object { Build-One $_ }
 
-if (-not $all_ok) {
+if (-not $allOk) {
     throw "At least one sample failed build. Check the logs."
 }
