@@ -8,7 +8,8 @@ $allOk = $True
 
 function Build-One {
     param(
-        $Project
+        $Project,
+        $Arguments
     );
 
     $projectDirectory = $(Split-Path $Project -Parent)
@@ -37,7 +38,7 @@ function Build-One {
             $script:allOk = $False
         } else {
             Get-ChildItem (Join-Path qir *__Interop.exe) `
-                | ForEach-Object { & $_ }
+                | ForEach-Object { & $_ @Arguments}
             if  ($LastExitCode -ne 0) {
                 Write-Host "##vso[task.logissue type=error;]$Project encountered an error or failed during execution."
                 $script:allOk = $False
@@ -58,64 +59,64 @@ function Build-One {
 # 'not compatible' means that the structure of the sample is not compatible for QIR generation.
 # 'needs argument(s)' means that the sample can generated QIR, but running the exe requires command line arguments.
 # 'package version issue' means there is an issue with the versioning of the packages involved, disallowing QIR generation.
-$QirProjects = @(
-    # not compatible #(Join-Path $PSScriptRoot .. samples algorithms chsh-game CHSHGame.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples algorithms database-search DatabaseSearchSample.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples algorithms integer-factorization IntegerFactorization.csproj),
-    (Join-Path $PSScriptRoot .. samples algorithms oracle-synthesis OracleSynthesis.csproj),
-    # needs argument(s) #(Join-Path $PSScriptRoot .. samples algorithms order-finding OrderFinding.csproj),
-    # needs argument(s) #(Join-Path $PSScriptRoot .. samples algorithms repeat-until-success RepeatUntilSuccess.csproj),
-    (Join-Path $PSScriptRoot .. samples algorithms reversible-logic-synthesis ReversibleLogicSynthesis.csproj),
-    # needs argument(s) #(Join-Path $PSScriptRoot .. samples algorithms simple-grover SimpleGroverSample.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples algorithms sudoku-grover SudokuGroverSample.csproj),
+$qirProjects = @(
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms chsh-game CHSHGame.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms database-search DatabaseSearchSample.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms integer-factorization IntegerFactorization.csproj); Args = @() },
+    @{ Path = (Join-Path $PSScriptRoot .. samples algorithms oracle-synthesis OracleSynthesis.csproj); Args = @() },
+    @{ Path = (Join-Path $PSScriptRoot .. samples algorithms order-finding OrderFinding.csproj); Args = @("--index", "1") },
+    @{ Path = (Join-Path $PSScriptRoot .. samples algorithms repeat-until-success RepeatUntilSuccess.csproj); Args = @("--gate", "simple", "--input-value", "true", "--input-basis", "PauliX", "--limit", "4", "--num-runs", "2") },
+    @{ Path = (Join-Path $PSScriptRoot .. samples algorithms reversible-logic-synthesis ReversibleLogicSynthesis.csproj); Args = @() },
+    @{ Path = (Join-Path $PSScriptRoot .. samples algorithms simple-grover SimpleGroverSample.csproj); Args = @("--nQubits", "8") },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms sudoku-grover SudokuGroverSample.csproj); Args = @() },
 
-    # needs argument(s) #(Join-Path $PSScriptRoot .. samples azure-quantum grover Grover.csproj),
-    # needs argument(s) #(Join-Path $PSScriptRoot .. samples azure-quantum hidden-shift HiddenShift.csproj),
-    # needs argument(s) #(Join-Path $PSScriptRoot .. samples azure-quantum ising-model IsingModel.csproj),
-    # needs argument(s) #(Join-Path $PSScriptRoot .. samples azure-quantum parallel-qrng ParallelQrng.csproj),
-    # package version issue #(Join-Path $PSScriptRoot .. samples azure-quantum teleport Teleport.csproj),
+    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum grover Grover.csproj); Args = @() },
+    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum hidden-shift HiddenShift.csproj); Args = @() },
+    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum ising-model IsingModel.csproj); Args = @() },
+    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum parallel-qrng ParallelQrng.csproj); Args = @() },
+    # package version issue #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum teleport Teleport.csproj); Args = @() },
 
-    (Join-Path $PSScriptRoot .. samples characterization phase-estimation PhaseEstimationSample.csproj),
+    @{ Path = (Join-Path $PSScriptRoot .. samples characterization phase-estimation PhaseEstimationSample.csproj); Args = @() },
 
-    # not compatible #(Join-Path $PSScriptRoot .. samples chemistry AnalyzeHamiltonian 1-AnalyzeHamiltonian.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples chemistry CreateHubbardHamiltonian CreateHubbardHamiltonian.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples chemistry GetGateCount 3-GetGateCount.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples chemistry MolecularHydrogen MolecularHydrogen.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples chemistry RunSimulation 2-RunSimulation.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples chemistry SimulateHubbardHamiltonian SimulateHubbardHamiltonian.csproj),
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples chemistry AnalyzeHamiltonian 1-AnalyzeHamiltonian.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples chemistry CreateHubbardHamiltonian CreateHubbardHamiltonian.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples chemistry GetGateCount 3-GetGateCount.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples chemistry MolecularHydrogen MolecularHydrogen.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples chemistry RunSimulation 2-RunSimulation.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples chemistry SimulateHubbardHamiltonian SimulateHubbardHamiltonian.csproj); Args = @() },
 
-    (Join-Path $PSScriptRoot .. samples error-correction bit-flip-code BitFlipCode.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples error-correction syndrome Syndrome.csproj),
+    @{ Path = (Join-Path $PSScriptRoot .. samples error-correction bit-flip-code BitFlipCode.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples error-correction syndrome Syndrome.csproj); Args = @() },
 
-    (Join-Path $PSScriptRoot .. samples getting-started measurement Measurement.csproj),
-    (Join-Path $PSScriptRoot .. samples getting-started qrng Qrng.csproj),
-    # needs argument(s) #(Join-Path $PSScriptRoot .. samples getting-started simple-algorithms SimpleAlgorithms.csproj),
-    (Join-Path $PSScriptRoot .. samples getting-started teleportation TeleportationSample.csproj),
+    @{ Path = (Join-Path $PSScriptRoot .. samples getting-started measurement Measurement.csproj); Args = @() },
+    @{ Path = (Join-Path $PSScriptRoot .. samples getting-started qrng Qrng.csproj); Args = @() },
+    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples getting-started simple-algorithms SimpleAlgorithms.csproj); Args = @() },
+    @{ Path = (Join-Path $PSScriptRoot .. samples getting-started teleportation TeleportationSample.csproj); Args = @() }
 
-    # not compatible #(Join-Path $PSScriptRoot .. samples machine-learning half-moons HalfMoons.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples machine-learning parallel-half-moons ParallelHalfMoons.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples machine-learning wine Wine.csproj),
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples machine-learning half-moons HalfMoons.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples machine-learning parallel-half-moons ParallelHalfMoons.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples machine-learning wine Wine.csproj); Args = @() },
 
-    # package version issue #(Join-Path $PSScriptRoot .. samples numerics CustomModAdd CustomModAdd.csproj),
-    # package version issue #(Join-Path $PSScriptRoot .. samples numerics EvaluatingFunctions EvaluatingFunctions.csproj),
-    # package version issue #(Join-Path $PSScriptRoot .. samples numerics ResourceCounting ResourceCounting.csproj),
+    # package version issue #@{ Path = (Join-Path $PSScriptRoot .. samples numerics CustomModAdd CustomModAdd.csproj); Args = @() },
+    # package version issue #@{ Path = (Join-Path $PSScriptRoot .. samples numerics EvaluatingFunctions EvaluatingFunctions.csproj); Args = @() },
+    # package version issue #@{ Path = (Join-Path $PSScriptRoot .. samples numerics ResourceCounting ResourceCounting.csproj); Args = @() },
 
-    # not compatible #(Join-Path $PSScriptRoot .. samples simulation h2 command-line H2SimulationSampleCmdLine.csproj),
-    (Join-Path $PSScriptRoot .. samples simulation hubbard HubbardSimulationSample.csproj)
-    # not compatible #(Join-Path $PSScriptRoot .. samples simulation ising adiabatic AdiabaticIsingSample.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples simulation ising generators IsingGeneratorsSample.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples simulation ising phase-estimation IsingPhaseEstimationSample.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples simulation ising simple SimpleIsingSample.csproj),
-    # not compatible #(Join-Path $PSScriptRoot .. samples simulation ising trotter-evolution IsingTrotterSample.csproj),
-    # needs argument(s) #(Join-Path $PSScriptRoot .. samples simulation qaoa QAOA.csproj)
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation h2 command-line H2SimulationSampleCmdLine.csproj); Args = @() },
+    @{ Path = (Join-Path $PSScriptRoot .. samples simulation hubbard HubbardSimulationSample.csproj); Args = @() }
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation ising adiabatic AdiabaticIsingSample.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation ising generators IsingGeneratorsSample.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation ising phase-estimation IsingPhaseEstimationSample.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation ising simple SimpleIsingSample.csproj); Args = @() },
+    # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation ising trotter-evolution IsingTrotterSample.csproj); Args = @() },
+    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples simulation qaoa QAOA.csproj); Args = @() }
 )
 
 if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
     Write-Host "##[error]The qir-cli command is missing; you can install it by running `dotnet tool install Microsoft.Quantum.Qir.CommandLineTool -g`.";
     $script:allOk = $False
 } else {
-    $QirProjects `
-        | ForEach-Object { Build-One $_ }
+    $qirProjects `
+        | ForEach-Object { Build-One $_.Path $_.Args }
 }
 
 if (-not $allOk) {
