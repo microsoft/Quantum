@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.Quantum.Sdk/0.18.2106148912-alpha">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.AutoSubstitution" Version="0.18.2106148912-alpha" IsQscReference="true" />
+  </ItemGroup>
+</Project>
