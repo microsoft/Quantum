@@ -58,7 +58,6 @@ function Build-One {
 # The commented out lines are sample projects that are not yet compatible for QIR generation/execution. 
 # 'not compatible' means that the structure of the sample is not compatible for QIR generation.
 # 'needs argument(s)' means that the sample can generated QIR, but running the exe requires command line arguments.
-# 'package version issue' means there is an issue with the versioning of the packages involved, disallowing QIR generation.
 $qirProjects = @(
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms chsh-game CHSHGame.csproj); Args = @() },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms database-search DatabaseSearchSample.csproj); Args = @() },
@@ -74,7 +73,7 @@ $qirProjects = @(
     # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum hidden-shift HiddenShift.csproj); Args = @() },
     # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum ising-model IsingModel.csproj); Args = @() },
     # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum parallel-qrng ParallelQrng.csproj); Args = @() },
-    # package version issue #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum teleport Teleport.csproj); Args = @() },
+    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum teleport Teleport.csproj); Args = @() },
 
     @{ Path = (Join-Path $PSScriptRoot .. samples characterization phase-estimation PhaseEstimationSample.csproj); Args = @() },
 
@@ -97,9 +96,9 @@ $qirProjects = @(
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples machine-learning parallel-half-moons ParallelHalfMoons.csproj); Args = @() },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples machine-learning wine Wine.csproj); Args = @() },
 
-    # package version issue #@{ Path = (Join-Path $PSScriptRoot .. samples numerics CustomModAdd CustomModAdd.csproj); Args = @() },
-    # package version issue #@{ Path = (Join-Path $PSScriptRoot .. samples numerics EvaluatingFunctions EvaluatingFunctions.csproj); Args = @() },
-    # package version issue #@{ Path = (Join-Path $PSScriptRoot .. samples numerics ResourceCounting ResourceCounting.csproj); Args = @() },
+    @{ Path = (Join-Path $PSScriptRoot .. samples numerics CustomModAdd CustomModAdd.csproj); Args = @() },
+    @{ Path = (Join-Path $PSScriptRoot .. samples numerics EvaluatingFunctions EvaluatingFunctions.csproj); Args = @() },
+    @{ Path = (Join-Path $PSScriptRoot .. samples numerics ResourceCounting ResourceCounting.csproj); Args = @() },
 
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation h2 command-line H2SimulationSampleCmdLine.csproj); Args = @() },
     @{ Path = (Join-Path $PSScriptRoot .. samples simulation hubbard HubbardSimulationSample.csproj); Args = @() }
