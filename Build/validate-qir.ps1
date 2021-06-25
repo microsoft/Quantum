@@ -69,9 +69,9 @@ $qirProjects = @(
     @{ Path = (Join-Path $PSScriptRoot .. samples algorithms simple-grover SimpleGroverSample.csproj); Args = @("--nQubits", "8") },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms sudoku-grover SudokuGroverSample.csproj); Args = @() },
 
-    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum grover Grover.csproj); Args = @() },
-    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum hidden-shift HiddenShift.csproj); Args = @() },
-    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum ising-model IsingModel.csproj); Args = @() },
+    @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum grover Grover.csproj); Args = @("--nQubits", "3", "--idxMarked", "6") },
+    @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum hidden-shift HiddenShift.csproj); Args = @("--patternInt", "6", "--registerSize", "4") },
+    @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum ising-model IsingModel.csproj); Args = @("--nSites", "5", "--time", "5.0", "--dt", "0.1") },
     # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum parallel-qrng ParallelQrng.csproj); Args = @() },
     # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum teleport Teleport.csproj); Args = @() },
 
@@ -90,7 +90,7 @@ $qirProjects = @(
     @{ Path = (Join-Path $PSScriptRoot .. samples getting-started measurement Measurement.csproj); Args = @() },
     @{ Path = (Join-Path $PSScriptRoot .. samples getting-started qrng Qrng.csproj); Args = @() },
     # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples getting-started simple-algorithms SimpleAlgorithms.csproj); Args = @() },
-    @{ Path = (Join-Path $PSScriptRoot .. samples getting-started teleportation TeleportationSample.csproj); Args = @() }
+    @{ Path = (Join-Path $PSScriptRoot .. samples getting-started teleportation TeleportationSample.csproj); Args = @() },
 
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples machine-learning half-moons HalfMoons.csproj); Args = @() },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples machine-learning parallel-half-moons ParallelHalfMoons.csproj); Args = @() },
@@ -110,14 +110,35 @@ $qirProjects = @(
     # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples simulation qaoa QAOA.csproj); Args = @() }
 )
 
+# TODO: this temporary override to only run against a single sample is temporary. It is only here until the testing framework can be validated.
+$qirProjects = @(
+    @{ Path = (Join-Path $PSScriptRoot .. samples getting-started teleportation TeleportationSample.csproj); Args = @() }
+)
+
+Write-Host "##[info]Beginning Microsoft.Quantum.Qir.CommandLineTool installation.";
+
 if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
-    Write-Host "##[error]The qir-cli command is missing; you can install it by running `dotnet tool install Microsoft.Quantum.Qir.CommandLineTool -g`.";
-    $script:allOk = $False
+    $version = ($Env:NUGET_VERSION -split "-")[0] + "-alpha"
+    Write-Host "##[info]Going to install Microsoft.Quantum.Qir.CommandLineTool.$version.";
+    dotnet tool install Microsoft.Quantum.Qir.CommandLineTool --version $version -g
+    if  ($LastExitCode -ne 0) {
+        Write-Host "##[error]Failed to install Microsoft.Quantum.Qir.CommandLineTool.$version.";
+        $script:allOk = $False
+    } else {
+        Write-Host "##[info]The Microsoft.Quantum.Qir.CommandLineTool.$version has been installed.";
+    }
 } else {
-    $qirProjects `
-        | ForEach-Object { Build-One $_.Path $_.Args }
+    Write-Host "##[info]The Microsoft.Quantum.Qir.CommandLineTool is already installed.";
 }
 
-if (-not $allOk) {
-    throw "At least one sample failed build. Check the logs."
+if ($allOk) {
+    Write-Host "##[info]Running Validation of QIR against Samples."
+    $qirProjects `
+        | ForEach-Object { Build-One $_.Path $_.Args }
+    
+    if (-not $allOk) {
+        throw "At least one sample failed build. Check the logs."
+    }
+} else {
+    throw "The Microsoft.Quantum.Qir.CommandLineTool did not install successfully."
 }
