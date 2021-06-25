@@ -112,7 +112,7 @@ $qirProjects = @(
 
 # TODO: this temporary override to only run against a single sample is temporary. It is only here until the testing framework can be validated.
 $qirProjects = @(
-    #@{ Path = (Join-Path $PSScriptRoot .. samples getting-started teleportation TeleportationSample.csproj); Args = @() }
+    @{ Path = (Join-Path $PSScriptRoot .. samples getting-started teleportation TeleportationSample.csproj); Args = @() }
 )
 
 Write-Host "##[info]Beginning Microsoft.Quantum.Qir.CommandLineTool installation.";
