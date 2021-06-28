@@ -30,18 +30,22 @@ function Build-One {
         Write-Host "##vso[task.logissue type=error;]Failed to build $Project."
         $script:allOk = $False
     } else {
+        Write-Host "##[info]Compiling $projectName to executable..."
         qir-cli `
             --dll (Join-Path bin $Env:BUILD_CONFIGURATION netcoreapp3.1 "${projectName}.dll") `
             --exe qir
-        if  ($LastExitCode -ne 0) {
-            Write-Host "##vso[task.logissue type=error;]Failed to build $Project."
+        if  ($LastExitCode -ne 0 -or (Get-ChildItem (Join-Path qir *__Interop.exe)).count -eq 0) {
+            Write-Host "##vso[task.logissue type=error;]Failed to compile $projectName to executable."
             $script:allOk = $False
         } else {
+            Write-Host "##[info]Running $projectName..."
             Get-ChildItem (Join-Path qir *__Interop.exe) `
                 | ForEach-Object { & $_ @Arguments}
             if  ($LastExitCode -ne 0) {
-                Write-Host "##vso[task.logissue type=error;]$Project encountered an error or failed during execution."
+                Write-Host "##vso[task.logissue type=error;]$projectName encountered an error or failed during execution."
                 $script:allOk = $False
+            } else {
+                Write-Host "##[info]QIR validation against $projectName was successful."
             }
         }
     }
@@ -57,23 +61,24 @@ function Build-One {
 
 # The commented out lines are sample projects that are not yet compatible for QIR generation/execution. 
 # 'not compatible' means that the structure of the sample is not compatible for QIR generation.
-# 'needs argument(s)' means that the sample can generated QIR, but running the exe requires command line arguments.
+# 'unresolved external error' indicates a linker error is being throw because there are unresolved external symbols.
+# 'reference decrement error' indicates the execution of the sample crashes because of an error where the reference counter is decremented below zero. 
 $qirProjects = @(
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms chsh-game CHSHGame.csproj); Args = @() },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms database-search DatabaseSearchSample.csproj); Args = @() },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms integer-factorization IntegerFactorization.csproj); Args = @() },
-    @{ Path = (Join-Path $PSScriptRoot .. samples algorithms oracle-synthesis OracleSynthesis.csproj); Args = @() },
-    @{ Path = (Join-Path $PSScriptRoot .. samples algorithms order-finding OrderFinding.csproj); Args = @("--index", "1") },
-    @{ Path = (Join-Path $PSScriptRoot .. samples algorithms repeat-until-success RepeatUntilSuccess.csproj); Args = @("--gate", "simple", "--input-value", "true", "--input-basis", "PauliX", "--limit", "4", "--num-runs", "2") },
-    @{ Path = (Join-Path $PSScriptRoot .. samples algorithms reversible-logic-synthesis ReversibleLogicSynthesis.csproj); Args = @() },
+    # unresolved external error #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms oracle-synthesis OracleSynthesis.csproj); Args = @() },
+    # reference decrement error #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms order-finding OrderFinding.csproj); Args = @("--index", "1") },
+    # unresolved external error #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms repeat-until-success RepeatUntilSuccess.csproj); Args = @("--gate", "simple", "--input-value", "true", "--input-basis", "PauliX", "--limit", "4", "--num-runs", "2") },
+    # reference decrement error #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms reversible-logic-synthesis ReversibleLogicSynthesis.csproj); Args = @() },
     @{ Path = (Join-Path $PSScriptRoot .. samples algorithms simple-grover SimpleGroverSample.csproj); Args = @("--nQubits", "8") },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms sudoku-grover SudokuGroverSample.csproj); Args = @() },
 
     @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum grover Grover.csproj); Args = @("--nQubits", "3", "--idxMarked", "6") },
     @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum hidden-shift HiddenShift.csproj); Args = @("--patternInt", "6", "--registerSize", "4") },
     @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum ising-model IsingModel.csproj); Args = @("--nSites", "5", "--time", "5.0", "--dt", "0.1") },
-    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum parallel-qrng ParallelQrng.csproj); Args = @() },
-    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum teleport Teleport.csproj); Args = @() },
+    @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum parallel-qrng ParallelQrng.csproj); Args = @("--nQubits", "3") },
+    @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum teleport Teleport.csproj); Args = @("--prepBasis", "PauliX", "--measBasis", "PauliX") },
 
     @{ Path = (Join-Path $PSScriptRoot .. samples characterization phase-estimation PhaseEstimationSample.csproj); Args = @() },
 
@@ -84,12 +89,12 @@ $qirProjects = @(
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples chemistry RunSimulation 2-RunSimulation.csproj); Args = @() },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples chemistry SimulateHubbardHamiltonian SimulateHubbardHamiltonian.csproj); Args = @() },
 
-    @{ Path = (Join-Path $PSScriptRoot .. samples error-correction bit-flip-code BitFlipCode.csproj); Args = @() },
+    # unresolved external error #@{ Path = (Join-Path $PSScriptRoot .. samples error-correction bit-flip-code BitFlipCode.csproj); Args = @() },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples error-correction syndrome Syndrome.csproj); Args = @() },
 
-    @{ Path = (Join-Path $PSScriptRoot .. samples getting-started measurement Measurement.csproj); Args = @() },
+    # unresolved external error #@{ Path = (Join-Path $PSScriptRoot .. samples getting-started measurement Measurement.csproj); Args = @() },
     @{ Path = (Join-Path $PSScriptRoot .. samples getting-started qrng Qrng.csproj); Args = @() },
-    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples getting-started simple-algorithms SimpleAlgorithms.csproj); Args = @() },
+    # reference decrement error #@{ Path = (Join-Path $PSScriptRoot .. samples getting-started simple-algorithms SimpleAlgorithms.csproj); Args = @("--nQubits", "4") }
     @{ Path = (Join-Path $PSScriptRoot .. samples getting-started teleportation TeleportationSample.csproj); Args = @() },
 
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples machine-learning half-moons HalfMoons.csproj); Args = @() },
@@ -97,8 +102,8 @@ $qirProjects = @(
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples machine-learning wine Wine.csproj); Args = @() },
 
     @{ Path = (Join-Path $PSScriptRoot .. samples numerics CustomModAdd CustomModAdd.csproj); Args = @() },
-    @{ Path = (Join-Path $PSScriptRoot .. samples numerics EvaluatingFunctions EvaluatingFunctions.csproj); Args = @() },
-    @{ Path = (Join-Path $PSScriptRoot .. samples numerics ResourceCounting ResourceCounting.csproj); Args = @() },
+    # unresolved external error #@{ Path = (Join-Path $PSScriptRoot .. samples numerics EvaluatingFunctions EvaluatingFunctions.csproj); Args = @() },
+    # unresolved external error #@{ Path = (Join-Path $PSScriptRoot .. samples numerics ResourceCounting ResourceCounting.csproj); Args = @() },
 
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation h2 command-line H2SimulationSampleCmdLine.csproj); Args = @() },
     @{ Path = (Join-Path $PSScriptRoot .. samples simulation hubbard HubbardSimulationSample.csproj); Args = @() }
@@ -107,7 +112,7 @@ $qirProjects = @(
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation ising phase-estimation IsingPhaseEstimationSample.csproj); Args = @() },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation ising simple SimpleIsingSample.csproj); Args = @() },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation ising trotter-evolution IsingTrotterSample.csproj); Args = @() },
-    # needs argument(s) #@{ Path = (Join-Path $PSScriptRoot .. samples simulation qaoa QAOA.csproj); Args = @() }
+    # reference decrement error #@{ Path = (Join-Path $PSScriptRoot .. samples simulation qaoa QAOA.csproj); Args = @("--numTrials", "20") }
 )
 
 # TODO: this temporary override to only run against a single sample is temporary. It is only here until the testing framework can be validated.
@@ -138,6 +143,8 @@ if ($allOk) {
     
     if (-not $allOk) {
         throw "At least one sample failed build. Check the logs."
+    } else {
+        Write-Host "##[info]Validation of QIR against Samples was successful."
     }
 } else {
     throw "The Microsoft.Quantum.Qir.CommandLineTool did not install successfully."
