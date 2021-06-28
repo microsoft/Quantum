@@ -64,7 +64,7 @@ $qirProjects = @(
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms integer-factorization IntegerFactorization.csproj); Args = @() },
     @{ Path = (Join-Path $PSScriptRoot .. samples algorithms oracle-synthesis OracleSynthesis.csproj); Args = @() },
     @{ Path = (Join-Path $PSScriptRoot .. samples algorithms order-finding OrderFinding.csproj); Args = @("--index", "1") },
-    @{ Path = (Join-Path $PSScriptRoot .. samples algorithms repeat-until-success RepeatUntilSuccess.csproj); Args = @("--gate", "simple", "--input-value", "true", "--input-basis", "PauliX", "--limit", "4", "--num-runs", "2") },
+    @{ Path = (Join-Path $PSScriptRoot .. samples algorithms repeat-until-success RepeatUntilSuccess.csproj); Args = @("--gate", "simple", "--inputValue", "true", "--inputBasis", "PauliX", "--limit", "4", "--numRuns", "2") },
     @{ Path = (Join-Path $PSScriptRoot .. samples algorithms reversible-logic-synthesis ReversibleLogicSynthesis.csproj); Args = @() },
     @{ Path = (Join-Path $PSScriptRoot .. samples algorithms simple-grover SimpleGroverSample.csproj); Args = @("--nQubits", "8") },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms sudoku-grover SudokuGroverSample.csproj); Args = @() },
@@ -97,8 +97,8 @@ $qirProjects = @(
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples machine-learning wine Wine.csproj); Args = @() },
 
     @{ Path = (Join-Path $PSScriptRoot .. samples numerics CustomModAdd CustomModAdd.csproj); Args = @() },
-    @{ Path = (Join-Path $PSScriptRoot .. samples numerics EvaluatingFunctions EvaluatingFunctions.csproj); Args = @() },
-    @{ Path = (Join-Path $PSScriptRoot .. samples numerics ResourceCounting ResourceCounting.csproj); Args = @() },
+    # @{ Path = (Join-Path $PSScriptRoot .. samples numerics EvaluatingFunctions EvaluatingFunctions.csproj); Args = @() },
+    # @{ Path = (Join-Path $PSScriptRoot .. samples numerics ResourceCounting ResourceCounting.csproj); Args = @() },
 
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples simulation h2 command-line H2SimulationSampleCmdLine.csproj); Args = @() },
     @{ Path = (Join-Path $PSScriptRoot .. samples simulation hubbard HubbardSimulationSample.csproj); Args = @() }
