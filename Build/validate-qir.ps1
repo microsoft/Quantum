@@ -38,6 +38,13 @@ function Build-One {
             Write-Host "##vso[task.logissue type=error;]Failed to compile $projectName to executable."
             $script:allOk = $False
         } else {
+            
+            Write-Host "##[info]Updating environment path variables."
+            $old_DYLD_LIBRARY_PATH = $env:DYLD_LIBRARY_PATH;
+            $old_LD_LIBRARY_PATH = $env:LD_LIBRARY_PATH;
+            $env:DYLD_LIBRARY_PATH += ":" (Join-Path $projectDirectory qir) + ":";
+            $env:LD_LIBRARY_PATH += ":" (Join-Path $projectDirectory qir) + ":"; 
+            
             Write-Host "##[info]Running $projectName..."
             Get-ChildItem (Join-Path qir *__Interop.exe) `
                 | ForEach-Object { & $_ @Arguments}
@@ -47,6 +54,9 @@ function Build-One {
             } else {
                 Write-Host "##[info]QIR validation against $projectName was successful."
             }
+
+            $env:DYLD_LIBRARY_PATH = $old_DYLD_LIBRARY_PATH;
+            $env:LD_LIBRARY_PATH = $old_LD_LIBRARY_PATH;
         }
     }
 
