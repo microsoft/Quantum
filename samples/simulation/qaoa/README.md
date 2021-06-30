@@ -23,11 +23,11 @@ Here we will use a combinatorial optimization problem to demonstrate the usage o
 
 The idea behind QAOA is to express a problem as an Ising Hamiltonian and replace each variable z_j with a Pauli-Z operation acting on the jth qubit, such that
 
-<img src="hamil1.png" width=250>
+![𝐻_𝐶 = Σᵢⱼ 𝐽ᵢⱼ𝑍ᵢ𝑍ⱼ + Σᵢ ℎᵢ𝑍ᵢ](hamil1.png)
 
 If we then find the ground state of said Hamiltonian, we can find the solution by measuring the value of each qubit in the Pauli-Z basis. To find said ground state we intersperse time evolutions of the instance Hamiltonian by time evolutions induced by a "driver" Hamiltonian that evolves the qubits by a Pauli-X rotation of the form:
 
-<img src="hamil2.png" width=140>
+![𝐻₀ = −Σᵢ 𝑋ᵢ](hamil2.png)
 
 In this sample, the time evolutions are pre-determined, however, these could also be found variationally as part of a hybrid classical-quantum algorithm, by using e.g. gradient descent.
 

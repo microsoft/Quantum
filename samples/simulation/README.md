@@ -1,4 +1,4 @@
-# Hamiltonian Simulation Samples #
+# Hamiltonian Simulation Samples
 
 These samples show how to simulate evolution under different Hamiltonians.
 
@@ -11,7 +11,7 @@ These samples show how to simulate evolution under different Hamiltonians.
   - **[SimpleIsing](./ising/simple)**: This sample walks through constructing the time-evolution operator for the Ising model.
   - **[IsingGenerators](./ising/generators)**: This sample describes how Hamiltonians may be represented using Microsoft.Quantum.Canon functions.
   - **[AdiabaticIsing](./ising/adiabatic)**: This sample converts a representation of a Hamiltonian using library data types into unitary time-evolution by the Hamiltonian on qubits.
-  - **[IsingPhaseEstimation](./ising/phase-estimation)**: This sample adiabatically prepares the ground state of the Ising model Hamiltonian, and then perform phase estimation to obtain an estimate of the ground state energy. 
+  - **[IsingPhaseEstimation](./ising/phase-estimation)**: This sample adiabatically prepares the ground state of the Ising model Hamiltonian, and then perform phase estimation to obtain an estimate of the ground state energy.
   - **[IsingTrotterEvolution](./ising/trotter-evolution)**: This sample walks through constructing the time-evolution operator for the Ising model using the Trotterization library feature.
 - **[HubbardSimulation](./hubbard)**: This sample walks through constructing the time-evolution operator for the 1D Hubbard Simulation model.
 - **[GaussianInitialState](./gaussian-initial-state)**: This sample walks through how to use Q# to prepare a register of qubits into a Gaussian wavefunction.

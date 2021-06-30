@@ -1,4 +1,4 @@
-# Interoperating with Q# #
+# Interoperating with Q\#
 
 These samples show how to use Q# with different host languages.
 

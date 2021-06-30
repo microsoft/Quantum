@@ -12,15 +12,15 @@ description: "This sample demonstrates using Quantum Development Kit to move qua
 
 This sample demonstrates the use of the Quantum Development Kit for quantum teleportation, a sort of "hello, world" for quantum programming.
 
-## Prerequisites ##
+## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 
-To run the sample, use the `dotnet run` command from your terminal. 
+To run the sample, use the `dotnet run` command from your terminal.
 
-## Manifest ##
+## Manifest
 
 - [TeleportationSample.qs](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/teleportation/TeleportationSample.qs): Q# code defining how to teleport qubit states.
 - [Utils.qs](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/teleportation/Utils.qs): Q# code with some utility operations used to prepare and read |+> and |-> states.

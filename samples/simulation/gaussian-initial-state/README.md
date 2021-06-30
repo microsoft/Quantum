@@ -56,7 +56,7 @@ dotnet run -- --recursive true --n-qubits 7
 
 To plot the state prepared by this Q# program, you can use Q# + Python interoperability:
 
-```
+```bash
 python host.py
 ```
 

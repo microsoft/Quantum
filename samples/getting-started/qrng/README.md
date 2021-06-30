@@ -15,16 +15,16 @@ In the Q# code (Qrng.qs) you will find the Q# operation for extracting a random 
 
 You will also find a Q# operation that creates a random integer from 0 to a maximum integer by invoking several times the Q# operation for extracting a random bit.
 
-## Prerequisites ##
+## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
-- The [`qsharp` Python package](https://docs.microsoft.com/en-us/azure/quantum/install-python-qdk?tabs=tabid-conda) (optional for usage with Python host program).
+- The [`qsharp` Python package](https://docs.microsoft.com/azure/quantum/install-python-qdk) (optional for usage with Python host program).
 
-## Running the Sample ##
+## Running the Sample
 
 To run the sample, use the `dotnet run` command from your terminal. To run the sample via the Python host program, run `python host.py` from your terminal.
 
-## Manifest ##
+## Manifest
 
 - [Qrng.qs](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/qrng/Qrng.qs): Q# code implementing quantum operations for this sample.
 - [host.py](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/qrng/host.py): Python host program that imports and runs the sample.
