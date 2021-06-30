@@ -82,11 +82,20 @@ $projectArgs = @{
         );
 
         "../samples/azure-quantum/hidden-shift/HiddenShift.csproj" = @(,
-            "simulate", "--pattern-int", "6", "--register-size", "3"
+            @("simulate", "--pattern-int", "6", "--register-size", "3")
         );
 
         "../samples/azure-quantum/parallel-qrng/ParallelQrng.csproj" = @(,
-            "simulate", "--n-qubits", "4"
+            @("simulate", "--n-qubits", "4")
+        );
+
+        "../samples/simulation/gaussian-initial-state/gaussian-initial-state.csproj" = @(,
+            @("--recursive", "false", "--n-qubits", "5"),
+            @("--recursive", "true", "--n-qubits", "5")
+        );
+
+        "../samples/runtime/reversible-simulator-advanced/host/host.csproj" = @(,
+            @("-a", "true", "-b", "true", "-c", "false")
         );
     }.GetEnumerator() `
     | ForEach-Object {
@@ -115,7 +124,8 @@ $runBlockList = @(
     # The following samples are GUI samples, and would require a GUI testing
     # framework to run here.
     "../samples/chemistry/MolecularHydrogenGUI/MolecularHydrogenGUI.csproj",
-    "../samples/chemistry/LithiumHydrideGUI/LithiumHydrideGUI.csproj"
+    "../samples/chemistry/LithiumHydrideGUI/LithiumHydrideGUI.csproj",
+    "../samples/simulation/h2/gui/H2SimulationGUI.csproj"
 ) | ForEach-Object { (Resolve-Path (Join-Path $PSScriptRoot $_)).Path };
 
 $projectsToRun = Get-ChildItem -Recurse -Path (Join-Path ".." "*.csproj") `
