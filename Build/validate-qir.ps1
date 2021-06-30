@@ -87,7 +87,7 @@ $qirProjects = @(
     @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum hidden-shift HiddenShift.csproj); Args = @("--patternInt", "6", "--registerSize", "4") },
     @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum ising-model IsingModel.csproj); Args = @("--nSites", "5", "--time", "5.0", "--dt", "0.1") },
     @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum parallel-qrng ParallelQrng.csproj); Args = @("--nQubits", "3") },
-    @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum teleport Teleport.csproj); Args = @("--prepBasis", "PauliX", "--measBasis", "PauliX") },
+    # relies on hardware #@{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum teleport Teleport.csproj); Args = @("--prepBasis", "PauliX", "--measBasis", "PauliX") },
 
     @{ Path = (Join-Path $PSScriptRoot .. samples characterization phase-estimation PhaseEstimationSample.csproj); Args = @() },
 
@@ -126,6 +126,7 @@ $qirProjects = @(
 
 # TODO: this temporary override to only run against a single sample is temporary. It is only here until the testing framework can be validated.
 #$qirProjects = @(
+#    @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum teleport Teleport.csproj); Args = @("--prepBasis", "PauliX", "--measBasis", "PauliX") }
 #)
 
 Write-Host "##[info]Beginning Microsoft.Quantum.Qir.CommandLineTool installation.";
