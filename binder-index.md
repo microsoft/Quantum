@@ -148,7 +148,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Azure Quantum service:</strong></td>
-      <td><strong><a href="./samples/azure-quantum/parallel-qrng/README.md">Grover's search</a></strong></td>
+      <td><strong><a href="./samples/azure-quantum/grover/README.md">Grover's search</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
