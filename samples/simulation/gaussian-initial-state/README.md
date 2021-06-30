@@ -26,7 +26,7 @@ This sample demonstrates the use of the Quantum Development Kit for preparing th
 
 The goal of the algorithm is to prepare a quantum state that encodes the Gaussian wavefunction using probability amplitudes. The Gaussian state can be defined via a recursive definition, as described in [arXiv:0801.0342](https://arxiv.org/abs/0801.0342).
 
-![Image of Gaussian state definition](https://github.com/microsoft/Quantum/blob/main/samples/Gaussian_initial_state/gaussian_definition.JPG)
+![Image of Gaussian state definition](https://github.com/microsoft/Quantum/blob/main/samples/gaussian-initial-state/gaussian_definition.jpg)
 
 We implemented this algorithm in two ways in Q#. The first is as a `for` loop, following the approach outlined in [Guen Prawiroatmodjo's blog post](https://guenp.medium.com/preparing-a-gaussian-wave-function-in-q-695c3941f6dc). The second is by recursion.
 
