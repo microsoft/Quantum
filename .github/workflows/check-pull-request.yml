@@ -20,6 +20,7 @@ jobs:
       uses: nosborn/github-action-markdown-cli@v2.0.0
       with:
         files: .
+        config_file: '.markdownlint.yaml'
     - uses: gaurav-nelson/github-action-markdown-link-check@v1
       with:
         use-verbose-mode: 'yes'
