@@ -125,7 +125,7 @@ namespace Microsoft.Quantum.Extensions.Oracles
             /// <summary>
             /// Overrides the body to do the emulation.
             /// </summary>
-            public override Func<(ICallable, IQArray<Qubit>, IQArray<Qubit>), QVoid> Body => (_args) =>
+            public override Func<(ICallable, IQArray<Qubit>, IQArray<Qubit>), QVoid> __Body__ => (_args) =>
             {
                 var (oracle, xbits, ybits) = _args;
                 OracleEmulator.ApplyOracle(this.Simulator, (x, y) => oracle.Apply<Int64>((x, y)), xbits, ybits, adjoint: false);
@@ -135,7 +135,7 @@ namespace Microsoft.Quantum.Extensions.Oracles
             /// <summary>
             /// Overrides the adjoint body to do the emulation.
             /// </summary>
-            public override Func<(ICallable, IQArray<Qubit>, IQArray<Qubit>), QVoid> AdjointBody => (_args) =>
+            public override Func<(ICallable, IQArray<Qubit>, IQArray<Qubit>), QVoid> __AdjointBody__ => (_args) =>
             {
                 var (oracle, xbits, ybits) = _args;
                 OracleEmulator.ApplyOracle(this.Simulator, (x, y) => oracle.Apply<Int64>((x, y)), xbits, ybits, adjoint: true);
@@ -202,16 +202,16 @@ namespace Microsoft.Quantum.Extensions.Oracles
 
             string ICallable.FullName => $"PermutationOracleImpl<{typeof(Op)}>";
 
-            public override void Init() { }
+            public override void __Init__() { }
 
-            public override Func<(IQArray<Qubit>, IQArray<Qubit>), QVoid> Body => (_args) =>
+            public override Func<(IQArray<Qubit>, IQArray<Qubit>), QVoid> __Body__ => (_args) =>
             {
                 var (xbits, ybits) = _args;
                 OracleEmulator.ApplyOracle(this.Simulator, this.Permutation, xbits, ybits, adjoint: false);
                 return QVoid.Instance;
             };
 
-            public override Func<(IQArray<Qubit>, IQArray<Qubit>), QVoid> AdjointBody => (_args) =>
+            public override Func<(IQArray<Qubit>, IQArray<Qubit>), QVoid> __AdjointBody__ => (_args) =>
             {
                 var (xbits, ybits) = _args;
                 OracleEmulator.ApplyOracle(this.Simulator, this.Permutation, xbits, ybits, adjoint: true);

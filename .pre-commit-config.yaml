@@ -5,7 +5,7 @@ repos:
     - id: trailing-whitespace
       args: [--markdown-linebreak-ext=md]
     - id: no-commit-to-branch
-      args: [-b, "master"]
+      args: [-b, "main"]
     - id: check-yaml
 - repo: local
   hooks:

@@ -15,5 +15,5 @@ Press Start in Visual Studio to run the sample.
 
 ## Note ##
 
-This sample builds on results in [IsingGenerators](./../IsingGenerators) sample.
+This sample builds on results in [IsingGenerators](./../generators) sample.
 We suggest reading that sample before continuing.

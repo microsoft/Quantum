@@ -1,6 +1,6 @@
 # This is a minimal example of valid Broombridge containing only required parameters.
 
-"$schema": https://raw.githubusercontent.com/Microsoft/Quantum/master/Chemistry/Schema/broombridge-0.2.schema.json
+"$schema": https://raw.githubusercontent.com/microsoft/Quantum/main/Chemistry/Schema/broombridge-0.2.schema.json
 
 format:
     version: "0.2"             

@@ -15,7 +15,7 @@ This sample demonstrates using Q# to create a quantum simulator that relies on f
 
 ## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/quantum/install-guide/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
 ## Running the Sample
 
@@ -32,11 +32,11 @@ dotnet run
 ### C# in Visual Studio 2019
 
 Open the folder containing this sample in Visual Studio ("Open a local folder" from the Getting Started screen or "File → Open → Folder..." from the menu bar) and set `SimulatorWithOverrides.csproj` as the startup project.
-Press Start in Visual Studio to run the sample.
+Press Start in Visual Studio to run the sample. 
 
 ## Manifest
 
-- [FaultyMeasurementsSimulator.cs](https://github.com/microsoft/Quantum/blob/master/samples/runtime/simulator-with-overrides/FaultyMeasurementsSimulator.cs): C# code that defines the simulator and the operation overrides in it.
-- [Operations.qs](https://github.com/microsoft/Quantum/blob/master/samples/runtime/simulator-with-overrides/Operations.qs): Q# code used to demonstrate the simulator behavior.
-- [Host.cs](https://github.com/microsoft/Quantum/blob/master/samples/runtime/simulator-with-overrides/Host.cs): C# code to call the operations defined in Q#.
-- [SimulatorWithOverrides.csproj](https://github.com/microsoft/Quantum/blob/master/samples/simulationruntime/simulator-with-overrides/SimulatorWithOverrides.csproj): Main C# project for the example.
+- [FaultyMeasurementsSimulator.cs](https://github.com/microsoft/Quantum/blob/main/samples/runtime/simulator-with-overrides/FaultyMeasurementsSimulator.cs): C# code that defines the simulator and the operation overrides in it.
+- [Operations.qs](https://github.com/microsoft/Quantum/blob/main/samples/runtime/simulator-with-overrides/Operations.qs): Q# code used to demonstrate the simulator behavior.
+- [Host.cs](https://github.com/microsoft/Quantum/blob/main/samples/runtime/simulator-with-overrides/Host.cs): C# code to call the operations defined in Q#.
+- [SimulatorWithOverrides.csproj](./SimulatorWithOverrides.csproj): Main C# project for the example.

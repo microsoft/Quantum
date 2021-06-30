@@ -11,7 +11,7 @@ can be found inside [chemistry_sample.py](./chemistry_sample.py).
 
 This module depends on having Python, the `qsharp` module, and the IQ# kernel installed
 on your machine. For detailed installation instructions, please visit
-https://docs.microsoft.com/en-us/quantum/install-guide/python
+https://docs.microsoft.com/azure/quantum/install-python-qdk
 
 ## Running the demo.
 
@@ -25,7 +25,7 @@ The first time you run the sample you might see errors like this when the script
 fail: Microsoft.Quantum.IQSharp.Workspace[0]
       QS5022: No identifier with that name exists.
 ```
-these are known and are safe to ignore.
+these are known and are safe to ignore. 
 
 If the script runs successfully, you should see this message in the output.
 ```

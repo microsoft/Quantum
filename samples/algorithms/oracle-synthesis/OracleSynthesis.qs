@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Samples.OracleSynthesis {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
@@ -31,11 +32,11 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     function FastHadamardTransform(func : Int[]) : Int[] {
         let bits = BitSizeI(Length(func) - 1);
         mutable res = func;
-        for (m in 0..bits - 1) {
+        for m in 0..bits - 1 {
             mutable s = 1 <<< m;
-            for (i in 0..(2 * s)..Length(func) - 1) {
+            for i in 0..(2 * s)..Length(func) - 1 {
                 mutable k = i + s;
-                for (j in i..i + s - 1) {
+                for j in i..i + s - 1 {
                     mutable t = res[j];
                     set res w/= j <- res[j] + res[k];
                     set res w/= k <- t - res[k];
@@ -133,11 +134,11 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
         mutable j = 0;
         mutable current = IntAsBoolArray(0, n);
 
-        for (i in 0..N - 1) {
+        for i in 0..N - 1 {
             if (i % 2 == 0) {
                 set j = 0;
             } else {
-                let e = Zip(current, RangeAsIntArray(0..N - 1));
+                let e = Zipped(current, RangeAsIntArray(0..N - 1));
                 set j = Snd(Head(Filtered(Fst<Bool, Int>, e))) + 1;
             }
 
@@ -170,11 +171,10 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
 
         HY(target);
 
-        for (i in 0..vars) {
+        for i in 0..vars {
             let start = 1 <<< i;
             let code = GrayCode(i);
-            for (j in 0..Length(code) - 1) {
-                let (offset, ctrl) = code[j];
+            for (offset, ctrl) in code {
                 RFrac(PauliZ, -spectrum[start + offset], vars + 2, qubits[i]);
                 if (i != 0) {
                     CNOT(qubits[ctrl], qubits[i]);
@@ -208,8 +208,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
             HY(target);
 
             let code = GrayCode(vars);
-            for (j in 0..Length(code) - 1) {
-                let (offset, ctrl) = code[j];
+            for (offset, ctrl) in code {
                 RFrac(PauliZ, spectrum[offset], vars + 2, target);
                 CNOT(controls[ctrl], target);
             }
@@ -222,12 +221,12 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
             let spectrum = FastHadamardTransform(table);
 
             H(target);
-            AssertProb([PauliZ], [target], One, 0.5, "Probability of the measurement must be 0.5", 1e-10);
+            AssertMeasurementProbability([PauliZ], [target], One, 0.5, "Probability of the measurement must be 0.5", 1e-10);
             if (IsResultOne(M(target))) {
-                for (i in 0..vars - 1) {
+                for i in 0..vars - 1 {
                     let start = 1 <<< i;
                     let code = GrayCode(i);
-                    for (j in 0..Length(code) - 1) {
+                    for j in 0..Length(code) - 1 {
                         let (offset, ctrl) = code[j];
                         RFrac(PauliZ, -spectrum[start + offset], vars + 1, controls[i]);
                         if (i != 0) {
@@ -246,18 +245,17 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
         mutable result = true;
         let tableBits = TruthTable(func, vars);
 
-        for (x in 0..(1 <<< (vars + 1)) - 1) {
-            using (qubits = Qubit[vars + 1]) {
-                let init = IntAsBoolArray(x, vars + 1);
-                ApplyPauliFromBitString(PauliX, true, init, qubits);
-                ApplyOracleFromFunction(tableBits, qubits[0..vars - 1], qubits[vars]);
+        for x in 0..(1 <<< (vars + 1)) - 1 {
+            use qubits = Qubit[vars + 1];
+            let init = IntAsBoolArray(x, vars + 1);
+            ApplyPauliFromBitString(PauliX, true, init, qubits);
+            ApplyOracleFromFunction(tableBits, qubits[0..vars - 1], qubits[vars]);
 
-                let y = IsResultOne(M(qubits[vars])) != init[vars];
-                if ((tableBits + tableBits)[x] != y) {
-                    set result = false;
-                }
-                ResetAll(qubits);
+            let y = IsResultOne(M(qubits[vars])) != init[vars];
+            if ((tableBits + tableBits)[x] != y) {
+                set result = false;
             }
+            ResetAll(qubits);
         }
 
         return result;
@@ -269,23 +267,22 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
         mutable result = true;
         let tableBits = TruthTable(func, vars);
 
-        for (x in 0..Length(tableBits) - 1) {
-            using (qubits = Qubit[vars + 2]) {
-                let init = IntAsBoolArray(x, vars);
-                ApplyPauliFromBitString(PauliX, true, init, qubits[0..vars - 1]);
-                ApplyOracleFromFunctionOnCleanTarget(tableBits, qubits[0..vars - 1], qubits[vars]);
-                CNOT(qubits[vars], qubits[vars + 1]);
-                (Adjoint ApplyOracleFromFunctionOnCleanTarget)(tableBits, qubits[0..vars - 1], qubits[vars]);
+        for x in 0..Length(tableBits) - 1 {
+            use qubits = Qubit[vars + 2];
+            let init = IntAsBoolArray(x, vars);
+            ApplyPauliFromBitString(PauliX, true, init, qubits[0..vars - 1]);
+            ApplyOracleFromFunctionOnCleanTarget(tableBits, qubits[0..vars - 1], qubits[vars]);
+            CNOT(qubits[vars], qubits[vars + 1]);
+            (Adjoint ApplyOracleFromFunctionOnCleanTarget)(tableBits, qubits[0..vars - 1], qubits[vars]);
 
-                let y = IsResultOne(M(qubits[vars + 1]));
-                if (tableBits[x] != y) {
-                    set result = false;
-                }
-                if (y) {
-                    Reset(qubits[vars + 1]);
-                }
-                ApplyPauliFromBitString(PauliX, true, init, qubits[0..vars - 1]);
+            let y = IsResultOne(M(qubits[vars + 1]));
+            if (tableBits[x] != y) {
+                set result = false;
             }
+            if (y) {
+                Reset(qubits[vars + 1]);
+            }
+            ApplyPauliFromBitString(PauliX, true, init, qubits[0..vars - 1]);
         }
 
         return result;

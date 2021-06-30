@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.UnitTesting {
+    open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Measurement;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
@@ -37,37 +38,35 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// # References
     /// - [ *Michael A. Nielsen , Isaac L. Chuang*,
     ///     Quantum Computation and Quantum Information ](http://doi.org/10.1017/CBO9780511976667)
-    operation Teleportation (source : Qubit, target : Qubit) : Unit {
-
+    operation RunTeleportation(source : Qubit, target : Qubit) : Unit {
         // Get a temporary qubit for the Bell pair.
-        using (auxillaryQubit = Qubit()) {
+        use auxillaryQubit = Qubit();
 
-            // Create a Bell pair between the temporary qubit and the target.
-            Assert([PauliZ], [target], Zero, "Error: target qubit must be initialized in zero state");
-            H(auxillaryQubit);
-            CNOT(auxillaryQubit, target);
-            Assert([PauliZ, PauliZ], [auxillaryQubit, target], Zero, "Error: EPR state must be eigenstate of ZZ");
-            Assert([PauliX, PauliX], [auxillaryQubit, target], Zero, "Error: EPR state must be eigenstate of XX");
+        // Create a Bell pair between the temporary qubit and the target.
+        AssertMeasurement([PauliZ], [target], Zero, "Error: target qubit must be initialized in zero state");
+        H(auxillaryQubit);
+        CNOT(auxillaryQubit, target);
+        AssertMeasurement([PauliZ, PauliZ], [auxillaryQubit, target], Zero, "Error: EPR state must be eigenstate of ZZ");
+        AssertMeasurement([PauliX, PauliX], [auxillaryQubit, target], Zero, "Error: EPR state must be eigenstate of XX");
 
-            // Perform the Bell measurement and the correction necessary to
-            // reconstruct the input state as the target state.
-            CNOT(source, auxillaryQubit);
-            H(source);
-            AssertProb([PauliZ], [source], Zero, 0.5, "Error: All outcomes of the Bell measurement must be equally likely", 1E-05);
+        // Perform the Bell measurement and the correction necessary to
+        // reconstruct the input state as the target state.
+        CNOT(source, auxillaryQubit);
+        H(source);
+        AssertMeasurementProbability([PauliZ], [source], Zero, 0.5, "Error: All outcomes of the Bell measurement must be equally likely", 1E-05);
 
-            // Note that MResetZ makes sure that source is returned to zero state
-            // so that we can deallocate it.
-            if (MResetZ(source) == One) {
-                Z(target);
-            }
+        // Note that MResetZ makes sure that source is returned to zero state
+        // so that we can deallocate it.
+        if (MResetZ(source) == One) {
+            Z(target);
+        }
 
-            // The probability of measuring 0 or 1 is independent on the previous
-            // measurement outcome
-            AssertProb([PauliZ], [auxillaryQubit], Zero, 0.5, "Error: All outcomes of the Bell measurement must be equally likely", 1E-05);
+        // The probability of measuring 0 or 1 is independent on the previous
+        // measurement outcome
+        AssertMeasurementProbability([PauliZ], [auxillaryQubit], Zero, 0.5, "Error: All outcomes of the Bell measurement must be equally likely", 1E-05);
 
-            if (MResetZ(auxillaryQubit) == One) {
-                X(target);
-            }
+        if (MResetZ(auxillaryQubit) == One) {
+            X(target);
         }
     }
 

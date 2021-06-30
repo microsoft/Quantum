@@ -40,6 +40,9 @@ using System.Collections.Generic;
 // Finally, we use the Mono.Options and System.Management.Automation
 // libraries to make it easy to use this sample from the command line.
 using System.Threading.Tasks;
+using System.IO;
+using System;
+using Microsoft.Quantum.Chemistry.Broombridge;
 #endregion
 
 namespace Microsoft.Quantum.Chemistry.Samples
@@ -109,16 +112,20 @@ namespace Microsoft.Quantum.Chemistry.Samples
             string outputFolder = null
         )
         {
+            using var reader = File.OpenText(filename);
             // To get the data for exporting to Q#, we proceed in several steps.
             var jordanWignerEncoding =
                 // First, we deserialize the file given by filename, using the
                 // format given by format.
-                format.Map(
-                    (IntegralDataFormat.Liquid, () => LiQuiD.Deserialize(filename).Select(o => o.OrbitalIntegralHamiltonian)),
-                    (IntegralDataFormat.Broombridge, () => Broombridge.Deserializers.DeserializeBroombridge(filename).ProblemDescriptions.Select(o => o.OrbitalIntegralHamiltonian))
-                )
+                (format switch
+                {
+                    IntegralDataFormat.Liquid => LiQuiDSerializer.Deserialize(reader),
+                    IntegralDataFormat.Broombridge => BroombridgeSerializer.Deserialize(reader),
+                    _ => throw new ArgumentException($"Invalid data format {format}.")
+                })
+                .Select(o => o.OrbitalIntegralHamiltonian)
                 // In general, Broombridge allows for loading multiple Hamiltonians
-                // from a single file. For the purpose of simplicitly, however,
+                // from a single file. For the purpose of simplicity, however,
                 // we'll only load a single Hamiltonian from each file in this
                 // sample. We use .Single here instead of .First to make sure
                 // that we raise an error instead of silently discarding data.

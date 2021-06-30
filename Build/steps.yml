@@ -26,16 +26,16 @@ steps:
 ##
 # Build, test & pack
 ##
-- powershell: ./build.ps1
+- pwsh: ./build.ps1
   displayName: "Building"
   workingDirectory: $(System.DefaultWorkingDirectory)/Build
 
-- powershell: ./test.ps1
+- pwsh: ./test.ps1
   displayName: "Testing"
   workingDirectory: $(System.DefaultWorkingDirectory)/Build
   condition: and(succeeded(), ne(variables['Skip.Tests'], 'true'))
 
-- powershell: ./pack.ps1
+- pwsh: ./pack.ps1
   displayName: "Packing"
   workingDirectory: $(System.DefaultWorkingDirectory)/Build
 

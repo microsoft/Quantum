@@ -37,10 +37,10 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
             this.simulator = simulator;
             simulator.OnOperationStart += OnOperationStartHandler;
             simulator.OnOperationEnd += OnOperationEndHandler;
-            simulator.OnAllocateQubits += OnAllocateQubitsHandler;
-            simulator.OnBorrowQubits += OnBorrowQubitsHandler;
-            simulator.OnReleaseQubits += OnReleaseQubitsHandler;
-            simulator.OnReturnQubits += OnReturnQubitsHandler;
+            simulator.AfterAllocateQubits += AfterAllocateQubitsHandler;
+            simulator.AfterBorrowQubits += AfterBorrowQubitsHandler;
+            simulator.BeforeReleaseQubits += BeforeReleaseQubitsHandler;
+            simulator.BeforeReturnQubits += BeforeReturnQubitsHandler;
             stateDumper = new StateDumper(simulator);
 
             host = WebHost
@@ -63,6 +63,10 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         {
             await operation(simulator);
         }
+
+        public async Task<O> Run<I, O>(Func<IOperationFactory, I, Task<O>> operation, I args) =>
+            await operation(simulator, args);
+        
 
         public bool Advance() => advanceEvent.Set();
 
@@ -115,19 +119,19 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
             WaitForAdvance().Wait();
         }
 
-        private void OnAllocateQubitsHandler(long count)
+        private void AfterAllocateQubitsHandler(IQArray<Qubit> qubits)
         {
-            BroadcastAsync("Log", $"Allocate {count} qubit(s)", stateDumper.DumpAndGetAmplitudes()).Wait();
+            BroadcastAsync("Log", $"Allocate {qubits.Length} qubit(s)", stateDumper.DumpAndGetAmplitudes()).Wait();
             WaitForAdvance().Wait();
         }
 
-        private void OnBorrowQubitsHandler(long count)
+        private void AfterBorrowQubitsHandler(IQArray<Qubit> qubits)
         {
-            BroadcastAsync("Log", $"Borrow {count} qubit(s)", stateDumper.DumpAndGetAmplitudes()).Wait();
+            BroadcastAsync("Log", $"Borrow {qubits.Length} qubit(s)", stateDumper.DumpAndGetAmplitudes()).Wait();
             WaitForAdvance().Wait();
         }
 
-        private void OnReleaseQubitsHandler(IQArray<Qubit> qubits)
+        private void BeforeReleaseQubitsHandler(IQArray<Qubit> qubits)
         {
             BroadcastAsync(
                 "Log",
@@ -137,7 +141,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
             WaitForAdvance().Wait();
         }
 
-        private void OnReturnQubitsHandler(IQArray<Qubit> qubits)
+        private void BeforeReturnQubitsHandler(IQArray<Qubit> qubits)
         {
             BroadcastAsync(
                 "Log",

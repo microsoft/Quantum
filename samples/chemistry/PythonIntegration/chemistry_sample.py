@@ -4,7 +4,7 @@ import logging
 
 # To start, import the qsharp.chemistry module.
 # This module is part of the `qsharp` package. For detailed installation instructions, please visit:
-# https://docs.microsoft.com/en-us/quantum/install-guide/python
+# https://docs.microsoft.com/azure/quantum/install-python-qdk
 import qsharp.chemistry
 from qsharp.chemistry import load_broombridge, load_fermion_hamiltonian, load_input_state, encode, IndexConvention
 

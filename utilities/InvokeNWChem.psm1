@@ -135,7 +135,7 @@ function Convert-NWChemToBroombridge() {
 
     # Copy the input file to a temp location.
     $inputDirectory = (Join-Path ([System.IO.Path]::GetTempPath()) ([IO.Path]::GetRandomFileName()));
-    mkdir -Path $inputDirectory | Out-Null;
+    New-Item -ItemType Directory -Path $inputDirectory | Out-Null;
     Copy-Item $InputDeck $inputDirectory;
 
     # Resolve backslashes in the volume path.

@@ -15,6 +15,11 @@ packages/
 *.exe
 *.chm
 
+# Build artifacts for QIR
+qir/
+**/src/driver.cpp
+**/src/qir.bc
+
 # test outputs
 TestResults/
 *.qxe
@@ -331,3 +336,6 @@ __pycache__/
 
 # Common VS Code extensions
 .ionide/symbolCache.db
+
+# Generated QIR .ll files
+**/[Qq]ir/*.ll

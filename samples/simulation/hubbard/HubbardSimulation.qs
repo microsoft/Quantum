@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Samples.Hubbard {
+
     open Microsoft.Quantum.Oracles;
     open Microsoft.Quantum.Characterization;
     open Microsoft.Quantum.Intrinsic;
@@ -100,7 +102,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
 
         mutable pauliString = ConstantArray(nQubits, PauliI);
 
-        for (idxQubit in idxQubitMin + 1 .. idxQubitMax - 1) {
+        for idxQubit in idxQubitMin + 1 .. idxQubitMax - 1 {
             set pauliString w/= idxQubit <- PauliZ;
         }
 
@@ -253,7 +255,7 @@ namespace Microsoft.Quantum.Samples.Hubbard {
     : (Qubit[] => Unit is Adj + Ctl) {
         let nTerms = nSites * 3;
         let op = (nTerms, _ApplyHubbardTerm(nSites, tCoefficient, uCoefficient, _, _, _));
-        return (DecomposedIntoTimeStepsCA(op, trotterOrder))(trotterStepSize, _);
+        return DecomposedIntoTimeStepsCA(op, trotterOrder)(trotterStepSize, _);
     }
 
     // We now define an operation that prepares the anti-Ferromagnetic initial
@@ -292,30 +294,29 @@ namespace Microsoft.Quantum.Samples.Hubbard {
         // The input to phase estimation requires a DiscreteOracle type.
         let qpeOracle = OracleToDiscrete(HubbardTrotterEvolution(nSites, tCoefficient, uCoefficient, trotterOrder, trotterStepSize));
 
-        using (qubits = Qubit[nQubits]) {
-            // This prepares the antiferromagnetic initial state
-            // at half filling by adding one electron to each site with
-            // alternating spins.
-            for (idxSite in 0 .. nSites - 1) {
-                let idxSpin = idxSite % 2;
-                let idxQubit = nSites * idxSpin + idxSite;
-                X(qubits[idxQubit]);
-            }
-
-            // We now call the robust phase estimation procedure and
-            // divide by the trotterStepSize to normalize the estimate
-            // to units of energy.
-            let energyEst =
-                RobustPhaseEstimation(nBitsPrecision, qpeOracle, qubits) / trotterStepSize
-                // We add the contribution of the global phase here.
-                + (IntAsDouble(nSites) * uCoefficient) * 0.25;
-
-            // We must reset all qubits to the |0〉 state before releasing them.
-            ResetAll(qubits);
-
-            // We return the energy estimate here.
-            return energyEst;
+        use qubits = Qubit[nQubits];
+        // This prepares the antiferromagnetic initial state
+        // at half filling by adding one electron to each site with
+        // alternating spins.
+        for idxSite in 0 .. nSites - 1 {
+            let idxSpin = idxSite % 2;
+            let idxQubit = nSites * idxSpin + idxSite;
+            X(qubits[idxQubit]);
         }
+
+        // We now call the robust phase estimation procedure and
+        // divide by the trotterStepSize to normalize the estimate
+        // to units of energy.
+        let energyEst =
+            RobustPhaseEstimation(nBitsPrecision, qpeOracle, qubits) / trotterStepSize
+            // We add the contribution of the global phase here.
+            + (IntAsDouble(nSites) * uCoefficient) * 0.25;
+
+        // We must reset all qubits to the |0〉 state before releasing them.
+        ResetAll(qubits);
+
+        // We return the energy estimate here.
+        return energyEst;
     }
 
 }

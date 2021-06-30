@@ -1,5 +1,16 @@
+# -*- coding: utf-8 -*-
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
+
+# # Validating Quantum Mechanics with the CHSH Game
+
+# This sample demonstrates:
+# - How to prepare entangled states with Q#.
+# - How to measure part of an entangled register.
+# - Using Q# to understand superposition and entanglement.
+#
+# In this sample, you can use Q# to prepare qubits in an entangled state, and to check that measuring these qubits lets you win a game known as the _CHSH game_ more often than you can without entanglement.
+# This game helps us understand entanglement, and has even been used experimentally to help test that the universe really is quantum mechanical in nature.
 
 import numpy as np
 import random
@@ -20,7 +31,7 @@ def referee_single_round() -> bool:
     strategy won the round.
     """
     
-    # Generate random inpus for each player.
+    # Generate random inputs for each player.
     alice_input, bob_input = get_random_bits(2)
     
     # Check whether Alice or Bob should go first.
@@ -47,3 +58,5 @@ def estimate_quantum_win_probability(n_trials : int) -> Tuple[float, float]:
 if __name__ == "__main__":
     est_win_pr, error = estimate_quantum_win_probability(400)
     print(f"Estimated quantum win probability: {est_win_pr:%} ± {error:%}")
+
+

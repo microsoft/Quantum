@@ -23,10 +23,9 @@ the circuits. The list of the test files is below:
 * [Tests for Multiply controlled Not gates](./MultiControlledNOTTests.qs)
 * [Tests for Super-dense coding](./SuperdenseCodingTests.qs)
 
-## Functions from Microsoft.Quantum.Canon used for testing ##
+## Operations and functions from the Q# standard library used for testing ##
 
-The correctness of all the circuits in this sample is tested using the following
-function from Microsoft.Quantum.Canon:
+The correctness of all the programs in this sample is tested using functionality from the Q# standard library:
 
 * AssertOperationsEqualReferenced
 * AssertOperationsEqualInPlace
@@ -34,7 +33,7 @@ function from Microsoft.Quantum.Canon:
 
 ## Test harness ##
 
-This sample uses Microsoft.Quantum.Xunit extension to [xUnit.net](http://xunit.github.io/) framework to
+This sample uses Microsoft.Quantum.Xunit extension to [xUnit.net](https://xunit.net/) framework to
 automatically discover Q# tests. The tests are all the operations with signature "() => ()"
 with suffix "Test". The test harness located in
 [QuantumSimulatorTestTargets.cs](./QuantumSimulatorTestTargets.cs).
@@ -59,4 +58,4 @@ This samples uses Microsoft.Quantum.Canon library and depends on the following N
 
 * Microsoft.Quantum.Development.Kit: Q# runtime framework
 * Microsoft.Quantum.Xunit: xUnit.net extension for discovering Q# tests
-* [xunit](http://xunit.github.io/): xUnit.net testing framework for .NET
+* [xunit](https://xunit.net/): xUnit.net testing framework for .NET

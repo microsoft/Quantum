@@ -3,7 +3,7 @@
 :: the public repository (https://github.com/Microsoft/Quantum.git)
 ::
 set branch=%1
-IF "%branch%" == "" SET branch=master
+IF "%branch%" == "" SET branch=main
 
 git fetch origin
 git fetch public || call :addPublic

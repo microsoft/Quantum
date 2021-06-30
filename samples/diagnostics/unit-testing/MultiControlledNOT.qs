@@ -4,12 +4,12 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Multiply Controlled Not gates
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     // This file contains different implementations multiply controlled Not gate,
     // also known as multiply controlled Pauli X gate and closely related to
     // Multiply Controlled Toffoli gate
@@ -18,9 +18,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     // |c₁,…,cₙ⟩⊗|t₁⟩ ↦ |c₁,…,cₙ⟩⊗|t₁⊕(c₁∧…∧cₙ)⟩, i.e. the target qubit t is flipped
     // if and only if all control qubits are in state |1⟩ .
     // The gate is also equivalent to Controlled(Microsoft.Quantum.Intrinsic.X)
-    
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     /// # Summary
     /// Implements Multiply Controlled Not gate using Microsoft.Quantum.Canon
     /// library combinator
@@ -33,8 +33,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     ///
     /// # See Also
     /// - @"Microsoft.Quantum.Canon.ApplyMultiControlledCA"
-    operation MultiControlledXClean (controls : Qubit[], target : Qubit) : Unit {
-        
+    operation ApplyMultiControlledXByUsing (controls : Qubit[], target : Qubit) : Unit {
         body (...) {
             let numControls = Length(controls);
 
@@ -48,23 +47,28 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                 CCNOT(controls[1], controls[0], target);
             }
             else {
-                let multiNot = ApplyMultiControlledCA(ApplyToFirstThreeQubitsCA(CCNOT, _), CCNOTop(CCNOT), _, _);
-                multiNot(Rest(controls), [Head(controls), target]);
+                // let multiNot = ApplyMultiControlledCA(ApplyToFirstThreeQubitsCA(CCNOT, _), CCNOTop(CCNOT), _, _);
+                // multiNot(Rest(controls), [Head(controls), target]);
+                ApplyMultiControlledCA(
+                    ApplyToFirstThreeQubitsCA(CCNOT, _), CCNOTop(CCNOT),
+                    Rest(controls),
+                    [Head(controls), target]
+                );
             }
         }
 
         adjoint invert;
-        
+
         controlled (extraControls, ...) {
-            MultiControlledXClean(extraControls + controls, target);
+            ApplyMultiControlledXByUsing(extraControls + controls, target);
         }
-        
+
         controlled adjoint invert;
     }
-    
-    
+
+
     /// # Summary
-    /// Multiply controlled NOT gate using dirty ancillas, according to Barenco et al
+    /// Multiply controlled NOT gate using dirty qubits, according to Barenco et al
     ///
     /// # Input
     /// ## controls
@@ -84,13 +88,13 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     ///   the relation between the function implementation and circuit.
     ///
     /// # Remarks
-    /// The circuit uses (Length(controls)-2) dirty ancillas. These are used as scratch
+    /// The circuit uses (Length(controls)-2) dirty qubits. These are used as scratch
     /// space and are returned in the same state as when they were borrowed.
-    operation MultiControlledXBorrow (controls : Qubit[], target : Qubit) : Unit {
-        
+    operation ApplyMultiControlledXByBorrowing(controls : Qubit[], target : Qubit) : Unit {
+
         body (...) {
             let numberOfControls = Length(controls);
-            
+
             if (numberOfControls == 0) {
                 X(target);
             }
@@ -102,65 +106,52 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
             }
             else {
                 let numberOfDirtyQubits = numberOfControls - 2;
-                
-                borrowing (dirtyQubits = Qubit[numberOfDirtyQubits]) {
-                    let allQubits = ([target] + dirtyQubits) + controls;
-                    let lastDirtyQubit = numberOfDirtyQubits;
-                    let totalNumberOfQubits = Length(allQubits);
-                    let outerOperation1 = CCNOTByIndexLadder(numberOfDirtyQubits + 1, 1, 0, numberOfDirtyQubits, _);
-                    let innerOperation = CCNOTByIndex(totalNumberOfQubits - 1, totalNumberOfQubits - 2, lastDirtyQubit, _);
-                    ApplyWithA(outerOperation1, innerOperation, allQubits);
-                    let outerOperation2 = CCNOTByIndexLadder(numberOfDirtyQubits + 2, 2, 1, numberOfDirtyQubits - 1, _);
-                    ApplyWithA(outerOperation2, innerOperation, allQubits);
+
+                borrow dirtyQubits = Qubit[numberOfDirtyQubits];
+                within {
+                    ApplyToEachCA(
+                        CCNOT,
+                        Zipped3(
+                            controls[0..Length(controls) - 2],
+                            dirtyQubits,
+                            [target] + Most(dirtyQubits)
+                        )
+                    );
+                } apply {
+                    CCNOT(controls[Length(controls) - 1], controls[Length(controls) - 2], Tail(dirtyQubits));
+                }
+
+                within {
+                    ApplyToEachCA(
+                        CCNOT,
+                        Zipped3(
+                            Rest(controls),
+                            Rest(dirtyQubits),
+                            Most(dirtyQubits)
+                        )
+                    );
+                } apply {
+                    CCNOT(controls[Length(controls) - 1], controls[Length(controls) - 2], Tail(dirtyQubits));
                 }
             }
         }
-        
+
         adjoint invert;
-        
+
         controlled (extraControls, ...) {
-            MultiControlledXBorrow(extraControls + controls, target);
+            ApplyMultiControlledXByBorrowing(extraControls + controls, target);
         }
-        
+
         controlled adjoint invert;
     }
-    
-    
-    /// # Summary
-    /// Applies CCNOT to the qubits in target given by their indexes
-    operation CCNOTByIndex (control1Index : Int, control2Index : Int, targetIndex : Int, target : Qubit[]) : Unit {
-        
-        body (...) {
-            CCNOT(target[control1Index], target[control2Index], target[targetIndex]);
-        }
-        
-        adjoint invert;
-    }
-    
-    
-    /// # Summary
-    /// Repeatedly applies CCNOT to the qubits in target given by their indexes
-    /// Start with applying
-    operation CCNOTByIndexLadder (control1Index : Int, control2Index : Int, targetIndex : Int, count : Int, target : Qubit[]) : Unit {
-        
-        body (...) {
-            for (i in 0 .. count - 1) {
-                CCNOTByIndex(i + control1Index, i + control2Index, targetIndex + i, target);
-            }
-        }
-        
-        adjoint invert;
-    }
-    
+
 }
 // /////////////////////////////////////////////////////////////////////////////////////////////
 // Implementations of multiply controlled not gates not illustrated here
 // /////////////////////////////////////////////////////////////////////////////////////////////
 
-// ● The implementations that use all dirty or all clean ancilla are two extreme cases
+// ● The implementations that use all dirty or all clean auxiliary qubits are two extreme cases
 // It is possible to interpolate between them and explore gate count / number of extra
-// ancilla trade-offs
+// auxiliary qubit trade-offs
 
 // /////////////////////////////////////////////////////////////////////////////////////////////
-
-

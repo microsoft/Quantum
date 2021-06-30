@@ -31,25 +31,25 @@ namespace Microsoft.Quantum.Samples.UnitTesting
         public void ControlledSWAPMetricsTest()
         {
             // Get an instance of the appropriately configured QCTraceSimulator
-            QCTraceSimulator sim = MetricCalculationUtils.GetSimulatorForMetricsCalculation();
+            var sim = MetricCalculationUtils.GetSimulatorForMetricsCalculation();
 
             // Run tests against trace simulator to collect metrics
             var result = ControlledSWAPTest.Run(sim).Result;
 
             // Let us check that number of T gates in all the circuits is as expected
-            string Tcount = PrimitiveOperationsGroupsNames.T;
-            Assert.Equal(7, sim.GetMetric<ControlledSWAP1, CollectMetrics>(Tcount));
-            Assert.Equal(7, sim.GetMetric<ControlledSWAPUsingCCNOT, CollectMetrics>(Tcount));
+            var Tcount = PrimitiveOperationsGroupsNames.T;
+            Assert.Equal(7, sim.GetMetric<ApplyControlledSWAPUsingExplicitDecomposition, CollectMetrics>(Tcount));
+            Assert.Equal(7, sim.GetMetric<ApplyControlledSWAPUsingCCNOT, CollectMetrics>(Tcount));
 
             // Let us check the number of CNOT gates 
-            Assert.Equal(8, sim.GetMetric<ControlledSWAP1, CollectMetrics>(
+            Assert.Equal(8, sim.GetMetric<ApplyControlledSWAPUsingExplicitDecomposition, CollectMetrics>(
                 PrimitiveOperationsGroupsNames.CNOT));
             // Number of single qubit Clifford gates
-            Assert.Equal(2, sim.GetMetric<ControlledSWAP1, CollectMetrics>(
+            Assert.Equal(2, sim.GetMetric<ApplyControlledSWAPUsingExplicitDecomposition, CollectMetrics>(
                 PrimitiveOperationsGroupsNames.QubitClifford));
 
             // And T depth
-            Assert.Equal(4, sim.GetMetric<ControlledSWAP1, CollectMetrics>(
+            Assert.Equal(4, sim.GetMetric<ApplyControlledSWAPUsingExplicitDecomposition, CollectMetrics>(
                 MetricsNames.DepthCounter.Depth));
 
         }

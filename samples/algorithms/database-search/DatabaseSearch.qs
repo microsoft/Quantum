@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples.DatabaseSearch {
     open Microsoft.Quantum.Intrinsic;
@@ -221,7 +221,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         ApplyStatePreparationOracle(markedQubit, databaseRegister);
 
         // Loop over Grover iterates.
-        for (idx in 0 .. nIterations - 1) {
+        for idx in 0 .. nIterations - 1 {
             ReflectAboutMarkedState(markedQubit);
             ReflectAboutInitialState(markedQubit, databaseRegister);
         }
@@ -245,23 +245,24 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// # Output
     /// Measurement outcome of marked Qubit and measurement outcomes of
     /// the database register.
-    operation ApplyQuantumSearch (nIterations : Int, nDatabaseQubits : Int) : (Result, Result[]) {
+    operation ApplyQuantumSearch(nIterations : Int, nDatabaseQubits : Int) : (Result, Result[]) {
         // Allocate nDatabaseQubits + 1 qubits. These are all in the |0〉
         // state.
-        using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
-            // Implement the quantum search algorithm.
-            SearchForMarkedState(nIterations, markedQubit, databaseRegister);
+        use markedQubit = Qubit();
+        use databaseRegister = Qubit[nDatabaseQubits];
 
-            // Measure the marked qubit. On success, this should be One.
-            let resultSuccess = MResetZ(markedQubit);
+        // Implement the quantum search algorithm.
+        SearchForMarkedState(nIterations, markedQubit, databaseRegister);
 
-            // Measure the state of the database register post-selected on
-            // the state of the marked qubit.
-            let resultElement = ForEach(MResetZ, databaseRegister);
+        // Measure the marked qubit. On success, this should be One.
+        let resultSuccess = MResetZ(markedQubit);
 
-            // Returns the measurement results of the algorithm.
-            return (resultSuccess, resultElement);
-        }
+        // Measure the state of the database register post-selected on
+        // the state of the marked qubit.
+        let resultElement = ForEach(MResetZ, databaseRegister);
+
+        // Returns the measurement results of the algorithm.
+        return (resultSuccess, resultElement);
     }
 
 
@@ -272,23 +273,22 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// Checks whether state preparation marks the right fraction of elements
     /// against theoretical predictions.
     operation StatePreparationOracleTest() : Unit {
-        for (nDatabaseQubits in 0 .. 5) {
-            using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
-                ApplyStatePreparationOracle(markedQubit, databaseRegister);
+        for nDatabaseQubits in 0..5 {
+            use (markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits]);
+            ApplyStatePreparationOracle(markedQubit, databaseRegister);
 
-                // This is the success probability as predicted by theory.
-                // Note that this is computed only to verify that we have
-                // implemented Grover's algorithm correctly in the
-                // `AssertProb` below.
-                let successAmplitude = 1.0 / Sqrt(IntAsDouble(2 ^ nDatabaseQubits));
-                let successProbability = successAmplitude * successAmplitude;
-                AssertProb([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
+            // This is the success probability as predicted by theory.
+            // Note that this is computed only to verify that we have
+            // implemented Grover's algorithm correctly in the
+            // `AssertProb` below.
+            let successAmplitude = 1.0 / Sqrt(IntAsDouble(2 ^ nDatabaseQubits));
+            let successProbability = successAmplitude * successAmplitude;
+            AssertMeasurementProbability([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
 
-                // This operation automatically resets all qubits to |0〉
-                // for safe deallocation.
-                Reset(markedQubit);
-                ResetAll(databaseRegister);
-            }
+            // This operation automatically resets all qubits to |0〉
+            // for safe deallocation.
+            Reset(markedQubit);
+            ResetAll(databaseRegister);
         }
     }
 
@@ -303,31 +303,29 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// the success probability matches theoretical predictions. Then checks
     /// whether the correct index is found, post-selected on success.
     operation GroverHardCodedTest () : Unit {
+        for nDatabaseQubits in 0..4 {
+            for nIterations in 0..5 {
+                use (markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits]);
+                SearchForMarkedState(nIterations, markedQubit, databaseRegister);
+                let dimension = IntAsDouble(2 ^ nDatabaseQubits);
+                let successAmplitude = Sin(
+                    IntAsDouble(2 * nIterations + 1) *
+                    ArcSin(1.0 / Sqrt(dimension))
+                );
+                let successProbability = PowD(successAmplitude, 2.0);
+                AssertMeasurementProbability([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
 
-        for (nDatabaseQubits in 0 .. 4) {
-            for (nIterations in 0 .. 5) {
-                using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
-                    SearchForMarkedState(nIterations, markedQubit, databaseRegister);
-                    let dimension = IntAsDouble(2 ^ nDatabaseQubits);
-                    let successAmplitude = Sin(
-                        IntAsDouble(2 * nIterations + 1) *
-                        ArcSin(1.0 / Sqrt(dimension))
-                    );
-                    let successProbability = PowD(successAmplitude, 2.0);
-                    AssertProb([PauliZ], [markedQubit], One, successProbability, "Error: Success probability does not match theory", 1E-10);
+                // If this result is One, we have found the marked
+                // element.
+                let isMarked = MResetZ(markedQubit) == One;
 
-                    // If this result is One, we have found the marked
-                    // element.
-                    let isMarked = MResetZ(markedQubit) == One;
+                if (isMarked) {
+                    let results = ForEach(MResetZ, databaseRegister);
 
-                    if (isMarked) {
-                        let results = ForEach(MResetZ, databaseRegister);
-
-                        // Post-selected on success, verify that that
-                        // database qubits are all |1〉.
-                        for (result in results) {
-                            EqualityFactR(result, One, "Found state should be 1..1 string.");
-                        }
+                    // Post-selected on success, verify that 
+                    // database qubits are all |1〉.
+                    for result in results {
+                        EqualityFactR(result, One, "Found state should be 1..1 string.");
                     }
                 }
             }
@@ -345,7 +343,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     // oracle that allows us to mark multiple elements.
 
     // The amplitude amplification library has a function called
-    // `AmpAmpByOracle` that automates many details of Grover search. Its
+    // ` StandardAmplitudeAmplification ` that automates many details of Grover search. Its
     // arguments have signature (Int, StateOracle, Int), where the first
     // parameter is the number of Grover iterates applied, the second
     // parameter is a unitary of type `StateOracle` and the third parameter
@@ -359,7 +357,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     // all qubits.
 
     // Our goal is thus to construct this `StateOracle` oracle type and pass it
-    // to the `AmpAmpByOracle` function. `AmpAmpByOracle` acting on freshly
+    // to the ` StandardAmplitudeAmplification ` function. ` StandardAmplitudeAmplification ` acting on freshly
     // allocated qubits then automatically prepares a quantum state where the
     // marked subspace has been amplified.
 
@@ -380,11 +378,11 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     /// size of the database qubit register. Let x = x₀x₁...x_{N-1} be a
     /// binary string of N elements. Then xₖ is 1 if k is in "markedElements"
     /// and 0 otherwise.
-    operation ApplyDatebaseOracleFromInts(markedElements : Int[], markedQubit : Qubit, databaseRegister : Qubit[])
+    operation ApplyDatabaseOracleFromInts(markedElements : Int[], markedQubit : Qubit, databaseRegister : Qubit[])
     : Unit
     is Adj + Ctl {
-        for (markedElement in markedElements) {
-            (ControlledOnInt(markedElement, X))(databaseRegister, markedQubit);
+        for markedElement in markedElements {
+            ControlledOnInt(markedElement, X)(databaseRegister, markedQubit);
         }
     }
 
@@ -421,7 +419,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         ApplyToEachCA(H, databaseRegister);
 
         // Apply oracle `D`
-        ApplyDatebaseOracleFromInts(markedElements, flagQubit, databaseRegister);
+        ApplyDatabaseOracleFromInts(markedElements, flagQubit, databaseRegister);
     }
 
     /// # Summary
@@ -441,7 +439,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     }
 
 
-    // The library function `AmpAmpByOracle` then returns a unitary that
+    // The library function ` StandardAmplitudeAmplification ` then returns a unitary that
     // implements all steps of Grover's algorithm.
 
     /// # Summary
@@ -486,18 +484,17 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     operation ApplyGroverSearch(markedElements : Int[], nIterations : Int, nDatabaseQubits : Int) : (Result, Int) {
         // Allocate nDatabaseQubits + 1 qubits. These are all in the |0〉
         // state.
-        using ((markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits])) {
-            // Implement the quantum search algorithm.
-            (GroverSearch(markedElements, nIterations, 0))([markedQubit] + databaseRegister);
+        use (markedQubit, databaseRegister) = (Qubit(), Qubit[nDatabaseQubits]);
+        // Implement the quantum search algorithm.
+        GroverSearch(markedElements, nIterations, 0)([markedQubit] + databaseRegister);
 
-            // Measure the marked qubit. On success, this should be One.
-            let resultSuccess = MResetZ(markedQubit);
+        // Measure the marked qubit. On success, this should be One.
+        let resultSuccess = MResetZ(markedQubit);
 
-            // Measure the state of the database register post-selected on
-            // the state of the marked qubit and return the measurement results
-            // of the algorithm.
-            return (resultSuccess, ResultArrayAsInt(ForEach(MResetZ, databaseRegister)));
-        }
+        // Measure the state of the database register post-selected on
+        // the state of the marked qubit and return the measurement results
+        // of the algorithm.
+        return (resultSuccess, ResultArrayAsInt(ForEach(MResetZ, databaseRegister)));
     }
 
 }

@@ -1,6 +1,6 @@
 # Quantum Chemistry Library Samples #
 
-These samples demonstrate the use of the Quantum Chemistry library.
+These samples demonstrate the use of the Quantum Chemistry library. 
 Each sample is provided as a Visual Studio 2019 C# or project in their respective directories.
 Each of these samples are described below.
 Most of the samples consist of a Q# source file with detailed comments explaining the sample and a commented classical program `Program.cs` to call into Q# operations and functions.
@@ -24,7 +24,7 @@ These samples focus on simple models in chemistry and material sciences. They ar
   Import the Q# operations for energy estimation in [MolecularHydrogen](MolecularHydrogen/) to create a plot of Hydrogen ground state energy with respect to distance between its two Hydrogen atoms.
 
 - **[LithiumHydrideGUI](LithiumHydrideGUI/)**:
-  Import the Q# operations for energy estimation in [MolecularHydrogen](MolecularHydrogen/) to create a plot of Lithium Hyride ground state and excited energies with respect to distance between its atoms.
+  Import the Q# operations for energy estimation in [MolecularHydrogen](MolecularHydrogen/) to create a plot of Lithium Hydride ground state and excited energies with respect to distance between its atoms.
 
 
 ### General Samples ###

@@ -6,12 +6,12 @@ Two examples of adders implemented in this sample are that of [Takahashi *et al.
 ## Running the Sample ##
 
 To run this sample, you will need Jupyter Notebook and the IQ# kernel.
-For instructions on how to set up these tools see the [getting started guide](https://docs.microsoft.com/quantum/install-guide/).
+For instructions on how to set up these tools see the [getting started guide](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 To start the Jupyter Notebook use the following command in this directory.
 ```
 PS> jupyter notebook AdderExample.ipynb
 ```
-Use the `Run` button to walk through the notebook line by line.
+Use the `Run` button to walk through the notebook line by line. 
 
 ## Manifest ##
 

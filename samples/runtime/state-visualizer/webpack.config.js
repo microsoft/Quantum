@@ -28,7 +28,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(["wwwroot/*"]),
         new HtmlWebpackPlugin({
-            template: "./websrc/index.html"
+            template: "websrc/index.html"
         }),
         new MiniCssExtractPlugin({
             filename: "css/[name].[chunkhash].css"
