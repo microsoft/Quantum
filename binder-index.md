@@ -490,6 +490,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
       <td>Q# + .NET</td>
     </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/simulation/gaussian-initial-state/README.md">Gaussian state preparation</a></strong></td>
+      <td></td>
+      <td><a href="./samples/simulation/gaussian-initial-state/host.py">Q# + Python</a></td>
+      <td>Q# Standalone</td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
 
