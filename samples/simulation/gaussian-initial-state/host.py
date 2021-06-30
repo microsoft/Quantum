@@ -21,7 +21,12 @@ def main():
     old_handler = qsharp.client._handle_message
     def handle_state_dump(message, **kwargs):
         if message['msg_type'] == 'display_data':
-            data = json.loads(message['content']['data'].get('application/json', "null"))
+            data = (
+                # Check both the old and new MIME types used by the IQ#
+                # kernel.
+                json.loads(message['content']['data'].get('application/json', "null")) or
+                json.loads(message['content']['data'].get('application/x-qsharp-data', "null"))
+            )
             if data is not None and 'amplitudes' in data:
                 states.append(data['amplitudes'])
                 return
