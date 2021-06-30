@@ -111,6 +111,10 @@ $qirProjects = @(
 )
 
 if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
+    dotnet tool install Microsoft.Quantum.Qir.CommandLineTool -g
+}
+
+if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
     Write-Host "##[error]The qir-cli command is missing; you can install it by running `dotnet tool install Microsoft.Quantum.Qir.CommandLineTool -g`.";
     $script:allOk = $False
 } else {
