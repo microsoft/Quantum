@@ -51,7 +51,7 @@ az quantum target list --output table
 
 ## Q# with Jupyter Notebook
 
-Make sure that you have followed the [Q# + Jupyter Notebook quickstart](https://docs.microsoft.com/azure/quantum/install-jupyter-qkd) for the Quantum Development Kit, and then start a new Jupyter Notebook session from the folder containing this sample:
+Make sure that you have followed the [Q# + Jupyter Notebook quickstart](https://docs.microsoft.com/azure/quantum/install-jupyter-qdk) for the Quantum Development Kit, and then start a new Jupyter Notebook session from the folder containing this sample:
 
 ```
 cd parallel-qrng

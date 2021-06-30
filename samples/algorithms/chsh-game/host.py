@@ -31,7 +31,7 @@ def referee_single_round() -> bool:
     strategy won the round.
     """
     
-    # Generate random inpus for each player.
+    # Generate random inputs for each player.
     alice_input, bob_input = get_random_bits(2)
     
     # Check whether Alice or Bob should go first.
