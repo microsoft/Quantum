@@ -53,7 +53,10 @@ function Get-ProjectKind() {
 function Invoke-Project() {
     param(
         [string]
-        $Path
+        $Path,
+
+        [array]
+        $AdditionalArgs = @()
     );
 
     # Check if the path is relative; if so, join with where
@@ -64,14 +67,14 @@ function Invoke-Project() {
 
     Write-Verbose "##[info]Running dotnet project at $Path...";
     $commonArgs = Get-CommonDotNetArguments;
-    dotnet run --project $Path @commonArgs;
+    dotnet run --project $Path @commonArgs `-- @AdditionalArgs;
 }
 
 function Get-CommonDotNetArguments {
     return @(
         "-c", $Env:BUILD_CONFIGURATION,
         "-v", $Env:BUILD_VERBOSITY
-    );    
+    );
 }
 
 function Get-CommonMSBuildArguments {
@@ -79,4 +82,24 @@ function Get-CommonMSBuildArguments {
         "/property:DefineConstants=$Env:ASSEMBLY_CONSTANTS",
         "/property:Version=$Env:ASSEMBLY_VERSION"
     );
+}
+
+function Convert-ObjectsToHashtable {
+    [CmdletBinding()]
+    param(
+        [Parameter(ValueFromPipeline=$true)]
+        $Item
+    );
+
+    begin {
+        $ht = @{};
+    }
+
+    process {
+        $ht[$Item.Key] = $Item.Value
+    }
+
+    end {
+        $ht | Write-Output
+    }
 }
