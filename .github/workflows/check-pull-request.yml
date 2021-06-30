@@ -6,6 +6,7 @@ on:
 jobs:
   check-markdown:
     runs-on: ubuntu-latest
+    name: "Check Markdown files"
     steps:
     - uses: actions/checkout@master
     - run: |
@@ -22,6 +23,7 @@ jobs:
     - uses: gaurav-nelson/github-action-markdown-link-check@v1
       with:
         use-verbose-mode: 'yes'
+        config-file: '.github/workflows/link-check-config.json'
       if: ${{ success() || failure() }}
 
   check-solutions:
