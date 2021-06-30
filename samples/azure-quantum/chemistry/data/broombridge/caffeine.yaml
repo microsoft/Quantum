@@ -1,0 +1,92 @@
+$schema: https://raw.githubusercontent.com/Microsoft/Quantum/master/Chemistry/Schema/broombridge-0.1.schema.json
+format: {version: '0.1'}
+generator: {source: nwchem, version: '6.8'}
+integral_sets:
+- basis_set: {name: sto-3g, type: gaussian}
+  coulomb_repulsion: {units: hartree, value: 929.3750693761446}
+  energy_offset: {units: hartree, value: 0.0}
+  fci_energy: {lower: 0.0, units: hartree, upper: 0.0, value: 0.0}
+  geometry:
+    atoms:
+    - coords: [-3.01049459, 1.70509805, -0.00287664]
+      name: C
+    - coords: [-1.55451359, 1.65801005, -0.00308664]
+      name: N
+    - coords: [-0.70237259, 2.70721005, -0.00440764]
+      name: C
+    - coords: [0.57713141, 2.35269805, -0.00394964]
+      name: N
+    - coords: [0.53763041, 0.99727505, -0.00215464]
+      name: C
+    - coords: [-0.75617759, 0.52662905, -0.00157564]
+      name: C
+    - coords: [-1.08542359, -0.86328495, 0.00088936]
+      name: C
+    - coords: [-2.21226559, -1.33949695, 0.00054036]
+      name: O
+    - coords: [0.07802241, -1.66789995, 0.00412836]
+      name: N
+    - coords: [1.41091941, -1.22249695, 0.00179336]
+      name: C
+    - coords: [2.33265841, -2.01836795, 0.00251736]
+      name: O
+    - coords: [1.61715141, 0.15234405, -0.00112464]
+      name: N
+    - coords: [2.97680841, 0.68893405, -0.00219164]
+      name: C
+    - coords: [-0.09294959, -3.12445195, 0.00937836]
+      name: C
+    - coords: [-3.31869859, 2.74741405, -0.00348164]
+      name: H
+    - coords: [-3.40302159, 1.20674705, 0.87980136]
+      name: H
+    - coords: [-3.40335859, 1.20561105, -0.88477064]
+      name: H
+    - coords: [-1.05598259, 3.72475305, -0.00555064]
+      name: H
+    - coords: [3.66210441, -0.14993995, -0.00262764]
+      name: H
+    - coords: [3.13428841, 1.30350205, 0.88212236]
+      name: H
+    - coords: [3.13284341, 1.30333305, -0.88685164]
+      name: H
+    - coords: [-1.15710359, -3.32705695, 0.01146136]
+      name: H
+    - coords: [0.37805441, -3.55027795, 0.89201836]
+      name: H
+    - coords: [0.37554841, -3.55670595, -0.87148464]
+      name: H
+    coordinate_system: cartesian
+    symmetry: c1
+    units: angstrom
+  hamiltonian:
+    one_electron_integrals:
+      format: sparse
+      units: hartree
+      values:
+      - [1, 1, -23.4480313652]
+      - [2, 1, -0.1961120201]
+      - [1, 2, -0.1961120201]
+      - [2, 2, -22.9779751285]
+    two_electron_integrals:
+      format: sparse
+      index_convention: mulliken
+      units: hartree
+      values:
+      - [1, 1, 1, 1, 0.3044706771]
+      - [2, 1, 1, 1, -0.0036336851]
+      - [2, 1, 2, 1, 0.0551063247]
+      - [2, 2, 1, 1, 0.2636416931]
+      - [2, 2, 2, 1, 0.014724794]
+      - [2, 2, 2, 2, 0.3061558633]
+  initial_state_suggestions:
+  - state:
+      energy: {units: hartree, value: -667.7310140933267}
+      label: '|G>'
+      superposition:
+      - [1.0, (1a)+, (1b)+, '|0>']
+  metadata: {molecule_name: unknown}
+  n_electrons: 2
+  n_orbitals: 2
+  scf_energy: {units: hartree, value: -667.72572623}
+  scf_energy_offset: {units: hartree, value: -1550.50920355}
