@@ -61,8 +61,8 @@ $projectArgs = @{
         );
 
         "../samples/algorithms/repeat-until-success/RepeatUntilSuccess.csproj" = @(,
-            @("--gate", "simple", "--input-value", "One", "--input-basis", "PauliX", "--limit", "3", "--num-runs", "2"),
-            @("--gate", "V", "--input-value", "One", "--input-basis", "PauliZ", "--limit", "3", "--num-runs", "2")
+            @("--gate", "simple", "--input-value", "true", "--input-basis", "PauliX", "--limit", "3", "--num-runs", "2"),
+            @("--gate", "V", "--input-value", "true", "--input-basis", "PauliZ", "--limit", "3", "--num-runs", "2")
         );
 
         "../samples/algorithms/simple-grover/SimpleGroverSample.csproj" = @(,
@@ -96,6 +96,10 @@ $projectArgs = @{
 
         "../samples/runtime/reversible-simulator-advanced/host/host.csproj" = @(,
             @("-a", "true", "-b", "true", "-c", "false")
+        );
+
+        "../samples/getting-started/simple-algorithms/SimpleAlgorithms.csproj" = @(,
+            @("--n-qubits", "4") # NB: Must be an even number of qubits.
         );
     }.GetEnumerator() `
     | ForEach-Object {

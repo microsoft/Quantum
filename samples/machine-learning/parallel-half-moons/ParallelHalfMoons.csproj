@@ -9,4 +9,8 @@
     <PackageReference Include="Microsoft.Quantum.MachineLearning" Version="0.18.2106148911" />
     <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="data.json" CopyToOutputDirectory="Always"/>
+  </ItemGroup>
 </Project>
