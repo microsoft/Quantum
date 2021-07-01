@@ -149,10 +149,15 @@ if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
 }
 
 if ($allOk) {
+    $old_PATH = $env:PATH;
+    if (!(Get-Command clang -ErrorAction SilentlyContinue) -and (choco find --idonly -l llvm) -contains "llvm") {
+        # LLVM was installed by Chocolatey, so add the install location to the path.
+        $env:PATH += ";$($env:SystemDrive)\Program Files\LLVM\bin"
+    }
     Write-Host "##[info]Running Validation of QIR against Samples."
     $qirProjects `
         | ForEach-Object { Build-One $_.Path $_.Args }
-    
+    $env:PATH = $old_PATH;
     if (-not $allOk) {
         throw "At least one sample failed build. Check the logs."
     } else {
