@@ -144,11 +144,21 @@ if ($allOk) {
     $addToPATH = ($IsWindows) -or ((Test-Path Env:AGENT_OS) -and ($Env:AGENT_OS.StartsWith("Win")))
     if ($addToPATH) {
         $old_PATH = $env:PATH
-        if (!(Get-Command clang -ErrorAction SilentlyContinue) -and (choco find --idonly -l llvm) -contains "llvm") {
-            Write-Host "LLVM was installed by Chocolatey, so adding the install location to PATH."
-            $env:PATH += ";$($env:SystemDrive)\Program Files\LLVM\bin"
+        if (!(Get-Command clang -ErrorAction SilentlyContinue) {
+            if (!(choco find --idonly -l llvm) -contains "llvm") {
+                Write-Host "##[info]Installing LLVM with Chocolatey."
+                choco install llvm --version=11.1.0
+            }
+
+            if ((choco find --idonly -l llvm) -contains "llvm") {
+                Write-Host "##[info]LLVM was installed by Chocolatey, so adding the install location to PATH."
+                $env:PATH += ";$($env:SystemDrive)\Program Files\LLVM\bin"
+            } else {
+                throw "Unable to find an installation of LLVM."
+            }
         }
     }
+
     Write-Host "##[info]Running Validation of QIR against Samples."
     $qirProjects `
         | ForEach-Object { Build-One $_.Path $_.Args }
