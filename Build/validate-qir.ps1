@@ -34,7 +34,7 @@ function Build-One {
         qir-cli `
             --dll (Join-Path bin $Env:BUILD_CONFIGURATION netcoreapp3.1 "${projectName}.dll") `
             --exe qir
-        if  ($LastExitCode -ne 0 -or (Get-ChildItem (Join-Path qir *__Interop.exe)).count -eq 0) {
+        if  ($LastExitCode -ne 0 -or (Get-ChildItem (Join-Path qir *__Interop.exe) -ErrorAction SilentlyContinue).Count -eq 0) {
             Write-Host "##vso[task.logissue type=error;]Failed to compile $projectName to executable."
             $script:allOk = $False
         } else {
@@ -42,8 +42,8 @@ function Build-One {
             $qirPath = Join-Path $projectDirectory qir
             $old_DYLD_LIBRARY_PATH = $env:DYLD_LIBRARY_PATH
             $old_LD_LIBRARY_PATH = $env:LD_LIBRARY_PATH
-            $env:DYLD_LIBRARY_PATH += ":" + $qirPath + ":"
-            $env:LD_LIBRARY_PATH += ":" + $qirPath + ":"
+            $env:DYLD_LIBRARY_PATH += ":${qirPath}:"
+            $env:LD_LIBRARY_PATH += ":${qirPath}:"
             
             Write-Host "##[info]Running $projectName..."
             Get-ChildItem (Join-Path qir *__Interop.exe) `
@@ -72,7 +72,7 @@ function Build-One {
 # The commented out lines are sample projects that are not yet compatible for QIR generation/execution. 
 # 'not compatible' means that the structure of the sample is not compatible for QIR generation.
 # 'relies on hardware' means that the sample targets a hardware architecture that is not yet supported for QIR.
-# 'memory leak' means that the sample stalls when running and uses way too many system resources.
+# 'memory leak' means that the sample stalls when running and uses way too many system resources. Tracked with https://github.com/microsoft/qsharp-runtime/issues/757.
 $qirProjects = @(
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms chsh-game CHSHGame.csproj); Args = @() },
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms database-search DatabaseSearchSample.csproj); Args = @() },
