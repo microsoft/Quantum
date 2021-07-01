@@ -10,7 +10,7 @@ function Build-One {
     param(
         $Project,
         $Arguments
-    );
+    )
 
     $projectDirectory = $(Split-Path $Project -Parent)
     $projectName = $(Split-Path $Project -LeafBase)
@@ -39,11 +39,11 @@ function Build-One {
             $script:allOk = $False
         } else {
             Write-Host "##[info]Updating environment path variables."
-            $qirPath = Join-Path $projectDirectory qir;
-            $old_DYLD_LIBRARY_PATH = $env:DYLD_LIBRARY_PATH;
-            $old_LD_LIBRARY_PATH = $env:LD_LIBRARY_PATH;
-            $env:DYLD_LIBRARY_PATH += ":" + $qirPath + ":";
-            $env:LD_LIBRARY_PATH += ":" + $qirPath + ":";
+            $qirPath = Join-Path $projectDirectory qir
+            $old_DYLD_LIBRARY_PATH = $env:DYLD_LIBRARY_PATH
+            $old_LD_LIBRARY_PATH = $env:LD_LIBRARY_PATH
+            $env:DYLD_LIBRARY_PATH += ":" + $qirPath + ":"
+            $env:LD_LIBRARY_PATH += ":" + $qirPath + ":"
             
             Write-Host "##[info]Running $projectName..."
             Get-ChildItem (Join-Path qir *__Interop.exe) `
@@ -55,8 +55,8 @@ function Build-One {
                 Write-Host "##[info]QIR validation against $projectName was successful."
             }
 
-            $env:DYLD_LIBRARY_PATH = $old_DYLD_LIBRARY_PATH;
-            $env:LD_LIBRARY_PATH = $old_LD_LIBRARY_PATH;
+            $env:DYLD_LIBRARY_PATH = $old_DYLD_LIBRARY_PATH
+            $env:LD_LIBRARY_PATH = $old_LD_LIBRARY_PATH
         }
     }
 
@@ -124,33 +124,28 @@ $qirProjects = @(
     @{ Path = (Join-Path $PSScriptRoot .. samples simulation qaoa QAOA.csproj); Args = @("--numTrials", "20") }
 )
 
-# TODO: this temporary override to only run against a single sample is temporary. It is only here until the testing framework can be validated.
-#$qirProjects = @(
-#    @{ Path = (Join-Path $PSScriptRoot .. samples azure-quantum teleport Teleport.csproj); Args = @("--prepBasis", "PauliX", "--measBasis", "PauliX") }
-#)
-
-Write-Host "##[info]Beginning Microsoft.Quantum.Qir.CommandLineTool installation.";
+Write-Host "##[info]Beginning Microsoft.Quantum.Qir.CommandLineTool installation."
 
 if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
     $version = ($Env:NUGET_VERSION -split "-")[0] + "-alpha"
-    Write-Host "##[info]Going to install Microsoft.Quantum.Qir.CommandLineTool.$version.";
+    Write-Host "##[info]Going to install Microsoft.Quantum.Qir.CommandLineTool.$version."
     dotnet tool install Microsoft.Quantum.Qir.CommandLineTool --version $version -g
     if  ($LastExitCode -ne 0) {
-        Write-Host "##[error]Failed to install Microsoft.Quantum.Qir.CommandLineTool.$version.";
+        Write-Host "##[error]Failed to install Microsoft.Quantum.Qir.CommandLineTool.$version."
         $script:allOk = $False
     } else {
-        Write-Host "##[info]The Microsoft.Quantum.Qir.CommandLineTool.$version has been installed.";
+        Write-Host "##[info]The Microsoft.Quantum.Qir.CommandLineTool.$version has been installed."
     }
 } else {
-    Write-Host "##[info]The Microsoft.Quantum.Qir.CommandLineTool is already installed.";
+    Write-Host "##[info]The Microsoft.Quantum.Qir.CommandLineTool is already installed."
 }
 
 if ($allOk) {
-    $addToPATH = ($IsWindows) -or ((Test-Path Env:AGENT_OS) -and ($Env:AGENT_OS.StartsWith("Win")));
+    $addToPATH = ($IsWindows) -or ((Test-Path Env:AGENT_OS) -and ($Env:AGENT_OS.StartsWith("Win")))
     if ($addToPATH) {
-        $old_PATH = $env:PATH;
+        $old_PATH = $env:PATH
         if (!(Get-Command clang -ErrorAction SilentlyContinue) -and (choco find --idonly -l llvm) -contains "llvm") {
-            # LLVM was installed by Chocolatey, so add the install location to the path.
+            Write-Host "LLVM was installed by Chocolatey, so adding the install location to PATH."
             $env:PATH += ";$($env:SystemDrive)\Program Files\LLVM\bin"
         }
     }
