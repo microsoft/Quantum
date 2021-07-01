@@ -149,6 +149,7 @@ if ($allOk) {
                 choco install llvm --version=11.1.0
             }
 
+            # Check to make sure the installation was successful.
             if ((choco find --idonly -l llvm) -contains "llvm") {
                 Write-Host "##[info]LLVM was installed by Chocolatey, so adding the install location to PATH."
                 $env:PATH += ";$($env:SystemDrive)\Program Files\LLVM\bin"
