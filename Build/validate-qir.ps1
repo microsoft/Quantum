@@ -144,6 +144,7 @@ if ($allOk) {
     $addToPATH = ($IsWindows) -or ((Test-Path Env:AGENT_OS) -and ($Env:AGENT_OS.StartsWith("Win")))
     if ($addToPATH) {
         $old_PATH = $env:PATH
+        choco install llvm --version=11.1.0
         if (!(Get-Command clang -ErrorAction SilentlyContinue) -and (choco find --idonly -l llvm) -contains "llvm") {
             Write-Host "LLVM was installed by Chocolatey, so adding the install location to PATH."
             $env:PATH += ";$($env:SystemDrive)\Program Files\LLVM\bin"
