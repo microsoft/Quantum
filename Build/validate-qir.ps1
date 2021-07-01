@@ -71,6 +71,7 @@ function Build-One {
 
 # The commented out lines are sample projects that are not yet compatible for QIR generation/execution. 
 # 'not compatible' means that the structure of the sample is not compatible for QIR generation.
+# 'relies on hardware' means that the sample targets a hardware architecture that is not yet supported for QIR.
 # 'memory leak' means that the sample stalls when running and uses way too many system resources.
 $qirProjects = @(
     # not compatible #@{ Path = (Join-Path $PSScriptRoot .. samples algorithms chsh-game CHSHGame.csproj); Args = @() },
@@ -124,12 +125,7 @@ $qirProjects = @(
     @{ Path = (Join-Path $PSScriptRoot .. samples simulation qaoa QAOA.csproj); Args = @("--numTrials", "20") }
 )
 
-$qirProjects = @(
-    @{ Path = (Join-Path $PSScriptRoot .. samples getting-started teleportation TeleportationSample.csproj); Args = @() }
-)
-
 Write-Host "##[info]Beginning Microsoft.Quantum.Qir.CommandLineTool installation."
-
 if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
     $version = ($Env:NUGET_VERSION -split "-")[0] + "-alpha"
     Write-Host "##[info]Going to install Microsoft.Quantum.Qir.CommandLineTool.$version."
