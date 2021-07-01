@@ -145,11 +145,10 @@ if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
 }
 
 if ($allOk) {
-    $addToPATH = ($IsWindows) -or ((Test-Path Env:AGENT_OS) -and ($Env:AGENT_OS.StartsWith("Win")))
-    if ($addToPATH) {
+    if ($IsWindows) {
         $old_PATH = $env:PATH
         if (!(Get-Command clang -ErrorAction SilentlyContinue)) {
-            if (!(choco find --idonly -l llvm) -contains "llvm") {
+            if ((choco find --idonly -l llvm) -notcontains "llvm") {
                 Write-Host "##[info]Installing LLVM with Chocolatey."
                 choco install llvm --version=11.1.0
             }
@@ -166,7 +165,7 @@ if ($allOk) {
     Write-Host "##[info]Running Validation of QIR against Samples."
     $qirProjects `
         | ForEach-Object { Build-One $_.Path $_.Args }
-    if ($addToPATH) {
+    if ($IsWindows) {
         $env:PATH = $old_PATH;
     }
     if (-not $allOk) {
