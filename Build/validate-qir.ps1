@@ -124,6 +124,10 @@ $qirProjects = @(
     @{ Path = (Join-Path $PSScriptRoot .. samples simulation qaoa QAOA.csproj); Args = @("--numTrials", "20") }
 )
 
+$qirProjects = @(
+    @{ Path = (Join-Path $PSScriptRoot .. samples getting-started teleportation TeleportationSample.csproj); Args = @() }
+)
+
 Write-Host "##[info]Beginning Microsoft.Quantum.Qir.CommandLineTool installation."
 
 if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
@@ -144,7 +148,7 @@ if ($allOk) {
     $addToPATH = ($IsWindows) -or ((Test-Path Env:AGENT_OS) -and ($Env:AGENT_OS.StartsWith("Win")))
     if ($addToPATH) {
         $old_PATH = $env:PATH
-        if (!(Get-Command clang -ErrorAction SilentlyContinue) {
+        if (!(Get-Command clang -ErrorAction SilentlyContinue)) {
             if (!(choco find --idonly -l llvm) -contains "llvm") {
                 Write-Host "##[info]Installing LLVM with Chocolatey."
                 choco install llvm --version=11.1.0
