@@ -40,10 +40,8 @@ function Build-One {
         } else {
             Write-Host "##[info]Updating environment path variables."
             $qirPath = Join-Path $projectDirectory qir;
-            $old_PATH = $env:PATH;
             $old_DYLD_LIBRARY_PATH = $env:DYLD_LIBRARY_PATH;
             $old_LD_LIBRARY_PATH = $env:LD_LIBRARY_PATH;
-            $env:PATH += ";" + $qirPath;
             $env:DYLD_LIBRARY_PATH += ":" + $qirPath + ":";
             $env:LD_LIBRARY_PATH += ":" + $qirPath + ":";
             
@@ -57,7 +55,6 @@ function Build-One {
                 Write-Host "##[info]QIR validation against $projectName was successful."
             }
 
-            $env:PATH = $old_PATH;
             $env:DYLD_LIBRARY_PATH = $old_DYLD_LIBRARY_PATH;
             $env:LD_LIBRARY_PATH = $old_LD_LIBRARY_PATH;
         }
@@ -149,15 +146,20 @@ if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
 }
 
 if ($allOk) {
-    $old_PATH = $env:PATH;
-    if (!(Get-Command clang -ErrorAction SilentlyContinue) -and (choco find --idonly -l llvm) -contains "llvm") {
-        # LLVM was installed by Chocolatey, so add the install location to the path.
-        $env:PATH += ";$($env:SystemDrive)\Program Files\LLVM\bin"
+    $addToPATH = ($IsWindows) -or ((Test-Path Env:AGENT_OS) -and ($Env:AGENT_OS.StartsWith("Win")));
+    if ($addToPATH) {
+        $old_PATH = $env:PATH;
+        if (!(Get-Command clang -ErrorAction SilentlyContinue) -and (choco find --idonly -l llvm) -contains "llvm") {
+            # LLVM was installed by Chocolatey, so add the install location to the path.
+            $env:PATH += ";$($env:SystemDrive)\Program Files\LLVM\bin"
+        }
     }
     Write-Host "##[info]Running Validation of QIR against Samples."
     $qirProjects `
         | ForEach-Object { Build-One $_.Path $_.Args }
-    $env:PATH = $old_PATH;
+    if ($addToPATH) {
+        $env:PATH = $old_PATH;
+    }
     if (-not $allOk) {
         throw "At least one sample failed build. Check the logs."
     } else {
