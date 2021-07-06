@@ -141,28 +141,27 @@ if (-not (Get-Command qir-cli -ErrorAction SilentlyContinue)) {
 }
 
 if ($allOk) {
-    if ($IsWindows) {
+    $updatePath = ($IsWindows -or $PSVersionTable.PSEdition -eq "Desktop") -and !(Get-Command clang -ErrorAction SilentlyContinue)
+    if ($updatePath) {
         $old_PATH = $env:PATH
-        if (!(Get-Command clang -ErrorAction SilentlyContinue)) {
-            if ((choco find --idonly -l llvm) -notcontains "llvm") {
-                Write-Host "##[info]Installing LLVM with Chocolatey."
-                choco install llvm --version=11.1.0
-            }
+        if ((choco find --idonly -l llvm) -notcontains "llvm") {
+            Write-Host "##[info]Installing LLVM with Chocolatey."
+            choco install llvm --version=11.1.0
+        }
 
-            # Check to make sure the installation was successful.
-            if ((choco find --idonly -l llvm) -contains "llvm") {
-                Write-Host "##[info]LLVM was installed by Chocolatey, so adding the install location to PATH."
-                $env:PATH += ";$($env:SystemDrive)\Program Files\LLVM\bin"
-            } else {
-                throw "Unable to find an installation of LLVM."
-            }
+        # Check to make sure the installation was successful.
+        if ((choco find --idonly -l llvm) -contains "llvm") {
+            Write-Host "##[info]LLVM was installed by Chocolatey, so adding the install location to PATH."
+            $env:PATH += ";$($env:SystemDrive)\Program Files\LLVM\bin"
+        } else {
+            throw "Unable to find an installation of LLVM."
         }
     }
 
     Write-Host "##[info]Running Validation of QIR against Samples."
     $qirProjects `
         | ForEach-Object { Build-One $_.Path $_.Args }
-    if ($IsWindows) {
+    if ($updatePath) {
         $env:PATH = $old_PATH;
     }
     if (-not $allOk) {
