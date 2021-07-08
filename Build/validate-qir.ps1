@@ -1,6 +1,12 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
+# Important! The validation logic requires certain tools to work.
+# This script will install the necessary tools if they are not already preset!
+# This includes the Microsoft.Quantum.Qir.CommandLineTool dotnet tool and
+# Clang OR LLVM. If on Windows and clang is not available, it will try to
+# install LLVM with Chocolatey.
+
 $ErrorActionPreference = 'Stop'
 
 & "$PSScriptRoot/set-env.ps1"
