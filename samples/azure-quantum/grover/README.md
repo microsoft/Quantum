@@ -31,7 +31,7 @@ dotnet run -- --simulator QuantumSimulator --n-qubits=3 --idx-marked=6
 Make sure that you have [created and selected a quantum workspace](https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal), and then run the following at the command line, substituting `TARGET` with the target that you would like to run against (e.g.: `ionq.qpu` or `honeywell.hqs-lt-1.0`):
 
 ```azcli
-az quantum execute --target-id TARGET -- --n-qubits=4 --idx-marked=6
+az quantum execute --target-id TARGET -- --n-qubits=3 --idx-marked=6
 ```
 
 For a full list of available QIO and quantum computing targets, run:
@@ -39,6 +39,9 @@ For a full list of available QIO and quantum computing targets, run:
 ```azcli
 az quantum target list --output table
 ```
+
+> :warning:
+> This sample makes use of paid services on Azure Quantum. The cost of running this sample *with the provided parameters* on IonQ in a Pay-As-You-Go subscription is approximately $6 USD (or the equivalent amount in your local currency). This quantity is only an approximate estimate and should not be used as a binding reference. The cost of the service might vary depending on your region, demand and other factors.
 
 ## Manifest
 

@@ -148,7 +148,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Azure Quantum service:</strong></td>
-      <td><strong><a href="./samples/azure-quantum/parallel-qrng/README.md">Grover's search</a></strong></td>
+      <td><strong><a href="./samples/azure-quantum/grover/README.md">Grover's search</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -489,6 +489,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
       <td></td>
       <td>Q# + .NET</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/simulation/gaussian-initial-state/README.md">Gaussian state preparation</a></strong></td>
+      <td></td>
+      <td><a href="./samples/simulation/gaussian-initial-state/host.py">Q# + Python</a></td>
+      <td>Q# Standalone</td>
+      <td></td>
     </tr>
   </tbody>
 </table>

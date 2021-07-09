@@ -22,7 +22,7 @@ The program takes one command-line option, `--n-qubits`, to control the number o
 ## Running the sample on a local simulator
 
 ```dotnetcli
-dotnet run -- --simulator QuantumSimulator --pattern-int 6 --register-size 4
+dotnet run -- --simulator QuantumSimulator --pattern-int 6 --register-size 3
 ```
 
 ## Running the sample on Azure Quantum
@@ -38,6 +38,9 @@ For a full list of available QIO and quantum computing targets, run:
 ```azcli
 az quantum target list --output table
 ```
+
+> :warning:
+> This sample makes use of paid services on Azure Quantum. The cost of running this sample *with the provided parameters* on IonQ in a Pay-As-You-Go subscription is approximately $1-$2 USD (or the equivalent amount in your local currency). This quantity is only an approximate estimate and should not be used as a binding reference. The cost of the service might vary depending on your region, demand and other factors.
 
 ## Manifest
 
