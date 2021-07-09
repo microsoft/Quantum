@@ -2,6 +2,8 @@
 
 These samples show how to work with the Q# simulation runtime.
 
+- **[Auto substitution](./autosubstitution)**:
+  This sample uses the `Microsoft.Quantum.AutoSubstitution` NuGet package to provide alternative operations based on the simulator that is used.
 - **[Oracle Emulation](./oracle-emulation)**:
   This sample shows how to provide accelerated simulation functionality for different Q# operations and functions.
 - **[Reversible simulator (simple)](./reversible-simulator-simple)**:
