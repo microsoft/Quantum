@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-namespace Project {
+namespace Microsoft.Quantum.Sample {
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Measurement;
@@ -9,7 +9,7 @@ namespace Project {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Targeting;
 
-    operation ClassicalSWAP(a : Qubit, b : Qubit) : Unit is Adj + Ctl {
+    operation ApplyClassicalSWAP(a : Qubit, b : Qubit) : Unit is Adj + Ctl {
         Message("Classical version");
         CNOT(a, b);
         CNOT(b, a);
@@ -17,13 +17,13 @@ namespace Project {
     }
 
     // This attribute indicates that when running this Q# program with
-    // ToffoliSimulator, the operation `ClassicalSWAP` is executed instead.
-    @SubstitutableOnTarget("Project.ClassicalSWAP", "ToffoliSimulator")
+    // ToffoliSimulator, the operation `ApplyClassicalSWAP` is executed instead.
+    @SubstitutableOnTarget("Microsoft.Quantum.Sample.ApplyClassicalSWAP", "ToffoliSimulator")
     operation ApplySingleDirectionSWAP(a : Qubit, b : Qubit) : Unit is Adj + Ctl {
         // Note: In version 0.18.2106148911 we must explicitly reference the
         // operation; otherwise, the compiler removes the operation from the
         // compilation unit before the auto-substitution rewrite step is executed.
-        let _ = ClassicalSWAP;
+        let _ = ApplyClassicalSWAP;
 
         Message("Quantum version");
 

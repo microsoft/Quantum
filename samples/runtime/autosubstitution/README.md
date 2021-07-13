@@ -11,9 +11,10 @@ description: "This sample uses the `Microsoft.Quantum.AutoSubstitution` NuGet pa
 
 The `Microsoft.Quantum.AutoSubstitution` NuGet package offers an attribute `@SubstitutableOnTarget` that lets you replace one operation with another when using a particular simulator. For instance, decorating the operation `Op` with `@SubstitutableOnTarget("AltOp", "Sim")` lets the compiler perform a rewrite step that can link an operation `Op` to a set of pairs of an alternative operations `AltOp` and a simulator `Sim`, such that `AltOp` is executed as a replacement for `Op` when being invoked in `Sim`.
 
-[This post](https://devblogs.microsoft.com/qsharp/) in the [Q#
-blog](https://devblogs.microsoft.com/qsharp/) describes this sample in more
-detail.
+[This auto substitution blog
+post](https://devblogs.microsoft.com/qsharp/the-autosubstitution-rewrite-step/)
+in the [Q# blog](https://devblogs.microsoft.com/qsharp/) describes this sample
+in more detail.
 
 ## Running the program
 
