@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "host", "qpic-simulator\host
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simulator", "qpic-simulator\simulator\simulator.csproj", "{3F729B1F-4856-4AFE-91C4-69254034E464}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSubstitution", "autosubstitution\AutoSubstitution.csproj", "{30838650-E4C2-4B91-880F-CFB502963A08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +145,18 @@ Global
 		{3F729B1F-4856-4AFE-91C4-69254034E464}.Release|x64.Build.0 = Release|Any CPU
 		{3F729B1F-4856-4AFE-91C4-69254034E464}.Release|x86.ActiveCfg = Release|Any CPU
 		{3F729B1F-4856-4AFE-91C4-69254034E464}.Release|x86.Build.0 = Release|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Debug|x64.Build.0 = Debug|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Debug|x86.Build.0 = Debug|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Release|x64.ActiveCfg = Release|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Release|x64.Build.0 = Release|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Release|x86.ActiveCfg = Release|Any CPU
+		{30838650-E4C2-4B91-880F-CFB502963A08}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
