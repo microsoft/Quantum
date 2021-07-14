@@ -132,25 +132,28 @@ $runBlockList = @(
     "../samples/simulation/h2/gui/H2SimulationGUI.csproj"
 ) | ForEach-Object { (Resolve-Path (Join-Path $PSScriptRoot $_)).Path };
 
-$projectsToRun = Get-ChildItem -Recurse -Path (Join-Path ".." "*.csproj") `
+$projectsToRun = Get-ChildItem -Recurse -Path (Join-Path $PSScriptRoot ".." "*.csproj") `
     | Where-Object { (Get-ProjectKind $_.FullName) -eq [ProjectKind]::Executable } `
     | Where-Object { $_.FullName -notin $runBlockList };
 $nFailed = 0;
-$projectsToRun `
-    | ForEach-Object {
-        $additionalArgs = $projectArgs.ContainsKey($_.FullName) ? $projectArgs[$_.FullName] : @(,@());
-        foreach ($trialArgs in $additionalArgs) {
-            Write-Host "##[info] Running sample at $_ with arguments '$trialArgs'...";
-            Measure-Command { Invoke-Project $_ -AdditionalArgs $trialArgs };
-            if ($LastExitCode -ne 0) {
-                Write-Host "##[error] Failed running project $_.";
-                $script:all_ok = $False;
-                $nFailed += 1;
+
+Measure-Command {
+    $projectsToRun `
+        | ForEach-Object {
+            $additionalArgs = $projectArgs.ContainsKey($_.FullName) ? $projectArgs[$_.FullName] : @(,@());
+            foreach ($trialArgs in $additionalArgs) {
+                Write-Host "##[info] Running sample at $_ with arguments '$trialArgs'...";
+                Measure-Command { Invoke-Project $_ -AdditionalArgs $trialArgs };
+                if ($LastExitCode -ne 0) {
+                    Write-Host "##[error] Failed running project $_.";
+                    $script:all_ok = $False;
+                    $nFailed += 1;
+                }
             }
         }
-    }
 
-Write-Host "Ran $($projectsToRun.Length) samples, skipped $($runBlockList.Length), $nFailed failed.";
+    Write-Host "Ran $($projectsToRun.Length) samples, skipped $($runBlockList.Length), $nFailed failed.";
+}
 
 if (-not $all_ok) {
     throw "At least one project failed to compile. Check the logs."
