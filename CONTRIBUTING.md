@@ -1,4 +1,4 @@
-# Contributing to the Quantum Development Kit Samples #
+# Contributing to the Quantum Development Kit Samples
 
 Welcome, and thank you for your interest in contributing to the Quantum Development Kit!
 
@@ -32,20 +32,20 @@ The more information you can provide, the more likely someone will be successful
 
 Please include the following with each issue:
 
-* Which sample or samples are affected
+- Which sample or samples are affected
 
-* Component versions
-    - .NET Core SDK version
-    - Visual Studio or Visual Studio Code extension version (if applicable)
-    - Python version (if applicable)
-    - Version of the `qsharp` package for Python (if applicable)
-    - IQ# version as reported by `dotnet iqsharp --version` (if applicable)
+- Component versions
+  - .NET Core SDK version
+  - Visual Studio or Visual Studio Code extension version (if applicable)
+  - Python version (if applicable)
+  - Version of the `qsharp` package for Python (if applicable)
+  - IQ# version as reported by `dotnet iqsharp --version` (if applicable)
 
-* Your operating system
+- Your operating system
 
-* Reproducible steps (1... 2... 3...) that cause the issue
+- Reproducible steps (1... 2... 3...) that cause the issue
 
-* What you expected to happen, versus what actually happened
+- What you expected to happen, versus what actually happened
 
 ## Contributing Documentation
 
@@ -56,7 +56,8 @@ If you are interested in contributing to API references, please see [Contributin
 
 If you are interested in writing code to fix issues, to implement new features in existing samples, or even to contribute entirely new samples, please see [Contributing Code](https://docs.microsoft.com/azure/quantum/contributing-code) in the contribution guide.
 
-# Thank You!
+<!-- markdownlint-disable no-trailing-punctuation -->
+## Thank You!
 
 Your contributions to open source, large or small, make great projects like this possible.
 Thank you for taking the time to contribute.

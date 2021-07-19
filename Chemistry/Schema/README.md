@@ -1,8 +1,8 @@
-# Schema #
+# Schema
 
 This folder contains the definition of the Broombridge schema and a validator to check that a given YAML file is a valid description of a Broombridge integral data set.
 
-## Running the Validator Tool ##
+## Running the Validator Tool
 
 The validator tool is a Python script `validator.py` that checks given YAML documents against a JSON schema such as the default `broombridge-0.2.schema.json` file in used to define quantum chemistry problems.
 

@@ -1,4 +1,4 @@
-# Error Correction Samples #
+# Error Correction Samples
 
 These samples show how to work with quantum error correcting codes in Q# programs.
 
