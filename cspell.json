@@ -1,5 +1,14 @@
+// This configuration file sets options for spell-checking pull requests
+// onto this repository. Please see
+//     https://github.com/streetsidesoftware/cspell/tree/main/packages/cspell#cspelljson
+// for more documentation about this config file.
 {
     "ignoreWords": [
+        // Terms that come up in build / CI configuration.
+        "pwsh",
+        "markdownlint",
+
+        // Words specific to quantum computing.
         "eigenstate",
         "qubit",
         "qubits"
