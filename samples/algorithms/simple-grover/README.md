@@ -17,7 +17,7 @@ This sample uses the example of an operation that marks inputs of the form "0101
 In this case, the sample uses a hard-coded operation, but operations and functions in the [Microsoft.Quantum.AmplitudeAmplification namespace](https://docs.microsoft.com/qsharp/api/qsharp/microsoft.quantum.amplitudeamplification) can be used to efficiently and easily construct different inputs to Grover's algorithm, and to quickly build up useful variations of amplitude amplification for different applications.
 For examples of how to solve more general problems using amplitude amplification, check out the more in-depth [database search sample](https://github.com/microsoft/Quantum/tree/main/samples/algorithms/database-search).
 
-## Prerequisites ##
+## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 
@@ -37,10 +37,10 @@ dotnet run
 
 Open the folder containing this sample in Visual Studio ("Open a local folder"
 from the Getting Started screen or "File → Open → Folder..." from the menu bar)
-and set `SimpleGroverSample.csproj` as the startup project. 
-Press Start in Visual Studio to run the sample. 
+and set `SimpleGroverSample.csproj` as the startup project.
+Press Start in Visual Studio to run the sample.
 
-## Manifest ##
+## Manifest
 
 - [SimpleGrover.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/simple-grover/SimpleGrover.qs): Q# code implementing quantum operations for this sample.
 - [Reflections.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/simple-grover/Reflections.qs): Q# code implementing quantum operations for this sample.

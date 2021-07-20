@@ -24,6 +24,7 @@ jupyter:
 # Reversible Logic Synthesis
 
 This sample demonstrates:
+
 - How to use Q# to decompose permutations into quantum operations.
 - How to apply decomposed permutations in algorithms such as hidden shift.
 
@@ -55,8 +56,8 @@ dotnet run
 
 Open the folder containing this sample in Visual Studio ("Open a local folder"
 from the Getting Started screen or "File → Open → Folder..." from the menu bar)
-and set `ReversibleLogicSynthesis.csproj` as the startup project. 
-Press Start in Visual Studio to run the sample. 
+and set `ReversibleLogicSynthesis.csproj` as the startup project.
+Press Start in Visual Studio to run the sample.
 
 ## Manifest
 

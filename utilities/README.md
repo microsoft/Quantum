@@ -1,6 +1,6 @@
-# Quantum Development Kit Utilities #
+# Quantum Development Kit Utilities
 
-## qdk-migrate.ps1 ##
+## qdk-migrate.ps1
 
 > This script requires Windows PowerShell or PowerShell Core to run.
 > Windows PowerShell comes pre-installed with Windows 10.
@@ -14,7 +14,7 @@ Get-Help ./qdk-migrate.ps1
 Get-Help -Online ./qdk-migrate.ps1
 ```
 
-## updateQDKversion.sh ##
+## updateQDKversion.sh
 
 > This script requires Bash to run.
 > Bash comes pre-installed with macOS, most Linux distributions, and with Windows Subsystem for Linux.
@@ -27,14 +27,14 @@ For example, the following command updates all C# projects in the current direct
 ./updateQDKVersion.sh 0.3.1809.1-preview
 ```
 
-## InvokeNWChem.psm1 ##
+## InvokeNWChem.psm1
 
 > This module requires Windows PowerShell or PowerShell Core to run.
 > Windows PowerShell comes pre-installed with Windows 10.
 > Download PowerShell Core for Windows, macOS, or Linux at https://github.com/PowerShell/PowerShell.
 
 This PowerShell module provides functionality for invoking [NWChem](http://nwchem-sw.org) using [Docker](https://docker.com/), and for using NWChem to produce [Broombridge](https://docs.microsoft.com/azure/quantum/user-guide/libraries/chemistry/schema/broombridge) documents.
-To use this PowerShell module, first import it using the [`Import-Module`](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/import-module) command:
+To use this PowerShell module, first import it using the [`Import-Module`](https://docs.microsoft.com/powershell/module/microsoft.powershell.core/import-module) command:
 
 ```powershell
 cd Quantum/utilities

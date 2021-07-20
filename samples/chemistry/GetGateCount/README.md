@@ -1,10 +1,10 @@
-# Installing Optional Dependencies for the Gate Counting Sample #
+# Installing Optional Dependencies for the Gate Counting Sample
 
 The **GateCount** sample can be run as a traditional command-line program with no further dependencies than for the chemistry library itself.
 That said, the **GateCount** sample also demonstrates how to use Q# in other workflows, such as a traditional data science or business analytics process.
 In both cases, this sample uses the open-source PowerShell Core environment to interoperate between Q# programs and other workflows.
 
-## Summary ##
+## Summary
 
 This sample can be used in a variety of different ways, including as a traditional command-line tool, and as a part of a larger data science or business analytics workflow.
 
@@ -23,6 +23,7 @@ dotnet run -- --path=../IntegralData/YAML/h2.yaml --format=Broombridge
 For more options, run `dotnet run -- -?`.
 
 To use this sample from PowerShell, import the `get-gatecount.dll` assembly as a module, and use the `Get-GateCount` command, replacing `<runtime>` with either `win10-x64`, `osx-x64`, or `linux-x64`:
+
 ```powershell
 dotnet publish --self-contained -r <runtime>
 Import-Module ./bin/Debug/netcoreapp3.1/<runtime>/publish/get-gatecount.dll
@@ -30,24 +31,27 @@ Get-GateCount -Path ../IntegralData/YAML/h2.yaml -Format Broombridge
 ```
 
 When using this sample from PowerShell, you can pipe the results into an Excel spreadsheet using the [ImportExcel package](https://github.com/dfinke/ImportExcel):
+
 ```powershell
 Get-ChildItem ../IntegralData/YAML/LiHData/*.yaml | Get-GateCount -Format Broombridge | Export-Excel out.xlsx
 Invoke-Item $$
 ```
+
 Alternatively, you can pipe the results into the provided Python plotting tool using the [posh-tex package](https://www.cgranade.com/posh-tex/):
+
 ```powershell
 Get-ChildItem ../IntegralData/YAML/LiHData/*.yaml | Get-GateCount -Format Broombridge | ./Out-Plot.ps1
 ```
 
 For more options and documentation, run `Get-GateCount -?`.
 
-# Installing Optional Dependencies #
+## Installing Optional Dependencies
 
 As noted above, this sample can be used with other workflows, using tools like Python, Excel, and PowerShell Core.
 To use these features requires some additional dependencies beyond the traditional command-line workflow described above.
 In this section, we describe these additional dependencies.
 
-## Windows PowerShell and PowerShell Core ##
+### Windows PowerShell and PowerShell Core
 
 Similarly to the split between the .NET Framework and .NET Core platforms, PowerShell is available as Windows PowerShell or as the cross-platform PowerShell Core environment.
 This sample has been developed to run against PowerShell Core, and may not work from within Windows PowerShell.
@@ -64,7 +68,7 @@ If this command returns `Core`, you can proceed with the rest of the installatio
 If you need to install PowerShell Core, either because you do not have PowerShell at all, or because you have Windows PowerShell, download the installer appropriate for your operating system from the [GitHub site](https://github.com/PowerShell/PowerShell#get-powershell) for PowerShell Core.
 Note that by default, PowerShell Core will install side-by-side with any other shells that you may have.
 
-## Installing Required PowerShell Modules ##
+### Installing Required PowerShell Modules
 
 The **GateCount** sample demonstrates how to export gate count data for further use in a Python-based data science process, and how to export gate count data into an Excel-based business analytics process.
 Each of these integrations relies on a third-party PowerShell module that handles the appropriate exporting of data for us.
@@ -103,7 +107,7 @@ Get-Command -Module posh-tex
 > The `impo` shorthand can be read as a concatenation of `ip` (Import) and `mo` (Module), making it easier to remember aliases.
 > Similarly, `in` is short for "Install", so `inmo` is an alias for `Install-Module`.
 
-## Installing a Python Environment ##
+### Installing a Python Environment
 
 We recommend using this example with the [Anaconda distribution](https://www.anaconda.com/).
 To install Anaconda, follow the instructions provided on the [download page](https://www.anaconda.com/download/).
@@ -118,13 +122,14 @@ choco install anaconda3
 > You may therefore see an error such as "python : The term 'python' is not recognized as the name of a cmdlet, function, script file, or operable program."
 > In this case, make sure to run `conda activate` before launching PowerShell in order to make `python` available.
 > For instance, if you are using Bash on macOS or Linux, the following will print the path used to run Python:
+>
 > ```bash
 > conda activate
 > pwsh
 > Get-Command python
 > ```
 
-# Using PowerShell with the **GateCount** Sample #
+## Using PowerShell with the **GateCount** Sample
 
 Once you have installed the prerequisites above, the **GateCount** sample can be imported into PowerShell using the `dotnet publish` and `Import-Module` commands.
 To do so, replace `<runtime>` in the snippet below with either `win10-x64`, `linux-64`, or `osx-x64`, depending on your operating system.
@@ -167,6 +172,7 @@ This creates a new variable `$results` in the current PowerShell session.
 > You can save `$results` to disk and load back from disk to help you resume your work if you lose your session.
 > For instance, to export gate count data to JSON, use the `ConvertTo-Json` command to perform the conversion, and `Set-Content` to save to disk.
 > Importing uses `Get-Content` and `ConvertFrom-Json` instead:
+>
 > ```PowerShell
 > $results | ConvertTo-Json | Set-Content results.json
 > $results = Get-Content results.json | ConvertFrom-Json

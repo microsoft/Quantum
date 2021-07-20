@@ -11,6 +11,7 @@ urlFragment: measuring-qubits
 # Measuring Qubits
 
 This sample demonstrates:
+
 - The use of measurement operations to measure one or more qubits, getting classical data back that can be used in classical logic.
 - How to use assertions to build tests for expected behaviour of operations that involve measurements.
 - Resetting previously allocated qubits.
@@ -24,7 +25,7 @@ In this sample, we show how `M` can be used to sample random numbers, and to mea
 
 ## Running the Sample
 
-To run the sample, use the `dotnet run` command from your terminal. 
+To run the sample, use the `dotnet run` command from your terminal.
 
 ## Manifest
 

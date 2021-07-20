@@ -11,18 +11,19 @@ urlFragment: intro-to-qsharp-jupyter
 # Intro to Q# and Jupyter Notebook
 
 This sample demonstrates:
+
 - How to use Jupyter Notebook as a host program to run Q# applications.
 
 ## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
-- Jupyter Notebook 
+- Jupyter Notebook
 
 ## Running the Sample
 
 From the command line, start Jupyter Notebook and open the [Notebook.ipynb](https://github.com/microsoft/Quantum/blob/main/samples/getting-started/intro-to-iqsharp/Notebook.ipynb) file.
 
-```
+```shell
 jupyter notebook Notebook.ipynb
 ```
 

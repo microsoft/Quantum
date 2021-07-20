@@ -13,8 +13,9 @@ jupyter:
     name: iqsharp
 ---
 
-# Quantum Development Kit Samples
+<!-- markdownlint-disable-file no-inline-html -->
 
+# Quantum Development Kit Samples
 
 These samples demonstrate the use of Q# and the Quantum Development Kit for a variety of different quantum computing tasks.
 
@@ -23,7 +24,6 @@ Alternatively, you can [create a new command line terminal](http://127.0.0.1:888
 
 A small number of the samples have additional installation requirements beyond those for the rest of the Quantum Development Kit.
 These are noted in the README.md files for each sample, along with complete installation instructions.
-
 
 <table id="samples-list">
   <thead>

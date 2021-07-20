@@ -1,0 +1,13 @@
+{
+    "ignorePatterns": [
+      {
+        "pattern": "^http://localhost:8888"
+      },
+      {
+        "pattern": "^http://localhost:5000"
+      },
+      {
+        "pattern": "^http://127.0.0.1:8888"
+      }
+    ]
+}
