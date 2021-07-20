@@ -53,7 +53,7 @@ namespace Microsoft.Quantum.Samples.SimpleAlgorithms.BernsteinVazirani {
             // As the last step before the measurement, a Hadamard transform is
             // applied to all qubits except last one. We could apply the transform to
             // the last qubit also, but this would not affect the final outcome.
-            // We use a within-apply block to ensure that the Hadmard transform is
+            // We use a within-apply block to ensure that the Hadamard transform is
             // correctly inverted.
             ApplyToEachA(H, queryRegister);
         } apply {

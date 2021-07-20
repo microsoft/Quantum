@@ -135,7 +135,7 @@ namespace Microsoft.Quantum.Samples
         // operations in the `else` clause are positively controlled.  If it's
         // `One`, it's the other way around.  Both variables are inserted into
         // the dictionary for classically controlled qubits.  The qubit's id is
-        // used as identifier to link successive methods to the same conditinal
+        // used as identifier to link successive methods to the same conditional
         // statement.
         public override long StartConditionalStatement(Result measurementResult, Result resultValue) {
             var qubit = ((DelayedResult)measurementResult).Qubit;

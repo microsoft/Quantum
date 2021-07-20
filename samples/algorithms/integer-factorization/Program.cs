@@ -17,7 +17,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
     /// You can call `dotnet run -- --help` to see a help description for the application
     class CommonOptions
     {
-        [Option('n', "number", Required = false, Default = 15, HelpText = "Number to be factoried")]
+        [Option('n', "number", Required = false, Default = 15, HelpText = "Number to be factored")]
         public long NumberToFactor { get; set; }
 
         [Option('m', "method", Required = false, Default = "rpe", HelpText = "Use rpe for Robust Phase Estimation, and qpe for Quantum Phase Estimation")]

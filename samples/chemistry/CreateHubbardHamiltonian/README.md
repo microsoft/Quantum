@@ -4,5 +4,5 @@ This sample walks through constructing the Jordan–Wigner representation of the
 
 ## Manifest ##
 
-- [Program.cs](./Program.cs): C# program that constructs a fermionic Hamilonian for the 1D Hubbard model.
+- [Program.cs](./Program.cs): C# program that constructs a fermionic Hamiltonian for the 1D Hubbard model.
 - [CreateHubbardHamiltonian.csproj](./CreateHubbardHamiltonian.csproj): Main C# project for the sample.

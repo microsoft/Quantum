@@ -1,7 +1,7 @@
 # H₂ Simulation GUI Demo #
 
 This sample finds the equilibrium bonding distance of molecular Hydrogen. Estimates of the ground
-state energy are a funciton of bond distance are computed using the quantum phase estimation 
+state energy are a function of bond distance are computed using the quantum phase estimation 
 algorithm, using Hamiltonian simulation by a Trotter-Suzuki integrator.
 
 ## Prerequisites ##
