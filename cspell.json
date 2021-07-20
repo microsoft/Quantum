@@ -5,12 +5,14 @@
 {
     "ignoreWords": [
         // Terms that come up in build / CI configuration.
+        "logissue", // Used in ##[vso.logissue] commands.
         "pwsh",
         "markdownlint",
 
         // Words specific to quantum computing.
         "eigenstate",
         "qubit",
-        "qubits"
+        "qubits",
+        "qubitization"
     ]
 }
