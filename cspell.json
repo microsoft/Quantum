@@ -14,7 +14,12 @@
         "qubit",
         "qubits",
         "qubitization",
-        "qubitized"
+        "qubitized",
+
+        // Chemistry terminology
+        "nitrogenase",
+        "Hartree",
+        "Fock"
     ],
 
     "flagWords": [
