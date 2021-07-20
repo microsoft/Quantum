@@ -3,6 +3,8 @@ on:
     branches:
     - main
 
+name: "Check pull request"
+
 jobs:
   check-markdown:
     runs-on: ubuntu-latest
@@ -67,11 +69,11 @@ jobs:
     name: "Check spelling in changed files"
     steps:
       - uses: actions/checkout@v2
-      - uses: streetsidesoftware/cspell-action@v1.0.1
+      - uses: streetsidesoftware/cspell-action@v1.2.4
         with:
           inline: warning
           # Only warn on spelling errors, since there's likely a lot of false
           # positives with terminology in quantum computing.
           strict: false
           incremental_files_only: true
-          config: '.'
+          config: cspell.json
