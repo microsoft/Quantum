@@ -13,6 +13,12 @@
         "eigenstate",
         "qubit",
         "qubits",
-        "qubitization"
+        "qubitization",
+        "qubitized"
+    ],
+
+    "flagWords": [
+        // The Trotter–Suzuki decomposition isn't a verb.
+        "Trotterization"
     ]
 }
