@@ -1,0 +1,7 @@
+{
+    "ignoreWords": [
+        "eigenstate",
+        "qubit",
+        "qubits"
+    ]
+}

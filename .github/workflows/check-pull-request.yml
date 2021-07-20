@@ -61,3 +61,17 @@ jobs:
       shell: pwsh
       continue-on-error: false
 
+
+  check-spelling:
+    runs-on: ubuntu-latest
+    name: "Check spelling in changed files"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: streetsidesoftware/cspell-action@v1.0.1
+        with:
+          inline: warning
+          # Only warn on spelling errors, since there's likely a lot of false
+          # positives with terminology in quantum computing.
+          strict: false
+          incremental_files_only: true
+          config: '.'
