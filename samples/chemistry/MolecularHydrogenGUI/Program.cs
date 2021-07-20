@@ -80,7 +80,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
             }
         }
 
-        // Theorertical energy data for comparison.
+        // Theoretical energy data for comparison.
         internal static readonly double[] theoryEnergyData = {
             0.14421, -0.323939, -0.612975, -0.80051, -0.92526,
             -1.00901, -1.06539, -1.10233, -1.12559, -1.13894,
@@ -95,7 +95,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hydrogen
             -0.943664, -0.943238, -0.943172, -0.942973
         };
 
-        // Theorertical bond distance data for comparison.
+        // Theoretical bond distance data for comparison.
         internal static readonly double[] theoryDistanceData = {
             0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65,
             0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0, 1.05, 1.1, 1.15,

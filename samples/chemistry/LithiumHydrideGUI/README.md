@@ -1,6 +1,6 @@
 # LiH Simulation GUI Demo
 
-This sample finds the equilibrium bonding distance of Lithium Hydride. Estimates of the ground state and exited state energies as a function of bond distance are computed using the quantum phase estimation algorithm, using Hamiltonian simulation by a Trotter-Suzuki integrator.
+This sample finds the equilibrium bonding distance of Lithium Hydride. Estimates of the ground state and excited state energies as a function of bond distance are computed using the quantum phase estimation algorithm, using Hamiltonian simulation by a Trotter-Suzuki integrator.
 
 ## Prerequisites
 

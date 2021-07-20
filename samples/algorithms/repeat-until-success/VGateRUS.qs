@@ -125,7 +125,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
     }
 
     /// # Summary
-    /// Initialize axiliary and resource qubits in |+⟩, target in |0⟩ or |1⟩.
+    /// Initialize auxiliary and resource qubits in |+⟩, target in |0⟩ or |1⟩.
     ///
     /// # Input
     /// ## inputBasis

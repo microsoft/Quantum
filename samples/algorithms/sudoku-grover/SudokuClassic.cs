@@ -57,7 +57,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         Candidate NoCandidate = new Candidate();
 
         /// <summary>
-        /// For classical Sudoku, go thru entire puzzle and find all
+        /// For classical Sudoku, go through the entire puzzle and find all
         /// empty squares and, for each, the possible numbers for that square.
         /// </summary>
         /// <param name="puzzle">The Sudoku puzzle to solve</param>

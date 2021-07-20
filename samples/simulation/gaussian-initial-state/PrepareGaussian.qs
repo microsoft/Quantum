@@ -176,7 +176,7 @@ namespace Microsoft.Quantum.Samples.GaussianPreparation {
 		    rotateByAlpha(register[0]);
         }
 
-        // If there's more than 1 qubit, contruct the state recursively.
+        // If there's more than 1 qubit, construct the state recursively.
         elif nQubits > 1 {
             // If there's a single qubit, then simply do a rotation.
             if IsEmpty(bitstring) or nQubits == 1 {
