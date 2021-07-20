@@ -113,4 +113,18 @@ namespace Microsoft.Quantum.Samples {
         return InferredLabels(model::Bias, probabilities);
     }
 
+    @EntryPoint()
+    operation TrainingSample() : (Double[], Double) {
+        let features = Features();
+        let labels = Labels();
+        let starting_points = [
+            [0.060057, 3.00522,  2.03083,  0.63527,  1.03771, 1.27881, 4.10186,  5.34396],
+            [0.586514, 3.371623, 0.860791, 2.92517,  1.14616, 2.99776, 2.26505,  5.62137],
+            [1.69704,  1.13912,  2.3595,   4.037552, 1.63698, 1.27549, 0.328671, 0.302282],
+            [5.21662,  6.04363,  0.224184, 1.53913,  1.64524, 4.79508, 1.49742,  1.545]
+        ];
+
+
+        return TrainHalfMoonModel(features, labels, starting_points);
+    }
 }
