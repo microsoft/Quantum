@@ -38,10 +38,33 @@ function Validate-Integrals {
     }
 }
 
+# The AutoSubstitution sample uses the Microsoft.Quantum.AutoSubstitution NuGet
+# package that implements a Q# rewrite step.  If the package works as expected,
+# the program outputs two different strings depending on which simulator
+# (QuantumSimulator or ToffoliSimulator) is used.
+function Test-AutoSubstitution {
+    Write-Host "##[info]Testing AutoSubstitution sample..."
+
+    $output = dotnet run --project (Join-Path $PSScriptRoot "../samples/runtime/autosubstitution")
+
+    if ($output -notmatch "^Quantum version\s*$") {
+        Write-Host "##vso[task.logissue type=error;]Auto substitution with QuantumSimulator failed, the wrong operation was called, expected 'Quantum version'"
+        $script:all_ok = $False
+    } else {
+        $output = dotnet run --project (Join-Path $PSScriptRoot "../samples/runtime/autosubstitution") -s ToffoliSimulator
+
+        if ($output -notmatch "^Classical version\s*$") {
+            Write-Host "##vso[task.logissue type=error;]Auto substitution with ToffoliSimulator failed, the wrong operation was called, expected 'Classical version'"
+            $script:all_ok = $False
+        }
+    }
+}
+
 Validate-Integrals
 
 Test-One '../samples/tests/sample-tests'
 Test-One '../samples/diagnostics/unit-testing'
+Test-AutoSubstitution
 
 if (-not $all_ok) {
     throw "At least one project failed to compile. Check the logs."
