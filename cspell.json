@@ -1,0 +1,35 @@
+// This configuration file sets options for spell-checking pull requests
+// onto this repository. Please see
+//     https://github.com/streetsidesoftware/cspell/tree/main/packages/cspell#cspelljson
+// for more documentation about this config file.
+{
+    "ignoreWords": [
+        // .NET terminology
+        "xunit",
+
+        // Terms that come up in build / CI configuration.
+        "logissue", // Used in ##[vso.logissue] commands.
+        "pwsh",
+        "markdownlint",
+
+        // Words, terms, and names specific to quantum computing.
+        "CNOT",
+        "Chuang",
+        "eigenstate",
+        "qubit",
+        "qubits",
+        "qubit's",
+        "qubitization",
+        "qubitized",
+
+        // Chemistry terminology
+        "nitrogenase",
+        "Hartree",
+        "Fock"
+    ],
+
+    "flagWords": [
+        // The Trotter–Suzuki decomposition isn't a verb.
+        "Trotterization"
+    ]
+}

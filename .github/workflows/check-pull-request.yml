@@ -3,6 +3,8 @@ on:
     branches:
     - main
 
+name: "Check pull request"
+
 jobs:
   check-markdown:
     runs-on: ubuntu-latest
@@ -17,11 +19,14 @@ jobs:
           }
       shell: pwsh
     - name: markdownlint-cli
+      # cspell:words nosborn
       uses: nosborn/github-action-markdown-cli@v2.0.0
       with:
         files: .
         config_file: '.markdownlint.yaml'
-    - uses: gaurav-nelson/github-action-markdown-link-check@v1
+    - name: Markdown link check
+      # cspell:words gaurav
+      uses: gaurav-nelson/github-action-markdown-link-check@v1
       with:
         use-verbose-mode: 'yes'
         config-file: '.github/workflows/link-check-config.json'
@@ -61,3 +66,18 @@ jobs:
       shell: pwsh
       continue-on-error: false
 
+
+  check-spelling:
+    runs-on: ubuntu-latest
+    name: "Check spelling in changed files"
+    steps:
+      - uses: actions/checkout@v2
+      # cspell:words streetsidesoftware
+      - uses: streetsidesoftware/cspell-action@v1.2.4
+        with:
+          inline: warning
+          # Only warn on spelling errors, since there's likely a lot of false
+          # positives with terminology in quantum computing.
+          strict: false
+          incremental_files_only: true
+          config: cspell.json
