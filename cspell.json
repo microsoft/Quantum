@@ -4,15 +4,21 @@
 // for more documentation about this config file.
 {
     "ignoreWords": [
+        // .NET terminology
+        "xunit",
+
         // Terms that come up in build / CI configuration.
         "logissue", // Used in ##[vso.logissue] commands.
         "pwsh",
         "markdownlint",
 
-        // Words specific to quantum computing.
+        // Words, terms, and names specific to quantum computing.
+        "CNOT",
+        "Chuang",
         "eigenstate",
         "qubit",
         "qubits",
+        "qubit's",
         "qubitization",
         "qubitized",
 
