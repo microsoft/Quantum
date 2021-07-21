@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Samples.IntegerFactorization {
     open Microsoft.Quantum.Random;
     open Microsoft.Quantum.Intrinsic;
@@ -84,7 +85,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                 set factors = (gcd, number / gcd);
             }
         } 
-        until (foundFactors)
+        until foundFactors
         fixup {
             Message("The estimated period did not yield a valid factor, trying again.");
         }
