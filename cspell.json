@@ -7,6 +7,9 @@
         // .NET terminology
         "xunit",
 
+        // Jupyter terminology
+        "ipynb",
+
         // Terms that come up in build / CI configuration.
         "logissue", // Used in ##[vso.logissue] commands.
         "pwsh",
@@ -16,6 +19,7 @@
         "CNOT",
         "Chuang",
         "eigenstate",
+        "qsharp",
         "qubit",
         "qubits",
         "qubit's",
