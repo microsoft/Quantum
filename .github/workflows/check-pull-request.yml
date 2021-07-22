@@ -66,6 +66,16 @@ jobs:
       shell: pwsh
       continue-on-error: false
 
+  check-sample-layout:
+    runs-on: ubuntu-latest
+    name: "Check samples and README layouts"
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        ./.github/workflows/Test-SampleLayout.ps1
+      name: "Ensure that all samples have README.md files linked to by binder-index.md."
+      shell: pwsh
+      continue-on-error: false
 
   check-spelling:
     runs-on: ubuntu-latest
