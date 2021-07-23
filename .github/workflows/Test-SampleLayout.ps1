@@ -99,16 +99,39 @@ function Test-SampleHasReadme() {
 
 }
 
+## Allowlists ##
+# Here we list exceptions to the checks below. Do not add exceptions to these
+# lists without a comment explaining the rationale for the exception.
+
+$AllowList = @{
+    "SamplesWithoutReadmes" = @(
+        # The UnitTesting sample depends on a large amount of code outside
+        # the sample folder, and thus should not be deployed independently.
+        # To avoid this, the README for that sample intentionally omits front
+        # matter.
+        "./samples/diagnostics/unit-testing/UnitTesting.csproj"
+    ) | ForEach-Object { Get-Item $_ | Select-Object -ExpandProperty FullName };
+
+    "ReadmesNotLinkedFromBinderIndex" = @(
+        # This sample is not independent from the C# and Python hosts that come
+        # with it. The root for the sample should be linked instead.
+        "./samples/interoperability/qrng/README.md"
+    ) | ForEach-Object { Get-Item $_ | Select-Object -ExpandProperty FullName };
+}
+
 ## Main Script ##
 
 # Find each csproj and ipynb file in the samples folder. We need to make sure
 # each has a README.md file with front matter somewhere up the tree.
 $sampleProjects = Get-ChildItem -Path $SamplesRoot -Include *.csproj, *.ipynb -Recurse `
     | Where-Object {
+        # Exclude those projects in folders ignored by git, since they
+        # aren't part of the repo as it is published.
         -not (git check-ignore $_)
     };
 $samplesWithoutReadmes = $sampleProjects `
-    | Where-Object { -not (Test-SampleHasReadme $_) };
+    | Where-Object { -not (Test-SampleHasReadme $_) } `
+    | Where-Object { $_.FullName -notin $AllowList["SamplesWithoutReadme"] };
 $samplesWithoutReadmes
     | ForEach-Object {
         Write-GitHubWarning -Path $_ -Message "Project or notebook $_ does not seem to have a corresponding README.md with appropriate front-matter metadata.";
@@ -135,14 +158,13 @@ $binderIndexLinks = $binderIndexHtml.SelectNodes("//a") `
       } `
     | Where-Object { $_.EndsWith("README.md") } `
     <# Fully resolve everything we find. #> `
-    | ForEach-Object { Resolve-Path $_ | Get-Item | Select-Object -ExpandProperty FullName };
+    | ForEach-Object { Resolve-Path $_ | Get-Item | Select-Object -ExpandProperty FullName }
 $readmesNotLinkedFromBinder = Get-ChildItem -Recurse -Include README.md `
     | Where-Object {
           (Get-Content $_ -Raw).StartsWith("---");
       } `
-    | Where-Object {
-          -not $binderIndexLinks.Contains($_.FullName);
-      };
+    | Where-Object { $_.FullName -notin $AllowList["ReadmesNotLinkedFromBinderIndex"] } `
+    | Where-Object { $_.FullName -notin $binderIndexLinks };
 $readmesNotLinkedFromBinder | ForEach-Object {
     Write-GitHubWarning -Path $_ -Message "README.md file $_ has front matter, but isn't linked to from binder-index.md. This sample may be difficult to discover from aka.ms/try-qsharp.";
 }
