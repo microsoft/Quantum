@@ -17,11 +17,16 @@ $InCI = "$Env:CI" -eq "true" -and "$Env:GITHUB_WORKFLOW" -ne "";
 
 # If running in CI, install PowerHTML so that we can parse HTML later.
 if ($InCI) {
-    If (-not (Get-Module -ErrorAction Ignore -ListAvailable PowerHTML)) {
+    if (-not (Get-Module -ErrorAction Ignore -ListAvailable PowerHTML)) {
         Install-Module PowerHTML -Force -ErrorAction Stop -Scope CurrentUser;
-      }
-      Import-Module -ErrorAction Stop PowerHTML
+    }
 }
+
+Import-Module -ErrorAction Stop PowerHTML
+
+# Write a blank line to the log to make sure later warnings aren't treated
+# as part of the install and import steps above.
+Write-Host ""
 
 ## Path Definitions ##
 
