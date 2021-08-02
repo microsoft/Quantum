@@ -18,7 +18,7 @@ integral_sets:
       name: H
     coordinate_system: cartesian
     symmetry: c1
-    units: bohr
+    units: angstrom
   hamiltonian:
     one_electron_integrals:
       format: sparse
