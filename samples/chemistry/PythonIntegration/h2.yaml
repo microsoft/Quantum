@@ -12,9 +12,9 @@ integral_sets:
   fci_energy: {lower: 0.0, units: hartree, upper: 0.0, value: 0.0}
   geometry:
     atoms:
-    - coords: [0.0, 0.0, 0.0]
+    - coords: [0.0, 0.0, -0.812]
       name: H
-    - coords: [0.0, 0.0, 0.859]
+    - coords: [0.0, 0.0, 0.812]
       name: H
     coordinate_system: cartesian
     symmetry: c1
@@ -36,7 +36,7 @@ integral_sets:
       - [1,1,2,2,0.663472101]
       - [2,2,2,2,0.697398010]
   
-  metadata: {molecule_name: unknown}
+  metadata: {molecule_name: hydrogen}
   n_electrons: 2
   n_orbitals: 2
   scf_energy: {units: hartree, value: -0.87499072}
