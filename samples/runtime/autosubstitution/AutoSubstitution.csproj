@@ -5,6 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Set the IsQscReference to true to indicate that this reference is used as a Q# compiler extension -->
-    <PackageReference Include="Microsoft.Quantum.AutoSubstitution" Version="0.18.2106148911" IsQscReference="true" />
+    <PackageReference Include="Microsoft.Quantum.AutoSubstitution" Version="0.18.2107153439" IsQscReference="true" />
   </ItemGroup>
 </Project>
