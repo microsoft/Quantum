@@ -132,7 +132,7 @@ $AllowList = @{
         "./samples/chemistry/MolecularHydrogen/MolecularHydrogen.csproj",
         "./samples/chemistry/MolecularHydrogenGUI/MolecularHydrogenGUI.csproj",
         "./samples/chemistry/RunSimulation/2-RunSimulation.csproj",
-        "./samples/chemistry/SimulateHubbardHamiltonian/SimulateHubbardHamiltonian.csproj",
+        "./samples/chemistry/SimulateHubbardHamiltonian/SimulateHubbardHamiltonian.csproj"
     ) | ForEach-Object { Get-Item $_ | Select-Object -ExpandProperty FullName };
 
     "ReadmesNotLinkedFromBinderIndex" = @(
