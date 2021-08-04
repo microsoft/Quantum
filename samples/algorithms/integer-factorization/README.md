@@ -1,4 +1,14 @@
-﻿# Integer Factorization Sample
+﻿---
+page_type: sample
+languages:
+- qsharp
+products:
+- qdk
+description: "This sample uses Q# to factor integers with Shor's algorithm."
+urlFragment: integer-factorization
+---
+
+# Integer Factorization Sample
 
 This sample contains Q# code implementing Shor's quantum algorithm for
 factoring integers. The sample relies on the arithmetic library provided as

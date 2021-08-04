@@ -140,8 +140,8 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Arithmetic:</strong></td>
-      <td><strong><a href="./samples/arithmetic/README.md">Adder</a></strong></td>
-      <td><a href="./samples/arithmetic/AdderExample.ipynb">Q# notebook</a></td>
+      <td><strong><a href="./samples/arithmetic/quantum-adders/README.md">Adder</a></strong></td>
+      <td><a href="./samples/arithmetic/quantum-adders/AdderExample.ipynb">Q# notebook</a></td>
       <td></td>
       <td></td>
       <td></td>

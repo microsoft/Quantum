@@ -10,6 +10,9 @@
         // Jupyter terminology
         "ipynb",
 
+        // Python terminology
+        "conda",
+
         // Terms that come up in build / CI configuration.
         "logissue", // Used in ##[vso.logissue] commands.
         "pwsh",
@@ -28,6 +31,7 @@
         "qubitized",
 
         // Chemistry terminology
+        "fermionic",
         "nitrogenase",
         "Hartree",
         "Fock"

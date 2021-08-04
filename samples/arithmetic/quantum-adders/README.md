@@ -1,6 +1,16 @@
-﻿# Adder Sample
+﻿---
+page_type: sample
+languages:
+- qsharp
+products:
+- qdk
+description: "This sample uses Q# to factor integers with Shor's algorithm."
+urlFragment: quantum-adders
+---
 
-This sample shows how to add two integers using the arithmetic functionality in the Q# canon.
+# Quantum adders
+
+This sample shows how to add two integers using the arithmetic functionality in the Q# numerics library.
 Two examples of adders implemented in this sample are that of [Takahashi *et al.*](https://arxiv.org/abs/0910.2530) and [Cuccaro *et al.*](https://arxiv.org/abs/quant-ph/0410184).
 
 ## Running the Sample

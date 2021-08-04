@@ -114,7 +114,25 @@ $AllowList = @{
         # the sample folder, and thus should not be deployed independently.
         # To avoid this, the README for that sample intentionally omits front
         # matter.
-        "./samples/diagnostics/unit-testing/UnitTesting.csproj"
+        "./samples/diagnostics/unit-testing/UnitTesting.csproj",
+
+        # The SampleTests project isn't actually a sample, but a part of how
+        # we test other samples. As such, it should not be included here.
+        "./samples/tests/sample-tests/SampleTests.csproj",
+
+        # Many of the chemistry samples have not yet been refactored to work
+        # independently of other samples (e.g.: have project references outside
+        # the root directory for each sample). As a result, these samples
+        # cannot yet be deployed to the Samples Browser, so we exempt them from
+        # the metadata requirement here until they have been refactored.
+        "./samples/chemistry/AnalyzeHamiltonian/1-AnalyzeHamiltonian.csproj",
+        "./samples/chemistry/CreateHubbardHamiltonian/CreateHubbardHamiltonian.csproj",
+        "./samples/chemistry/GetGateCount/3-GetGateCount.csproj",
+        "./samples/chemistry/LithiumHydrideGUI/LithiumHydrideGUI.csproj",
+        "./samples/chemistry/MolecularHydrogen/MolecularHydrogen.csproj",
+        "./samples/chemistry/MolecularHydrogenGUI/MolecularHydrogenGUI.csproj",
+        "./samples/chemistry/RunSimulation/2-RunSimulation.csproj",
+        "./samples/chemistry/SimulateHubbardHamiltonian/SimulateHubbardHamiltonian.csproj",
     ) | ForEach-Object { Get-Item $_ | Select-Object -ExpandProperty FullName };
 
     "ReadmesNotLinkedFromBinderIndex" = @(

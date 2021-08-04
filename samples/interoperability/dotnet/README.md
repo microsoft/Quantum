@@ -1,3 +1,13 @@
+---
+page_type: sample
+languages:
+- qsharp
+products:
+- qdk
+description: "This sample demonstrates how to use Q# together with .NET languages."
+urlFragment: qsharp-with-dotnet
+---
+
 # Using Q# with .NET
 
 This sample shows how to use Q# code with a classical host program written in .NET languages such as C# and F#.
