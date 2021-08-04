@@ -4,21 +4,23 @@
 // for more documentation about this config file.
 {
     "ignoreWords": [
-        // .NET terminology
+        // # .NET terminology
         "xunit",
 
-        // Jupyter terminology
+        // # Jupyter terminology
         "ipynb",
 
-        // Python terminology
+        // # Python terminology
         "conda",
+        "xlabel", // Used in matplotlib calls.
+        "ylabel",
 
-        // Terms that come up in build / CI configuration.
+        // # Terms that come up in build / CI configuration
         "logissue", // Used in ##[vso.logissue] commands.
         "pwsh",
         "markdownlint",
 
-        // Words, terms, and names specific to quantum computing.
+        // # Words, terms, and names specific to quantum computing
         "CNOT",
         "Chuang",
         "eigenstate",
@@ -31,14 +33,25 @@
         "qubitized",
         "wavefunction",
 
-        // Physics terminology
+        // # Mathematics terminology
+        "coeff", // Common shorthand for "coefficient."
+        "coeffs",
+
+        // # Physics terminology
         "Ising",
 
-        // Chemistry terminology
+        // # Chemistry terminology
         "fermionic",
         "nitrogenase",
         "Hartree",
-        "Fock"
+        "Fock",
+
+        // # Other terminology
+        // NB: before adding terms here, please add a comment explaining
+        //     where each term is used.
+        "Remez", // As in Remez's algorithm (https://en.wikipedia.org/wiki/Remez_algorithm).
+        "Remez's",
+        "Chebyshev" // As in Chebyshev polynomials.
     ],
 
     "flagWords": [

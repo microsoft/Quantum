@@ -1,7 +1,7 @@
-# Copyright (c) Microsoft Corporation. All rights reserved.
+# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-# This Python script implements Remez' algorithm (https://en.wikipedia.org/wiki/Remez_algorithm).
+# This Python script implements Remez's algorithm (https://en.wikipedia.org/wiki/Remez_algorithm).
 # To use the script, you can modify what happens when this script is executed:
 # See the `if __name__ == "__main__":` branch near the end of this file.
 #
@@ -18,12 +18,12 @@ def _get_chebyshev_nodes(n, a, b):
              for k in range(n)]
     return nodes
 
-# Return the error on given nodes of a polynomial with coefficients polycoeff
-# approximating the function with function values exactvals (on these nodes).
-def _get_errors(exactvals, polycoeff, nodes):
-    ys = np.polyval(polycoeff, nodes)
+# Return the error on given nodes of a polynomial with coefficients poly_coeff
+# approximating the function with function values exact_values (on these nodes).
+def _get_errors(exact_values, poly_coeff, nodes):
+    ys = np.polyval(poly_coeff, nodes)
     for i in range(len(ys)):
-        ys[i] = abs(ys[i] - exactvals[i])
+        ys[i] = abs(ys[i] - exact_values[i])
     return ys
 
 """
@@ -75,15 +75,15 @@ def run_remez(fun, a, b, d=5, odd=False, even=False, tol=1.e-13):
 
         # add padding for even/odd polynomials
         revlist = reversed(res[0:-1])
-        sccoeff = []
+        sc_coeff = []
         for c in revlist:
-            sccoeff.append(c)
+            sc_coeff.append(c)
             if odd or even:
-                sccoeff.append(0)
+                sc_coeff.append(0)
         if even:
-            sccoeff = sccoeff[0:-1]
+            sc_coeff = sc_coeff[0:-1]
         # evaluate the approximation error
-        errs = _get_errors([fun(c) for c in cn2], sccoeff, cn2)
+        errs = _get_errors([fun(c) for c in cn2], sc_coeff, cn2)
         maximum_indices = []
 
         # determine points of locally maximal absolute error

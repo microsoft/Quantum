@@ -40,6 +40,6 @@ dotnet run
 
 ## Manifest
 
-- [Game.qs](./CustomModAdd.qs): Q# code implementing a custom modular integer adder.
+- [CustomModAdd.qs](./CustomModAdd.qs): Q# code implementing a custom modular integer adder.
 - [Program.qs](./Program.qs): A Q# standalone application that uses and tests the custom modular integer adder.
 - [CustomModAdd.csproj](./CustomModAdd.csproj): Main Q# project for the sample.

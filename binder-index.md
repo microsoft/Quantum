@@ -380,7 +380,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Numerics:</strong></td>
-      <td><strong><a href="./samples/numerics/custom-mod-add">Custom modular addition</a></strong></td>
+      <td><strong><a href="./samples/numerics/custom-mod-add/README.md">Custom modular addition</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -388,7 +388,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="./samples/numerics/EvaluatingFunctions">Evaluating functions</a></strong></td>
+      <td><strong><a href="./samples/numerics/evaluating-functions/README.md">Evaluating functions</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -396,8 +396,8 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="./samples/numerics/ResourceCounting">Resource counting</a></strong></td>
-      <td><a href="./samples/numerics/ResourceCounting/ResourceEstimation.ipynb">Q# notebook</a></td>
+      <td><strong><a href="./samples/numerics/resource-counting/README.md">Resource counting</a></strong></td>
+      <td><a href="./samples/numerics/resource-counting/ResourceEstimation.ipynb">Q# notebook</a></td>
       <td></td>
       <td>Q# standalone</td>
       <td></td>
