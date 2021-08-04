@@ -154,7 +154,7 @@ $sampleProjects = Get-ChildItem -Path $SamplesRoot -Include *.csproj, *.ipynb -R
     };
 $samplesWithoutReadmes = $sampleProjects `
     | Where-Object { -not (Test-SampleHasReadme $_) } `
-    | Where-Object { $_.FullName -notin $AllowList["SamplesWithoutReadme"] };
+    | Where-Object { $_.FullName -notin $AllowList["SamplesWithoutReadmes"] };
 $samplesWithoutReadmes
     | ForEach-Object {
         Write-GitHubWarning -Path $_ -Message "Project or notebook $_ does not seem to have a corresponding README.md with appropriate front-matter metadata.";
