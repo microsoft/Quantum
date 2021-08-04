@@ -19,14 +19,14 @@ $InCI = "$Env:CI" -eq "true" -and "$Env:GITHUB_WORKFLOW" -ne "";
 if ($InCI) {
     if (-not (Get-Module -ErrorAction Ignore -ListAvailable PowerHTML)) {
         Install-Module PowerHTML -Force -ErrorAction Stop -Scope CurrentUser;
+
+        # Write a blank line to the log to make sure later warnings aren't treated
+        # as part of the install and import steps above.
+        Write-Host ""
     }
 }
 
 Import-Module -ErrorAction Stop PowerHTML
-
-# Write a blank line to the log to make sure later warnings aren't treated
-# as part of the install and import steps above.
-Write-Host ""
 
 ## Path Definitions ##
 
@@ -209,4 +209,8 @@ $readmesNotLinkedFromBinder | ForEach-Object {
 
 if ($readmesNotLinkedFromBinder.Count -gt 0) {
     Write-GitHubWarning "$($readmesNotLinkedFromBinder.Count) samples may not be linked from binder-index.md.";
+    exit -1;
+} else {
+    Write-Host "✅ No problems with samples layout detected."
+    exit 0;
 }

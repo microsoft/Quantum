@@ -52,4 +52,4 @@ jupyter notebook
 - [ResourceCounting.qs](./ResourceCounting.qs): Q# code implementing polynomial function evaluation.
 - [Program.qs](./Program.qs): A Q# standalone application for use with the `-s ResourcesEstimator` option.
 - [ResourceCounting.csproj](./ResourceCounting.csproj): Main Q# project for the sample.
-- [ResourceCounting.ipynb](./ResourceCounting.ipynb): A Jupyter Notebook version of the sample.
+- [ResourceEstimation.ipynb](./ResourceEstimation.ipynb): A Jupyter Notebook version of the sample.

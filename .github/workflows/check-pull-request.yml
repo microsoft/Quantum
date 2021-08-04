@@ -71,10 +71,12 @@ jobs:
     name: "Check samples and README layouts"
     steps:
     - uses: actions/checkout@v2
-    - run: |
-        ./.github/workflows/Test-SampleLayout.ps1
+    - run: ./.github/workflows/Test-SampleLayout.ps1
       name: "Ensure that all samples have README.md files linked to by binder-index.md."
-      shell: pwsh
+      # We use a custom shell here to disable GitHub Actions' handling for
+      # PowerShell errors, as our script explicitly calls `exit` to set error
+      # codes.
+      shell: "pwsh -File {0}"
       continue-on-error: false
 
   check-spelling:
