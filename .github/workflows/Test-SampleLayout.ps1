@@ -132,13 +132,27 @@ $AllowList = @{
         "./samples/chemistry/MolecularHydrogen/MolecularHydrogen.csproj",
         "./samples/chemistry/MolecularHydrogenGUI/MolecularHydrogenGUI.csproj",
         "./samples/chemistry/RunSimulation/2-RunSimulation.csproj",
-        "./samples/chemistry/SimulateHubbardHamiltonian/SimulateHubbardHamiltonian.csproj"
+        "./samples/chemistry/SimulateHubbardHamiltonian/SimulateHubbardHamiltonian.csproj",
+
+        # Several of the simulation samples are similarly not independent,
+        # and thus should be omitted from Samples Browser onboarding until they
+        # are refactored.
+        "./samples/simulation/ising/adiabatic/AdiabaticIsingSample.csproj",
+        "./samples/simulation/ising/generators/IsingGeneratorsSample.csproj",
+        "./samples/simulation/ising/phase-estimation/IsingPhaseEstimationSample.csproj",
+
+        # A few other misc. samples also need to be refactored to be standalone.
+        "./samples/runtime/state-visualizer/StateVisualizer.csproj"
     ) | ForEach-Object { Get-Item $_ | Select-Object -ExpandProperty FullName };
 
     "ReadmesNotLinkedFromBinderIndex" = @(
         # This sample is not independent from the C# and Python hosts that come
         # with it. The root for the sample should be linked instead.
         "./samples/interoperability/qrng/README.md"
+
+        # QIR samples cannot yet be used from mybinder.org, so it's OK to not
+        # list them on the binder index.
+        "./samples/qir/oracle-generator/README.md"
     ) | ForEach-Object { Get-Item $_ | Select-Object -ExpandProperty FullName };
 }
 
@@ -189,7 +203,7 @@ $readmesNotLinkedFromBinder = Get-ChildItem -Recurse -Include README.md `
     | Where-Object { $_.FullName -notin $AllowList["ReadmesNotLinkedFromBinderIndex"] } `
     | Where-Object { $_.FullName -notin $binderIndexLinks };
 $readmesNotLinkedFromBinder | ForEach-Object {
-    Write-GitHubWarning -Path $_ -Message "README.md file $_ has front matter, but isn't linked to from binder-index.md. This sample may be difficult to discover from aka.ms/try-qsharp.";
+    Write-GitHubWarning -Path $_ -Message "README.md file $_ has front matter, but isn't linked to from binder-index.md. This sample may be difficult to discover from https://aka.ms/try-qsharp.";
 }
 
 
