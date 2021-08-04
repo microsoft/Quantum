@@ -1,3 +1,15 @@
+---
+page_type: sample
+languages:
+- qsharp
+- csharp
+- javascript
+products:
+- qdk
+description: "This sample demonstrates simulating H₂ with Q#, and plotting the results as an Electron app."
+urlFragment: h2-simulation-gui
+---
+
 # H₂ Simulation GUI Demo
 
 ## Prerequisites

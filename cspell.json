@@ -29,6 +29,10 @@
         "qubit's",
         "qubitization",
         "qubitized",
+        "wavefunction",
+
+        // Physics terminology
+        "Ising",
 
         // Chemistry terminology
         "fermionic",
