@@ -1,0 +1,14 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+name: variational
+channels:
+- conda-forge
+- quantum-engineering
+dependencies:
+  - notebook
+  - matplotlib
+  - qsharp==0.18.2107.153439
+  # This sample uses the QuTiP library to decompose Hamiltonian operators in
+  # the Pauli basis.
+  - qutip
