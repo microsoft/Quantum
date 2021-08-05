@@ -139,6 +139,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><a href="./samples/algorithms/variational-algorithms/README.md"><strong>Variational quantum algorithms</strong></a></td>
+      <td></td>
+      <td><a href="./samples/algorithms/variational-algorithms/Variational%20Quantum%20Algorithms.ipynb">Q# + Python</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Arithmetic:</strong></td>
       <td><strong><a href="./samples/arithmetic/README.md">Adder</a></strong></td>
       <td><a href="./samples/arithmetic/AdderExample.ipynb">Q# notebook</a></td>
