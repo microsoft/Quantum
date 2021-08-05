@@ -508,7 +508,3 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
   </tbody>
 </table>
-
-```qsharp
-
-```
