@@ -51,4 +51,4 @@ jupyter notebook
 ## Further resources
 
 - For an example of using variational quantum eigensolvers in chemistry, see [the **azure-quantum/chemistry** sample](../../azure-quantum/chemistry/README.md).
-- For an example of using iterative phase estimation to more efficiently learn energies, see [the **characterization/phase-estimation** sample](../characterization/phase-estimation/BayesianPhaseEstimation.qs).
+- For an example of using iterative phase estimation to more efficiently learn energies, see [the **characterization/phase-estimation** sample](../../characterization/phase-estimation/README.md).
