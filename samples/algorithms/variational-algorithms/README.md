@@ -9,7 +9,7 @@ description: "This sample demonstrates how to use Q# to write variational quantu
 urlFragment: variational-quantum-algorithms
 ---
 
-# Validating Quantum Mechanics with the CHSH Game
+# Implementing variational quantum algorithms in Q\#
 
 This sample demonstrates:
 
@@ -43,3 +43,12 @@ jupyter notebook
 - [VariationalAlgorithms.csproj](./VariationalAlgorithms.csproj): Main Q# project for this sample.
 - [enviornment.yml](./environment.yml): Specification of a conda environment for this sample.
 - [.iqsharp-config.json](./.iqsharp-config.json): Preferences for Q# visualization in Jupyter Notebooks.
+
+## References
+
+- [arXiv:1304.3061](https://arxiv.org/abs/1304.3061v1)
+
+## Further resources
+
+- For an example of using variational quantum eigensolvers in chemistry, see [the **azure-quantum/chemistry** sample](../../azure-quantum/chemistry/README.md).
+- For an example of using iterative phase estimation to more efficiently learn energies, see [the **characterization/phase-estimation** sample](../characterization/phase-estimation/BayesianPhaseEstimation.qs).
