@@ -9,7 +9,6 @@ description: "This sample uses the Q# standard libraries to implement a syndrome
 urlFragment: quantum-syndrome
 ---
 
-
 # Measuring quantum error syndromes with Q\#
 
 This sample demonstrates how to create a partially implemented Syndrome for detecting errors generated in noisy hardware. The sample shows how this is implemented using Q# standard libraries. Currently, it does not simulate realistic noise so the resulting unitary operator is trivial. However, the program is useful to demonstrate the concept of a syndrome.

@@ -6,12 +6,11 @@ languages:
 products:
 - qdk
 description: "This sample uses Grover's search algorithm to solve Sudoku puzzles."
-
 ---
 
 # Solving Sudoku using Grover's Algorithm
 
-This program demonstrates solving Sudoku puzzle using Grovers algorithm. The code supports both 4x4 and 9x9 Sudoku puzzles.
+This program demonstrates solving Sudoku puzzle using Grover's algorithm. The code supports both 4x4 and 9x9 Sudoku puzzles.
 
 For 4x4 puzzles, the same rules apply:
 
@@ -65,7 +64,7 @@ For example, cell 0 can't have the same number (color) as cell 1, so `emptySquar
 Similarly, `startingNumberConstraints` is the array of (Cell#, constraint).
 For example, the constraint that empty cell 0 can't have value 1 or 3 is encoded as `startingNumberConstraints = [(0, 1), (0, 3), (1, 1), (1, 3)]`.
 
-Note that the puzzles are initially defined in C# using numbers from 1 to 4, or 1 to9. However, when solving this quantumly and encoding these values into qubits,
+Note that the puzzles are initially defined in C# using numbers from 1 to 4, or 1 to9. However, when solving this using a quantum program and encoding these values into qubits,
 the numbers are changed to 0 to 3 and 0 to 8 and then converted back.
 This allows a 4x4 puzzle to be solved using 2 qubits per missing number.
 
@@ -88,7 +87,7 @@ To run the sample, use the `dotnet run` command from your terminal.
 This will run all the test puzzles.
 You can also choose a specific puzzle to solve by adding the puzzle name as below
 
-- 4x4-classic : test classic algorthm on a 4x4 puzzle
+- 4x4-classic : test classic algorithm on a 4x4 puzzle
 - 4x4-1: test Quantum solution of 4x4 puzzle missing 1 number
 - 4x4-3: test Quantum solution of 4x4 puzzle missing 3 numbers
 - 4x4-4: test Quantum solution of 4x4 puzzle missing 4 numbers
@@ -105,7 +104,7 @@ For example, `dotnet run 4x4-4` will run the Quantum solution for a 4x4 puzzle w
 
 - [ColoringGroverWithConstraints.qs](ColoringGroverWithConstraints.qs): Q# code implementing graph coloring with flexible number of bits per color and ability to specify constraints on the colors found per Vertex.  A custom oracle for coloring with only 9 colors is also implemented.
 - [Program.cs](Program.cs): C# code with Sudoku test problems to solve using classical or Quantum code. It then checks and displays the results.
-- [Sudoku.qs](Sudoku.qs): Q# code which accepts edges and constraints and calls Grovers algorthm with the coloring oracle. Also checks the result is correct.
+- [Sudoku.qs](Sudoku.qs): Q# code which accepts edges and constraints and calls Grover's algorithm with the coloring oracle. Also checks the result is correct.
 - [SudokuClassic.cs](SudokuClassic.cs): C# code to solve a Sudoku puzzle using classical code.
 - [SudokuQuantum.cs](SudokuQuantum.cs): C# code to solve a Sudoku puzzle by transforming it into a graph problem (edges and starting number constraints), and call the Quantum SolvePuzzle operation to solve it.
 - [SudokuGroverSample.csproj](SudokuGroverSample.csproj): Main project for the sample.
