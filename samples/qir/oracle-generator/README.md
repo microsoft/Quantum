@@ -62,11 +62,11 @@ that supports C++ 17.
 
 ## Sample overview
 
-* [qsharp](./qsharp): This folder contains the Q# project that will be compiled
+- [qsharp](./qsharp): This folder contains the Q# project that will be compiled
   into QIR; it contains an empty operation for which the implementation will be
   automatically generated
-* [host](./host): C++ host program that calls into the QIR code.
-* [oracle-generator](./oracle-generator): A C++ program that takes QIR generated
+- [host](./host): C++ host program that calls into the QIR code.
+- [oracle-generator](./oracle-generator): A C++ program that takes QIR generated
   from the Q# compiler and adds implementation details to empty operations based
   on Q# functions in the original code.
 
@@ -93,7 +93,7 @@ cmake -DCMAKE_CXX_COMPILER=clang++ -DLLVM_DIR=$LLVM_DIR ..
 
 Call from within the `build` directory:
 
-```
+```shell
 ./host/host_program
 ```
 

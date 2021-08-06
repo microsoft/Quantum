@@ -1,4 +1,4 @@
-# Q# State Visualizer #
+# Q# State Visualizer
 
 This sample lets you interactively step through the execution of a Q# program.
 It shows the tree of operation calls and a visualization of the quantum state
@@ -11,7 +11,7 @@ classical functions.
 
 You can read more about this sample in [this blog post](https://www.sarahmarshall.name/blog/visualizing-quantum-state-with-qsharp.html).
 
-## Running the Sample ##
+## Running the Sample
 
 Install [Node.js](https://nodejs.org/en/) and the
 [.NET Core SDK](https://dotnet.microsoft.com/download) if you do not already
@@ -19,21 +19,21 @@ have them installed.
 
 Then install the dependencies and build the TypeScript component:
 
-```
+```bash
 npm install
 npm run release
 ```
 
 Finally, start the dotnet host application:
 
-```
+```dotnetcli
 dotnet run
 ```
 
 This will launch a web server running the state visualizer. Open
 http://localhost:5000 in a web browser to use it.
 
-## Editing the Q# Program ##
+## Editing the Q# Program
 
 To change the Q# program that is executed by the state visualizer, edit the
 `Program.qs` file. The visualizer will start the program by running the `QsMain`

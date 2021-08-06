@@ -12,9 +12,10 @@ description: "Using repeat-until-success patterns in quantum programs"
 This is an example of two Repeat-Until-Success (RUS) algorithms implemented in a Q# program.
 The algorithm has been described in [Adam Paetznick, Krysta M. Svore, Quantum Information & Computation 14(15 & 16): 1277-1301 (2014)](https://arxiv.org/abs/1311.1074).
 
-## Prerequisites ##
+## Prerequisites
 
-- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/)
+
 ## Description
 
 ### 𝑉₃ gate RUS circuit
@@ -44,7 +45,8 @@ The program returns a tuple with three values: whether the program ran successfu
 Browse to the `samples/algorithms/repeat-until-success` folder and run `dotnet build` to build the project. Then run `dotnet run [options] --no-build`. Optionally, omit the `--no-build` option to automatically build the project before execution.
 
 To see options, run `dotnet run -- --help`.
-```
+
+```text
 Options:
   --gate <gate> (REQUIRED)                                  Gate circuit to run ("simple" or "V")
   --input-value (REQUIRED)                                  Boolean value for input qubit (true maps to One, false maps to Zero)
@@ -61,7 +63,7 @@ Options:
 
 ## Example run
 
-```
+```text
 > dotnet run --input-value true --input-basis PauliZ --limit 10
 (True, One, 3)
 ```

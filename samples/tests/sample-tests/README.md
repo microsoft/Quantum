@@ -1,8 +1,8 @@
-# Quantum Development Kit Standard Library Unit Tests #
+# Quantum Development Kit Standard Library Unit Tests
 
 This project contains the unit tests used to ensure the correct operation of the Q# prelude and canon.
 
-## Running Unit Tests ##
+## Running Unit Tests
 
 Open the `QsharpLibraries.sln` solution in Visual Studio and select *Tests → Run → All Tests...* from the main menu.
 This should open up the Visual Studio Test Explorer with a list of all tests provided with the Q# standard libraries and samples.

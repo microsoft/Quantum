@@ -1,8 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 // This file includes some utility functions to set and 
-// verify |+> and |-> quantum states.
+// verify |+⟩ and |-⟩ quantum states.
 namespace Microsoft.Quantum.Samples.Teleportation {
     open Microsoft.Quantum.Random;
     open Microsoft.Quantum.Intrinsic;

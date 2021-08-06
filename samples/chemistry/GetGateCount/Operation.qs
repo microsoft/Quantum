@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Chemistry.Samples {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
@@ -9,7 +10,7 @@ namespace Microsoft.Quantum.Chemistry.Samples {
 
 
     //////////////////////////////////////////////////////////////////////////
-    // Using Trotterization //////////////////////////////////////////////////
+    // Using Trotter–Suzuki //////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
 
     /// # Summary
@@ -18,8 +19,8 @@ namespace Microsoft.Quantum.Chemistry.Samples {
 
         // The data describing the Hamiltonian for all these steps is contained in
         // `qSharpData`
-        // We use a Product formula, also known as `Trotterization` to
-        // simulate the Hamiltonian.
+        // We use a product formula, also known as the Trotter–Suzuki decomposition,
+        // to simulate the Hamiltonian.
         // The integrator step size does not affect the gate cost of a single step.
         let trotterStepSize = 1.0;
 

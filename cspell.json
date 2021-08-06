@@ -1,0 +1,61 @@
+// This configuration file sets options for spell-checking pull requests
+// onto this repository. Please see
+//     https://github.com/streetsidesoftware/cspell/tree/main/packages/cspell#cspelljson
+// for more documentation about this config file.
+{
+    "ignoreWords": [
+        // # .NET terminology
+        "xunit",
+
+        // # Jupyter terminology
+        "ipynb",
+
+        // # Python terminology
+        "conda",
+        "xlabel", // Used in matplotlib calls.
+        "ylabel",
+
+        // # Terms that come up in build / CI configuration
+        "logissue", // Used in ##[vso.logissue] commands.
+        "pwsh",
+        "markdownlint",
+
+        // # Words, terms, and names specific to quantum computing
+        "CNOT",
+        "Chuang",
+        "eigenstate",
+        "kata",
+        "qsharp",
+        "qubit",
+        "qubits",
+        "qubit's",
+        "qubitization",
+        "qubitized",
+        "wavefunction",
+
+        // # Mathematics terminology
+        "coeff", // Common shorthand for "coefficient."
+        "coeffs",
+
+        // # Physics terminology
+        "Ising",
+
+        // # Chemistry terminology
+        "fermionic",
+        "nitrogenase",
+        "Hartree",
+        "Fock",
+
+        // # Other terminology
+        // NB: before adding terms here, please add a comment explaining
+        //     where each term is used.
+        "Remez", // As in Remez's algorithm (https://en.wikipedia.org/wiki/Remez_algorithm).
+        "Remez's",
+        "Chebyshev" // As in Chebyshev polynomials.
+    ],
+
+    "flagWords": [
+        // The Trotter–Suzuki decomposition isn't a verb.
+        "Trotterization"
+    ]
+}

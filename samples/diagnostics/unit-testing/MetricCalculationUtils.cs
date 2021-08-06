@@ -1,6 +1,5 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 
 using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
@@ -10,7 +9,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting
     {
         /// <summary>
         /// Returns an instance of QCTraceSimulator configured to collect 
-        /// circuit metrics
+        /// circuit metrics.
         /// </summary>
         public static QCTraceSimulator GetSimulatorForMetricsCalculation()
         {

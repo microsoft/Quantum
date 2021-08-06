@@ -1,4 +1,4 @@
-# Characterization Samples #
+# Characterization Samples
 
 These samples demonstrate how to learn properties of quantum systems from classical data.
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 namespace BitFlipCode {
@@ -9,7 +9,7 @@ namespace BitFlipCode {
 
     @EntryPoint()
     operation Program () : Unit {
-     
+
         // We call the CheckBitFlipCodeStateParity
         // operation defined in BitFlipCode. This operation encodes
         // into a bit-flip code, such that

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System;
@@ -24,16 +24,15 @@ namespace Qrng
                 {
                     bitString = "0"; // Restart the bit string if fails
                     bitString = String.Join("", Enumerable.Range(0, size).Select(idx =>
-                                            SampleQuantumRandomNumberGenerator.Run(sim).Result == Result.One ? "1" : "0"
-                                                                                )
-                                           );
+                        SampleQuantumRandomNumberGenerator.Run(sim).Result == Result.One ? "1" : "0"
+                    ));
                     // Generate and concatenate the bits using the Q# operation
-                    output = Convert.ToInt32(bitString, 2);
                     // Convert the bit string to an integer
+                    output = Convert.ToInt32(bitString, 2);
                 }
                 // Print the result
                 Console.WriteLine($"The random number generated is {output}.");
             }
-         }
-      }
+        }
     }
+}
