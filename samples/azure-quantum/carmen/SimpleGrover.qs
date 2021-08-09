@@ -17,8 +17,8 @@ namespace Microsoft.Quantum.Samples {
     /// # Input
     /// ## nQubits
     /// The number of qubits to allocate.
-    /// ## idxMarked
-    /// The index of the marked item to be found.
+    /// ## applyOracle
+    /// The oracle that applies a bit flip on the output bit.
     ///
     /// # Output
     /// The computational basis state found in the final measurement.
@@ -26,7 +26,7 @@ namespace Microsoft.Quantum.Samples {
     /// # Remarks
     /// If the operation worked correctly, the output should be a little-endian
     /// representation of `idxMarked`.
-    operation SearchForMarkedInput(nQubits : Int, idxMarked : Int) : Result[] {
+    operation applyGroverSearch(nQubits : Int, applyOracle : (Qubit[], Qubit) => Unit is Adj + Ctl) : Result[] {
         use qubits = Qubit[nQubits];
         // Initialize a uniform superposition over all possible inputs.
         PrepareUniform(qubits);
@@ -34,7 +34,7 @@ namespace Microsoft.Quantum.Samples {
         // marked state and our start state, which we can write out in Q#
         // as a for loop.
         for _ in 0..NIterations(nQubits) - 1 {
-            ReflectAboutMarked(idxMarked, qubits);
+            ReflectAboutMarked(applyOracle, qubits);
             ReflectAboutUniform(qubits);
         }
         // Measure and return the answer.
@@ -66,11 +66,11 @@ namespace Microsoft.Quantum.Samples {
     /// search.
     ///
     /// # Input
-    /// ## idxMarked
-    /// The index of the marked item to be reflected about.
+    /// ## applyOracle
+    /// The oracle that applies a bit flip on the output bit.
     /// ## inputQubits
     /// The register whose state is to be reflected about the marked input.
-    operation ReflectAboutMarked(idxMarked : Int, inputQubits : Qubit[]) : Unit {
+    operation ReflectAboutMarked(applyOracle : (Qubit[], Qubit) => Unit is Adj + Ctl, inputQubits : Qubit[]) : Unit {
         use outputQubit = Qubit();
         within {
             // We initialize the outputQubit to (|0⟩ - |1⟩) / √2,
@@ -78,9 +78,8 @@ namespace Microsoft.Quantum.Samples {
             X(outputQubit);
             H(outputQubit);
         } apply {
-            // Flip the outputQubit for marked states.
-            // Here, we get the state given by the index idxMarked.
-            (ControlledOnInt(idxMarked, X))(inputQubits, outputQubit);
+            // Flip the outputQubit using the specified oracle.
+            applyOracle(inputQubits, outputQubit);
         }
     }
 
