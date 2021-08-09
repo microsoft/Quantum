@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Math;
