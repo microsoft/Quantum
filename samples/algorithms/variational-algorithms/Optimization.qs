@@ -80,6 +80,12 @@ namespace Microsoft.Quantum.Samples {
     /// The coordinates and final objective value found by the SPSA algorithm.
     operation FindMinimumWithSpsa(oracle : (Double[] => Double), startingPoint : Double[], options : SpsaOptions) : (Double[], Double) {
         let nParameters = Length(startingPoint);
+        // The SPSA algorithm relies on projecting gradients onto random vectors
+        // where each element is either +1 or −1. We can implement that in Q#
+        // by choosing an element out of [-1.0, +1.0] uniformly at random.
+        // For use with DrawMany later in the code, it helps to save that
+        // distribution as a callable now, using Delayed to give us a
+        // operation Unit => (Bool, Double) that performs that sampling.
         let deltaDist = DiscreteUniformDistribution(0, 1);
         let drawDelta = Delayed(MaybeChooseElement, ([-1.0, 1.0], deltaDist));
 
