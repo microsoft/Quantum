@@ -140,6 +140,14 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
+      <td><a href="./samples/algorithms/variational-algorithms/README.md"><strong>Variational quantum algorithms</strong></a></td>
+      <td></td>
+      <td><a href="./samples/algorithms/variational-algorithms/Variational%20Quantum%20Algorithms.ipynb">Q# + Python</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
       <td><a href="./samples/algorithms/sudoku-grover/README.md"><strong>Sudoku solving with Grover's</strong></a></td>
       <td></td>
       <td></td>
@@ -540,7 +548,3 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
   </tbody>
 </table>
-
-```qsharp
-
-```
