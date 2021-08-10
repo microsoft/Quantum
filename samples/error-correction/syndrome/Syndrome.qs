@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;

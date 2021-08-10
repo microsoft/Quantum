@@ -1,4 +1,14 @@
-﻿# Order Finding
+﻿---
+page_type: sample
+languages:
+- qsharp
+products:
+- qdk
+description: "This sample uses Q# to find the order of a cycle in a permutation."
+urlFragment: order-finding
+---
+
+# Order Finding
 
 This sample uses a quantum algorithm to find the order of a cycle in a permutation.
 It succeeds with a higher probability than the classical best possible strategy.

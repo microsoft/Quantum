@@ -1,4 +1,15 @@
-﻿# Oracle Emulation Sample
+﻿---
+page_type: sample
+languages:
+- qsharp
+- csharp
+products:
+- qdk
+description: "This sample demonstrates using Q# and C# together to emulate permutation oracles in quantum algorithms."
+urlFragment: oracle-emulation
+---
+
+# Oracle Emulation Sample
 
 This sample describes how to create and use emulated permutation oracles with the full state simulator of the Quantum Development Kit. Emulated oracles directly permute the wavefunction in the simulator. They allow for rapid prototyping and testing of quantum algorithms that involve calls to classical functions on a superposition of input arguments. An important use case are arithmetic operations on quantum registers. Emulation is not applicable to quantum hardware and hence specific to the quantum simulator.
 
