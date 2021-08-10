@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Reflection;
 using static System.Math;
 
 namespace Microsoft.Quantum.Samples
@@ -23,7 +24,7 @@ namespace Microsoft.Quantum.Samples
         {
             // We start by loading the training and validation data from our JSON
             // data file.
-            var data = await LoadData("data.json");
+            var data = await LoadData(Path.Join(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "data.json"));
 
             // We then define the classifier parameters where we want to start our
             // training iterations from. Since gradient descent is good at finding

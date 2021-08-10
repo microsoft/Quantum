@@ -13,15 +13,9 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
     
     class Program
     {
-        public static void Pause()
-        {
-            Console.WriteLine("\n\nPress any key to continue...\n\n");
-            Console.ReadKey();
-        }
 
         static void Main(string[] args)
         {
-
             #region Setup
 
             // We begin by defining a quantum simulator to be our target
@@ -82,8 +76,6 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
                         $"Found database index {string.Join(", ", databaseRegister.Select(x => x.ToString()).ToArray())} \n");
                 }
             }
-
-            Pause();
 
             #endregion
 
@@ -151,8 +143,6 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
                         $"Found database index {string.Join(", ", databaseRegister.Select(x => x.ToString()).ToArray())} \n");
                 }
             }
-
-            Pause();
 
             #endregion
 
@@ -228,8 +218,6 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch
                         $"Found database index {databaseRegister} \n");
                 }
             }
-
-            Pause();
 
             #endregion
 
