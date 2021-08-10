@@ -25,7 +25,8 @@
         // Chemistry terminology
         "nitrogenase",
         "Hartree",
-        "Fock"
+        "Fock",
+        "nwchem"
     ],
 
     "flagWords": [
