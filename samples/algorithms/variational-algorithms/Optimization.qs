@@ -10,7 +10,7 @@ namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Random;
 
     /// # Summary
-    /// Options for use with optimizing objectives via the simulntaneous
+    /// Options for use with optimizing objectives via the simultaneous
     /// perturbative stochastic approximation (SPSA) algorithm.
     ///
     /// # Named Items
