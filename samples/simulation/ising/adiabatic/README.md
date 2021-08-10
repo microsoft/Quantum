@@ -1,6 +1,6 @@
 ﻿# Adiabatic Ising Evolution Sample
 
-This sample converts a representation of a Hamiltonians using library data types into unitary time-evolution by the Hamiltonian on qubits. We consider the Ising model and study adiabatic state preparation of its ground state for the cases of uniform ferromagnetic and anti-ferromagnetic coupling between sites.
+This sample converts a representation of a Hamiltonian operator using library data types into unitary time-evolution by the Hamiltonian on qubits. We consider the Ising model and study adiabatic state preparation of its ground state for the cases of uniform ferromagnetic and anti-ferromagnetic coupling between sites.
 
 ## Running the Sample
 

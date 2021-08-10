@@ -1,0 +1,14 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+{
+    // For this sample, it's helpful to label basis states by their bit strings
+    // rather than by interpreting labels as integers (i.e.: we'll use |101⟩
+    // instead of |6⟩).
+    "dump.basisStateLabelingConvention": "bitstring",
+
+    // Similarly, it's helpful to truncate away small amplitudes, so that we
+    // can focus on those computational basis states with significant support
+    // in our ansatz.
+    "dump.truncateSmallAmplitudes": true
+}

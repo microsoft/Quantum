@@ -97,9 +97,6 @@ namespace Microsoft.Quantum.Samples.Ising
                 Console.Write($"\t after {repeats} repeats.\n");
             }
             
-            Console.WriteLine("Press Enter to continue...");
-            Console.ReadLine();
-
             #endregion
 
         }

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluatingFunctions", "EvaluatingFunctions\EvaluatingFunctions.csproj", "{40259E0C-AF4A-4C3D-850A-B30E25E0DDC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "evaluating-functions", "evaluating-functions\EvaluatingFunctions.csproj", "{40259E0C-AF4A-4C3D-850A-B30E25E0DDC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomModAdd", "CustomModAdd\CustomModAdd.csproj", "{60192554-69D7-47E8-955A-8DD5002406B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "custom-mod-add", "custom-mod-add\CustomModAdd.csproj", "{60192554-69D7-47E8-955A-8DD5002406B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceCounting", "ResourceCounting\ResourceCounting.csproj", "{25FE77EC-7FDC-46ED-9504-93D83BE3CCFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "resource-counting", "resource-counting\ResourceCounting.csproj", "{25FE77EC-7FDC-46ED-9504-93D83BE3CCFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

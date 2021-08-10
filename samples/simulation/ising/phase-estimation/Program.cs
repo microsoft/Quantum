@@ -119,8 +119,6 @@ namespace Microsoft.Quantum.Samples.Ising
                     Console.WriteLine("Energy estimate: {0} vs Theory: {1}.", phaseEst, energyTheory);
                 }
 
-                Console.WriteLine("Press Enter to continue...");
-                Console.ReadLine();
                 #endregion
 
             }

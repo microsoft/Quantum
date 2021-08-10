@@ -1,3 +1,13 @@
+---
+page_type: sample
+languages:
+- qsharp
+products:
+- qdk
+description: "This sample demonstrates how to use Q# and Python together."
+urlFragment: qsharp-with-python
+---
+
 # Python Interoperability
 
 This sample demonstrates the use of Python to call into Q# by using the [QInfer](http://qinfer.org/) and [QuTiP](http://qutip.org/) Python libraries to study the behavior of a Q# operation.
@@ -28,7 +38,6 @@ view the sample.
 
 ## Manifest
 
-- **PythonInterop/**
-  - [Quantum.qs](./Quantum.qs): Q# code that is loaded by the Jupyter Notebook.
-  - [tomography-sample.ipynb](./tomography-sample.ipynb): Jupyter Notebook demoing the Python interoperability with Q#.
-  - [environment.yml](./environment.yml): Specification of a conda environment for use with Q# interoperability samples.
+- [Quantum.qs](./Quantum.qs): Q# code that is loaded by the Jupyter Notebook.
+- [tomography-sample.ipynb](./tomography-sample.ipynb): Jupyter Notebook demoing the Python interoperability with Q#.
+- [environment.yml](./environment.yml): Specification of a conda environment for use with Q# interoperability samples.
