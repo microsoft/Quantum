@@ -2,8 +2,6 @@
 page_type: sample
 languages:
 - qsharp
-- python
-- csharp
 products:
 - qdk
 description: "This sample shows how to use Q# to search for a marked item with Grover's algorithm."
@@ -33,15 +31,7 @@ This sample walks through Grover's search algorithm. Oracles implementing the da
 
 This sample can be run in a number of different ways, depending on your preferred environment.
 
-### Python in Visual Studio Code or the Command Line
-
-At a terminal, run the following command:
-
-```powershell
-python host.py
-```
-
-### C# in Visual Studio Code or the Command Line
+### Visual Studio Code or the Command Line
 
 At a terminal, run the following command:
 
@@ -63,6 +53,6 @@ jupyter notebook
 ## Manifest
 
 - [DatabaseSearch.qs](./DatabaseSearch.qs): Q# code implementing quantum operations for this sample.
-- [Program.cs](./Program.cs): C# code to interact with and print out results of the Q# operations for this sample.
+- [Program.qs](./Program.qs): Q# code to interact with and print out results of the Q# operations for this sample.
 - [DatabaseSearchSample.csproj](./DatabaseSearchSample.csproj): Main C# project for the sample.
 - [Database Search.ipynb](./Database%20Search.ipynb): The sample as a Jupyter Notebook.
