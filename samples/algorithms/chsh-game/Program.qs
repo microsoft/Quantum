@@ -12,7 +12,7 @@ namespace Microsoft.Quantum.Samples.CHSHGame {
     /// The number of times the classical strategy won.
     /// ## QuantumWins
     /// The number of times the quantum strategy won.
-    newtype Score = (
+    internal newtype Score = (
         ClassicalWins : Int,
         QuantumWins : Int
     );
@@ -40,7 +40,7 @@ namespace Microsoft.Quantum.Samples.CHSHGame {
     ///
     /// # Output
     /// The score for both strategies (either zero or one win each).
-    operation PlayGame() : Score {
+    internal operation PlayGame() : Score {
         let aliceBit = DrawRandomBool(0.5);
         let bobBit = DrawRandomBool(0.5);
         let aliceMeasuresFirst = DrawRandomBool(0.5);
@@ -65,7 +65,7 @@ namespace Microsoft.Quantum.Samples.CHSHGame {
     ///
     /// # Output
     /// The sum of the first and second scores.
-    function PlusScore(score1 : Score, score2 : Score) : Score {
+    internal function PlusScore(score1 : Score, score2 : Score) : Score {
         return Score(
             score1::ClassicalWins + score2::ClassicalWins,
             score1::QuantumWins + score2::QuantumWins
