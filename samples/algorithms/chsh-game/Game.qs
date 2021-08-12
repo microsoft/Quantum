@@ -122,14 +122,12 @@ namespace Microsoft.Quantum.Samples.CHSHGame {
         return MResetZ(qubit);
     }
 
-    @EntryPoint()
     operation PlayQuantumStrategy(
         aliceBit : Bool,
         bobBit : Bool,
         aliceMeasuresFirst : Bool)
         : Bool
     {
-
         use aliceQubit = Qubit();
         use bobQubit = Qubit();
         // Entangle Alice & Bob's qubits
@@ -142,5 +140,23 @@ namespace Microsoft.Quantum.Samples.CHSHGame {
         } else {
             return MeasureBobQubit(bobBit, bobQubit) == MeasureAliceQubit(aliceBit, aliceQubit);
         }
+    }
+
+    /// # Summary
+    /// Plays the optimal classical strategy for the CHSH game: both Alice and Bob both always
+    /// output 0. This should result in success 75% of the time.
+    ///
+    /// # Input
+    /// ## aliceBit
+    /// The bit given to Alice (X).
+    /// ## bobBit
+    /// The bit given to Bob (Y).
+    ///
+    /// # Output
+    /// Whether Alice and Bob's output bits match.
+    function PlayClassicalStrategy(aliceBit : Bool, bobBit : Bool) : Bool {
+        let aliceOutput = false;
+        let bobOutput = false;
+        return aliceOutput == bobOutput;
     }
 }

@@ -2,8 +2,6 @@
 page_type: sample
 languages:
 - qsharp
-- python
-- csharp
 products:
 - qdk
 description: "This sample uses the CHSH game to demonstrate how Q# programs can be used to prepare and work with entanglement."
@@ -41,15 +39,7 @@ This game helps us understand entanglement, and has even been used experimentall
 
 This sample can be run in a number of different ways, depending on your preferred environment.
 
-### Python in Visual Studio Code or the Command Line
-
-At a terminal, run the following command:
-
-```powershell
-python host.py
-```
-
-### C# in Visual Studio Code or the Command Line
+### Visual Studio Code or the Command Line
 
 At a terminal, run the following command:
 
@@ -57,7 +47,7 @@ At a terminal, run the following command:
 dotnet run
 ```
 
-### C# in Visual Studio 2019
+### Visual Studio 2019
 
 Open the folder containing this sample in Visual Studio ("Open a local folder"
 from the Getting Started screen or "File → Open → Folder..." from the menu bar)
@@ -67,8 +57,7 @@ Press Start in Visual Studio to run the sample.
 ## Manifest
 
 - [Game.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/Game.qs): Q# code implementing the game.
-- [host.py](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/host.py): Python host program to call into the Q# sample.
-- [Host.cs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/Host.cs): C# code to call the operations defined in Q#.
+- [Program.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/Program.qs): Q# program entry point for the example.
 - [CHSHGame.csproj](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/CHSHGame.csproj): Main C# project for the sample.
 
 ## Further resources
