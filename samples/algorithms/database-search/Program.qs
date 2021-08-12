@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 namespace Microsoft.Quantum.Samples.DatabaseSearch {
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Intrinsic;
