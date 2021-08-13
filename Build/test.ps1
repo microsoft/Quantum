@@ -115,6 +115,10 @@ $projectArgs = @{
             @("simulate", "--n-qubits", "4")
         );
 
+        "../samples/error-correction/syndrome/Syndrome.csproj" = @(,
+            @("--qubits", "5")
+        );
+
         "../samples/simulation/gaussian-initial-state/gaussian-initial-state.csproj" = @(,
             @("--recursive", "false", "--n-qubits", "5"),
             @("--recursive", "true", "--n-qubits", "5")
