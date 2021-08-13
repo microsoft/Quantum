@@ -2,8 +2,6 @@
 page_type: sample
 languages:
 - qsharp
-- python
-- csharp
 products:
 - qdk
 urlFragment: h2-command-line
@@ -20,17 +18,9 @@ This sample demonstrates using Q# to estimate the ground state energy of molecul
 
 ## Running the Sample
 
-This sample can be run in a number of different ways, depending on your preferred environment.
+This sample can be run in different ways, depending on your preferred environment.
 
-### Python in Visual Studio Code or the Command Line
-
-At a terminal, run the following command:
-
-```bash
-python host.py
-```
-
-### C# in Visual Studio Code or the Command Line
+### Visual Studio Code or the Command Line
 
 At a terminal, run the following command:
 
@@ -38,7 +28,7 @@ At a terminal, run the following command:
 dotnet run
 ```
 
-### C# in Visual Studio 2019
+### Visual Studio 2019
 
 Open the folder containing this sample in Visual Studio ("Open a local folder" from the Getting Started screen or "File → Open → Folder..." from the menu bar) and set `H2SimulationSampleCmdLine.csproj` as the startup project.
 Press Start in Visual Studio to run the sample.
@@ -46,6 +36,5 @@ Press Start in Visual Studio to run the sample.
 ## Manifest
 
 - [Operations.qs](https://github.com/microsoft/Quantum/blob/main/samples/simulation/h2/command-line/Operations.qs): Q# code defining how estimate H₂ energy levels.
-- [Host.cs](https://github.com/microsoft/Quantum/blob/main/samples/simulation/h2/command-line/Host.cs): C# code to call the operations defined in Q#.
+- [Program.qs](https://github.com/microsoft/Quantum/blob/main/samples/simulation/h2/command-line/Host.cs): Q# entry point to call the operations defined in Operations.qs.
 - [H2SimulationSampleCmdLine.csproj](https://github.com/microsoft/Quantum/blob/main/samples/simulation/h2/command-line/H2SimulationSampleCmdLine.csproj): Main C# project for the example.
-- [host.py](./host.py): a sample Python program to call the Q# simulation operation.
