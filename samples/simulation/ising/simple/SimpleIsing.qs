@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-namespace Microsoft.Quantum.Samples.SimpleIsing {
+namespace Microsoft.Quantum.Samples.Ising {
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Measurement;
     open Microsoft.Quantum.Intrinsic;

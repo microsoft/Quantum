@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-namespace Microsoft.Quantum.Samples.SimpleIsing {
+namespace Microsoft.Quantum.Samples.Ising {
 
     open Microsoft.Quantum.Arrays as Array;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
 
     @EntryPoint()
-    operation RunProgram () : Unit {
+    operation RunSimple () : Unit {
         
         // For this example, we'll consider a chain of twelve sites, each one of which
         // is simulated using a single qubit.

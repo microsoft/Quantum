@@ -6,7 +6,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     open Microsoft.Quantum.Intrinsic;
 
     @EntryPoint()
-    operation RunIsingTrotter() : Unit {
+    operation RunTrotter() : Unit {
         // For this example, we'll consider a chain of five sites, each one of which is simulated
         // using a single qubit.
         let nSites = 7;

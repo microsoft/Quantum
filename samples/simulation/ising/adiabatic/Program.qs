@@ -5,7 +5,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     open Microsoft.Quantum.Intrinsic;
 
     @EntryPoint()
-    operation RunAdiabaticIsingEvolution() : Unit {
+    operation RunAdiabaticEvolution() : Unit {
         // Each site of the Ising model is simulated using a single qubit. 
         let nSites = 9;
 
