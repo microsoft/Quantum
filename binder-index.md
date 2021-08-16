@@ -492,43 +492,11 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="./samples/simulation/ising/simple/README.md">Ising model</a></strong> (simple)</td>
+      <td><strong><a href="./samples/simulation/ising/README.md">Ising model</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
       <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="./samples/simulation/ising/generators/README.md">Ising model</a></strong> (generators)</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Q# + .NET</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="./samples/simulation/ising/adiabatic/README.md">Ising model</a></strong> (adiabatic)</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Q# + .NET</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="./samples/simulation/ising/phase-estimation/README.md">Ising model</a></strong> (phase estimation)</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Q# + .NET</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="./samples/simulation/ising/trotter-evolution/README.md">Ising model</a></strong> (Trotter–Suzuki)</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Q# + .NET</td>
     </tr>
     <tr>
       <td></td>
