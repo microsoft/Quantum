@@ -4,13 +4,13 @@ languages:
 - qsharp
 products:
 - qdk
-description: "These samples demonstrates how to use Q# to simulate the Ising model."
+description: "These samples demonstrate how to use Q# to simulate the Ising model."
 urlFragment: ising
 ---
 
 # Ising Model Simulation Samples
 
-These samples demonstrates how to use Q# to simulate the Ising model.
+These samples demonstrate how to use Q# to simulate the Ising model.
 
 - **[Simple Ising](#simple-ising-sample)**: This sample walks through constructing the time-evolution operator for the Ising model.
 - **[Ising Generators](#ising-generators-sample)**: This sample describes how Hamiltonians may be represented using Microsoft.Quantum.Canon functions.
