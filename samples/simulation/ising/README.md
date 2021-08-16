@@ -62,7 +62,7 @@ A simple extension to the Heisenberg model is also illustrated.
 ### Manifest
 
 - [IsingGenerators.qs](./generators/IsingGenerators.qs): Q# code implementing quantum operations for this sample.
-- [Program.qs](./generators/Program.cs): Q# entry point to interact with and print out results of the Q# operations for this sample.
+- [Program.qs](./generators/Program.qs): Q# entry point to interact with and print out results of the Q# operations for this sample.
 
 ## Adiabatic Ising Evolution Sample
 
