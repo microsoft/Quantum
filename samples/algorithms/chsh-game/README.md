@@ -56,9 +56,9 @@ Press Start in Visual Studio to run the sample.
 
 ## Manifest
 
-- [Game.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/Game.qs): Q# code implementing the game.
-- [Program.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/Program.qs): Q# program entry point for the example.
-- [CHSHGame.csproj](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/chsh-game/CHSHGame.csproj): Main C# project for the sample.
+- [Game.qs](./Game.qs): Q# code implementing the game.
+- [Program.qs](./Program.qs): Q# program entry point for the example.
+- [CHSHGame.csproj](./CHSHGame.csproj): Main C# project for the sample.
 
 ## Further resources
 
