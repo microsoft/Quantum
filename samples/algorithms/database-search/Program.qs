@@ -143,11 +143,11 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         );
 
         for attempt in 1 .. repeats {
-            // Extract the marked qubit state
+            // Extract the marked qubit state.
             let (markedQubit, databaseRegister) = ApplyGroverSearch(markedElements, nIterations, nDatabaseQubits);
             set successCount += markedQubit == One ? 1 | 0;
 
-            // Print the results of the search every attempt
+            // Print the results of the search every attempt.
             let empiricalSuccessProbability = RoundDigits(IntAsDouble(successCount) / IntAsDouble(attempt), 3);
 
             // This is how much faster the quantum algorithm performs on average
