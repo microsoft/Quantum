@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 namespace Microsoft.Quantum.Samples.Ising {
@@ -8,7 +8,7 @@ namespace Microsoft.Quantum.Samples.Ising {
     open Microsoft.Quantum.Intrinsic;
 
     @EntryPoint()
-    operation RunSimple () : Unit {
+    operation RunSimple() : Unit {
         
         // For this example, we'll consider a chain of twelve sites, each one of which
         // is simulated using a single qubit.

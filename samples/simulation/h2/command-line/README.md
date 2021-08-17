@@ -36,5 +36,5 @@ Press Start in Visual Studio to run the sample.
 ## Manifest
 
 - [Operations.qs](https://github.com/microsoft/Quantum/blob/main/samples/simulation/h2/command-line/Operations.qs): Q# code defining how estimate H₂ energy levels.
-- [Program.qs](https://github.com/microsoft/Quantum/blob/main/samples/simulation/h2/command-line/Host.cs): Q# entry point to call the operations defined in Operations.qs.
+- [Program.qs](https://github.com/microsoft/Quantum/blob/main/samples/simulation/h2/command-line/Host.cs): Q# entry point to call the operations defined in `Operations.qs`.
 - [H2SimulationSampleCmdLine.csproj](https://github.com/microsoft/Quantum/blob/main/samples/simulation/h2/command-line/H2SimulationSampleCmdLine.csproj): Main C# project for the example.
