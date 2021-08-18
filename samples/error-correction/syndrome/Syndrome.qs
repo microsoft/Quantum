@@ -15,13 +15,13 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     /// Runs the Syndrome sample.
     ///
     /// # Input
-    /// ## qubits
+    /// ## nQubits
     /// The number of qubits to use.
     @EntryPoint()
-    operation RunSyndrome(qubits : Int) : Unit {
-        let qubitIndices = Shuffle(RangeAsIntArray(0 .. qubits - 1));
-        let inputValues = DrawMany(DrawRandomBool, qubits, 0.5);
-        let encodingBases = DrawMany(Choose, qubits, [PauliX, PauliY, PauliZ]);
+    operation RunSyndrome(nQubits : Int) : Unit {
+        let qubitIndices = Shuffle(RangeAsIntArray(0 .. nQubits - 1));
+        let inputValues = DrawMany(DrawRandomBool, nQubits, 0.5);
+        let encodingBases = DrawMany(Choose, nQubits, [PauliX, PauliY, PauliZ]);
         let (auxiliary, data) = SamplePseudoSyndrome(inputValues, encodingBases, qubitIndices);
 
         Message(
