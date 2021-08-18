@@ -132,7 +132,7 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     ///
     /// # Output
     /// The shuffled array.
-    internal operation Shuffle<'a>(xs : 'a[]) : 'a[] {
+    internal operation Shuffle<'T>(xs : 'T[]) : 'T[] {
         mutable ys = xs;
         for i in Length(xs) - 1 .. -1 .. 1 {
             let j = DrawRandomInt(0, i);
@@ -151,7 +151,7 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     ///
     /// # Output
     /// A random element from the array.
-    internal operation Choose<'a>(xs : 'a[]) : 'a {
+    internal operation Choose<'T>(xs : 'T[]) : 'T {
         let (success, x) = MaybeChooseElement(xs, DiscreteUniformDistribution(0, Length(xs) - 1));
         Fact(success, "Array is empty.");
         return x;
