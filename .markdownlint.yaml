@@ -12,3 +12,7 @@ no-bare-urls: false
 # Require unordered lists to be typeset with dashes.
 ul-style:
   style: dash
+
+# Allow duplicate headings if they are not siblings.
+no-duplicate-heading:
+  siblings_only: true
