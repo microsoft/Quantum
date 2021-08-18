@@ -143,8 +143,8 @@ namespace Microsoft.Quantum.Samples.CHSHGame {
     }
 
     /// # Summary
-    /// Plays the optimal classical strategy for the CHSH game: both Alice and Bob both always
-    /// output 0. This should result in success 75% of the time.
+    /// Plays the optimal classical strategy for the CHSH game: both Alice and Bob always output 0.
+    /// This should result in success 75% of the time.
     ///
     /// # Input
     /// ## aliceBit
