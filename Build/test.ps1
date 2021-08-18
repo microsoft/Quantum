@@ -116,7 +116,7 @@ $projectArgs = @{
         );
 
         "../samples/error-correction/syndrome/Syndrome.csproj" = @(,
-            @("--qubits", "5")
+            @("--n-qubits", "5")
         );
 
         "../samples/simulation/gaussian-initial-state/gaussian-initial-state.csproj" = @(,
