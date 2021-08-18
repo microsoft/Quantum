@@ -24,12 +24,20 @@ namespace Microsoft.Quantum.Samples.CHSHGame {
     /// Compares the success rates of the classical and quantum CHSH game strategies across 10,000 trials.
     @EntryPoint()
     operation CompareStrategies() : Unit {
-        let trials = 10000;
-        let scores = DrawMany(PlayGame, trials, ());
+        let nTrials = 10000;
+
+        // Play the CHSH game repeatedly (the number of times is set by nTrials). Each time the
+        // PlayGame operation is called, it tries both the classical and quantum strategies and
+        // returns the result of both in the Score tuple. The DrawMany operation collects all of
+        // these scores into an array.
+        let scores = DrawMany(PlayGame, nTrials, ());
+
+        // To compute the total number of wins for each strategy, add up all of the scores in the
+        // array by using a fold.
         let total = Fold(PlusScore, Score(0, 0), scores);
 
-        let classicalWinRate = IntAsDouble(total::ClassicalWins) / IntAsDouble(trials);
-        let quantumWinRate = IntAsDouble(total::QuantumWins) / IntAsDouble(trials);
+        let classicalWinRate = IntAsDouble(total::ClassicalWins) / IntAsDouble(nTrials);
+        let quantumWinRate = IntAsDouble(total::QuantumWins) / IntAsDouble(nTrials);
         Message($"Classical success rate: {classicalWinRate}");
         Message($"Quantum success rate: {quantumWinRate}");
 
