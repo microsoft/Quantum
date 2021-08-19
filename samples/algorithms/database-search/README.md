@@ -40,16 +40,23 @@ This sample can be run in a number of different ways, depending on your preferre
 
 ### Visual Studio Code or the Command Line
 
-At a terminal, run the following commands for each of the three examples:
+At a terminal, run the following commands for each of the three examples.
+
+#### Example 1
 
 ```powershell
-# Example 1:
 dotnet run simulate Microsoft.Quantum.Samples.DatabaseSearch.RunRandomSearch
+```
 
-# Example 2:
+#### Example 2
+
+```powershell
 dotnet run simulate Microsoft.Quantum.Samples.DatabaseSearch.RunQuantumSearch
+```
 
-# Example 3:
+#### Example 3
+
+```powershell
 dotnet run simulate Microsoft.Quantum.Samples.DatabaseSearch.RunMultipleQuantumSearch
 ```
 
