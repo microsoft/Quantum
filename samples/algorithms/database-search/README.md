@@ -21,7 +21,14 @@ jupyter:
 
 # Database Search Sample
 
-This sample walks through Grover's search algorithm. Oracles implementing the database are explicitly constructed together with all steps of the algorithm. This features two examples -- the first implements the steps of Grover's algorithm manually. The second applies amplitude amplification functions in the canon to automate many steps of the implementation.
+This sample walks through Grover's search algorithm.
+Oracles implementing the database are explicitly constructed together with all steps of the algorithm.
+
+This sample features three examples:
+
+1. A search made by not using any Grover iterations, equivalent to a random classical search.
+2. A quantum search using manually implemented Grover iterations to amplify the marked element.
+3. A quantum search using operations from the Q# standard library to amplify multiple marked elements.
 
 ## Prerequisites
 
@@ -33,10 +40,17 @@ This sample can be run in a number of different ways, depending on your preferre
 
 ### Visual Studio Code or the Command Line
 
-At a terminal, run the following command:
+At a terminal, run the following commands for each of the three examples:
 
 ```powershell
-dotnet run
+# Example 1:
+dotnet run simulate Microsoft.Quantum.Samples.DatabaseSearch.RunRandomSearch
+
+# Example 2:
+dotnet run simulate Microsoft.Quantum.Samples.DatabaseSearch.RunQuantumSearch
+
+# Example 3:
+dotnet run simulate Microsoft.Quantum.Samples.DatabaseSearch.RunMultipleQuantumSearch
 ```
 
 ### Running the Sample in Jupyter Notebook

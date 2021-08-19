@@ -7,15 +7,9 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     open Microsoft.Quantum.Convert;
 
     @EntryPoint()
-    operation RunDatabaseSearches() : Unit {
-        RunRandomSearch();
-        RunQuantumSearch();
-        RunMultipleQuantumSearch();
-    }
-
-    internal operation RunRandomSearch() : Unit {
+    operation RunRandomSearch() : Unit {
         // Let us investigate the success probability of classical random search. This corresponds
-        // to the case where we only prepare the start state, and do not perform any Grover iterates
+        // to the case where we only prepare the start state, and do not perform any Grover iterations
         // to amplify the marked subspace.
         let nIterations = 0;
 
@@ -54,7 +48,8 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         }
     }
 
-    internal operation RunQuantumSearch() : Unit {
+    @EntryPoint()
+    operation RunQuantumSearch() : Unit {
         // Let us investigate the success probability of the quantum search.
 
         // We define the size `N` = 2^n of the database to searched in terms of number of qubits
@@ -62,7 +57,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         let nDatabaseQubits = 6;
         let databaseSize = 2 ^ nDatabaseQubits;
 
-        // We now perform Grover iterates to amplify the marked subspace.
+        // We now perform Grover iterations to amplify the marked subspace.
         let nIterations = 3;
 
         // Number of queries to database oracle.
@@ -107,7 +102,8 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         }
     }
 
-    internal operation RunMultipleQuantumSearch() : Unit {
+    @EntryPoint()
+    operation RunMultipleQuantumSearch() : Unit {
         // Let us investigate the success probability of the quantum search with multiple
         // marked elements.
 
@@ -120,7 +116,7 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
         let markedElements = [0, 39, 101, 234];
         let nMarkedElements = Length(markedElements);
 
-        // We now perform Grover iterates to amplify the marked subspace.
+        // We now perform Grover iterations to amplify the marked subspace.
         let nIterations = 3;
 
         // Number of queries to database oracle.
