@@ -26,7 +26,7 @@ Oracles implementing the database are explicitly constructed together with all s
 
 This sample features three examples:
 
-1. A search made by not using any Grover iterations, equivalent to a random classical search.
+1. A search made without any Grover iterations, equivalent to a random classical search.
 2. A quantum search using manually implemented Grover iterations to amplify the marked element.
 3. A quantum search using operations from the Q# standard library to amplify multiple marked elements.
 
