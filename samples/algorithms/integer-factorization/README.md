@@ -17,7 +17,6 @@ a part of Microsoft.Quantum.Canon library.
 ## Manifest
 
 - [Shor.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Shor.qs): Q# implementation of Shor's algorithm.
-- [Shor.ipynb](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Shor.ipynb): Jupyter notebook host for Shor's algorithm.
 - [Program.cs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Program.cs): C# console application running Shor's algorithm
   on Quantum simulator
 - [IntegerFactorization.csproj](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/IntegerFactorization.csproj): Main C# project for the sample.

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuGroverSample", "sudok
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepeatUntilSuccess", "repeat-until-success\RepeatUntilSuccess.csproj", "{0D9BEA2D-1435-4BB3-9F93-E32616D8CEC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VariationalAlgorithms", "variational-algorithms\VariationalAlgorithms.csproj", "{CC6719AF-75E4-40A5-895A-9CC050A89D27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,18 @@ Global
 		{0D9BEA2D-1435-4BB3-9F93-E32616D8CEC8}.Release|x64.Build.0 = Release|Any CPU
 		{0D9BEA2D-1435-4BB3-9F93-E32616D8CEC8}.Release|x86.ActiveCfg = Release|Any CPU
 		{0D9BEA2D-1435-4BB3-9F93-E32616D8CEC8}.Release|x86.Build.0 = Release|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Debug|x64.Build.0 = Debug|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Debug|x86.Build.0 = Debug|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Release|x64.ActiveCfg = Release|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Release|x64.Build.0 = Release|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Release|x86.ActiveCfg = Release|Any CPU
+		{CC6719AF-75E4-40A5-895A-9CC050A89D27}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
