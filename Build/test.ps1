@@ -78,6 +78,12 @@ Test-One '../samples/diagnostics/unit-testing'
 # of arguments, so that we can test samples in different configurations
 # and against different simulators.
 $projectArgs = @{
+        "../samples/algorithms/database-search/DatabaseSearchSample.csproj" = @(,
+            @("simulate", "Microsoft.Quantum.Samples.DatabaseSearch.RunRandomSearch"),
+            @("simulate", "Microsoft.Quantum.Samples.DatabaseSearch.RunQuantumSearch"),
+            @("simulate", "Microsoft.Quantum.Samples.DatabaseSearch.RunMultipleQuantumSearch")
+        );
+
         "../samples/simulation/qaoa/QAOA.csproj" = @(,
             @("--num-trials", "10")
         );
