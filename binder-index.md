@@ -80,7 +80,7 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
       <td></td>
       <td>Q# standalone</td>
-      <td>Q# + .NET</td>
+      <td></td>
     </tr>
     <tr>
       <td></td>
@@ -88,7 +88,7 @@ These are noted in the README.md files for each sample, along with complete inst
       <td><a href="./samples/algorithms/database-search/Database%20Search.ipynb">Q# notebook</a></td>
       <td></td>
       <td>Q# standalone</td>
-      <td>Q# + .NET</td>
+      <td></td>
     </tr>
     <tr>
       <td></td>
