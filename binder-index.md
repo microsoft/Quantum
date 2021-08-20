@@ -78,17 +78,17 @@ These are noted in the README.md files for each sample, along with complete inst
       <td><strong>Algorithms:</strong></td>
       <td><a href="./samples/algorithms/chsh-game/README.md"><strong>CHSH Game</strong></a></td>
       <td></td>
-      <td><a href="./samples/algorithms/chsh-game/host.py">Q# + Python</a></td>
       <td></td>
-      <td>Q# + .NET</td>
+      <td>Q# standalone</td>
+      <td></td>
     </tr>
     <tr>
       <td></td>
       <td><a href="./samples/algorithms/database-search/README.md"><strong>Database Search</strong></a></td>
       <td><a href="./samples/algorithms/database-search/Database%20Search.ipynb">Q# notebook</a></td>
-      <td><a href="./samples/algorithms/database-search/host.py">Q# + Python</a></td>
       <td></td>
-      <td>Q# + .NET</td>
+      <td>Q# standalone</td>
+      <td></td>
     </tr>
     <tr>
       <td></td>

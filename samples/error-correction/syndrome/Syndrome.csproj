@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.Quantum.Sdk/0.18.2107153439">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <IQSharpLoadAutomatically>true</IQSharpLoadAutomatically>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
 </Project>

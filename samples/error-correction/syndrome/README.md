@@ -2,7 +2,6 @@
 page_type: sample
 languages:
 - qsharp
-- python
 products:
 - qdk
 description: "This sample uses the Q# standard libraries to implement a syndrome for detecting errors in a given number of data qubits."
@@ -25,12 +24,11 @@ We start by preparing an auxiliary qubit into the superposition state by applyin
 
 ## Running the Sample
 
-To run the sample, run `python syndrome.py --qubits <N>`, where `<N>` is replaced by the number of qubits. For more information, run `python syndrome.py --help`.
+To run the sample, run `dotnet run --qubits <N>`, where `<N>` is replaced by the number of qubits. For more information, run `dotnet run -- --help`.
 
 ## Manifest
 
 - [Syndrome.qs](https://github.com/microsoft/Quantum/blob/main/samples/error-correction/syndrome/Syndrome.qs): Q# code implementing quantum operations for this sample.
-- [syndrome.py](https://github.com/microsoft/Quantum/blob/main/samples/error-correction/syndrome/syndrome.py): Python script to interact with and print out results of the Q# operations for this sample for a given number of data qubits. Example usage: `python syndrome.py --qubits 5`.
 - [Syndrome.csproj](https://github.com/microsoft/Quantum/blob/main/samples/error-correction/syndrome/Syndrome.csproj): Main Q# project for the sample.
 
 ## Further resources
