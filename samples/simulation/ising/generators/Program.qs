@@ -51,7 +51,7 @@ namespace Microsoft.Quantum.Samples.Ising {
         // For diagnostic purposes, before we proceed to the next step, we'll print out a
         // description of the parameters for the Heisenberg model generator.
         Message(
-            "\n Heisenberg model generators:\n" +
+            "\nHeisenberg model generators:\n" +
             $"\t{nSites} sites\n" +
             $"\t{hAmplitude} transverse field amplitude\n" +
             $"\t{jAmplitude} coupling amplitude.\n"
