@@ -20,7 +20,7 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
     @EntryPoint()
     operation RunSyndrome(nQubits : Int) : Unit {
         // Choose a random ordering of qubits for the syndrome by creating an array of qubit indices
-        // [0, 1, ..., n - 1] and shuffling it.
+        // [0, 1, ..., nQubits - 1] and shuffling it.
         let qubitIndices = Shuffle(RangeAsIntArray(0 .. nQubits - 1));
 
         // Choose a random initial value and Pauli basis for each qubit. To do this, use DrawMany to
