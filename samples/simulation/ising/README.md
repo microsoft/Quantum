@@ -26,11 +26,7 @@ These samples demonstrate how to use Q# to simulate the Ising model.
 
 ### In Visual Studio Code or the Command Line
 
-At a terminal, run the following command, replacing `<entry point>` with the name of the sample's entry point:
-
-```dotnetcli
-dotnet run simulate <entry point>
-```
+At a terminal, run the command line listed in the section for each sample below.
 
 ### In Visual Studio 2019
 
@@ -40,11 +36,15 @@ Press Start in Visual Studio to run the sample.
 
 ## Simple Ising Sample
 
-**Entry Point:** `Microsoft.Quantum.Samples.Ising.RunSimple`
-
 This sample walks through constructing the time-evolution operator for the Ising model manually.
 This time-evolution operator is applied to adiabatically prepare the ground state of the Ising model.
 The net magnetization is then measured.
+
+### Command Line
+
+```powershell
+dotnet run simulate Microsoft.Quantum.Samples.Ising.RunSimple
+```
 
 ### Manifest
 
@@ -53,11 +53,15 @@ The net magnetization is then measured.
 
 ## Ising Generators Sample
 
-**Entry Point:** `Microsoft.Quantum.Samples.Ising.RunGenerators`
-
 This sample describes how Hamiltonians may be represented using library functions.
 The Ising model is decomposed into single-site and two-site terms which are added.
 A simple extension to the Heisenberg model is also illustrated.
+
+### Command Line
+
+```powershell
+dotnet run simulate Microsoft.Quantum.Samples.Ising.RunGenerators
+```
 
 ### Manifest
 
@@ -66,10 +70,14 @@ A simple extension to the Heisenberg model is also illustrated.
 
 ## Adiabatic Ising Evolution Sample
 
-**Entry Point:** `Microsoft.Quantum.Samples.Ising.RunAdiabaticEvolution`
-
 This sample converts a representation of a Hamiltonian operator using library data types into unitary time-evolution by the Hamiltonian on qubits.
 We consider the Ising model and study adiabatic state preparation of its ground state for the cases of uniform ferromagnetic and anti-ferromagnetic coupling between sites.
+
+### Command Line
+
+```powershell
+dotnet run simulate Microsoft.Quantum.Samples.Ising.RunAdiabaticEvolution
+```
 
 ### Manifest
 
@@ -83,9 +91,13 @@ We suggest reading that sample before continuing.
 
 ## Ising Phase Estimation Sample
 
-**Entry Point:** `Microsoft.Quantum.Samples.Ising.RunPhaseEstimation`
-
 This sample adiabatically prepares the ground state of the Ising model Hamiltonian, and then perform phase estimation to obtain an estimate of the ground state energy.
+
+### Command Line
+
+```powershell
+dotnet run simulate Microsoft.Quantum.Samples.Ising.RunPhaseEstimation
+```
 
 ### Manifest
 
@@ -99,10 +111,14 @@ We suggest reading those samples before continuing.
 
 ## Ising Trotter Sample
 
-**Entry Point:** `Microsoft.Quantum.Samples.Ising.RunTrotter`
-
 This sample walks through constructing the time-evolution operator for the Ising model using the Trotter–Suzuki decomposition provided with the Q# standard library.
 This time-evolution operator is applied to investigate spin relaxation.
+
+### Command Line
+
+```powershell
+dotnet run simulate Microsoft.Quantum.Samples.Ising.RunTrotter
+```
 
 ### Manifest
 
