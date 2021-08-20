@@ -135,7 +135,7 @@ $projectArgs = @{
             @("simulate", "Microsoft.Quantum.Samples.Ising.RunGenerators"),
             @("simulate", "Microsoft.Quantum.Samples.Ising.RunAdiabaticEvolution"),
             @("simulate", "Microsoft.Quantum.Samples.Ising.RunPhaseEstimation"),
-            @("simulate", "Microsoft.Quantum.Samples.Ising.RunTrotter")
+            @("simulate", "Microsoft.Quantum.Samples.Ising.RunTrotterSuzuki")
         );
 
         "../samples/runtime/reversible-simulator-advanced/host/host.csproj" = @(,

@@ -109,7 +109,7 @@ dotnet run simulate Microsoft.Quantum.Samples.Ising.RunPhaseEstimation
 This sample builds on results in [Adiabatic Ising Evolution](#adiabatic-ising-evolution-sample) and uses techniques introduced in [Ising Phase Estimation](#ising-phase-estimation-sample).
 We suggest reading those samples before continuing.
 
-## Ising Trotter Sample
+## Ising Trotter-Suzuki Sample
 
 This sample walks through constructing the time-evolution operator for the Ising model using the Trotter–Suzuki decomposition provided with the Q# standard library.
 This time-evolution operator is applied to investigate spin relaxation.
@@ -117,7 +117,7 @@ This time-evolution operator is applied to investigate spin relaxation.
 ### Command Line
 
 ```powershell
-dotnet run simulate Microsoft.Quantum.Samples.Ising.RunTrotter
+dotnet run simulate Microsoft.Quantum.Samples.Ising.RunTrotterSuzuki
 ```
 
 ### Manifest
