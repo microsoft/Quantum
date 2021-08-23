@@ -342,8 +342,8 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
       <td><strong><a href="./samples/error-correction/syndrome/README.md">Syndrome measurement</a></strong></td>
       <td></td>
-      <td><a href="./samples/error-correction/syndrome/syndrome.py">Q# + Python</a></td>
       <td></td>
+      <td>Q# standalone</td>
       <td></td>
     </tr>
     <tr>
