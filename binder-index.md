@@ -470,9 +470,9 @@ These are noted in the README.md files for each sample, along with complete inst
       <td><strong>Quantum simulation:</strong></td>
       <td><strong><a href="./samples/simulation/h2/command-line/README.md">H₂</a></strong> (command-line)</td>
       <td></td>
-      <td><a href="./samples/simulation/h2/command-line/host.py">Q# + Python</a></td>
       <td></td>
-      <td>Q# + .NET</td>
+      <td>Q# standalone</td>
+      <td></td>
     </tr>
     <tr>
       <td></td>
