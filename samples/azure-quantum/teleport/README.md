@@ -1,14 +1,15 @@
 ---
 page_type: sample
-author: cgranade
 description: Run quantum teleportation on hardware, using the Azure Quantum service
-ms.author: chgranad@microsoft.com
-ms.date: 01/25/2021
 languages:
 - qsharp
 products:
 - qdk
 - azure-quantum
+extensions:
+  author: cgranade
+  ms.author: chgranad@microsoft.com
+  ms.date: 01/25/2021
 ---
 
 # Quantum teleportation sample

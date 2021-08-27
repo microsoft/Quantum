@@ -1,14 +1,15 @@
 ---
 page_type: sample
-author: cgranade
 description: Search unstructured data on quantum hardware, using the Azure Quantum service
-ms.author: chgranad@microsoft.com
-ms.date: 01/25/2021
 languages:
 - qsharp
 products:
 - qdk
 - azure-quantum
+extensions:
+  author: cgranade
+  ms.author: chgranad@microsoft.com
+  ms.date: 01/25/2021
 ---
 
 # Simple Grover's search with the Azure Quantum service
