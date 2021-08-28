@@ -56,12 +56,15 @@ As you go further with quantum development, we provide several different categor
 - **[Characterization](./samples/characterization)**:
   These samples demonstrate how to learn properties of quantum systems from classical data.
 - **[Chemistry](./samples/chemistry)**:
+  These samples demonstrate the use of the Quantum Chemistry library.
 - **[Diagnostics](./samples/diagnostics)**:
   These samples show how to diagnose and test Q# applications.
 - **[Error Correction](./samples/error-correction)**:
   These samples show how to work with quantum error correcting codes in Q# programs.
 - **[Interoperability](./samples/interoperability)**:
   These samples show how to use Q# with different host languages.
+- **[Machine Learning](./samples/machine-learning)**:
+  These samples demonstrate how to train simple sequential models on half-moons and wine datasets.
 - **[Numerics](./samples/numerics)**:
   The samples in this folder show how to use the numerics library.
 - **[Runtime](./samples/runtime)**:
