@@ -11,10 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\simulation\ising\adiabatic\AdiabaticIsingSample.csproj" />
+    <ProjectReference Include="..\..\simulation\ising\IsingSamples.csproj" />
     <ProjectReference Include="..\..\error-correction\bit-flip-code\BitFlipCode.csproj" />
     <ProjectReference Include="..\..\algorithms\database-search\DatabaseSearchSample.csproj" />
-    <ProjectReference Include="..\..\simulation\ising\phase-estimation\IsingPhaseEstimationSample.csproj" />
     <ProjectReference Include="..\..\getting-started\measurement\Measurement.csproj" />
     <ProjectReference Include="..\..\characterization\phase-estimation\PhaseEstimationSample.csproj" />
     <ProjectReference Include="..\..\algorithms\reversible-logic-synthesis\ReversibleLogicSynthesis.csproj" />

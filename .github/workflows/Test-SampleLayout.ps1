@@ -134,13 +134,6 @@ $AllowList = @{
         "./samples/chemistry/RunSimulation/2-RunSimulation.csproj",
         "./samples/chemistry/SimulateHubbardHamiltonian/SimulateHubbardHamiltonian.csproj",
 
-        # Several of the simulation samples are similarly not independent,
-        # and thus should be omitted from Samples Browser onboarding until they
-        # are refactored.
-        "./samples/simulation/ising/adiabatic/AdiabaticIsingSample.csproj",
-        "./samples/simulation/ising/generators/IsingGeneratorsSample.csproj",
-        "./samples/simulation/ising/phase-estimation/IsingPhaseEstimationSample.csproj",
-
         # A few other misc. samples also need to be refactored to be standalone.
         "./samples/runtime/state-visualizer/StateVisualizer.csproj"
     ) | ForEach-Object { Get-Item $_ | Select-Object -ExpandProperty FullName };

@@ -7,11 +7,6 @@ These samples show how to simulate evolution under different Hamiltonians.
       This sample walks through the simulation of molecular hydrogen using the Trotter–Suzuki decomposition.
   - **[H2SimulationGUI](./h2/gui)**:
       This sample builds on *H2SimulationCmdLine* by using the [Electron](https://electronjs.org/) framework and the [chart.js](http://www.chartjs.org/) package to plot results asynchronously in a cross-platform application.
-- *Ising Model Simulation*
-  - **[SimpleIsing](./ising/simple)**: This sample walks through constructing the time-evolution operator for the Ising model.
-  - **[IsingGenerators](./ising/generators)**: This sample describes how Hamiltonians may be represented using Microsoft.Quantum.Canon functions.
-  - **[AdiabaticIsing](./ising/adiabatic)**: This sample converts a representation of a Hamiltonian using library data types into unitary time-evolution by the Hamiltonian on qubits.
-  - **[IsingPhaseEstimation](./ising/phase-estimation)**: This sample adiabatically prepares the ground state of the Ising model Hamiltonian, and then perform phase estimation to obtain an estimate of the ground state energy.
-  - **[IsingTrotterEvolution](./ising/trotter-evolution)**: This sample walks through constructing the time-evolution operator for the Ising model using the Trotterization library feature.
+- **[Ising Model Simulation](./ising)**: These samples demonstrate how to use Q# to simulate the Ising model.
 - **[HubbardSimulation](./hubbard)**: This sample walks through constructing the time-evolution operator for the 1D Hubbard Simulation model.
 - **[GaussianInitialState](./gaussian-initial-state)**: This sample walks through how to use Q# to prepare a register of qubits into a Gaussian wavefunction.

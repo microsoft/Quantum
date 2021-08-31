@@ -78,6 +78,12 @@ Test-One '../samples/diagnostics/unit-testing'
 # of arguments, so that we can test samples in different configurations
 # and against different simulators.
 $projectArgs = @{
+        "../samples/algorithms/database-search/DatabaseSearchSample.csproj" = @(,
+            @("simulate", "Microsoft.Quantum.Samples.DatabaseSearch.RunRandomSearch"),
+            @("simulate", "Microsoft.Quantum.Samples.DatabaseSearch.RunQuantumSearch"),
+            @("simulate", "Microsoft.Quantum.Samples.DatabaseSearch.RunMultipleQuantumSearch")
+        );
+
         "../samples/simulation/qaoa/QAOA.csproj" = @(,
             @("--num-trials", "10")
         );
@@ -115,9 +121,21 @@ $projectArgs = @{
             @("simulate", "--n-qubits", "4")
         );
 
+        "../samples/error-correction/syndrome/Syndrome.csproj" = @(,
+            @("--n-qubits", "5")
+        );
+
         "../samples/simulation/gaussian-initial-state/gaussian-initial-state.csproj" = @(,
             @("--recursive", "false", "--n-qubits", "5"),
             @("--recursive", "true", "--n-qubits", "5")
+        );
+
+        "../samples/simulation/ising/IsingSamples.csproj" = @(,
+            @("simulate", "Microsoft.Quantum.Samples.Ising.RunSimple"),
+            @("simulate", "Microsoft.Quantum.Samples.Ising.RunGenerators"),
+            @("simulate", "Microsoft.Quantum.Samples.Ising.RunAdiabaticEvolution"),
+            @("simulate", "Microsoft.Quantum.Samples.Ising.RunPhaseEstimation"),
+            @("simulate", "Microsoft.Quantum.Samples.Ising.RunTrotterSuzuki")
         );
 
         "../samples/runtime/reversible-simulator-advanced/host/host.csproj" = @(,
