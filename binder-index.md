@@ -219,6 +219,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/characterization/process-tomography/README.md">Process tomography</a></strong></td>
+      <td></td>
+      <td><a href="./samples/characterization/process-tomography/tomography-sample.ipynb">Q# + Python</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Chemistry:</strong></td>
       <td><strong><a href="./samples/chemistry/AnalyzeHamiltonian">Hamiltonian analysis</a></strong></td>
       <td></td>
