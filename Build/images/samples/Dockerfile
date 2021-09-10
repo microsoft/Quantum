@@ -2,7 +2,7 @@
 # https://github.com/microsoft/iqsharp/blob/main/images/iqsharp-base/Dockerfile.
 # As per Binder documentation, we choose to use an SHA sum here instead of a
 # tag.
-FROM mcr.microsoft.com/quantum/iqsharp-base:0.18.2107153439-patch
+FROM mcr.microsoft.com/quantum/iqsharp-base:0.18.2108160999
 
 # Mark that this Dockerfile is used with the samples repository.
 ENV IQSHARP_HOSTING_ENV=SAMPLES_DOCKERFILE
@@ -42,7 +42,7 @@ RUN apt-get -y update && \
 # installed. It tends to be more stable to use the .NET Core SDK to do so than
 # to use the Debian package manager, due to issues with syncing libicu
 # dependencies.
-RUN dotnet tool install --global PowerShell --version 7.1.3
+RUN dotnet tool install --global PowerShell --version 7.1.4
 
 # Install Jupytext to expose Markdown files as Jupyter Notebooks for use with
 # Binder.
