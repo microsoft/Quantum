@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.Quantum.Sdk/0.18.2108160999">
+﻿<Project Sdk="Microsoft.Quantum.Sdk/0.18.2109162713">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
