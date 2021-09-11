@@ -38,10 +38,5 @@ view the sample.
 
 ## Manifest
 
-- [Quantum.qs](./Quantum.qs): Q# code that is loaded by the Jupyter Notebook.
 - [tomography-sample.ipynb](./tomography-sample.ipynb): Jupyter Notebook demoing the Python interoperability with Q#.
 - [environment.yml](./environment.yml): Specification of a conda environment for use with Q# interoperability samples.
-
-```python
-
-```
