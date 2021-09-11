@@ -32,13 +32,13 @@ Once everything is installed, run `jupyter notebook` to start the Jupyter Notebo
 jupyter notebook
 ```
 
-In the browser, select the `tomography-sample.ipynb` notebook in your browser to
+In the browser, select the `python-qsharp-interop.ipynb` notebook in your browser to
 view the sample.
 
 ## Manifest
 
-- [Quantum.qs](./Quantum.qs): Q# code that is loaded by the Jupyter Notebook.
-- [tomography-sample.ipynb](./tomography-sample.ipynb): Jupyter Notebook demoing the Python interoperability with Q#.
+- [Operations.qs](./Operations.qs): Q# code that is loaded by the Jupyter Notebook.
+- [python-qsharp-interop.ipynb](./tomography-sample.ipynb): Jupyter Notebook demoing the Python interoperability with Q#.
 - [environment.yml](./environment.yml): Specification of a conda environment for use with Q# interoperability samples.
 
 ```python
