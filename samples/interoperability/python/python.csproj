@@ -1,0 +1,21 @@
+<!-- This line declares that the project is a Q# project, built using the
+     Microsoft.Quantum.Sdk package. -->
+<Project Sdk="Microsoft.Quantum.Sdk/0.18.2108160310">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <!-- This property tells the qsharp package to automatically load
+         your project and use it as a workspace. -->
+    <IQSharpLoadAutomatically>true</IQSharpLoadAutomatically>
+  </PropertyGroup>
+
+  <!-- To include functions and operations from other Q# packages, you can
+       add them as package references in your project file. These packages
+       will automatically be downloaded from nuget.org and made available to your
+       Q# workspace. -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.Numerics" Version="0.18.2108160310" />
+  </ItemGroup>
+
+</Project>

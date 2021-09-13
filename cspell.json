@@ -45,7 +45,7 @@
         "nitrogenase",
         "Hartree",
         "Fock",
-        "nwchem"
+        "nwchem",
 
         // # Other terminology
         // NB: before adding terms here, please add a comment explaining
