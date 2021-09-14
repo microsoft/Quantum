@@ -358,7 +358,7 @@ These are noted in the README.md files for each sample, along with complete inst
       <td><strong>Interoperability:</strong></td>
       <td><strong><a href="./samples/interoperability/python/README.md">Python</a></strong></td>
       <td></td>
-      <td><a href="./samples/interoperability/python/tomography-sample.ipynb">Q# + Python</a></td>
+      <td><a href="./samples/interoperability/python/python-qsharp-interop.ipynb">Q# + Python</a></td>
       <td></td>
       <td></td>
     </tr>
