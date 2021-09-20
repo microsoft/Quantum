@@ -14,6 +14,7 @@ jupyter:
 ---
 
 <!-- markdownlint-disable-file no-inline-html -->
+<!-- cspell:words qrng chsh qpic qaoa -->
 
 # Quantum Development Kit Samples
 
