@@ -69,11 +69,7 @@ namespace Microsoft.Quantum.Samples {
     }
 
     function IdentityMatrix(n : Int) : Double[][] {
-        mutable mtx = ConstantArray(n, ConstantArray(n, 0.0));
-        for idx in 0..n - 1 {
-            set mtx w/= idx <- mtx[idx] w/ idx <- 1.0;
-        }
-        return mtx;
+        return DiagonalMatrix(0.0, [ 1.0, size=n ]);
     }
 
     function MatrixPow(mtx : Double[][], power : Int) : Double[][] {
@@ -175,7 +171,7 @@ namespace Microsoft.Quantum.Samples {
         // enough for this sample.
         //
         // It also only works for normal matrices, as this computes the Schur
-        // decomposition which only coincides with eigendecompositions for
+        // decomposition which only coincides with eigen-decompositions for
         // spectral decompositions.
         if not IsApproximatelyNormal(mtx, 1e-10) {
             fail "Only currently implemented for normal matrices.";
@@ -197,7 +193,7 @@ namespace Microsoft.Quantum.Samples {
         fail $"QR algorithm did not converge to upper triangular matrix in {maxIters} iterations.";
     }
 
-    function DiagnonalMatrix<'T>(zero : 'T, diag : 'T[]) : 'T[][] {
+    function DiagonalMatrix<'T>(zero : 'T, diag : 'T[]) : 'T[][] {
         mutable mtx = ConstantArray(Length(diag), ConstantArray(Length(diag), zero));
         for (idx, element) in Enumerated(diag) {
             set mtx w/= idx <- mtx[idx] w/ idx <- element;
@@ -206,9 +202,9 @@ namespace Microsoft.Quantum.Samples {
     }
 
     function Sqrtm(mtx : Double[][]) : Double[][] {
-        let (vals, vecs) = EigensystemD(mtx);
-        let sqrtVals = Mapped(Sqrt, vals);
-        return MatrixTimesD(vecs, MatrixTimesD(DiagnonalMatrix(0.0, sqrtVals), Transposed(vecs)));
+        let (values, vectors) = EigensystemD(mtx);
+        let sqrtValues = Mapped(Sqrt, values);
+        return MatrixTimesD(vectors, MatrixTimesD(DiagonalMatrix(0.0, sqrtValues), Transposed(vectors)));
     }
 
 }

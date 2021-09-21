@@ -64,8 +64,11 @@
         "wavefunction",
 
         // # Mathematics terminology
+        "binom", // Common shorthand for "binomial."
         "coeff", // Common shorthand for "coefficient."
         "coeffs",
+        "eigen",
+        "eigensystem",
         "sqrtm", // Common shorthand for "matrix square root," popularized by
                  // MATLAB and SciPy.
         "renormalizing",
