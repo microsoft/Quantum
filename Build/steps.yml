@@ -18,7 +18,7 @@ steps:
   inputs:
     versionSpec: '3.7'
     architecture: 'x64'
-  displayName: 'Use Python 3.67'
+  displayName: 'Use Python 3.7'
 
 - script: pip install ruamel_yaml jsonschema click setuptools wheel pytest jupyter
   displayName: 'Install Python tools'
