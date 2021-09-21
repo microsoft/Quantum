@@ -14,6 +14,7 @@ jupyter:
 ---
 
 <!-- markdownlint-disable-file no-inline-html -->
+<!-- cspell:words qrng chsh qpic qaoa -->
 
 # Quantum Development Kit Samples
 
@@ -223,6 +224,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td><strong><a href="./samples/characterization/process-tomography/README.md">Process tomography</a></strong></td>
       <td></td>
       <td><a href="./samples/characterization/process-tomography/tomography-sample.ipynb">Q# + Python</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/characterization/randomized-benchmarking/README.md">Randomized benchmarking</a></strong></td>
+      <td></td>
+      <td><a href="./samples/characterization/randomized-benchmarking/randomized-benchmarking.ipynb">Q# + Python</a></td>
       <td></td>
       <td></td>
     </tr>

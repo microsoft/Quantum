@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhaseEstimationSample", "phase-estimation\PhaseEstimationSample.csproj", "{CC40537A-867F-4021-9441-E064508375E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomizedBenchmarking", "randomized-benchmarking\RandomizedBenchmarking.csproj", "{AC9F6038-21FB-4272-8C63-80ACD867BA3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{CC40537A-867F-4021-9441-E064508375E2}.Release|x64.Build.0 = Release|Any CPU
 		{CC40537A-867F-4021-9441-E064508375E2}.Release|x86.ActiveCfg = Release|Any CPU
 		{CC40537A-867F-4021-9441-E064508375E2}.Release|x86.Build.0 = Release|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Debug|x64.Build.0 = Debug|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Debug|x86.Build.0 = Debug|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Release|x64.ActiveCfg = Release|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Release|x64.Build.0 = Release|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Release|x86.ActiveCfg = Release|Any CPU
+		{AC9F6038-21FB-4272-8C63-80ACD867BA3C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

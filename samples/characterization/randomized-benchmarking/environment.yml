@@ -1,0 +1,31 @@
+##
+# environment.yml: Specification of a conda environment for use with
+#      Q# interoperability samples.
+##
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+##
+
+name: randomized-benchmarking
+channels:
+- conda-forge
+- quantum-engineering
+dependencies:
+- python>=3.6
+- pandas
+- numpy
+- scipy
+- future
+- qutip
+- matplotlib<=2.1.2
+- ipyparallel
+- py
+- notebook
+- qsharp==0.18.2109.162713
+- jupyter_client==6.1.7
+- pyzmq==19.0.2=py37h453f00a_2
+- pip
+- pip:
+    - qinfer
+    - duecredit
+    - mpltools
