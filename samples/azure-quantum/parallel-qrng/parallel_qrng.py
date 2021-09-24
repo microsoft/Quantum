@@ -18,7 +18,7 @@ if __name__ == "__main__":
     print(f'Local simulation result: {result}')
 
     # Submit the operation to an Azure Quantum workspace.
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         print(
             "Please provide the resource ID and location for your Azure Quantum workspace as a command-line argument.\n" +
             "E.g.: python parallel_qrng.py /subscriptions/subscription-id/Microsoft.Quantum/Workspaces/your-workspace-name \"West US\"\n" +
