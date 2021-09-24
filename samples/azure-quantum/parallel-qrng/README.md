@@ -64,12 +64,12 @@ Once Jupyter starts, open the `ParallelQrng.ipynb` notebook and follow the instr
 
 Make sure that you have followed the [Q# + Python quickstart](https://docs.microsoft.com/azure/quantum/install-python-qdk) for the Quantum Development Kit, and then run Python from within the folder containing this sample.
 
-The Python host program takes as command-line arguments the resource and target IDs to submit your Azure Quantum service job to.
-When running the command below, make sure to replace the example resource ID with the ID for your workspace, as listed in the Azure Portal, and to replace `TARGET_ID` with the target that you would like to submit to (e.g.: `ionq.simulator`).
+The Python host program takes as command-line arguments the resource, location, and target IDs to submit your Azure Quantum service job to.
+When running the command below, make sure to replace the example resource ID with the ID for your workspace, replace `LOCATION` with the location for your workspace, and replace `TARGET_ID` with the target that you would like to submit to (e.g.: `ionq.simulator`). The information for resource ID, location, and available targets can be found in the Azure Portal.
 
 ```shell
 cd parallel-qrng/python-host
-python parallel_qrng.py /subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP_NAME/providers/Microsoft.Quantum/Workspaces/WORKSPACE_NAME TARGET_ID
+python parallel_qrng.py /subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP_NAME/providers/Microsoft.Quantum/Workspaces/WORKSPACE_NAME LOCATION TARGET_ID
 ```
 
 For a full list of available QIO and quantum computing targets, run:
