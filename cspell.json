@@ -52,7 +52,13 @@
         //     where each term is used.
         "Remez", // As in Remez's algorithm (https://en.wikipedia.org/wiki/Remez_algorithm).
         "Remez's",
-        "Chebyshev" // As in Chebyshev polynomials.
+        "Chebyshev", // As in Chebyshev polynomials.
+
+        // # Package and provider names
+        "ionq",
+        "apival",
+        "cirq",
+        "qiskit"
     ],
 
     "flagWords": [
