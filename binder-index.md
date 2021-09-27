@@ -78,8 +78,8 @@ These are noted in the README.md files for each sample, along with complete inst
     <tr>
       <td></td>
       <td><strong><a href="./samples/getting-started/azure-quantum/README.md">Qiskit and Cirq</a></strong></td>
-      <td><a href="./samples/getting-started/azure-quantum">Jupyter notebooks</a></td>
       <td></td>
+      <td><a href="./samples/getting-started/azure-quantum">Cirq/Qiskit + Python</a></td>
       <td>N/A</td>
       <td></td>
     </tr>
