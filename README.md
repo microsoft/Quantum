@@ -1,6 +1,6 @@
 ﻿# Microsoft Quantum Development Kit Samples
 
- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Microsoft/Quantum/⭐binder)
+ [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Microsoft/Quantum/⭐binder?urlpath=tree)
 
 These samples demonstrate the use of the Quantum Development Kit for a variety of different quantum computing tasks.
 

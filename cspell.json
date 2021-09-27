@@ -3,15 +3,44 @@
 //     https://github.com/streetsidesoftware/cspell/tree/main/packages/cspell#cspelljson
 // for more documentation about this config file.
 {
+    // Use a file-matching pattern to identify Q# source files when running
+    // in CI (that is, when VS Code doesn't provide the language ID for
+    // Q#).
+    "overrides": [
+        {
+            "languageId": "qsharp",
+            "filename": "**/*.qs"
+        }
+    ],
+
+    // Define keywords on a per-language basis.
+    "languageSettings": [
+        {
+            "languageId": ["qsharp"],
+            // cspell:disable
+            "ignoreWords": [
+                "newtype"
+            ]
+            // cspell:enable
+        }
+    ],
+
     "ignoreWords": [
+        // Q# terminology
+        "iqsharp",
+
         // # .NET terminology
         "xunit",
 
         // # Jupyter terminology
         "ipynb",
+        "jupytext",
+        "endregion",
+        "kernelspec",
 
         // # Python terminology
         "conda",
+        "matplotlib",
         "xlabel", // Used in matplotlib calls.
         "ylabel",
 
@@ -21,6 +50,7 @@
         "markdownlint",
 
         // # Words, terms, and names specific to quantum computing
+        "CHSH",
         "CNOT",
         "Chuang",
         "eigenstate",
@@ -34,18 +64,26 @@
         "wavefunction",
 
         // # Mathematics terminology
+        "binom", // Common shorthand for "binomial."
         "coeff", // Common shorthand for "coefficient."
         "coeffs",
+        "eigen",
+        "eigensystem",
+        "sqrtm", // Common shorthand for "matrix square root," popularized by
+                 // MATLAB and SciPy.
+        "renormalizing",
+        "unnormalized",
 
         // # Physics terminology
         "Ising",
+        "elementwise",
 
         // # Chemistry terminology
         "fermionic",
         "nitrogenase",
         "Hartree",
         "Fock",
-        "nwchem"
+        "nwchem",
 
         // # Other terminology
         // NB: before adding terms here, please add a comment explaining
@@ -53,6 +91,8 @@
         "Remez", // As in Remez's algorithm (https://en.wikipedia.org/wiki/Remez_algorithm).
         "Remez's",
         "Chebyshev", // As in Chebyshev polynomials.
+        "Welford's", // Algorithm for learning mean and variances of streaming
+        // data.
 
         // # Package and provider names
         "ionq",
@@ -60,9 +100,12 @@
         "cirq",
         "qiskit"
     ],
-
+    // By definition, everything in flagWords is considered to be spelled
+    // wrong. Thus we disable spell checking for the list of misspelled words...
+    // cspell:disable
     "flagWords": [
         // The Trotter–Suzuki decomposition isn't a verb.
         "Trotterization"
     ]
+    // cspell:enable
 }

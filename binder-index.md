@@ -14,6 +14,7 @@ jupyter:
 ---
 
 <!-- markdownlint-disable-file no-inline-html -->
+<!-- cspell:words qrng chsh qpic qaoa -->
 
 # Quantum Development Kit Samples
 
@@ -227,6 +228,22 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/characterization/process-tomography/README.md">Process tomography</a></strong></td>
+      <td></td>
+      <td><a href="./samples/characterization/process-tomography/tomography-sample.ipynb">Q# + Python</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/characterization/randomized-benchmarking/README.md">Randomized benchmarking</a></strong></td>
+      <td></td>
+      <td><a href="./samples/characterization/randomized-benchmarking/randomized-benchmarking.ipynb">Q# + Python</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Chemistry:</strong></td>
       <td><strong><a href="./samples/chemistry/AnalyzeHamiltonian">Hamiltonian analysis</a></strong></td>
       <td></td>
@@ -358,7 +375,7 @@ These are noted in the README.md files for each sample, along with complete inst
       <td><strong>Interoperability:</strong></td>
       <td><strong><a href="./samples/interoperability/python/README.md">Python</a></strong></td>
       <td></td>
-      <td><a href="./samples/interoperability/python/tomography-sample.ipynb">Q# + Python</a></td>
+      <td><a href="./samples/interoperability/python/python-qsharp-interop.ipynb">Q# + Python</a></td>
       <td></td>
       <td></td>
     </tr>
