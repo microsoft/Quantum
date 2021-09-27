@@ -62,6 +62,7 @@
         "qubitization",
         "qubitized",
         "wavefunction",
+        "Hadamard",
 
         // # Mathematics terminology
         "binom", // Common shorthand for "binomial."
