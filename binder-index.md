@@ -75,6 +75,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/getting-started/azure-quantum/README.md">Qiskit and Cirq</a></strong></td>
+      <td><a href="./samples/getting-started/azure-quantum">Jupyter notebooks</a></td>
+      <td></td>
+      <td>N/A</td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Algorithms:</strong></td>
       <td><a href="./samples/algorithms/chsh-game/README.md"><strong>CHSH Game</strong></a></td>
       <td></td>
