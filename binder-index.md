@@ -164,7 +164,7 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
-      <th>Azure Quantum service:</th>
+      <td><strong>Azure Quantum service:</td></strong>
       <td rowspan="1"><strong><a href="./samples/getting-started/azure-quantum/README.md">Getting started</a></strong></td>
       <td><a href="./samples/getting-started/azure-quantum/qsharp-standalone/ParallelQrng.ipynb">Q# notebook</a></td>
       <td><a href="./samples/getting-started/azure-quantum/qsharp-python/ParallelQrng.ipynb">Q# + Python</a></td>
