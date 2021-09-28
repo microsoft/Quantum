@@ -117,7 +117,7 @@ $projectArgs = @{
             @("simulate", "--pattern-int", "6", "--register-size", "3")
         );
 
-        "../samples/azure-quantum/parallel-qrng/ParallelQrng.csproj" = @(,
+        "../samples/getting-started/azure-quantum/qsharp-standalone/ParallelQrng.csproj" = @(,
             @("simulate", "--n-qubits", "4")
         );
 

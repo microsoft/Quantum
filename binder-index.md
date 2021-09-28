@@ -76,30 +76,6 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
-      <td></td>
-      <td><strong><a href="./samples/getting-started/azure-quantum/cirq/README.md">Cirq</a></strong></td>
-      <td></td>
-      <td><a href="./samples/getting-started/azure-quantum/cirq">Cirq + Python</a></td>
-      <td>N/A</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="./samples/getting-started/azure-quantum/qiskit/README.md">Qiskit</a></strong></td>
-      <td></td>
-      <td><a href="./samples/getting-started/azure-quantum/qiskit">Qiskit + Python</a></td>
-      <td>N/A</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="./samples/getting-started/azure-quantum/provider-specific/README.md">Provider-specific format</a></strong></td>
-      <td></td>
-      <td><a href="./samples/getting-started/azure-quantum/provider-specific">Provider-specific format + Python</a></td>
-      <td>N/A</td>
-      <td></td>
-    </tr>
-    <tr>
       <td><strong>Algorithms:</strong></td>
       <td><a href="./samples/algorithms/chsh-game/README.md"><strong>CHSH Game</strong></a></td>
       <td></td>
@@ -188,7 +164,40 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
-      <td><strong>Azure Quantum service:</strong></td>
+      <td><strong>Azure Quantum service:</td></strong>
+      <td rowspan="1"><strong><a href="./samples/getting-started/azure-quantum/README.md">Getting started</a></strong></td>
+      <td><a href="./samples/getting-started/azure-quantum/qsharp-standalone/ParallelQrng.ipynb">Q# notebook</a></td>
+      <td><a href="./samples/getting-started/azure-quantum/qsharp-python/README.md">Q# + Python</a></td>
+      <td><a href="./samples/getting-started/azure-quantum/qsharp-standalone/README.md">Q# standalone</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><a href="./samples/getting-started/azure-quantum/cirq/README.md">Cirq + Python</a></strong></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><a href="./samples/getting-started/azure-quantum/qiskit/README.md">Qiskit + Python</a></strong></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><a href="./samples/getting-started/azure-quantum/provider-specific/README.md">Provider-specific + Python</a></strong></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
       <td><strong><a href="./samples/azure-quantum/chemistry/README.md">Chemistry</a></strong></td>
       <td></td>
       <td>Q# + Python</td>
@@ -208,14 +217,6 @@ These are noted in the README.md files for each sample, along with complete inst
       <td><strong><a href="./samples/azure-quantum/hidden-shift/README.md">Hidden shift</a></strong></td>
       <td></td>
       <td></td>
-      <td>Q# standalone</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="./samples/azure-quantum/parallel-qrng/README.md">Parallel QRNG</a></strong></td>
-      <td><a href="./samples/azure-quantum/parallel-qrng/ParallelQrng.ipynb">Q# notebook</a></td>
-      <td><a href="./samples/azure-quantum/parallel-qrng/parallel_qrng.py">Q# + Python</a></td>
       <td>Q# standalone</td>
       <td></td>
     </tr>

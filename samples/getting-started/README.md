@@ -8,4 +8,6 @@
 - **[Simple Algorithms](./simple-algorithms/)**:
   This sample covers several different basic quantum algorithms, and how each can be written in Q#.
 - **[Intro to IQ#](./intro-to-iqsharp/)**:
-  This samples explains how to create interactive notebooks using Jupyter and IQ#.
+  This sample explains how to create interactive notebooks using Jupyter and IQ#.
+- **[Azure Quantum services](./azure-quantum)**:
+  The samples in this category demonstrate how to use the Quantum Development Kit to run quantum programs on hardware with the Azure Quantum service.
