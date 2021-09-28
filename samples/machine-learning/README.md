@@ -4,4 +4,4 @@
 This sample demonstrates how to use the quantum machine library to train a sequential model on the half-moons dataset.
 
 - **[Parallel Half Moons](./parallel-half-moons)**
-This sample implements using the quantum machine learning library to train a sequential model on the half-moons dataset, parallelizing over target machines
+This sample demonstrates how to use the quantum machine library to train a sequential model on the half-moons dataset, parallelizing over target machines.
