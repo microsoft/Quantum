@@ -76,30 +76,6 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
-      <td></td>
-      <td><strong><a href="./samples/getting-started/azure-quantum/cirq/README.md">Cirq</a></strong></td>
-      <td></td>
-      <td><a href="./samples/getting-started/azure-quantum/cirq">Cirq + Python</a></td>
-      <td>N/A</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="./samples/getting-started/azure-quantum/qiskit/README.md">Qiskit</a></strong></td>
-      <td></td>
-      <td><a href="./samples/getting-started/azure-quantum/qiskit">Qiskit + Python</a></td>
-      <td>N/A</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="./samples/getting-started/azure-quantum/provider-specific/README.md">Provider-specific format</a></strong></td>
-      <td></td>
-      <td><a href="./samples/getting-started/azure-quantum/provider-specific">Provider-specific format + Python</a></td>
-      <td>N/A</td>
-      <td></td>
-    </tr>
-    <tr>
       <td><strong>Algorithms:</strong></td>
       <td><a href="./samples/algorithms/chsh-game/README.md"><strong>CHSH Game</strong></a></td>
       <td></td>
