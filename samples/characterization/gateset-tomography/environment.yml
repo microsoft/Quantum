@@ -3,7 +3,7 @@ channels:
   - microsoft
   - conda-forge
 dependencies:
-  - qsharp
+  - qsharp==0.19.2109.165653
   - notebook
   - pip
   - matplotlib

@@ -38,5 +38,5 @@ view the sample.
 
 ## Manifest
 
-- [gateset-tomography.ipynb](./tomography-sample.ipynb): Main Jupyter Notebook for this sample.
+- [gateset-tomography.ipynb](./gateset-tomography.ipynb): Main Jupyter Notebook for this sample.
 - [environment.yml](./environment.yml): Specification of a conda environment for use with this sample.
