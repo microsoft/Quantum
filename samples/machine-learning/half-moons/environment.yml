@@ -9,7 +9,7 @@
 name: qsharp-sample-classifier
 channels:
     - conda-forge
-    - quantum-engineering
+    - microsoft
 dependencies:
     - python>=3.6
     - numpy
