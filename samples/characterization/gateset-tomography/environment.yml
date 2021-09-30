@@ -1,0 +1,17 @@
+name: qsharp-gst
+channels:
+  - microsoft
+  - conda-forge
+dependencies:
+  - qsharp
+  - notebook
+  - pip
+  - matplotlib
+  - qutip
+  # PyGSTi dependencies
+  - tenacity
+  - plotly
+  - ply
+  - psutil
+  - pip:
+    - pygsti
