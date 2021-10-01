@@ -4,11 +4,11 @@
 name: variational
 channels:
 - conda-forge
-- quantum-engineering
+- microsoft
 dependencies:
   - notebook
   - matplotlib
-  - qsharp==0.18.2109162713
+  - qsharp==0.19.2109.165653
   # This sample uses the QuTiP library to decompose Hamiltonian operators in
   # the Pauli basis.
   - qutip
