@@ -16,4 +16,3 @@
   This sample demonstrates how to build quantum oracles from reversible classical logic.
 - **[Order Finding](./order-finding)**:
   This sample uses a quantum algorithm to find the order of a cycle in a permutation.
-
