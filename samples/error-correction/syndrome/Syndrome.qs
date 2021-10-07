@@ -120,7 +120,7 @@ namespace Microsoft.Quantum.Samples.ErrorCorrection.Syndrome {
 
         H(auxiliary);
         // Apply Controlled Pauli operations to data qubits, resulting in a phase kickback 
-        /// on the auxiliary qubit
+        // on the auxiliary qubit
         for (index, basis) in Zipped(qubitIndices, encodingBases) {
             Controlled ApplyPauli([auxiliary], ([basis], [block[index]]));
         }

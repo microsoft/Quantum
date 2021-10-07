@@ -52,7 +52,7 @@ namespace Microsoft.Quantum.Samples.RepeatUntilSuccess {
         let result = Measure([inputBasis], [target]);
 
         // From version 0.12 it is no longer necessary to release qubits 
-        /// in zero state.
+        // in zero state.
         ResetAll([target, resource, auxiliary]);
         return (success, result, numIter);
     }
