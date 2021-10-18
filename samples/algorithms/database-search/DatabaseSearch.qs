@@ -11,9 +11,9 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     open Microsoft.Quantum.Oracles;
     open Microsoft.Quantum.AmplitudeAmplification;
 
-    //////////////////////////////////////////////////////////////////////////
-    // Introduction //////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
+    //------------------------------------------------------------------------
+    // Introduction
+    //------------------------------------------------------------------------
 
     // This sample will walk through several examples of searching a database
     // of N elements for a particular marked item using just O(1/√N) queries
@@ -41,9 +41,9 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     // amplification libraries provided with the canon can make this task
     // significantly easier.
 
-    //////////////////////////////////////////////////////////////////////////
-    // Database Search with Manual Oracle Definitions ////////////////////////
-    //////////////////////////////////////////////////////////////////////////
+    //------------------------------------------------------------------------
+    // Database Search with Manual Oracle Definitions
+    //------------------------------------------------------------------------
 
     // For the first example, we start by hard coding an oracle D
     // that always marks only the item k = N - 1 for N = 2^n and for
@@ -333,9 +333,9 @@ namespace Microsoft.Quantum.Samples.DatabaseSearch {
     }
 
 
-    //////////////////////////////////////////////////////////////////////////
-    // Database Search with the Canon ////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
+    //------------------------------------------------------------------------
+    // Database Search with the Canon
+    //------------------------------------------------------------------------
 
     // Our second example makes full use of the amplitude amplification
     // library and other supporting libraries to implement Grover's algorithm
