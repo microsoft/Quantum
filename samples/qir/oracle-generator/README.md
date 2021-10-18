@@ -58,7 +58,9 @@ to optimize the quantum operation implementation generated for the functions.
 ## Prerequisites
 
 You need an installation of LLVM 11, CMake, and the clang compiler in a version
-that supports C++ 17.
+that supports C++ 17.  Information on how to install LLVM 11 on your system can
+be found in the [qsharp-runtime
+repository](https://github.com/microsoft/qsharp-runtime/blob/main/src/Qir/Runtime/README.md).
 
 ## Sample overview
 

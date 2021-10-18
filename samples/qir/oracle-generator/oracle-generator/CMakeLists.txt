@@ -27,6 +27,7 @@ target_include_directories(oracle_generator SYSTEM PUBLIC
     ${mockturtle_SOURCE_DIR}/include/
     ${mockturtle_SOURCE_DIR}/lib/abcsat/
     ${mockturtle_SOURCE_DIR}/lib/bill/
+    ${mockturtle_SOURCE_DIR}/lib/fmt/
     ${mockturtle_SOURCE_DIR}/lib/kitty/
     ${mockturtle_SOURCE_DIR}/lib/lorina/
     ${mockturtle_SOURCE_DIR}/lib/parallel_hashmap/
