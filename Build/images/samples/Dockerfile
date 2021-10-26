@@ -34,7 +34,7 @@ RUN apt-get -y update && \
     cp /etc/apt/sources.list /etc/apt/sources.list.backup && \
     echo "deb https://deb.debian.org/debian unstable main" >> /etc/apt/sources.list && \
     apt-get -y update && \
-    apt-get -y install ca-certificates=20210119 && \
+    apt-get -y install ca-certificates=20211016 && \
     mv /etc/apt/sources.list.backup /etc/apt/sources.list && \
     apt-get clean && rm -rf /var/lib/apt/lists/
 
