@@ -61,4 +61,4 @@ Once Jupyter starts, open the `Grover.ipynb` notebook and follow the instruction
 - [Grover.csproj](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/grover/Grover.csproj): Main Q# project file for this sample.
 - [Reflections.qs](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/grover/Reflections.qs): Definitions for each reflection used in Grover's search.
 - [SimpleGrover.qs](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/grover/SimpleGrover.qs): Main Q# program for this sample.
-- [Grover.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/grover/Grover.ipynb): Q# notebook for this sample.
+- [Grover.ipynb](./Grover.ipynb): Q# notebook for this sample.
