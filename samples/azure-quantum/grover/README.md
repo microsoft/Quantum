@@ -49,7 +49,7 @@ az quantum target list --output table
 
 Make sure that you have followed the [Q# + Jupyter Notebook quickstart](https://docs.microsoft.com/azure/quantum/install-jupyter-qdk) for the Quantum Development Kit, and then start a new Jupyter Notebook session from the folder containing this sample:
 
-```
+```shell
 cd grover
 jupyter notebook
 ```
