@@ -118,8 +118,8 @@ These are noted in the README.md files for each sample, along with complete inst
     <tr>
       <td></td>
       <td><a href="./samples/algorithms/noisy-dj/README.md"><strong>Deutsch–Jozsa w/ noise</strong></a></td>
+      <td><a href="./samples/algorithms/noisy-dj/Deutsch–Jozsa%20with%20Noise.ipynb">Python notebook</a></td>
       <td></td>
-      <td><a href="./samples/algorithms/noisy-dj/Deutsch–Jozsa%20with%20Noise.py">Q# + Python</a></td>
       <td></td>
       <td>Q# + .NET</td>
     </tr>
