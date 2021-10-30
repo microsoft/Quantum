@@ -37,6 +37,7 @@
         "jupytext",
         "endregion",
         "kernelspec",
+        "nteract",
 
         // # Python terminology
         "conda",
