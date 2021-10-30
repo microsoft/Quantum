@@ -49,7 +49,7 @@ az quantum target list --output table
 
 Make sure that you have followed the [Q# + Jupyter Notebook quickstart](https://docs.microsoft.com/azure/quantum/install-jupyter-qdk) for the Quantum Development Kit, and then start a new Jupyter Notebook session from the folder containing this sample:
 
-```
+```shell
 cd grover
 jupyter notebook
 ```
@@ -61,4 +61,4 @@ Once Jupyter starts, open the `Grover.ipynb` notebook and follow the instruction
 - [Grover.csproj](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/grover/Grover.csproj): Main Q# project file for this sample.
 - [Reflections.qs](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/grover/Reflections.qs): Definitions for each reflection used in Grover's search.
 - [SimpleGrover.qs](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/grover/SimpleGrover.qs): Main Q# program for this sample.
-- [Grover.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/grover/Grover.ipynb): Q# notebook for this sample.
+- [Grover.ipynb](./Grover.ipynb): Q# notebook for this sample.
