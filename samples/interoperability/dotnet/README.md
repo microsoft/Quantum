@@ -20,7 +20,7 @@ The steps are as follows:
 
 1. Create a Q# library `QuantumCode` and write your quantum code in it.
 2. Create a C# or F# application (in this case a console app targeting .NET Core).
-3. Add a reference to the Q# library to your C# or F# application. For example:
+3. Add a reference from your C# or F# application to the Q# library. For example:
 
    You can use [Reference Manager](https://docs.microsoft.com/visualstudio/ide/how-to-add-or-remove-references-by-using-the-reference-manager) in Visual Studio to do that, or you can add the reference from the command line:
 
