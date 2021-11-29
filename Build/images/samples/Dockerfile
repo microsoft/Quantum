@@ -22,8 +22,8 @@ RUN apt-get -y update && \
                libfreetype6-dev \
                libpng-dev \
                # iqsharp-base currently ships with .NET Core SDK 3.1, but
-               # we need .NET 5.0 to run dotnet-interactive.
-               dotnet-sdk-5.0 \
+               # we need .NET 6.0 to run dotnet-interactive.
+               dotnet-sdk-6.0 \
                # Make sure to use the most up-to-date curl.
                curl && \
     # As per https://github.com/NuGet/Announcements/issues/49,
