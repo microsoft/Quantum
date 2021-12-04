@@ -26,7 +26,7 @@ To use this sample from PowerShell, import the `get-gatecount.dll` assembly as a
 
 ```powershell
 dotnet publish --self-contained -r <runtime>
-Import-Module ./bin/Debug/netcoreapp3.1/<runtime>/publish/get-gatecount.dll
+Import-Module ./bin/Debug/net6.0/<runtime>/publish/get-gatecount.dll
 Get-GateCount -Path ../IntegralData/YAML/h2.yaml -Format Broombridge
 ```
 
@@ -137,7 +137,7 @@ To do so, replace `<runtime>` in the snippet below with either `win10-x64`, `lin
 ```PowerShell
 cd Samples/GateCount
 dotnet publish --self-contained -r <runtime>
-Import-Module ./bin/Debug/netcoreapp3.1/<runtime>/publish/get-gatecount.dll
+Import-Module ./bin/Debug/net6.0/<runtime>/publish/get-gatecount.dll
 ```
 
 The `Get-GateCount` command is now available, and can be used to estimate costs for evolution under different quantum chemistry Hamiltonians.
