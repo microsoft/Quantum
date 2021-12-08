@@ -19,7 +19,7 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
     {
         // This stack tracks all operations currently on the call stack, the
         // most recent one on the top.
-        private readonly Stack<Operation> operationCallStack = new Stack<Operation>();
+        private readonly Stack<Operation> callStack = new Stack<Operation>();
 
         /// <summary>
         /// Returns the quantum-viz.js circuit, that can be serialized to valid
@@ -34,7 +34,7 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
             // point operation.
             var operation = new Operation { Gate = CallGraphEdge.CallGraphRootHashed };
             Circuit.Operations.Add(operation);
-            operationCallStack.Push(operation);
+            callStack.Push(operation);
         }
 
         #region ITracingSimulatorListener implementation
@@ -42,20 +42,21 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
         /// A primitive operation call causes an update of the corresponding
         /// counter of the operation call on the top of the call stack.
         /// </summary>
-        public void OnPrimitiveOperation(int id, object[] qubitsTraceData, double PrimitiveOperationDuration)
+        public void OnPrimitiveOperation(int id, object[] qubitsTraceData, double duration)
         {
-            switch (id) {
+            switch (id)
+            {
                 case 0:
-                    operationCallStack.Peek().CNOTCount += 1.0;
+                    callStack.Peek().CNOTCount += 1.0;
                     break;
                 case 1:
-                    operationCallStack.Peek().CliffordCount += 1.0;
+                    callStack.Peek().CliffordCount += 1.0;
                     break;
                 case 3:
-                    operationCallStack.Peek().RCount += 1.0;
+                    callStack.Peek().RCount += 1.0;
                     break;
                 case 4:
-                    operationCallStack.Peek().TCount += 1.0;
+                    callStack.Peek().TCount += 1.0;
                     break;
             }
         }
@@ -68,11 +69,12 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
         public void OnOperationStart(HashedString name, OperationFunctor variant, object[] qubitsTraceData)
         {
             var operation = new Operation { Gate = name };
-            foreach (var qubit in qubitsTraceData) {
+            foreach (var qubit in qubitsTraceData)
+            {
                 operation.Targets.Add((QubitReference)qubit);
             }
             operation.IsAdjoint = variant == OperationFunctor.Adjoint || variant == OperationFunctor.ControlledAdjoint;
-            operationCallStack.Push(operation);
+            callStack.Push(operation);
         }
         
         /// <summary>
@@ -81,19 +83,21 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
         /// </summary>
         public void OnOperationEnd(object[] returnedQubitsTraceData)
         {
-            var lastOperation = operationCallStack.Pop();
-            Debug.Assert(operationCallStack.Count != 0, "Operation call stack must never get empty");
+            var lastOperation = callStack.Pop();
+            Debug.Assert(callStack.Count != 0, "Operation call stack must never get empty");
 
             // Add operation to parent and also update qubits
-            operationCallStack.Peek().AddChild(lastOperation);
+            callStack.Peek().AddChild(lastOperation);
         }
 
         /// <summary>
         /// Adds an outer interface qubit to the circuit data structure, whenever
         /// a new qubit is allocated.
         /// </summary>
-        public void OnAllocate(object[] qubitsTraceData) {
-            foreach (var qubit in qubitsTraceData) {
+        public void OnAllocate(object[] qubitsTraceData)
+        {
+            foreach (var qubit in qubitsTraceData)
+            {
                 Circuit.Qubits.Add(new Qubit { Id = ((QubitReference)qubit).Id });
             }
         }
@@ -147,14 +151,16 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
         /// <summary>
         /// Adds operation and updates counters and targets
         /// </summary>
-        public void AddChild(Operation child) {
+        public void AddChild(Operation child)
+        {
             Children.Add(child);
             CNOTCount += child.CNOTCount;
             CliffordCount += child.CliffordCount;
             RCount += child.RCount;
             TCount += child.TCount;
 
-            foreach (var target in child.Targets) {
+            foreach (var target in child.Targets)
+            {
                 Targets.Add(target);
             }
         }

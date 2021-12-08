@@ -18,7 +18,7 @@ namespace Microsoft.Quantum.Simulation.Simulators
         public static new QCTraceSimulatorConfiguration RecommendedConfig() =>
             new QCTraceSimulatorConfiguration
             {
-                CallStackDepthLimit = 2,
+                CallStackDepthLimit = 4,
 
                 ThrowOnUnconstrainedMeasurement = false,
                 UseDistinctInputsChecker = false,
