@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 using Microsoft.Quantum.Simulation.Core;
+using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
 using Newtonsoft.Json;
 
@@ -46,16 +47,16 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
         {
             switch (id)
             {
-                case 0:
+                case (int)PrimitiveOperationsGroups.CNOT:
                     callStack.Peek().CNOTCount += 1.0;
                     break;
-                case 1:
+                case (int)PrimitiveOperationsGroups.QubitClifford:
                     callStack.Peek().CliffordCount += 1.0;
                     break;
-                case 3:
+                case (int)PrimitiveOperationsGroups.R:
                     callStack.Peek().RCount += 1.0;
                     break;
-                case 4:
+                case (int)PrimitiveOperationsGroups.T:
                     callStack.Peek().TCount += 1.0;
                     break;
             }

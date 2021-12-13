@@ -56,6 +56,10 @@ To generate the JSON output for quantum-viz.js, run, for example:
 dotnet run -- visualize -g 4 -r 0 --quantum-viz
 ```
 
+The output would be as follows:
+
+![Resources estimation with quantum-viz.js](https://devblogs.microsoft.com/qsharp/wp-content/uploads/sites/28/2021/12/post.gif)
+
 <!-- markdownlint-disable no-duplicate-header -->
 
 ### Manifest
