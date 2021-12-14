@@ -49,8 +49,11 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
         [Option('g', "generator", Required = true, HelpText = "A coprime to `number` of which the period is estimated")]
         public long Generator { get; set; }
 
-        [Option('r', "resource", Required = false, Default = 0, HelpText = "The resource - CNOT: 0; Measure: 1; QubitClifford: 2; R: 3; T: 4")]
+        [Option('r', "resource", Required = false, Default = 0, HelpText = "The resource - CNOT: 0; QubitClifford: 1; R: 2; Measure: 3; T: 4")]
         public PrimitiveOperationsGroups Resource { get; set; }
+
+        [Option("quantum-viz", HelpText = "Use quantum-viz.js for visualization")]
+        public bool QuantumViz { get; set; }
     }
 
 
@@ -142,14 +145,23 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
         }
 
         static int Visualize(VisualizeOptions options) {
-            var config = FlameGraphResourcesEstimator.RecommendedConfig();
-
-            var estimator = new FlameGraphResourcesEstimator(config, options.Resource);
-
             var bitsize = (long)System.Math.Ceiling(System.Math.Log2(options.NumberToFactor + 1));
-            EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
 
-            Console.WriteLine(string.Join(System.Environment.NewLine, estimator.FlameGraphData.Select(pair => $"{pair.Key} {pair.Value}")));
+            if (options.QuantumViz) {
+                var config = QuantumVizEstimator.RecommendedConfig();
+                var estimator = new QuantumVizEstimator(config);
+
+                EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
+
+                Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(estimator.Circuit));
+            } else {
+                var config = FlameGraphResourcesEstimator.RecommendedConfig();
+                var estimator = new FlameGraphResourcesEstimator(config, options.Resource);
+
+                EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
+
+                Console.WriteLine(string.Join(System.Environment.NewLine, estimator.FlameGraphData.Select(pair => $"{pair.Key} {pair.Value}")));
+            }
 
             return 0;
         }

@@ -45,3 +45,24 @@ perl flamegraph.pl output.txt > output.svg
 
 - [FlameGraphCounter.cs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/FlameGraphCounter.cs): Counter for the adapted resources estimator.
 - [FlameGraphResourcesEstimator.cs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/FlameGraphResourcesEstimator.cs): The adapted resources estimator.
+
+## quantum-viz.js Visualization
+
+This sample also contains a custom [ResourcesEstimator](https://docs.microsoft.com/azure/quantum/user-guide/machines/resources-estimator) that generates JSON code to be used with [quantum-viz.js](https://github.com/microsoft/quantum-viz.js).  This contains both the hierarchy of the implementation as well as the resources with respect to the position in the call stack.
+
+To generate the JSON output for quantum-viz.js, run, for example:
+
+```shell
+dotnet run -- visualize -g 4 -r 0 --quantum-viz
+```
+
+The output would be as follows:
+
+![Resources estimation with quantum-viz.js](https://devblogs.microsoft.com/qsharp/wp-content/uploads/sites/28/2021/12/post.gif)
+
+<!-- markdownlint-disable no-duplicate-header -->
+
+### Manifest
+
+- [QuantumVizCounter.cs](QuantumVizCounter.cs): Custom listener for quantum-viz.js code generation.
+- [QuantumVizEstimator.cs](QuantumVizEstimator.cs): Custom resources estimator that uses the custom listener.
