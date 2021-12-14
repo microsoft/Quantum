@@ -140,6 +140,8 @@ namespace Microsoft.Quantum.Simulation.QCTraceSimulatorRuntime
         [JsonProperty(PropertyName = "isAdjoint")]
         public bool IsAdjoint { get; set; } = false;
 
+        // We're not outputting the resource count fields in the JSON, since we
+        // include them in DisplayArgs field
         [JsonIgnore]
         public double CNOTCount { get; set; } = 0.0;
         [JsonIgnore]
