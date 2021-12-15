@@ -1,6 +1,6 @@
 <!-- This line declares that the project is a Q# project, built using the
      Microsoft.Quantum.Sdk package. -->
-<Project Sdk="Microsoft.Quantum.Sdk/0.21.2111177148">
+<Project Sdk="Microsoft.Quantum.Sdk/0.21.2112181770-beta">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
@@ -15,7 +15,7 @@
        will automatically be downloaded from nuget.org and made available to your
        Q# workspace. -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Numerics" Version="0.21.2111177148" />
+    <PackageReference Include="Microsoft.Quantum.Numerics" Version="0.21.2112181770-beta" />
   </ItemGroup>
 
 </Project>

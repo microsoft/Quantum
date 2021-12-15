@@ -20,7 +20,7 @@ dependencies:
 - ipyparallel
 - py
 - notebook
-- qsharp==0.21.2111177148
+- qsharp==0.21.2112181770b1
 - jupyter_client==6.1.7
 - pyzmq==19.0.2=py37h453f00a_2
 - pip
