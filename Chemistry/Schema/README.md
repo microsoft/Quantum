@@ -7,9 +7,11 @@ This folder contains the definition of the Broombridge schema and a validator to
 The validator tool is a Python script `validator.py` that checks given YAML documents against a JSON schema such as the default `broombridge-0.2.schema.json` file in used to define quantum chemistry problems.
 
 To run the tool, at your favorite command line, first install the prerequisites
+
 ```bash
 pip install -r requirements.txt
 ```
+
 and then run `validator.py` with an instance of the schema to be tested.
 For example:
 
