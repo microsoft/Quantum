@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.Net.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Simulators" Version="0.22.187631" />
-    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.22.187631" />
+    <PackageReference Include="Microsoft.Quantum.Simulators" Version="0.22.189218-beta" />
+    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.22.189218-beta" />
   </ItemGroup>
 </Project>
