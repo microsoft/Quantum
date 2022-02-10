@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.22.187631" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.22.191170-beta" />
   </ItemGroup>
 
 </Project>
