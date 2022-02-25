@@ -25,7 +25,7 @@ def check_file(filename : str) -> bool:
     found_tabs = False
 
     with open(filename, 'r') as f:
-        contents = list(f.readlines())
+        contents = f.readlines()
 
     for line in contents:
         # Find the leading whitespace.
