@@ -25,7 +25,7 @@ dotnet run -- --simulator QuantumSimulator --n-sites=5 --time=5.0 --dt=0.1
 
 ## Running the sample on the Azure Quantum service
 
-Make sure that you have [created and selected a quantum workspace](https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal), and then run the following at the command line, substituting `TARGET` with the target that you would like to run against (e.g.: `ionq.qpu` or `honeywell.hqs-lt-1.0`):
+Make sure that you have [created and selected a quantum workspace](https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal), and then run the following at the command line, substituting `TARGET` with the target that you would like to run against (e.g.: `ionq.qpu` or `quantinuum.hqs-lt`):
 
 ```azcli
 az quantum execute --target-id TARGET -- --n-sites=5 --time=5.0 --dt=0.1
