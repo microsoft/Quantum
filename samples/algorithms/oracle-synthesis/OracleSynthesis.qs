@@ -81,19 +81,6 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     }
 
     /// # Summary
-    /// {-1,1} coding of a Boolean truth value
-    ///
-    /// # Input
-    /// ## b
-    /// Boolean value
-    ///
-    /// # Output
-    /// 1, if `b` is false, otherwise -1
-    function RMEncoding(b : Bool) : Int {
-        return b ? -1 | 1;
-    }
-
-    /// # Summary
     /// Encode truth table in {1,-1} coding
     ///
     /// # Input
@@ -108,7 +95,7 @@ namespace Microsoft.Quantum.Samples.OracleSynthesis {
     /// Encode([false, false, false, true]); // [1, 1, 1, -1]
     /// ```
     function Encode(table : Bool[]) : Int[] {
-        return Mapped(RMEncoding, table);
+        return Mapped(b -> b ? -1 | 1, table);
     }
 
     /// # Summary
