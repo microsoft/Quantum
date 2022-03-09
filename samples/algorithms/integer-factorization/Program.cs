@@ -76,7 +76,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                     // Make sure to use simulator within using block. 
                     // This ensures that all resources used by QuantumSimulator
                     // are properly released if the algorithm fails and throws an exception.
-                    using (CommonNativeSimulator sim = options.UseDense ? new QuantumSimulator() : new SparseSimulator())
+                    using (var sim = options.UseDense ? (CommonNativeSimulator)new QuantumSimulator() : new SparseSimulator())
                     {
                         // Report the number being factored to the standard output
                         Console.WriteLine($"==========================================");
