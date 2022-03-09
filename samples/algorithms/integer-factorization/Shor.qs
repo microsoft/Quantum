@@ -166,7 +166,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
 
         // Number of bits of precision with which we need to estimate s/r to recover period r.
         // using continued fractions algorithm.
-        let bitsPrecision = 2 * bitsize;
+        let bitsPrecision = 2 * bitsize + 1;
 
         // A variable that stores our current estimate for the frequency
         // of the form s/r.
@@ -209,7 +209,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     )
     : Int {
         mutable frequencyEstimate = 0;
-        let bitsPrecision =  2 * bitsize;
+        let bitsPrecision =  2 * bitsize + 1;
 
         // Allocate qubits for the superposition of eigenstates of
         // the oracle that is used in period finding.
