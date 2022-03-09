@@ -19,14 +19,6 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
     {
         [Option('n', "number", Required = false, Default = 15, HelpText = "Number to be factored")]
         public long NumberToFactor { get; set; }
-
-        [Option('m', "method", Required = false, Default = "rpe", HelpText = "Use rpe for Robust Phase Estimation, and qpe for Quantum Phase Estimation")]
-        public string Method { get; set; }
-
-        /// <summary>
-        /// Helper method to check whether robust phase estimation should be used
-        /// </summary>
-        public bool UseRobustPhaseEstimation => Method == "rpe";
     }
 
     [Verb("simulate", isDefault: true, HelpText = "Simulate Shor's algorithm using QDK's full state simulator")]
@@ -34,6 +26,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
     {
         [Option('t', "trials", Required = false, Default = 100, HelpText = "Number of trials to perform")]
         public long NumberOfTrials { get; set; }
+        [Option('d', "dense", Required = false, Default = false, HelpText = "Use dense states for simulation")]
+        public bool UseDense { get; set; }
     }
 
     [Verb("estimate", HelpText = "Estimate the resources to perform one round of period finding in Shor's algorithm")]
@@ -82,7 +76,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                     // Make sure to use simulator within using block. 
                     // This ensures that all resources used by QuantumSimulator
                     // are properly released if the algorithm fails and throws an exception.
-                    using (QuantumSimulator sim = new QuantumSimulator())
+                    using (CommonNativeSimulator sim = options.UseDense ? new QuantumSimulator() : new SparseSimulator())
                     {
                         // Report the number being factored to the standard output
                         Console.WriteLine($"==========================================");
@@ -90,7 +84,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
 
                         // Compute the factors
                         (long factor1, long factor2) = 
-                            FactorSemiprimeInteger.Run(sim, options.NumberToFactor, options.UseRobustPhaseEstimation).Result;
+                            FactorSemiprimeInteger.Run(sim, options.NumberToFactor).Result;
 
                         Console.WriteLine($"Factors are {factor1} and {factor2}");
 
@@ -133,7 +127,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
             var estimator = new ResourcesEstimator(config);
 
             var bitsize = (long)System.Math.Ceiling(System.Math.Log2(options.NumberToFactor + 1));
-            EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
+            EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, bitsize).Wait();
 
             Console.WriteLine(estimator.ToTSV());
 
@@ -151,14 +145,14 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                 var config = QuantumVizEstimator.RecommendedConfig();
                 var estimator = new QuantumVizEstimator(config);
 
-                EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
+                EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, bitsize).Wait();
 
                 Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(estimator.Circuit));
             } else {
                 var config = FlameGraphResourcesEstimator.RecommendedConfig();
                 var estimator = new FlameGraphResourcesEstimator(config, options.Resource);
 
-                EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
+                EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, bitsize).Wait();
 
                 Console.WriteLine(string.Join(System.Environment.NewLine, estimator.FlameGraphData.Select(pair => $"{pair.Key} {pair.Value}")));
             }
