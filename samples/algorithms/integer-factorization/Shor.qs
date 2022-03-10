@@ -18,10 +18,13 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     // This sample contains Q# code implementing Shor's quantum algorithm for
-    // factoring integers. The underlying modular arithmetic is implemented
-    // in phase encoding, based on a paper by Stephane Beauregard who gave a
-    // quantum circuit for factoring n-bit numbers that needs 2n+3 qubits and
-    // O(n³log(n)) elementary quantum gates.
+    // factoring integers. The implementation is based on a paper by Stephane
+    // Beauregard who gave a quantum circuit for factoring n-bit numbers that
+    // needs 2n+3 qubits and O(n³log(n)) elementary quantum gates.
+    // Instead of using Fourier based arithmetic, we use the addition circuit
+    // by Gidney, which makes use of auxiliary qubits but is expected to
+    // outperform Fourier based arithmetic in a fault-tolerant setting due to
+    // the cost of rotation synthesis and magic state distillation.
 
     /// # Summary
     /// Uses Shor's algorithm to factor the parameter `number`
@@ -61,7 +64,6 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
 
                 // Call Quantum Period finding algorithm for
                 // `generator` mod `number`.
-                // Here we have a choice which Phase Estimation algorithm to use.
                 let period = EstimatePeriod(generator, number);
 
                 // Set the flag and factors values if the continued fractions
@@ -118,9 +120,9 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         // Check that the parameters satisfy the requirements.
         Fact(IsCoprimeI(generator, modulus), "`generator` and `modulus` must be co-prime");
 
-        // The oracle we use for order finding essentially wraps
-        // Microsoft.Quantum.Arithmetic.MultiplyByModularInteger operation
-        // that implements |x⟩ ↦ |x⋅a mod N ⟩.
+        // The oracle we use for order finding implements |x⟩ ↦ |x⋅a mod N ⟩.
+        // The implementation details can be found in `Modular.qs`, `Compare.qs`
+        // and `Add.qs`.
         // We also use Microsoft.Quantum.Math.ExpModI to compute a by which
         // x must be multiplied.
         // Also note that we interpret target as unsigned integer
