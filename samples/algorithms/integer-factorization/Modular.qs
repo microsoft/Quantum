@@ -10,6 +10,22 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Math;
 
+    /// # Summary
+    /// Performs modular in-place addition of a classical constant into a
+    /// quantum register.
+    ///
+    /// # Description
+    /// Given the classical constants `c` and `modulus`, and an input
+    /// quantum register (as LittleEndian) $|y\rangle$, this operation
+    /// computes `(x+c) % modulus` into $|y\rangle$.
+    ///
+    /// # Input
+    /// ## modulus
+    /// Modulus to use for modular addition
+    /// ## c
+    /// Constant to add to $|y\rangle$
+    /// ## y
+    /// Quantum register of target
     operation ModularAddConstant(modulus : BigInt, c : BigInt, y : LittleEndian)
     : Unit is Adj + Ctl {
         body (...) {
@@ -34,6 +50,21 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         }
     }
 
+    /// # Summary
+    /// Performs modular in-place multiplication by a classical constant.
+    ///
+    /// # Description
+    /// Given the classical constants `c` and `modulus`, and an input
+    /// quantum register (as LittleEndian) $|y\rangle$, this operation
+    /// computes `(c*x) % modulus` into $|y\rangle$.
+    ///
+    /// # Input
+    /// ## modulus
+    /// Modulus to use for modular multiplication
+    /// ## c
+    /// Constant by which to multiply $|y\rangle$
+    /// ## y
+    /// Quantum register of target
     operation ModularMulByConstant(modulus : BigInt, c : BigInt, y : LittleEndian)
     : Unit is Adj + Ctl {
         use qs = Qubit[Length(y!)];

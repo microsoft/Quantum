@@ -29,6 +29,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         GreaterThanOrEqualConstantImpl(false, c, y, target);
     }
 
+    /// # Summary
+    /// Internal operation used in the implementation of GreaterThanOrEqualConstant.
     internal operation GreaterThanOrEqualConstantImpl(mbcOptimized : Bool, c : BigInt, x : LittleEndian, target : Qubit)
     : Unit is Adj+Ctl {
         let bitwidth = Length(x!);
@@ -72,6 +74,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         }
     }
 
+    /// # Summary
+    /// Internal operation used in the implementation of GreaterThanOrEqualConstant.
     internal operation ApplyOr(control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj+Ctl {
         within {
             ApplyToEachA(X, [control1, control2]);

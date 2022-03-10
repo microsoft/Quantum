@@ -105,6 +105,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         }
     }
 
+    /// # Summary
+    /// Internal operation used in the implementation of AddConstant.
     internal operation AddWithCarryInAndOut(x : LittleEndian, y : LittleEndian, carryIn : Qubit) : Unit is Adj+Ctl {
         body (...) {
             let n = Length(x!);
@@ -151,6 +153,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         }
     }
 
+    /// # Summary
+    /// Internal operation used in the implementation of AddConstant.
     internal operation AddWithoutCarryOut(useInSubtract : Bool, xIsOddConstant : Bool, x : LittleEndian, y : LittleEndian) : Unit is Adj+Ctl {
         let n = Length(x!);
         Fact(n > 0, "Bitwidth must be at least 1");
@@ -166,6 +170,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         }
     }
 
+    /// # Summary
+    /// Internal operation used in the implementation of AddConstant.
     internal operation AddWithCarryOut(useInSubtract : Bool, x : LittleEndian, y : LittleEndian) : Unit is Adj+Ctl {
         body (...) {
             let n = Length(x!);
@@ -212,6 +218,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         }
     }
 
+    /// # Summary
+    /// Internal operation used in the implementation of AddConstant.
     internal operation Carry(carryIn : Qubit, x : Qubit, y : Qubit, carryOut : Qubit) : Unit is Adj+Ctl {
         body (...) {
             Controlled Carry(EmptyArray<Qubit>(), (carryIn, x, y, carryOut));
@@ -273,6 +281,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         controlled adjoint auto;
     }
 
+    /// # Summary
+    /// Internal operation used in the implementation of AddConstant.
     internal operation Uncarry(carryIn : Qubit, x : Qubit, y : Qubit, carryOut : Qubit) : Unit is Adj+Ctl {
         body (...) {
             CNOT(carryIn, carryOut);
@@ -301,6 +311,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         controlled adjoint auto;
     }
 
+    /// # Summary
+    /// Internal operation used in the implementation of AddConstant.
     internal operation HalfUncarry(carryIn: Bool, xIsOddConstant : Bool, x : Qubit, y : Qubit, carryOut : Qubit) : Unit is Adj {
         body (...) {
             ApplyIfA(carryIn, X, carryOut);
@@ -339,6 +351,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         controlled adjoint auto;
     }
 
+    /// # Summary
+    /// Internal operation used in the implementation of AddConstant.
     internal operation Sum(carryIn : Qubit, x : Qubit, y : Qubit) : Unit is Adj+Ctl {
         body (...) {
             CNOT(carryIn, y);
@@ -362,6 +376,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         controlled adjoint self;
     }
 
+    /// # Summary
+    /// Internal operation used in the implementation of AddConstant.
     internal operation HalfSum(carryIn : Bool, xIsOddConstant : Bool, x : Qubit, y : Qubit) : Unit is Adj+Ctl {
         body (...) {
             ApplyIfA(carryIn, X, y);
