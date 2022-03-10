@@ -134,6 +134,39 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     }
 
     /// # Summary
+    /// Interprets `target` as encoding unsigned little-endian integer k
+    /// and performs transformation |k⟩ ↦ |gᵖ⋅k mod N ⟩ where
+    /// p is `power`, g is `generator` and N is `modulus` using
+    /// Fourier based arithmetic.
+    ///
+    /// # Input
+    /// ## generator
+    /// The unsigned integer multiplicative order ( period )
+    /// of which is being estimated. Must be co-prime to `modulus`.
+    /// ## modulus
+    /// The modulus which defines the residue ring Z mod `modulus`
+    /// in which the multiplicative order of `generator` is being estimated.
+    /// ## power
+    /// Power of `generator` by which `target` is multiplied.
+    /// ## target
+    /// Register interpreted as LittleEndian which is multiplied by
+    /// given power of the generator. The multiplication is performed modulo
+    /// `modulus`.
+    operation ApplyOrderFindingOracleFourierArithmetic(
+        generator : Int, modulus : Int, power : Int, target : Qubit[]
+    )
+    : Unit
+    is Adj + Ctl {
+        // Check that the parameters satisfy the requirements.
+        Fact(IsCoprimeI(generator, modulus), "`generator` and `modulus` must be co-prime");
+
+        // The oracle we use for order finding implements |x⟩ ↦ |x⋅a mod N ⟩.
+        // Here, we forward to the library implementation, which uses Fourier based
+        // arithmetic.
+        MultiplyByModularInteger(ExpModI(generator, power, modulus), modulus, LittleEndian(target));
+    }
+
+    /// # Summary
     /// Finds a multiplicative order of the generator
     /// in the residue ring Z mod `modulus`.
     ///
