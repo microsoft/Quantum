@@ -258,7 +258,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         ApplyXorInPlace(1, eigenstateRegisterLE);
         let oracle = ApplyOrderFindingOracle(generator, modulus, _, _);
 
-        // Use semi-classical phase estimation
+        // Use phase estimation with a semiclassical Fourier transform to
+        // estimate the frequency
         use c = Qubit();
         for idx in bitsPrecision - 1..-1..0 {
             within {
