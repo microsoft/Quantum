@@ -25,9 +25,9 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// ## y
     /// Quantum register of second summand and target; must be either
     /// the same length as `x` or one larger.
-    operation Add(x : LittleEndian, y : LittleEndian) : Unit is Adj+Ctl {
+    operation Add(x : LittleEndian, y : LittleEndian) : Unit is Adj + Ctl {
         let n = Length(x!);
-        Fact(n > 0, "Bitwidth must be at least 1");
+        Fact(n > 0, "Bit width of x must be at least 1, but was 0.");
 
         if Length(y!) == n + 1 {
             AddWithCarryOut(false, x, y);

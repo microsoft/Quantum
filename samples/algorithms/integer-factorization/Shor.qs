@@ -212,7 +212,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         );
 
         if frequencyEstimate != 0 {
-            set result = PeriodFromFrequency(modulus,frequencyEstimate, bitsPrecision, result);
+            set result = PeriodFromFrequency(modulus, frequencyEstimate, bitsPrecision, result);
         }
         else {
             Message("The estimated frequency was 0, trying again.");
