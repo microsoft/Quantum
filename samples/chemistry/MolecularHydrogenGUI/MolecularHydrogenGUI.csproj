@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
@@ -25,8 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.23.195983" />
-    <PackageReference Include="Microsoft.Quantum.Simulators" Version="0.23.195983" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.23.198514-beta" />
+    <PackageReference Include="Microsoft.Quantum.Simulators" Version="0.23.198514-beta" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 

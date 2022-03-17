@@ -33,12 +33,12 @@ At a terminal, run the following command (with example arguments for the inputs)
 dotnet test
 ```
 
-After running the tests, the directory `bin/Debug/netcoreapp3.1` contains ⟨q|pic⟩
+After running the tests, the directory `bin/Debug/net6.0` contains ⟨q|pic⟩
 circuit diagrams for the test cases.  You can create picture files from them
 using the following commands (assuming that ⟨q|pic⟩ is installed):
 
 ```shell
-cp bin/Debug/netcoreapp3.1/t-injection.qpic .
+cp bin/Debug/net6.0/t-injection.qpic .
 qpic -f png t-injection.qpic
 ```
 
