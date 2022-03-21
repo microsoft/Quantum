@@ -43,10 +43,10 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
 
             let cNormalized = c >>> l;
             let xNormalized = x![l...];
-            let bitwidthNormalized = Length(xNormalized);
-            let gates = Rest(BigIntAsBoolArraySized(cNormalized, bitwidthNormalized));
+            let bitWidthNormalized = Length(xNormalized);
+            let gates = Rest(BigIntAsBoolArraySized(cNormalized, bitWidthNormalized));
 
-            use qs = Qubit[bitwidthNormalized - 1];
+            use qs = Qubit[bitWidthNormalized - 1];
             let cs1 = [Head(xNormalized)] + Most(qs);
             let cs2 = Rest(xNormalized);
 
