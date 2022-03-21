@@ -16,7 +16,6 @@ factoring integers.
 ## Manifest
 
 - [Shor.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Shor.qs): Q# implementation of Shor's algorithm.
-- [Add.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Add.qs): Q# implementation of AND-gate based addition.
 - [Modular.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Modular.qs): Q# implementation of modular arithmetic.
 - [Compare.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Compare.qs): Q# implementation of comparison based on AND-gates.
 - [Utils.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Utils.qs): Q# implementation of helper functions and operations for the AND-gate based arithmetic used in this sample.

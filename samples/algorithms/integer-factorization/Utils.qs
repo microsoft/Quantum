@@ -16,14 +16,14 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         ApplyPauliFromBitString(PauliX, true, bitsPadded, (target!)[...Length(bitsPadded) - 1]);
     }
 
-    internal function TrailingZeroes(number : BigInt) : Int {
-        mutable zeroes = 0;
+    internal function NTrailingZeroes(number : BigInt) : Int {
+        mutable nZeroes = 0;
         mutable copy = number;
         while (copy % 2L == 0L) {
-            set zeroes += 1;
+            set nZeroes += 1;
             set copy /= 2L;
         }
-        return zeroes;
+        return nZeroes;
     }
 
     internal function BigIntAsBoolArraySized(value : BigInt, numBits : Int) : Bool[] {
@@ -33,7 +33,10 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         return n >= numBits ? values[...numBits - 1] | Padded(-numBits, false, values);
     }
 
-    internal operation LowTCNOT(a : Qubit, b : Qubit) : Unit is Adj+Ctl {
+    /// # Summary
+    /// An implementation for `CNOT` that when controlled using a single control uses
+    /// a helper qubit and uses `ApplyAnd` to reduce the T-count to 4 instead of 7.
+    internal operation ApplyLowTCNOT(a : Qubit, b : Qubit) : Unit is Adj+Ctl {
         body (...) {
             CNOT(a, b);
         }
@@ -41,6 +44,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         adjoint self;
 
         controlled (ctls, ...) {
+            // In this application this operation is used in a way that
+            // it is controlled by at most one qubit.
             Fact(Length(ctls) <= 1, "At most one control line allowed");
 
             if IsEmpty(ctls) {

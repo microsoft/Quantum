@@ -24,32 +24,26 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// Quantum register to compare against.
     /// ## target
     /// Target qubit for comparison result.
-    operation GreaterThanOrEqualConstant(c : BigInt, y : LittleEndian, target : Qubit)
+    operation CompareGreaterThanOrEqualConstant(c : BigInt, y : LittleEndian, target : Qubit)
     : Unit is Adj+Ctl {
-        GreaterThanOrEqualConstantImpl(false, c, y, target);
+        CompareGreaterThanOrEqualConstantImpl(c, y, target);
     }
 
     /// # Summary
     /// Internal operation used in the implementation of GreaterThanOrEqualConstant.
-    internal operation GreaterThanOrEqualConstantImpl(mbcOptimized : Bool, c : BigInt, x : LittleEndian, target : Qubit)
+    internal operation CompareGreaterThanOrEqualConstantImpl(c : BigInt, x : LittleEndian, target : Qubit)
     : Unit is Adj+Ctl {
         let bitwidth = Length(x!);
 
         if c == 0L {
-            if not mbcOptimized {
-                X(target);
-            }
+            X(target);
         } elif c >= PowL(2L, bitwidth) {
             // do nothing
         } elif c == PowL(2L, bitwidth - 1) {
-            if mbcOptimized {
-                Z(Tail(x!));
-            } else {
-                LowTCNOT(Tail(x!), target);
-            }
+            ApplyLowTCNOT(Tail(x!), target);
         } else {
             // normalize constant
-            let l = TrailingZeroes(c);
+            let l = NTrailingZeroes(c);
 
             let cNormalized = c >>> l;
             let xNormalized = x![l...];
@@ -65,11 +59,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                     (gateType ? ApplyAnd | ApplyOr)(c1, c2, t);
                 }
             } apply {
-                if mbcOptimized {
-                    Z(Tail(qs));
-                } else {
-                    LowTCNOT(Tail(qs), target);
-                }
+                ApplyLowTCNOT(Tail(qs), target);
             }
         }
     }

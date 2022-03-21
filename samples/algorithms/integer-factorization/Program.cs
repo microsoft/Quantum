@@ -24,7 +24,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
         public bool UseQFTArithmetic { get; set; }
     }
 
-    [Verb("simulate", isDefault: true, HelpText = "Simulate Shor's algorithm using QDK's full state simulator")]
+    [Verb("simulate", isDefault: true, HelpText = "Simulate Shor's algorithm")]
     class SimulateOptions : CommonOptions
     {
         [Option('t', "trials", Required = false, Default = 100, HelpText = "Number of trials to perform")]
@@ -68,6 +68,11 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                 _ => 1
             );
 
+        // By default we are using `ApplyOrderFindingOracle` as inner operation for order finding
+        // that relies on the reversible implementation for modular multiplication `ModularMulByConstant`.
+        // If we set the `fourier` option via command line arguments, we map this operation to the
+        // alternative `ApplyOrderFindingOracleFourierArithmetic` that uses the Q# library function
+        // `MultiplyByModularInteger` that is based on Fourier arithmetic instead.
         private static void RegisterReplacement(CommonOptions options, SimulatorBase sim)
         {
             if (options.UseQFTArithmetic)
@@ -87,7 +92,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                     // Make sure to use simulator within using block. 
                     // This ensures that all resources used by QuantumSimulator
                     // are properly released if the algorithm fails and throws an exception.
-                    using (var sim = options.UseDense ? (CommonNativeSimulator)new QuantumSimulator() : new SparseSimulator())
+                    using (var sim = options.UseDense ? (CommonNativeSimulator)new QuantumSimulator() : (CommonNativeSimulator)new SparseSimulator())
                     {
                         RegisterReplacement(options, sim);
                         // Report the number being factored to the standard output

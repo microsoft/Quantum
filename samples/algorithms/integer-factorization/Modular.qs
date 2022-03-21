@@ -11,19 +11,50 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     open Microsoft.Quantum.Math;
 
     /// # Summary
+    /// Performs in-place addition of a constant into a quantum register.
+    ///
+    /// # Description
+    /// Given a non-empty quantum register |𝑦⟩ of length 𝑛+1 and a positive
+    /// constant 𝑐 < 2ⁿ, computes |𝑦 + c⟩ into |𝑦⟩.
+    ///
+    /// # Input
+    /// ## c
+    /// Constant number to add to |𝑦⟩.
+    /// ## y
+    /// Quantum register of second summand and target; must not be empty.
+    operation AddConstant(c : BigInt, y : LittleEndian) : Unit is Adj + Ctl {
+        let n = Length(y!);
+        Fact(n > 0, "Bitwidth must be at least 1");
+
+        Fact(c >= 0L, "constant must not be negative");
+        Fact(c < PowL(2L, n), $"constant must be smaller than {PowL(2L, n)}");
+
+        if c != 0L {
+            let j = NTrailingZeroes(c);
+            use x = Qubit[n - j];
+            let xreg = LittleEndian(x);
+            within {
+                ApplyXorInPlaceL(c >>> j, xreg);
+            } apply {
+                AddI(xreg, LittleEndian((y!)[j...]));
+            }
+        }
+    }
+
+    /// # Summary
     /// Performs modular in-place addition of a classical constant into a
     /// quantum register.
     ///
     /// # Description
     /// Given the classical constants `c` and `modulus`, and an input
-    /// quantum register (as LittleEndian) $|y\rangle$, this operation
-    /// computes `(x+c) % modulus` into $|y\rangle$.
+    /// quantum register (as LittleEndian) |𝑦⟩, this operation
+    /// computes `(x+c) % modulus` into |𝑦⟩.
     ///
     /// # Input
     /// ## modulus
     /// Modulus to use for modular addition
     /// ## c
-    /// Constant to add to $|y\rangle$
+    /// Constant to add to |𝑦⟩
     /// ## y
     /// Quantum register of target
     operation ModularAddConstant(modulus : BigInt, c : BigInt, y : LittleEndian)
@@ -32,6 +63,14 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
             Controlled ModularAddConstant([], (modulus, c, y));
         }
         controlled (ctrls, ...) {
+            // We apply a custom strategy to control this operation instead of
+            // letting the compiler create the controlled variant for us in which
+            // the `Control` functor would be distributed over each operation
+            // in the body.
+            //
+            // Here we can use some scratch memory to save ensure that at most one
+            // control qubit is used for costly operations such as `AddConstant`
+            // and `CompareGreaterThenOrEqualConstant`.
             if Length(ctrls) >= 2 {
                 use control = Qubit();
                 within {
@@ -39,13 +78,12 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
                 } apply {
                     Controlled ModularAddConstant([control], (modulus, c, y));
                 }
-            }
-            else {
+            } else {
                 use carry = Qubit();
                 Controlled AddConstant(ctrls, (c, LittleEndian(y! + [carry])));
                 Controlled Adjoint AddConstant(ctrls, (modulus, LittleEndian(y! + [carry])));
                 Controlled AddConstant([carry], (modulus, y));
-                Controlled GreaterThanOrEqualConstant(ctrls, (c, y, carry));
+                Controlled CompareGreaterThanOrEqualConstant(ctrls, (c, y, carry));
             }
         }
     }
@@ -55,14 +93,14 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     ///
     /// # Description
     /// Given the classical constants `c` and `modulus`, and an input
-    /// quantum register (as LittleEndian) $|y\rangle$, this operation
-    /// computes `(c*x) % modulus` into $|y\rangle$.
+    /// quantum register (as LittleEndian) |𝑦⟩, this operation
+    /// computes `(c*x) % modulus` into |𝑦⟩.
     ///
     /// # Input
     /// ## modulus
     /// Modulus to use for modular multiplication
     /// ## c
-    /// Constant by which to multiply $|y\rangle$
+    /// Constant by which to multiply |𝑦⟩
     /// ## y
     /// Quantum register of target
     operation ModularMulByConstant(modulus : BigInt, c : BigInt, y : LittleEndian)
