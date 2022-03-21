@@ -65,6 +65,8 @@
         "qubitized",
         "wavefunction",
         "Hadamard",
+        "TCNOT",
+        "ctrls",
 
         // # Mathematics terminology
         "binom", // Common shorthand for "binomial."
@@ -94,6 +96,7 @@
         "Remez", // As in Remez's algorithm (https://en.wikipedia.org/wiki/Remez_algorithm).
         "Remez's",
         "Chebyshev", // As in Chebyshev polynomials.
+        "Shor's", // As in Shor's algorithm
         "Welford's", // Algorithm for learning mean and variances of streaming
         // data.
 
