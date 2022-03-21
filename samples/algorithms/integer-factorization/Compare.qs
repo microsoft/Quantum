@@ -14,32 +14,28 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// Performs greater-than-or-equals comparison to a constant.
     ///
     /// # Description
-    /// Toggles output qubit `target` if and only if input register `y`
+    /// Toggles output qubit `target` if and only if input register `x`
     /// is greater than or equal to `c`.
     ///
     /// # Input
     /// ## c
     /// Constant value for comparison.
-    /// ## y
+    /// ## x
     /// Quantum register to compare against.
     /// ## target
     /// Target qubit for comparison result.
-    operation CompareGreaterThanOrEqualConstant(c : BigInt, y : LittleEndian, target : Qubit)
-    : Unit is Adj+Ctl {
-        CompareGreaterThanOrEqualConstantImpl(c, y, target);
-    }
-
-    /// # Summary
-    /// Internal operation used in the implementation of GreaterThanOrEqualConstant.
-    internal operation CompareGreaterThanOrEqualConstantImpl(c : BigInt, x : LittleEndian, target : Qubit)
+    ///
+    /// # Reference
+    /// This construction is described in [Lemma 3, arXiv:2201.10200]
+    operation CompareGreaterThanOrEqualConstant(c : BigInt, x : LittleEndian, target : Qubit)
     : Unit is Adj+Ctl {
         let bitWidth = Length(x!);
 
         if c == 0L {
             X(target);
-        } elif c >= PowL(2L, bitwidth) {
+        } elif c >= PowL(2L, bitWidth) {
             // do nothing
-        } elif c == PowL(2L, bitwidth - 1) {
+        } elif c == PowL(2L, bitWidth - 1) {
             ApplyLowTCNOT(Tail(x!), target);
         } else {
             // normalize constant

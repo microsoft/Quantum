@@ -128,9 +128,9 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         // Also note that we interpret target as unsigned integer
         // in little-endian encoding by using Microsoft.Quantum.Arithmetic.LittleEndian
         // type.
-        ModularMulByConstant(IntAsBigInt(modulus),
-                             IntAsBigInt(ExpModI(generator, power, modulus)),
-                             LittleEndian(target));
+        ModularMultiplyByConstant(IntAsBigInt(modulus),
+                                  IntAsBigInt(ExpModI(generator, power, modulus)),
+                                  LittleEndian(target));
     }
 
     /// # Summary

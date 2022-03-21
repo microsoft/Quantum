@@ -23,6 +23,9 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// ## y
     /// Quantum register of second summand and target; must not be empty.
     operation AddConstant(c : BigInt, y : LittleEndian) : Unit is Adj + Ctl {
+        // We are using this version instead of the library version that is based
+        // on Fourier angles to show an advantage of sparse simulation in this sample.
+
         let n = Length(y!);
         Fact(n > 0, "Bit width must be at least 1");
 
@@ -30,13 +33,17 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         Fact(c < PowL(2L, n), $"constant must be smaller than {PowL(2L, n)}");
 
         if c != 0L {
+            // If c has j trailing zeroes than the j least significant bits
+            // of y won't be affected by the addition and can therefore be
+            // ignored by applying the addition only to the other qubits and
+            // shifting c accordingly.
             let j = NTrailingZeroes(c);
             use x = Qubit[n - j];
             let xReg = LittleEndian(x);
             within {
-                ApplyXorInPlaceL(c >>> j, xreg);
+                ApplyXorInPlaceL(c >>> j, xReg);
             } apply {
-                AddI(xreg, LittleEndian((y!)[j...]));
+                AddI(xReg, LittleEndian((y!)[j...]));
             }
         }
     }
@@ -103,7 +110,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// Constant by which to multiply |𝑦⟩
     /// ## y
     /// Quantum register of target
-    operation ModularMulByConstant(modulus : BigInt, c : BigInt, y : LittleEndian)
+    operation ModularMultiplyByConstant(modulus : BigInt, c : BigInt, y : LittleEndian)
     : Unit is Adj + Ctl {
         use qs = Qubit[Length(y!)];
         for (idx, yq) in Enumerated(y!) {

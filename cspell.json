@@ -19,7 +19,8 @@
             "languageId": ["qsharp"],
             // cspell:disable
             "ignoreWords": [
-                "newtype"
+                "newtype",
+                "elif"
             ]
             // cspell:enable
         }

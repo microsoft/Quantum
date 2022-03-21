@@ -92,22 +92,21 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                     // Make sure to use simulator within using block. 
                     // This ensures that all resources used by QuantumSimulator
                     // are properly released if the algorithm fails and throws an exception.
-                    using (var sim = options.UseDense ? (CommonNativeSimulator)new QuantumSimulator() : (CommonNativeSimulator)new SparseSimulator())
-                    {
-                        RegisterReplacement(options, sim);
-                        // Report the number being factored to the standard output
-                        Console.WriteLine($"==========================================");
-                        Console.WriteLine($"Factoring {options.NumberToFactor}");
+                    using var sim = options.UseDense ? (CommonNativeSimulator)new QuantumSimulator() : (CommonNativeSimulator)new SparseSimulator();
 
-                        // Compute the factors
-                        (long factor1, long factor2) = 
-                            FactorSemiprimeInteger.Run(sim, options.NumberToFactor).Result;
+                    RegisterReplacement(options, sim);
+                    // Report the number being factored to the standard output
+                    Console.WriteLine($"==========================================");
+                    Console.WriteLine($"Factoring {options.NumberToFactor}");
 
-                        Console.WriteLine($"Factors are {factor1} and {factor2}");
+                    // Compute the factors
+                    (long factor1, long factor2) = 
+                        FactorSemiprimeInteger.Run(sim, options.NumberToFactor).Result;
 
-                        // Stop once the factorization has been found
-                        break;
-                    }
+                    Console.WriteLine($"Factors are {factor1} and {factor2}");
+
+                    // Stop once the factorization has been found
+                    break;
                 }
                 // Shor's algorithm is a probabilistic algorithm and can fail with certain 
                 // probability in several ways. For more details see Shor.qs.
