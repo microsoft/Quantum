@@ -24,7 +24,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// Quantum register of second summand and target; must not be empty.
     operation AddConstant(c : BigInt, y : LittleEndian) : Unit is Adj + Ctl {
         let n = Length(y!);
-        Fact(n > 0, "Bitwidth must be at least 1");
+        Fact(n > 0, "Bit width must be at least 1");
 
         Fact(c >= 0L, "constant must not be negative");
         Fact(c < PowL(2L, n), $"constant must be smaller than {PowL(2L, n)}");
@@ -32,7 +32,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         if c != 0L {
             let j = NTrailingZeroes(c);
             use x = Qubit[n - j];
-            let xreg = LittleEndian(x);
+            let xReg = LittleEndian(x);
             within {
                 ApplyXorInPlaceL(c >>> j, xreg);
             } apply {
@@ -65,7 +65,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         controlled (ctrls, ...) {
             // We apply a custom strategy to control this operation instead of
             // letting the compiler create the controlled variant for us in which
-            // the `Control` functor would be distributed over each operation
+            // the `Controlled` functor would be distributed over each operation
             // in the body.
             //
             // Here we can use some scratch memory to save ensure that at most one

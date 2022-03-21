@@ -68,7 +68,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                 _ => 1
             );
 
-        // By default we are using `ApplyOrderFindingOracle` as inner operation for order finding
+        // By default we use `ApplyOrderFindingOracle` as inner operation for order finding
         // that relies on the reversible implementation for modular multiplication `ModularMulByConstant`.
         // If we set the `fourier` option via command line arguments, we map this operation to the
         // alternative `ApplyOrderFindingOracleFourierArithmetic` that uses the Q# library function

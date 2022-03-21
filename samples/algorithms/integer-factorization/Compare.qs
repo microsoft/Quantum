@@ -33,7 +33,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     /// Internal operation used in the implementation of GreaterThanOrEqualConstant.
     internal operation CompareGreaterThanOrEqualConstantImpl(c : BigInt, x : LittleEndian, target : Qubit)
     : Unit is Adj+Ctl {
-        let bitwidth = Length(x!);
+        let bitWidth = Length(x!);
 
         if c == 0L {
             X(target);
