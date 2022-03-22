@@ -120,7 +120,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         // Check that the parameters satisfy the requirements.
         Fact(IsCoprimeI(generator, modulus), "`generator` and `modulus` must be co-prime");
 
-        // The oracle we use for order finding implements |x⟩ ↦ |x⋅a mod N ⟩.
+        // The oracle we use for order finding implements |x⟩ ↦ |x⋅a mod N⟩.
         // The implementation details can be found in `Modular.qs`, `Compare.qs`
         // and `Add.qs`.
         // We also use Microsoft.Quantum.Math.ExpModI to compute a by which
@@ -134,8 +134,8 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
     }
 
     /// # Summary
-    /// Interprets `target` as encoding unsigned little-endian integer k
-    /// and performs transformation |k⟩ ↦ |gᵖ⋅k mod N ⟩ where
+    /// Interprets `target` as encoding an unsigned little-endian integer k
+    /// and performs transformation |k⟩ ↦ |gᵖ⋅k mod N⟩ where
     /// p is `power`, g is `generator` and N is `modulus` using
     /// Fourier based arithmetic.
     ///
@@ -259,7 +259,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization {
         let oracle = ApplyOrderFindingOracle(generator, modulus, _, _);
 
         // Use phase estimation with a semiclassical Fourier transform to
-        // estimate the frequency
+        // estimate the frequency.
         use c = Qubit();
         for idx in bitsPrecision - 1..-1..0 {
             within {
