@@ -34,7 +34,7 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
         "3.200","3.500","4.000","5.000"
         };
 
-        internal static string[] filenames = bondLengths.Select(o => Path.Combine("..","IntegralData","YAML","LiHData",$@"integrals_lih_sto-3g_{o}.nw.out.yaml")).ToArray();
+        internal static string[] filenames = bondLengths.Select(o => FileHelper(Path.Combine("IntegralData","YAML","LiHData",$@"integrals_lih_sto-3g_{o}.nw.out.yaml"))).ToArray();
 
         internal static List<ElectronicStructureProblem> problemData =
             filenames.Select(filename => 
@@ -98,6 +98,20 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
 
                 return (bondLength, energyEst);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private static string FileHelper(string path)
+        {
+            while (!File.Exists(path))
+            {
+                path = Path.Combine("..", path);
+            }
+            return path;
         }
     }
 
