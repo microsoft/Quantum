@@ -100,11 +100,6 @@ namespace Microsoft.Quantum.Chemistry.Samples.LiH
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
         private static string FileHelper(string path)
         {
             while (!File.Exists(path))
