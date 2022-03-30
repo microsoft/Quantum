@@ -14,7 +14,6 @@ description: "This sample implements using the quantum machine learning library 
 This sample uses Q# and the Microsoft.Quantum.MachineLearning library to train a simple sequential model.
 The model is trained on a half-moons dataset, loaded in C# using the System.Text.Json package or in Python using the `json` module, then preprocessed using Q#.
 
-
 ## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
@@ -23,10 +22,10 @@ The model is trained on a half-moons dataset, loaded in C# using the System.Text
 
 This sample can be run in a number of different ways, depending on your preferred environment.
 
-### Python in Visual Studio Code or the Command Line ###
+### Python in Visual Studio Code or the Command Line
 
-This sample also uses a couple extra Python packages to help out, so you'll need to have those 
-ready as well. If you are using the Anaconda distribution of Python, this can be done automatically by using 
+This sample also uses a couple extra Python packages to help out, so you'll need to have those
+ready as well. If you are using the Anaconda distribution of Python, this can be done automatically by using
 the `environment.yml` file provided with this sample:
 
 ```bash
@@ -52,7 +51,7 @@ dotnet run
 ### C# in Visual Studio 2019
 
 Open the folder containing this sample in Visual Studio ("Open a local folder" from the Getting Started screen or "File → Open → Folder..." from the menu bar) and set `HalfMoons.csproj` as the startup project.
-Press Start in Visual Studio to run the sample. 
+Press Start in Visual Studio to run the sample.
 
 ## Manifest
 

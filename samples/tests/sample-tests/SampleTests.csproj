@@ -1,6 +1,6 @@
-<Project Sdk="Microsoft.Quantum.Sdk/0.16.2105140472">
+<Project Sdk="Microsoft.Quantum.Sdk/0.23.198514-beta">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <PlatformTarget>x64</PlatformTarget>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IsPackable>false</IsPackable>
@@ -11,10 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\simulation\ising\adiabatic\AdiabaticIsingSample.csproj" />
+    <ProjectReference Include="..\..\simulation\ising\IsingSamples.csproj" />
     <ProjectReference Include="..\..\error-correction\bit-flip-code\BitFlipCode.csproj" />
     <ProjectReference Include="..\..\algorithms\database-search\DatabaseSearchSample.csproj" />
-    <ProjectReference Include="..\..\simulation\ising\phase-estimation\IsingPhaseEstimationSample.csproj" />
     <ProjectReference Include="..\..\getting-started\measurement\Measurement.csproj" />
     <ProjectReference Include="..\..\characterization\phase-estimation\PhaseEstimationSample.csproj" />
     <ProjectReference Include="..\..\algorithms\reversible-logic-synthesis\ReversibleLogicSynthesis.csproj" />
@@ -23,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Xunit" Version="0.16.2105140472" />
+    <PackageReference Include="Microsoft.Quantum.Xunit" Version="0.23.198514-beta" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />

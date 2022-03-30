@@ -1,7 +1,9 @@
-# Algorithm Samples #
+# Algorithm Samples
 
 - **[Simple Grover](./simple-grover)**:
-  This sample introduces Grover's algorithm for a simple hard-coded example. 
+  This sample introduces Grover's algorithm for a simple hard-coded example.
+- **[Sudoku Grover](./sudoku-grover)**;
+  This sample uses Grover's search algorithm to solve Sudoku puzzles.
 - **[Database Search](./database-search/)**:
   This sample demonstrates how to use Grover's algorithm to efficiently search a database represented as a quantum register.
 - **[Integer Factorization](./integer-factorization/)**:

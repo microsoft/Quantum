@@ -8,11 +8,6 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
 {
     class Driver
     {
-        public static void Pause()
-        {
-            System.Console.WriteLine("\n\nPress any key to continue...\n\n");
-            System.Console.ReadKey();
-        }
 
         static void Main(string[] args)
         {
@@ -36,7 +31,6 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
 
                 // Execute the simple oracles and print the results.
                 RunConstantOracles.Run(qsim, oracle).Wait();
-                Pause();
 
                 #endregion
 
@@ -44,7 +38,6 @@ namespace Microsoft.Quantum.Samples.OracleEmulation
 
                 // Run the demo for emulated arithmetic.
                 RunAddOracle.Run(qsim).Wait();
-                Pause();
 
                 #endregion
             }

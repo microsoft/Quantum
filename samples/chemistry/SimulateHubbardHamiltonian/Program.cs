@@ -102,11 +102,6 @@ namespace Microsoft.Quantum.Chemistry.Samples.Hubbard
                 
             }
 
-            Console.WriteLine("Press Enter to continue...");
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                Console.ReadLine();
-            }
             #endregion
         }
     }

@@ -13,8 +13,10 @@ jupyter:
     name: iqsharp
 ---
 
-# Quantum Development Kit Samples
+<!-- markdownlint-disable-file no-inline-html -->
+<!-- cspell:words qrng chsh qpic qaoa -->
 
+# Quantum Development Kit Samples
 
 These samples demonstrate the use of Q# and the Quantum Development Kit for a variety of different quantum computing tasks.
 
@@ -23,7 +25,6 @@ Alternatively, you can [create a new command line terminal](http://127.0.0.1:888
 
 A small number of the samples have additional installation requirements beyond those for the rest of the Quantum Development Kit.
 These are noted in the README.md files for each sample, along with complete installation instructions.
-
 
 <table id="samples-list">
   <thead>
@@ -75,18 +76,50 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/getting-started/azure-quantum/cirq/README.md">Cirq</a></strong></td>
+      <td></td>
+      <td><a href="./samples/getting-started/azure-quantum/cirq">Cirq + Python</a></td>
+      <td>N/A</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/getting-started/azure-quantum/qiskit/README.md">Qiskit</a></strong></td>
+      <td></td>
+      <td><a href="./samples/getting-started/azure-quantum/qiskit">Qiskit + Python</a></td>
+      <td>N/A</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/getting-started/azure-quantum/provider-specific/README.md">Provider-specific format</a></strong></td>
+      <td></td>
+      <td><a href="./samples/getting-started/azure-quantum/provider-specific">Provider-specific format + Python</a></td>
+      <td>N/A</td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Algorithms:</strong></td>
       <td><a href="./samples/algorithms/chsh-game/README.md"><strong>CHSH Game</strong></a></td>
       <td></td>
-      <td><a href="./samples/algorithms/chsh-game/host.py">Q# + Python</a></td>
       <td></td>
-      <td>Q# + .NET</td>
+      <td>Q# standalone</td>
+      <td></td>
     </tr>
     <tr>
       <td></td>
       <td><a href="./samples/algorithms/database-search/README.md"><strong>Database Search</strong></a></td>
       <td><a href="./samples/algorithms/database-search/Database%20Search.ipynb">Q# notebook</a></td>
-      <td><a href="./samples/algorithms/database-search/host.py">Q# + Python</a></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><a href="./samples/algorithms/noisy-dj/README.md"><strong>Deutsch–Jozsa w/ noise</strong></a></td>
+      <td><a href="./samples/algorithms/noisy-dj/Deutsch–Jozsa%20with%20Noise.ipynb">Python notebook</a></td>
+      <td></td>
       <td></td>
       <td>Q# + .NET</td>
     </tr>
@@ -96,7 +129,7 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
       <td><a href="./samples/algorithms/integer-factorization/host.py">Q# + Python</a></td>
       <td></td>
-      <td>Q# + .NET</td>
+      <td></td>
     </tr>
     <tr>
       <td></td>
@@ -139,16 +172,40 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><a href="./samples/algorithms/variational-algorithms/README.md"><strong>Variational quantum algorithms</strong></a></td>
+      <td></td>
+      <td><a href="./samples/algorithms/variational-algorithms/Variational%20Quantum%20Algorithms.ipynb">Q# + Python</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><a href="./samples/algorithms/sudoku-grover/README.md"><strong>Sudoku solving with Grover's</strong></a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Q# + .NET</td>
+    </tr>
+    <tr>
       <td><strong>Arithmetic:</strong></td>
-      <td><strong><a href="./samples/arithmetic/README.md">Adder</a></strong></td>
-      <td><a href="./samples/arithmetic/AdderExample.ipynb">Q# notebook</a></td>
+      <td><strong><a href="./samples/arithmetic/quantum-adders/README.md">Adder</a></strong></td>
+      <td><a href="./samples/arithmetic/quantum-adders/AdderExample.ipynb">Q# notebook</a></td>
       <td></td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <td><strong>Azure Quantum service:</strong></td>
-      <td><strong><a href="./samples/azure-quantum/parallel-qrng/README.md">Grover's search</a></strong></td>
+      <td><strong><a href="./samples/azure-quantum/chemistry/README.md">Chemistry</a></strong></td>
+      <td></td>
+      <td>Q# + Python</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/azure-quantum/grover/README.md">Grover's search</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -192,6 +249,22 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
       <td></td>
       <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/characterization/process-tomography/README.md">Process tomography</a></strong></td>
+      <td></td>
+      <td><a href="./samples/characterization/process-tomography/tomography-sample.ipynb">Q# + Python</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/characterization/randomized-benchmarking/README.md">Randomized benchmarking</a></strong></td>
+      <td></td>
+      <td><a href="./samples/characterization/randomized-benchmarking/randomized-benchmarking.ipynb">Q# + Python</a></td>
+      <td></td>
       <td></td>
     </tr>
     <tr>
@@ -315,10 +388,18 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/error-correction/syndrome/README.md">Syndrome measurement</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Interoperability:</strong></td>
       <td><strong><a href="./samples/interoperability/python/README.md">Python</a></strong></td>
       <td></td>
-      <td><a href="./samples/interoperability/python/tomography-sample.ipynb">Q# + Python</a></td>
+      <td><a href="./samples/interoperability/python/python-qsharp-interop.ipynb">Q# + Python</a></td>
       <td></td>
       <td></td>
     </tr>
@@ -356,7 +437,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Numerics:</strong></td>
-      <td><strong><a href="./samples/numerics/CustomModAdd">Custom modular addition</a></strong></td>
+      <td><strong><a href="./samples/numerics/custom-mod-add/README.md">Custom modular addition</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -364,7 +445,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="./samples/numerics/EvaluatingFunctions">Evaluating functions</a></strong></td>
+      <td><strong><a href="./samples/numerics/evaluating-functions/README.md">Evaluating functions</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -372,14 +453,22 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="./samples/numerics/ResourceCounting">Resource counting</a></strong></td>
-      <td><a href="./samples/numerics/ResourceCounting/ResourceEstimation.ipynb">Q# notebook</a></td>
+      <td><strong><a href="./samples/numerics/resource-counting/README.md">Resource counting</a></strong></td>
+      <td><a href="./samples/numerics/resource-counting/ResourceEstimation.ipynb">Q# notebook</a></td>
       <td></td>
       <td>Q# standalone</td>
       <td></td>
     </tr>
     <tr>
       <td><strong>Runtime:</strong></td>
+      <td><strong><a href="./samples/runtime/autosubstitution/README.md">Auto-substitution</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
       <td><strong><a href="./samples/runtime/oracle-emulation/README.md">Oracle emulation</a></strong></td>
       <td></td>
       <td></td>
@@ -430,9 +519,9 @@ These are noted in the README.md files for each sample, along with complete inst
       <td><strong>Quantum simulation:</strong></td>
       <td><strong><a href="./samples/simulation/h2/command-line/README.md">H₂</a></strong> (command-line)</td>
       <td></td>
-      <td><a href="./samples/simulation/h2/command-line/host.py">Q# + Python</a></td>
       <td></td>
-      <td>Q# + .NET</td>
+      <td>Q# standalone</td>
+      <td></td>
     </tr>
     <tr>
       <td></td>
@@ -452,7 +541,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="./samples/simulation/ising/simple/README.md">Ising model</a></strong> (simple)</td>
+      <td><strong><a href="./samples/simulation/ising/README.md">Ising model</a></strong></td>
       <td></td>
       <td></td>
       <td>Q# standalone</td>
@@ -460,39 +549,19 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="./samples/simulation/ising/generators/README.md">Ising model</a></strong> (generators)</td>
+      <td><strong><a href="./samples/simulation/gaussian-initial-state/README.md">Gaussian state preparation</a></strong></td>
       <td></td>
+      <td><a href="./samples/simulation/gaussian-initial-state/host.py">Q# + Python</a></td>
+      <td>Q# standalone</td>
       <td></td>
-      <td></td>
-      <td>Q# + .NET</td>
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="./samples/simulation/ising/adiabatic/README.md">Ising model</a></strong> (adiabatic)</td>
+      <td><strong><a href="./samples/simulation/qaoa/README.md">Quantum approximate optimization algorithm</a></strong></td>
       <td></td>
       <td></td>
+      <td>Q# standalone</td>
       <td></td>
-      <td>Q# + .NET</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="./samples/simulation/ising/phase-estimation/README.md">Ising model</a></strong> (phase estimation)</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Q# + .NET</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><strong><a href="./samples/simulation/ising/trotter-evolution/README.md">Ising model</a></strong> (Trotter–Suzuki)</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Q# + .NET</td>
     </tr>
   </tbody>
 </table>
-
-```qsharp
-
-```

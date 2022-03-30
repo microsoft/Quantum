@@ -9,16 +9,16 @@ steps:
     versionSpec: '5.2.0'
 
 - task: UseDotNet@2
-  displayName: 'Use .NET Core SDK 3.1.100'
+  displayName: 'Use .NET Core SDK 6.0'
   inputs:
     packageType: sdk
-    version: '3.1.100'
+    version: '6.0.x'
 
 - task: UsePythonVersion@0
   inputs:
-    versionSpec: '3.6'
+    versionSpec: '3.7'
     architecture: 'x64'
-  displayName: 'Use Python 3.6'
+  displayName: 'Use Python 3.7'
 
 - script: pip install ruamel_yaml jsonschema click setuptools wheel pytest jupyter
   displayName: 'Install Python tools'

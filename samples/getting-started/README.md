@@ -1,4 +1,4 @@
-# Getting Started with Quantum Development #
+# Getting Started with Quantum Development
 
 - **[Measurement](./measurement/)**:
   This sample goes into more detail about how single- and multiple-qubit measurements are represented in Q#, and how to measure in interesting bases such as the Bell basis.

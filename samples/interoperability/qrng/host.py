@@ -14,7 +14,7 @@ from Qrng import SampleQuantumRandomNumberGenerator # We import the
 max = 50 # Here we set the maximum of our range
 output = max + 1 # Variable to store the output
 while output > max:
-    bit_string = [] # We initialise a list to store the bits that
+    bit_string = [] # We initialize a list to store the bits that
     # will define our random integer
     for i in range(0, max.bit_length()): # We need to call the quantum
         # operation as many times as bits are needed to define the

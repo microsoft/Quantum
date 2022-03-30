@@ -51,7 +51,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                 // succeeding.
                 Message("Trying ...");
 
-                // We expect to start with both auxillary qubits to start
+                // We expect to start with both auxiliary qubits to start
                 // in the |+⟩ state.
                 AssertMeasurement([PauliX], [aux0], Zero, "");
                 AssertMeasurement([PauliX], [aux1], Zero, "");
@@ -65,7 +65,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
                 Z(target);
 
                 // Before the measurements probability of measuring |+⟩ state on both
-                // ancillas is 3/4
+                // auxiliary qubits is 3/4
                 AssertMeasurementProbability([PauliX], [aux0], Zero, 0.75, "Error: the probability to measure |+⟩ in the first ancilla must be 3/4", 1E-10);
                 AssertMeasurementProbability([PauliX], [aux1], Zero, 0.75, "Error: the probability to measure |+⟩ in the second ancilla must be 3/4", 1E-10);
                 let outcome0 = Measure([PauliX], [aux0]);

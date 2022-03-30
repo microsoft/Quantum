@@ -1,0 +1,6 @@
+.vscode
+build
+
+qsharp/bin
+qsharp/obj
+qsharp/qir

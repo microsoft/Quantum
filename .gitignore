@@ -15,6 +15,11 @@ packages/
 *.exe
 *.chm
 
+# Build artifacts for QIR
+qir/
+**/src/driver.cpp
+**/src/qir.bc
+
 # test outputs
 TestResults/
 *.qxe

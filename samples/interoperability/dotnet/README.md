@@ -1,4 +1,14 @@
-# Using Q# with .NET #
+---
+page_type: sample
+languages:
+- qsharp
+products:
+- qdk
+description: "This sample demonstrates how to use Q# together with .NET languages."
+urlFragment: qsharp-with-dotnet
+---
+
+# Using Q# with .NET
 
 This sample shows how to use Q# code with a classical host program written in .NET languages such as C# and F#.
 
@@ -10,7 +20,7 @@ The steps are as follows:
 
 1. Create a Q# library `QuantumCode` and write your quantum code in it.
 2. Create a C# or F# application (in this case a console app targeting .NET Core).
-3. Add a reference to the Q# library to your C# or F# application. For example:
+3. Add a reference from your C# or F# application to the Q# library. For example:
 
    You can use [Reference Manager](https://docs.microsoft.com/visualstudio/ide/how-to-add-or-remove-references-by-using-the-reference-manager) in Visual Studio to do that, or you can add the reference from the command line:
 
@@ -20,12 +30,12 @@ The steps are as follows:
 
    This will transitively include the [`Microsoft.Quantum.Development.Kit` NuGet package](https://www.nuget.org/packages/Microsoft.Quantum.Development.Kit) to your C# or F# application.
    You will not be writing any Q# code in `csharp.csproj` or `fsharp.fsproj`, but you will need to use functionality provided by the Quantum Development Kit to create a quantum simulator to run your quantum code on, and to define data types used to pass the parameters to your quantum program.
-4. Write the classical host program in your .NET application. 
+4. Write the classical host program in your .NET application.
 
 ## Q# Code in the Sample
 
-This example uses the last problem from [this quantum kata](https://github.com/microsoft/QuantumKatas/tree/main/DeutschJozsaAlgorithm), 
-which solves a task similar to the Bernstein–Vazirani algorithm, but has a slightly more interesting classical answer verification code. 
+This example uses the last problem from [this quantum kata](https://github.com/microsoft/QuantumKatas/tree/main/DeutschJozsaAlgorithm),
+which solves a task similar to the Bernstein–Vazirani algorithm, but has a slightly more interesting classical answer verification code.
 
 The problem is stated as follows: You are given a black box quantum oracle which implements a classical function 𝐹 which takes 𝑛 digits of binary input and produces a binary output.
 You are guaranteed that the function f can be represented as

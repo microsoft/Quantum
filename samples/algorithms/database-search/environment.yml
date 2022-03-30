@@ -1,6 +1,6 @@
 name: iqsharp-samples
 channels:
-  - quantum-engineering
+  - microsoft
 dependencies:
   - notebook
   - iqsharp

@@ -1,8 +1,20 @@
-# H₂ Simulation GUI Demo #
+---
+page_type: sample
+languages:
+- qsharp
+- csharp
+- javascript
+products:
+- qdk
+description: "This sample demonstrates simulating H₂ with Q#, and plotting the results as an Electron app."
+urlFragment: h2-simulation-gui
+---
 
-## Prerequisites ##
+# H₂ Simulation GUI Demo
 
-On top of [.NET core](https://www.microsoft.com/net/learn/get-started/macos), 
+## Prerequisites
+
+On top of [.NET Core](https://www.microsoft.com/net/learn/get-started/),
 this demo uses the [Electron](https://github.com/electron/electron) framework to display the results of simulating H₂.
 Since Electron is distributed using the Node.js Package Manager (npm), we must therefore install npm first.
 
@@ -27,13 +39,13 @@ sudo apt-get install -y nodejs
 Once npm is installed, we can then install all Node.js packages required for the front end using `npm install`:
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Running the Demo ##
+## Running the Demo
 
 Once pre-reqs are ready, to run the demo from the command line use  `dotnet` to start the project:
 
 ```bash
-$ dotnet run
+dotnet run
 ```

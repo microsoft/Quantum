@@ -2,8 +2,6 @@
 page_type: sample
 languages:
 - qsharp
-- python
-- csharp
 products:
 - qdk
 description: "This sample shows how to use Q# to search for a marked item with Grover's algorithm."
@@ -23,7 +21,14 @@ jupyter:
 
 # Database Search Sample
 
-This sample walks through Grover's search algorithm. Oracles implementing the database are explicitly constructed together with all steps of the algorithm. This features two examples -- the first implements the steps of Grover's algorithm manually. The second applies amplitude amplification functions in the canon to automate many steps of the implementation.
+This sample walks through Grover's search algorithm.
+Oracles implementing the database are explicitly constructed together with all steps of the algorithm.
+
+This sample features three examples:
+
+1. A search made without any Grover iterations, equivalent to a random classical search.
+2. A quantum search using manually implemented Grover iterations to amplify the marked element.
+3. A quantum search using operations from the Q# standard library to amplify multiple marked elements.
 
 ## Prerequisites
 
@@ -33,20 +38,26 @@ This sample walks through Grover's search algorithm. Oracles implementing the da
 
 This sample can be run in a number of different ways, depending on your preferred environment.
 
-### Python in Visual Studio Code or the Command Line
+### Visual Studio Code or the Command Line
 
-At a terminal, run the following command:
+At a terminal, run the following commands for each of the three examples.
+
+#### Example 1
 
 ```powershell
-python host.py
+dotnet run simulate Microsoft.Quantum.Samples.DatabaseSearch.RunRandomSearch
 ```
 
-### C# in Visual Studio Code or the Command Line
-
-At a terminal, run the following command:
+#### Example 2
 
 ```powershell
-dotnet run
+dotnet run simulate Microsoft.Quantum.Samples.DatabaseSearch.RunQuantumSearch
+```
+
+#### Example 3
+
+```powershell
+dotnet run simulate Microsoft.Quantum.Samples.DatabaseSearch.RunMultipleQuantumSearch
 ```
 
 ### Running the Sample in Jupyter Notebook
@@ -63,7 +74,6 @@ jupyter notebook
 ## Manifest
 
 - [DatabaseSearch.qs](./DatabaseSearch.qs): Q# code implementing quantum operations for this sample.
-- [Program.cs](./Program.cs): C# code to interact with and print out results of the Q# operations for this sample.
+- [Program.qs](./Program.qs): Q# code to interact with and print out results of the Q# operations for this sample.
 - [DatabaseSearchSample.csproj](./DatabaseSearchSample.csproj): Main C# project for the sample.
 - [Database Search.ipynb](./Database%20Search.ipynb): The sample as a Jupyter Notebook.
-

@@ -59,9 +59,9 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     /// - For the circuit diagram see Equation 9 on
     ///   [ Page 2 of arXiv:1210.0974v2 ](https://arxiv.org/pdf/1210.0974v2.pdf#page=2)
     operation UpToPhaseCCNOT2 (control1 : Qubit, control2 : Qubit, target : Qubit) : Unit is Adj + Ctl {
-        use auxillary = Qubit();
+        use auxiliary = Qubit();
         // apply UVU† where U is outer circuit and V is inner circuit
-        ApplyWithCA(UpToPhaseCCNOT2OuterCircuit, UpToPhaseCCNOT2InnerCircuit, [auxillary, target, control1, control2]);
+        ApplyWithCA(UpToPhaseCCNOT2OuterCircuit, UpToPhaseCCNOT2InnerCircuit, [auxiliary, target, control1, control2]);
     }
 
 

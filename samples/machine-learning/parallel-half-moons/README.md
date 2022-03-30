@@ -15,7 +15,7 @@ The model is trained on a half-moons dataset, loaded in C# using the System.Text
 
 In this sample, the training loop is parallelized over model start points, with each model using its own instance of the full-state quantum simulator.
 Parallelizing in this way can lead to significantly improved performance, especially when using a large number of cores on a small number of qubits.
-The actual distribution of parallel tasks is performed using [Parallel LINQ (PLINQ)](https://docs.microsoft.com/dotnet/standard/parallel-programming/parallel-linq-plinq) from a C# host.
+The actual distribution of parallel tasks is performed using [Parallel LINQ (PLINQ)](https://docs.microsoft.com/dotnet/standard/parallel-programming/introduction-to-plinq) from a C# host.
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ dotnet run
 ### C# in Visual Studio 2019
 
 Open the folder containing this sample in Visual Studio ("Open a local folder" from the Getting Started screen or "File → Open → Folder..." from the menu bar) and set `HalfMoons.csproj` as the startup project.
-Press Start in Visual Studio to run the sample. 
+Press Start in Visual Studio to run the sample.
 
 ## Manifest
 

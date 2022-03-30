@@ -20,7 +20,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         /// <para>Add the following argument to specify which puzzles to run:</para>
         /// <list type="bullet">
         /// <item><description>`all` or blank : run all puzzles (default)</description></item>
-        /// <item><description>`4x4-classic` : test classic algorthm on a 4x4 puzzle</description></item>
+        /// <item><description>`4x4-classic` : test classic algorithm on a 4x4 puzzle</description></item>
         /// <item><description>`4x4-1` : test Quantum solution of 4x4 puzzle missing 1 number</description></item>
         /// <item><description>`4x4-3` : test Quantum solution of 4x4 puzzle missing 3 numbers</description></item>
         /// <item><description>`4x4-4` : test Quantum solution of 4x4 puzzle missing 4 numbers</description></item>
@@ -196,7 +196,6 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                     Console.WriteLine("Result verified correct.");
                 ShowGrid(puzzle);
             }
-            Pause();
         }
 
         /// <summary>
@@ -233,15 +232,6 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 Console.WriteLine("|");
             }
             Console.WriteLine(new String('-', 4 * size + 1));
-        }
-
-        /// <summary>
-        /// Pause execution with a message and wait for a key to be pressed to continue.
-        /// </summary>
-        static void Pause()
-        {
-            System.Console.WriteLine("\n\nPress any key to continue...\n\n");
-            System.Console.ReadKey();
         }
 
     }

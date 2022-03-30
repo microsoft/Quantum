@@ -115,7 +115,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         if (size == 9) {
             // Although we could use ApplyVertexColoringOracle for 9x9, we would
             // have to add restrictions on each color to not allow colors 8 
-            // thru 15. This could be achieved by adding these to 
+            // through 15. This could be achieved by adding these to 
             // startNumberConstraints. However, this did not scale well with 
             // the simulator, and so instead we use 
             // ApplyVertexColoringOracle4Bit9Color which has the 9 color 
@@ -144,7 +144,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     }
 
     /// # Summary
-    /// Estimate the number of interations required for solution.
+    /// Estimate the number of iterations required for solution.
     ///
     /// # Input
     /// ## nQubits

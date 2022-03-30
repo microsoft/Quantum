@@ -1,0 +1,95 @@
+on:
+  pull_request:
+    branches:
+    - main
+
+name: "Check pull request"
+
+jobs:
+  check-markdown:
+    runs-on: ubuntu-latest
+    name: "Check Markdown files"
+    steps:
+    - uses: actions/checkout@master
+    - run: |
+        Get-ChildItem (Join-Path ".github" "problem-matchers") `
+          | ForEach-Object {
+            Write-Host "Adding matcher $_...";
+            Write-Host "::add-matcher::$_";
+          }
+      shell: pwsh
+    - name: markdownlint-cli
+      # cspell:words nosborn
+      uses: nosborn/github-action-markdown-cli@v2.0.0
+      with:
+        files: .
+        config_file: '.markdownlint.yaml'
+    - name: Markdown link check
+      # cspell:words gaurav
+      uses: gaurav-nelson/github-action-markdown-link-check@v1
+      with:
+        use-verbose-mode: 'yes'
+        config-file: '.github/workflows/link-check-config.json'
+      if: ${{ success() || failure() }}
+
+  check-solutions:
+    runs-on: ubuntu-latest
+    name: "Check solution and project files"
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        $solutions = Get-ChildItem -Recurse *.sln;
+        $projectsInSolutions = $solutions `
+          | ForEach-Object {
+            $sln = $_;
+            $slnRoot = [IO.Path]::GetDirectoryName($sln);
+            dotnet sln $sln list `
+              | Where-Object {
+                  $_.EndsWith(".csproj") -or $_.EndsWith(".fsproj")
+                } `
+              | ForEach-Object { Join-Path $slnRoot $_ | Get-Item }
+          } `
+          | ForEach-Object { $_.FullName }
+        $projectsNotInSolutions = Get-ChildItem -Recurse *.csproj, *.fsproj `
+          | Where-Object { $_.FullName -notin $projectsInSolutions };
+
+        $projectsNotInSolutions `
+          | ForEach-Object {
+              Write-Host "::error file=$_::Project file $_ should be in a solution."
+            }
+
+        Write-Host "Found $($projectsInSolutions.Count) project files in $($solutions.Count) solutions, and $($projectsNotInSolutions.Count) not correctly added to solutions.";
+        if ($projectsNotInSolutions.Count -gt 0) {
+          exit 1;
+        }
+      name: "Ensure that all projects belong to a solution."
+      shell: pwsh
+      continue-on-error: false
+
+  check-sample-layout:
+    runs-on: ubuntu-latest
+    name: "Check samples and README layouts"
+    steps:
+    - uses: actions/checkout@v2
+    - run: ./.github/workflows/Test-SampleLayout.ps1
+      name: "Ensure that all samples have README.md files linked to by binder-index.md."
+      # We use a custom shell here to disable GitHub Actions' handling for
+      # PowerShell errors, as our script explicitly calls `exit` to set error
+      # codes.
+      shell: "pwsh -File {0}"
+      continue-on-error: false
+
+  check-spelling:
+    runs-on: ubuntu-latest
+    name: "Check spelling in changed files"
+    steps:
+      - uses: actions/checkout@v2
+      # cspell:words streetsidesoftware
+      - uses: streetsidesoftware/cspell-action@v1.2.4
+        with:
+          inline: warning
+          # Only warn on spelling errors, since there's likely a lot of false
+          # positives with terminology in quantum computing.
+          strict: false
+          incremental_files_only: true
+          config: cspell.json

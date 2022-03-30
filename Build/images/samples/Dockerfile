@@ -2,7 +2,7 @@
 # https://github.com/microsoft/iqsharp/blob/main/images/iqsharp-base/Dockerfile.
 # As per Binder documentation, we choose to use an SHA sum here instead of a
 # tag.
-FROM mcr.microsoft.com/quantum/iqsharp-base:0.16.2105140472
+FROM mcr.microsoft.com/quantum/iqsharp-base:0.23.198514-beta
 
 # Mark that this Dockerfile is used with the samples repository.
 ENV IQSHARP_HOSTING_ENV=SAMPLES_DOCKERFILE
@@ -22,8 +22,8 @@ RUN apt-get -y update && \
                libfreetype6-dev \
                libpng-dev \
                # iqsharp-base currently ships with .NET Core SDK 3.1, but
-               # we need .NET 5.0 to run dotnet-interactive.
-               dotnet-sdk-5.0 \
+               # we need .NET 6.0 to run dotnet-interactive.
+               dotnet-sdk-6.0 \
                # Make sure to use the most up-to-date curl.
                curl && \
     # As per https://github.com/NuGet/Announcements/issues/49,
@@ -34,7 +34,7 @@ RUN apt-get -y update && \
     cp /etc/apt/sources.list /etc/apt/sources.list.backup && \
     echo "deb https://deb.debian.org/debian unstable main" >> /etc/apt/sources.list && \
     apt-get -y update && \
-    apt-get -y install ca-certificates=20210119 && \
+    apt-get -y install ca-certificates=20211016 && \
     mv /etc/apt/sources.list.backup /etc/apt/sources.list && \
     apt-get clean && rm -rf /var/lib/apt/lists/
 
@@ -42,7 +42,7 @@ RUN apt-get -y update && \
 # installed. It tends to be more stable to use the .NET Core SDK to do so than
 # to use the Debian package manager, due to issues with syncing libicu
 # dependencies.
-RUN dotnet tool install --global PowerShell --version 7.1.1
+RUN dotnet tool install --global PowerShell --version 7.2.1
 
 # Install Jupytext to expose Markdown files as Jupyter Notebooks for use with
 # Binder.

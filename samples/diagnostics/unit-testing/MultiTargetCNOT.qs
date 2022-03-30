@@ -12,7 +12,7 @@ namespace Microsoft.Quantum.Samples.UnitTesting {
     // Multi target Controlled Not gates
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    // Multi target Controlled Not gat gate takes a control qubit
+    // Multi target Controlled Not gate takes a control qubit
     // with controls and target register |t₁,…,tₙ⟩. On computational basis states it acts as:
     // |c₁⟩⊗|t₁,…,tₙ⟩ ↦ |c₁⟩⊗|t₁⊕c₁,…,tₙ⊕c₁⟩, i.e. the target qubits are flipped
     // if and only if all control qubit is in state |1⟩.

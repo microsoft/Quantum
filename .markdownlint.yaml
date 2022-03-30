@@ -1,0 +1,18 @@
+default: true
+line-length: false
+
+# Use #-style section headings without the ending # marks, as that can
+# cause problems working with the Samples Browser.
+header-style:
+  style: atx
+
+# Allow bare URLs since they work well in GitHub renderings.
+no-bare-urls: false
+
+# Require unordered lists to be typeset with dashes.
+ul-style:
+  style: dash
+
+# Allow duplicate headings if they are not siblings.
+no-duplicate-heading:
+  siblings_only: true

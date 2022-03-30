@@ -1,4 +1,4 @@
-# Copyright (c) Microsoft Corporation. All rights reserved.
+# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
 $ErrorActionPreference = 'Stop'
@@ -22,14 +22,6 @@ function Pack-One() {
         $script:all_ok = $False
     }
 }
-
-##
-# NOTHING TO PACK IN SAMPLES.
-# For now, we'll run clean.ps1; in the future, this should be done by the CI
-# pipeline directly.
-##
-
-./clean.ps1;
 
 if (-not $all_ok) {
     throw "At least one test failed execution. Check the logs."

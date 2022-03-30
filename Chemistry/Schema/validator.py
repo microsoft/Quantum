@@ -1,4 +1,4 @@
-# Copyright (c) Microsoft Corporation. All rights reserved.
+# Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
 try:
@@ -44,7 +44,7 @@ def validate(instance, schema):
 
     for instance_path in glob(instance, recursive=True):
         with open(instance_path, 'r') as f:
-            instance_data = yaml.load(f)
+            instance_data = yaml.safe_load(f)
         
         try:
             schema_name = get_schema_name(instance_data)

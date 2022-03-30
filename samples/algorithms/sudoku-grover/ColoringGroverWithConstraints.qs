@@ -72,7 +72,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// The array of (Vertex#,Vertex#) specifying the Vertices that can not be
     /// the same color.
     /// ## startingColorConstraints
-    /// The array of (Vertex#,Color) specifying the dissallowed colors for vertices.
+    /// The array of (Vertex#,Color) specifying the disallowed colors for vertices.
     ///
     /// # Output
     /// A unitary operation that applies `oracle` on the target register if the control
@@ -129,7 +129,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// and vertex 2 is not allowed to have values 1,3,0
     /// and vertex 3 is not allowed to have values 2,0,1
     /// A valid graph coloring solution is: [0,1,2,3]
-    /// i.e. vextex 0 has color 0, vertex 1 has color 1 etc.
+    /// i.e. vertex 0 has color 0, vertex 1 has color 1 etc.
     operation ApplyVertexColoringOracle (
         numVertices : Int, bitsPerColor : Int, edges : (Int, Int)[],
         startingColorConstraints : (Int, Int)[],
@@ -194,7 +194,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// The array of (Vertex#,Vertex#) specifying the Vertices that can not
     /// be the same color.
     /// ## startingColorConstraints
-    /// The array of (Vertex#,Color) specifying the dissallowed colors for vertices.
+    /// The array of (Vertex#,Color) specifying the disallowed colors for vertices.
     /// ## colorsRegister
     /// The color register.
     /// ## target
@@ -256,7 +256,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     ///     (0, 1),(0, 2),(1, 6),(1, 3),(1, 8),(1, 1),(1, 2),(1, 5),(1, 7),(1, 4)]
     /// The colors found must be from 0 to 8, which requires 4 bits per color.
     /// A valid graph coloring solution is: [5,0]
-    /// i.e. vextex 0 has color 5, vertex 1 has color 0.
+    /// i.e. vertex 0 has color 5, vertex 1 has color 0.
     operation ApplyVertexColoringOracle4Bit9Color (numVertices : Int, edges : (Int, Int)[],
         startingColorConstraints : (Int, Int)[],
         colorsRegister : Qubit[], target : Qubit) : Unit is Adj+Ctl {

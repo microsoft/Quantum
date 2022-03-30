@@ -26,7 +26,6 @@ jupyter:
 This sample uses Q# and the Microsoft.Quantum.MachineLearning library to train a simple sequential model.
 The model is trained on the [wine dataset](https://archive.ics.uci.edu/ml/datasets/wine) from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/), using a classifier structure defined in Q#.
 
-
 ## Prerequisites
 
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
@@ -35,7 +34,7 @@ The model is trained on the [wine dataset](https://archive.ics.uci.edu/ml/datase
 
 This sample can be run in a number of different ways, depending on your preferred environment.
 
-### Python in Visual Studio Code or the Command Line ###
+### Python in Visual Studio Code or the Command Line
 
 At a terminal, run the following command:
 
@@ -54,7 +53,7 @@ dotnet run
 ### C# in Visual Studio 2019
 
 Open the folder containing this sample in Visual Studio ("Open a local folder" from the Getting Started screen or "File → Open → Folder..." from the menu bar) and set `Wine.csproj` as the startup project.
-Press Start in Visual Studio to run the sample. 
+Press Start in Visual Studio to run the sample.
 
 ## Manifest
 
