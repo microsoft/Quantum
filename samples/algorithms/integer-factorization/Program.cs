@@ -20,7 +20,7 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
     {
         [Option('n', "number", Required = false, Default = 15, HelpText = "Number to be factored")]
         public long NumberToFactor { get; set; }
-        [Option('f', "fourier", Required = false, Default = false, HelpText = "Use Fourier based arithmetic")]
+        [Option('f', "fourier", Required = false, Default = false, HelpText = "Use Fourier-based arithmetic")]
         public bool UseQFTArithmetic { get; set; }
     }
 
