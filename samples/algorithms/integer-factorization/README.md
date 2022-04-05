@@ -16,12 +16,12 @@ to simulate the algorithm for instances that require many qubits.
 
 ## Manifest
 
-- [Shor.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Shor.qs): Q# implementation of Shor's algorithm.
-- [Modular.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Modular.qs): Q# implementation of modular arithmetic.
-- [Compare.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Compare.qs): Q# implementation of comparison based on AND-gates.
-- [Utils.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Utils.qs): Q# implementation of helper functions and operations for the AND-gate based arithmetic used in this sample.
-- [Program.cs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Program.cs): C# console application for running Shor's algorithm
-- [IntegerFactorization.csproj](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/IntegerFactorization.csproj): Main C# project for the sample.
+- [Shor.qs](./Shor.qs): Q# implementation of Shor's algorithm.
+- [Modular.qs](./Modular.qs): Q# implementation of modular arithmetic.
+- [Compare.qs](./Compare.qs): Q# implementation of comparison based on AND-gates.
+- [Utils.qs](./Utils.qs): Q# implementation of helper functions and operations for the AND-gate based arithmetic used in this sample.
+- [Program.cs](./Program.cs): C# console application for running Shor's algorithm
+- [IntegerFactorization.csproj](./IntegerFactorization.csproj): Main C# project for the sample.
 
 ## Flame Graph Visualization
 
