@@ -100,6 +100,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/getting-started/simulation/README.md">Simulation</a></strong></td>
+      <td><a href="./samples/getting-started/simulation/LargeSimulation.ipynb">Q# notebook</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Algorithms:</strong></td>
       <td><a href="./samples/algorithms/chsh-game/README.md"><strong>CHSH Game</strong></a></td>
       <td></td>
