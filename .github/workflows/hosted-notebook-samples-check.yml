@@ -1,0 +1,27 @@
+name: Hosted Notebooks Samples Check
+
+on:
+  pull_request:
+    branches: 
+      - feature/samples-gallery
+
+jobs:
+  build:
+    name: Call Azure Pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Azure
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - id: AzureKeyVault
+        uses: Azure/get-keyvault-secrets@v1
+        with:
+          keyvault: 'kv-qdk-build'
+          secrets: 'ghSyncBuildPAT'
+      - name: Azure Pipelines Action
+        uses: Azure/pipelines@v1
+        with:
+          azure-devops-project-url: ${{ secrets.QUANTUM_PROGRAM_ADO_URL }}
+          azure-pipeline-name: 'My Pipeline'
+          azure-devops-token: ${{ steps.AzureKeyVault.outputs.ghSyncBuildPAT }}
