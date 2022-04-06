@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 using Microsoft.Quantum.Simulation.Simulators;
+using Microsoft.Quantum.Simulation.Common;
 using Microsoft.Quantum.Simulation.Core;
 using CommandLine;
 using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
@@ -19,21 +20,17 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
     {
         [Option('n', "number", Required = false, Default = 15, HelpText = "Number to be factored")]
         public long NumberToFactor { get; set; }
-
-        [Option('m', "method", Required = false, Default = "rpe", HelpText = "Use rpe for Robust Phase Estimation, and qpe for Quantum Phase Estimation")]
-        public string Method { get; set; }
-
-        /// <summary>
-        /// Helper method to check whether robust phase estimation should be used
-        /// </summary>
-        public bool UseRobustPhaseEstimation => Method == "rpe";
+        [Option('f', "fourier", Required = false, Default = false, HelpText = "Use Fourier-based arithmetic")]
+        public bool UseQFTArithmetic { get; set; }
     }
 
-    [Verb("simulate", isDefault: true, HelpText = "Simulate Shor's algorithm using QDK's full state simulator")]
+    [Verb("simulate", isDefault: true, HelpText = "Simulate Shor's algorithm")]
     class SimulateOptions : CommonOptions
     {
         [Option('t', "trials", Required = false, Default = 100, HelpText = "Number of trials to perform")]
         public long NumberOfTrials { get; set; }
+        [Option('d', "dense", Required = false, Default = false, HelpText = "Use dense states for simulation")]
+        public bool UseDense { get; set; }
     }
 
     [Verb("estimate", HelpText = "Estimate the resources to perform one round of period finding in Shor's algorithm")]
@@ -71,6 +68,19 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                 _ => 1
             );
 
+        // By default we use `ApplyOrderFindingOracle` as inner operation for order finding
+        // that relies on the reversible implementation for modular multiplication `ModularMulByConstant`.
+        // If we set the `fourier` option via command line arguments, we map this operation to the
+        // alternative `ApplyOrderFindingOracleFourierArithmetic` that uses the Q# library function
+        // `MultiplyByModularInteger` that is based on Fourier arithmetic instead.
+        private static void RegisterReplacement(CommonOptions options, SimulatorBase sim)
+        {
+            if (options.UseQFTArithmetic)
+            {
+                sim.Register(typeof(ApplyOrderFindingOracle), typeof(ApplyOrderFindingOracleFourierArithmetic), typeof(IUnitary));
+            }
+        }
+
         static int Simulate(SimulateOptions options)
         {
             // Repeat Shor's algorithm multiple times as the algorithm is 
@@ -82,21 +92,21 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
                     // Make sure to use simulator within using block. 
                     // This ensures that all resources used by QuantumSimulator
                     // are properly released if the algorithm fails and throws an exception.
-                    using (QuantumSimulator sim = new QuantumSimulator())
-                    {
-                        // Report the number being factored to the standard output
-                        Console.WriteLine($"==========================================");
-                        Console.WriteLine($"Factoring {options.NumberToFactor}");
+                    using var sim = options.UseDense ? (CommonNativeSimulator)new QuantumSimulator() : (CommonNativeSimulator)new SparseSimulator();
 
-                        // Compute the factors
-                        (long factor1, long factor2) = 
-                            FactorSemiprimeInteger.Run(sim, options.NumberToFactor, options.UseRobustPhaseEstimation).Result;
+                    RegisterReplacement(options, sim);
+                    // Report the number being factored to the standard output
+                    Console.WriteLine($"==========================================");
+                    Console.WriteLine($"Factoring {options.NumberToFactor}");
 
-                        Console.WriteLine($"Factors are {factor1} and {factor2}");
+                    // Compute the factors
+                    (long factor1, long factor2) = 
+                        FactorSemiprimeInteger.Run(sim, options.NumberToFactor).Result;
 
-                        // Stop once the factorization has been found
-                        break;
-                    }
+                    Console.WriteLine($"Factors are {factor1} and {factor2}");
+
+                    // Stop once the factorization has been found
+                    break;
                 }
                 // Shor's algorithm is a probabilistic algorithm and can fail with certain 
                 // probability in several ways. For more details see Shor.qs.
@@ -131,9 +141,10 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
             config.CallStackDepthLimit = 3;
 
             var estimator = new ResourcesEstimator(config);
+            RegisterReplacement(options, estimator);
 
             var bitsize = (long)System.Math.Ceiling(System.Math.Log2(options.NumberToFactor + 1));
-            EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
+            EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, bitsize).Wait();
 
             Console.WriteLine(estimator.ToTSV());
 
@@ -150,15 +161,17 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
             if (options.QuantumViz) {
                 var config = QuantumVizEstimator.RecommendedConfig();
                 var estimator = new QuantumVizEstimator(config);
+                RegisterReplacement(options, estimator);
 
-                EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
+                EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, bitsize).Wait();
 
                 Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(estimator.Circuit));
             } else {
                 var config = FlameGraphResourcesEstimator.RecommendedConfig();
                 var estimator = new FlameGraphResourcesEstimator(config, options.Resource);
+                RegisterReplacement(options, estimator);
 
-                EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, options.UseRobustPhaseEstimation, bitsize).Wait();
+                EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, bitsize).Wait();
 
                 Console.WriteLine(string.Join(System.Environment.NewLine, estimator.FlameGraphData.Select(pair => $"{pair.Key} {pair.Value}")));
             }

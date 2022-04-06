@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Microsoft.Quantum.Numerics" Version="0.23.195983" />
   </ItemGroup>
 
 </Project>
