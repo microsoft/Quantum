@@ -8,7 +8,7 @@ products:
 description: "These samples demonstrate how to use the different types of quantum simulation"
 ---
 
-# Running the Simulation 
+# Running the Simulation
 
 ## Prerequisites
 
