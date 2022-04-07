@@ -9,3 +9,5 @@
   This sample covers several different basic quantum algorithms, and how each can be written in Q#.
 - **[Intro to IQ#](./intro-to-iqsharp/)**:
   This samples explains how to create interactive notebooks using Jupyter and IQ#.
+- **[Simulation](./simulation/)**:
+  These samples demonstrate how to use the different types of simulators to understand and verify the correctness of quantum programs.
