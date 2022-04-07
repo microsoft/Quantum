@@ -8,7 +8,7 @@ products:
 description: "These samples demonstrate how to use the different types of quantum simulation"
 ---
 
-# Running the Simulation
+# Using classical simulators to understand quantum programs written in Q\#
 
 ## Prerequisites
 
