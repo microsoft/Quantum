@@ -10,4 +10,4 @@
 - **[Intro to IQ#](./intro-to-iqsharp/)**:
   This samples explains how to create interactive notebooks using Jupyter and IQ#.
 - **[Simulation](./simulation/)**:
-  These samples demonstrate how to use the different types of quantum simulation.
+  These samples demonstrate how to use the different types of simulators to understand and verify the correctness of quantum programs.
