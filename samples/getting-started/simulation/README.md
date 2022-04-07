@@ -15,10 +15,6 @@ description: "These samples demonstrate how to use the different types of quantu
 - The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
 - Jupyter Notebook
 
-## LargeSimulation.ipynb
-
-This sample demonstrates how to simulate quantum programs with large number of qubits.
-
 ### Running the Sample
 
 From the command line, start Jupyter Notebook and open the [LargeSimulation.ipynb](./LargeSimulation.ipynb) file.
@@ -26,6 +22,10 @@ From the command line, start Jupyter Notebook and open the [LargeSimulation.ipyn
 ```shell
 jupyter notebook LargeSimulation.ipynb
 ```
+
+## Manifest
+
+- [LargeSimulation.ipynb](./LargeSimulation.ipynb): Jupyter notebook for getting started with large simulation.
 
 ## See Also
 
