@@ -4,7 +4,8 @@ on:
   pull_request:
     branches: 
       - feature/samples-gallery
-
+  workflow_dispatch:
+  
 jobs:
   build:
     name: Call Azure Pipeline
