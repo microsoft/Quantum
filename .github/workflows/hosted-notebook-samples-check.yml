@@ -17,4 +17,4 @@ jobs:
           azure-devops-project-url: ${{ secrets.QUANTUM_PROGRAM_ADO_URL }}
           azure-pipeline-name:  ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_NAME }}
           azure-devops-token: ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_ADO_PAT }}
-          azure-pipeline-variables: '{"qcHash": ${{ github.sha }} }' 
+          azure-pipeline-variables: join(["{qcHash", :, ${{ github.sha }}, "}"])
