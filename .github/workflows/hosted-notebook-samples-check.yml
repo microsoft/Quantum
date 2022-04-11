@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  pipelineVars: '{"qcHash": ${{ github.sha }} }'
+  pipelineVars: '{''qcHash'': ''${{ github.sha }}'' }'
 
 jobs:
   build:
