@@ -5,16 +5,19 @@ on:
     branches: 
       - feature/samples-gallery
   workflow_dispatch:
-  
+
+env:
+  pipelineVars: '{''qcHash'': ''${{ github.sha }}'', ''githubRepo'': ''${{ github.repository }}'', ''prCommitHash'': ''${{ github.sha }}'', ''isGithubPrBuild'': ''true'' }'
+
 jobs:
   build:
     name: Call Azure Pipeline
     runs-on: ubuntu-latest
     steps:
       - name: Azure Pipelines Action
-        uses: Azure/pipelines@v1
+        uses: Azure/pipelines@v1.2
         with:
           azure-devops-project-url: ${{ secrets.QUANTUM_PROGRAM_ADO_URL }}
           azure-pipeline-name:  ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_NAME }}
           azure-devops-token: ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_ADO_PAT }}
-          azure-pipeline-variables: '{"Quantum Computing Samples Commit Hash": "$GITHUB_SHA"}'
+          azure-pipeline-variables: ${{ env.pipelineVars }}
