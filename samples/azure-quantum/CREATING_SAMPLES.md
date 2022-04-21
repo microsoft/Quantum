@@ -10,7 +10,7 @@ There are three steps involved in creating a new sample.
 Once it is merged, a service engineer must be notified to add it to the sample gallery. Once done, the sample will be publicly available in the next deployment, usually within a week.
 
 ## Writing the sample
-There are a few principles to keep in mind when writing samples that are going to be presented in the portal's Samples gallery.
+There are a few principles to keep in mind when writing samples that are going to be presented in the portal's sample gallery.
 1. The command to log in to Azure Quantum should be in its own cell.
 1. There should be no empty cells in the notebook.
 1. The notebook must be entirely self-contained; it cannot reference other files on disk.
