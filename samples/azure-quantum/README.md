@@ -12,5 +12,3 @@ These samples demonstrate how to run Q# programs on the Azure Quantum service:
   This sample shows how to simulate the time evolution of an Ising model using quantum hardware.
 - **[Teleportation](./teleport)**:
   This sample shows how to run quantum teleportation on quantum hardware.
-
-If you are interested in contributing samples that will appear in the Azure Quantum Samples Gallery in the Azure Portal, please follow this [guide](./CREATING_SAMPLES.md).
