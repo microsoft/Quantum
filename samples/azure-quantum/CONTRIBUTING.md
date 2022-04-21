@@ -1,10 +1,10 @@
-# Process for creating notebook samples
-There are two places where Quantum Computing samples can be found - in this repository, and in the Azure Quantum portal experience's "Sample gallery." (If you are interested in contributing an optimization notebook sample, please see [this repository](https://github.com/microsoft/qio-samples)).
+# Process for creating notebook samples for the Azure Quantum portal experience
+This document focuses on the process for creating samples that will eventually appear in the hosted notebooks sample gallery in the portal. If you are creating a sample for other purposes or means of consumption, then this document might not apply to your scenario. (If you are interested in contributing an optimization notebook sample, please see [this repository](https://github.com/microsoft/qio-samples)).
 
 There are three steps involved in creating a new sample.
 
 1. Write the notebook sample
-1. Test it locally and in the portal
+1. Test it in the portal
 1. Merge it into `main` AND into `feature/samples-gallery`
 
 Once it is merged, a service engineer must be notified to add it to the sample gallery. Once done, the sample will be publicly available in the next deployment, usually within a week.
@@ -37,4 +37,4 @@ First, create a PR against `main` with the notebook sample. Once that is merged,
 1. The provider that the sample targets (e.g. IonQ or Quantinuum). If the sample does not target any providers, explicitly indicate this in the PR summary.
 
 ### E2E tests
-When the PR is raised, this pipeline will be kicked off: https://ms-quantum.visualstudio.com/Quantum%20Program/_build?definitionId=589. It will take a while and can be a little flakey. If need be, it can be manually bypassed if the tests are failing due to reasons unrelated to your change. Note that if you are adding a new sample, it will not be run in this execution, however it will be run before the change is deployed to the portal. Thus, you do not need to make any extra effort to ensure that the notebook sample is covered by the E2E tests.
+When the PR is raised, [this pipeline](https://ms-quantum.visualstudio.com/Quantum%20Program/_build?definitionId=589) will be kicked off. It will take a while and can be a little flakey. If need be, it can be manually bypassed if the tests are failing due to reasons unrelated to your change. Note that if you are adding a new sample, it will not be run in this execution, however it will be run before the change is deployed to the portal. Thus, you do not need to make any extra effort to ensure that the notebook sample is covered by the E2E tests.
