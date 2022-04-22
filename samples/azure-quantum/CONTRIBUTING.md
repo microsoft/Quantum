@@ -2,7 +2,7 @@
 
 This document focuses on the process for creating samples that will eventually appear in the hosted notebooks sample gallery in the portal. If you are creating a sample for other purposes or means of consumption, then this document might not apply to your scenario. (If you are interested in contributing an optimization notebook sample, please see [the microsoft/qio-samples repository](https://github.com/microsoft/qio-samples)).
 
-There are three steps involved in creating a new sample.
+There are three steps involved in contributing a new sample.
 
 1. Write the notebook sample
 1. Test it in the portal
