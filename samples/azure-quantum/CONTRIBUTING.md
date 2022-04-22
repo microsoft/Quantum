@@ -50,12 +50,12 @@ First, create a PR against `main` with the notebook sample. Once that is merged,
 
 1. The title of the sample. This should be around 20 characters at the most.
 1. A brief description of the sample following these guidelines:
-  - Length target of 85 characters (+/- 15 characters at the most)
-  - Should not begin with “This sample” or other boilerplate wording
-  - Should not mention the provider (as that is already noted on the tile)
-  - Should speak in an implied 2nd-person view (“Run a job” preferred over “You can run a job”)
-  - Verbiage should be specific to function and obvious if correlated to other samples in the gallery
-  - Must be approved by a UX designer and PM
+    - Length target of 85 characters (+/- 15 characters at the most)
+    - Should not begin with “This sample” or other boilerplate wording
+    - Should not mention the provider (as that is already noted on the tile)
+    - Should speak in an implied 2nd-person view (“Run a job” preferred over “You can run a job”)
+    - Verbiage should be specific to function and obvious if correlated to other samples in the gallery
+    - Must be approved by a UX designer and PM
 1. The provider that the sample targets (e.g. IonQ or Quantinuum). If the sample does not target any providers, explicitly indicate this in the PR summary.
 
 ### E2E tests
