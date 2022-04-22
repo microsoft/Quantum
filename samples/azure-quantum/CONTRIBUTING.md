@@ -18,6 +18,23 @@ There are a few principles to keep in mind when writing samples that are going t
 1. There should be no empty cells in the notebook.
 1. To run in the portal notebook experience, the notebook must be entirely self-contained; it cannot reference other files on disk.
 
+### Structuring files
+
+There are also requirements file structuring and metadata that enable inclusion in aka.ms/try-qsharp and docs.microsoft.com/samples.
+
+```
+binder-index.md # Should link to subject area and each way of using each sample
+samples/
+  subject-area/
+     README.md # Should describe subject area and link to constituent samples
+     sample-name/
+         README.md # Should have YAML header for docs.ms/samples and manifest section
+         sample-name.ipynb
+         sample-name.csproj # Not yet supported in portal context.
+```
+
+Check our existing samples for reference. Also note that `binder-index.md` is at the repo root, not the sample folder.
+
 ## Testing the sample
 
 Once the sample is written and working locally, you can test it out in the hosted environment in the Azure Portal. In order to make it appear in the sample gallery, you must access the Portal using a special link:
