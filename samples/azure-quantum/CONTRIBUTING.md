@@ -19,7 +19,7 @@ There are a few principles to keep in mind when writing samples that are going t
 
 ## Testing the sample
 
-Once the sample is written and working locally, you can test it out in the hosted environment in the Azure portal. In order to make it appear in the sample gallery, you must access the portal using a special link:
+Once the sample is written and working locally, you can test it out in the hosted environment in the Azure Portal. In order to make it appear in the sample gallery, you must access the Portal using a special link:
 
 `https://portal.azure.com/?microsoft_azure_quantum_include_notebook_sample_with_url={URL of the raw sample file}`.
 Your browser should automatically URL-encode the URL you paste, so don't worry about special characters.
