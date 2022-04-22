@@ -22,15 +22,15 @@ There are a few principles to keep in mind when writing samples that are going t
 
 There are also requirements file structuring and metadata that enable inclusion in aka.ms/try-qsharp and docs.microsoft.com/samples.
 
-```
+```yaml
 binder-index.md # Should link to subject area and each way of using each sample
 samples/
   subject-area/
-     README.md # Should describe subject area and link to constituent samples
-     sample-name/
-         README.md # Should have YAML header for docs.ms/samples and manifest section
-         sample-name.ipynb
-         sample-name.csproj # Not yet supported in portal context.
+  README.md # Should describe subject area and link to constituent samples
+  sample-name/
+    README.md # Should have YAML header for docs.ms/samples and manifest section
+    sample-name.ipynb
+    sample-name.csproj # Not yet supported in portal context.
 ```
 
 Check our existing samples for reference. Also note that `binder-index.md` is at the repo root, not the sample folder.
@@ -50,12 +50,12 @@ First, create a PR against `main` with the notebook sample. Once that is merged,
 
 1. The title of the sample. This should be around 20 characters at the most.
 1. A brief description of the sample following these guidelines:
-   - Length target of 85 characters (+/- 15 characters at the most)
-   - Should not begin with “This sample” or other boilerplate wording
-   - Should not mention the provider (as that is already noted on the tile)
-   - Should speak in an implied 2nd-person view (“Run a job” preferred over “You can run a job”)
-   - Verbiage should be specific to function and obvious if correlated to other samples in the gallery
-   - Must be approved by a UX designer and PM
+  - Length target of 85 characters (+/- 15 characters at the most)
+  - Should not begin with “This sample” or other boilerplate wording
+  - Should not mention the provider (as that is already noted on the tile)
+  - Should speak in an implied 2nd-person view (“Run a job” preferred over “You can run a job”)
+  - Verbiage should be specific to function and obvious if correlated to other samples in the gallery
+  - Must be approved by a UX designer and PM
 1. The provider that the sample targets (e.g. IonQ or Quantinuum). If the sample does not target any providers, explicitly indicate this in the PR summary.
 
 ### E2E tests
