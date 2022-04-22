@@ -24,7 +24,7 @@ Once the sample is written and working locally, you can test it out in the hoste
 `https://portal.azure.com/?microsoft_azure_quantum_include_notebook_sample_with_url={URL of the raw sample file}`.
 Your browser should automatically URL-encode the URL you paste, so don't worry about special characters.
 
-Make sure that the sample is rendering correctly, all cells run successfully, and the login details are auto-populated with the correct information for the workspace.
+Make sure that the sample is rendering correctly, all cells run successfully, and that the login details are auto-populated with the correct information for the workspace.
 
 ## Creating the PRs
 
