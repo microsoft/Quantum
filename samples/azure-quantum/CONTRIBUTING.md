@@ -16,16 +16,16 @@ There are a few principles to keep in mind when writing samples that are going t
 
 1. The command to log in to Azure Quantum should be in its own cell (if applicable to the notebook).
 1. There should be no empty cells in the notebook.
-1. The notebook must be entirely self-contained; it cannot reference other files on disk.
+1. To run in the portal notebook experience, the notebook must be entirely self-contained; it cannot reference other files on disk.
 
 ## Testing the sample
 
-Once the sample is written and working locally, you can test it out in the hosted environment in the Azure portal. In order to make it appear in the sample gallery, you must access the portal using a special link:
+Once the sample is written and working locally, you can test it out in the hosted environment in the Azure Portal. In order to make it appear in the sample gallery, you must access the Portal using a special link:
 
 `https://portal.azure.com/?microsoft_azure_quantum_include_notebook_sample_with_url={URL of the raw sample file}`.
 Your browser should automatically URL-encode the URL you paste, so don't worry about special characters.
 
-Make sure that the sample is rendering correctly, all cells run successfully, and the login details are auto-populated with the correct information for the workspace.
+Make sure that the sample is rendering correctly, all cells run successfully, and that the login details are auto-populated with the correct information for the workspace.
 
 ## Creating the PRs
 
