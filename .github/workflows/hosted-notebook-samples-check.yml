@@ -4,10 +4,8 @@ on:
   pull_request:
     branches: 
       - feature/samples-gallery
-  workflow_dispatch:
-
 env:
-  pipelineVars: '{''qcHash'': ''${{ github.sha }}'', ''githubRepo'': ''${{ github.repository }}'', ''prCommitHash'': ''${{ github.sha }}'', ''isGithubPrBuild'': ''true'' }'
+  pipelineVars: '{''qcHash'': ''${{ github.sha }}'', ''githubRepo'': ''${{ github.repository }}'', ''prCommitHash'': ''${{ github.event.pull_request.head.sha }}'', ''isGithubPrBuild'': ''true'' }'
 
 jobs:
   build:
@@ -21,3 +19,12 @@ jobs:
           azure-pipeline-name:  ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_NAME }}
           azure-devops-token: ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_ADO_PAT }}
           azure-pipeline-variables: ${{ env.pipelineVars }}
+      - name: Set status to pending
+        run: |
+          curl \
+          -X POST \
+          -H "Accept: application/json" \
+          -u achocron:${{ secrets.GITHUB_TOKEN }} https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }} \
+          -d '{"state":"pending", "description": "Waiting to be run", "context": "Notebook Samples E2E Test"}'
+
+
