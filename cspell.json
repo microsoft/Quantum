@@ -106,6 +106,7 @@
         "apival",
         "cirq",
         "qiskit"
+        "quantinuum"
     ],
     // By definition, everything in flagWords is considered to be spelled
     // wrong. Thus we disable spell checking for the list of misspelled words...
