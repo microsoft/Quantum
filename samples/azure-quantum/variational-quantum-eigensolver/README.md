@@ -7,7 +7,6 @@ ms.date: 05/02/2022
 languages:
 - python
 products:
-- qiskit
 - azure-quantum
 ---
 
