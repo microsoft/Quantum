@@ -12,7 +12,7 @@ products:
 
 # Variational Quantum Eigensolver
 
-This is an Azure Quantum notebook for the sample gallery that illustrates how to implement and run a Variational Quantum Eigensolver (VQE) program.
+This is an Azure Quantum sample notebook that illustrates how to implement and run a Variational Quantum Eigensolver (VQE) program.
 
 ## Manifest
 
