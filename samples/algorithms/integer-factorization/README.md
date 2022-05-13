@@ -11,7 +11,7 @@ urlFragment: integer-factorization
 # Integer Factorization Sample
 
 This sample contains Q# code implementing Shor's quantum algorithm for
-factoring integers.  It uses the [sparse simulator](https://docs.microsoft.com/azure/quantum/user-guide/machines/sparse-simulator)
+factoring integers.  It uses the [sparse simulator](https://docs.microsoft.com/azure/quantum/machines/sparse-simulator)
 to simulate the algorithm for instances that require many qubits.
 
 ## Manifest
