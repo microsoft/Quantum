@@ -3,7 +3,7 @@ page_type: sample
 author: guenp
 description: Variational Quantum Eigensolver
 ms.author: guenp@microsoft.com
-ms.date: 05/02/2022
+ms.date: 06/02/2022
 languages:
 - python
 products:
