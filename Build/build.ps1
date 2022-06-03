@@ -6,6 +6,8 @@ $ErrorActionPreference = 'Stop'
 & "$PSScriptRoot/set-env.ps1"
 $all_ok = $True
 
+Get-Content (Join-Path $PSScriptRoot "../samples/machine-learning/half-moons/half-moons.csproj") | Write-Host -ForgroundColor Red
+
 function Build-One {
     param(
         $project
