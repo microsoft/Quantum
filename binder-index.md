@@ -252,6 +252,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/azure-quantum/variational-quantum-eigensolver/README.md">Variational Quantum Eigensolver</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Qiskit + Python</td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Characterization:</strong></td>
       <td><strong><a href="./samples/characterization/phase-estimation/README.md">Bayesian Phase Estimation</a></strong></td>
       <td></td>
