@@ -14,7 +14,7 @@ urlFragment: h2-simulation-gui
 
 ## Prerequisites
 
-On top of [.NET Core](https://www.microsoft.com/net/learn/get-started/),
+On top of [.NET](https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/intro),
 this demo uses the [Electron](https://github.com/electron/electron) framework to display the results of simulating H₂.
 Since Electron is distributed using the Node.js Package Manager (npm), we must therefore install npm first.
 
