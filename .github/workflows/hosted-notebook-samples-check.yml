@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
       - name: Print information
         run: |
-          FILES=$(git diff github.event.pull_request.base.ref --name-only)
+          FILES=$(git diff ${{ github.event.pull_request.base.ref }} --name-only)
           for file in $FILES; do
             echo $file
           done
