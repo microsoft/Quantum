@@ -11,6 +11,11 @@ jobs:
     name: Call Azure Pipeline
     runs-on: ubuntu-latest
     steps:
+      - name: Print information
+        run:
+          FILES=$(git diff ${{ github.head_ref }} --name-only);
+          for file in $FILES; do
+            echo $file
       - name: Azure Pipelines Action
         uses: Azure/pipelines@v1
         with:
