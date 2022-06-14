@@ -30,6 +30,12 @@ At a terminal, run the following command:
 dotnet run
 ```
 
+To provide a number to be factored, run the command:
+
+```powershell
+dotnet run -n 15
+```
+
 ### Visual Studio 2022
 
 Open the folder containing this sample, right click on `IntegerFactorization.csproj` and select "Open in Visual Studio 2022".
