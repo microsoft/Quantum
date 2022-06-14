@@ -17,7 +17,7 @@ jobs:
       - name: Print information
         run: |
           git branch
-          FILES=$(git diff ${{ github.event.pull_request.base.ref }} --name-only)
+          FILES=$(git diff origin/${{ github.event.pull_request.base.ref }} --name-only)
           for file in $FILES; do
             echo $file
           done
