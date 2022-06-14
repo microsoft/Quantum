@@ -9,22 +9,11 @@ env:
 
 jobs:
   build:
-    name: Call Azure Pipeline
+    name: Print information
     runs-on: ubuntu-latest
     steps:
-      - name: Azure Pipelines Action
-        uses: Azure/pipelines@v1.2
-        with:
-          azure-devops-project-url: ${{ secrets.QUANTUM_PROGRAM_ADO_URL }}
-          azure-pipeline-name:  ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_NAME }}
-          azure-devops-token: ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_ADO_PAT }}
-          azure-pipeline-variables: ${{ env.pipelineVars }}
       - name: Set status to pending
         run: |
-          curl \
-          -X POST \
-          -H "Accept: application/json" \
-          -u achocron:${{ secrets.GITHUB_TOKEN }} https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }} \
-          -d '{"state":"pending", "description": "Waiting to be run", "context": "Notebook Samples E2E Test"}'
-
-
+          FILES=$(git diff ${{ github.head_ref }} --name-only);
+          for file in $FILES; do
+            echo $file
