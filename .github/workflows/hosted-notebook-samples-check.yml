@@ -9,11 +9,15 @@ env:
 
 jobs:
   build:
-    name: Print information
     runs-on: ubuntu-latest
     steps:
-      - name: Set status to pending
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Print information
         run: |
-          FILES=$(git diff --name-only);
+          FILES=$(git diff github.event.pull_request.base.ref--name-only)
           for file in $FILES; do
             echo $file
+          done
+          
