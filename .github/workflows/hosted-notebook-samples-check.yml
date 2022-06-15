@@ -43,10 +43,9 @@ jobs:
           azure-devops-project-url: ${{ secrets.QUANTUM_PROGRAM_ADO_URL }}
           azure-pipeline-name:  ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_NAME }}
           azure-devops-token: ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_ADO_PAT }}
-          azure-pipeline-variables: ${{ env.pipelineVars }}
+          azure-pipeline-variables: '{''githubRepo'': ''${{ github.repository }}'', ''fileUrls'': ''${{ needs.prepare.outputs.download_urls }}'', ''isGithubPrBuild'': ''true'' }'
       - name: Set status to pending
         run: |
-          echo ${{ needs.prepare.outputs.download_urls }}
           curl \
           -X POST \
           -H "Accept: application/json" \
