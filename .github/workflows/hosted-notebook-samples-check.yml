@@ -22,7 +22,7 @@ jobs:
           for file in $FILES; do
             echo "Getting download link for $file"
             RESPONSE=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/contents/$file?ref=${{ github.sha }})
-            FILE_URL=${{fromJson(RESPONSE).download_url}}
+            FILE_URL=$($RESPONSE | jq --raw-output '.download_url')
             echo "FILE URL: $FILE_URL"
           done
           for file_url in $FILE_URLS; do
