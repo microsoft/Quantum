@@ -18,7 +18,14 @@ jobs:
         run: |
           git branch
           FILES=$(git diff origin/${{ github.event.pull_request.base.ref }} --name-only)
+          FILE_URLS=""
           for file in $FILES; do
-            echo $file
+            echo "Getting download link for $file"
+            FILE_URLS='$FILE_URLS $(curl \
+              -H "Accept: application/vnd.github.v3+json" \ 
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              https://api.github.com/repos/${{ github.repository }}/contents/$file)'
           done
-          
+          for file_url in $FILE_URLS; do
+            echo $file_url
+          done
