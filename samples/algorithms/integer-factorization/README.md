@@ -27,7 +27,7 @@ This sample can be run in a number of different ways, depending on your preferre
 At a terminal, run the following command:
 
 ```powershell
-dotnet run
+dotnet run -- simulate
 ```
 
 To provide a number to be factored, run the command:
