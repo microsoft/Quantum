@@ -13,11 +13,11 @@ jobs:
     outputs:
       download_urls: ${{ steps.prepare.outputs.urls }}
     steps:
-      - id: prepare
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Prepare varaibles
+      - name: Prepare variables
+        id: prepare
         run: |
           FILES=$(git diff origin/${{ github.event.pull_request.base.ref }} --name-only)
           FILE_URLS=""
@@ -36,6 +36,14 @@ jobs:
     name: Call Azure Pipeline
     runs-on: ubuntu-latest
     steps:
+      - name: Azure Pipelines Action
+        uses: Azure/pipelines@v1.2
+        if: ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_NAME == 'a' }}
+        with:
+          azure-devops-project-url: ${{ secrets.QUANTUM_PROGRAM_ADO_URL }}
+          azure-pipeline-name:  ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_NAME }}
+          azure-devops-token: ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_ADO_PAT }}
+          azure-pipeline-variables: ${{ env.pipelineVars }}
       - name: Set status to pending
         run: |
           echo ${{ needs.prepare.outputs.download_urls }}
