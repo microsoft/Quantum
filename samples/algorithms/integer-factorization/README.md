@@ -14,6 +14,33 @@ This sample contains Q# code implementing Shor's quantum algorithm for
 factoring integers.  It uses the [sparse simulator](https://docs.microsoft.com/azure/quantum/machines/sparse-simulator)
 to simulate the algorithm for instances that require many qubits.
 
+## Prerequisites
+
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
+
+## Running the Sample
+
+This sample can be run in a number of different ways, depending on your preferred environment.
+
+### Visual Studio Code or the Command Line
+
+At a terminal, run the following command:
+
+```powershell
+dotnet run -- simulate
+```
+
+To provide a number to be factored, run the command:
+
+```powershell
+dotnet run -- simulate -n 15
+```
+
+### Visual Studio 2022
+
+Open the folder containing this sample, right click on `IntegerFactorization.csproj` and select "Open in Visual Studio 2022".
+Once Visual Studio has opened, ensure the `IntegerFactorization` sample is selected, and press Start in Visual Studio to run the sample.
+
 ## Manifest
 
 - [Shor.qs](./Shor.qs): Q# implementation of Shor's algorithm.
