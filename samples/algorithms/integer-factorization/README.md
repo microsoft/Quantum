@@ -33,7 +33,7 @@ dotnet run -- simulate
 To provide a number to be factored, run the command:
 
 ```powershell
-dotnet run -n 15
+dotnet run -- simulate -n 15
 ```
 
 ### Visual Studio 2022
