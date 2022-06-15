@@ -24,7 +24,7 @@ jobs:
             RESPONSE=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/contents/$file?ref=${{ github.sha }})
             if [[ $RESPONSE =~ $REGEX ]]
             then
-              FILE_URLS='$FILE_URLS ${BASH_REMATCH[1]}';
+              FILE_URLS+=$BASH_REMATCH[1]
             fi
           done
           for file_url in $FILE_URLS; do
