@@ -36,7 +36,7 @@ jobs:
     needs: prepare
     name: Call Azure Pipeline
     runs-on: ubuntu-latest
-    if: ${{ needs.prepare.outputs.download_urls != "" }}
+    if: ${{ needs.prepare.outputs.download_urls != '' }}
     steps:
       - name: Azure Pipelines Action
         uses: Azure/pipelines@v1.2
