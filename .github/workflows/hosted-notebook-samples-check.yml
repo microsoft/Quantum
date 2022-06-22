@@ -26,6 +26,7 @@ jobs:
             then
               FILE_URL=$BASH_REMATCH[1]
               if [[ $FILE_URL = *.ipynb ]]
+              then
                 FILE_URLS+="$FILE_URL "
               fi
             fi
@@ -35,6 +36,7 @@ jobs:
     needs: prepare
     name: Call Azure Pipeline
     runs-on: ubuntu-latest
+    if: ${{ needs.prepare.outputs.download_urls != "" }}
     steps:
       - name: Azure Pipelines Action
         uses: Azure/pipelines@v1.2
