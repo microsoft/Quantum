@@ -36,9 +36,9 @@ jobs:
     needs: prepare
     name: Call Azure Pipeline
     runs-on: ubuntu-latest
-    if: ${{ needs.prepare.outputs.download_urls != '' }}
     steps:
       - name: Azure Pipelines Action
+        if: ${{ needs.prepare.outputs.download_urls != '' }}
         uses: Azure/pipelines@v1.2
         with:
           azure-devops-project-url: ${{ secrets.QUANTUM_PROGRAM_ADO_URL }}
@@ -46,9 +46,20 @@ jobs:
           azure-devops-token: ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_ADO_PAT }}
           azure-pipeline-variables: '{''githubRepo'': ''${{ github.repository }}'', ''fileUrls'': ''${{ needs.prepare.outputs.download_urls }}'',''prCommitHash'': ''${{ github.event.pull_request.head.sha }}''}'
       - name: Set status to pending
+        if: ${{ needs.prepare.outputs.download_urls != '' }}
         run: |
           curl \
           -X POST \
           -H "Accept: application/json" \
           -u achocron:${{ secrets.GITHUB_TOKEN }} https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }} \
           -d '{"state":"pending", "description": "Waiting to be run", "context": "Notebook Samples E2E Test"}'
+                - name: Set status to pending
+      - name: Set status to complete
+        if: ${{ needs.prepare.outputs.download_urls == '' }}
+        run: |
+          curl \
+          -X POST \
+          -H "Accept: application/json" \
+          -u achocron:${{ secrets.GITHUB_TOKEN }} https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }} \
+          -d '{"state":"success", "description": "Finished; no check needed.", "context": "Notebook Samples E2E Test"}'
+
