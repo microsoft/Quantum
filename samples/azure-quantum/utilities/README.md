@@ -28,4 +28,3 @@ If you wish to use a different storage account, you can absolutely do so. More i
 ## Manifest
 
 - [storage-data-management.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/utilities/storage-data-management.ipynb): Jupyter Notebook for this sample.
-- [Teleport.qs](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/teleport/Teleport.qs): Main Q# program for this sample.
