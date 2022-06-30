@@ -8,7 +8,7 @@ channels:
 dependencies:
   - notebook
   - matplotlib
-  - qsharp==0.24.210930
+  - qsharp==0.25.218240
   # This sample uses the QuTiP library to decompose Hamiltonian operators in
   # the Pauli basis.
   - qutip
