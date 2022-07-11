@@ -4,9 +4,7 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
 namespace Microsoft.Quantum.Samples.SudokuGrover
@@ -33,7 +31,8 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         {
             var puzzleToRun = args.Length > 0 ? args[0] : "all";
 
-            var sim = new QuantumSimulator(throwOnReleasingQubitsNotInZeroState: true);
+            // Since a lot of the state in grover's search is 0 the sparse simulator can provide great performance gains
+            var sim = new SparseSimulator(throwOnReleasingQubitsNotInZeroState: true);
 
             int[,] answer4 = {
                 { 1,2,3,4 },

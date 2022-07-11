@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 
 namespace Microsoft.Quantum.Samples.SudokuGrover {
+    open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Logical;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Measurement;
+    open Microsoft.Quantum.Preparation;
     open Microsoft.Quantum.Samples.ColoringGroverWithConstraints;
 
     /// # Summary
@@ -111,27 +113,20 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     : (Bool, Int[]) {
         // for size = 4x4 grid
         let bitsPerColor = size == 9 ? 4 | 2;
-        mutable oracle = ApplyVertexColoringOracle(numVertices, bitsPerColor, emptySquareEdges, startingNumberConstraints, _, _);
-        if (size == 9) {
-            // Although we could use ApplyVertexColoringOracle for 9x9, we would
-            // have to add restrictions on each color to not allow colors 8 
-            // through 15. This could be achieved by adding these to 
-            // startNumberConstraints. However, this did not scale well with 
-            // the simulator, and so instead we use 
-            // ApplyVertexColoringOracle4Bit9Color which has the 9 color 
-            // restriction built in.
-            set oracle = ApplyVertexColoringOracle4Bit9Color(numVertices, emptySquareEdges, startingNumberConstraints, _, _);
-        } elif (size != 4) {
+        let oracle = ApplyVertexColoringOracle(numVertices, bitsPerColor, startingNumberConstraints, _, _);
+        let statePrep = PrepareSearchStatesSuperposition(numVertices, bitsPerColor, startingNumberConstraints, _);
+        let searchSpaceSize = SearchSpaceSize(numVertices, bitsPerColor, startingNumberConstraints);
+        if (size != 4 and size != 9) {
             fail $"Cannot set size {size}: only a grid size of 4x4 or 9x9 is supported";
         }
-        let numIterations = NIterations(bitsPerColor * numVertices);
+        let numIterations = NIterations(searchSpaceSize);
         Message($"Running Quantum test with #Vertex = {numVertices}");
         Message($"   Bits Per Color = {bitsPerColor}");
         Message($"   emptySquareEdges = {emptySquareEdges}");
         Message($"   startingNumberConstraints = {startingNumberConstraints}");
         Message($"   Estimated #iterations needed = {numIterations}");
         Message($"   Size of Sudoku grid = {size}x{size}");
-        let coloring = FindColorsWithGrover(numVertices, bitsPerColor, numIterations, oracle);
+        let coloring = FindColorsWithGrover(numVertices, bitsPerColor, numIterations, oracle, statePrep);
 
         Message($"Got Sudoku solution: {coloring}");
         if (IsSudokuSolutionValid(size, emptySquareEdges, startingNumberConstraints, coloring)) {
@@ -143,21 +138,102 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         }
     }
 
+
+    /// # Summary
+    /// Encodes stating number constraints into amplitudes
+    ///
+    /// # Inputs
+    /// ## numVertices
+    /// The number of vertices in the graph.
+    /// ## bitsPerColor
+    /// The bit width for number of colors.
+    /// ## startingNumberConstraints
+    /// The array of (Vertex#, Color) specifying the disallowed colors for vertices.
+    ///
+    /// # Output
+    /// A 2D array of amplitudes where the first index is the cell and the second index is the value of a basis state (i.e., value) for the cell
+    function AllowedAmplitudes(
+        numVertices : Int,
+        bitsPerColor : Int,
+        startingNumberConstraints : (Int, Int)[]
+    ) : Double[][] {
+        mutable amplitudes = ConstantArray(numVertices, ConstantArray(1 <<< bitsPerColor, 1.0));
+        for (cell, value) in startingNumberConstraints {
+            set amplitudes w/= cell <- (amplitudes[cell] w/ value <- 0.0);
+        }
+        return amplitudes;
+    }
+
+
+    /// # Summary
+    /// Prepare equal superposition of all basis states that satisfy the constraints
+    /// imposed by the digits already placed in the grid.
+    ///
+    /// # Inputs
+    /// ## numVertices
+    /// The number of vertices in the graph.
+    /// ## bitsPerColor
+    /// The bit width for number of colors.
+    /// ## startingNumberConstraints
+    /// The array of (Vertex#, Color) specifying the disallowed colors for vertices.
+    ///
+    /// # Output
+    /// Creates the search space. Using the allowed amplitudes prepares uniform superposition of all allowed values for each cell
+    operation PrepareSearchStatesSuperposition(
+        numVertices : Int,
+        bitsPerColor : Int,
+        startingNumberConstraints : (Int, Int)[],
+        register : Qubit[]
+    ) : Unit is Adj + Ctl {
+        // Split the given register into numVertices chunks of size bitsPerColor.
+        let colorRegisters = Chunks(bitsPerColor, register);
+        // For each vertex, create an array of possible states we're looking at.
+        let amplitudes = AllowedAmplitudes(numVertices, bitsPerColor, startingNumberConstraints);
+        // For each vertex, prepare a superposition of its possible states on the chunk storing its color.
+        for (amps, chunk) in Zipped(amplitudes, colorRegisters) {
+            PrepareArbitraryStateD(amps, LittleEndian(chunk));
+        }
+    }
+
+    /// # Summary
+    /// Prepare equal superposition of all basis states that satisfy the constraints
+    /// imposed by the digits already placed in the grid.
+    ///
+    /// # Inputs
+    /// ## numVertices
+    /// The number of vertices in the graph.
+    /// ## bitsPerColor
+    /// The bit width for number of colors.
+    /// ## startingNumberConstraints
+    /// The array of (Vertex#, Color) specifying the disallowed colors for vertices.
+    ///
+    /// # Output
+    /// The size of the search space (i.e., number of possible combinations)
+    function SearchSpaceSize(
+        numVertices : Int,
+        bitsPerColor : Int,
+        startingNumberConstraints : (Int, Int)[]
+    ) : Int {
+        mutable colorOptions = ConstantArray(numVertices, 1 <<< bitsPerColor);
+        for (cell, value) in startingNumberConstraints {
+            set colorOptions w/= cell <- colorOptions[cell] - 1;
+        }
+        return Fold(TimesI, 1, colorOptions);
+    }
+
     /// # Summary
     /// Estimate the number of iterations required for solution.
     ///
     /// # Input
-    /// ## nQubits
-    /// The number of qubits being used.
+    /// ## searchSpaceSize
+    /// The size of the search space
     ///
     /// # Remarks
     /// This is correct for an amplitude amplification problem with a single 
     /// correct solution, but would need to be adapted when there are multiple
     /// solutions
-    function NIterations(nQubits : Int) : Int {
-        let nItems = 1 <<< nQubits; // 2^numQubits
-        // compute number of iterations:
-        let angle = ArcSin(1. / Sqrt(IntAsDouble(nItems)));
+    function NIterations(searchSpaceSize : Int) : Int {
+        let angle = ArcSin(1. / Sqrt(IntAsDouble(searchSpaceSize)));
         let nIterations = Round(0.25 * PI() / angle - 0.5);
         return nIterations;
     }
