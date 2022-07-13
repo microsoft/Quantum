@@ -132,7 +132,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                         }
                         if (size == 9)
                         { // Invalidate numbers that are illegal on a 9x9 board
-                            for (int invalid = 9; invalid < 16; invalid++)
+                            foreach (var invalid in Enumerable.Range(9, 16 - 9))
                             {
                                 startingNumberConstraints.Add(
                                     (emptyIndex, invalid));

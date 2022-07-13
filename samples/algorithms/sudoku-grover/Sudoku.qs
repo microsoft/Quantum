@@ -65,7 +65,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// and empty square #1 can't have values 1 or 3.
     ///
     /// # Input
-    /// ## numVertices
+    /// ## nVertices
     /// number of blank squares.
     /// ## size
     /// The size of the puzzle. 4 for 4x4 grid, 9 for 9x9 grid.
@@ -106,27 +106,27 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///         empty square #1 can not have values 1,2,0 because same row/column/2x2grid.
     ///    Results = [0,3,0] i.e. Empty Square #0 = 0, Empty Square #1 = 3, Empty Square #2 = 0.
     operation SolvePuzzle(
-        numVertices : Int, size : Int,
+        nVertices : Int, size : Int,
         emptySquareEdges : (Int, Int)[],
         startingNumberConstraints: (Int, Int)[]
     )
     : (Bool, Int[]) {
         // for size = 4x4 grid
         let bitsPerColor = size == 9 ? 4 | 2;
-        let oracle = ApplyVertexColoringOracle(numVertices, bitsPerColor, startingNumberConstraints, _, _);
-        let statePrep = PrepareSearchStatesSuperposition(numVertices, bitsPerColor, startingNumberConstraints, _);
-        let searchSpaceSize = SearchSpaceSize(numVertices, bitsPerColor, startingNumberConstraints);
+        let oracle = ApplyVertexColoringOracle(nVertices, bitsPerColor, startingNumberConstraints, _, _);
+        let statePrep = PrepareSearchStatesSuperposition(nVertices, bitsPerColor, startingNumberConstraints, _);
+        let searchSpaceSize = SearchSpaceSize(nVertices, bitsPerColor, startingNumberConstraints);
         if (size != 4 and size != 9) {
             fail $"Cannot set size {size}: only a grid size of 4x4 or 9x9 is supported";
         }
         let numIterations = NIterations(searchSpaceSize);
-        Message($"Running Quantum test with #Vertex = {numVertices}");
+        Message($"Running Quantum test with #Vertex = {nVertices}");
         Message($"   Bits Per Color = {bitsPerColor}");
         Message($"   emptySquareEdges = {emptySquareEdges}");
         Message($"   startingNumberConstraints = {startingNumberConstraints}");
         Message($"   Estimated #iterations needed = {numIterations}");
         Message($"   Size of Sudoku grid = {size}x{size}");
-        let coloring = FindColorsWithGrover(numVertices, bitsPerColor, numIterations, oracle, statePrep);
+        let coloring = FindColorsWithGrover(nVertices, bitsPerColor, numIterations, oracle, statePrep);
 
         Message($"Got Sudoku solution: {coloring}");
         if (IsSudokuSolutionValid(size, emptySquareEdges, startingNumberConstraints, coloring)) {
@@ -140,10 +140,10 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
 
 
     /// # Summary
-    /// Encodes stating number constraints into amplitudes
+    /// Encodes stating number constraints into amplitudes.
     ///
     /// # Inputs
-    /// ## numVertices
+    /// ## nVertices
     /// The number of vertices in the graph.
     /// ## bitsPerColor
     /// The bit width for number of colors.
@@ -153,11 +153,11 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// # Output
     /// A 2D array of amplitudes where the first index is the cell and the second index is the value of a basis state (i.e., value) for the cell
     function AllowedAmplitudes(
-        numVertices : Int,
+        nVertices : Int,
         bitsPerColor : Int,
         startingNumberConstraints : (Int, Int)[]
     ) : Double[][] {
-        mutable amplitudes = ConstantArray(numVertices, ConstantArray(1 <<< bitsPerColor, 1.0));
+        mutable amplitudes = ConstantArray(nVertices, ConstantArray(1 <<< bitsPerColor, 1.0));
         for (cell, value) in startingNumberConstraints {
             set amplitudes w/= cell <- (amplitudes[cell] w/ value <- 0.0);
         }
@@ -166,11 +166,11 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
 
 
     /// # Summary
-    /// Prepare equal superposition of all basis states that satisfy the constraints
+    /// Prepare an equal superposition of all basis states that satisfy the constraints
     /// imposed by the digits already placed in the grid.
     ///
     /// # Inputs
-    /// ## numVertices
+    /// ## nVertices
     /// The number of vertices in the graph.
     /// ## bitsPerColor
     /// The bit width for number of colors.
@@ -180,15 +180,15 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// # Output
     /// Creates the search space. Using the allowed amplitudes prepares uniform superposition of all allowed values for each cell
     operation PrepareSearchStatesSuperposition(
-        numVertices : Int,
+        nVertices : Int,
         bitsPerColor : Int,
         startingNumberConstraints : (Int, Int)[],
         register : Qubit[]
     ) : Unit is Adj + Ctl {
-        // Split the given register into numVertices chunks of size bitsPerColor.
+        // Split the given register into nVertices chunks of size bitsPerColor.
         let colorRegisters = Chunks(bitsPerColor, register);
         // For each vertex, create an array of possible states we're looking at.
-        let amplitudes = AllowedAmplitudes(numVertices, bitsPerColor, startingNumberConstraints);
+        let amplitudes = AllowedAmplitudes(nVertices, bitsPerColor, startingNumberConstraints);
         // For each vertex, prepare a superposition of its possible states on the chunk storing its color.
         for (amps, chunk) in Zipped(amplitudes, colorRegisters) {
             PrepareArbitraryStateD(amps, LittleEndian(chunk));
@@ -200,7 +200,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// imposed by the digits already placed in the grid.
     ///
     /// # Inputs
-    /// ## numVertices
+    /// ## nVertices
     /// The number of vertices in the graph.
     /// ## bitsPerColor
     /// The bit width for number of colors.
@@ -210,11 +210,11 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// # Output
     /// The size of the search space (i.e., number of possible combinations)
     function SearchSpaceSize(
-        numVertices : Int,
+        nVertices : Int,
         bitsPerColor : Int,
         startingNumberConstraints : (Int, Int)[]
     ) : Int {
-        mutable colorOptions = ConstantArray(numVertices, 1 <<< bitsPerColor);
+        mutable colorOptions = ConstantArray(nVertices, 1 <<< bitsPerColor);
         for (cell, value) in startingNumberConstraints {
             set colorOptions w/= cell <- colorOptions[cell] - 1;
         }
@@ -226,7 +226,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///
     /// # Input
     /// ## searchSpaceSize
-    /// The size of the search space
+    /// The size of the search space.
     ///
     /// # Remarks
     /// This is correct for an amplitude amplification problem with a single 
@@ -234,6 +234,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// solutions
     function NIterations(searchSpaceSize : Int) : Int {
         let angle = ArcSin(1. / Sqrt(IntAsDouble(searchSpaceSize)));
+        Message($"{searchSpaceSize} -- Sqrt(IntAsDouble(searchSpaceSize)) -- {angle} -- {0.25 * PI() / angle - 0.5}");
         let nIterations = Round(0.25 * PI() / angle - 0.5);
         return nIterations;
     }

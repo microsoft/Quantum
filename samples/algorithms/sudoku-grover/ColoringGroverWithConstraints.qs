@@ -30,8 +30,8 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// ## register
     /// The register of qubits to be measured.
     operation MeasureColoring (bitsPerColor : Int, register : Qubit[]) : Int[] {
-        let numVertices = Length(register) / bitsPerColor;
-        let colorPartitions = Partitioned(ConstantArray(numVertices - 1, bitsPerColor), register);
+        let nVertices = Length(register) / bitsPerColor;
+        let colorPartitions = Partitioned(ConstantArray(nVertices - 1, bitsPerColor), register);
         return ForEach(MeasureColor, colorPartitions);
     }
 
@@ -64,7 +64,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// non qubit vertices.
     ///
     /// # Input
-    /// ## numVertices
+    /// ## nVertices
     /// The number of vertices in the graph.
     /// ## bitsPerColor
     /// The bits per color e.g. 2 bits per color allows for 4 colors.
@@ -114,7 +114,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// ```
     /// i.e. every vertex is connected to each other.
     operation ApplyVertexColoringOracle (
-        numVertices : Int, 
+        nVertices : Int, 
         bitsPerColor : Int, 
         edges : (Int, Int)[],
         colorsRegister : Qubit[],
@@ -145,7 +145,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// Using Grover's search to find vertex coloring.
     ///
     /// # Input
-    /// ## numVertices
+    /// ## nVertices
     /// The number of Vertices in the graph.
     /// ## bitsPerColor
     /// The number of bits per color.
@@ -154,23 +154,21 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// ## oracle
     /// The Oracle used to find solution.
     /// ## statePrep
-    /// Routine that prepares an equal superposition of all basis states in the search space.
+    /// An operation that prepares an equal superposition of all basis states in the search space.
     ///
     /// # Output
-    /// Int Array giving the color of each vertex.
-    ///
+    /// An array giving the color of each vertex.
     operation FindColorsWithGrover(
-        numVertices : Int, bitsPerColor : Int, nIterations : Int,
+        nVertices : Int, bitsPerColor : Int, nIterations : Int,
         oracle : ((Qubit[], Qubit) => Unit is Adj),
         statePrep : (Qubit[] => Unit is Adj)) : Int[] {
 
         // Note that coloring register has the number of qubits that is
         // twice the number of vertices (bitsPerColor qubits per vertex).
-        use register = Qubit[bitsPerColor * numVertices];
+        use register = Qubit[bitsPerColor * nVertices];
 
         Message($"Trying search with {nIterations} iterations...");
         ApplyGroversAlgorithmLoop(register, oracle, statePrep, nIterations);
-        let res = MultiM(register);
         let coloring = MeasureColoring(bitsPerColor, register);
         ResetAll(register);
 
@@ -216,7 +214,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// ## iterations
     /// The number of iterations to try.
     ///
-    /// # Output
+    /// # Remarks
     /// Unitary implementing Grover's search algorithm.
     operation ApplyGroversAlgorithmLoop(
         register : Qubit[],
