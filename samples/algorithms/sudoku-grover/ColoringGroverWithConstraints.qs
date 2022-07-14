@@ -167,6 +167,9 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         use register = Qubit[bitsPerColor * nVertices];
 
         Message($"Trying search with {nIterations} iterations...");
+        if (nIterations > 75) {
+            Message($"Warning: This might take a while");
+        }
         ApplyGroversAlgorithmLoop(register, oracle, statePrep, nIterations);
         let coloring = MeasureColoring(bitsPerColor, register);
         ResetAll(register);
