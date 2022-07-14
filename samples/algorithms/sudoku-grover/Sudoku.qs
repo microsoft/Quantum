@@ -113,7 +113,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     : (Bool, Int[]) {
         // for size = 4x4 grid
         let bitsPerColor = size == 9 ? 4 | 2;
-        let oracle = ApplyVertexColoringOracle(nVertices, bitsPerColor, startingNumberConstraints, _, _);
+        let oracle = ApplyVertexColoringOracle(nVertices, bitsPerColor, emptySquareEdges, _, _);
         let statePrep = PrepareSearchStatesSuperposition(nVertices, bitsPerColor, startingNumberConstraints, _);
         let searchSpaceSize = SearchSpaceSize(nVertices, bitsPerColor, startingNumberConstraints);
         if (size != 4 and size != 9) {
