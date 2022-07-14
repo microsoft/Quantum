@@ -25,7 +25,7 @@ jobs:
             if [[ $RESPONSE =~ $REGEX ]]
             then
               FILE_URL=$BASH_REMATCH[1]
-              if [[ $FILE_URL = *.ipynb ]]
+              if [[ $file == *.ipynb ]]
               then
                 FILE_URLS+="$FILE_URL "
               fi
