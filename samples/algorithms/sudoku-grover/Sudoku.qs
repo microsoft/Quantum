@@ -157,7 +157,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         bitsPerColor : Int,
         startingNumberConstraints : (Int, Int)[]
     ) : Double[][] {
-        mutable amplitudes = ConstantArray(nVertices, ConstantArray(1 <<< bitsPerColor, 1.0));
+        mutable amplitudes = [[1.0, size=1 <<< bitsPerColor], size=nVertices];
         for (cell, value) in startingNumberConstraints {
             set amplitudes w/= cell <- (amplitudes[cell] w/ value <- 0.0);
         }
@@ -214,7 +214,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         bitsPerColor : Int,
         startingNumberConstraints : (Int, Int)[]
     ) : Int {
-        mutable colorOptions = ConstantArray(nVertices, 1 <<< bitsPerColor);
+        mutable colorOptions = [1 <<< bitsPerColor, size=nVertices];
         for (cell, value) in startingNumberConstraints {
             set colorOptions w/= cell <- colorOptions[cell] - 1;
         }
@@ -234,7 +234,6 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// solutions
     function NIterations(searchSpaceSize : Int) : Int {
         let angle = ArcSin(1. / Sqrt(IntAsDouble(searchSpaceSize)));
-        Message($"{searchSpaceSize} -- Sqrt(IntAsDouble(searchSpaceSize)) -- {angle} -- {0.25 * PI() / angle - 0.5}");
         let nIterations = Round(0.25 * PI() / angle - 0.5);
         return nIterations;
     }
