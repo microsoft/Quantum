@@ -107,6 +107,19 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 bool resultFound = sudokuQuantum.QuantumSolve(puzzle4_4, sim).Result;
                 VerifyAndShowResult(resultFound, puzzle4_4, answer4);
             }
+            if (puzzleToRun == "4x4-12" || puzzleToRun == "all") 
+            {
+                // Test 4x4 puzzle with 4 missing numbers with Quantum.
+                int[,] puzzle4_4 = {
+                    { 0,0,3,0 },
+                    { 0,0,0,2 },
+                    { 0,0,4,0 },
+                    { 0,1,0,0 } };
+                Console.WriteLine("Quantum Solving 4x4 with 4 missing numbers.");
+                ShowGrid(puzzle4_4);
+                bool resultFound = sudokuQuantum.QuantumSolve(puzzle4_4, sim).Result;
+                VerifyAndShowResult(resultFound, puzzle4_4, answer4);
+            }
             if (puzzleToRun == "9x9-1" || puzzleToRun == "all") 
             {
                 // Test 9x9 puzzle with classical and quantum - 1 missing number.
@@ -150,7 +163,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 bool resultFound = sudokuQuantum.QuantumSolve(puzzle9_2, sim).Result;
                 VerifyAndShowResult(resultFound, puzzle9_2, answer9);
             }
-            if (puzzleToRun == "9x9-hard" || puzzleToRun == "all") 
+            if (puzzleToRun == "9x9-21" || puzzleToRun == "all") 
             {
                 // Test hard 9x9 puzzle with classical and quantum.
                 int[,] puzzle9 = {
