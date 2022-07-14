@@ -111,14 +111,13 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         startingNumberConstraints: (Int, Int)[]
     )
     : (Bool, Int[]) {
-        // for size = 4x4 grid
+        if (size != 4 and size != 9) {
+            fail $"Cannot set size {size}: only a grid size of 4x4 or 9x9 is supported";
+        }
         let bitsPerColor = size == 9 ? 4 | 2;
         let oracle = ApplyVertexColoringOracle(nVertices, bitsPerColor, emptySquareEdges, _, _);
         let statePrep = PrepareSearchStatesSuperposition(nVertices, bitsPerColor, startingNumberConstraints, _);
         let searchSpaceSize = SearchSpaceSize(nVertices, bitsPerColor, startingNumberConstraints);
-        if (size != 4 and size != 9) {
-            fail $"Cannot set size {size}: only a grid size of 4x4 or 9x9 is supported";
-        }
         let numIterations = NIterations(searchSpaceSize);
         Message($"Running Quantum test with #Vertex = {nVertices}");
         Message($"   Bits Per Color = {bitsPerColor}");

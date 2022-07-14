@@ -163,8 +163,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         oracle : ((Qubit[], Qubit) => Unit is Adj),
         statePrep : (Qubit[] => Unit is Adj)) : Int[] {
 
-        // Note that coloring register has the number of qubits that is
-        // twice the number of vertices (bitsPerColor qubits per vertex).
+        // Coloring register has bitsPerColor qubits for each vertex
         use register = Qubit[bitsPerColor * nVertices];
 
         Message($"Trying search with {nIterations} iterations...");

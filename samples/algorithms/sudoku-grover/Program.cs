@@ -31,7 +31,8 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         {
             var puzzleToRun = args.Length > 0 ? args[0] : "all";
 
-            // Since a lot of the state in grover's search is 0 the sparse simulator can provide great performance gains
+            // Since a lot of the basis states are not used in the superposition state in Grover's search, 
+            // the sparse simulator can provide great performance gains
             var sim = new SparseSimulator(throwOnReleasingQubitsNotInZeroState: true);
 
             int[,] answer4 = {
