@@ -179,12 +179,12 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                     { 3,5,1, 9,4,7, 6,0,8} };
                 int[,] puzzle9_copy = CopyIntArray(puzzle9);
 
-                Console.WriteLine("Solving 9x9 with 64 missing numbers using classical computing.");
+                Console.WriteLine("Solving 9x9 with 21 missing numbers using classical computing.");
                 ShowGrid(puzzle9);
                 bool resultFound = sudokuClassic.SolveSudokuClassic(puzzle9);
                 VerifyAndShowResult(resultFound, puzzle9, answer9);
 
-                Console.WriteLine("Solving 9x9 with 64 missing numbers using Quantum Computing. Cntrl-C to stop.");
+                Console.WriteLine("Solving 9x9 with 21 missing numbers using Quantum Computing. Cntrl-C to stop.");
                 ShowGrid(puzzle9_copy);
                 resultFound = sudokuQuantum.QuantumSolve(puzzle9_copy, sim).Result;
                 VerifyAndShowResult(resultFound, puzzle9_copy, answer9);

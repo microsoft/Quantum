@@ -150,7 +150,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// ## bitsPerColor
     /// The number of bits per color.
     /// ## nIterations
-    /// An estimate of the maximum iterations needed.
+    /// The number of iterations needed.
     /// ## oracle
     /// The Oracle used to find solution.
     /// ## statePrep

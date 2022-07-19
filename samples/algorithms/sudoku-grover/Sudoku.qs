@@ -150,14 +150,15 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// The array of (Vertex#, Color) specifying the disallowed colors for vertices.
     ///
     /// # Output
-    /// A 2D array of amplitudes where the first index is the cell and the second index is the value of a basis state (i.e., value) for the cell
+    /// A 2D array of amplitudes where the first index is the cell and the second index is the value of a basis state (i.e., value) for the cell. =
+    /// Allowed amplitudes will have a value 1.0, disallowed amplitudes 0.0
     function AllowedAmplitudes(
         nVertices : Int,
         bitsPerColor : Int,
         startingNumberConstraints : (Int, Int)[]
     ) : Double[][] {
         mutable amplitudes = [[1.0, size=1 <<< bitsPerColor], size=nVertices];
-        for (cell, value) in startingNumberConstraints {
+        for (cell, _) in startingNumberConstraints {
             set amplitudes w/= cell <- (amplitudes[cell] w/ value <- 0.0);
         }
         return amplitudes;
@@ -195,8 +196,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     }
 
     /// # Summary
-    /// Prepare equal superposition of all basis states that satisfy the constraints
-    /// imposed by the digits already placed in the grid.
+    /// Show the size of the search space, i.e. the number of possible combinations
     ///
     /// # Inputs
     /// ## nVertices
