@@ -24,8 +24,8 @@ jobs:
             RESPONSE=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/contents/$file?ref=${{ github.sha }})
             if [[ $RESPONSE =~ $REGEX ]]
             then
-              FILE_URL=$BASH_REMATCH[1]
-              if [[ $FILE_URL = *.ipynb ]]
+              FILE_URL=${BASH_REMATCH[1]}
+              if [[ $file == *.ipynb ]]
               then
                 FILE_URLS+="$FILE_URL "
               fi
@@ -53,7 +53,6 @@ jobs:
           -H "Accept: application/json" \
           -u achocron:${{ secrets.GITHUB_TOKEN }} https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }} \
           -d '{"state":"pending", "description": "Waiting to be run", "context": "Notebook Samples E2E Test"}'
-                - name: Set status to pending
       - name: Set status to complete
         if: ${{ needs.prepare.outputs.download_urls == '' }}
         run: |
