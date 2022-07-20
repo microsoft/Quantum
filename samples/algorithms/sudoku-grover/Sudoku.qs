@@ -158,7 +158,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         startingNumberConstraints : (Int, Int)[]
     ) : Double[][] {
         mutable amplitudes = [[1.0, size=1 <<< bitsPerColor], size=nVertices];
-        for (cell, _) in startingNumberConstraints {
+        for (cell, value) in startingNumberConstraints {
             set amplitudes w/= cell <- (amplitudes[cell] w/ value <- 0.0);
         }
         return amplitudes;
