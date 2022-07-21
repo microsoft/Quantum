@@ -193,6 +193,7 @@ Measure-Command {
                     $script:all_ok = $False;
                     $nFailed += 1;
                 }
+                dotnet clean $_;
             }
         }
 
