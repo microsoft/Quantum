@@ -187,7 +187,7 @@ Measure-Command {
             $additionalArgs = $projectArgs.ContainsKey($_.FullName) ? $projectArgs[$_.FullName] : @(,@());
             foreach ($trialArgs in $additionalArgs) {
                 Write-Host "##[info] Running sample at $_ with arguments '$trialArgs'...";
-                Measure-Command { Invoke-Project $_ -AdditionalArgs $trialArgs };
+                Invoke-Project $_ -AdditionalArgs $trialArgs | Out-Default;
                 if ($LastExitCode -ne 0) {
                     Write-Host "##[error] Failed running project $_.";
                     $script:all_ok = $False;
