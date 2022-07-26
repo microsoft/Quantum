@@ -214,7 +214,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         startingNumberConstraints : (Int, Int)[]
     ) : Int {
         mutable colorOptions = [1 <<< bitsPerColor, size=nVertices];
-        for (cell, value) in startingNumberConstraints {
+        for (cell, _) in startingNumberConstraints {
             set colorOptions w/= cell <- colorOptions[cell] - 1;
         }
         return Fold(TimesI, 1, colorOptions);

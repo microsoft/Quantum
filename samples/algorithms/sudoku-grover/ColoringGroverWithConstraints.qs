@@ -60,8 +60,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     }
 
     /// # Summary
-    /// Oracle for verifying vertex coloring, including color constraints from
-    /// non qubit vertices.
+    /// Oracle for verifying vertex coloring
     ///
     /// # Input
     /// ## nVertices
@@ -71,12 +70,10 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// ## edges
     /// The array of (Vertex#,Vertex#) specifying the Vertices that can not be
     /// the same color.
-    /// ## startingColorConstraints
-    /// The array of (Vertex#,Color) specifying the disallowed colors for vertices.
     ///
     /// # Output
-    /// A unitary operation that applies `oracle` on the target register if the control
-    /// register state corresponds to the bit mask `bits`.
+    /// An marking oracle that with the purpose of marking states as allowed where the colors of qubits related by an edge constraints are not equal.
+    ///
     ///
     /// # Example
     /// Consider the following 4x4 Sudoku puzzle
@@ -122,7 +119,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     )
     : Unit is Adj + Ctl {
         let nEdges = Length(edges);
-        // we are looking for a solution that has no Vertex with a color that violates the starting color constraints.
+        // we are looking for a solution that has no edge with same color at both ends and
         use edgeConflictQubits = Qubit[nEdges];
         within {
             for ((start, end), conflictQubit) in Zipped(edges, edgeConflictQubits) {
@@ -159,7 +156,9 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// # Output
     /// An array giving the color of each vertex.
     operation FindColorsWithGrover(
-        nVertices : Int, bitsPerColor : Int, nIterations : Int,
+        nVertices : Int, 
+        bitsPerColor : Int, 
+        nIterations : Int,
         oracle : ((Qubit[], Qubit) => Unit is Adj),
         statePrep : (Qubit[] => Unit is Adj)) : Int[] {
 
@@ -171,10 +170,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
             Message($"Warning: This might take a while");
         }
         ApplyGroversAlgorithmLoop(register, oracle, statePrep, nIterations);
-        let coloring = MeasureColoring(bitsPerColor, register);
-        ResetAll(register);
-
-        return coloring;
+        return MeasureColoring(bitsPerColor, register);
     }
 
     /// # Summary
