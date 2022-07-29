@@ -17,6 +17,7 @@ jobs:
         id: prepare
         run: |
           FILES=$(git diff origin/${{ github.event.pull_request.base.ref }} --name-only)
+          FILES=$(echo $FILES | awk -F\" '{OFS="\"";for(i=2;i<NF;i+=2)gsub(/ /,"%20",$i);print}')
           echo $FILES
           FILE_URLS=""
           REGEX='\"download_url\": \"([^\"]*)\"'
