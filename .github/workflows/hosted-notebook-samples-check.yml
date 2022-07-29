@@ -30,8 +30,10 @@ jobs:
           FILE_URLS=""
           REGEX='\"download_url\": \"([^\"]*)\"'
           for file in $FILES; do
+            # Restore spaces so they don't get double encoded
+            file=$(echo $file | sed 's/%20/ /g')
             echo "Getting download link for $file"
-            RESPONSE=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/contents/$file?ref=${{ github.sha }})
+            RESPONSE=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" 'https://api.github.com/repos/${{ github.repository }}/contents/$file?ref=${{ github.sha }}')
             echo $RESPONSE
             if [[ $RESPONSE =~ $REGEX ]]
             then
