@@ -24,8 +24,8 @@ jobs:
           # Now remove quotations
           FILES=$(echo $FILES | sed 's/\"//g')
           
-          # Replace octal codes with actual characters
-          FILES=$(echo $FILES | perl -pe 's[\\(?:([0-7]{1,3})|(.))] [defined($1) ? chr(oct($1)) : $2]eg')
+          # Replace octal codes with hex codes (for URL)
+          FILES=$(echo $FILES | perl -pe 's[\\(?:([0-7]{1,3})|(.))] [sprintf("%%%X", oct($1))]eg'
           echo $FILES
           FILE_URLS=""
           REGEX='\"download_url\": \"([^\"]*)\"'
