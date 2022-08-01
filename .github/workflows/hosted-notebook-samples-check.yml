@@ -17,14 +17,28 @@ jobs:
         id: prepare
         run: |
           FILES=$(git diff origin/${{ github.event.pull_request.base.ref }} --name-only)
+          
+          # Replace spaces within quotations
+          FILES=$(echo $FILES | awk -F\" '{OFS="\"";for(i=2;i<NF;i+=2)gsub(/ /,"%20",$i);print}')
+          
+          # Now remove quotations
+          FILES=$(echo $FILES | sed 's/\"//g')
+          
+          # Replace octal codes with hex codes (for URL)
+          FILES=$(echo $FILES | perl -pe 's[\\(?:([0-7]{1,3})|(.))] [sprintf("%%%X", oct($1))]eg')
+          echo $FILES
           FILE_URLS=""
           REGEX='\"download_url\": \"([^\"]*)\"'
           for file in $FILES; do
             echo "Getting download link for $file"
-            RESPONSE=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/contents/$file?ref=${{ github.sha }})
+            url=https://api.github.com/repos/${{ github.repository }}/contents/$file?ref=${{ github.sha }}
+            echo $url
+            RESPONSE=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$url")
+            echo $RESPONSE
             if [[ $RESPONSE =~ $REGEX ]]
             then
               FILE_URL=${BASH_REMATCH[1]}
+              echo $FILE_URL
               if [[ $file == *.ipynb ]]
               then
                 FILE_URLS+="$FILE_URL "
