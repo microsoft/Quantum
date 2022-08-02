@@ -31,7 +31,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// The register of qubits to be measured.
     operation MeasureColoring (bitsPerColor : Int, register : Qubit[]) : Int[] {
         let nVertices = Length(register) / bitsPerColor;
-        let colorPartitions = Partitioned(ConstantArray(nVertices - 1, bitsPerColor), register);
+        let colorPartitions = Partitioned([bitsPerColor, size=(nVertices - 1)], register);
         return ForEach(MeasureColor, colorPartitions);
     }
 
@@ -119,7 +119,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     )
     : Unit is Adj + Ctl {
         let nEdges = Length(edges);
-        // we are looking for a solution that has no edge with same color at both ends and
+        // we are looking for a solution that has no edge with same color at both ends
         use edgeConflictQubits = Qubit[nEdges];
         within {
             for ((start, end), conflictQubit) in Zipped(edges, edgeConflictQubits) {

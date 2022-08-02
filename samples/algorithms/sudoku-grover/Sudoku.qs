@@ -111,7 +111,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         startingNumberConstraints: (Int, Int)[]
     )
     : (Bool, Int[]) {
-        if (size != 4 and size != 9) {
+        if size != 4 and size != 9 {
             fail $"Cannot set size {size}: only a grid size of 4x4 or 9x9 is supported";
         }
         let bitsPerColor = size == 9 ? 4 | 2;
@@ -119,12 +119,13 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         let statePrep = PrepareSearchStatesSuperposition(nVertices, bitsPerColor, startingNumberConstraints, _);
         let searchSpaceSize = SearchSpaceSize(nVertices, bitsPerColor, startingNumberConstraints);
         let numIterations = NIterations(searchSpaceSize);
-        Message($"Running Quantum test with #Vertex = {nVertices}");
+        Message($"Running Quantum test with # of vertices = {nVertices}");
         Message($"   Bits Per Color = {bitsPerColor}");
         Message($"   emptySquareEdges = {emptySquareEdges}");
         Message($"   startingNumberConstraints = {startingNumberConstraints}");
         Message($"   Estimated #iterations needed = {numIterations}");
         Message($"   Size of Sudoku grid = {size}x{size}");
+        Message($"   Search space size = {searchSpaceSize}");
         let coloring = FindColorsWithGrover(nVertices, bitsPerColor, numIterations, oracle, statePrep);
 
         Message($"Got Sudoku solution: {coloring}");
@@ -148,6 +149,13 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// The bit width for number of colors.
     /// ## startingNumberConstraints
     /// The array of (Vertex#, Color) specifying the disallowed colors for vertices.
+    ///
+    /// # Examples
+    /// Consider the case where we have 2 vertices, 2 bits per color, and the constraints (0,1),(0,2),(0,3),(1,2).
+    /// Then we would get the result where all non-disallowed values have a 1.0 amplitude:
+    /// [[1.0, 0.0, 0.0, 0.0], 
+    ///  [1.0, 1.0, 0.0, 1.0]]
+    ///
     ///
     /// # Output
     /// A 2D array of amplitudes where the first index is the cell and the second index is the value of a basis state (i.e., value) for the cell. =
