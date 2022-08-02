@@ -72,7 +72,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     /// the same color.
     ///
     /// # Output
-    /// An marking oracle that with the purpose of marking states as allowed where the colors of qubits related by an edge constraints are not equal.
+    /// An marking oracle that marks as allowed those states in which the colors of qubits related by an edge constraint are not equal.
     ///
     ///
     /// # Example
