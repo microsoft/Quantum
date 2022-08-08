@@ -4,17 +4,75 @@ on:
   pull_request:
     branches: 
       - feature/samples-gallery
-  workflow_dispatch:
-  
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      download_urls: ${{ steps.prepare.outputs.urls }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Prepare variables
+        id: prepare
+        run: |
+          FILES=$(git diff origin/${{ github.event.pull_request.base.ref }} --name-only)
+          
+          # Replace spaces within quotations
+          FILES=$(echo $FILES | awk -F\" '{OFS="\"";for(i=2;i<NF;i+=2)gsub(/ /,"%20",$i);print}')
+          
+          # Now remove quotations
+          FILES=$(echo $FILES | sed 's/\"//g')
+          
+          # Replace octal codes with hex codes (for URL)
+          FILES=$(echo $FILES | perl -pe 's[\\(?:([0-7]{1,3})|(.))] [sprintf("%%%X", oct($1))]eg')
+          echo $FILES
+          FILE_URLS=""
+          REGEX='\"download_url\": \"([^\"]*)\"'
+          for file in $FILES; do
+            echo "Getting download link for $file"
+            url=https://api.github.com/repos/${{ github.repository }}/contents/$file?ref=${{ github.sha }}
+            echo $url
+            RESPONSE=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$url")
+            echo $RESPONSE
+            if [[ $RESPONSE =~ $REGEX ]]
+            then
+              FILE_URL=${BASH_REMATCH[1]}
+              echo $FILE_URL
+              if [[ $file == *.ipynb ]]
+              then
+                FILE_URLS+="$FILE_URL "
+              fi
+            fi
+          done
+          echo "::set-output name=urls::${FILE_URLS}"
   build:
+    needs: prepare
     name: Call Azure Pipeline
     runs-on: ubuntu-latest
     steps:
       - name: Azure Pipelines Action
-        uses: Azure/pipelines@v1
+        if: ${{ needs.prepare.outputs.download_urls != '' }}
+        uses: Azure/pipelines@v1.2
         with:
           azure-devops-project-url: ${{ secrets.QUANTUM_PROGRAM_ADO_URL }}
           azure-pipeline-name:  ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_NAME }}
           azure-devops-token: ${{ secrets.HOSTED_NOTEBOOKS_PIPELINE_ADO_PAT }}
-          azure-pipeline-variables: '{"Quantum Computing Samples Commit Hash": "$GITHUB_SHA"}'
+          azure-pipeline-variables: '{''githubRepo'': ''${{ github.repository }}'', ''fileUrls'': ''${{ needs.prepare.outputs.download_urls }}'',''prCommitHash'': ''${{ github.event.pull_request.head.sha }}''}'
+      - name: Set status to pending
+        if: ${{ needs.prepare.outputs.download_urls != '' }}
+        run: |
+          curl \
+          -X POST \
+          -H "Accept: application/json" \
+          -u achocron:${{ secrets.GITHUB_TOKEN }} https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }} \
+          -d '{"state":"pending", "description": "Waiting to be run", "context": "Notebook Samples E2E Test"}'
+      - name: Set status to complete
+        if: ${{ needs.prepare.outputs.download_urls == '' }}
+        run: |
+          curl \
+          -X POST \
+          -H "Accept: application/json" \
+          -u achocron:${{ secrets.GITHUB_TOKEN }} https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }} \
+          -d '{"state":"success", "description": "Finished; no check needed.", "context": "Notebook Samples E2E Test"}'
+
