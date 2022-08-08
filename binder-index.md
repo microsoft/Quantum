@@ -205,9 +205,25 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Azure Quantum service:</strong></td>
+      <td><strong><a href="./samples/azure-quantum/hello-world/README.md">Hello World Samples</a></strong></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
       <td><strong><a href="./samples/azure-quantum/chemistry/README.md">Chemistry</a></strong></td>
       <td></td>
       <td>Q# + Python</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/azure-quantum/variational-quantum-eigensolver/README.md">VQE on Azure Quantum</a></strong></td>
+      <td></td>
+      <td><a href="./samples/azure-quantum/variational-quantum-eigensolver/VQE-qiskit-hydrogen-ionq-sim.ipynb">Qiskit + Python</a></td>
       <td></td>
       <td></td>
     </tr>
