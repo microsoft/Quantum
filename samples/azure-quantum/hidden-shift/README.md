@@ -46,3 +46,4 @@ az quantum target list --output table
 
 - [HiddenShift.csproj](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/hidden-shift/HiddenShift.csproj): Main Q# project file for this sample.
 - [HiddenShift.qs](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/hidden-shift/HiddenShift.qs): Main Q# program for this sample.
+- [HiddenShift.ipynb](./HiddenShift.ipynb): Azure Quantum notebook for running the sample
