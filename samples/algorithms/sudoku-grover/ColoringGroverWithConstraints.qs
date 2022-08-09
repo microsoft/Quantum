@@ -124,7 +124,7 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
         within {
             for ((start, end), conflictQubit) in Zipped(edges, edgeConflictQubits) {
                 // Check that endpoints of the edge have different colors:
-                // apply ColorEqualityOracle_Nbit oracle;
+                // apply ApplyColorEqualityOracle oracle;
                 // if the colors are the same the result will be 1, indicating a conflict
                 ApplyColorEqualityOracle(
                     colorsRegister[start * bitsPerColor .. (start + 1) * bitsPerColor - 1],
