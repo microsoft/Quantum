@@ -221,7 +221,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
-      <td><strong><a href="./samples/azure-quantum/variational-quantum-eigensolver/README.md">VQE on Azure Quantum</a></strong></td>
+      <td><strong><a href="./samples/azure-quantum/variational-quantum-eigensolver/README.md">Variational quantum eigensolvers</a></strong></td>
       <td></td>
       <td><a href="./samples/azure-quantum/variational-quantum-eigensolver/VQE-qiskit-hydrogen-ionq-sim.ipynb">Qiskit + Python</a></td>
       <td></td>
