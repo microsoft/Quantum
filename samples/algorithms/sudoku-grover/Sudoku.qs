@@ -186,7 +186,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// The array of (Vertex#, Color) specifying the disallowed colors for vertices.
     ///
     /// # Remarks
-    /// Creates the search space. Using the allowed amplitudes prepares uniform superposition of all allowed values for each cell
+    /// Prepares the search space. Using the allowed amplitudes prepares uniform superposition of all allowed values for each cell
     operation PrepareSearchStatesSuperposition(
         nVertices : Int,
         bitsPerColor : Int,
