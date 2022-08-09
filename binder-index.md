@@ -205,7 +205,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Azure Quantum service:</strong></td>
-      <td><strong><a href="./samples/azure-quantum/hello-world/README.md">Hello World Samples</a></strong></td>
+      <td><strong><a href="./samples/azure-quantum/hello-world/README.md">Hello World</a></strong></td>
       <td></td>
       <td></td>
       <td></td>
