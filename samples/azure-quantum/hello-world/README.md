@@ -1,7 +1,7 @@
 ---
 page_type: sample
 author: alchocro
-description: Hello World Samples
+description: Running your first job on the Azure Quantum service
 ms.author: alchocro@microsoft.com
 ms.date: 08/08/2022
 languages:
@@ -11,7 +11,7 @@ products:
 - azure-quantum
 ---
 
-# Hello World Samples
+# Running your first job on the Azure Quantum service
 
 These are Azure Quantum sample notebooks that illustrate how to use Q#, Qiskit, or Cirq to write a simple program and run it against an Azure Quantum provider.
 
