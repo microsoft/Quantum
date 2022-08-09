@@ -6,6 +6,7 @@ ms.author: alchocro@microsoft.com
 ms.date: 08/08/2022
 languages:
 - python
+- qsharp
 products:
 - azure-quantum
 ---
