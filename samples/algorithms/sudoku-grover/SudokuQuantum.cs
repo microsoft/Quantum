@@ -107,6 +107,9 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                                 if (puzzle[iSub, jSub] != 0)
                                     startingNumberConstraints.Add(
                                         (emptyIndex, puzzle[iSub, jSub] - 1));
+                                else if ((iSub < jSub) && (iSub != i) && (jSub != j))
+                                    emptySquareEdges.Add(
+                                       (emptyIndex, emptyIndexes[iSub, jSub]));
                             }
                         }
                         for (int ii = 0; ii < size; ii++)
