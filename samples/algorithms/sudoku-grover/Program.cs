@@ -118,7 +118,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                     { 0,1,0,0 } };
                 Console.WriteLine("Quantum Solving 4x4 with 12 missing numbers.");
                 ShowGrid(puzzle4_12);
-                bool resultFound = sudokuQuantum.QuantumSolve(puzzle4_12, sim).Result;
+                var resultFound = sudokuQuantum.QuantumSolve(puzzle4_12, sim).Result;
                 VerifyAndShowResult(resultFound, puzzle4_12, answer4);
             }
             if (puzzleToRun == "9x9-1" || puzzleToRun == "all") 
