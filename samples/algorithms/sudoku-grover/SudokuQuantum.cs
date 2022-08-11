@@ -9,7 +9,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Quantum.Simulation.Common;
 using Microsoft.Quantum.Simulation.Core;
-using Microsoft.Quantum.Simulation.Simulators;
 
 namespace Microsoft.Quantum.Samples.SudokuGrover
 {
@@ -17,7 +16,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
     /// Code to solve a Sudoku puzzle by transforming it into a graph problem 
     /// and calling the Quantum SolvePuzzle operation to solve it
     /// </summary>
-    class SudokuQuantum 
+    class SudokuQuantum
     {
         /// <summary>
         /// QuantumSolve will call Q# code to solve the Sudoku puzzle and display the solution.
@@ -27,12 +26,12 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         /// <returns>Returns true if a solution was found</returns>
         public async Task<bool> QuantumSolve(int[,] puzzle, SimulatorBase sim)
         {
-            int size = puzzle.GetLength(0); 
+            int size = puzzle.GetLength(0);
             FindEdgesAndInitialNumberConstraints(
-                puzzle, 
-                size, 
-                out var emptySquareEdges, 
-                out var startingNumberConstraints, 
+                puzzle,
+                size,
+                out var emptySquareEdges,
+                out var startingNumberConstraints,
                 out var emptySquares
             );
             var emptySquareEdgesQArray = new QArray<(long, long)>(emptySquareEdges);
@@ -67,7 +66,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         /// <param name="emptySquareEdges">The list of empty square edges specifying Vertices in the same row/col/subgrid</param>
         /// <param name="startingNumberConstraints">The set of numbers that this empty square can not have</param>
         /// <param name="emptySquares">List of empty squares with their i,j locations</param>
-        void FindEdgesAndInitialNumberConstraints(int[,] puzzle, int size, 
+        void FindEdgesAndInitialNumberConstraints(int[,] puzzle, int size,
             out List<(long, long)> emptySquareEdges, out HashSet<(long, long)> startingNumberConstraints,
             out List<EmptySquare> emptySquares)
         {
@@ -108,9 +107,9 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                                 if (puzzle[iSub, jSub] != 0)
                                     startingNumberConstraints.Add(
                                         (emptyIndex, puzzle[iSub, jSub] - 1));
-                                else if (iSub < i && jSub < j)
+                                else if ((iSub < jSub) && (iSub != i) && (jSub != j))
                                     emptySquareEdges.Add(
-                                        (emptyIndex, emptyIndexes[iSub, jSub]));
+                                       (emptyIndex, emptyIndexes[iSub, jSub]));
                             }
                         }
                         for (int ii = 0; ii < size; ii++)
@@ -130,6 +129,12 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                             else if (jj < j)
                                 emptySquareEdges.Add(
                                     (emptyIndex, emptyIndexes[i, jj]));
+                        }
+                        if (size == 9)
+                        { // Invalidate numbers that are illegal on a 9x9 board
+                            for (int invalid = 9; invalid < 16; invalid++)
+                                startingNumberConstraints.Add(
+                                    (emptyIndex, invalid));
                         }
                     }
                 }
