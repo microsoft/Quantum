@@ -205,7 +205,7 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Azure Quantum service:</strong></td>
-      <td rowspan="3"><strong><a href="./samples/azure-quantum/hello-world/README.md">Hello world samples</a></strong></td>
+      <td rowspan="3"><strong><a href="./samples/azure-quantum/hello-world/README.md">Hello world</a></strong></td>
       <td></td>
       <td>Q# + Python</td>
       <td></td>
