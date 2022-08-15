@@ -27,7 +27,7 @@ dotnet run -- --simulator QuantumSimulator --pattern-int 6 --register-size 3
 
 ## Running the sample on Azure Quantum
 
-Make sure that you have [created and selected a quantum workspace](https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal), and then run the following at the command line, substituting `TARGET` with the target that you would like to run against (e.g.: `ionq.qpu` or `honeywell.hqs-lt-1.0`):
+Make sure that you have [created and selected a quantum workspace](https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal), and then run the following at the command line, substituting `TARGET` with the target that you would like to run against (e.g.: `ionq.qpu` or `quantinuum.hqs-lt`):
 
 ```azcli
 az quantum execute --target-id TARGET -- --pattern-int 6 --register-size 3
@@ -46,3 +46,4 @@ az quantum target list --output table
 
 - [HiddenShift.csproj](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/hidden-shift/HiddenShift.csproj): Main Q# project file for this sample.
 - [HiddenShift.qs](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/hidden-shift/HiddenShift.qs): Main Q# program for this sample.
+- [hidden-shift.ipynb](./hidden-shift.ipynb): Python + Qiskit version demonstrating usage with the Azure Quantum service.

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <ExecutionTarget>honeywell.hqs-lt-1.0</ExecutionTarget>
+    <ExecutionTarget>quantinuum.hqs-lt</ExecutionTarget>
   </PropertyGroup>
 
 </Project>

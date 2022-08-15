@@ -26,7 +26,7 @@ jupyter notebook
 
 Open the notebooks ([QuantumPhaseEstimation/Molecule.ipynb](QuantumPhaseEstimation/Molecule.ipynb) or [Hamiltonian/Approximate Energy using Jordan-Wigner transformation.ipynb](Hamiltonian/Approximate%20Energy%20using%20Jordan-Wigner%20transformation.ipynb)) and execute the cells (shift + enter) to run the sample.
 
-To run the second notebook, make sure to first create an Azure subscription and Azure Quantum workspace. Learn more about this here: [Introduction to Azure Quantum (preview)](https://docs.microsoft.com/en-us/azure/quantum/overview-azure-quantum).
+To run the second notebook, make sure to first create an Azure subscription and Azure Quantum workspace. Learn more about this here: [Introduction to Azure Quantum (preview)](https://docs.microsoft.com/azure/quantum/overview-azure-quantum).
 
 ## Manifest
 
