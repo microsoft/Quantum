@@ -25,7 +25,7 @@ dotnet run -- --simulator QuantumSimulator --prep-basis PauliX --meas-basis Paul
 
 ## Running the sample on the Azure Quantum service
 
-Make sure that you have [created and selected a quantum workspace](https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal), and then run the following at the command line, substituting `TARGET` with the target that you would like to run against (e.g.: `quantinuum.hqs-lt`).
+Make sure that you have [created and selected a quantum workspace](https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal), and then run the following at the command line, substituting `TARGET` with the target that you would like to run against (e.g.: `quantinuum.qpu.h1`).
 
 ```azcli
 az quantum execute --target-id TARGET -- --prep-basis PauliX --meas-basis PauliX
