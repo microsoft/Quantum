@@ -174,15 +174,14 @@ namespace Microsoft.Quantum.Samples.ColoringGroverWithConstraints {
     }
 
     /// # Summary
-    /// Grover algorithm loop
+    /// Converts a marking oracle into a phase oracle.
     ///
     /// # Input
     /// ## oracle
     /// The oracle which will mark the valid solutions.
     ///
-    /// # Remarks
-    /// See https://github.com/microsoft/QuantumKatas/tree/main/SolveSATWithGrover
-    /// for the original implementation from the SolveSATWithGrover kata.
+    /// # Output
+    /// A phase oracle that flips the phase of a state, iff the marking oracle marks the state.
     operation ApplyPhaseOracle (oracle : ((Qubit[], Qubit) => Unit is Adj),
         register : Qubit[]
     )
