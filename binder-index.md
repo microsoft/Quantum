@@ -252,6 +252,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/azure-quantum/grover-sudoku/README.md">Solving Sudoku with Grover's Search</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Characterization:</strong></td>
       <td><strong><a href="./samples/characterization/phase-estimation/README.md">Bayesian Phase Estimation</a></strong></td>
       <td></td>
