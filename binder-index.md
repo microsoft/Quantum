@@ -252,6 +252,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/azure-quantum/qae-numerical-integration/README.md">Numerical Integration with QAE</a></strong></td>
+      <td></td>
+      <td></td>
+      <td>Q# + python</td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Characterization:</strong></td>
       <td><strong><a href="./samples/characterization/phase-estimation/README.md">Bayesian Phase Estimation</a></strong></td>
       <td></td>
