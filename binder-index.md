@@ -261,6 +261,14 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
+      <td><strong><a href="./samples/azure-quantum/entanglement-swap/README.md">Entanglement Swapping</a></strong></td>
+      <td><a href="./samples/azure-quantum/entanglement-swap/ES-quantinuum-qsharp.ipynb">Q# notebook</a></td>
+      <td><a href="./samples/azure-quantum/entanglement-swap/ES-quantinuum-qiskit.ipynb">Qiskit + Python</a></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
       <td><strong><a href="./samples/characterization/process-tomography/README.md">Process tomography</a></strong></td>
       <td></td>
       <td><a href="./samples/characterization/process-tomography/tomography-sample.ipynb">Q# + Python</a></td>
