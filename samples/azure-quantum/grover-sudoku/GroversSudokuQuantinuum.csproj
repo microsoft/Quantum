@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <ExecutionTarget>Any</ExecutionTarget>
+    <ExecutionTarget>quantinuum.hqs-lt-s1-sim</ExecutionTarget>
   </PropertyGroup>
 
 </Project>
