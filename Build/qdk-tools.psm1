@@ -68,6 +68,12 @@ function Invoke-Project() {
     Write-Verbose "##[info]Running dotnet project at $Path...";
     $commonArgs = Get-CommonDotNetArguments;
     dotnet run --project $Path @commonArgs `-- @AdditionalArgs;
+
+    if ($env:FORCE_CLEANUP -eq "true") {
+        # Force cleanup of generated bin and obj folders for this project.
+        Write-Host "##[info]Cleaning up bin/obj from $(Split-Path $Path -Parent)..."
+        Get-ChildItem -Path (Split-Path $Path -Parent) -Recurse | Where-Object { ($_.name -eq "bin" -or $_.name -eq "obj") -and $_.attributes -eq "Directory" } | Remove-Item -recurse -force
+    }
 }
 
 function Get-CommonDotNetArguments {
