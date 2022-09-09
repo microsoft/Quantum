@@ -1,7 +1,7 @@
 ---
 page_type: sample
 author: adrianleh
-description: Entanglement Swapping using the Azure Quantum service
+description: Entanglement swapping using the Azure Quantum service
 ms.author: t-alehmann@microsoft.com
 ms.date: 08/02/2021
 languages:
@@ -15,7 +15,7 @@ products:
 
 # Entanglement Swapping
 
-In this sample we will performing Entanglement Swapping.
+In this sample, we will performing entanglement swapping.
 
 The idea is that Alice and Bob want to use quantum teleportation to share data.
 Though, they are too far apart to communicate directly.
@@ -23,7 +23,7 @@ Hence, they will be use a number of middlemen to communicate.
 Each party will share an entangled pair with the parties next to them and teleport the information along the chain until it reaches Bob.
 Since this sample is fundamentally based on teleportation we use Quantinuum's mid-circuit measurement capability.
 
-This sample is a Q# jupyter notebook targeted at IonQ and Quantinuum machines.
+This sample is a Q# and Qiskit Jupyter notebook targeted at Quantinuum machines.
 
 ## Q# with Jupyter Notebook
 
