@@ -100,6 +100,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/getting-started/simulation/README.md">Simulation</a></strong></td>
+      <td><a href="./samples/getting-started/simulation/LargeSimulation.ipynb">Q# notebook</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Algorithms:</strong></td>
       <td><a href="./samples/algorithms/chsh-game/README.md"><strong>CHSH Game</strong></a></td>
       <td></td>
@@ -118,8 +126,8 @@ These are noted in the README.md files for each sample, along with complete inst
     <tr>
       <td></td>
       <td><a href="./samples/algorithms/noisy-dj/README.md"><strong>Deutsch–Jozsa w/ noise</strong></a></td>
+      <td><a href="./samples/algorithms/noisy-dj/Deutsch–Jozsa%20with%20Noise.ipynb">Python notebook</a></td>
       <td></td>
-      <td><a href="./samples/algorithms/noisy-dj/host.py">Q# + Python</a></td>
       <td></td>
       <td>Q# + .NET</td>
     </tr>
@@ -127,7 +135,7 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
       <td><a href="./samples/algorithms/integer-factorization/README.md"><strong>Integer factorization</strong></a></td>
       <td></td>
-      <td><a href="./samples/algorithms/integer-factorization/Deutsch–Jozsa%20with%20Noise.py">Q# + Python</a></td>
+      <td><a href="./samples/algorithms/integer-factorization/host.py">Q# + Python</a></td>
       <td></td>
       <td></td>
     </tr>
@@ -197,9 +205,39 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td><strong>Azure Quantum service:</strong></td>
+      <td rowspan="3"><strong><a href="./samples/azure-quantum/hello-world/README.md">Hello world</a></strong></td>
+      <td></td>
+      <td>Q# + Python</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Qiskit + Python</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Cirq + Python</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
       <td><strong><a href="./samples/azure-quantum/chemistry/README.md">Chemistry</a></strong></td>
       <td></td>
       <td>Q# + Python</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong><a href="./samples/azure-quantum/variational-quantum-eigensolver/README.md">Variational quantum eigensolvers</a></strong></td>
+      <td></td>
+      <td><a href="./samples/azure-quantum/variational-quantum-eigensolver/VQE-qiskit-hydrogen-ionq-sim.ipynb">Qiskit + Python</a></td>
       <td></td>
       <td></td>
     </tr>

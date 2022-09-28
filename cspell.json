@@ -19,7 +19,8 @@
             "languageId": ["qsharp"],
             // cspell:disable
             "ignoreWords": [
-                "newtype"
+                "newtype",
+                "elif"
             ]
             // cspell:enable
         }
@@ -37,6 +38,7 @@
         "jupytext",
         "endregion",
         "kernelspec",
+        "nteract",
 
         // # Python terminology
         "conda",
@@ -63,6 +65,8 @@
         "qubitized",
         "wavefunction",
         "Hadamard",
+        "TCNOT",
+        "ctrls",
 
         // # Mathematics terminology
         "binom", // Common shorthand for "binomial."
@@ -92,6 +96,8 @@
         "Remez", // As in Remez's algorithm (https://en.wikipedia.org/wiki/Remez_algorithm).
         "Remez's",
         "Chebyshev", // As in Chebyshev polynomials.
+        "Shor", // As in Shor's algorithm
+        "Shor's", // As in Shor's algorithm
         "Welford's", // Algorithm for learning mean and variances of streaming
         // data.
 
@@ -100,6 +106,7 @@
         "apival",
         "cirq",
         "qiskit"
+        "quantinuum"
     ],
     // By definition, everything in flagWords is considered to be spelled
     // wrong. Thus we disable spell checking for the list of misspelled words...

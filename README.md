@@ -14,7 +14,7 @@ These are noted in the README.md files for each sample, along with complete inst
 You can find instructions on how to install the Quantum Development Kit in [our online documentation](https://docs.microsoft.com/azure/quantum/install-overview-qdk/), which also includes
 an introduction to [quantum programming concepts](https://docs.microsoft.com/azure/quantum/concepts-overview/).
 
-For a quick guide on how to set up a development environment from scratch using [Visual Studio Code](https://code.visualstudio.com) or [Visual Studio Codespaces](https://online.visualstudio.com/login), see [here](#setting-up-your-development-environment).
+For a quick guide on how to set up a development environment from scratch using [Visual Studio Code](https://code.visualstudio.com) or [GitHub Codespaces](https://github.com/features/codespaces), see [here](#setting-up-your-development-environment).
 
 A [Docker](https://docs.docker.com/install/) image definition is also provided for your convenience, see [here](#running-a-jupyter-notebook-with-docker) for instructions on how to build and use it.
 

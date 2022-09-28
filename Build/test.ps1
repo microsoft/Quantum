@@ -20,6 +20,12 @@ function Test-One {
         Write-Host "##vso[task.logissue type=error;]Failed to test $project"
         $script:all_ok = $False
     }
+
+    if ($env:FORCE_CLEANUP -eq "true") {
+        # Force cleanup of generated bin and obj folders for this project.
+        Write-Host "##[info]Cleaning up bin/obj from $(Split-Path (Join-Path $PSScriptRoot $project) -Parent)..."
+        Get-ChildItem -Path (Split-Path (Join-Path $PSScriptRoot $project) -Parent) -Recurse | Where-Object { ($_.name -eq "bin" -or $_.name -eq "obj") -and $_.attributes -eq "Directory" } | Remove-Item -recurse -force
+    }
 }
 
 function Validate-Integrals {
@@ -187,7 +193,7 @@ Measure-Command {
             $additionalArgs = $projectArgs.ContainsKey($_.FullName) ? $projectArgs[$_.FullName] : @(,@());
             foreach ($trialArgs in $additionalArgs) {
                 Write-Host "##[info] Running sample at $_ with arguments '$trialArgs'...";
-                Measure-Command { Invoke-Project $_ -AdditionalArgs $trialArgs };
+                Invoke-Project $_ -AdditionalArgs $trialArgs | Out-Default;
                 if ($LastExitCode -ne 0) {
                     Write-Host "##[error] Failed running project $_.";
                     $script:all_ok = $False;

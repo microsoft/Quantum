@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 
 namespace Microsoft.Quantum.Samples.SudokuGrover {
+    open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Logical;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Measurement;
+    open Microsoft.Quantum.Preparation;
     open Microsoft.Quantum.Samples.ColoringGroverWithConstraints;
 
     /// # Summary
@@ -63,7 +65,7 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     /// and empty square #1 can't have values 1 or 3.
     ///
     /// # Input
-    /// ## numVertices
+    /// ## nVertices
     /// number of blank squares.
     /// ## size
     /// The size of the puzzle. 4 for 4x4 grid, 9 for 9x9 grid.
@@ -104,34 +106,27 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
     ///         empty square #1 can not have values 1,2,0 because same row/column/2x2grid.
     ///    Results = [0,3,0] i.e. Empty Square #0 = 0, Empty Square #1 = 3, Empty Square #2 = 0.
     operation SolvePuzzle(
-        numVertices : Int, size : Int,
+        nVertices : Int, size : Int,
         emptySquareEdges : (Int, Int)[],
         startingNumberConstraints: (Int, Int)[]
     )
     : (Bool, Int[]) {
-        // for size = 4x4 grid
-        let bitsPerColor = size == 9 ? 4 | 2;
-        mutable oracle = ApplyVertexColoringOracle(numVertices, bitsPerColor, emptySquareEdges, startingNumberConstraints, _, _);
-        if (size == 9) {
-            // Although we could use ApplyVertexColoringOracle for 9x9, we would
-            // have to add restrictions on each color to not allow colors 8 
-            // through 15. This could be achieved by adding these to 
-            // startNumberConstraints. However, this did not scale well with 
-            // the simulator, and so instead we use 
-            // ApplyVertexColoringOracle4Bit9Color which has the 9 color 
-            // restriction built in.
-            set oracle = ApplyVertexColoringOracle4Bit9Color(numVertices, emptySquareEdges, startingNumberConstraints, _, _);
-        } elif (size != 4) {
+        if size != 4 and size != 9 {
             fail $"Cannot set size {size}: only a grid size of 4x4 or 9x9 is supported";
         }
-        let numIterations = NIterations(bitsPerColor * numVertices);
-        Message($"Running Quantum test with #Vertex = {numVertices}");
+        let bitsPerColor = size == 9 ? 4 | 2;
+        let oracle = ApplyVertexColoringOracle(nVertices, bitsPerColor, emptySquareEdges, _, _);
+        let statePrep = PrepareSearchStatesSuperposition(nVertices, bitsPerColor, startingNumberConstraints, _);
+        let searchSpaceSize = SearchSpaceSize(nVertices, bitsPerColor, startingNumberConstraints);
+        let numIterations = NIterations(searchSpaceSize);
+        Message($"Running Quantum test with # of vertices = {nVertices}");
         Message($"   Bits Per Color = {bitsPerColor}");
         Message($"   emptySquareEdges = {emptySquareEdges}");
         Message($"   startingNumberConstraints = {startingNumberConstraints}");
         Message($"   Estimated #iterations needed = {numIterations}");
         Message($"   Size of Sudoku grid = {size}x{size}");
-        let coloring = FindColorsWithGrover(numVertices, bitsPerColor, numIterations, oracle);
+        Message($"   Search space size = {searchSpaceSize}");
+        let coloring = FindColorsWithGrover(nVertices, bitsPerColor, numIterations, oracle, statePrep);
 
         Message($"Got Sudoku solution: {coloring}");
         if (IsSudokuSolutionValid(size, emptySquareEdges, startingNumberConstraints, coloring)) {
@@ -143,21 +138,109 @@ namespace Microsoft.Quantum.Samples.SudokuGrover {
         }
     }
 
+
+    /// # Summary
+    /// Encodes stating number constraints into amplitudes.
+    ///
+    /// # Inputs
+    /// ## nVertices
+    /// The number of vertices in the graph.
+    /// ## bitsPerColor
+    /// The bit width for number of colors.
+    /// ## startingNumberConstraints
+    /// The array of (Vertex#, Color) specifying the disallowed colors for vertices.
+    ///
+    /// # Examples
+    /// Consider the case where we have 2 vertices, 2 bits per color, and the constraints (0,1),(0,2),(0,3),(1,2).
+    /// Then we would get the result where all non-disallowed values have a 1.0 amplitude:
+    /// [[1.0, 0.0, 0.0, 0.0], 
+    ///  [1.0, 1.0, 0.0, 1.0]]
+    ///
+    ///
+    /// # Output
+    /// A 2D array of amplitudes where the first index is the cell and the second index is the value of a basis state (i.e., value) for the cell. =
+    /// Allowed amplitudes will have a value 1.0, disallowed amplitudes 0.0
+    function AllowedAmplitudes(
+        nVertices : Int,
+        bitsPerColor : Int,
+        startingNumberConstraints : (Int, Int)[]
+    ) : Double[][] {
+        mutable amplitudes = [[1.0, size=1 <<< bitsPerColor], size=nVertices];
+        for (cell, value) in startingNumberConstraints {
+            set amplitudes w/= cell <- (amplitudes[cell] w/ value <- 0.0);
+        }
+        return amplitudes;
+    }
+
+
+    /// # Summary
+    /// Prepare an equal superposition of all basis states that satisfy the constraints
+    /// imposed by the digits already placed in the grid.
+    ///
+    /// # Inputs
+    /// ## nVertices
+    /// The number of vertices in the graph.
+    /// ## bitsPerColor
+    /// The bit width for number of colors.
+    /// ## startingNumberConstraints
+    /// The array of (Vertex#, Color) specifying the disallowed colors for vertices.
+    ///
+    /// # Remarks
+    /// Prepares the search space. Using the allowed amplitudes prepares uniform superposition of all allowed values for each cell
+    operation PrepareSearchStatesSuperposition(
+        nVertices : Int,
+        bitsPerColor : Int,
+        startingNumberConstraints : (Int, Int)[],
+        register : Qubit[]
+    ) : Unit is Adj + Ctl {
+        // Split the given register into nVertices chunks of size bitsPerColor.
+        let colorRegisters = Chunks(bitsPerColor, register);
+        // For each vertex, create an array of possible states we're looking at.
+        let amplitudes = AllowedAmplitudes(nVertices, bitsPerColor, startingNumberConstraints);
+        // For each vertex, prepare a superposition of its possible states on the chunk storing its color.
+        for (amps, chunk) in Zipped(amplitudes, colorRegisters) {
+            PrepareArbitraryStateD(amps, LittleEndian(chunk));
+        }
+    }
+
+    /// # Summary
+    /// Show the size of the search space, i.e. the number of possible combinations
+    ///
+    /// # Inputs
+    /// ## nVertices
+    /// The number of vertices in the graph.
+    /// ## bitsPerColor
+    /// The bit width for number of colors.
+    /// ## startingNumberConstraints
+    /// The array of (Vertex#, Color) specifying the disallowed colors for vertices.
+    ///
+    /// # Output
+    /// The size of the search space (i.e., number of possible combinations)
+    function SearchSpaceSize(
+        nVertices : Int,
+        bitsPerColor : Int,
+        startingNumberConstraints : (Int, Int)[]
+    ) : Int {
+        mutable colorOptions = [1 <<< bitsPerColor, size=nVertices];
+        for (cell, _) in startingNumberConstraints {
+            set colorOptions w/= cell <- colorOptions[cell] - 1;
+        }
+        return Fold(TimesI, 1, colorOptions);
+    }
+
     /// # Summary
     /// Estimate the number of iterations required for solution.
     ///
     /// # Input
-    /// ## nQubits
-    /// The number of qubits being used.
+    /// ## searchSpaceSize
+    /// The size of the search space.
     ///
     /// # Remarks
     /// This is correct for an amplitude amplification problem with a single 
     /// correct solution, but would need to be adapted when there are multiple
     /// solutions
-    function NIterations(nQubits : Int) : Int {
-        let nItems = 1 <<< nQubits; // 2^numQubits
-        // compute number of iterations:
-        let angle = ArcSin(1. / Sqrt(IntAsDouble(nItems)));
+    function NIterations(searchSpaceSize : Int) : Int {
+        let angle = ArcSin(1. / Sqrt(IntAsDouble(searchSpaceSize)));
         let nIterations = Round(0.25 * PI() / angle - 0.5);
         return nIterations;
     }
