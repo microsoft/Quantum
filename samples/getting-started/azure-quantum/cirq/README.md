@@ -5,7 +5,7 @@ languages:
 products:
 - qdk
 - azure-quantum
-description: "This sample demonstrates how to use Honeywell and IonQ via the Azure Quantum service with quantum circuits expressed with Cirq."
+description: "This sample demonstrates how to use Quantinuum and IonQ via the Azure Quantum service with quantum circuits expressed with Cirq."
 urlFragment: azure-quantum-with-python-circuits
 ---
 
@@ -33,5 +33,5 @@ In the browser, select the desired sample notebook to view the code.
 
 ## Manifest
 
-- [Getting-started-with-Cirq-and-Honeywell-on-Azure-Quantum.ipynb](./Getting-started-with-Cirq-and-Honeywell-on-Azure-Quantum.ipynb): Jupyter notebook for getting started with Cirq and Honeywell.
+- [Getting-started-with-Cirq-and-Quantinuum-on-Azure-Quantum.ipynb](./Getting-started-with-Cirq-and-Quantinuum-on-Azure-Quantum.ipynb): Jupyter notebook for getting started with Cirq and Quantinuum.
 - [Getting-started-with-Cirq-and-IonQ-on-Azure-Quantum.ipynb](./Getting-started-with-Cirq-and-IonQ-on-Azure-Quantum.ipynb): Jupyter notebook for getting started with Cirq and IonQ.
