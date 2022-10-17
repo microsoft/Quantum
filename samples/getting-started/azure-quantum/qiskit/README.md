@@ -5,7 +5,7 @@ languages:
 products:
 - qdk
 - azure-quantum
-description: "This sample demonstrates how to use Honeywell and IonQ via the Azure Quantum service with quantum circuits expressed with Qiskit."
+description: "This sample demonstrates how to use Quantinuum and IonQ via the Azure Quantum service with quantum circuits expressed with Qiskit."
 urlFragment: azure-quantum-with-python-circuits
 ---
 
@@ -37,5 +37,5 @@ In the browser, select the desired sample notebook to view the code.
 
 ## Manifest
 
-- [Getting-started-with-Qiskit-and-Honeywell-on-Azure-Quantum.ipynb](./Getting-started-with-Qiskit-and-Honeywell-on-Azure-Quantum.ipynb): Jupyter notebook for getting started with Qiskit and Honeywell.
+- [Getting-started-with-Qiskit-and-Quantinuum-on-Azure-Quantum.ipynb](./Getting-started-with-Qiskit-and-Quantinuum-on-Azure-Quantum.ipynb): Jupyter notebook for getting started with Qiskit and Quantinuum.
 - [Getting-started-with-Qiskit-and-IonQ-on-Azure-Quantum.ipynb](./Getting-started-with-Qiskit-and-IonQ-on-Azure-Quantum.ipynb): Jupyter notebook for getting started with Qiskit and IonQ.

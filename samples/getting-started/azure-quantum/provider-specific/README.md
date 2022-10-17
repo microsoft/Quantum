@@ -5,7 +5,7 @@ languages:
 products:
 - qdk
 - azure-quantum
-description: "This sample demonstrates how to use Honeywell and IonQ via the Azure Quantum service with quantum circuits expressed with provider-specific formats OpenQASM 2.0 (Honeywell) and JSON (IonQ)."
+description: "This sample demonstrates how to use Quantinuum and IonQ via the Azure Quantum service with quantum circuits expressed with provider-specific formats OpenQASM 2.0 (Quantinuum) and JSON (IonQ)."
 urlFragment: azure-quantum-with-qiskit
 ---
 
@@ -35,5 +35,5 @@ In the browser, select the desired sample notebook to view the code.
 
 ## Manifest
 
-- [Getting-started-with-Honeywell-and-OpenQASM-2.0-on-Azure-Quantum.ipynb](./Getting-started-with-Honeywell-and-OpenQASM-2.0-on-Azure-Quantum.ipynb): Jupyter notebook for getting started with OpenQASM 2.0 and Honeywell.
+- [Getting-started-with-Quantinuum-and-OpenQASM-2.0-on-Azure-Quantum.ipynb](./Getting-started-with-Quantinuum-and-OpenQASM-2.0-on-Azure-Quantum.ipynb): Jupyter notebook for getting started with OpenQASM 2.0 and Quantinuum.
 - [Getting-started-with-IonQ-and-JSON-on-Azure-Quantum.ipynb](./Getting-started-with-IonQ-and-JSON-on-Azure-Quantum.ipynb): Jupyter notebook for getting started with JSON and IonQ.
