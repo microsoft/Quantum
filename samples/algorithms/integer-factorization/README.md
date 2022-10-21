@@ -11,15 +11,44 @@ urlFragment: integer-factorization
 # Integer Factorization Sample
 
 This sample contains Q# code implementing Shor's quantum algorithm for
-factoring integers. The sample relies on the arithmetic library provided as
-a part of Microsoft.Quantum.Canon library.
+factoring integers.  It uses the [sparse simulator](https://docs.microsoft.com/azure/quantum/machines/sparse-simulator)
+to simulate the algorithm for instances that require many qubits.
+
+## Prerequisites
+
+- The Microsoft [Quantum Development Kit](https://docs.microsoft.com/azure/quantum/install-overview-qdk/).
+
+## Running the Sample
+
+This sample can be run in a number of different ways, depending on your preferred environment.
+
+### Visual Studio Code or the Command Line
+
+At a terminal, run the following command:
+
+```powershell
+dotnet run -- simulate
+```
+
+To provide a number to be factored, run the command:
+
+```powershell
+dotnet run -- simulate -n 15
+```
+
+### Visual Studio 2022
+
+Open the folder containing this sample, right click on `IntegerFactorization.csproj` and select "Open in Visual Studio 2022".
+Once Visual Studio has opened, ensure the `IntegerFactorization` sample is selected, and press Start in Visual Studio to run the sample.
 
 ## Manifest
 
-- [Shor.qs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Shor.qs): Q# implementation of Shor's algorithm.
-- [Program.cs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/Program.cs): C# console application running Shor's algorithm
-  on Quantum simulator
-- [IntegerFactorization.csproj](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/IntegerFactorization.csproj): Main C# project for the sample.
+- [Shor.qs](./Shor.qs): Q# implementation of Shor's algorithm.
+- [Modular.qs](./Modular.qs): Q# implementation of modular arithmetic.
+- [Compare.qs](./Compare.qs): Q# implementation of comparison based on AND-gates.
+- [Utils.qs](./Utils.qs): Q# implementation of helper functions and operations for the AND-gate based arithmetic used in this sample.
+- [Program.cs](./Program.cs): C# console application for running Shor's algorithm
+- [IntegerFactorization.csproj](./IntegerFactorization.csproj): Main C# project for the sample.
 
 ## Flame Graph Visualization
 
@@ -45,3 +74,24 @@ perl flamegraph.pl output.txt > output.svg
 
 - [FlameGraphCounter.cs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/FlameGraphCounter.cs): Counter for the adapted resources estimator.
 - [FlameGraphResourcesEstimator.cs](https://github.com/microsoft/Quantum/blob/main/samples/algorithms/integer-factorization/FlameGraphResourcesEstimator.cs): The adapted resources estimator.
+
+## quantum-viz.js Visualization
+
+This sample also contains a custom [ResourcesEstimator](https://docs.microsoft.com/azure/quantum/user-guide/machines/resources-estimator) that generates JSON code to be used with [quantum-viz.js](https://github.com/microsoft/quantum-viz.js).  This contains both the hierarchy of the implementation as well as the resources with respect to the position in the call stack.
+
+To generate the JSON output for quantum-viz.js, run, for example:
+
+```shell
+dotnet run -- visualize -g 4 -r 0 --quantum-viz
+```
+
+The output would be as follows:
+
+![Resources estimation with quantum-viz.js](https://devblogs.microsoft.com/qsharp/wp-content/uploads/sites/28/2021/12/post.gif)
+
+<!-- markdownlint-disable no-duplicate-header -->
+
+### Manifest
+
+- [QuantumVizCounter.cs](QuantumVizCounter.cs): Custom listener for quantum-viz.js code generation.
+- [QuantumVizEstimator.cs](QuantumVizEstimator.cs): Custom resources estimator that uses the custom listener.

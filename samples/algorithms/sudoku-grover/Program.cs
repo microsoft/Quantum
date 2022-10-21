@@ -4,9 +4,7 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 
 namespace Microsoft.Quantum.Samples.SudokuGrover
@@ -33,7 +31,9 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
         {
             var puzzleToRun = args.Length > 0 ? args[0] : "all";
 
-            var sim = new QuantumSimulator(throwOnReleasingQubitsNotInZeroState: true);
+            // Since a lot of the basis states are not used in the superposition state in Grover's search, 
+            // the sparse simulator can provide great performance gains compared to the full state simulator
+            var sim = new SparseSimulator(throwOnReleasingQubitsNotInZeroState: true);
 
             int[,] answer4 = {
                 { 1,2,3,4 },
@@ -108,6 +108,19 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 bool resultFound = sudokuQuantum.QuantumSolve(puzzle4_4, sim).Result;
                 VerifyAndShowResult(resultFound, puzzle4_4, answer4);
             }
+            if (puzzleToRun == "4x4-12" || puzzleToRun == "all") 
+            {
+                // Test 4x4 puzzle with 12 missing numbers with Quantum.
+                int[,] puzzle4_12 = {
+                    { 0,0,3,0 },
+                    { 0,0,0,2 },
+                    { 0,0,4,0 },
+                    { 0,1,0,0 } };
+                Console.WriteLine("Quantum Solving 4x4 with 12 missing numbers.");
+                ShowGrid(puzzle4_12);
+                var resultFound = sudokuQuantum.QuantumSolve(puzzle4_12, sim).Result;
+                VerifyAndShowResult(resultFound, puzzle4_12, answer4);
+            }
             if (puzzleToRun == "9x9-1" || puzzleToRun == "all") 
             {
                 // Test 9x9 puzzle with classical and quantum - 1 missing number.
@@ -151,30 +164,30 @@ namespace Microsoft.Quantum.Samples.SudokuGrover
                 bool resultFound = sudokuQuantum.QuantumSolve(puzzle9_2, sim).Result;
                 VerifyAndShowResult(resultFound, puzzle9_2, answer9);
             }
-            if (puzzleToRun == "9x9-64" || puzzleToRun == "all") 
+            if (puzzleToRun == "9x9-21" || puzzleToRun == "all") 
             {
                 // Test hard 9x9 puzzle with classical and quantum.
-                int[,] puzzle9 = {
-                    { 0,0,0, 0,0,0, 0,1,2 },
-                    { 0,0,0, 0,3,5, 0,0,0 },
-                    { 0,0,0, 6,0,0, 0,7,0 },
-                    { 7,0,0, 0,0,0, 3,0,0 },
-                    { 0,0,0, 4,0,0, 8,0,0 },
-                    { 1,0,0, 0,0,0, 0,0,0 },
-                    { 0,0,0, 1,2,0, 0,0,0 },
-                    { 0,8,0, 0,0,0, 0,4,0 },
-                    { 0,5,0, 0,0,0, 6,0,0 } };
-                int[,] puzzle9_copy = CopyIntArray(puzzle9);
+                int[,] puzzle9_21 = {
+                    { 0,7,3, 8,0,0, 5,1,2 },
+                    { 9,0,2, 7,0,5, 4,8,6 },
+                    { 8,4,5, 0,0,0, 0,0,0 },
+                    { 7,0,8, 2,0,1, 3,5,0 },
+                    { 5,2,6, 4,0,3, 8,9,1 },
+                    { 1,3,4, 5,0,0, 0,0,0 },
+                    { 4,6,9, 1,2,8, 7,3,5 },
+                    { 2,8,7, 3,5,6, 1,4,9 },
+                    { 3,5,1, 9,4,7, 6,0,8} };
+                int[,] puzzle9_21_copy = CopyIntArray(puzzle9_21);
 
-                Console.WriteLine("Solving 9x9 with 64 missing numbers using classical computing.");
-                ShowGrid(puzzle9);
-                bool resultFound = sudokuClassic.SolveSudokuClassic(puzzle9);
-                VerifyAndShowResult(resultFound, puzzle9, answer9);
+                Console.WriteLine("Solving 9x9 with 21 missing numbers using classical computing.");
+                ShowGrid(puzzle9_21);
+                bool resultFound = sudokuClassic.SolveSudokuClassic(puzzle9_21);
+                VerifyAndShowResult(resultFound, puzzle9_21, answer9);
 
-                Console.WriteLine("Solving 9x9 with 64 missing numbers using Quantum Computing. Cntrl-C to stop.");
-                ShowGrid(puzzle9_copy);
-                resultFound = sudokuQuantum.QuantumSolve(puzzle9_copy, sim).Result;
-                VerifyAndShowResult(resultFound, puzzle9_copy, answer9);
+                Console.WriteLine("Solving 9x9 with 21 missing numbers using Quantum Computing. Cntrl-C to stop.");
+                ShowGrid(puzzle9_21_copy);
+                resultFound = sudokuQuantum.QuantumSolve(puzzle9_21_copy, sim).Result;
+                VerifyAndShowResult(resultFound, puzzle9_21_copy, answer9);
             }
             Console.WriteLine("Finished.");
         }

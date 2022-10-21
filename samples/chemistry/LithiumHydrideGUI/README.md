@@ -4,7 +4,7 @@ This sample finds the equilibrium bonding distance of Lithium Hydride. Estimates
 
 ## Prerequisites
 
-On top of [.NET Core](https://www.microsoft.com/net/learn/get-started/macos),
+On top of [.NET](https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/intro),
 this demo uses the [Electron](https://github.com/electron/electron) framework to display the results of simulating LiH.
 Since Electron is distributed using the Node.js Package Manager (npm), we must therefore install npm first.
 

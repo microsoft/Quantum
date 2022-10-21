@@ -2,7 +2,7 @@
 # https://github.com/microsoft/iqsharp/blob/main/images/iqsharp-base/Dockerfile.
 # As per Binder documentation, we choose to use an SHA sum here instead of a
 # tag.
-FROM mcr.microsoft.com/quantum/iqsharp-base:0.18.2109162713
+FROM mcr.microsoft.com/quantum/iqsharp-base:0.26.233415
 
 # Mark that this Dockerfile is used with the samples repository.
 ENV IQSHARP_HOSTING_ENV=SAMPLES_DOCKERFILE
@@ -22,8 +22,8 @@ RUN apt-get -y update && \
                libfreetype6-dev \
                libpng-dev \
                # iqsharp-base currently ships with .NET Core SDK 3.1, but
-               # we need .NET 5.0 to run dotnet-interactive.
-               dotnet-sdk-5.0 \
+               # we need .NET 6.0 to run dotnet-interactive.
+               dotnet-sdk-6.0 \
                # Make sure to use the most up-to-date curl.
                curl && \
     # As per https://github.com/NuGet/Announcements/issues/49,
@@ -42,7 +42,7 @@ RUN apt-get -y update && \
 # installed. It tends to be more stable to use the .NET Core SDK to do so than
 # to use the Debian package manager, due to issues with syncing libicu
 # dependencies.
-RUN dotnet tool install --global PowerShell --version 7.1.4
+RUN dotnet tool install --global PowerShell --version 7.2.4
 
 # Install Jupytext to expose Markdown files as Jupyter Notebooks for use with
 # Binder.

@@ -14,6 +14,8 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
 
 namespace Microsoft.Quantum.Samples.StateVisualizer
 {
@@ -160,7 +162,7 @@ namespace Microsoft.Quantum.Samples.StateVisualizer
         {
         }
 
-        public override bool Callback(uint index, double real, double imaginary)
+        public override bool Callback([MarshalAs(UnmanagedType.LPStr)] string idx, double real, double imaginary)
         {
             amplitudes.Add(new Complex(real, imaginary));
             return true;
