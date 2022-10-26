@@ -196,6 +196,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td>Q# + .NET</td>
     </tr>
     <tr>
+      <td></td>
+      <td><a href="./samples/azure-quantum/qsp/README.md"><strong>A practical introduction into quantum signal processing (QSP)</strong></a></td>
+      <td></td>
+      <td>Qiskit + Python</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Arithmetic:</strong></td>
       <td><strong><a href="./samples/arithmetic/quantum-adders/README.md">Adder</a></strong></td>
       <td><a href="./samples/arithmetic/quantum-adders/AdderExample.ipynb">Q# notebook</a></td>
