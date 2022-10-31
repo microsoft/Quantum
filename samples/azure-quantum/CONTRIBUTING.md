@@ -6,7 +6,7 @@ There are three steps involved in contributing a new sample.
 
 1. Write the notebook sample
 1. Test it in the portal
-1. Merge it into `main` AND into `feature/samples-gallery`
+1. Merge it into `main`
 
 Once it is merged, a service engineer must be notified to add it to the sample gallery. (This engineer can be contacted by the PR approver.) Once done, the sample will be publicly available in the next deployment, usually within a week.
 
@@ -17,6 +17,9 @@ There are a few principles to keep in mind when writing samples that are going t
 1. The command to log in to Azure Quantum should be in its own cell (if applicable to the notebook).
 1. There should be no empty cells in the notebook.
 1. To run in the portal notebook experience, the notebook must be entirely self-contained; it cannot reference other files on disk.
+1. Try to keep samples short and runnable within 5 minutes. This gives users the best experience rather than starting a sample that may take hours to run (avoid qpu targets, except in suggestions for things to try next, since qpu targets can queue for a long time).
+1. Try to keep to using provider targets that are free, so that users are not unexpectedly charged or lose credits if choosing to run all cells. If using cells that consume money/credits, consider commenting out the cell or requiring some kind of user input to run against the non-free target.
+1. Put yourself in the user's shoes and try to address any points of confusion or longer wait times (such as if cell runs for 30 seconds, try to warn the user in the markdown cell before it). If cell will submit several jobs, try to note how many jobs will be submitted and add ("Submitting x of n jobs... print logs, so that they can see their current progress).
 
 ### Structuring files
 
@@ -46,7 +49,7 @@ Make sure that the sample is rendering correctly, all cells run successfully, an
 
 ## Creating the PRs
 
-First, create a PR against `main` with the notebook sample. Once that is merged, you are ready to merge it back into `feature/samples-gallery`. You might not be able to merge the `main` branch entirely into `feature/samples-gallery` due to some divergence they have, so just create a new branch based on `feature/samples-gallery` and check out your new files for the notebook samples from `main`. In this PR, you must include a few details:
+Create a PR against `main` with the notebook sample. In this PR, you must include a few details:
 
 1. The title of the sample. This should be around 20 characters at the most.
 1. A brief description of the sample following these guidelines:
