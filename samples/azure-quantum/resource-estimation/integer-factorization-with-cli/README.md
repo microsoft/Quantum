@@ -90,3 +90,9 @@ Note that no verification is taking place that checks whether the resources are
 actually the same in every iteration.  In fact, in this factorization sample,
 the resources are not precisely the same, but similar, such that the improvement
 in runtime is a good trade-off.
+
+## Manifest
+
+- [Program.qs](./Program.qs): All Q# code with `@EntryPoint` operation
+- [integer-factorization.csproj](./integer-factorization.csproj): Q# project file
+- [jobParams.json](./jobParams.json): Custom job parameters for resource estimation job
