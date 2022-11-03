@@ -6,6 +6,8 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="./renderer.js" ></script>
     <title>H₂ Simulation Demo</title>
     <style>
       .chart-container {
@@ -41,14 +43,10 @@
     <script>
       "use strict"
 
-      // You can also require other files to run in this process
-      var renderer = require('./renderer.js')
-      var charts = require("chart.js")
-
       var plotData = [];
 
       var ctx = document.getElementById("chartCanvas").getContext("2d");
-      var chart = new charts.Chart(ctx, {
+      var chart = new Chart(ctx, {
         type: 'scatter',
         data: {
           datasets: [

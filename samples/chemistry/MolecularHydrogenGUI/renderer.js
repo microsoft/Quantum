@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-"use strict";
-exports.id = 'renderer';
+renderer = {};
 
-const ipc = require('node-ipc')
-
-exports.connectToSimulationServer = function(callback) {
+renderer.connectToSimulationServer = function(callback) {
     ipc.config.id = "h2SimulationClient";
     ipc.config.networkPort = 8010;
 

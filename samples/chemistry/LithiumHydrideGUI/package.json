@@ -1,5 +1,5 @@
 {
-    "name": "h2-simulation-demo",
+    "name": "lih-simulation-demo",
     "version": "1.0.0",
     "main": "main.js",
     "scripts": {
@@ -8,10 +8,9 @@
     "author": "Microsoft",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^7.2.4"
+        "electron": "^15.5.5"
     },
     "dependencies": {
-        "chart.js": "^2.7.2",
         "node-ipc": "^9.1.1"
     }
 }
