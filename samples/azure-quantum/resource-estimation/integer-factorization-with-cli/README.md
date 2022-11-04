@@ -58,6 +58,19 @@ Again you can inspect the table with
 az quantum job output -j <job-id> -o table
 ```
 
+You can also get all the result data in JSON format; this makes it easier to
+post-process. Just change the output format from `table` to `json`:
+
+```
+az quantum job output -j <job-id> -o json
+```
+
+Or pipe it directly into a file:
+
+```
+az quantum job output -j <job-id> -o json > results.json
+```
+
 ### ℹ️ Customize job input parameters
 
 Please refer to the [Azure Quantum documentation](https://learn.microsoft.com/en-us/azure/quantum/overview-resources-estimator?tabs=tabid-qsharp-vscode) for more information on job input parameters.
