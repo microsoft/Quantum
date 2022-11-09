@@ -1,0 +1,9 @@
+{
+    "errorBudget": 0.005,
+    "qubitParams": {
+        "name": "qubit_maj_ns_e4"
+    },
+    "qecScheme": {
+        "name": "floquet_code"
+    }
+}
