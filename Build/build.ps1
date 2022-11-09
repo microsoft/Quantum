@@ -30,7 +30,17 @@ function Build-One {
     }
 }
 
+# IMPORTANT: Do not add projects to the blocklist without an explanation as to why,
+#            and a path towards removing those projects from the blocklist in the future.
+$buildBlockList = @(
+    # The following solution contains projects that can only be executed by
+    # submitting it to Azure Quantum Resource Estimator and therefore cannot be
+    # build
+    "../samples/azure-quantum/resource-estimation/resource-estimation.sln"
+) | ForEach-Object { (Resolve-Path (Join-Path $PSScriptRoot $_)).Path };
+
 Get-ChildItem (Join-Path $PSScriptRoot '..') -Recurse -Include '*.sln' `
+    | Where-Object { $_.FullName -notin $buildBlockList }
     | ForEach-Object { Build-One $_.FullName }
 
 if (-not $all_ok) {
