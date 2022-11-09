@@ -179,7 +179,11 @@ $runBlockList = @(
     # framework to run here.
     "../samples/chemistry/MolecularHydrogenGUI/MolecularHydrogenGUI.csproj",
     "../samples/chemistry/LithiumHydrideGUI/LithiumHydrideGUI.csproj",
-    "../samples/simulation/h2/gui/H2SimulationGUI.csproj"
+    "../samples/simulation/h2/gui/H2SimulationGUI.csproj",
+
+    # The following project can only be executed by submitting it to Azure Quantum
+    # Resource Estimator and therefore cannot be build
+    "../samples/azure-quantum/resource-estimation/integer-factorization-with-cli/integer-factorization.csproj"
 ) | ForEach-Object { (Resolve-Path (Join-Path $PSScriptRoot $_)).Path };
 
 $projectsToRun = Get-ChildItem -Recurse -Path (Join-Path $PSScriptRoot ".." "*.csproj") `
