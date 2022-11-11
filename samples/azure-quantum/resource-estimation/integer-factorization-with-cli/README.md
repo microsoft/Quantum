@@ -2,7 +2,7 @@
 
 👋 Welcome to Azure Quantum Resources Estimation. In this Q# project we will
 guide you how to estimate the costs of integer factorization on a fault-tolerant
-quantum computer. 
+quantum computer.
 
 ## Azure login and workspace setup
 
@@ -11,14 +11,14 @@ project.
 
 Log into Azure using the following command (this will open a browser window):
 
-```
+```sh
 az login
 ```
 
 Set your subscription ID (you can find the subscription ID under _Essentials_ on
 the _Overview_ page of your Azure Quantum Workspace):
 
-```
+```sh
 az account set -s <subscription-id>
 ```
 
@@ -26,7 +26,7 @@ Set your resource group, workspace name, and location (you also find these under
 _Essentials_ on the _Overview_ page of your Azure Quantum Workspace; the name
 can be found on the top left of the browser window):
 
-```
+```sh
 az quantum workspace set -g <resource-group> -w <workspace-name> -l <location> -o table
 ```
 
@@ -34,13 +34,13 @@ az quantum workspace set -g <resource-group> -w <workspace-name> -l <location> -
 
 Submit a job using the following command
 
-```
+```sh
 az quantum job submit --target-id microsoft.estimator -o json --query id
 ```
 
 The output will the job ID.  Copy the ID and request the output of the job with:
 
-```
+```sh
 az quantum job output -j <job-id> -o table
 ```
 
@@ -48,26 +48,26 @@ Let's next change the inputs to our job. We have prepared some sample
 configuration in the file `jobParams.json`. You can pass them to the
 `--job-params` argument like this:
 
-```
+```sh
 az quantum job submit --target-id microsoft.estimator -o json --query id --job-params "@jobParams.json"
 ```
 
 Again you can inspect the table with
 
-```
+```sh
 az quantum job output -j <job-id> -o table
 ```
 
 You can also get all the result data in JSON format; this makes it easier to
 post-process. Just change the output format from `table` to `json`:
 
-```
+```sh
 az quantum job output -j <job-id> -o json
 ```
 
 Or pipe it directly into a file:
 
-```
+```sh
 az quantum job output -j <job-id> -o json > results.json
 ```
 
