@@ -20,8 +20,8 @@ Resource Estimator.
 
 ## Manifest
 
-- [hello-re-qsharp.ipynb](./hello-re-qsharp.ipynb): Estimates with Q# input
-- [re-experiments-qsharp.ipynb](./re-experiments-qsharp.ipynb): Advanced analysis of results
-- [hello-re-qiskit.ipynb](./hello-re-qiskit.ipynb): Estimates with Qiskit input
-- [re-with-qir.ipynb](./re-with-qir.ipynb): Estimate with tools producing QIR
+- [estimation-qsharp.ipynb](./estimation-qsharp.ipynb): Estimates with Q# input
+- [advanced-estimation.ipynb](./advanced-estimation.ipynb): Advanced analysis of results
+- [estimation-qiskit.ipynb](./estimation-qiskit.ipynb): Estimates with Qiskit input
+- [estimation-qir.ipynb](./estimation-qir.ipynb): Estimate with tools producing QIR
 - [integer-factorization-with-cli](./integer-factorization-with-cli): Resource estimation with Q# and VS Code
