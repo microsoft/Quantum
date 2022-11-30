@@ -10,7 +10,7 @@ from pyqir.generator import ir_to_bitcode
 
 # Program arguments
 parser = argparse.ArgumentParser(
-    prog="estimate", description="Run Azure Quantum Resource Estimator through CLI")
+    prog="estimate", description="Estimate physical resources using Azure Quantum")
 
 parser.add_argument("filename", help="Quantum program (.ll, .qir, .bc)")
 parser.add_argument("-r", "--resource-id", default=os.environ.get("AZURE_QUANTUM_RESOURCE_ID"),
