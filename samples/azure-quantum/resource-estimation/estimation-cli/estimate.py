@@ -53,7 +53,7 @@ if args.job_params:
 # Create and submit job
 job = Job.from_input_data(
     workspace=workspace,
-    name="estimate Job",
+    name="Estimation job",
     target="microsoft.estimator",
     input_data=bitcode,
     provider_id="microsoft-qc",
