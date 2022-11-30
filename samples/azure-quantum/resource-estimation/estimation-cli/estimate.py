@@ -14,9 +14,9 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument("filename", help="Quantum program (.ll, .qir, .bc)")
 parser.add_argument("-r", "--resource-id", default=os.environ.get("AZURE_QUANTUM_RESOURCE_ID"),
-                    help="Resource ID of Azure Quantum workspace (must be set, unless set via environment variable AZURE_QUANTUM_RESOURCE_ID")
+                    help="Resource ID of Azure Quantum workspace (must be set, unless set via environment variable AZURE_QUANTUM_RESOURCE_ID)")
 parser.add_argument("-l", "--location",
-                    default=os.environ.get("AZURE_QUANTUM_LOCATION"), help="Location of Azure Quantum workspace (must be set, unless set via environment AZURE_QUANTUM_LOCATION")
+                    default=os.environ.get("AZURE_QUANTUM_LOCATION"), help="Location of Azure Quantum workspace (must be set, unless set via environment AZURE_QUANTUM_LOCATION)")
 parser.add_argument("-p", "--job-params", help="JSON file with job parameters")
 
 args = parser.parse_args()
