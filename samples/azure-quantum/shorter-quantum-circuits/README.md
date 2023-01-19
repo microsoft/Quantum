@@ -10,11 +10,12 @@ products:
 - azure-quantum
 ---
 
-# Shorter Quantum Circuits paper dataset
+# Shorter Quantum Circuits dataset
 
-This folder contains a notebook that explores a dataset related to the [Shorter Quantum Circuits](https://arxiv.org/abs/2203.10064) research paper.
-The dataset contains results of running the algorithms described in the paper
-and reproduces numerical results described in the paper.
+Dataset for the [Shorter Quantum Circuits](https://arxiv.org/abs/2203.10064) paper.
+The dataset contains the results of running paper's algorithms
+and reproduces paper's numerical results.
+
 
 ## Manifest
 
