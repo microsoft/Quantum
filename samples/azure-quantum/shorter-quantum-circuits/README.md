@@ -16,7 +16,6 @@ Dataset for the [Shorter Quantum Circuits](https://arxiv.org/abs/2203.10064) pap
 The dataset contains the results of running paper's algorithms
 and reproduces paper's numerical results.
 
-
 ## Manifest
 
 - [shorter-quantum-circuits-dataset.ipynb](./shorter-quantum-circuits-dataset.ipynb): A Python notebook exploring the dataset
