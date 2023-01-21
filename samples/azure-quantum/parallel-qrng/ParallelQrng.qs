@@ -8,25 +8,22 @@ namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Intrinsic;
 
     /// # Summary
-    /// Samples a random number by measuring a register of qubits in parallel.
-    ///
-    /// # Input
-    /// ## nQubits
-    /// The number of qubits to measure.
-    @EntryPoint() // The EntryPoint attribute is used to mark that this
-                  // operation is where your quantum program will start running.
-    operation SampleRandomNumber(nQubits : Int) : Result[] {
+    /// Samples a random number by measuring a register of qubits in superposition.
+    @EntryPoint() // The EntryPoint attribute is used to mark that this operation is where a quantum program will start running.
+    operation SampleRandomNumber() : Result[] {
 
         // We prepare a register of qubits in a uniform
         // superposition state, such that when we measure,
         // all bitstrings occur with equal probability.
+        let nQubits = 5;
         use register = Qubit[nQubits];
-
+        
         // Set qubits in superposition.
-        ApplyToEachA(H, register);
+        for qubit in register {
+            H(qubit);
+        }
 
         // Measure all qubits and return.
-        return ForEach(MResetZ, register);
-
+        return MeasureEachZ (register);
     }
 }
