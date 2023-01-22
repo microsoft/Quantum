@@ -4,4 +4,4 @@ If you have some experience with quantum computing or just starting, it is likel
 This section is a collection of short tutorials explaining in simple steps how to adapt an existing samplse to run against any of the Azure Quantum back-ends.
 
 # Manifest
-Adapt Qiskit sample
+- [adapting-qiskit-sample.ipynb] (./adapting-qiskit-sample.ipynb) How to adapt a downloaded Qiskit sample
