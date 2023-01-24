@@ -14,7 +14,7 @@ from Microsoft.Quantum.Samples import SampleRandomNumber
 
 if __name__ == "__main__":
     # Simulate the operation locally.
-    result = SampleRandomNumber.simulate(nQubits=3)
+    result = SampleRandomNumber.simulate()
     print(f'Local simulation result: {result}')
 
     # Submit the operation to an Azure Quantum workspace.
@@ -30,5 +30,5 @@ if __name__ == "__main__":
         location = sys.argv[2]
         qsharp.azure.connect(resourceId=resource_id, location=location)
         qsharp.azure.target("ionq.simulator" if len(sys.argv) < 4 else sys.argv[3])
-        result = qsharp.azure.execute(SampleRandomNumber, nQubits=3, shots=1000, jobName="Generate 3-bit random number")
+        result = qsharp.azure.execute(SampleRandomNumber, shots=1000, jobName="Generate a random number")
         print(f'Azure Quantum service execution result: {result}')

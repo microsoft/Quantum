@@ -124,7 +124,7 @@ $projectArgs = @{
         );
 
         "../samples/azure-quantum/parallel-qrng/ParallelQrng.csproj" = @(,
-            @("simulate", "--n-qubits", "4")
+            @("simulate")
         );
 
         "../samples/error-correction/syndrome/Syndrome.csproj" = @(,
