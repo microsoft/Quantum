@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 namespace Microsoft.Quantum.Samples {
+    open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Random;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
@@ -68,7 +69,7 @@ namespace Microsoft.Quantum.Samples {
     operation ValidateWineModel(
         parameters : Double[],
         bias : Double
-    ) : Int {
+    ) : Double {
         // Get the remaining samples to use as validation data.
         let samples = (Datasets.WineData())[143...];
         let tolerance = 0.005;
@@ -80,7 +81,7 @@ namespace Microsoft.Quantum.Samples {
             nMeasurements,
             DefaultSchedule(samples)
         );
-        return results::NMisclassifications;
+        return IntAsDouble(results::NMisclassifications) / IntAsDouble(Length(samples));
     }
 
 }
