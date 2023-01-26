@@ -298,6 +298,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
     </tr>
     <tr>
+      <td></td>
+      <td><strong><a href="./samples/azure-quantum/utilities/README.md">Data management</a></strong></td>
+      <td><a href="./samples/azure-quantum/utilities/storage-data-management.ipynb">Python notebook</a></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
       <td><strong>Characterization:</strong></td>
       <td><strong><a href="./samples/characterization/phase-estimation/README.md">Bayesian Phase Estimation</a></strong></td>
       <td></td>
