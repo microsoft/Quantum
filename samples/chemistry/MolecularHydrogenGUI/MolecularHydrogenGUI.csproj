@@ -25,8 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.27.244707" />
-    <PackageReference Include="Microsoft.Quantum.Simulators" Version="0.27.244707" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.27.253010" />
+    <PackageReference Include="Microsoft.Quantum.Simulators" Version="0.27.253010" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
