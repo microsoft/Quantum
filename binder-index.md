@@ -243,6 +243,14 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
+      <td><strong><a href="./samples/azure-quantum/shorter-quantum-circuits/README.md">Shorter Quantum Circuits dataset</a></strong></td>
+      <td></td>
+      <td>Python</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
       <td><strong><a href="./samples/azure-quantum/resource-estimation/README.md">Resource Estimation</a></strong></td>
       <td></td>
       <td>Q# + Python, Qiskit + Python</td>
