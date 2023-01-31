@@ -1,5 +1,5 @@
 ﻿
-<Project Sdk="Microsoft.Quantum.Sdk/0.27.244707">
+<Project Sdk="Microsoft.Quantum.Sdk/0.27.253010">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -11,8 +11,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.7" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.7" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.7" />
-    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.27.244707" />
-    <PackageReference Include="Microsoft.Quantum.Research" Version="0.27.244707" />
+    <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.27.253010" />
+    <PackageReference Include="Microsoft.Quantum.Research" Version="0.27.253010" />
   </ItemGroup>
 
   <ItemGroup>
