@@ -80,7 +80,7 @@ This repo contains several configuration files that will make it easy to get sta
 
 ### Visual Studio Code
 
-If you prefer to develop code locally, we recommend to install an editor such as [Visual Studio Code](https://code.visualstudio.com/download). Make sure to install the [.NET Core SDK 3.1 or later](https://www.microsoft.com/net/download) on your local machine. For more detailed instructions on how to set up VS Code for development with the QDK, go to our docs [here](https://docs.microsoft.com/azure/quantum/install-command-line-qdk).
+If you prefer to develop code locally, we recommend to install an editor such as [Visual Studio Code](https://code.visualstudio.com/download). Make sure to install the [.NET Core SDK 3.1 or later](https://dotnet.microsoft.com/download) on your local machine. For more detailed instructions on how to set up VS Code for development with the QDK, go to our docs [here](https://docs.microsoft.com/azure/quantum/install-command-line-qdk).
 
 Once you have installed VS Code and the .NET Core SDK, download this repository to your computer and open the folder in VS Code. The editor will automatically recognize the files in the `.vscode` folder and request you to install the recommended extension. This includes the [Microsoft Quantum Development Kit for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=quantum.quantum-devkit-vscode) extension, which is the fastest way to get started with the QDK.
 
