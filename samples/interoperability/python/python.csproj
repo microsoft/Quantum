@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <!-- This property tells the qsharp package to automatically load
          your project and use it as a workspace. -->
     <IQSharpLoadAutomatically>true</IQSharpLoadAutomatically>
