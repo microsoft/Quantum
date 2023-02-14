@@ -1,7 +1,7 @@
 ---
 page_type: sample
 author: aameenak, wimvandam
-description: Search unstructured data with a hybrid quantum-classical algorithm on noisy systems using Azure Quantum service
+description: Search unstructured data with hybrid algorithms using Azure Quantum service
 ms.author: aarthi.sundaram@microsoft.com. wimvandam@microsoft.com
 ms.date: 02/03/2023
 languages:
