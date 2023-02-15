@@ -12,7 +12,7 @@ products:
 - azure-quantum
 ---
 
-# Quantum-classical Amplitude estimation
+# Hybrid Amplitude estimation
 
 This sample demonstrates a quantum-classical hybrid approach to perform amplitude estimation using Maximum Likelihood Estimation assuming that depolarizing noise acts on the qubits. Specifically, this Azure Quantum notebook implements a noisy version of the Power Law Amplitude Estimation algorithm from [[Tiron et al.]](https://arxiv.org/abs/2012.03348v1) and uses both Python and Q# for this hybrid approach. Currently, it runs on the quantum simulator and not on hardware.
 
@@ -23,7 +23,7 @@ The sample can be run in two different ways:
 
 ## Running the sample on the Azure Quantum service
 
-Make sure that you have [created and selected a quantum workspace](https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal). Then upload the notebook `NoisyPowerLawAmpEst.ipynb` into the `My Notebooks` section and follow the instructions.
+Make sure that you have [created and selected a quantum workspace](https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal). Then upload the notebook `HybridAmpEst.ipynb` into the `My Notebooks` section and follow the instructions.
 
 ## Running the sample locally with Jupyter Notebook
 
@@ -34,11 +34,11 @@ cd hybrid-amp-est
 jupyter notebook
 ```
 
-Once Jupyter starts, open the `NoisyPowerLawAmpEst.ipynb` notebook and follow the instructions there.
+Once Jupyter starts, open the `HybridAmpEst.ipynb` notebook and follow the instructions there.
 
 ## Manifest
 
-- [NoisyPowerLawAmpEst.ipynb](./PowerLawAmpEst.ipynb): Python + Q# notebook for this sample.
+- [HybridAmpEst.ipynb](./HybridAmpEst.ipynb): Python + Q# notebook for this sample.
 
 ## References
 
