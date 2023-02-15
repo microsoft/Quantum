@@ -30,7 +30,7 @@ Make sure that you have [created and selected a quantum workspace](https://docs.
 Make sure that you have followed the [Q# + Python environment quickstart](https://learn.microsoft.com/en-us/azure/quantum/install-python-qdk?source=recommendations&tabs=tabid-conda) for the Quantum Development Kit, and then start a new Jupyter Notebook session from the folder containing this sample:
 
 ```shell
-cd hybrid-amp-est
+cd noisy-amp-est
 jupyter notebook
 ```
 
