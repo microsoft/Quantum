@@ -1,0 +1,40 @@
+{
+    "items": [
+        {
+            "qubitParams": {
+                "name": "qubit_gate_us_e3"
+            }
+        },
+        {
+            "qubitParams": {
+                "name": "qubit_gate_us_e4"
+            }
+        },
+        {
+            "qubitParams": {
+                "name": "qubit_gate_ns_e3"
+            }
+        },
+        {
+            "qubitParams": {
+                "name": "qubit_gate_ns_e4"
+            }
+        },
+        {
+            "qubitParams": {
+                "name": "qubit_maj_ns_e4"
+            },
+            "qecScheme": {
+                "name": "floquet_code"
+            }
+        },
+        {
+            "qubitParams": {
+                "name": "qubit_maj_ns_e6"
+            },
+            "qecScheme": {
+                "name": "floquet_code"
+            }
+        }
+    ]
+}
