@@ -71,7 +71,6 @@ Or pipe it directly into a file:
 az quantum job output -j <job-id> -o json > results.json
 ```
 
-
 ### ℹ️ Customize job target parameters
 
 Please refer to the [Azure Quantum documentation](https://learn.microsoft.com/en-us/azure/quantum/overview-resources-estimator?tabs=tabid-qsharp-vscode) for more information on job target parameters.
