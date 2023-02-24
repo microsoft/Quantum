@@ -5,7 +5,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Quantum.Xunit" Version="0.27.253010" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
     <ProjectReference Include="..\simulator\simulator.csproj" />
   </ItemGroup>
 </Project>
