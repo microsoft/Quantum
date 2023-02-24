@@ -77,7 +77,7 @@ Please refer to the [Azure Quantum documentation](https://learn.microsoft.com/en
 
 ## Evaluating the resources for multiple target parameters
 
-It is possible to evalaute the resources for multiple target parameters in a
+It is possible to evaluate the resources for multiple target parameters in a
 single job using batching.  We have prepared a sample job parameter file, called `jobParamsBatching.json` with 6 default qubit parameters.  You can submit the job in the same fashion:
 
 ```sh
