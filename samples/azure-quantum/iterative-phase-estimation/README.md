@@ -15,6 +15,12 @@ products:
 
 This sample code and notebook was written by members of KPMG Quantum team in Australia and falls under an MIT License. It aims to demonstrate expanded capabilities of Basic Measurement Feedback targets and makes use of bounded loops, classical function calls at run time, nested conditional if statements, mid circuit measurements and qubit reuse.
 
+## Manifest
+
+- [iterative-phase-estimation.qs](https://github.com/microsoft/Quantum/tree/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.qs): Q# sample code.
+- [iterative-phase-estimation.ipynb](https://github.com/microsoft/Quantum/tree/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.ipynb): Jupyter notebook.
+- [iterative-phase-estimation.csproj](https://github.com/microsoft/Quantum/tree/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.csproj): CS Project file.
+
 ### Two Dimensional Inner Product Using Three Qubits
 
 This notebook demonstrates an iterative phase estimation within Q#. The basic calculation it makes will be to calculate an inner product between two 2-dimensional vectors encoded on a target qubit and an ancilla qubit. An additional control qubit is also initialised, with a subsequent H gate applied. This control qubit will be used to readout the inner product via an iterative phase estimation. 
