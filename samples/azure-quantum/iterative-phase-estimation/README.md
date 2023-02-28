@@ -100,7 +100,10 @@ where $x = \theta_0\theta_1\theta_2...\theta_{n}$. The denominator within the co
 
 It is suggested that the SimulateInnerProduct is run first by placing "@EntryPoint()" before the operation SimulateInnerProduct and by using:
 
-**dotnet run**
+
+```powershell
+    dotnet run
+```
 
 in the terminal before running on an Azure target. This version of the inner product operation will output additional information. This includes the manipulation of doubles of which the output is displayed in the terminal.
 
@@ -108,13 +111,17 @@ in the terminal before running on an Azure target. This version of the inner pro
 
 When running the job via the terminal using VS Code the following call should be made:
 
-**az quantum job submit --target-id quantinuum.sim.h1-1e --target-capability AdaptiveExecution --shots 128 --job-name IterativePhaseEstimation**
+```powershell
+az quantum job submit --target-id quantinuum.sim.h1-1e --target-capability AdaptiveExecution --shots 128 --job-name IterativePhaseEstimation
+```
 
 **Note**: The target requires a target execution profile that supports basic measurement feedback.
 
-This will submit a job with the name "IterativePhaseEstimation". The circuit is approximately 1.2 HQC each shot. The number of shots specified is 128, but this can be increased to reduce the variance of the result, up to some stable distribution. It is not suggested to increase the number of measurements beyond 3 for running on Azure targets as the EHCs can increase significantly. Be sure to place "@EntryPoint()" before the operation InnerProduct, not SimulateInnerProduct as this operation contains calls such as "Message" which is only used for printing to the terminal within VS Code. Job data can be accessed as normal through the Azure portal or via the terminal using:
+This will submit a job with the name "IterativePhaseEstimation". The circuit is approximately 1.2 HQC each shot. The number of shots specified is 128, but this can be increased to reduce the variance of the result, up to some stable distribution. It is not suggested to increase the number of measurements beyond 3 for running on Azure targets as the EHCs can increase significantly. Be sure to place "@EntryPoint()" before the operation InnerProduct, not SimulateInnerProduct as this operation contains calls such as "Message" which is only used for printing to the terminal within VS Code. Job data can be accessed as normal through the Azure portal or via the terminal using
 
-**az quantum job output -j JOB_ID -o table**
+```powershell
+az quantum job output -j JOB_ID -o table
+```
 
 replacing "JOB_ID" with the job id. The results show a solution in the state with the majority population. The final inner product from the integer results can be calculated by $\braket {v|c} = -cos(2\pi x / 2^n)$, where n is the number of measurements specificed in the job.
 
