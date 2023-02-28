@@ -1,3 +1,16 @@
+---
+page_type: sample
+author: NathanCRhodes
+description: Iterative phase estimation calculating an inner product between two vectors.
+ms.author: nrhodes@kpmg.com.au
+ms.date: 01/03/2023
+languages:
+- qsharp
+products:
+- qdk
+- azure-quantum
+---
+
 # Iterative Phase Estimation via the Cloud
 
 This sample code and notebook was written by members of KPMG Quantum team in Australia and falls under an MIT License. It aims to demonstrate expanded capabilities of Basic Measurement Feedback targets and makes use of bounded loops, classical function calls at run time, nested conditional if statements, mid circuit measurements and qubit reuse.
