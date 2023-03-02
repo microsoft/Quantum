@@ -6,7 +6,8 @@ namespace Tests.Common {
 
     @EntryPoint()
     operation DynamicBitFlipCode() : (Bool, Int) {
-        // Create a register that represents a logical qubit.
+        // Use two qubit registers, one for representing a logical qubit and another one as auxiliary to detect the
+        // error syndrome.
         use logicalRegister = Qubit[3];
         use auxiliaryRegister = Qubit[2];
 
@@ -17,16 +18,17 @@ namespace Tests.Common {
         // Apply several unitary operations to the encoded qubits performing error correction between each application.
         mutable corrections = 0;
         within {
-            // Encode/Decode logical qubit.
+            // The 3 qubit register is used to represent a single logical qubit using an error correcting repetition code.
             Encode(logicalRegister);
         }
         apply {
             let iterations = 5;
             for _ in 1 .. iterations {
-                // Apply a rotational identity to the logical register.
+                // Apply a sequence of rotations to the logical register that effectively perform an identity operation.
                 ApplyRotationalIdentity(logicalRegister);
 
-                // Perform error correction and increase the counter if a correction was made.
+                // Measure the error syndrome, perform error correction based on it if needed, and increase the 
+                // corrections counter if a correction was made.
                 let (parity01, parity12) = MeasureSyndrome(logicalRegister, auxiliaryRegister);
                 let correctedError = CorrectError(logicalRegister, parity01, parity12);
                 if (correctedError) {
@@ -35,16 +37,21 @@ namespace Tests.Common {
             }
         }
 
-        // Measure the first qubit in each register, return the measurement result and the corrections count.
+        // Transform the qubit to the |1〉 state and measure it in the computational basis.
         H(logicalRegister[0]);
         let result = MResetZ(logicalRegister[0]) == One;
         ResetAll(logicalRegister);
+
+        // The output of the program is a boolean-integer tuple where the boolean represents whether the qubit
+        // measurement result was the expected one and the integer represents the number of times error correction was
+        // performed.
         return (result, corrections);
     }
 
     operation ApplyRotationalIdentity(register : Qubit[]) : Unit is Adj
     {
-        // Rx has a 4 x pi period so this effectively leaves the qubit in the same state at the end if no noise is present.
+        // The Rx operation has a period of $2\pi$, which after eight $\pi/2$ rotations, effectively leaves the qubit in
+        // the same state if no noise is present.
         let theta = PI() * 0.5;
         for i in 1 .. 8 {
             for qubit in register
@@ -77,7 +84,7 @@ namespace Tests.Common {
 
     operation MeasureSyndrome(logicalRegister : Qubit[], auxiliaryRegister : Qubit[]) : (Result, Result)
     {
-        // Verify parity between qubits.
+        // Measure the error syndrome by checking the parities between qubits 0 and 1, and between qubits 1 and 2.
         ResetAll(auxiliaryRegister);
         CNOT(logicalRegister[0], auxiliaryRegister[0]);
         CNOT(logicalRegister[1], auxiliaryRegister[0]);
