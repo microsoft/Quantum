@@ -50,8 +50,9 @@ namespace Tests.Common {
 
     operation ApplyRotationalIdentity(register : Qubit[]) : Unit is Adj
     {
-        // The Rx operation has a period of $2\pi$, which after eight $\pi/2$ rotations, effectively leaves the qubit in
-        // the same state if no noise is present.
+        // This operation implements an identity operation using rotations about the x-axis.
+        // The Rx operation has a period of $4\pi$. Using it to apply 8 $\frac{\pi}{2}$ rotations about the x-axis,
+        // effectively leaves the qubit register in its original state.
         let theta = PI() * 0.5;
         for i in 1 .. 8 {
             for qubit in register
@@ -84,7 +85,7 @@ namespace Tests.Common {
 
     operation MeasureSyndrome(logicalRegister : Qubit[], auxiliaryRegister : Qubit[]) : (Result, Result)
     {
-        // Measure the error syndrome by checking the parities between qubits 0 and 1, and between qubits 1 and 2.
+        // Measure a bit flip error syndrome by checking the parities between qubits 0 and 1, and between qubits 1 and 2.
         ResetAll(auxiliaryRegister);
         CNOT(logicalRegister[0], auxiliaryRegister[0]);
         CNOT(logicalRegister[1], auxiliaryRegister[0]);
