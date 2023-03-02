@@ -11,7 +11,7 @@ products:
 - azure-quantum
 ---
 
-# Start with Integrated Hybrid Computing
+# Getting started with Integrated Hybrid Computing
 
 This sample illustrates how to blend classical and quantum instructions using a simple Q# program.
 
