@@ -1,4 +1,7 @@
-namespace Tests.Common {
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Microsoft.Quantum.Samples {
 
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Math;
