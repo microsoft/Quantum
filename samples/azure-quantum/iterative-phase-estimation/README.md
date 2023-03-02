@@ -21,70 +21,80 @@ This sample code and notebook was written by members of KPMG Quantum team in Aus
 - [iterative-phase-estimation.ipynb](https://github.com/microsoft/Quantum/tree/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.ipynb): Jupyter notebook.
 - [iterative-phase-estimation.csproj](https://github.com/microsoft/Quantum/tree/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.csproj): CS Project file.
 
-### Two Dimensional Inner Product Using Three Qubits
+### Two Dimensional Inner Product Calculation Using Iterative Phase Estimation on Three Qubits
 
-This notebook demonstrates an iterative phase estimation within Q#. The basic calculation it makes will be to calculate an inner product between two 2-dimensional vectors encoded on a target qubit and an ancilla qubit. An additional control qubit is also initialised, with a subsequent H gate applied. This control qubit will be used to readout the inner product via an iterative phase estimation. 
+This notebook demonstrates an iterative phase estimation within Q#. It will use iterative phase estimation to calculate an inner product between two 2-dimensional vectors encoded on a target qubit and an ancilla qubit. An additional control qubit is also initialised which will be the only qubit used for measurement.
 
-The circuit begins by encoding the pair of vectors on the target qubit and the ancilla qubit. It then applies an Oracle operator to the entire register, controlled off the control qubit. The Oracle operator generates a eigenphase on the target and ancilla qubit register, which when controlled generates a phase on the |1> state of the control qubit. This can then be read by applying another H gate to the controlled qubit to make the phase observable when measuring the Z projection.
+The circuit begins by encoding the pair of vectors on the target qubit and the ancilla qubit. It then applies an Oracle operator to the entire register, controlled off the control qubit (which is set up in the $\ket +$ state). The controlled Oracle operator generates a phase on the $\ket 1$ state of the control qubit. This can then be read by applying a H gate to the control qubit to make the phase observable when measuring.
+
 
 
 ## Encoding vectors
 
-The vectors v and c are to be encoded onto the target qubit. In two dimensions, the vectors are the angle about the Y axis on the Bloch Sphere. The state to be created is,
+The vectors v and c are to be encoded onto the target qubit and the ancilla qubit. The vector $v = (cos(\frac{\theta_1}{2}),sin(\frac{\theta_1}{2}))$ can be represented by the quantum state $\ket v = cos(\frac{\theta_1}{2})\ket 0 + sin(\frac{\theta_1}{2})\ket 1$, similarly $c$ can be constructed using $\theta_2$. 
 
-$$\ket{\Psi}=\frac{1}{\sqrt{2}}(\ket{+}\ket{v}+\ket{-}\ket{c},$$
+A Y rotation applied to a target qubit in the $\ket 0$ state:
 
-which also takes the more readable form,
+$$RY(\theta)\ket 0 = e^{iY\theta/2}\ket 0 = cos(\frac{\theta}{2})\ket 0 + sin(\frac{\theta}{2})\ket 1$$
+
+**Note**: <u> A factor of 2 </u> is present here on theta. An application of a $RY(2\pi)$ gate on $\ket 0$ gives the state $-\ket 0$ and would encode the vector $(-1,0)$. This phase cannot be considered a global phase and removed as the entire register will be entangled.
+
+The register of the target qubit and ancilla qubit is,
+
+$$\ket  \Psi = \ket {\Psi_\text{Target qubit}}\ket {\Psi_\text{Ancilla qubit}}$$
+The state to be created is on the target qubit and the ancilla qubit is,
+
+$$\ket{\Psi}=\frac{1}{\sqrt{2}}(\ket{v}\ket{+}+\ket{c}\ket{-}),$$
+
+
+which also takes the form,
 
 $$\ket{\Psi} = \frac{1}{2}(\ket{v}+\ket{c})\ket{0}+\frac{1}{2}(\ket{v}-\ket{c})\ket{1}.$$
-
-Note that the angles represented as $\theta_1$ and $\theta_2$ are applied as $\frac{\theta_1}{2}$ and $\frac{\theta_2}{2}$. While the reason for this is not important, it is important to mention that coded values of  $\theta_1=0.0$ and $\theta_2=2.0\pi$ will calculate the inner product between vectors with actual angles $0$ and $\pi$ respectively (ie, anti-parallel).
 
 ## The Oracle
 
 An oracle G needs to be constructed such that it generates an eigenphase on the state encoded on the target qubit and the ancilla qubit. The construction of this oracle is unimportant to the demonstration within this notebook, but the operation it applies is,
 
-$$G\ket \Psi = e^{2\pi i\theta} \ket \Psi.$$
+$$G\ket \Psi = e^{2\pi i\phi} \ket \Psi.$$
 
-where the inner product $\braket {v|c}$ is contained within $\theta$. When applied controlled on the control qubit which begins in that state $\ket{\Psi_\text{Control Qubit}} = \ket +$,
+where the inner product $\braket {v|c}$ is contained within the phase $\phi$, which is bound between [0,1]. When applied controlled on the control qubit which begins in that state $\ket{\Psi_\text{Control Qubit}} = \ket +$,
 
 $$\begin{aligned}
-    \text{Controlled }G \ket{\Psi_\text{Control Qubit}} \ket \Psi  & = \frac {1}{\sqrt{2}} (\ket 0 \ket \Psi + e^{2\pi i\theta}\ket 1 \ket \Psi )\\
-    & =\frac {1}{\sqrt{2}} (\ket 0 + e^{2\pi i\theta}\ket 1) \ket \Psi
+    \text{Controlled }G \ket{\Psi_\text{Control Qubit}} \ket \Psi  & = \frac {1}{\sqrt{2}} (\ket 0 \ket \Psi + e^{2\pi i\phi}\ket 1 \ket \Psi )\\
+    & =\frac {1}{\sqrt{2}} (\ket 0 + e^{2\pi i\phi}\ket 1) \ket \Psi
 \end{aligned}$$
 
-Now the control qubit contains the phase which relates to the inner product $\braket {v|c}$
+Now the control qubit contains the phase $\phi$ which relates to the inner product $\braket {v|c}$
 
-$$\ket{\Psi_\text{Control Qubit}} = \frac {1}{\sqrt{2}} (\ket 0 + e^{2\pi i\theta}\ket 1)$$
+$$\ket{\Psi_\text{Control Qubit}} = \frac {1}{\sqrt{2}} (\ket 0 + e^{2\pi i\phi}\ket 1)$$
 
 ## Iteration
 
-Now for the iterative part of the circuit. For n measurements, consider that the phase can be represented as a binary value $\theta$, and that applying $2^n$ oracles makes the nth binary point of the phase observable (through simple binary multiplication, and modulus $2\pi$). The value of the control qubit can be readout, placed in a classical register and the qubit reset for use in the next iteration. The next iteration applies $2^{n-1}$ oracles, correcting phase on the control qubit dependent on the nth measurement. The state on the control qubit can be represented as,
+Now for the iterative part of the circuit. For n measurements, consider that the phase can be represented as a binary value $\phi$, and that applying $2^n$ oracles makes the nth binary point of the phase observable (through simple binary multiplication, and modulus $2\pi$). The value of the control qubit can be readout, placed in a classical register and the qubit reset for use in the next iteration. The next iteration applies $2^{n-1}$ oracles, correcting phase on the control qubit dependent on the nth measurement. The state on the control qubit can be represented as,
 
-$$ \ket {\Psi_{\text{Control Qubit}}} = \ket 0 + e^{2\pi i\theta}\ket 1 $$
+$$ \ket {\Psi_{\text{Control Qubit}}} = \ket 0 + e^{2\pi i\phi}\ket 1 $$
 
-where $\theta = 0.\theta_0\theta_1\theta_2\theta_3$...
+where $\phi = 0.\phi_0\phi_1\phi_2\phi_3$...
 
 Applying $2^n$ controlled oracles gives the state on the control qubit,
 
-$$ G^{2^n}\ket {\Psi_{\text{Control Qubit}}} = \ket 0 + e^{2\pi i 0.\theta_n\theta_{n+1}\theta_{n+2}\theta_{n+3}...}\ket 1 $$
+$$ G^{2^n}\ket {\Psi_{\text{Control Qubit}}} = \ket 0 + e^{2\pi i 0.\phi_n\phi_{n+1}\phi_{n+2}\phi_{n+3}...}\ket 1 $$
 
-Consider that the phase has no terms deeper than $\theta_n$ (ie, terms $\theta_{n+1},\theta_{n+2}, \text{etc}$),
+Consider that the phase has no terms deeper than $\phi_n$ (ie, terms $\phi_{n+1},\phi_{n+2}, \text{etc}$),
 
-$$ G^{2^n}\ket {\Psi_{\text{Control Qubit}}} = \ket 0 + e^{2\pi i 0.\theta_n}\ket 1 $$
+$$ G^{2^n}\ket {\Psi_{\text{Control Qubit}}} = \ket 0 + e^{2\pi i 0.\phi_n}\ket 1 $$
 
-Now the value $\theta_n$ can be observed with a H gate and a measurement projecting along the Z axis. Resetting the control qubit and applying the oracle $2^{n-1}$ times,
+Now the value $\phi_n$ can be observed with a H gate and a measurement projecting along the Z axis. Resetting the control qubit and applying the oracle $2^{n-1}$ times,
 
-$$ G^{2^{n-1}}\ket {\Psi_{\text{Control Qubit}}} = \ket 0 + e^{2\pi i 0.\theta_{n-1}\theta_n}\ket 1 $$
+$$ G^{2^{n-1}}\ket {\Psi_{\text{Control Qubit}}} = \ket 0 + e^{2\pi i 0.\phi_{n-1}\phi_n}\ket 1 $$
 
-Using the previous measured value for $\theta_n$, the additional binary point can be rotated out.
+Using the previous measured value for $\phi_n$, the additional binary point can be rotated out.
 
-$$ RZ(-2\pi \times 0.0\theta_n)G^{n-1}\ket {\Psi_{\text{Control Qubit}}} = \ket 0 + e^{2\pi i 0.\theta_{n-1}}\ket 1 $$
+$$ RZ(-2\pi \times 0.0\phi_n)G^{n-1}\ket {\Psi_{\text{Control Qubit}}} = \ket 0 + e^{2\pi i 0.\phi_{n-1}}\ket 1 $$
 
-This process is iteratively applied for some bit precision n to obtain the phase $0.\theta_0\theta_1\theta_2...\theta_{n}$. The value is stored as a binary value $x = \theta_0\theta_1\theta_2...\theta_{n}$ as only integers are manipulatable at runtime currently.
+This process is iteratively applied for some bit precision n to obtain the phase $0.\phi_0\phi_1\phi_2...\phi_{n}$. The value is stored as a binary value $x = \phi_0\phi_1\phi_2...\phi_{n}$ as only integers are manipulatable at runtime currently.
 
 As the readout tells nothing of either vector, only the inner product between them, the states on the target qubit and ancilla qubit <u>remain in the same state</u> throughout the process!
-
 
 
 
@@ -92,7 +102,7 @@ Finally to calculate the inner product from the measured value,
 
 $$\braket {v|c} = -cos(2\pi x / 2^n)$$
 
-where $x = \theta_0\theta_1\theta_2...\theta_{n}$. The denominator within the cosine function is to shift the binary point to match the original value $\theta$.
+where $x = \phi_0\phi_1\phi_2...\phi_{n}$. The denominator within the cosine function is to shift the binary point to match the original value $\phi$.
 
 **Note**: For inner product that are not -1 or 1, the solutions are paired with a value difference of $2^{n-1}$. For example for n=3 measurements, the measured bit value of 2 would also have a pair solution of 6. Either of these values produce the same value of the inner product when input as the variable to the even function cosine (resulting in an inner product of 0 in this example).
 
