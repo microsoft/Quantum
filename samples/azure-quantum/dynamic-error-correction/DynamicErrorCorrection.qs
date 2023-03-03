@@ -54,10 +54,11 @@ namespace Microsoft.Quantum.Samples {
     operation ApplyRotationalIdentity(register : Qubit[]) : Unit is Adj
     {
         // This operation implements an identity operation using rotations about the x-axis.
-        // The Rx operation has a period of $4\pi$. Using it to apply 8 $\frac{\pi}{2}$ rotations about the x-axis,
-        // effectively leaves the qubit register in its original state.
+        // The Rx operation has a period of $2\pi$ (given that it is not possible to measure the difference between
+        // states $|\\psi〉$ and $-|\\psi〉$). Using it to apply 4 $\frac{\pi}{2}$ rotations about the x-axis, effectively
+        // leaves the qubit register in its original state.
         let theta = PI() * 0.5;
-        for i in 1 .. 8 {
+        for i in 1 .. 4 {
             for qubit in register
             {
                 Rx(theta, qubit);
