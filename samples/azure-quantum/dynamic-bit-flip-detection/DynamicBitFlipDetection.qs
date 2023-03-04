@@ -8,7 +8,7 @@ namespace Microsoft.Quantum.Samples {
     open Microsoft.Quantum.Measurement;
 
     @EntryPoint()
-    operation DynamicBitFlipDetection() : (Bool, Int) {
+    operation ThreeQubitRepetitionCode() : (Bool, Int) {
         // Use two qubit registers, one for encoding and an auxiliary one for syndrome measurements.
         use encodedRegister = Qubit[3];
         use auxiliaryRegister = Qubit[2];
@@ -87,14 +87,14 @@ namespace Microsoft.Quantum.Samples {
         CNOT(register[0], register[2]);
     }
 
-    operation MeasureBitFlipSyndrome(logicalRegister : Qubit[], auxiliaryRegister : Qubit[]) : (Result, Result)
+    operation MeasureBitFlipSyndrome(encodedRegister : Qubit[], auxiliaryRegister : Qubit[]) : (Result, Result)
     {
         // Measure the bit flip syndrome by checking the parities between qubits 0 and 1, and between qubits 1 and 2.
         ResetAll(auxiliaryRegister);
-        CNOT(logicalRegister[0], auxiliaryRegister[0]);
-        CNOT(logicalRegister[1], auxiliaryRegister[0]);
-        CNOT(logicalRegister[1], auxiliaryRegister[1]);
-        CNOT(logicalRegister[2], auxiliaryRegister[1]);
+        CNOT(encodedRegister[0], auxiliaryRegister[0]);
+        CNOT(encodedRegister[1], auxiliaryRegister[0]);
+        CNOT(encodedRegister[1], auxiliaryRegister[1]);
+        CNOT(encodedRegister[2], auxiliaryRegister[1]);
         let parity01 = MResetZ(auxiliaryRegister[0]);
         let parity12 = MResetZ(auxiliaryRegister[1]);
         return (parity01, parity12);
