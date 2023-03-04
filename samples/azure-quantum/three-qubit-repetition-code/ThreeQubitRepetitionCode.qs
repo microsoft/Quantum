@@ -30,11 +30,10 @@ namespace Microsoft.Quantum.Samples {
                 // Apply a sequence of rotations to the encoded register that effectively perform an identity operation.
                 ApplyRotationalIdentity(encodedRegister);
 
-                // Measure the bit flip syndrome, unflip the affected bit if needed, and increase the bit flip counter
-                // if a bit flip occurred.
+                // Measure the bit flip error syndrome, revert the bit flip if needed, and increase the count if a bit flip occurred.
                 let (parity01, parity12) = MeasureBitFlipSyndrome(encodedRegister, auxiliaryRegister);
-                let unflipApplied = UnflipBit(encodedRegister, parity01, parity12);
-                if (unflipApplied) {
+                let bitFlipReverted = RevertBitFlip(encodedRegister, parity01, parity12);
+                if (bitFlipReverted) {
                     set bitFlipCount += 1;
                 }
             }
@@ -66,7 +65,7 @@ namespace Microsoft.Quantum.Samples {
         }
     }
 
-    operation UnflipBit(register : Qubit[], parity01 : Result, parity12 : Result) : Bool
+    operation RevertBitFlip(register : Qubit[], parity01 : Result, parity12 : Result) : Bool
     {
         if (parity01 == One and parity12 == Zero) {
             X(register[0]);
