@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hamiltonian", "chemistry\Ha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckGHZ", "check-ghz\CheckGHZ.csproj", "{73010B4A-2F08-49C3-A544-A9A52C684E07}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicErrorCorrection", "dynamic-error-correction\DynamicErrorCorrection.csproj", "{51DC899A-D582-4DDD-83D4-FCF82E85974B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreeQubitRepetitionCode", "three-qubit-repetition-code\ThreeQubitRepetitionCode.csproj", "{51DC899A-D582-4DDD-83D4-FCF82E85974B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
