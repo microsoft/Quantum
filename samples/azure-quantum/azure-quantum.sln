@@ -1,23 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grover", "grover\Grover.csproj", "{6F93C458-21B6-4078-9D09-6A4B934DAB45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grover", "grover\Grover.csproj", "{6F93C458-21B6-4078-9D09-6A4B934DAB45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiddenShift", "hidden-shift\HiddenShift.csproj", "{1B05EE82-1F47-41EF-9F89-AC7B8FC4440C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiddenShift", "hidden-shift\HiddenShift.csproj", "{1B05EE82-1F47-41EF-9F89-AC7B8FC4440C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelQrng", "parallel-qrng\ParallelQrng.csproj", "{61D2CB4C-1FC7-4E27-9DD7-5D3CBD05AB2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelQrng", "parallel-qrng\ParallelQrng.csproj", "{61D2CB4C-1FC7-4E27-9DD7-5D3CBD05AB2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsingModel", "ising-model\IsingModel.csproj", "{0ADCD731-0B6D-4927-81AD-E72C57A8DFAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsingModel", "ising-model\IsingModel.csproj", "{0ADCD731-0B6D-4927-81AD-E72C57A8DFAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teleport", "teleport\Teleport.csproj", "{4BF14B78-CD02-44EA-852E-256BCDCF7603}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Teleport", "teleport\Teleport.csproj", "{4BF14B78-CD02-44EA-852E-256BCDCF7603}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "chemistry", "chemistry", "{06F0C404-51B4-4200-B490-6EF58EF77DFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Molecule", "chemistry\QuantumPhaseEstimation\Molecule.csproj", "{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Molecule", "chemistry\QuantumPhaseEstimation\Molecule.csproj", "{0D723FDC-C917-4461-9B13-0ED8F6D44C4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hamiltonian", "chemistry\Hamiltonian\Hamiltonian.csproj", "{4EA18DAC-1370-4F65-961E-2473B6790216}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hamiltonian", "chemistry\Hamiltonian\Hamiltonian.csproj", "{4EA18DAC-1370-4F65-961E-2473B6790216}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckGHZ", "check-ghz\CheckGHZ.csproj", "{73010B4A-2F08-49C3-A544-A9A52C684E07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreeQubitRepetitionCode", "three-qubit-repetition-code\ThreeQubitRepetitionCode.csproj", "{51DC899A-D582-4DDD-83D4-FCF82E85974B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6F93C458-21B6-4078-9D09-6A4B934DAB45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -116,9 +117,39 @@ Global
 		{4EA18DAC-1370-4F65-961E-2473B6790216}.Release|x64.Build.0 = Release|Any CPU
 		{4EA18DAC-1370-4F65-961E-2473B6790216}.Release|x86.ActiveCfg = Release|Any CPU
 		{4EA18DAC-1370-4F65-961E-2473B6790216}.Release|x86.Build.0 = Release|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Debug|x64.Build.0 = Debug|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Debug|x86.Build.0 = Debug|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Release|x64.ActiveCfg = Release|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Release|x64.Build.0 = Release|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Release|x86.ActiveCfg = Release|Any CPU
+		{73010B4A-2F08-49C3-A544-A9A52C684E07}.Release|x86.Build.0 = Release|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Debug|x64.Build.0 = Debug|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Debug|x86.Build.0 = Debug|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Release|x64.ActiveCfg = Release|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Release|x64.Build.0 = Release|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Release|x86.ActiveCfg = Release|Any CPU
+		{51DC899A-D582-4DDD-83D4-FCF82E85974B}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0D723FDC-C917-4461-9B13-0ED8F6D44C4A} = {06F0C404-51B4-4200-B490-6EF58EF77DFC}
 		{4EA18DAC-1370-4F65-961E-2473B6790216} = {06F0C404-51B4-4200-B490-6EF58EF77DFC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {942A56AB-5F8A-454E-89E6-C2C6792886BF}
 	EndGlobalSection
 EndGlobal
