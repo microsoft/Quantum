@@ -11,8 +11,8 @@ products:
 - azure-quantum
 ---
 
-# Dynamic Error Correction
+# Three Qubit Repetition Code
 
 This sample demonstrates how to create a 3 qubit repetition code that can be used to detect and correct bit flip errors.
 
-It leverages integrated hybrid computing features to count the number of times error correction was performed while the state of a logical qubit register is coherent.
+It leverages integrated hybrid computing features to count the number of times a bit flip error occurred while the state of a qubit register is coherent.
