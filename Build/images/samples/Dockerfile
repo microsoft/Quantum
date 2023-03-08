@@ -53,7 +53,7 @@ RUN pip install jupytext
 # TODO(kuzminrobin): After we migrate to .NET 7.0+, consider removing the fragment "--version 1.0.355307" below.
 RUN dotnet tool install -g \
         --add-source "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json" \
-        Microsoft.dotnet-interactive --version 1.0.355307 && \
+        Microsoft.dotnet-interactive && \
     dotnet interactive jupyter install
 
 # On .NET 5 and later, we need to make sure that NuGet cache files are owned
