@@ -1,0 +1,22 @@
+# https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions
+
+name: Test Docker image build
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build Docker image
+      run: |
+        $ImageTag = "${{ github.sha }}"
+        $RepoName = "public/quantum/samples"
+
+        $LocalTag = "${RepoName}:${ImageTag}"
+
+        docker build Build/images/samples --tag $LocalTag
+      shell: pwsh
