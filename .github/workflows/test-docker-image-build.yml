@@ -17,7 +17,6 @@ jobs:
         $RepoName = "public/quantum/samples"
 
         $LocalTag = "${RepoName}:${ImageTag}"
-        $RemoteRepo = "${{ secrets.ACR_REGISTRY }}/${RepoName}"
 
         docker build Build/images/samples --tag $LocalTag
       shell: pwsh
