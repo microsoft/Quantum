@@ -133,7 +133,7 @@ az quantum job submit --target-id quantinuum.sim.h1-1e --target-capability Adapt
 
 **Note**: The target requires a target execution profile that supports basic measurement feedback.
 
-This will submit a job with the name "IterativePhaseEstimation". The number of shots specified is 128, but this can be increased to reduce the variance of the result, up to some stable distribution. It is not suggested to increase the number of measurements beyond 3 for running on Azure targets as the EHCs can increase significantly. Be sure to place "@EntryPoint()" before the operation HardwareInnerProduct, not SimulateInnerProduct as this operation contains calls such as "Message" which is only used for printing to the terminal within VS Code. Job data can be accessed as normal through the Azure portal or via the terminal using
+This will submit a job with the name "IterativePhaseEstimation". The circuit is approximately 0.4 EHQC each shot. The number of shots specified is 128, but this can be increased to reduce the variance of the result, up to some stable distribution. The total EHQCs for a job can be viewed within the Azure portal under "Job management". Selecting the desired job, the cost estimation can be viewed. It is not suggested to increase the number of measurements beyond 3 for running on Azure targets as the EHQCs can increase significantly. Be sure to place "@EntryPoint()" before the operation HardwareInnerProduct, not SimulateInnerProduct as this operation contains calls such as "Message" which is only used for printing to the terminal within VS Code. Job data can be accessed as normal through the Azure portal or via the terminal using
 
 ```powershell
 az quantum job output -j JOB_ID -o table
