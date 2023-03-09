@@ -12,10 +12,10 @@ using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
 namespace Microsoft.Quantum.Simulation.Simulators
 {
-    public class FlameGraphResourcesEstimator : ResourcesEstimator
+    public class FlameGraphResourcesEstimator : QCTraceSimulator
     {
         private FlameGraphCounter operationsCounter;
-        public static new QCTraceSimulatorConfiguration RecommendedConfig() =>
+        public static QCTraceSimulatorConfiguration RecommendedConfig() =>
             new QCTraceSimulatorConfiguration
             {
                 CallStackDepthLimit = Int32.MaxValue,
