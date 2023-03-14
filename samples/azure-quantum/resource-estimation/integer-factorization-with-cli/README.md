@@ -44,7 +44,7 @@ The output will the job ID.  Copy the ID and request the output of the job with:
 az quantum job output -j <job-id> -o table
 ```
 
-Let's next change the inputs to our job. We have prepared some sample
+Let's next change the target parameters to our job. We have prepared some sample
 configuration in the file `jobParams.json`. You can pass them to the
 `--job-params` argument like this:
 
@@ -71,9 +71,45 @@ Or pipe it directly into a file:
 az quantum job output -j <job-id> -o json > results.json
 ```
 
-### ℹ️ Customize job input parameters
+### ℹ️ Customize job target parameters
 
-Please refer to the [Azure Quantum documentation](https://learn.microsoft.com/en-us/azure/quantum/overview-resources-estimator?tabs=tabid-qsharp-vscode) for more information on job input parameters.
+Please refer to the [Azure Quantum documentation](https://learn.microsoft.com/en-us/azure/quantum/overview-resources-estimator?tabs=tabid-qsharp-vscode) for more information on job target parameters.
+
+## Evaluating the resources for multiple target parameters
+
+It is possible to evaluate the resources for multiple target parameters in a
+single job using batching.  We have prepared a sample job parameter file, called `jobParamsBatching.json` with 6 default qubit parameters.  You can submit the job in the same fashion:
+
+```sh
+az quantum job submit --target-id microsoft.estimator -o json --query id --job-params "@jobParamsBatching.json"
+```
+
+When you query the table for the result, you retrieve values for all items in an
+overview table:
+
+```sh
+az quantum job output -j <job-id> -o table
+```
+
+You can also get the result data in a JSON format; for a batching job this will be a JSON array of results for each item:
+
+```sh
+az quantum job output -j <job-id> -o json
+```
+
+You can use the `--item` option to access an individual item, indexed by 0,
+e.g., the third item:
+
+```sh
+az quantum job output -j <job-id> -o table --item 2
+```
+
+Alternatively, you can also retrieve the JSON output for an individual item of a
+batching job:
+
+```sh
+az quantum job output -j <job-id> -o json --item 2
+```
 
 ## Caching
 
@@ -109,3 +145,4 @@ in runtime is a good trade-off.
 - [Program.qs](./Program.qs): All Q# code with `@EntryPoint` operation
 - [integer-factorization.csproj](./integer-factorization.csproj): Q# project file
 - [jobParams.json](./jobParams.json): Custom job parameters for resource estimation job
+- [jobParamsBatching.json](./jobParamsBatching.json): Custom job parameters with multiple items for resource estimation job
