@@ -27,7 +27,7 @@ namespace Microsoft.Quantum.Numerics.Samples {
                                  numBits : Int, pointPos : Int, odd : Bool, even : Bool)
                                  : Double[]
     {
-        mutable results = new Double[Length(evaluationPoints)];
+        mutable results = [0.0, size = Length(evaluationPoints)];
         for i in IndexRange(evaluationPoints) {
             let point = evaluationPoints[i];
             use (xQubits, yQubits) = (Qubit[numBits], Qubit[numBits]);
