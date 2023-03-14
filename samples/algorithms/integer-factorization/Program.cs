@@ -137,18 +137,23 @@ namespace Microsoft.Quantum.Samples.IntegerFactorization
 
         static int Estimate(EstimateOptions options)
         {
-            var config = ResourcesEstimator.RecommendedConfig();
-            config.CallStackDepthLimit = 3;
+            var config = new QCTraceSimulatorConfiguration {
+                CallStackDepthLimit = 3,
 
-            var estimator = new ResourcesEstimator(config);
+                ThrowOnUnconstrainedMeasurement = false,
+                UseDistinctInputsChecker = false,
+                UseInvalidatedQubitsUseChecker = false,
+
+                UsePrimitiveOperationsCounter = true,
+                UseDepthCounter = true,
+                UseWidthCounter = true
+            };
+
+            var estimator = new QCTraceSimulator(config);
             RegisterReplacement(options, estimator);
 
             var bitsize = (long)System.Math.Ceiling(System.Math.Log2(options.NumberToFactor + 1));
             EstimateFrequency.Run(estimator, options.Generator, options.NumberToFactor, bitsize).Wait();
-
-            Console.WriteLine(estimator.ToTSV());
-
-            Console.WriteLine();
 
             Console.WriteLine(estimator.ToCSV()["PrimitiveOperationsCounter"]);
 
