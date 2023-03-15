@@ -538,7 +538,7 @@ These are noted in the README.md files for each sample, along with complete inst
     <tr>
       <td></td>
       <td><strong><a href="./samples/numerics/resource-counting/README.md">Resource counting</a></strong></td>
-      <td><a href="./samples/numerics/resource-counting/ResourceEstimation.ipynb">Q# notebook</a></td>
+      <td></td>
       <td></td>
       <td>Q# standalone</td>
       <td></td>
