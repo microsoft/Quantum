@@ -8,6 +8,7 @@
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Measurement;
+    open Microsoft.Quantum.ResourceEstimation;
 
     @EntryPoint()
     operation RunProgram() : Unit {
@@ -70,14 +71,14 @@
             within {
                 H(c);
             } apply {
-                // `BeginCaching` and `EndCaching` are intrinsic operations for
-                // Azure Quantum Resource Estimator.  These will instruct
+                // `BeginEstimateCaching` and `EndEstimateCaching` are the operations
+                // exposed by Azure Quantum Resource Estimator. These will instruct
                 // resource counting such that the if-block will be executed
                 // only once, its resources will be cached, and appended in
                 // every other iteration.
-                if BeginCaching(1) {
+                if BeginEstimateCaching("ControlledOracle", SingleVariant()) {
                     Controlled oracle([c], (1 <<< idx, eigenstateRegisterLE!));
-                    EndCaching(1);
+                    EndEstimateCaching();
                 }
                 R1Frac(frequencyEstimate, bitsPrecision - 1 - idx, c);
             }
@@ -352,11 +353,4 @@
         adjoint controlled self;
     }
 
-    internal operation BeginCaching(id : Int) : Bool {
-        body intrinsic;
-    }
-
-    internal operation EndCaching(id : Int) : Unit {
-        body intrinsic;
-    }
 }
