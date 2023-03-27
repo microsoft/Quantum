@@ -17,4 +17,4 @@ dependencies:
 - qutip
 - matplotlib
 - notebook
-- qsharp==0.27.258160
+- qsharp==0.28.263081
