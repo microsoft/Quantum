@@ -24,8 +24,7 @@ jupyter:
 
 This sample demonstrates:
 
-- How to configure project files for Q# standalone applications to estimate the quantum resources required to run a Q# operation.
-- How to use the [`%estimate` magic command](https://docs.microsoft.com/qsharp/api/iqsharp-magic/estimate) provided by the IQ# kernel to estimate the quantum resources required to run a Q# operation.
+- How to extend QCTraceSimulator in a Q# standalone applications to estimate the quantum resources required to run a Q# operation.
 
 ## Prerequisites
 
@@ -39,17 +38,10 @@ To run the sample, use the `dotnet run` command from your terminal:
 dotnet run
 ```
 
-The **.csproj** file provided for this Q# standalone application sets the default simulator to be `ResourcesEstimator`, such that the above command will report the resources required to run the Q# program.
-
-This sample can also be used as a Q# notebook:
-
-```shell
-jupyter notebook
-```
-
 ## Manifest
 
 - [ResourceCounting.qs](./ResourceCounting.qs): Q# code implementing polynomial function evaluation.
-- [Program.qs](./Program.qs): A Q# standalone application for use with the `-s ResourcesEstimator` option.
+- [Program.qs](./Program.qs): A Q# application that provides a specific polinomial for evaluation.
+- [Program.cs](./Program.cs): C# driver to run Q# code with custom startup and shutdown.
+- [ResourcesEstimator.cs](./ResourcesEstimator.cs): C# Resources Estimator that aggregates and prints data collected by QCTraceSimulator.
 - [ResourceCounting.csproj](./ResourceCounting.csproj): Main Q# project for the sample.
-- [ResourceEstimation.ipynb](./ResourceEstimation.ipynb): A Jupyter Notebook version of the sample.

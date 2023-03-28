@@ -8,7 +8,6 @@ namespace Microsoft.Quantum.Numerics.Samples {
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
 
-    @EntryPoint()
     operation RunProgram () : Double[] {
         let evaluationPoints = [0.0];
         let polynomialCoefficients = [0.9992759725166501, -0.16566707016968898, 0.007958079331694682, -0.0001450780334861007];

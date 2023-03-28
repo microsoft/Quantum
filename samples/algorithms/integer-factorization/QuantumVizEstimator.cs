@@ -12,10 +12,10 @@ using Microsoft.Quantum.Simulation.Simulators.QCTraceSimulators;
 
 namespace Microsoft.Quantum.Simulation.Simulators
 {
-    public class QuantumVizEstimator : ResourcesEstimator
+    public class QuantumVizEstimator : QCTraceSimulator
     {
         private QuantumVizCounter? operationsCounter;
-        public static new QCTraceSimulatorConfiguration RecommendedConfig() =>
+        public static QCTraceSimulatorConfiguration RecommendedConfig() =>
             new QCTraceSimulatorConfiguration
             {
                 CallStackDepthLimit = 4,

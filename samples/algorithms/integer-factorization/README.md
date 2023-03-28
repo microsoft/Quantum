@@ -52,7 +52,7 @@ Once Visual Studio has opened, ensure the `IntegerFactorization` sample is selec
 
 ## Flame Graph Visualization
 
-This sample also contains an adapter for the [ResourcesEstimator](https://docs.microsoft.com/azure/quantum/user-guide/machines/resources-estimator) allowing it to produce a resource utilization stack trace which can then be used to produce a [flame graph](https://github.com/brendangregg/FlameGraph). More details can be found in [this article](https://aman3014.medium.com/flame-graphs-for-q-f4f9bb076d88).
+This sample also contains an adapter for the [QCTraceSimulator](https://learn.microsoft.com/azure/quantum/machines/qc-trace-simulator) allowing it to produce a resource utilization stack trace which can then be used to produce a [flame graph](https://github.com/brendangregg/FlameGraph). More details can be found in [this article](https://aman3014.medium.com/flame-graphs-for-q-f4f9bb076d88).
 
 To generate a flame graph, follow these steps:
 
@@ -77,7 +77,7 @@ perl flamegraph.pl output.txt > output.svg
 
 ## quantum-viz.js Visualization
 
-This sample also contains a custom [ResourcesEstimator](https://docs.microsoft.com/azure/quantum/user-guide/machines/resources-estimator) that generates JSON code to be used with [quantum-viz.js](https://github.com/microsoft/quantum-viz.js).  This contains both the hierarchy of the implementation as well as the resources with respect to the position in the call stack.
+This sample also contains a custom extension to [QCTraceSimulator](https://learn.microsoft.com/azure/quantum/machines/qc-trace-simulator) that generates JSON code to be used with [quantum-viz.js](https://github.com/microsoft/quantum-viz.js).  This contains both the hierarchy of the implementation as well as the resources with respect to the position in the call stack.
 
 To generate the JSON output for quantum-viz.js, run, for example:
 

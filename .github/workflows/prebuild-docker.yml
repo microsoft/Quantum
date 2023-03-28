@@ -19,6 +19,14 @@ jobs:
     - name: Docker Login
       run: az acr login -n qdkimages
     - name: Build and push Docker image
+      # Would be nice to invoke "test-docker-image-build.yml" workflow here to avoid the code duplication,
+      # but the other workflows can only be invoked in a separate job (with no extra steps),
+      # rather than in a separate step.
+      # And different jobs use different runners (build agents), i.e. if one job invokes a workflow
+      # then the subsequent job cannot just use the binaries produced by that workflow.
+      # One job can only pass the binaries to the other job by means of artifacts, upload by one job and
+      # download by another job. But artifacts upload is alien for that workflow.
+      # https://docs.github.com/actions/using-workflows/storing-workflow-data-as-artifacts
       run: |
         $Now = [DateTime]::Now;
         $ImageTag = "${{ github.sha }}"
