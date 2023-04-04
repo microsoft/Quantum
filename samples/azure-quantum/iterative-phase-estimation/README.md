@@ -15,9 +15,9 @@ This sample code and notebook was written by members of KPMG Quantum team in Aus
 
 ## Manifest
 
-- [iterative-phase-estimation.qs](https://github.com/microsoft/Quantum/tree/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.qs): Q# sample code.
-- [iterative-phase-estimation.ipynb](https://github.com/microsoft/Quantum/tree/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.ipynb): Jupyter notebook.
-- [iterative-phase-estimation.csproj](https://github.com/microsoft/Quantum/tree/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.csproj): CS Project file.
+- [iterative-phase-estimation.qs](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.qs): Q# sample code.
+- [iterative-phase-estimation.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.ipynb): Jupyter notebook.
+- [iterative-phase-estimation.csproj](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.csproj): CS Project file.
 
 ### Two Dimensional Inner Product Calculation Using Iterative Phase Estimation on Three Qubits
 
