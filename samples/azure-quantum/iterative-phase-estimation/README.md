@@ -25,8 +25,6 @@ This notebook demonstrates an iterative phase estimation within Q#. It will use 
 
 The circuit begins by encoding the pair of vectors on the target qubit and the ancilla qubit. It then applies an Oracle operator to the entire register, controlled off the control qubit (which is set up in the $\ket +$ state). The controlled Oracle operator generates a phase on the $\ket 1$ state of the control qubit. This can then be read by applying a H gate to the control qubit to make the phase observable when measuring.
 
-
-
 ## Encoding vectors
 
 The vectors v and c are to be encoded onto the target qubit and the ancilla qubit. The vector $v = (cos(\frac{\theta_1}{2}),sin(\frac{\theta_1}{2}))$ can be represented by the quantum state $\ket v = cos(\frac{\theta_1}{2})\ket 0 + sin(\frac{\theta_1}{2})\ket 1$, similarly $c$ can be constructed using $\theta_2$. 
@@ -35,7 +33,7 @@ A Y rotation applied to a target qubit in the $\ket 0$ state:
 
 $$RY(\theta)\ket 0 = e^{iY\theta/2}\ket 0 = cos(\frac{\theta}{2})\ket 0 + sin(\frac{\theta}{2})\ket 1$$
 
-**Note**: <u> A factor of 2 </u> is present here on theta. An application of a $RY(2\pi)$ gate on $\ket 0$ gives the state $-\ket 0$ and would encode the vector $(-1,0)$. This phase cannot be considered a global phase and removed as the entire register will be entangled.
+**Note**: A factor of 2 is present here on theta. An application of a $RY(2\pi)$ gate on $\ket 0$ gives the state $-\ket 0$ and would encode the vector $(-1,0)$. This phase cannot be considered a global phase and removed as the entire register will be entangled.
 
 The register of the target qubit and ancilla qubit is,
 
@@ -43,7 +41,6 @@ $$\ket  \Psi = \ket {\Psi_\text{Target qubit}}\ket {\Psi_\text{Ancilla qubit}}$$
 The state to be created is on the target qubit and the ancilla qubit is,
 
 $$\ket{\Psi}=\frac{1}{\sqrt{2}}(\ket{v}\ket{+}+\ket{c}\ket{-}),$$
-
 
 which also takes the form,
 
@@ -92,9 +89,7 @@ $$ RZ(-2\pi \times 0.0\phi_n)G^{n-1}\ket {\Psi_{\text{Control Qubit}}} = \ket 0 
 
 This process is iteratively applied for some bit precision n to obtain the phase $0.\phi_0\phi_1\phi_2...\phi_{n}$. The value is stored as a binary value $x = \phi_0\phi_1\phi_2...\phi_{n}$ as only integers are manipulatable at runtime currently.
 
-As the readout tells nothing of either vector, only the inner product between them, the states on the target qubit and ancilla qubit <u>remain in the same state</u> throughout the process!
-
-
+As the readout tells nothing of either vector, only the inner product between them, the states on the target qubit and ancilla qubit remain in the same state throughout the process!
 
 Finally to calculate the inner product from the measured value,
 
@@ -106,14 +101,11 @@ where $x = \phi_0\phi_1\phi_2...\phi_{n}$. The denominator within the cosine fun
 
 **Note**: For inner product solutions between the discrete bit precision, a distribution of results will be produced based on where the inner product lies between the discrete bit value. 
 
+## Running using Azure CLI via VS Code
 
-
-# Running using Azure CLI via VS Code
-
-## Simulating iterative phase estimation
+### Simulating iterative phase estimation
 
 It is suggested that the SimulateInnerProduct is run first by placing "@EntryPoint()" before the operation SimulateInnerProduct and by using:
-
 
 ```powershell
     dotnet run
@@ -121,7 +113,7 @@ It is suggested that the SimulateInnerProduct is run first by placing "@EntryPoi
 
 in the terminal before running on an Azure target. This version of the inner product operation will output additional information. This includes the manipulation of doubles of which the output is displayed in the terminal.
 
-## Running on an Azure target
+### Running on an Azure target
 
 When running the job via the terminal using VS Code the following call should be made:
 
@@ -140,6 +132,3 @@ az quantum job output -j JOB_ID -o table
 replacing "JOB_ID" with the job id. The results show a solution in the state with the majority population. The final inner product from the integer results can be calculated by $\braket {v|c} = -cos(2\pi x / 2^n)$, where n is the number of measurements specificed in the job.
 
 **Note**: Choosing input parameters which only has one solution state (inner produces of -1 or 1) are ideal for visibility at a low number of shots.
-
-
-
