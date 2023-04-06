@@ -14,9 +14,11 @@ urlFragment: iterative-phase-estimation
 This sample code and notebook was written by members of KPMG Quantum team in Australia. It aims to demonstrate expanded capabilities of Basic Measurement Feedback targets and makes use of bounded loops, classical function calls at run time, nested conditional if statements, mid circuit measurements and qubit reuse.
 
 ## Manifest
-
+<!-- markdown-link-check-disable-next-line -->
 - [iterative-phase-estimation.qs](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.qs): Q# sample code.
+<!-- markdown-link-check-disable-next-line -->
 - [iterative-phase-estimation.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.ipynb): Jupyter notebook.
+<!-- markdown-link-check-disable-next-line -->
 - [iterative-phase-estimation.csproj](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.csproj): CS Project file.
 
 ### Two Dimensional Inner Product Calculation Using Iterative Phase Estimation on Three Qubits
