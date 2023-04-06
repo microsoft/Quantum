@@ -18,4 +18,3 @@ These samples demonstrate how to run Q# programs on the Azure Quantum service:
   This sample illustrates how to blend classical and quantum instructions.
 - **[Three Qubit Repetition Code](./three-qubit-repetition-code)**:
   This sample demonstrates how to create a 3 qubit repetition code that can be used to detect and correct bit flip errors.
-
