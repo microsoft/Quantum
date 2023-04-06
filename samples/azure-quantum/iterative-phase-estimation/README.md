@@ -27,7 +27,7 @@ The circuit begins by encoding the pair of vectors on the target qubit and the a
 
 ## Encoding vectors
 
-The vectors v and c are to be encoded onto the target qubit and the ancilla qubit. The vector $v = (cos(\frac{\theta_1}{2}),sin(\frac{\theta_1}{2}))$ can be represented by the quantum state $\ket v = cos(\frac{\theta_1}{2})\ket 0 + sin(\frac{\theta_1}{2})\ket 1$, similarly $c$ can be constructed using $\theta_2$. 
+The vectors v and c are to be encoded onto the target qubit and the ancilla qubit. The vector $v = (cos(\frac{\theta_1}{2}),sin(\frac{\theta_1}{2}))$ can be represented by the quantum state $\ket v = cos(\frac{\theta_1}{2})\ket 0 + sin(\frac{\theta_1}{2})\ket 1$, similarly $c$ can be constructed using $\theta_2$.
 
 A Y rotation applied to a target qubit in the $\ket 0$ state:
 
@@ -99,7 +99,7 @@ where $x = \phi_0\phi_1\phi_2...\phi_{n}$. The denominator within the cosine fun
 
 **Note**: For inner product that are not -1 or 1, the solutions are paired with a value difference of $2^{n-1}$. For example for n=3 measurements, the measured bit value of 2 would also have a pair solution of 6. Either of these values produce the same value of the inner product when input as the variable to the even function cosine (resulting in an inner product of 0 in this example).
 
-**Note**: For inner product solutions between the discrete bit precision, a distribution of results will be produced based on where the inner product lies between the discrete bit value. 
+**Note**: For inner product solutions between the discrete bit precision, a distribution of results will be produced based on where the inner product lies between the discrete bit value.
 
 ## Running using Azure CLI via VS Code
 
