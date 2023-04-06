@@ -321,6 +321,13 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
+      <td><strong><a href="./samples/azure-quantum/iterative-phase-estimation/README.md">Iterative Phase Estimation</a></strong></td>
+      <td><a href="./samples/azure-quantum/iterative-phase-estimation/iterative-phase-estimation.ipynb">Q# notebook</a></td>
+      <td>Q# standalone</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
       <td><strong><a href="./samples/azure-quantum/utilities/README.md">Data management</a></strong></td>
       <td><a href="./samples/azure-quantum/utilities/storage-data-management.ipynb">Python notebook</a></td>
       <td></td>
