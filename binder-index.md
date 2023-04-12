@@ -328,6 +328,14 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
+      <td><strong><a href="./samples/azure-quantum/sessions/README.md">Introduction to Sessions</a></strong></td>
+      <td></td>
+      <td><a href="./samples/azure-quantum/sessions/introduction-to-sessions.ipynb">Qiskit + Python</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
       <td><strong><a href="./samples/azure-quantum/utilities/README.md">Data management</a></strong></td>
       <td><a href="./samples/azure-quantum/utilities/storage-data-management.ipynb">Python notebook</a></td>
       <td></td>

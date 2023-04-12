@@ -7,7 +7,7 @@ products:
 - azure-quantum
 ---
 
-# Interactive hybrid using Sessions
+# Introduction to Sessions
 
 This samples shows you how to work with sessions in Azure Quantum by using a session to run multiple Qiskit jobs.
 
@@ -15,4 +15,4 @@ This sample is available as part of the Azure Quantum notebook samples gallery i
 
 ## Manifest
 
-- [interactive-hybrid-using-sessions.ipynb](./interactive-hybrid-using-sessions.ipynb): Jupyter Notebook for the interactive hybrid using sessions introductory sample.
+- [introduction-to-sessions.ipynb](./introduction-to-sessions.ipynb): Jupyter Notebook for the Introduction to Sessions sample.
