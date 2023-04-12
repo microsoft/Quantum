@@ -1,6 +1,6 @@
 ---
 page_type: sample
-description: "These are samples to show commonly used scenarios within an Azure Quantum Jupyter Notebook"
+description: "This sample shows you how to connect to data sources such as Azure Blob Storage from within an Azure Quantum Jupyter Notebook"
 languages:
 - python
 products:
@@ -9,17 +9,9 @@ products:
 - qdk
 ---
 
-# Utilities
-
-## Data management sample
+# Data management sample
 
 This sample shows you how to connect and use Azure Quantum with external datasources such as [Azure Blob Storage](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction). This sample is implemented as a Jupyter Notebook, which can be run locally or through the Azure Quantum hosted notebooks experience.
-
-This sample is available as part of the Azure Quantum notebook samples gallery in the Azure Portal. For an example of how to run these notebooks in Azure, see [this getting started guide](https://docs.microsoft.com/azure/quantum/get-started-jupyter-notebook?tabs=tabid-ionq).
-
-## Interactive hybrid using Sessions
-
-This samples shows you how to work with sessions in Azure Quantum by using a session to run multiple Qiskit jobs.
 
 This sample is available as part of the Azure Quantum notebook samples gallery in the Azure Portal. For an example of how to run these notebooks in Azure, see [this getting started guide](https://docs.microsoft.com/azure/quantum/get-started-jupyter-notebook?tabs=tabid-ionq).
 
@@ -34,4 +26,3 @@ You can find details for this storage account by navigating to your Azure Quantu
 ## Manifest
 
 - [storage-data-management.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/utilities/storage-data-management.ipynb): Jupyter Notebook for the data management sample.
-- [interactive-hybrid-using-sessions.ipynb](./interactive-hybrid-using-sessions.ipynb): Jupyter Notebook for the interactive hybrid using sessions sample.
