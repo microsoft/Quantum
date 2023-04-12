@@ -32,4 +32,4 @@ You can find details for this storage account by navigating to your Azure Quantu
 ## Manifest
 
 - [storage-data-management.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/utilities/storage-data-management.ipynb): Jupyter Notebook for the data management sample.
-- [interactive-hybrid-using-sessions.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/utilities/interactive-hybrid-using-sessions.ipynb): Jupyter Notebook for the interactive hybrid using sessions sample.
+- [interactive-hybrid-using-sessions.ipynb](/interactive-hybrid-using-sessions.ipynb): Jupyter Notebook for the interactive hybrid using sessions sample.
