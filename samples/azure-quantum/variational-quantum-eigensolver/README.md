@@ -18,6 +18,7 @@ This sample shows how to estimate the ground state energy of hydrogen using the 
 
 - [VQE-qiskit-hydrogen-ionq-sim.ipynb](./VQE-qiskit-hydrogen-ionq-sim.ipynb): Python + Qiskit notebook demonstrating using VQE on the IonQ simulator.
 - [VQE-qiskit-hydrogen-quantinuum-emulator.ipynb](./VQE-qiskit-hydrogen-quantinuum-emulator.ipynb): Python + Qiskit notebook demonstrating using VQE on the Quantinuum emulator.
+- [VQE-qiskit-hydrogen-session.ipynb](./VQE-qiskit-hydrogen-session.ipynb): Python + Qiskit notebook demonstrating using VQE on multiple backends using a session.
 
 ## See Also
 
