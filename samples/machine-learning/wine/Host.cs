@@ -33,12 +33,13 @@ namespace Microsoft.Quantum.Samples
    
             // After training, we can use the validation data to test the accuracy
             // of our new classifier.
-            var testMisses = await ValidateWineModel.Run(
+            var missRate = await ValidateWineModel.Run(
                 targetMachine,
                 optimizedParameters,
                 optimizedBias
             );
-            System.Console.WriteLine($"Observed {testMisses} misclassifications.");
+
+            System.Console.WriteLine($"Observed {100 * missRate:F2}% misclassifications.");
         }
     }
 
