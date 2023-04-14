@@ -25,4 +25,4 @@ You can find details for this storage account by navigating to your Azure Quantu
 
 ## Manifest
 
-- [storage-data-management.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/utilities/storage-data-management.ipynb): Jupyter Notebook for this sample.
+- [storage-data-management.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/utilities/storage-data-management.ipynb): Jupyter Notebook for the data management sample.
