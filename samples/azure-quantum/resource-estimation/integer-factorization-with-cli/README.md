@@ -118,22 +118,22 @@ for Azure Quantum Resource Estimator to reduce execution time.  Inside the
 implementation of `EstimateFrequency` you find the code block
 
 ```qsharp
-if BeginCaching(1) {
+if BeginEstimateCaching("ControlledOracle", SingleVariant()) {
     Controlled oracle([c], (1 <<< idx, eigenstateRegisterLE!));
-    EndCaching(1);
+    EndEstimateCaching();
 }
 ```
 
-The two special operations `BeginCaching` and `EndCaching` both take as input an
-id (here 1), which should be unique for every code block that should be cached.
-`BeginCaching` should be used as a condition to an if-block that will contain
-the block to be cached.  When `BeginCaching` is called for the first time, it
-will return true and record all resources until `EndCaching` is called for the
-same id.  `EndCaching` should be placed at the end of the condition, and it will
-store the cached resources in a dictionary with the id as a key.  All subsequent
-times that `BeginCaching` is called with an id that is already cached, the
-cached resources will be added to the the existing ones, instead of executing
-the code again.
+The special operation `BeginEstimateCaching` takes code fragment name as an input,
+which should be unique for every code fragment that should be cached. It also takes
+`variant` id, which can be used if different iterations require different resources.
+`BeginEstimateCaching` should be used as a condition to an if-block that will contain
+the block to be cached.  When `BeginEstimateCaching` is called for the first time, it
+will return true and record all resources until `EndEstimateCaching` is called.
+`EndEstimateCaching` should be placed at the end of the condition, and it will store
+the cached resources in a dictionary.  All subsequent times that `BeginEstimateCaching`
+is called with a fragment name and a variant that is already cached, the cached resources
+will be added to the the existing ones, instead of executing the code again.
 
 Note that no verification is taking place that checks whether the resources are
 actually the same in every iteration.  In fact, in this factorization sample,
