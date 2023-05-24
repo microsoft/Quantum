@@ -17,7 +17,6 @@ jupyter:
 <!-- cspell:words qrng chsh qpic qaoa -->
 # Quantum Development Kit Samples
 
-
 These samples demonstrate the use of Q# and the Quantum Development Kit for a variety of different quantum computing tasks.
 
 Many samples can be used directly in your browser using either Q# on its own, or Q# together with Python.
