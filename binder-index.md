@@ -15,7 +15,6 @@ jupyter:
 
 <!-- markdownlint-disable-file no-inline-html -->
 <!-- cspell:words qrng chsh qpic qaoa -->
-
 # Quantum Development Kit Samples
 
 These samples demonstrate the use of Q# and the Quantum Development Kit for a variety of different quantum computing tasks.
@@ -127,6 +126,14 @@ These are noted in the README.md files for each sample, along with complete inst
       <td></td>
       <td><a href="./samples/algorithms/noisy-dj/README.md"><strong>Deutsch–Jozsa w/ noise</strong></a></td>
       <td><a href="./samples/algorithms/noisy-dj/Deutsch–Jozsa%20with%20Noise.ipynb">Python notebook</a></td>
+      <td></td>
+      <td></td>
+      <td>Q# + .NET</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><a href="./samples/algorithms/noisy-amp-est/README.md"><strong>Noisy amplitude estimation</strong></a></td>
+      <td><a href="./samples/algorithms/noisy-amp-est/NoisyAmpEst.ipynb">Q# + Python</a></td>
       <td></td>
       <td></td>
       <td>Q# + .NET</td>
