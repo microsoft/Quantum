@@ -38,7 +38,7 @@ Once Jupyter starts, open the `NoisyAmpEst.ipynb` notebook and follow the instru
 
 ## Manifest
 
-- [NoisyAmpEst.ipynb](./PowerLawAmpEst.ipynb): Python + Q# notebook for this sample.
+- [NoisyAmpEst.ipynb](./NoisyAmpEst.ipynb): Python + Q# notebook for this sample.
 
 ## References
 
