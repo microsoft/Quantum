@@ -33,7 +33,7 @@ az quantum execute --target-id TARGET -- --prep-basis PauliX --meas-basis PauliX
 
 > **⚠ NOTE:** In order to run this sample, the target must support comparing measurement results.
 
-For a full list of available QIO and quantum computing targets, run:
+For a full list of available quantum computing targets, run:
 
 ```azcli
 az quantum target list --output table
