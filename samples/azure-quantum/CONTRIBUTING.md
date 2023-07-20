@@ -1,6 +1,6 @@
 # Process for contributing notebook samples to the Azure Quantum portal experience
 
-This document focuses on the process for creating samples that will eventually appear in the hosted notebooks sample gallery in the portal. If you are creating a sample for other purposes or means of consumption, then this document might not apply to your scenario. (If you are interested in contributing an optimization notebook sample, please see [the microsoft/qio-samples repository](https://github.com/microsoft/qio-samples)).
+This document focuses on the process for creating samples that will eventually appear in the hosted notebooks sample gallery in the portal. If you are creating a sample for other purposes or means of consumption, then this document might not apply to your scenario.
 
 There are three steps involved in contributing a new sample.
 

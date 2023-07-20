@@ -33,7 +33,7 @@ Make sure that you have [created and selected a quantum workspace](https://docs.
 az quantum execute --target-id TARGET -- --pattern-int 6 --register-size 3
 ```
 
-For a full list of available QIO and quantum computing targets, run:
+For a full list of available quantum computing targets, run:
 
 ```azcli
 az quantum target list --output table

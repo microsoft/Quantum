@@ -43,7 +43,7 @@ Make sure that you have [created and selected a quantum workspace](https://docs.
 az quantum execute --target-id TARGET -- --n-qubits=4
 ```
 
-For a full list of available QIO and quantum computing targets, run:
+For a full list of available quantum computing targets, run:
 
 ```azcli
 az quantum target list --output table
@@ -72,7 +72,7 @@ cd parallel-qrng/python-host
 python parallel_qrng.py /subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP_NAME/providers/Microsoft.Quantum/Workspaces/WORKSPACE_NAME LOCATION TARGET_ID
 ```
 
-For a full list of available QIO and quantum computing targets, run:
+For a full list of available quantum computing targets, run:
 
 ```azcli
 az quantum target list --output table
