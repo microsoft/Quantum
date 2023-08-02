@@ -23,6 +23,10 @@ steps:
 - script: pip install ruamel_yaml jsonschema click setuptools wheel pytest jupyter
   displayName: 'Install Python tools'
 
+- task: NuGetAuthenticate@1
+  inputs:
+    nuGetServiceConnections: 'public-alpha feed'
+
 ##
 # Build, test & pack
 ##

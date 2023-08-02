@@ -2,7 +2,7 @@
 # https://github.com/microsoft/iqsharp/blob/main/images/iqsharp-base/Dockerfile.
 # As per Binder documentation, we choose to use an SHA sum here instead of a
 # tag.
-FROM mcr.microsoft.com/quantum/iqsharp-base:0.28.277227
+FROM mcr.microsoft.com/quantum/iqsharp-base:0.28.291394
 
 # Mark that this Dockerfile is used with the samples repository.
 ENV IQSHARP_HOSTING_ENV=SAMPLES_DOCKERFILE
@@ -55,10 +55,6 @@ RUN dotnet tool install -g \
         --add-source "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json" \
         Microsoft.dotnet-interactive --version 1.0.355307 && \
     dotnet interactive jupyter install
-
-# On .NET 5 and later, we need to make sure that NuGet cache files are owned
-# by the notebook user and not by root.
-RUN chown -R ${USER}:${USER} /tmp/NuGetScratch
 
 # Install additional Python dependencies for the PythonInterop sample.
 # Note that QuTiP has as a hard requirement that its dependencies must be
