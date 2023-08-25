@@ -1,17 +1,19 @@
-{
-    // Use the latest Docker image built from the main branch of this repo.
-    // You may also prefer to use the Dockerfile for that image directly if you
-    // would like to make and test local changes to that image. To do so,
-    // the "image" property with:
-    //
-    //     "dockerFile": "../Build/images/samples/Dockerfile",
-    
-    "image": "mcr.microsoft.com/quantum/samples:latest",
+{    
+    "image": "mcr.microsoft.com/devcontainers/universal:2",
     "extensions": [
         "quantum.quantum-devkit-vscode",
         "ms-vscode.csharp",
         "editorconfig.editorconfig",
         "ms-python.python"
     ],
-    "runArgs": ["-e","IQSHARP_HOSTING_ENV=SAMPLES_DEVCONTAINER"]
+    "features": {
+        "ghcr.io/devcontainers/features/python:1": {
+        "version": "3.11.2",
+        "installJupyterlab": "true"
+        },
+    "ghcr.io/devcontainers/features/azure-cli:1": {
+        "extensions": "quantum"
+        }
+    },
+    "postCreateCommand": "wget https://dot.net/v1/dotnet-install.sh && chmod +x dotnet-install.sh && ./dotnet-install.sh -c 6.0 && rm dotnet-install.sh && pip install azure-quantum[qiskit]"
 }
