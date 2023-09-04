@@ -19,5 +19,5 @@ It leverages integrated hybrid computing features to count the number of times a
 
 ## Manifest
 
-- [HW-quantinuum-qsharp.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/three-qubit-repetition-code/HW-quantinuum-qsharp.ipynb): Azure Quantum notebook for running a 3-qubit repetition code on the Quantinuum simulator
-- [HW-qci-qsharp.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/three-qubit-repetition-code/HW-qci-qsharp.ipynb): Azure Quantum notebook for running a 3-qubit repetition code on the QCI simulator
+- [TQRP-quantinuum-qsharp.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/three-qubit-repetition-code/TQRP-quantinuum-qsharp.ipynb): Azure Quantum notebook for running a 3-qubit repetition code on the Quantinuum simulator
+- [TQRP-qci-qsharp.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/three-qubit-repetition-code/TQRP-qci-qsharp.ipynb): Azure Quantum notebook for running a 3-qubit repetition code on the QCI simulator
