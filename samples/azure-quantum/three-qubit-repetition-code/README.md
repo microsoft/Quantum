@@ -16,3 +16,7 @@ products:
 This sample demonstrates how to create a 3 qubit repetition code that can be used to detect and correct bit flip errors.
 
 It leverages integrated hybrid computing features to count the number of times a bit flip error occurred while the state of a qubit register is coherent.
+
+## Manifest
+
+- [HW-quantinuum-qsharp.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/three-qubit-repetition-code/HW-quantinuum-qsharp.ipynb): Azure Quantum notebook for running a 3-qubit repetition code on the Quantinuum simulator
