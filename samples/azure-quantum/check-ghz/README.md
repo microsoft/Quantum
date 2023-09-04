@@ -20,3 +20,4 @@ This sample is available in the notebook samples gallery in Azure Quantum worksp
 ## Manifest
 
 - [CheckGHZ-quantinuum-qsharp.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/check-ghz/CheckGHZ-quantinuum-qsharp.ipynb): Azure Quantum notebook for running a program that blends classical and quantum on the Quantinuum simulator
+- [CheckGHZ-qci-qsharp.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/check-ghz/CheckGHZ-qci-qsharp.ipynb): Azure Quantum notebook for running a program that blends classical and quantum on the QCI simulator
