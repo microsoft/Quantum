@@ -16,3 +16,7 @@ products:
 This sample illustrates how to blend classical and quantum instructions using a simple Q# program.
 
 This sample is available in the notebook samples gallery in Azure Quantum workspaces in the Azure Portal. For an example of how to run these notebooks in Azure, see [this getting started guide](https://docs.microsoft.com/azure/quantum/get-started-jupyter-notebook?tabs=tabid-ionq).
+
+## Manifest
+
+- [CheckGHZ-quantinuum-qsharp.ipynb](https://github.com/microsoft/quantum/blob/main/samples/azure-quantum/check-ghz/CheckGHZ-quantinuum-qsharp.ipynb): Azure Quantum notebook for running a program that blends classical and quantum on the Quantinuum simulator
