@@ -105,7 +105,7 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
     ///
     /// # Output
     /// The result measured on the qubit register.
-    operation GetHamiltonianTerm (nOp : Int, mesOps : Pauli[]) : Result {
+    operation GetHamiltonianTerm (nOp : Int, mesOps : Pauli[], nQubits : Int) : Result {
         // These measurement operators were generated using
         // the JordanWignerMeasurementOperators function but
         // hard-coded here for simplicity.
@@ -114,8 +114,6 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
         // JordanWignerMeasurementOperators function specified
         // in ChemUtils.qs.
         let PauliMap = [PauliI, PauliX, PauliZ, PauliY];
-
-        let nQubits = 4;
         use register = Qubit[nQubits];
         let op = mesOps;
         PrepareState(register);
