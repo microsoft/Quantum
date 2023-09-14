@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.Quantum.Sdk/0.28.291394">
+<Project Sdk="Microsoft.Quantum.Sdk/0.28.302656-beta">
     <PropertyGroup>
         <OutputType>Library</OutputType>
         <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.28.291394" />
+        <PackageReference Include="Microsoft.Quantum.Chemistry" Version="0.28.302656-beta" />
   </ItemGroup>
 </Project>
