@@ -2,6 +2,8 @@
 
  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Microsoft/Quantum/⭐binder?urlpath=tree)
 
+*Note: These samples are not compatible with the Azure Quantum Development Kit Preview. For more information, see the [QSharp GitHub Wiki](https://github.com/microsoft/qsharp/wiki/Installation)*
+
 These samples demonstrate the use of the Quantum Development Kit for a variety of different quantum computing tasks.
 
 Each sample is self-contained in a folder, and demonstrates how to use Q# to develop quantum applications.
