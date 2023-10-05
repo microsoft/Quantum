@@ -8,6 +8,8 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
     open Microsoft.Quantum.Chemistry.JordanWigner.VQE;
     open Microsoft.Quantum.Arrays;
 
+    
+
 
     /// # Summary
     /// Wrapper for Q# library function that expands the compact representation of
@@ -105,7 +107,7 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
     ///
     /// # Output
     /// The result measured on the qubit register.
-    operation GetHamiltonianTerm (nOp : Int, mesOps : Pauli[], nQubits : Int) : Result {
+    operation GetHamiltonianTerm (measurementOps : Pauli[], nQubits : Int) : Result {
         // These measurement operators were generated using
         // the JordanWignerMeasurementOperators function but
         // hard-coded here for simplicity.
@@ -113,9 +115,8 @@ namespace Microsoft.Quantum.Chemistry.Hamiltonian {
         // To generate this list, use the 
         // JordanWignerMeasurementOperators function specified
         // in ChemUtils.qs.
-        let PauliMap = [PauliI, PauliX, PauliZ, PauliY];
         use register = Qubit[nQubits];
-        let op = mesOps;
+        let op = measurementOps;
         PrepareState(register);
         let result = Measure(op, register);
         ResetAll(register);
