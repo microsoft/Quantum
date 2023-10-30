@@ -1,0 +1,59 @@
+### YamlMime:PythonPackage
+uid: qsharp.chemistry
+name: chemistry
+fullName: qsharp.chemistry
+type: import
+functions:
+- uid: qsharp.chemistry.encode
+  name: encode
+  summary: 'Encodes the given Hamiltonian and input state using the Jordan Wigner
+    encoding
+
+    that can be used to run chemistry simulations using Q#''s chemistry library.'
+  signature: 'encode(hamiltonian: FermionHamiltonian, input_state: InputState) ->
+    Tuple'
+  parameters:
+  - name: hamiltonian
+  - name: input_state
+- uid: qsharp.chemistry.load_broombridge
+  name: load_broombridge
+  summary: Loads a Broombridge data file.
+  signature: 'load_broombridge(file_name: str) -> Broombridge'
+  parameters:
+  - name: file_name
+- uid: qsharp.chemistry.load_fermion_hamiltonian
+  name: load_fermion_hamiltonian
+  summary: 'Loads the fermion Hamiltonian from the given file that contains broombridge
+    data.
+
+
+    *index_convention* can be ''UpDown'' or ''HalfUp'''
+  signature: 'load_fermion_hamiltonian(file_name: str, index_convention: IndexConvention
+    = IndexConvention.UpDown) -> FermionHamiltonian'
+  parameters:
+  - name: file_name
+  - name: index_convention
+    defaultValue: IndexConvention.UpDown
+- uid: qsharp.chemistry.load_input_state
+  name: load_input_state
+  summary: "Loads the input state associated with the given labe from the given file\
+    \ that contains broombridge data..\n\nIf *wavefunction_label* is not specified,\
+    \ it loads the greedy (Hartree\u2013Fock) state.\n\n*index_convention* can be\
+    \ 'UpDown' or 'HalfUp'"
+  signature: 'load_input_state(file_name: str, wavefunction_label: str = None, index_convention:
+    IndexConvention = IndexConvention.UpDown) -> FermionHamiltonian'
+  parameters:
+  - name: file_name
+  - name: wavefunction_label
+    defaultValue: None
+  - name: index_convention
+    defaultValue: IndexConvention.UpDown
+classes:
+- qsharp.chemistry.Broombridge
+- qsharp.chemistry.FermionHamiltonian
+- qsharp.chemistry.InputState
+- qsharp.chemistry.ProblemDescription
+modules:
+- qsharp.chemistry.version
+enums:
+- qsharp.chemistry.IndexConvention

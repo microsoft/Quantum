@@ -1,0 +1,12 @@
+### YamlMime:PythonClass
+uid: qsharp.chemistry.Broombridge
+name: Broombridge
+fullName: qsharp.chemistry.Broombridge
+module: qsharp.chemistry
+inheritances:
+- builtins.object
+summary: Represents an instance of a broombridge schema data
+constructor:
+  syntax: 'Broombridge(data: Dict)'
+  parameters:
+  - name: data

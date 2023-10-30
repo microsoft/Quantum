@@ -1,0 +1,41 @@
+### YamlMime:PythonClass
+uid: qsharp.chemistry.ProblemDescription
+name: ProblemDescription
+fullName: qsharp.chemistry.ProblemDescription
+module: qsharp.chemistry
+inheritances:
+- builtins.object
+summary: Represents an electronic structure problem.
+constructor:
+  syntax: 'ProblemDescription(data: Dict)'
+  parameters:
+  - name: data
+methods:
+- uid: qsharp.chemistry.ProblemDescription.load_fermion_hamiltonian
+  name: load_fermion_hamiltonian
+  summary: 'Loads the fermion Hamiltonian associated with this electronic structure
+    problem.
+
+
+    *index_convention* can be ''UpDown'' or ''HalfUp'''
+  signature: 'load_fermion_hamiltonian(index_convention: IndexConvention = IndexConvention.UpDown)
+    -> FermionHamiltonian'
+  parameters:
+  - name: index_convention
+    defaultValue: IndexConvention.UpDown
+- uid: qsharp.chemistry.ProblemDescription.load_input_state
+  name: load_input_state
+  summary: 'Loads the input state associated from this electronic structure problem
+    with the corresponding label.
+
+
+    If *wavefunction_label* is not specified, it loads the greedy (Hartree-Fock) state.
+
+
+    *index_convention* can be ''UpDown'' or ''HalfUp'''
+  signature: 'load_input_state(wavefunction_label: str = '''', index_convention: IndexConvention
+    = IndexConvention.UpDown) -> FermionHamiltonian'
+  parameters:
+  - name: wavefunction_label
+  - name: index_convention
+    defaultValue: IndexConvention.UpDown

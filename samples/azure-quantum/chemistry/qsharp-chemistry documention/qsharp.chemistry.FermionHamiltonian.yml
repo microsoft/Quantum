@@ -1,0 +1,20 @@
+### YamlMime:PythonClass
+uid: qsharp.chemistry.FermionHamiltonian
+name: FermionHamiltonian
+fullName: qsharp.chemistry.FermionHamiltonian
+module: qsharp.chemistry
+inheritances:
+- builtins.object
+summary: Represents a fermion Hamiltonian.
+constructor:
+  syntax: FermionHamiltonian(data)
+  parameters:
+  - name: data
+methods:
+- uid: qsharp.chemistry.FermionHamiltonian.add_terms
+  name: add_terms
+  summary: Adds terms to the fermion Hamiltonian.
+  signature: 'add_terms(fermion_terms: Iterable[Tuple[List[int], float]]) -> None'
+  parameters:
+  - name: fermion_terms
+    isRequired: true

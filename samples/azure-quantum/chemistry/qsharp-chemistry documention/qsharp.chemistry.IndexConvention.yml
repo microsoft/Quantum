@@ -1,0 +1,15 @@
+### YamlMime:PythonEnum
+uid: qsharp.chemistry.IndexConvention
+name: IndexConvention
+fullName: qsharp.chemistry.IndexConvention
+module: qsharp.chemistry
+constructor:
+  syntax: IndexConvention(value, names=None, *, module=None, qualname=None, type=None,
+    start=1, boundary=None)
+inheritances:
+- enum.Enum
+fields:
+- name: HalfUp
+  uid: qsharp.chemistry.IndexConvention.HalfUp
+- name: UpDown
+  uid: qsharp.chemistry.IndexConvention.UpDown

@@ -1,0 +1,9 @@
+### YamlMime:PythonPackage
+uid: project-qsharp-chemistry
+name: qsharp-chemistry
+fullName: qsharp-chemistry
+type: distribution
+packages:
+- qsharp.chemistry
+modules:
+- qsharp.chemistry.version

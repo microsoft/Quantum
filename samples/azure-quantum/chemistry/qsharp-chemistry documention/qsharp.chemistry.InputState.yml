@@ -1,0 +1,12 @@
+### YamlMime:PythonClass
+uid: qsharp.chemistry.InputState
+name: InputState
+fullName: qsharp.chemistry.InputState
+module: qsharp.chemistry
+inheritances:
+- builtins.object
+summary: Represents an input state.
+constructor:
+  syntax: 'InputState(data: Dict)'
+  parameters:
+  - name: data
