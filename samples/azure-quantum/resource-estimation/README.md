@@ -1,9 +1,6 @@
 ---
 page_type: sample
-author: msoeken
 description: Azure Quantum Resource Estimation
-ms.author: masoeken@microsoft.com
-ms.date:
 languages:
 - python
 - qsharp

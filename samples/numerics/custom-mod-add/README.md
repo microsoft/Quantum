@@ -6,18 +6,6 @@ products:
 - qdk
 description: "This sample demonstrates how to implement a custom modular addition operation in Q#."
 urlFragment: custom-modular-addition
-jupyter:
-  jupytext:
-    cell_markers: region,endregion
-    text_representation:
-      extension: .md
-      format_name: markdown
-      format_version: '1.2'
-      jupytext_version: 1.5.2
-  kernelspec:
-    display_name: .NET (PowerShell)
-    language: PowerShell
-    name: .net-powershell
 ---
 
 # Implementing a custom modular addition operator in Q\#

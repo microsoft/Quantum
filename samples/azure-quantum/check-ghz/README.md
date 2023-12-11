@@ -1,9 +1,6 @@
 ---
 page_type: sample
-author: swernli
 description: Learn how to blend classical and quantum instructions in the same program, all fully processed by the quantum computing backend.
-ms.author: swernli@microsoft.com
-ms.date: 03/01/2023
 languages:
 - qsharp
 products:

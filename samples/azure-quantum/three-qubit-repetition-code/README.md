@@ -1,9 +1,6 @@
 ---
 page_type: sample
-author: cesarzc
 description: Create a 3 qubit repetition code to detect and correct bit flip errors using integrated hybrid computing features.
-ms.author: cesarzc@microsoft.com
-ms.date: 03/01/2023
 languages:
 - qsharp
 products:

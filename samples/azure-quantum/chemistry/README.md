@@ -1,9 +1,6 @@
 ---
 page_type: sample
-author: guenp
 description: Estimate the molecular ground state energy of hydrogen using the Azure Quantum service
-ms.author: guenp@microsoft.com
-ms.date: 05/18/2021
 languages:
 - qsharp
 - python

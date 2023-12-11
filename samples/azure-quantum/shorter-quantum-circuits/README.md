@@ -1,9 +1,6 @@
 ---
 page_type: sample
-author: vadym
 description: Shorter Quantum Circuits paper dataset
-ms.author: vadym@microsoft.com
-ms.date:
 languages:
 - python
 products:

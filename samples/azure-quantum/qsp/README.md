@@ -1,9 +1,6 @@
 ---
 page_type: sample
-author: msoeken
 description: A practical introduction into quantum signal processing (QSP)
-ms.author: masoeken@microsoft.com
-ms.date: 05/18/2022
 languages:
 - python
 products:

@@ -1,9 +1,6 @@
 ---
 page_type: sample
-author: swernli
 description: Demonstrate the RUS experiment using the Azure Quantum service
-ms.author: swernli@microsoft.com
-ms.date: 09/19/2023
 languages:
 - qsharp
 - python

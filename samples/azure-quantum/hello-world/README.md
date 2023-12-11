@@ -1,9 +1,6 @@
 ---
 page_type: sample
-author: alchocro
 description: Running your first job on the Azure Quantum service
-ms.author: alchocro@microsoft.com
-ms.date: 08/08/2022
 languages:
 - python
 - qsharp

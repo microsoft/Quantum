@@ -1,9 +1,6 @@
 ---
 page_type: sample
-author: aameenak, wimvandam
 description: Estimate amplitude on noisy systems with low-depth algorithms
-ms.author: aarthi.sundaram@microsoft.com. wimvandam@microsoft.com
-ms.date: 02/03/2023
 languages:
 - python
 - qsharp
