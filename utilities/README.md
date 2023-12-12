@@ -33,7 +33,7 @@ For example, the following command updates all C# projects in the current direct
 > Windows PowerShell comes pre-installed with Windows 10.
 > Download PowerShell Core for Windows, macOS, or Linux at https://github.com/PowerShell/PowerShell.
 
-This PowerShell module provides functionality for invoking [NWChem](https://www.nwchem-sw.org/) using [Docker](https://docker.com/), and for using NWChem to produce [Broombridge](https://docs.microsoft.com/azure/quantum/user-guide/libraries/chemistry/schema/broombridge) documents.
+This PowerShell module provides functionality for invoking [NWChem](https://nwchemgit.github.io/) using [Docker](https://docker.com/), and for using NWChem to produce [Broombridge](https://docs.microsoft.com/azure/quantum/user-guide/libraries/chemistry/schema/broombridge) documents.
 To use this PowerShell module, first import it using the [`Import-Module`](https://docs.microsoft.com/powershell/module/microsoft.powershell.core/import-module) command:
 
 ```powershell
