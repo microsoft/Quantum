@@ -4,6 +4,8 @@
 
 For the Modern QDK repository, please visit [Microsoft/qsharp](http://github.com/microsoft/qsharp).
 
+For samples that use the Azure Quantum Python package, please visit the [Azure Quantum Python repository](https://github.com/microsoft/azure-quantum-python).
+
 You can also try out the Modern QDK in VS Code for Web at [vscode.dev/quantum](http://vscode.dev/quantum).
 
 For more information about the Modern QDK and Azure Quantum, visit https://aka.ms/AQ/Documentation
