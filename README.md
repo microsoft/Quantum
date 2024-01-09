@@ -1,4 +1,14 @@
-﻿# Microsoft Quantum Development Kit Samples
+﻿## DEPRECATION NOTICE
+
+**This repository is deprecated.** 
+
+For the Modern QDK repository, please visit [Microsoft/qsharp](http://github.com/microsoft/qsharp).
+
+You can also try out the Modern QDK in VS Code for Web at [vscode.dev/quantum](http://vscode.dev/quantum).
+
+For more information about the Modern QDK and Azure Quantum, visit https://aka.ms/AQ/Documentation
+
+## Classic QDK ##
 
  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Microsoft/Quantum/⭐binder?urlpath=tree)
 
