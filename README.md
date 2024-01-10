@@ -8,7 +8,7 @@ For samples that use the Azure Quantum Python package, please visit the [Azure Q
 
 You can also try out the Modern QDK in VS Code for Web at [vscode.dev/quantum](http://vscode.dev/quantum).
 
-For more information about the Modern QDK and Azure Quantum, visit https://aka.ms/AQ/Documentation
+For more information about the Modern QDK and Azure Quantum, visit [https://aka.ms/AQ/Documentation](https://aka.ms/AQ/Documentation).
 
 ## Classic QDK ##
 
