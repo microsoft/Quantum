@@ -274,6 +274,14 @@ These are noted in the README.md files for each sample, along with complete inst
     </tr>
     <tr>
       <td></td>
+      <td><strong><a href="./samples/azure-quantum/openqaoa/README.md">Quantum Approximate Optimization Algorithm</a></strong></td>
+      <td></td>
+      <td><a href="./samples/azure-quantum/openqaoa/openqaoa.ipynb">Python</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
       <td><strong><a href="./samples/azure-quantum/grover/README.md">Grover's search</a></strong></td>
       <td></td>
       <td></td>
