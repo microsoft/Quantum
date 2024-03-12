@@ -4,13 +4,13 @@ languages:
 - qsharp
 products:
 - qdk
-description: "This sample demonstrates using Q# and Python together to perform quantum process tomography."
-urlFragment: process-tomography-with-qsharp
+description: "This sample demonstrates using Q# and Python together to perform gateset tomography."
+urlFragment: gateset-tomography-with-qsharp
 ---
 
 # Quantum process tomography
 
-This sample demonstrates the use of Python to call into Q# by using the [QInfer](http://qinfer.org/) and [QuTiP](http://qutip.org/) Python libraries to study the behavior of a Q# operation.
+This sample demonstrates using Python and Q# together to run gateset tomography
 
 ## Installation
 
@@ -20,9 +20,9 @@ This sample also uses a couple extra Python packages to help out, so you'll need
 If you are using the [**Anaconda distribution**](https://www.anaconda.com/) of Python, this can be done automatically by using the `environment.yml` file provided with this sample:
 
 ```shell
-cd samples/characterization/process-tomography
+cd samples/characterization/gateset-tomography
 conda env create -f environment.yml
-conda activate process-tomography
+conda activate qsharp-gst
 ```
 
 ### Running the Sample
@@ -33,10 +33,10 @@ Once everything is installed, run `jupyter notebook` to start the Jupyter Notebo
 jupyter notebook
 ```
 
-In the browser, select the `tomography-sample.ipynb` notebook in your browser to
+In the browser, select the `gateset-tomography.ipynb` notebook in your browser to
 view the sample.
 
 ## Manifest
 
-- [tomography-sample.ipynb](./tomography-sample.ipynb): Jupyter Notebook demoing the Python interoperability with Q#.
-- [environment.yml](./environment.yml): Specification of a conda environment for use with Q# interoperability samples.
+- [gateset-tomography.ipynb](./gateset-tomography.ipynb): Main Jupyter Notebook for this sample.
+- [environment.yml](./environment.yml): Specification of a conda environment for use with this sample.
